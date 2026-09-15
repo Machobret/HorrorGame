@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58e5e9a2ec5a7634ebab86edd9f5f4aa, type: 3}
+  m_Name: NiggaKey
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.ItemData
+  UniqueId: 873eebab-256c-4042-bf1c-a05ca5ac28a9
+  Image: {fileID: 21300000, guid: 2993982cb4a586340850dc154a694196, type: 3}
+  ExamineModel: {fileID: 919132149155446097, guid: cef3424a02e4349419609b2ca0371a04, type: 3}
+  Name:
+    IsLocalized: 0
+    Unlocalized: Niggers key
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Description:
+    IsLocalized: 0
+    Unlocalized: only real nigga got dis
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  InventoryAction: 1
+  Flags: 224
+  DropPrefab: {fileID: 0}
+  MaxStackSize: 0
+  m_OnUseAudioClip: {fileID: 8300000, guid: c0c9a407d49459a4d9b57c356c2eb589, type: 3}
+  Tags: []
+  Name_DEPRECATED: 
+  Description_DEPRECATED: 
+  references:
+    version: 2
+    RefIds: []

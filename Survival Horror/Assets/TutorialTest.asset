@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4992fa4685309e447a9abb36b7fb16c1, type: 3}
+  m_Name: TutorialTest
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.MapData
+  UniqueId: 4ad6121a-ce47-4c54-b64e-b23b72fcd085
+  ControllerUniqueId: 256f6fa0-fc0d-431e-9977-a4e7132b64b2
+  Name:
+    IsLocalized: 0
+    Unlocalized: Alley
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Abbreviation:
+    IsLocalized: 0
+    Unlocalized: 
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Name_DEPRECATED: NoName
+  Abbreviation_DEPRECATED: 
+  Size: {x: 25, y: 25}
+  CellSize: 50
+  GlobalScale: 10
+  MapSet: {fileID: 0}
+  Rooms:
+  - Name: Alley
+    UniqueId: 4e73b7b4-dfd1-4199-954b-208a3d880866
+    Transform:
+      Offset: {x: 782.3999, y: 625.6}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 0
+    Shapes:
+    - Points:
+      - {x: -6.9799995, y: 0, z: -3.0650005}
+      - {x: -6.9799995, y: 0, z: -18.94}
+      - {x: -10.98, y: 0, z: -18.94}
+      - {x: -10.98, y: 0, z: -15.065001}
+      - {x: -18.855, y: 0, z: -15.065001}
+      - {x: -21.98, y: 0, z: -12.065001}
+      - {x: -21.98, y: 0, z: -8.065001}
+      - {x: -22.98, y: 0, z: -8.065001}
+      - {x: -22.98, y: 0, z: -6.0650005}
+      - {x: -21.98, y: 0, z: -6.0650005}
+      - {x: -21.98, y: 0, z: -0.065000534}
+      - {x: -42.98, y: 0, z: -0.065000534}
+      - {x: -42.98, y: 0, z: 2.9349995}
+      - {x: -36.98, y: 0, z: 2.9349995}
+      - {x: -26.98, y: 0, z: 2.9349995}
+      - {x: -26.98, y: 0, z: 5.9349995}
+      - {x: -15.98, y: 0, z: 5.9349995}
+      - {x: -15.98, y: 0, z: 2.9349995}
+      - {x: -18.98, y: 0, z: -0.065000534}
+      - {x: -18.98, y: 0, z: -3.0650005}
+      - {x: -17.98, y: 0, z: -3.0650005}
+      - {x: -17.98, y: 0, z: -5.0650005}
+      - {x: -18.98, y: 0, z: -5.0650005}
+      - {x: -18.98, y: 0, z: -12.065001}
+      - {x: -10.98, y: 0, z: -12.065001}
+      - {x: -10.98, y: 0, z: 1.9349995}
+      - {x: -6.9799995, y: 0, z: 1.9349995}
+      - {x: -6.9799995, y: 0, z: 0.93499947}
+      - {x: 1.0200005, y: 0, z: 0.93499947}
+      - {x: 1.0200005, y: 0, z: -3.0650005}
+    LinkedElements: []
+    Details: []
+    Images: []
+  - Name: BackFence
+    UniqueId: 92cddb0f-7308-4a2e-a35e-980151a2d016
+    Transform:
+      Offset: {x: 423, y: 586}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 0
+    Shapes:
+    - Points:
+      - {x: -1, y: 0, z: -1}
+      - {x: -1.0100002, y: 0, z: 4}
+      - {x: 8.99, y: 0, z: 4}
+      - {x: 8.99, y: 0, z: 17.25}
+      - {x: 12.99, y: 0, z: 17.25}
+      - {x: 12.99, y: 0, z: 5}
+      - {x: 19.99, y: 0, z: 5}
+      - {x: 19.99, y: 0, z: 2.25}
+      - {x: 0.9899998, y: 0, z: 2.25}
+      - {x: 1, y: 0, z: -1}
+    LinkedElements: []
+    Details: []
+    Images: []
+  Doors: []
+  references:
+    version: 2
+    RefIds: []

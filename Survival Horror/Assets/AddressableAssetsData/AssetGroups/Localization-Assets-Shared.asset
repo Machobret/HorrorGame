@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-Assets-Shared
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Localization-Assets-Shared
+  m_GUID: 68274bae69d49794594b2db30189135a
+  m_SerializeEntries:
+  - m_GUID: 5d6bf3edd96320d4db0cbf23d6d92a49
+    m_Address: Assets/HorrorEngine/Localization/Tables/HorrorEngineUI Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7bb2b06d71f243b428e4ad9bf566ec1f
+    m_Address: Assets/HorrorEngine/Localization/Tables/HorrorEngineSampleContent
+      Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ba6a28fe078146747a4791ee982af4c7
+    m_Address: Assets/HorrorEngine/Localization/Tables/HorrorEngineGame Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: e975487e53ffaf846b7ac973302ceadf, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 73a6e47646e3f1a4895cbe13a04ee29d, type: 2}
+    - {fileID: 11400000, guid: 710a59a85c8322b4c921cce1931ec29f, type: 2}
