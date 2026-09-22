@@ -29,7 +29,13 @@ namespace HorrorEngine
 
         private void Deplete()
         {
+            if (GameManager.Instance.CharacterState == null)
+                return;
+
             var equipped = GameManager.Instance.Inventory.GetEquipped(m_Item.Slot);
+            if (equipped == null)
+                return;
+
             Debug.Assert(equipped.Item == m_Item, "Item to deplete do not match equipped item");
 
             float prevStatus = equipped.Status;

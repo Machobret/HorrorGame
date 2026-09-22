@@ -38,10 +38,8 @@ namespace HorrorEngine
 
 #if UNITY_6000_0_OR_NEWER
                 m_VirtualCam = preview.GetComponent<CinemachineCamera>();
-                float aspect = m_VirtualCam ? m_VirtualCam.Lens.Aspect : m_RegularCam.aspect;
 #else
                 m_VirtualCam = preview.GetComponent<CinemachineVirtualCamera>();
-                float aspect = m_VirtualCam ? m_VirtualCam.m_Lens.Aspect : m_RegularCam.aspect;
 #endif
 
                 var camGO = EditorUtility.CreateGameObjectWithHideFlags("Preview Scene Camera", HideFlags.HideAndDontSave, typeof(Camera));

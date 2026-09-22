@@ -339,6 +339,21 @@ namespace HorrorEngine
         {
             Debug.Log($"Switching character {character}");
 
+            // A scene can be loaded by a transition before this manager has
+            // seen its first PlayerSpawnPoint (for example when starting a
+            // new game from the main menu). Initialize here as a safe fallback
+            // before accessing the selected character state below.
+            if (m_SelectedCharacterState == null)
+            {
+                InitializeCharacters();
+            }
+
+            if (m_SelectedCharacterState == null)
+            {
+                Debug.LogError("Unable to switch character because no PlayerSpawnPoint is available in the loaded scene.");
+                return;
+            }
+
             if (character == null)
             {
                 character = m_SelectedCharacterState.Data;

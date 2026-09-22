@@ -6280,6 +6280,10 @@ PrefabInstance:
       propertyPath: Priority.Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5270810905108574020, guid: 57be7cbfb83c77b4196f49c1698080c1, type: 3}
+      propertyPath: m_Lens.FieldOfView
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 5789214400614700604, guid: 57be7cbfb83c77b4196f49c1698080c1, type: 3}
       propertyPath: m_RootOrder
       value: 0

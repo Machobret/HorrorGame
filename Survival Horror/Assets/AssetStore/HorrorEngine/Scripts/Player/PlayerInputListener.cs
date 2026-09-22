@@ -41,6 +41,10 @@ namespace HorrorEngine
 
     public class PlayerInputListener : MonoBehaviour, IPlayerInput, PlayerActions.IGameplayActions
     {
+        // Optional runtime gate used by scripted tutorials. All controls remain enabled by default.
+        public bool AllowAiming = true;
+        public bool AllowAttack = true;
+        public bool AllowTurn180 = true;
         private Vector2 m_InputAxis;
         private Vector2 m_InputSecondaryAxis;
         private InputActionProcessor m_AimingP = new InputActionProcessor();
@@ -127,12 +131,12 @@ namespace HorrorEngine
 
         public bool IsAimingHeld()
         {
-            return m_AimingP.IsHeld();
+            return AllowAiming && m_AimingP.IsHeld();
         }
 
         public bool IsAttackDown()
         {
-            return m_AttackP.IsDown();
+            return AllowAttack && m_AttackP.IsDown();
         }
 
         public bool IsAttackUp()
@@ -157,7 +161,7 @@ namespace HorrorEngine
 
         public bool IsTurn180Down()
         {
-            return m_Turn180P.IsDown();
+            return AllowTurn180 && m_Turn180P.IsDown();
         }
 
 

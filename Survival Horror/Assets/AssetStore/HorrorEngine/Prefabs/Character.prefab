@@ -1052,6 +1052,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7269225fd0d0a77499f1105d5b70de46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowAiming: 1
+  AllowAttack: 1
+  AllowTurn180: 1
 --- !u!114 &6216324968573412892
 MonoBehaviour:
   m_ObjectHideFlags: 0
