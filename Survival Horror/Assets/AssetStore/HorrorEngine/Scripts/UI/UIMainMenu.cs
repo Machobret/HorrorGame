@@ -66,6 +66,8 @@ namespace HorrorEngine
         {
             CursorController.Instance.SetInUI(false);
 
+            GetComponent<HorrorGame.General.MainMenuBackgroundCarousel>()?.PlayExitFade();
+
             ObjectStateManager.Instance.ClearStates();
 
             OnNewGame?.Invoke();

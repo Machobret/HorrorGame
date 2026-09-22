@@ -24,6 +24,10 @@ namespace HorrorGame.Chapter0
         [SerializeField] private Chapter0TutorialTrigger m_EncounterTrigger;
         [SerializeField, Min(0f)] private float m_CutsceneDuration = 1.5f;
         [SerializeField, Min(0f)] private float m_CompletionDelay = 2f;
+        [SerializeField, Min(.1f)] private float m_EnemyWalkSpeed = .55f;
+        [SerializeField, Min(.1f)] private float m_EnemyHitDistance = 1.2f;
+        [SerializeField, Min(0f)] private float m_EnemyAttackImpactDelay = .55f;
+        [SerializeField, Min(0f)] private float m_EnemyDeathAnimationDuration = 2.5f;
         [SerializeField] private string m_CheckpointSceneName = "Checkpoint";
 
         private Step m_Step = Step.AwaitMovementZone;
@@ -32,14 +36,19 @@ namespace HorrorGame.Chapter0
         private PlayerInputListener m_PlayerInput;
         private UIInputListener m_UIInputListener;
         private Health m_EncounterEnemyHealth;
+        private Health m_PlayerHealth;
+        private Actor m_EncounterEnemyActor;
+        private Transform m_EncounterEnemyTransform;
+        private Animator m_EncounterEnemyAnimator;
         private int m_ForwardPresses, m_BackwardPresses, m_LeftPresses, m_RightPresses, m_TurnPresses;
         private bool m_TurnZoneReached, m_EncounterZoneReached;
         private float m_NextForwardPressTime, m_NextBackwardPressTime, m_NextLeftPressTime, m_NextRightPressTime, m_NextTurnPressTime;
         private float m_ForwardFlashUntil, m_BackwardFlashUntil, m_LeftFlashUntil, m_RightFlashUntil, m_TurnFlashUntil, m_AimFlashUntil, m_ShootFlashUntil;
         private float m_PromptFadeStart = -1f;
         private string m_CutsceneCaption;
-        private bool m_ShotFiredWhileAiming;
-        private bool m_EnemyWasDamaged;
+        private bool m_EncounterActive;
+        private bool m_EnemyAttacking;
+        private bool m_EnemyWalkingAnimation;
         private bool m_Finishing;
         private CameraPOV m_CutsceneCameraA;
         private CameraPOV m_CutsceneCameraB;
@@ -58,6 +67,7 @@ namespace HorrorGame.Chapter0
             m_Player = GameManager.Instance.Player;
             m_PlayerMovement = m_Player.GetComponent<PlayerMovement>();
             m_PlayerInput = m_Player.GetComponent<PlayerInputListener>();
+            m_PlayerHealth = m_Player.GetComponent<Health>();
             m_PlayerInput.AllowAiming = false;
             m_PlayerInput.AllowAttack = false;
             m_PlayerInput.AllowTurn180 = false;
@@ -75,6 +85,7 @@ namespace HorrorGame.Chapter0
                 return;
 
             KeepTutorialAmmoInfinite();
+            if (m_EncounterActive) MoveEncounterEnemy();
 
             if (m_Step == Step.Movement)
             {
@@ -119,14 +130,8 @@ namespace HorrorGame.Chapter0
                 else if (IsAttackDown())
                 {
                     m_ShootFlashUntil = Time.unscaledTime + .25f;
-                    m_ShotFiredWhileAiming = true;
                 }
 
-                if (!m_Finishing && m_ShotFiredWhileAiming && m_EnemyWasDamaged)
-                {
-                    m_Finishing = true;
-                    StartCoroutine(FinishTutorial());
-                }
             }
         }
 
@@ -168,6 +173,7 @@ namespace HorrorGame.Chapter0
             yield return PlayCutsceneCameraBlend();
             m_Player.Enable(this);
             if (m_PlayerMovement) m_PlayerMovement.enabled = false; // aim/fire remains available; walking is locked.
+            m_EncounterActive = true;
             m_PromptFadeStart = -1f;
             m_PlayerInput.AllowAiming = true;
             m_PlayerInput.AllowAttack = false;
@@ -186,11 +192,21 @@ namespace HorrorGame.Chapter0
                     Debug.LogError("Tutorial enemy prefab is not a GameObject prefab.", this);
                     return;
                 }
-                var enemyActor = enemy.GetComponentInChildren<Actor>();
-                enemyActor?.Disable(this); // Keep the tutorial target passive while leaving Health and colliders active.
+                m_EncounterEnemyActor = enemy.GetComponentInChildren<Actor>();
+                m_EncounterEnemyActor?.Disable(this); // The tutorial sequence drives its approach without AI or a NavMesh.
+                m_EncounterEnemyTransform = enemy.transform;
+                m_EncounterEnemyAnimator = m_EncounterEnemyActor && m_EncounterEnemyActor.MainAnimator
+                    ? m_EncounterEnemyActor.MainAnimator
+                    : enemy.GetComponentInChildren<Animator>();
+                if (m_EncounterEnemyAnimator)
+                {
+                    m_EncounterEnemyAnimator.enabled = true;
+                    m_EncounterEnemyAnimator.SetFloat("Speed", 0f);
+                    m_EncounterEnemyAnimator.Play("EnemyIdle", 0, 0f);
+                }
                 m_EncounterEnemyHealth = enemy.GetComponentInChildren<Health>();
                 if (m_EncounterEnemyHealth)
-                    m_EncounterEnemyHealth.OnHealthDecreased.AddListener(OnEncounterEnemyDamaged);
+                    m_EncounterEnemyHealth.OnDeath.AddListener(OnEncounterEnemyDied);
                 else
                     Debug.LogError("Tutorial enemy needs a Health component for the hit lesson to complete.", enemy);
             }
@@ -230,15 +246,110 @@ namespace HorrorGame.Chapter0
                 weaponEntry.SecondaryCount = m_TutorialGun.MaxAmmo;
         }
 
-        private void OnEncounterEnemyDamaged(float currentHealth)
+        private void OnEncounterEnemyDied(Health health)
         {
-            m_EnemyWasDamaged = true;
+            if (m_Finishing) return;
+
+            m_EncounterActive = false;
+            if (m_EncounterEnemyAnimator)
+                m_EncounterEnemyAnimator.CrossFade("Base Layer.EnemyDeath", .1f, 0);
+            StartCoroutine(FinishTutorialAfterEnemyDeath());
+        }
+
+        private void PlayPlayerHitOutcome()
+        {
+            if (!m_EncounterActive || m_Finishing) return;
+
+            FreezePlayerForTutorialHit();
+            BeginFinishTutorial();
+        }
+
+        private void FreezePlayerForTutorialHit()
+        {
+            if (m_PlayerInput)
+            {
+                m_PlayerInput.AllowAiming = false;
+                m_PlayerInput.AllowAttack = false;
+                m_PlayerInput.AllowTurn180 = false;
+                m_PlayerInput.enabled = false;
+            }
+
+            if (m_PlayerMovement) m_PlayerMovement.enabled = false;
+            m_Player?.Disable(this);
+            // Show the death/fall animation for the tutorial beat without changing Health.
+            m_Player?.MainAnimator?.Play("Death", 0, 0f);
+        }
+
+        private void MoveEncounterEnemy()
+        {
+            if (!m_EncounterEnemyTransform || !m_Player || m_Finishing) return;
+
+            Vector3 playerPosition = m_Player.transform.position;
+            Vector3 enemyPosition = m_EncounterEnemyTransform.position;
+            Vector3 offset = playerPosition - enemyPosition;
+            offset.y = 0f;
+            float distance = offset.magnitude;
+
+            if (distance <= m_EnemyHitDistance)
+            {
+                if (!m_EnemyAttacking) StartCoroutine(PlayTutorialEnemyAttack());
+                return;
+            }
+
+            Vector3 direction = offset / distance;
+            if (m_EncounterEnemyAnimator)
+            {
+                if (!m_EnemyWalkingAnimation)
+                {
+                    m_EncounterEnemyAnimator.Play("EnemyMotion", 0, 0f);
+                    m_EnemyWalkingAnimation = true;
+                }
+                m_EncounterEnemyAnimator.SetFloat("Speed", .2f);
+            }
+            m_EncounterEnemyTransform.position += direction * m_EnemyWalkSpeed * Time.deltaTime;
+            m_EncounterEnemyTransform.rotation = Quaternion.Slerp(
+                m_EncounterEnemyTransform.rotation,
+                Quaternion.LookRotation(direction),
+                Time.deltaTime * 6f);
+        }
+
+        private IEnumerator PlayTutorialEnemyAttack()
+        {
+            m_EnemyAttacking = true;
+            m_EnemyWalkingAnimation = false;
+            if (m_EncounterEnemyAnimator)
+            {
+                m_EncounterEnemyAnimator.SetFloat("Speed", 0f);
+                m_EncounterEnemyAnimator.Play("EnemyAttack", 0, 0f);
+            }
+
+            yield return new WaitForSeconds(m_EnemyAttackImpactDelay);
+            if (!m_Finishing) PlayPlayerHitOutcome();
+            m_EnemyAttacking = false;
+        }
+
+        private IEnumerator FinishTutorialAfterEnemyDeath()
+        {
+            m_Finishing = true;
+            m_Step = Step.Complete;
+            yield return new WaitForSeconds(m_EnemyDeathAnimationDuration);
+            yield return new WaitForSeconds(m_CompletionDelay);
+            SceneManager.LoadSceneAsync(m_CheckpointSceneName, LoadSceneMode.Single);
+        }
+
+        private void BeginFinishTutorial()
+        {
+            if (m_Finishing) return;
+            m_Finishing = true;
+            m_EncounterActive = false;
+            m_Step = Step.Complete;
+            StartCoroutine(FinishTutorial());
         }
 
         private void OnDestroy()
         {
             if (m_EncounterEnemyHealth)
-                m_EncounterEnemyHealth.OnHealthDecreased.RemoveListener(OnEncounterEnemyDamaged);
+                m_EncounterEnemyHealth.OnDeath.RemoveListener(OnEncounterEnemyDied);
             if (m_CutsceneCameraA) CameraStack.Instance.RemoveCamera(m_CutsceneCameraA);
             if (m_CutsceneCameraB) CameraStack.Instance.RemoveCamera(m_CutsceneCameraB);
             m_UIInputListener?.RemoveBlockingContext(this);
