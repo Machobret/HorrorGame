@@ -210,7 +210,14 @@ namespace HorrorGame.Chapter0
                 inventory.Unequip(m_Flashlight.Slot);
 
             if (m_TutorialGun && inventory.TryGet(m_TutorialGun, out InventoryEntry gunEntry))
+            {
+                // OnEquip plays the shared asset's UI sound synchronously.  Suppress it only
+                // for this scripted tutorial equip, then restore the asset immediately.
+                AudioClip equipClip = m_TutorialGun.m_OnEquipAudioClip;
+                m_TutorialGun.m_OnEquipAudioClip = null;
                 inventory.Equip(gunEntry);
+                m_TutorialGun.m_OnEquipAudioClip = equipClip;
+            }
             else
                 Debug.LogError("Tutorial Gun is not in the player's initial inventory.", this);
         }
