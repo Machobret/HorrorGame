@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1001}
+  - component: {fileID: 1002}
+  - component: {fileID: 1003}
+  m_Layer: 0
+  m_Name: BruteAcidPool
+  m_TagString: Untagged
+  m_IsActive: 1
+--- !u!4 &1001
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!114 &1002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 613a86a84d150cb41bbb8b9a307e0e0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Faction: {fileID: 11400000, guid: 146901eb6558c5e4885bb551465a164d, type: 2}
+--- !u!114 &1003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fe8a52b750b4a3fa804509bf1d383de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Attack: {fileID: 11400000, guid: 9323a69f11bc4d1f9775918115e21990, type: 2}
+  m_ShowDebug: 0
+  OnAttackStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAttackStop:
+    m_PersistentCalls:
+      m_Calls: []
+  m_BurstAttack: {fileID: 11400000, guid: 15859980cfce42f8880d5e23140b24e2, type: 2}
+  m_AcidMaterial: {fileID: 2100000, guid: e2025fedf45c4e2eb61b7e487e905839, type: 2}
+  m_Radius: 2
+  m_BurstRadius: 2.5
+  m_Lifetime: 8
+  m_DamageInterval: 0.5
+  m_DamageMask:
+    serializedVersion: 2
+    m_Bits: 512
+  m_BlockerMask:
+    serializedVersion: 2
+    m_Bits: 1

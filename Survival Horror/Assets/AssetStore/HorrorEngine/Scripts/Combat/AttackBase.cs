@@ -19,6 +19,8 @@ namespace HorrorEngine
         public Damageable Damageable;
         public Vector3 ImpactDir;
         public Vector3 ImpactPoint;
+        // Damage-over-time can preserve health/death events without restarting hit animations.
+        public bool SuppressHitReaction;
     }
 
     public abstract class AttackBase : MonoBehaviour, IAttack

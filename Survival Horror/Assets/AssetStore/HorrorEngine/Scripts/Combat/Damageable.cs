@@ -43,9 +43,11 @@ namespace HorrorEngine
             {
                 if (damage > 0)
                 {
-                    OnPreDamage?.Invoke(info.ImpactPoint, info.ImpactDir);
+                    if (!info.SuppressHitReaction)
+                        OnPreDamage?.Invoke(info.ImpactPoint, info.ImpactDir);
                     m_Health.TakeDamage(damage, this, info.Attack);
-                    OnDamage?.Invoke(info.ImpactPoint, info.ImpactDir);
+                    if (!info.SuppressHitReaction)
+                        OnDamage?.Invoke(info.ImpactPoint, info.ImpactDir);
                 }
             }
         }
