@@ -352,7 +352,9 @@ namespace HorrorGame.Chapter0
                 m_EncounterEnemyHealth.OnDeath.RemoveListener(OnEncounterEnemyDied);
             if (m_CutsceneCameraA) CameraStack.Instance.RemoveCamera(m_CutsceneCameraA);
             if (m_CutsceneCameraB) CameraStack.Instance.RemoveCamera(m_CutsceneCameraB);
-            m_UIInputListener?.RemoveBlockingContext(this);
+            // Unity objects can be destroyed before this sequence during a scene transition.
+            // Use Unity's overloaded null check instead of ?. so a destroyed listener is skipped.
+            if (m_UIInputListener) m_UIInputListener.RemoveBlockingContext(this);
         }
 
         private IEnumerator ShowShootPrompt()
