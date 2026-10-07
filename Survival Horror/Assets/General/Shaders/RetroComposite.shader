@@ -6,7 +6,8 @@ Shader "Hidden/HorrorGame/Retro Composite"
         _ColorDepth ("Colour Depth", Range(2, 64)) = 32
         _DitherStrength ("Dither Strength", Range(0, 1)) = 0.7
         _PixelWobble ("Pixel Wobble", Range(0, 1)) = 0.22
-        _PixelShiftStrength ("Pixel Shift", Range(0, 1)) = 0.35
+        _PixelShiftStrength ("Pixel Shift", Range(0, 1)) = 0.18
+        _PixelShiftRate ("Pixel Shift Rate", Range(1, 12)) = 3
         _LensWarp ("Lens Warp", Range(0, 0.2)) = 0.025
         _JitterStrength ("Screen Jitter", Range(0, 1)) = 0.08
         _ChromaticAberration ("Chromatic Aberration", Range(0, 2)) = 0
@@ -37,6 +38,7 @@ Shader "Hidden/HorrorGame/Retro Composite"
                 float _DitherStrength;
                 float _PixelWobble;
                 float _PixelShiftStrength;
+                float _PixelShiftRate;
                 float _LensWarp;
                 float _JitterStrength;
                 float _ChromaticAberration;
@@ -82,10 +84,11 @@ Shader "Hidden/HorrorGame/Retro Composite"
                 float row = floor(warpedUv.y * virtualResolution.y);
                 float wobble = (RetroNoise(float2(row, frame)) - 0.5) * _PixelWobble;
                 float2 virtualPixel = clamp(floor(warpedUv * virtualResolution + float2(jitter + wobble, 0.0)), 0.0, virtualResolution - 1.0);
-                float shiftMask = step(1.0 - _PixelShiftStrength * 0.2, RetroNoise(virtualPixel + frame * 17.0));
+                float pixelShiftFrame = floor(_Time.y * _PixelShiftRate);
+                float shiftMask = step(1.0 - _PixelShiftStrength * 0.1, RetroNoise(virtualPixel + pixelShiftFrame * 17.0));
                 float2 shiftDirection = float2(
-                    floor(RetroNoise(virtualPixel + float2(frame * 31.0, frame * 47.0)) * 3.0),
-                    floor(RetroNoise(virtualPixel + float2(frame * 59.0, frame * 83.0)) * 3.0)) - 1.0;
+                    floor(RetroNoise(virtualPixel + float2(pixelShiftFrame * 31.0, pixelShiftFrame * 47.0)) * 3.0),
+                    floor(RetroNoise(virtualPixel + float2(pixelShiftFrame * 59.0, pixelShiftFrame * 83.0)) * 3.0)) - 1.0;
                 virtualPixel = clamp(virtualPixel + shiftDirection * shiftMask, 0.0, virtualResolution - 1.0);
                 float2 snappedUv = (virtualPixel + 0.5) / virtualResolution;
                 float2 chromaticOffset = float2(_ChromaticAberration / virtualResolution.x, 0.0);

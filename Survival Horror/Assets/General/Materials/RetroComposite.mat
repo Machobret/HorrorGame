@@ -33,7 +33,8 @@ Material:
     - _LensWarp: 0.025
     - _NoiseStrength: 0
     - _PixelWobble: 0.22
-    - _PixelShiftStrength: 0.35
+    - _PixelShiftRate: 3
+    - _PixelShiftStrength: 0.18
     - _ScanlineIntensity: 0
     - _VignetteIntensity: 0.1
     m_Colors:
