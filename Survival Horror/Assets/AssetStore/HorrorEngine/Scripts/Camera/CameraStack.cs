@@ -26,6 +26,7 @@ namespace HorrorEngine
         }
 
         private List<CameraPOV> m_CameraStack = new List<CameraPOV>();
+        private CameraPOV m_FallbackCamera;
 
         // --------------------------------------------------------------------
 
@@ -38,7 +39,11 @@ namespace HorrorEngine
 
         public void AddCamera(CameraPOV cam, int priority = 0)
         {
-            CameraPOV prevCam = ActiveCamera;
+            CameraPOV prevCam = ActiveCamera ?? m_FallbackCamera;
+
+            if (m_FallbackCamera)
+                m_FallbackCamera = null;
+
             if (!m_CameraStack.Contains(cam))
             {
                 if (!ActiveCamera || ActiveCamera.Priority <= priority)
@@ -64,6 +69,7 @@ namespace HorrorEngine
 
             if (ActiveCamera != prevCam)
             {
+                ActiveCamera.ResetPlayerFollowState();
                 ActiveCamera.Activate();
                 if (prevCam)
                     prevCam.Deactivate();
@@ -75,14 +81,28 @@ namespace HorrorEngine
 
         public void RemoveCamera(CameraPOV cam)
         {
-            CameraPOV prevCam = ActiveCamera;
+            CameraPOV prevCam = ActiveCamera ?? m_FallbackCamera;
 
             m_CameraStack.Remove(cam);
-            cam.Deactivate();
 
-            if (ActiveCamera != prevCam && ActiveCamera != null)
+            if (ActiveCamera != null)
             {
-                ActiveCamera.Activate();
+                if (ActiveCamera != prevCam)
+                {
+                    ActiveCamera.Activate();
+                    prevCam?.Deactivate();
+                }
+                else if (cam != ActiveCamera)
+                {
+                    cam.Deactivate();
+                }
+            }
+            else if (prevCam)
+            {
+                // No trigger camera remains: keep the most recent POV alive so its
+                // player-follow behaviour continues until another trigger is entered.
+                m_FallbackCamera = prevCam;
+                m_FallbackCamera.Activate();
             }
         }
 
@@ -91,6 +111,8 @@ namespace HorrorEngine
         public void ClearAllCameras()
         {
             m_CameraStack.Clear();
+            m_FallbackCamera?.Deactivate();
+            m_FallbackCamera = null;
         }
     }
 

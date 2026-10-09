@@ -26,13 +26,18 @@ Material:
     m_Ints: []
     m_Floats:
     - _ColorDepth: 32
+    - _ColorDitherStrength: 0.08
     - _ChromaticAberration: 0
     - _DitherStrength: 0.7
     - _InterlaceIntensity: 0
     - _JitterStrength: 0.08
     - _LensWarp: 0.025
+    - _LightingBandStrength: 0.18
+    - _LightingSteps: 24
     - _NoiseStrength: 0
-    - _PixelWobble: 0.22
+    - _PixelShiftFarDistance: 14
+    - _PixelShiftNearDistance: 4
+    - _PixelWobble: 0.4
     - _PixelShiftRate: 3
     - _PixelShiftStrength: 0.18
     - _ScanlineIntensity: 0

@@ -29,6 +29,11 @@ namespace HorrorGame.Chapter0
         [SerializeField, Min(0f)] private float m_EnemyAttackImpactDelay = .55f;
         [SerializeField, Min(0f)] private float m_EnemyDeathAnimationDuration = 2.5f;
         [SerializeField] private string m_CheckpointSceneName = "Checkpoint";
+        [Header("Tutorial Prompt")]
+        [SerializeField] private Texture2D m_InputDisplayBackground;
+        [SerializeField, Range(0f, 1f)] private float m_InputDisplayOpacity = .16f;
+        [SerializeField] private Font m_InputDisplayFont;
+        [SerializeField] private Font m_InputDisplayBoldFont;
 
         private Step m_Step = Step.AwaitMovementZone;
         private PlayerActor m_Player;
@@ -439,36 +444,57 @@ namespace HorrorGame.Chapter0
             float alpha = isCombatPrompt || m_PromptFadeStart < 0f ? 1f : Mathf.Clamp01(1f - (Time.unscaledTime - m_PromptFadeStart) / .45f);
             if (alpha <= 0f) return;
             var previousColor = GUI.color;
-            GUI.color = new Color(1f, 1f, 1f, alpha);
             var panel = new Rect(36, Screen.height - 210, 430, 160);
-            GUI.Box(panel, "Press the following:");
+            if (m_InputDisplayBackground)
+            {
+                GUI.color = new Color(1f, 1f, 1f, alpha * m_InputDisplayOpacity);
+                GUI.DrawTexture(panel, m_InputDisplayBackground, ScaleMode.StretchToFill, true);
+            }
+
+            GUI.color = new Color(1f, 1f, 1f, alpha);
+            var titleStyle = CreatePromptStyle(m_InputDisplayBoldFont, 19, TextAnchor.MiddleLeft);
+            var keyStyle = CreatePromptStyle(m_InputDisplayBoldFont, 18, TextAnchor.MiddleLeft);
+            var bodyStyle = CreatePromptStyle(m_InputDisplayFont, 17, TextAnchor.MiddleLeft);
+            GUI.Label(new Rect(panel.x + 18, panel.y + 10, panel.width - 36, 24), "Press the following:", titleStyle);
             if (m_Step == Step.Movement || m_Step == Step.AwaitTurnZone)
             {
-                DrawPromptRow(panel.x + 18, panel.y + 38, "W", "move forwards", Time.unscaledTime < m_ForwardFlashUntil);
-                DrawPromptRow(panel.x + 18, panel.y + 86, "S", "move backwards", Time.unscaledTime < m_BackwardFlashUntil);
+                DrawPromptRow(panel.x + 18, panel.y + 38, "W", "move forwards", Time.unscaledTime < m_ForwardFlashUntil, keyStyle, bodyStyle);
+                DrawPromptRow(panel.x + 18, panel.y + 86, "S", "move backwards", Time.unscaledTime < m_BackwardFlashUntil, keyStyle, bodyStyle);
             }
             else if (m_Step == Step.Turn || m_Step == Step.AwaitTurnAroundZone)
             {
-                DrawPromptRow(panel.x + 18, panel.y + 38, "A", "turn left", Time.unscaledTime < m_LeftFlashUntil);
-                DrawPromptRow(panel.x + 18, panel.y + 86, "D", "turn right", Time.unscaledTime < m_RightFlashUntil);
+                DrawPromptRow(panel.x + 18, panel.y + 38, "A", "turn left", Time.unscaledTime < m_LeftFlashUntil, keyStyle, bodyStyle);
+                DrawPromptRow(panel.x + 18, panel.y + 86, "D", "turn right", Time.unscaledTime < m_RightFlashUntil, keyStyle, bodyStyle);
             }
-            else if (m_Step == Step.TurnAround || m_Step == Step.AwaitEncounter) DrawPromptRow(panel.x + 18, panel.y + 38, "Q", "to turn around", Time.unscaledTime < m_TurnFlashUntil);
+            else if (m_Step == Step.TurnAround || m_Step == Step.AwaitEncounter) DrawPromptRow(panel.x + 18, panel.y + 38, "Q", "to turn around", Time.unscaledTime < m_TurnFlashUntil, keyStyle, bodyStyle);
             else if (m_Step == Step.Aim || m_Step == Step.AimHeldPause || m_Step == Step.Shoot)
             {
-                DrawPromptRow(panel.x + 18, panel.y + 38, "HOLD M2", "to aim", Time.unscaledTime < m_AimFlashUntil);
+                DrawPromptRow(panel.x + 18, panel.y + 38, "HOLD M2", "to aim", Time.unscaledTime < m_AimFlashUntil, keyStyle, bodyStyle);
                 if (m_Step == Step.Shoot)
-                    DrawPromptRow(panel.x + 18, panel.y + 86, "M1", "to shoot", Time.unscaledTime < m_ShootFlashUntil);
+                    DrawPromptRow(panel.x + 18, panel.y + 86, "M1", "to shoot", Time.unscaledTime < m_ShootFlashUntil, keyStyle, bodyStyle);
             }
             GUI.color = previousColor;
         }
 
-        private static void DrawPromptRow(float x, float y, string key, string explanation, bool isLit)
+        private static GUIStyle CreatePromptStyle(Font font, int fontSize, TextAnchor alignment)
         {
-            var color = GUI.color;
-            GUI.color = isLit ? new Color(1f, .82f, .22f) : Color.white;
-            GUI.Box(new Rect(x, y, 100, 32), key);
-            GUI.color = color;
-            GUI.Label(new Rect(x + 118, y + 7, 250, 24), explanation);
+            var style = new GUIStyle(GUI.skin.label)
+            {
+                font = font ? font : GUI.skin.font,
+                fontSize = fontSize,
+                alignment = alignment,
+                richText = true
+            };
+            style.normal.textColor = new Color(.85f, .85f, .84f);
+            return style;
+        }
+
+        private static void DrawPromptRow(float x, float y, string key, string explanation, bool isLit, GUIStyle keyStyle, GUIStyle bodyStyle)
+        {
+            string quotedKey = isLit ? $"'<color=#FFD138>{key}</color>'" : $"'{key}'";
+            float keyWidth = keyStyle.CalcSize(new GUIContent($"'{key}'")).x + 4f;
+            GUI.Label(new Rect(x, y, keyWidth, 32f), quotedKey, keyStyle);
+            GUI.Label(new Rect(x + 118, y + 4, 250, 24), explanation, bodyStyle);
         }
     }
 }

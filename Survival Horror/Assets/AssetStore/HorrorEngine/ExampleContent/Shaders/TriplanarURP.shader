@@ -2,6 +2,7 @@ Shader"URP/HorrorEngine/Tri-Planar World URP"
 {
     Properties
     {
+        _DarknessVisibility ("Gameplay Darkness Visibility", Range(0,1)) = 1
         _Side ("Side", 2D) = "white" {}
         _Top ("Top", 2D) = "white" {}
         _Bottom ("Bottom", 2D) = "white" {}
@@ -54,6 +55,7 @@ Shader"URP/HorrorEngine/Tri-Planar World URP"
 
             sampler2D _Side, _Top, _Bottom;
             float _SideScale, _TopScale, _BottomScale;
+            float _DarknessVisibility;
             float _Smoothness, _Metallic;
 
             Varyings vert(Attributes IN)
@@ -113,7 +115,7 @@ Shader"URP/HorrorEngine/Tri-Planar World URP"
                 // Evaluate lighting
                 float3 color = UniversalFragmentPBR(inputData, surfaceData);
 
-                return float4(color, 1.0);
+                return float4(color * _DarknessVisibility, 1.0);
             }
 
             ENDHLSL

@@ -92,6 +92,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Priority: 0
+  PositionFollow:
+    Enabled: 1
+    FollowMode: 1
+    BorderOffset: 1
+    CenterFollowDistance: 0
+    FollowHorizontal: 1
+    FollowVertical: 1
+  RotationFollow:
+    Enabled: 0
+    FollowMode: 1
+    BorderOffset: 1
+    CenterFollowDistance: 0
+    FollowHorizontal: 1
+    FollowVertical: 1
 --- !u!54 &4167027450204638208
 Rigidbody:
   m_ObjectHideFlags: 0
