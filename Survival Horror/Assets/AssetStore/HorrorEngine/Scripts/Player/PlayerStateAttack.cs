@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Events;
+using System.Collections.Generic;
 
 namespace HorrorEngine
 {
@@ -22,6 +24,9 @@ namespace HorrorEngine
         private IPlayerVerticalAiming m_VerticalAiming;
 
         private PlayerMovement m_Movement;
+        private PlayerMovement.MovementConstrain m_ActiveMovementConstrains;
+        private AnimatorStateHandle m_DefaultAttackAnimation;
+        private readonly Dictionary<AnimatorLayerBlend, int> m_LayerOverrides = new Dictionary<AnimatorLayerBlend, int>();
         private PlayerLookAtLookable m_LookAt;
         private WeaponAmmoVisuals m_AmmoVisuals;
 
@@ -30,6 +35,7 @@ namespace HorrorEngine
         private bool m_Attacked;
         private int m_Attacks;
         private AttackRate m_AttackRate;
+        private AttackCharge m_AttackCharge;
         private AttackCombo m_AttackCombo;
         private int m_ComboIndex;
         private float m_LastAttackTime;
@@ -42,6 +48,7 @@ namespace HorrorEngine
         {
             base.Awake();
 
+            m_DefaultAttackAnimation = m_AnimationState;
             m_Input = GetComponentInParent<IPlayerInput>();
             m_VerticalAiming = transform.parent.GetComponentInChildren<IPlayerVerticalAiming>();
             m_Movement = GetComponentInParent<PlayerMovement>();
@@ -83,12 +90,22 @@ namespace HorrorEngine
             m_Duration = m_AttackMtg.Duration;
             m_Delay = m_AttackMtg.MontageDelay;
             m_AttackRate = m_WeaponInstance.GetComponent<AttackRate>();
+            m_AttackCharge = m_WeaponInstance.GetComponent<AttackCharge>();
+            if (m_AttackCharge) m_Delay = Mathf.Max(m_Delay, m_AttackCharge.HoldDuration);
             m_Attacks = 0;
             m_PendingThrowableClearing = false;
             m_AmmoVisuals = m_WeaponInstance.GetComponent<WeaponAmmoVisuals>();
 
             m_Movement.enabled = true;
-            m_Movement.AddConstrain(m_MovementConstrains);
+            m_ActiveMovementConstrains = m_AttackMtg.AllowMovementDuringAttack
+                ? m_MovementConstrains & ~PlayerMovement.MovementConstrain.Movement : m_MovementConstrains;
+            m_Movement.AddConstrain(m_ActiveMovementConstrains);
+            if (m_AttackMtg.AllowMovementDuringAttack)
+            {
+                m_AnimationState = m_AttackMtg.Animation;
+                RedirectLayerBlends(OnStateEnter);
+                RedirectLayerBlends(OnStateExit);
+            }
 
             if (m_LookAt)
                 m_LookAt.LookIntensity = 0f;
@@ -112,6 +129,13 @@ namespace HorrorEngine
 
         public override void StateUpdate()
         {
+            if (m_AttackCharge && !m_Attacked &&
+                m_AttackCharge.ReleasedTooEarly(m_TimeInState, m_Input.IsAttackUp()))
+            {
+                m_AttackMtg.Interrupt();
+                SetState(m_AimingState ? m_AimingState : m_ExitState);
+                return;
+            }
             bool canAttack = CanAttackStart();
             
             if (m_AttackRate && m_AttackRate.CanBeHeld && !m_Released)
@@ -174,8 +198,28 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
+        private void RedirectLayerBlends(UnityEvent callbacks)
+        {
+            for (int i = 0; i < callbacks.GetPersistentEventCount(); ++i)
+            {
+                var blend = callbacks.GetPersistentTarget(i) as AnimatorLayerBlend;
+                if (!blend || m_LayerOverrides.ContainsKey(blend)) continue;
+                m_LayerOverrides.Add(blend, blend.RuntimeLayerOverride);
+                blend.RuntimeLayerOverride = m_AttackMtg.Animation.Layer;
+            }
+        }
+
         private void UpdateRateAttack()
         {
+            // The current shot is already scheduled by Play(). Single-shot
+            // weapons and exhausted bursts must finish it before returning to aim.
+            if (m_AttackRate.AttacksPerSecond <= 0 ||
+                (m_AttackRate.MaxAttackCount > 0 && m_Attacks >= m_AttackRate.MaxAttackCount))
+            {
+                m_Released = true;
+                return;
+            }
+
             bool canStartNextAttack = CanAttackStart();
             if (canStartNextAttack) // Don't do rate attacks if the next attack can't be performed
             {
@@ -183,7 +227,8 @@ namespace HorrorEngine
             }
             else
             {
-                m_AttackMtg.Interrupt();
+                // Running out of ammo stops repetition, not the pending last shot.
+                m_Released = true;
             }
         }
 
@@ -285,7 +330,7 @@ namespace HorrorEngine
             }
 
             m_Movement.enabled = false;
-            m_Movement.RemoveConstrain(m_MovementConstrains);
+            m_Movement.RemoveConstrain(m_ActiveMovementConstrains);
 
             if (m_LookAt)
                 m_LookAt.LookIntensity = 1f;
@@ -300,6 +345,11 @@ namespace HorrorEngine
             UIManager.Get<UIInputListener>().RemoveBlockingContext(this);
 
             base.StateExit(intoState);
+            if (m_AttackMtg && m_AttackMtg.AllowMovementDuringAttack)
+                Actor.MainAnimator.Play("Empty", m_AttackMtg.Animation.Layer, 0);
+            foreach (var entry in m_LayerOverrides) entry.Key.RuntimeLayerOverride = entry.Value;
+            m_LayerOverrides.Clear();
+            m_AnimationState = m_DefaultAttackAnimation;
         }
 
     }

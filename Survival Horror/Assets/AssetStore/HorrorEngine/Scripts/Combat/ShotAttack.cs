@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace HorrorEngine
 {
+    public interface IWeaponShotAudio
+    {
+        void Play(AudioClip clip);
+    }
 
     interface IShotAttackAiming
     {
@@ -190,7 +194,11 @@ namespace HorrorEngine
 
             ReloadableWeaponData reloadable = m_WeaponData as ReloadableWeaponData;
             if (reloadable.ShotSound)
-                m_AudioSource.PlayOneShot(reloadable.ShotSound);
+            {
+                var shotAudio = GetComponent<IWeaponShotAudio>();
+                if (shotAudio != null) shotAudio.Play(reloadable.ShotSound);
+                else m_AudioSource.PlayOneShot(reloadable.ShotSound);
+            }
 
             StopAttack();
         }

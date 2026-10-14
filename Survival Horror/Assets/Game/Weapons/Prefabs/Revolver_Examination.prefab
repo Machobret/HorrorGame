@@ -1,0 +1,134 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6346729168195766861
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4060127401548575729}
+  - component: {fileID: 4623349692696752998}
+  m_Layer: 5
+  m_Name: Revolver_Examination
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4060127401548575729
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6346729168195766861}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2527737373921069113}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4623349692696752998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6346729168195766861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 803f0896e80ecd34ea75ca6c1638d449, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.UIExamineItemUtility
+  Visuals: {fileID: 2909188003420902019}
+  m_ExpectedMask:
+    serializedVersion: 2
+    m_Bits: 32
+--- !u!1001 &2638804553796300754
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4060127401548575729}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.000038957223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.02561184
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.11179344
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6821136138381675988, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 591736380091231390, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
+      propertyPath: m_Name
+      value: Revolver
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5601616592491981552, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
+--- !u!4 &2527737373921069113 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
+  m_PrefabInstance: {fileID: 2638804553796300754}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2909188003420902019 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
+  m_PrefabInstance: {fileID: 2638804553796300754}
+  m_PrefabAsset: {fileID: 0}

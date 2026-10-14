@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ee00d1d7585610499dba305665f4c4c, type: 3}
+  m_Name: FlareGun
+  m_EditorClassIdentifier: 
+  UniqueId: ae0a1bd0-2217-447b-846d-102172eabdf1
+  Image: {fileID: 21300000, guid: 7c23d226c53834d419e827b1385a9299, type: 3}
+  ExamineModel: {fileID: 356613740718783190, guid: 7ea3b00a52382e64f9a6e1adbabe9dc1, type: 3}
+  Name:
+    IsLocalized: 0
+    Unlocalized: Flare gun
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Description:
+    IsLocalized: 0
+    Unlocalized: A single-shot signal gun. Flares illuminate surfaces and burn enemies
+      on contact.
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  InventoryAction: 2
+  Flags: 120
+  Tags: []
+  DropPrefab: {fileID: 0}
+  MaxStackSize: 0
+  m_OnUseAudioClip: {fileID: 0}
+  Name_DEPRECATED: 
+  Description_DEPRECATED: 
+  EquipPrefab: {fileID: 4175334077132669004, guid: fbe06871a63d2fa488147502e667fbff, type: 3}
+  Slot: 1
+  CharacterAttachment:
+    Socket: {fileID: 11400000, guid: 66be86ee20b277041876bdc5d848683a, type: 2}
+    Position: {x: 0.000195746, y: 0.000131942, z: 0.000108326}
+    Rotation: {x: -1.45, y: -90, z: -87}
+    Scale: {x: 0.010000001, y: 0.010000115, z: 0.009999843}
+    ApplyScale: 1
+  AttachOnEquipped: 1
+  MoveOutOfInventoryOnEquip: 0
+  AnimatorOverride:
+    m_Value: {fileID: 22100000, guid: fe2085776d3d9ce4d8a079b951254363, type: 2}
+  AnimatorLayerOverrides: []
+  m_OnEquipAudioClip: {fileID: 8300000, guid: ef9974c2de99278489f3dd05ff269121, type: 3}
+  AmmoItem: {fileID: 11400000, guid: 424071c53313e804abb19b5190d0af8b, type: 2}
+  MaxAmmo: 1
+  ShotSound: {fileID: 8300000, guid: 4ae6eeea27b34084bd98e72fedb10a21, type: 3}
+  ReloadSound: {fileID: 8300000, guid: 8db2251abb384d43a71e9ad6cb5e2697, type: 3}
+  ReloadDuration: 1.8
+  AllowMovementDuringReload: 1
+  references:
+    version: 2
+    RefIds: []

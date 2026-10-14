@@ -11,6 +11,9 @@ namespace HorrorEngine
 
         public float CountConsumption = 1f;
 
+        [Tooltip("Keep locomotion active while this attack plays on an upper-body layer.")]
+        public bool AllowMovementDuringAttack;
+
         [Header("Timing")]
         public float Duration;
         public float MontageDelay;
@@ -131,7 +134,7 @@ namespace HorrorEngine
                 }
             }
         
-            animator.CrossFadeInFixedTime(Animation.Hash, AnimationBlendTime);
+            animator.CrossFadeInFixedTime(Animation.Hash, AnimationBlendTime, Animation.Layer);
 
 
             if (Attack)

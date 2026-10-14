@@ -10,7 +10,7 @@ namespace HorrorGame.General
     [DefaultExecutionOrder(-10000)]
     public sealed class FixedRetroPresentation : MonoBehaviour
     {
-        private const bool Enabled = true;
+        private const bool Enabled = false;
         private const int Width = 1280;
         private const int Height = 720;
         private const float AspectRatio = (float)Width / Height;

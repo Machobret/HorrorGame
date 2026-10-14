@@ -1,0 +1,55 @@
+[
+  {
+    "clip": "Revolver_Shot",
+    "source": "Revolver",
+    "start": 4.846,
+    "end": 6.65,
+    "duration": 1.804013605442177,
+    "peak_db": -2,
+    "noise_profile": null,
+    "peak": 0.7943282347242815
+  },
+  {
+    "clip": "Revolver_Reload",
+    "source": "Revolver",
+    "start": 2.09,
+    "end": 4.44,
+    "duration": 2.35,
+    "peak_db": -7,
+    "noise_profile": null,
+    "peak": 0.4466835921509632
+  },
+  {
+    "clip": "HuntingRifle_Shot",
+    "source": "HuntingRifle",
+    "start": 20.728,
+    "end": 21.155,
+    "duration": 0.42700680272108843,
+    "peak_db": -2,
+    "noise_profile": [
+      19.6,
+      20.5
+    ],
+    "peak": 0.7943282347242815
+  },
+  {
+    "clip": "FlareGun_Shot",
+    "source": "FlareGun",
+    "start": 5.452,
+    "end": 7.1,
+    "duration": 1.6480045351473922,
+    "peak_db": -4,
+    "noise_profile": null,
+    "peak": 0.6309573444801932
+  },
+  {
+    "clip": "FlareGun_Reload",
+    "source": "FlareGun",
+    "start": 2.22,
+    "end": 3.16,
+    "duration": 0.94,
+    "peak_db": -8,
+    "noise_profile": null,
+    "peak": 0.3981071705534972
+  }
+]

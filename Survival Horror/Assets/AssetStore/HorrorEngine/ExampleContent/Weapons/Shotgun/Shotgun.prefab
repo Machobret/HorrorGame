@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Attack: {fileID: 11400000, guid: f2dc2284bbe4b924dbf3e62f60f24d4f, type: 2}
+  m_ShowDebug: 0
   OnAttackStart:
     m_PersistentCalls:
       m_Calls: []
@@ -148,7 +149,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VerticalityFactor: 0.5
-  m_ShowDebug: 0
 --- !u!82 &1841807524607417039
 AudioSource:
   m_ObjectHideFlags: 0
@@ -374,7 +374,7 @@ Transform:
   m_GameObject: {fileID: 4199605353209643747}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.70710474, z: -0, w: 0.70710886}
-  m_LocalPosition: {x: 2.351, y: 0.261, z: -0}
+  m_LocalPosition: {x: 3.121942, y: 0.23898831, z: 0}
   m_LocalScale: {x: 0.050313327, y: 0.050313327, z: 0.050313327}
   m_ConstrainProportionsScale: 0
   m_Children: []

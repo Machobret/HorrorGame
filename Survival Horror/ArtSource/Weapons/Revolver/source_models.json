@@ -1,0 +1,524 @@
+[
+  {
+    "file": "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\38SpecialRevolver\\38SpecialRevolver.fbx",
+    "objects": [
+      {
+        "name": "38SpecialBody",
+        "min": [
+          -0.9989810585975647,
+          -0.1011323407292366,
+          0.10035797953605652
+        ],
+        "max": [
+          1.456043004989624,
+          0.10192404687404633,
+          1.457444190979004
+        ],
+        "materials": [
+          {
+            "name": "Material.027",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\38SpecialRevolver\\Textures\\38-specialText.png",
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\38SpecialRevolver\\Textures\\38-specialText.png"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "38SpecialCylinder",
+        "min": [
+          -0.10243600606918335,
+          -0.17047829926013947,
+          0.9893059134483337
+        ],
+        "max": [
+          0.37374600768089294,
+          0.17278580367565155,
+          1.368091106414795
+        ],
+        "materials": [
+          {
+            "name": "Material.028",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\38SpecialRevolver\\Textures\\cylinderRefV2.jpg"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "38SpecialCylinder.001",
+        "min": [
+          -0.10243600606918335,
+          0.3285076916217804,
+          0.9893059134483337
+        ],
+        "max": [
+          0.37374600768089294,
+          0.6717718243598938,
+          1.368091106414795
+        ],
+        "materials": [
+          {
+            "name": "Material.028",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\38SpecialRevolver\\Textures\\cylinderRefV2.jpg"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "38SpecialShell",
+        "min": [
+          0.8298790454864502,
+          -0.05194100737571716,
+          0.7247890830039978
+        ],
+        "max": [
+          0.9150190353393555,
+          0.03319907188415527,
+          0.9879264235496521
+        ],
+        "materials": [
+          {
+            "name": "Material.024",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\38SpecialRevolver\\Textures\\revolverAmmo.jpg"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "38SpecialTrigger&Hammer",
+        "min": [
+          -0.5357879996299744,
+          -0.004042314365506172,
+          0.5488619804382324
+        ],
+        "max": [
+          0.11283600330352783,
+          0.01588291861116886,
+          1.3761820793151855
+        ],
+        "materials": [
+          {
+            "name": "Material.029",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\38SpecialRevolver\\Textures\\38-specialText.png",
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\38SpecialRevolver\\Textures\\38-specialText.png"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Bullet.001",
+        "min": [
+          0.715258002281189,
+          -0.051941242069005966,
+          0.7210268974304199
+        ],
+        "max": [
+          0.8003979921340942,
+          0.03319885581731796,
+          1.062246322631836
+        ],
+        "materials": [
+          {
+            "name": "Material.030",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\38SpecialRevolver\\Textures\\revolverAmmo.jpg"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\38SpecialRevolver\\SnubNose38SpecialRevolver.fbx",
+    "objects": [
+      {
+        "name": "38SpecialBullet",
+        "min": [
+          0.715258002281189,
+          -0.05194173753261566,
+          0.5645866394042969
+        ],
+        "max": [
+          0.8003979921340942,
+          0.03319836035370827,
+          0.9058036804199219
+        ],
+        "materials": [
+          {
+            "name": "Material.024",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\38SpecialRevolver\\Textures\\revolverAmmo.jpg"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "38SpecialShell",
+        "min": [
+          0.8298790454864502,
+          -0.05194171518087387,
+          0.565793514251709
+        ],
+        "max": [
+          0.9150190353393555,
+          0.03319836035370827,
+          0.8289308547973633
+        ],
+        "materials": [
+          {
+            "name": "Material.024",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\38SpecialRevolver\\Textures\\revolverAmmo.jpg"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "SnubNoseBody",
+        "min": [
+          -0.9989809989929199,
+          -0.10113287717103958,
+          0.06950899958610535
+        ],
+        "max": [
+          0.921172022819519,
+          0.10192350298166275,
+          1.426595687866211
+        ],
+        "materials": [
+          {
+            "name": "Material.025",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\38SpecialRevolver\\Textures\\38-specialText.png",
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\38SpecialRevolver\\Textures\\38-specialText.png"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "SnubNoseCylinder",
+        "min": [
+          -0.10243599861860275,
+          -0.17047886550426483,
+          0.958457887172699
+        ],
+        "max": [
+          0.37374600768089294,
+          0.17278525233268738,
+          1.3372416496276855
+        ],
+        "materials": [
+          {
+            "name": "Material.026",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\38SpecialRevolver\\Textures\\cylinderRefV2.jpg"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "SnubNoseCylinderFull",
+        "min": [
+          -0.10243599861860275,
+          0.2841051518917084,
+          0.9584580063819885
+        ],
+        "max": [
+          0.37374600768089294,
+          0.6273692846298218,
+          1.337241768836975
+        ],
+        "materials": [
+          {
+            "name": "Material.026",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\38SpecialRevolver\\Textures\\cylinderRefV2.jpg"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "SnubNoseTrigger&Hammer",
+        "min": [
+          -0.5357879996299744,
+          -0.004041858017444611,
+          0.5180139541625977
+        ],
+        "max": [
+          0.11283600330352783,
+          0.015882376581430435,
+          1.3453340530395508
+        ],
+        "materials": [
+          {
+            "name": "Material.043",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\38SpecialRevolver\\Textures\\38-specialText.png",
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\38SpecialRevolver\\Textures\\38-specialText.png"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\Colt Python\\Colt Python.fbx",
+    "objects": [
+      {
+        "name": "CPBody",
+        "min": [
+          -1.1750990152359009,
+          -0.13336260616779327,
+          0.15474028885364532
+        ],
+        "max": [
+          2.00449800491333,
+          0.13398583233356476,
+          1.7331042289733887
+        ],
+        "materials": [
+          {
+            "name": "Material.031",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\Colt Python\\Textures\\ColtPython.Png",
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\Colt Python\\Textures\\ColtPython.Png"
+            ]
+          },
+          {
+            "name": "Material.032",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\Colt Python\\Textures\\ColtPython.Png",
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\Colt Python\\Textures\\ColtPython.Png"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CPBullet",
+        "min": [
+          0.7088850140571594,
+          0.00997954048216343,
+          0.6369594931602478
+        ],
+        "max": [
+          0.8175529837608337,
+          0.1186496689915657,
+          1.0724740028381348
+        ],
+        "materials": [
+          {
+            "name": "Material.033",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\Colt Python\\Textures\\revolverAmmo.jpg"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CPCyilnder",
+        "min": [
+          -0.07472199201583862,
+          -0.18563154339790344,
+          1.1381782293319702
+        ],
+        "max": [
+          0.3669689893722534,
+          0.18637359142303467,
+          1.5798667669296265
+        ],
+        "materials": [
+          {
+            "name": "Material.034",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\Colt Python\\Textures\\cylinderRefV2.jpg"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CPCyilnderFull",
+        "min": [
+          -0.07472199201583862,
+          0.28488144278526306,
+          1.1381782293319702
+        ],
+        "max": [
+          0.3669689893722534,
+          0.65688556432724,
+          1.5798667669296265
+        ],
+        "materials": [
+          {
+            "name": "Material.034",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\Colt Python\\Textures\\cylinderRefV2.jpg"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CPTrigger&Hammer",
+        "min": [
+          -0.5638570189476013,
+          -0.017365554347634315,
+          0.7076878547668457
+        ],
+        "max": [
+          0.060927003622055054,
+          0.018151700496673584,
+          1.6054339408874512
+        ],
+        "materials": [
+          {
+            "name": "Material.035",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\Colt Python\\Textures\\ColtPython.Png",
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\Colt Python\\Textures\\ColtPython.Png"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\HammerlessRevolver\\HammerlessRevolver.fbx",
+    "objects": [
+      {
+        "name": "Bullet.001",
+        "min": [
+          0.8565929532051086,
+          -0.02834480069577694,
+          0.5381112098693848
+        ],
+        "max": [
+          0.9417319297790527,
+          0.05679527297616005,
+          0.8012480735778809
+        ],
+        "materials": [
+          {
+            "name": "Material.036",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\HammerlessRevolver\\Textures\\HammerlessRevolverText.png",
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\HammerlessRevolver\\Textures\\HammerlessRevolverText.png"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Bullet.004",
+        "min": [
+          0.7242989540100098,
+          -0.02834482304751873,
+          0.5381112098693848
+        ],
+        "max": [
+          0.8094379305839539,
+          0.05679527297616005,
+          0.8793301582336426
+        ],
+        "materials": [
+          {
+            "name": "Material.036",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\HammerlessRevolver\\Textures\\HammerlessRevolverText.png",
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\HammerlessRevolver\\Textures\\HammerlessRevolverText.png"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "HammerlessBody",
+        "min": [
+          -0.9724820256233215,
+          -0.15936891734600067,
+          0.04738898575305939
+        ],
+        "max": [
+          0.928587019443512,
+          0.16071420907974243,
+          1.2977582216262817
+        ],
+        "materials": [
+          {
+            "name": "Material.040",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\HammerlessRevolver\\Textures\\HammerlessRevolverText.png",
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\HammerlessRevolver\\Textures\\HammerlessRevolverText.png"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "HammerlessCylinder",
+        "min": [
+          -0.10557600855827332,
+          0.28665411472320557,
+          0.8506240248680115
+        ],
+        "max": [
+          0.37676000595092773,
+          0.6134692430496216,
+          1.205775260925293
+        ],
+        "materials": [
+          {
+            "name": "Material.037",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\HammerlessRevolver\\Textures\\HammerlessRevolverText.png",
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\HammerlessRevolver\\Textures\\HammerlessRevolverText.png"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "HammerlessCylindereEmpty",
+        "min": [
+          -0.10557600855827332,
+          -0.16340751945972443,
+          0.8506240248680115
+        ],
+        "max": [
+          0.37676000595092773,
+          0.1634075790643692,
+          1.205775260925293
+        ],
+        "materials": [
+          {
+            "name": "Material.037",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\HammerlessRevolver\\Textures\\HammerlessRevolverText.png",
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\HammerlessRevolver\\Textures\\HammerlessRevolverText.png"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "HammerlessTrigger",
+        "min": [
+          -0.20525699853897095,
+          -0.0006398120312951505,
+          0.4305553436279297
+        ],
+        "max": [
+          0.012617997825145721,
+          0.004335163626819849,
+          0.77097487449646
+        ],
+        "materials": [
+          {
+            "name": "Material.038",
+            "images": [
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\HammerlessRevolver\\Textures\\HammerlessRevolverText.png",
+              "C:\\Users\\Mangis\\Downloads\\Assets\\Guns\\PSXRevolverPack[FIXED]\\PSXRevolverPack[FIXED]\\Files\\HammerlessRevolver\\Textures\\HammerlessRevolverText.png"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

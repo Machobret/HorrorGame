@@ -17,6 +17,8 @@ namespace HorrorEngine
 
         private ObjectMessageBuffer m_ObjMsgBuffer;
         private OnAnimatorLayerBlendStartedMessage m_BlendMsg = new OnAnimatorLayerBlendStartedMessage();
+        // Scoped state overrides do not alter the authored layer handle.
+        public int RuntimeLayerOverride { get; set; } = -1;
 
         // --------------------------------------------------------------------
 
@@ -30,7 +32,7 @@ namespace HorrorEngine
 
         public virtual void Trigger()
         {
-            m_BlendMsg.LayerIndex = m_Layer.Index;
+            m_BlendMsg.LayerIndex = RuntimeLayerOverride >= 0 ? RuntimeLayerOverride : m_Layer.Index;
             m_BlendMsg.Duration = m_Time;
             m_BlendMsg.ToWeight = m_ToWeight;
 

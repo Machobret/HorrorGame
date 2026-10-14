@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ee00d1d7585610499dba305665f4c4c, type: 3}
+  m_Name: HuntingRifle
+  m_EditorClassIdentifier: 
+  UniqueId: 0177ad0e-71c7-4897-8f0c-65afffe01433
+  Image: {fileID: 21300000, guid: a79381e910999fa40a4a6f8a9f78a257, type: 3}
+  ExamineModel: {fileID: 1512191847950000740, guid: c39b9d6980475a24fa79ee0a725b715a, type: 3}
+  Name:
+    IsLocalized: 0
+    Unlocalized: Hunting rifle
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Description:
+    IsLocalized: 0
+    Unlocalized: A slow, powerful hunting rifle. Five-round magazine.
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  InventoryAction: 2
+  Flags: 248
+  Tags: []
+  DropPrefab: {fileID: 0}
+  MaxStackSize: 0
+  m_OnUseAudioClip: {fileID: 0}
+  Name_DEPRECATED: 
+  Description_DEPRECATED: 
+  EquipPrefab: {fileID: 8799184915728116030, guid: 93361e4dd52801b49a6a59a801d69ac0, type: 3}
+  Slot: 1
+  CharacterAttachment:
+    Socket: {fileID: 11400000, guid: 66be86ee20b277041876bdc5d848683a, type: 2}
+    Position: {x: 0.0002, y: 0.0004, z: 0.00045}
+    Rotation: {x: 0, y: -90, z: -89.33}
+    Scale: {x: 0.010000001, y: 0.010000115, z: 0.009999843}
+    ApplyScale: 1
+  AttachOnEquipped: 1
+  MoveOutOfInventoryOnEquip: 0
+  AnimatorOverride:
+    m_Value: {fileID: 22100000, guid: e1a009f22572bad488a37556967c332e, type: 2}
+  AnimatorLayerOverrides: []
+  m_OnEquipAudioClip: {fileID: 0}
+  AmmoItem: {fileID: 11400000, guid: ab1002d21c9c277409217d2a1e97fe8f, type: 2}
+  MaxAmmo: 5
+  ShotSound: {fileID: 8300000, guid: 0da1d9a64b194a188bee6e77fbdc2741, type: 3}
+  ReloadSound: {fileID: 8300000, guid: fdff1bf85e484400a4dbb960b861e231, type: 3}
+  ReloadDuration: 2.2
+  AllowMovementDuringReload: 1
+  references:
+    version: 2
+    RefIds: []

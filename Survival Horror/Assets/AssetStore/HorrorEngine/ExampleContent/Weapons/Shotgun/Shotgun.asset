@@ -16,8 +16,8 @@ MonoBehaviour:
   Image: {fileID: 21300000, guid: eeee8afd6f3190f4c97f9256406e9a0c, type: 3}
   ExamineModel: {fileID: 2618670157336995982, guid: 5fc5b59030b8c6740b88a351716e8549, type: 3}
   Name:
-    IsLocalized: 1
-    Unlocalized: Shotgun
+    IsLocalized: 0
+    Unlocalized: Double-barrel shotgun
     Localized:
       m_TableReference:
         m_TableCollectionName: GUID:7bb2b06d71f243b428e4ad9bf566ec1f
@@ -28,8 +28,8 @@ MonoBehaviour:
       m_WaitForCompletion: 0
       m_LocalVariables: []
   Description:
-    IsLocalized: 1
-    Unlocalized: 
+    IsLocalized: 0
+    Unlocalized: A side-by-side double-barrel shotgun. Uses shotgun shells.
     Localized:
       m_TableReference:
         m_TableCollectionName: GUID:7bb2b06d71f243b428e4ad9bf566ec1f
