@@ -304,6 +304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Attack: {fileID: 186782091252812242}
   CountConsumption: 1
+  AllowMovementDuringAttack: 0
   Duration: 1.25
   MontageDelay: 0
   AttackActivationDelay: 0

@@ -386,8 +386,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Attack: {fileID: 7536200229231286427}
-  AllowMovementDuringAttack: 1
   CountConsumption: 1
+  AllowMovementDuringAttack: 1
   Duration: 1.4
   MontageDelay: 0
   AttackActivationDelay: 0
@@ -461,6 +461,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HorrorGame.Weapons.RifleBoltVisual
   Bolt: {fileID: 1469138558060404950}
   Pull: {x: 0, y: 0, z: -0.055}
+--- !u!114 &740004000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8799184915728116030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcdf3db86dc843c78c30bbfb1886d668, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Volume: 1
 --- !u!1001 &6031318766646168844
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -528,16 +541,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 43baf59542cf03141a6ee44ececbdd3a, type: 3}
   m_PrefabInstance: {fileID: 6031318766646168844}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &740004000000000001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8799184915728116030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcdf3db86dc843c78c30bbfb1886d668, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Volume: 1

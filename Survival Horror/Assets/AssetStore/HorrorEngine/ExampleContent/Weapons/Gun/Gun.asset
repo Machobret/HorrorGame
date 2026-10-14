@@ -50,9 +50,9 @@ MonoBehaviour:
   Slot: 1
   CharacterAttachment:
     Socket: {fileID: 11400000, guid: 66be86ee20b277041876bdc5d848683a, type: 2}
-    Position: {x: 0.0002, y: 0.0003, z: 0.00045}
+    Position: {x: 0.0002, y: 0.0003, z: 0.0003}
     Rotation: {x: -1.45, y: -90, z: -87}
-    Scale: {x: 0.01, y: 0.01, z: 0.01}
+    Scale: {x: 0.0115, y: 0.0115, z: 0.0115}
     ApplyScale: 1
   AttachOnEquipped: 1
   MoveOutOfInventoryOnEquip: 0

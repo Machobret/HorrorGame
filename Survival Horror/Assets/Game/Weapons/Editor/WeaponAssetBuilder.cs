@@ -260,11 +260,15 @@ namespace HorrorGame.Weapons.Editor
             var character = (GameObject)PrefabUtility.InstantiatePrefab(Load<GameObject>("Assets/AssetStore/HorrorEngine/Prefabs/Character.prefab"));
             var hand = character.GetComponent<SocketController>().GetSocket(data.CharacterAttachment.Socket).transform;
             var scale = hand.lossyScale;
-            data.CharacterAttachment.Scale = new Vector3(1 / Mathf.Abs(scale.x),1 / Mathf.Abs(scale.y),1 / Mathf.Abs(scale.z));
+            data.CharacterAttachment.Scale = new Vector3(1 / Mathf.Abs(scale.x),1 / Mathf.Abs(scale.y),1 / Mathf.Abs(scale.z)) * (name == "FlareGun" ? .74f : 1f);
             Object.DestroyImmediate(character);
             // Seat each grip in the palm; source models have different grip pivots.
             if (name == "FlareGun") data.CharacterAttachment.Position = new Vector3(.000195746f, .000131942f, .000108326f);
             else if (name == "Revolver") data.CharacterAttachment.Position = new Vector3(.000198405f, .000237005f, .000202957f);
+            if (name == "FlareGun") data.CharacterAttachment.Rotation = new Vector3(-1.45f, -90f, -87f);
+            else if (name == "Revolver") data.CharacterAttachment.Rotation = new Vector3(-1.45f, -90f, -87f);
+            if (name == "FlareGun" || name == "Revolver")
+                if (!root.GetComponent<HandgunSupportPose>()) root.AddComponent<HandgunSupportPose>();
             var shotAudio = root.GetComponent<WeaponShotAudio>();
             if (!shotAudio) shotAudio = root.AddComponent<WeaponShotAudio>();
             shotAudio.Volume = name == "FlareGun" ? 1.25f : 1;
