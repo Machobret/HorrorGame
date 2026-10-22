@@ -1,0 +1,117 @@
+{
+  "radius": 0.3,
+  "height": 1.8,
+  "grid_step": 0.1,
+  "method": "Conservative furniture bounds plus evaluated wall/door surface distances at five body heights; flood fill from player spawn",
+  "targets": {
+    "entrance_inside": {
+      "reachable": true,
+      "requested": [
+        5.65,
+        2
+      ],
+      "nearest_reachable": [
+        5.6000000000000005,
+        2.0
+      ],
+      "distance": 0.04999999999999982
+    },
+    "corridor_north": {
+      "reachable": true,
+      "requested": [
+        5,
+        7.3
+      ],
+      "nearest_reachable": [
+        5.0,
+        7.300000000000001
+      ],
+      "distance": 8.881784197001252e-16
+    },
+    "kitchen_center": {
+      "reachable": true,
+      "requested": [
+        2,
+        2
+      ],
+      "nearest_reachable": [
+        2.0,
+        2.0
+      ],
+      "distance": 0.0
+    },
+    "sink_access": {
+      "reachable": true,
+      "requested": [
+        1.45,
+        1.6
+      ],
+      "nearest_reachable": [
+        1.4000000000000001,
+        1.6
+      ],
+      "distance": 0.04999999999999982
+    },
+    "cooker_access": {
+      "reachable": true,
+      "requested": [
+        1.45,
+        2.75
+      ],
+      "nearest_reachable": [
+        1.4000000000000001,
+        2.7
+      ],
+      "distance": 0.0707106781186545
+    },
+    "breakfast_chair_access": {
+      "reachable": true,
+      "requested": [
+        1.5,
+        1.45
+      ],
+      "nearest_reachable": [
+        1.5,
+        1.4000000000000001
+      ],
+      "distance": 0.04999999999999982
+    },
+    "bedroom_entry": {
+      "reachable": true,
+      "requested": [
+        3.35,
+        6
+      ],
+      "nearest_reachable": [
+        3.3000000000000003,
+        6.0
+      ],
+      "distance": 0.04999999999999982
+    },
+    "bed_access": {
+      "reachable": true,
+      "requested": [
+        2.65,
+        6.15
+      ],
+      "nearest_reachable": [
+        2.6,
+        6.1000000000000005
+      ],
+      "distance": 0.0707106781186545
+    },
+    "dresser_access": {
+      "reachable": true,
+      "requested": [
+        2.65,
+        6.85
+      ],
+      "nearest_reachable": [
+        2.6,
+        6.800000000000001
+      ],
+      "distance": 0.07071067811865388
+    }
+  },
+  "all_targets_reachable": true
+}

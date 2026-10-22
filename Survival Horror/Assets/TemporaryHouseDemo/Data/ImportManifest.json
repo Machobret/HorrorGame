@@ -1,0 +1,4898 @@
+{
+  "models": [
+    {
+      "file": "Models/HouseLayout.fbx",
+      "meshes": 81,
+      "sha256": "1b84b86bbad222554f63167e20bc8d0fe309e61aca51c6b3c6a65d675aedf408"
+    },
+    {
+      "file": "Models/AssetCatalog.fbx",
+      "meshes": 303,
+      "sha256": "fdb8ce3817fb2008a4477b33771fe7414fee76fcc58e664546b19175c222b843"
+    }
+  ],
+  "materials": [
+    {
+      "name": "M_0000",
+      "sourceName": "House / WindowWood",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0264.png",
+        "Emission Color": "Textures/T_0277.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0001",
+      "sourceName": "House / apple",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0128.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0002",
+      "sourceName": "House / bed",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0134.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0003",
+      "sourceName": "House / bookStack",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0007.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0004",
+      "sourceName": "House / cabinetHigh",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0025.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0005",
+      "sourceName": "House / cabinetLow",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0027.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0006",
+      "sourceName": "House / cabinetSink",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0029.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0007",
+      "sourceName": "House / carpet2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0031.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0008",
+      "sourceName": "House / ceilingLight",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0034.png",
+        "Emission Color": "Textures/T_0266.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0009",
+      "sourceName": "House / ceilingPlaster2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0152.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0010",
+      "sourceName": "House / ceilingPlaster2.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0157.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0011",
+      "sourceName": "House / chair3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0039.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0012",
+      "sourceName": "House / clock",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0042.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0013",
+      "sourceName": "House / cup1",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0047.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0014",
+      "sourceName": "House / doorWood",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0168.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0015",
+      "sourceName": "House / doormat",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0052.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0016",
+      "sourceName": "House / floorTiles.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0179.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0017",
+      "sourceName": "House / floorWood",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0176.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0018",
+      "sourceName": "House / floorWood2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0180.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0019",
+      "sourceName": "House / fridge",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0055.png",
+        "Alpha": "Textures/T_0055.png",
+        "Emission Color": "Textures/T_0270.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0020",
+      "sourceName": "House / hanger",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0057.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0021",
+      "sourceName": "House / knife",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0059.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0022",
+      "sourceName": "House / lightSwitch",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0062.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0023",
+      "sourceName": "House / milkCarton",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0063.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0024",
+      "sourceName": "House / oven",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0067.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0025",
+      "sourceName": "House / painting3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0070.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0026",
+      "sourceName": "House / painting4",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0071.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0027",
+      "sourceName": "House / plate",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0082.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0028",
+      "sourceName": "House / pot",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0086.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0029",
+      "sourceName": "House / radio",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0094.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0030",
+      "sourceName": "House / sideboard3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0101.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0031",
+      "sourceName": "House / sideboard4",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0102.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0032",
+      "sourceName": "House / tableLamp",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0105.png",
+        "Emission Color": "Textures/T_0272.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0033",
+      "sourceName": "House / tableSmall2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0107.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0034",
+      "sourceName": "House / teddybear",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0109.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0035",
+      "sourceName": "House / trashBin",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0114.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0036",
+      "sourceName": "House / wallLight",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0118.png",
+        "Emission Color": "Textures/T_0273.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0037",
+      "sourceName": "House / wallPlaster2.002",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0210.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0038",
+      "sourceName": "House / wallPlaster2.003",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0219.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0039",
+      "sourceName": "House / wallPlaster2.005",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0236.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0040",
+      "sourceName": "House / wallPlaster2.007",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0254.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0041",
+      "sourceName": "House / wallTiles.005",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0240.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0042",
+      "sourceName": "House / wallWallpaper.002",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0215.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0043",
+      "sourceName": "House / wallWallpaper.006",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0251.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0044",
+      "sourceName": "House / wallWallpaper.007",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0259.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0045",
+      "sourceName": "House / windowCurtains4",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0127.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0046",
+      "sourceName": "WindowWood",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0264.png",
+        "Emission Color": "Textures/T_0277.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0047",
+      "sourceName": "WindowWood2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0262.png",
+        "Emission Color": "Textures/T_0275.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0048",
+      "sourceName": "apple",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0128.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0049",
+      "sourceName": "basketball",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0129.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0050",
+      "sourceName": "basketballHoop",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0130.png",
+        "Alpha": "Textures/T_0130.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0051",
+      "sourceName": "bathroomSink",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0131.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0052",
+      "sourceName": "bathroomSink2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0132.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0053",
+      "sourceName": "bathtub",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0133.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0054",
+      "sourceName": "bed",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0134.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0055",
+      "sourceName": "bed2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0000.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0056",
+      "sourceName": "bed3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0001.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0057",
+      "sourceName": "book",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0002.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0058",
+      "sourceName": "book2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0003.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0059",
+      "sourceName": "book3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0004.png"
+      },
+      "roughness": 1.0,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0060",
+      "sourceName": "book4",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0005.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0061",
+      "sourceName": "bookStack",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0007.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0062",
+      "sourceName": "bookStack2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0008.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0063",
+      "sourceName": "bookStack3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0009.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0064",
+      "sourceName": "bookStack4",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0010.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0065",
+      "sourceName": "bookStack5",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0011.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0066",
+      "sourceName": "bookshelf",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0006.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0067",
+      "sourceName": "bottle",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0012.png",
+        "Alpha": "Textures/T_0012.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0068",
+      "sourceName": "bottle1",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0013.png",
+        "Alpha": "Textures/T_0013.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0069",
+      "sourceName": "bottle2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0014.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0070",
+      "sourceName": "box",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0015.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0071",
+      "sourceName": "box2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0016.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0072",
+      "sourceName": "box3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0017.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0073",
+      "sourceName": "breakerBox",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0018.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0074",
+      "sourceName": "broom",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0019.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0075",
+      "sourceName": "bucket",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0020.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0076",
+      "sourceName": "bucket2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0021.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0077",
+      "sourceName": "burger",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0022.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0078",
+      "sourceName": "cabinet",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0023.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0079",
+      "sourceName": "cabinetBig",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0024.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0080",
+      "sourceName": "cabinetHigh",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0025.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0081",
+      "sourceName": "cabinetHighCorner",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0026.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0082",
+      "sourceName": "cabinetLow",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0027.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0083",
+      "sourceName": "cabinetLowCorner",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0028.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0084",
+      "sourceName": "cabinetSink",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0029.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0085",
+      "sourceName": "capRoofConcrete",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0144.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0086",
+      "sourceName": "capRoofConcrete.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0146.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0087",
+      "sourceName": "capRoofMetal",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0145.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0088",
+      "sourceName": "capRoofMetal.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0147.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0089",
+      "sourceName": "capRoofWood",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0148.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0090",
+      "sourceName": "capRoofWood.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0149.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0091",
+      "sourceName": "carpet",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0030.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0092",
+      "sourceName": "carpet2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0031.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0093",
+      "sourceName": "carpet3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0032.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0094",
+      "sourceName": "carpet4",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0033.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0095",
+      "sourceName": "ceilingConcrete",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0150.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0096",
+      "sourceName": "ceilingConcrete.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0151.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0097",
+      "sourceName": "ceilingLight",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0034.png",
+        "Emission Color": "Textures/T_0266.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0098",
+      "sourceName": "ceilingLight2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0035.png",
+        "Emission Color": "Textures/T_0267.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0099",
+      "sourceName": "ceilingLight3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0036.png",
+        "Emission Color": "Textures/T_0268.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0100",
+      "sourceName": "ceilingPlaster",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0154.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0101",
+      "sourceName": "ceilingPlaster.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0159.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0102",
+      "sourceName": "ceilingPlaster2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0152.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0103",
+      "sourceName": "ceilingPlaster2.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0157.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0104",
+      "sourceName": "ceilingPlaster3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0153.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0105",
+      "sourceName": "ceilingPlaster3.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0158.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0106",
+      "sourceName": "ceilingTiles",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0155.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0107",
+      "sourceName": "ceilingTiles.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0160.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0108",
+      "sourceName": "ceilingWood",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0156.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0109",
+      "sourceName": "ceilingWood.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0161.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0110",
+      "sourceName": "chair",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0037.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0111",
+      "sourceName": "chair2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0038.png",
+        "Alpha": "Textures/T_0038.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0112",
+      "sourceName": "chair3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0039.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0113",
+      "sourceName": "chair4",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0040.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0114",
+      "sourceName": "checker128",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0265.png"
+      },
+      "roughness": 1.0,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0115",
+      "sourceName": "chessboard",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0041.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0116",
+      "sourceName": "clock",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0042.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0117",
+      "sourceName": "cornerPillarMetal",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0162.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0118",
+      "sourceName": "cornerPillarPlaster",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0163.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0119",
+      "sourceName": "cornerPillarStone",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0164.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0120",
+      "sourceName": "cornerPillarWood",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0165.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0121",
+      "sourceName": "couchBig",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0043.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0122",
+      "sourceName": "couchBig2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0044.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0123",
+      "sourceName": "couchSmall",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0045.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0124",
+      "sourceName": "couchSmall2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0046.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0125",
+      "sourceName": "cup1",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0047.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0126",
+      "sourceName": "cup2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0048.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0127",
+      "sourceName": "cup3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0049.png",
+        "Alpha": "Textures/T_0049.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0128",
+      "sourceName": "cup4",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0050.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0129",
+      "sourceName": "cup5",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0051.png",
+        "Alpha": "Textures/T_0051.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0130",
+      "sourceName": "doorWood",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0168.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0131",
+      "sourceName": "doorWood2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0166.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0132",
+      "sourceName": "doorWood3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0167.png",
+        "Emission Color": "Textures/T_0274.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0133",
+      "sourceName": "doormat",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0052.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0134",
+      "sourceName": "egg",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0053.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0135",
+      "sourceName": "flashlight",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0054.png",
+        "Alpha": "Textures/T_0054.png",
+        "Emission Color": "Textures/T_0269.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0136",
+      "sourceName": "floorCarpet",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0170.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0137",
+      "sourceName": "floorCarpet.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0172.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0138",
+      "sourceName": "floorCarpet2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0169.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0139",
+      "sourceName": "floorCarpet2.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0171.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0140",
+      "sourceName": "floorMarble",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0173.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0141",
+      "sourceName": "floorMarble.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0177.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0142",
+      "sourceName": "floorStone",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0174.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0143",
+      "sourceName": "floorStone.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0178.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0144",
+      "sourceName": "floorTiles",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0175.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0145",
+      "sourceName": "floorTiles.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0179.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0146",
+      "sourceName": "floorWood",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0176.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0147",
+      "sourceName": "floorWood.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0181.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0148",
+      "sourceName": "floorWood2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0180.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0149",
+      "sourceName": "fridge",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0055.png",
+        "Alpha": "Textures/T_0055.png",
+        "Emission Color": "Textures/T_0270.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0150",
+      "sourceName": "globe",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0056.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0151",
+      "sourceName": "hanger",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0057.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0152",
+      "sourceName": "hanger2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0058.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0153",
+      "sourceName": "knife",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0059.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0154",
+      "sourceName": "ladder",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0060.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0155",
+      "sourceName": "lamp",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0061.png",
+        "Emission Color": "Textures/T_0271.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0156",
+      "sourceName": "lightSwitch",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0062.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0157",
+      "sourceName": "milkCarton",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0063.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0158",
+      "sourceName": "mirror",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0064.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0159",
+      "sourceName": "mirror2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0065.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0160",
+      "sourceName": "mirror3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0066.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0161",
+      "sourceName": "oven",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0067.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0162",
+      "sourceName": "painting",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0068.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0163",
+      "sourceName": "painting2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0069.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0164",
+      "sourceName": "painting3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0070.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0165",
+      "sourceName": "painting4",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0071.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0166",
+      "sourceName": "painting5",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0072.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0167",
+      "sourceName": "pallet",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0073.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0168",
+      "sourceName": "pan",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0074.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0169",
+      "sourceName": "paperBag",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0075.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0170",
+      "sourceName": "pencilCup",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0076.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0171",
+      "sourceName": "phone",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0077.png",
+        "Alpha": "Textures/T_0077.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0172",
+      "sourceName": "pizza",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0078.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0173",
+      "sourceName": "plant",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0079.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0174",
+      "sourceName": "plant2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0080.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0175",
+      "sourceName": "plant3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0081.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0176",
+      "sourceName": "plate",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0082.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0177",
+      "sourceName": "plate2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0083.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0178",
+      "sourceName": "plate3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0084.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0179",
+      "sourceName": "plate4",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0085.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0180",
+      "sourceName": "pot",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0086.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0181",
+      "sourceName": "powerSocket",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0087.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0182",
+      "sourceName": "product",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0088.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0183",
+      "sourceName": "product2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0089.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0184",
+      "sourceName": "product3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0090.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0185",
+      "sourceName": "product4",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0091.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0186",
+      "sourceName": "product5",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0092.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0187",
+      "sourceName": "radiator",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0093.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0188",
+      "sourceName": "radio",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0094.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0189",
+      "sourceName": "remote",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0095.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0190",
+      "sourceName": "scotch",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0096.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0191",
+      "sourceName": "shelves",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0097.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0192",
+      "sourceName": "shelves2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0098.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0193",
+      "sourceName": "sideboard",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0099.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0194",
+      "sourceName": "sideboard2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0100.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0195",
+      "sourceName": "sideboard3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0101.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0196",
+      "sourceName": "sideboard4",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0102.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0197",
+      "sourceName": "stairsGuardMetal",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0184.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0198",
+      "sourceName": "stairsGuardMetal2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0183.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0199",
+      "sourceName": "stairsGuardWood",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0186.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0200",
+      "sourceName": "stairsGuardWood2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0185.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0201",
+      "sourceName": "stairsRailCornerMetal",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0187.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0202",
+      "sourceName": "stairsRailCornerWood",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0189.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0203",
+      "sourceName": "stairsRailCornerWood2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0188.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0204",
+      "sourceName": "stairsRailMetal",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0190.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0205",
+      "sourceName": "stairsRailWood",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0192.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0206",
+      "sourceName": "stairsRailWood2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0191.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0207",
+      "sourceName": "stairsStone",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0193.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0208",
+      "sourceName": "stairsWood",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0197.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0209",
+      "sourceName": "stairsWood2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0194.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0210",
+      "sourceName": "stairsWood3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0195.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0211",
+      "sourceName": "stairsWood4",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0196.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0212",
+      "sourceName": "table",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0103.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0213",
+      "sourceName": "table2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0278.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0214",
+      "sourceName": "table3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0104.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0215",
+      "sourceName": "tableLamp",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0105.png",
+        "Emission Color": "Textures/T_0272.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0216",
+      "sourceName": "tableSmall",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0106.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0217",
+      "sourceName": "tableSmall2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0107.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0218",
+      "sourceName": "tableSmall3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0108.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0219",
+      "sourceName": "teddybear",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0109.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0220",
+      "sourceName": "toilet",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0110.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0221",
+      "sourceName": "toiletPaper",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0111.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0222",
+      "sourceName": "trashBag",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0112.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0223",
+      "sourceName": "trashBag.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0113.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0224",
+      "sourceName": "trashBin",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0114.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0225",
+      "sourceName": "tv",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0115.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0226",
+      "sourceName": "tvScreen",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0544.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0227",
+      "sourceName": "umbrella",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0116.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0228",
+      "sourceName": "vsh",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0117.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0229",
+      "sourceName": "wallBrick",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0135.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0230",
+      "sourceName": "wallBrick.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0182.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0231",
+      "sourceName": "wallBrick.002",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0198.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0232",
+      "sourceName": "wallBrick.003",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0199.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0233",
+      "sourceName": "wallBrick.004",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0208.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0234",
+      "sourceName": "wallBrick.005",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0217.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0235",
+      "sourceName": "wallBrick.006",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0227.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0236",
+      "sourceName": "wallBrick.007",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0239.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0237",
+      "sourceName": "wallBrick.008",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0241.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0238",
+      "sourceName": "wallBrick.009",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0252.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0239",
+      "sourceName": "wallLight",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0118.png",
+        "Emission Color": "Textures/T_0273.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0240",
+      "sourceName": "wallMarble",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0136.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0241",
+      "sourceName": "wallMarble.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0200.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0242",
+      "sourceName": "wallMarble.002",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0209.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0243",
+      "sourceName": "wallMarble.003",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0218.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0244",
+      "sourceName": "wallMarble.004",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0226.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0245",
+      "sourceName": "wallMarble.005",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0228.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0246",
+      "sourceName": "wallMarble.006",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0242.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0247",
+      "sourceName": "wallMarble.007",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0253.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0248",
+      "sourceName": "wallPlaster",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0139.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0249",
+      "sourceName": "wallPlaster.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0203.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0250",
+      "sourceName": "wallPlaster.002",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0212.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0251",
+      "sourceName": "wallPlaster.003",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0221.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0252",
+      "sourceName": "wallPlaster.004",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0231.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0253",
+      "sourceName": "wallPlaster.005",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0238.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0254",
+      "sourceName": "wallPlaster.006",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0245.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0255",
+      "sourceName": "wallPlaster.007",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0256.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0256",
+      "sourceName": "wallPlaster2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0137.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0257",
+      "sourceName": "wallPlaster2.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0201.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0258",
+      "sourceName": "wallPlaster2.002",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0210.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0259",
+      "sourceName": "wallPlaster2.003",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0219.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0260",
+      "sourceName": "wallPlaster2.004",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0229.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0261",
+      "sourceName": "wallPlaster2.005",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0236.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0262",
+      "sourceName": "wallPlaster2.006",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0243.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0263",
+      "sourceName": "wallPlaster2.007",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0254.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0264",
+      "sourceName": "wallPlaster3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0138.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0265",
+      "sourceName": "wallPlaster3.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0202.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0266",
+      "sourceName": "wallPlaster3.002",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0211.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0267",
+      "sourceName": "wallPlaster3.003",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0220.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0268",
+      "sourceName": "wallPlaster3.004",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0230.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0269",
+      "sourceName": "wallPlaster3.005",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0237.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0270",
+      "sourceName": "wallPlaster3.006",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0244.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0271",
+      "sourceName": "wallPlaster3.007",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0255.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0272",
+      "sourceName": "wallShelf",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0119.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0273",
+      "sourceName": "wallShelf2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0120.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0274",
+      "sourceName": "wallShelf3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0121.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0275",
+      "sourceName": "wallShelf4",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0122.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0276",
+      "sourceName": "wallTiles",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0140.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0277",
+      "sourceName": "wallTiles.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0204.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0278",
+      "sourceName": "wallTiles.002",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0213.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0279",
+      "sourceName": "wallTiles.003",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0222.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0280",
+      "sourceName": "wallTiles.004",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0232.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0281",
+      "sourceName": "wallTiles.005",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0240.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0282",
+      "sourceName": "wallTiles.006",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0246.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0283",
+      "sourceName": "wallTiles.007",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0257.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0284",
+      "sourceName": "wallWallpaper",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0142.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0285",
+      "sourceName": "wallWallpaper.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0206.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0286",
+      "sourceName": "wallWallpaper.002",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0215.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0287",
+      "sourceName": "wallWallpaper.003",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0224.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0288",
+      "sourceName": "wallWallpaper.004",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0234.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0289",
+      "sourceName": "wallWallpaper.005",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0248.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0290",
+      "sourceName": "wallWallpaper.006",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0251.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0291",
+      "sourceName": "wallWallpaper.007",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0259.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0292",
+      "sourceName": "wallWallpaper2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0141.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0293",
+      "sourceName": "wallWallpaper2.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0205.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0294",
+      "sourceName": "wallWallpaper2.002",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0214.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0295",
+      "sourceName": "wallWallpaper2.003",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0223.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0296",
+      "sourceName": "wallWallpaper2.004",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0233.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0297",
+      "sourceName": "wallWallpaper2.005",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0247.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0298",
+      "sourceName": "wallWallpaper2.006",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0250.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0299",
+      "sourceName": "wallWallpaper2.007",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0258.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0300",
+      "sourceName": "wallWood",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0143.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0301",
+      "sourceName": "wallWood.001",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0207.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0302",
+      "sourceName": "wallWood.002",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0216.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0303",
+      "sourceName": "wallWood.003",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0225.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0304",
+      "sourceName": "wallWood.004",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0235.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0305",
+      "sourceName": "wallWood.005",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0249.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0306",
+      "sourceName": "wallWood.006",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0260.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0307",
+      "sourceName": "wallWood.007",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0261.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0308",
+      "sourceName": "washingMachine",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0123.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0309",
+      "sourceName": "windowCurtains",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0124.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0310",
+      "sourceName": "windowCurtains2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0125.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0311",
+      "sourceName": "windowCurtains3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0126.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0312",
+      "sourceName": "windowCurtains4",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0127.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    {
+      "name": "M_0313",
+      "sourceName": "windowWood3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": {
+        "Base Color": "Textures/T_0263.png",
+        "Emission Color": "Textures/T_0276.png"
+      },
+      "roughness": 0.5,
+      "metallic": 0.0
+    }
+  ],
+  "lights": [
+    {
+      "name": "Kitchen / window daylight",
+      "type": "AREA",
+      "positionBlender": [
+        2.0,
+        0.1599999964237213,
+        2.0999999046325684
+      ],
+      "color": [
+        0.699999988079071,
+        0.8299999833106995,
+        1.0
+      ],
+      "powerWatts": 150.0
+    },
+    {
+      "name": "Kitchen / warm overhead",
+      "type": "AREA",
+      "positionBlender": [
+        2.0,
+        2.0,
+        3.7200000286102295
+      ],
+      "color": [
+        1.0,
+        0.8199999928474426,
+        0.6200000047683716
+      ],
+      "powerWatts": 220.0
+    },
+    {
+      "name": "Bedroom / window daylight",
+      "type": "AREA",
+      "positionBlender": [
+        0.20000000298023224,
+        6.0,
+        2.0999999046325684
+      ],
+      "color": [
+        0.699999988079071,
+        0.8299999833106995,
+        1.0
+      ],
+      "powerWatts": 180.0
+    },
+    {
+      "name": "Corridor / south overhead",
+      "type": "AREA",
+      "positionBlender": [
+        5.0,
+        2.0,
+        3.7200000286102295
+      ],
+      "color": [
+        1.0,
+        0.7900000214576721,
+        0.550000011920929
+      ],
+      "powerWatts": 100.0
+    },
+    {
+      "name": "Corridor / south sconce glow",
+      "type": "POINT",
+      "positionBlender": [
+        5.670000076293945,
+        3.0,
+        2.869999885559082
+      ],
+      "color": [
+        1.0,
+        0.5799999833106995,
+        0.25
+      ],
+      "powerWatts": 12.0
+    },
+    {
+      "name": "Corridor / north sconce glow",
+      "type": "POINT",
+      "positionBlender": [
+        5.670000076293945,
+        6.699999809265137,
+        2.869999885559082
+      ],
+      "color": [
+        1.0,
+        0.5799999833106995,
+        0.25
+      ],
+      "powerWatts": 12.0
+    },
+    {
+      "name": "Bedroom / warm overhead",
+      "type": "AREA",
+      "positionBlender": [
+        2.0,
+        6.0,
+        3.7200000286102295
+      ],
+      "color": [
+        1.0,
+        0.800000011920929,
+        0.5699999928474426
+      ],
+      "powerWatts": 140.0
+    },
+    {
+      "name": "Corridor / north overhead",
+      "type": "AREA",
+      "positionBlender": [
+        5.0,
+        6.0,
+        3.7200000286102295
+      ],
+      "color": [
+        1.0,
+        0.7900000214576721,
+        0.550000011920929
+      ],
+      "powerWatts": 100.0
+    },
+    {
+      "name": "Bedroom / bedside glow",
+      "type": "POINT",
+      "positionBlender": [
+        2.75,
+        7.460000038146973,
+        1.0
+      ],
+      "color": [
+        1.0,
+        0.5699999928474426,
+        0.23999999463558197
+      ],
+      "powerWatts": 8.0
+    }
+  ],
+  "textures": 546,
+  "source": "house_game_interior.blend",
+  "coordinateSystem": "FBX exports Y-up, -Z forward; source metadata is Blender Z-up",
+  "playerStartBlender": [
+    5,
+    2,
+    1.7
+  ]
+}

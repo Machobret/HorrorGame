@@ -1,0 +1,7 @@
+{
+  "name": "TemporaryHouseDemo.Editor",
+  "rootNamespace": "TemporaryHouseDemo.Editor",
+  "references": ["TemporaryHouseDemo.Runtime", "Unity.Newtonsoft.Json"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": false
+}
