@@ -1,0 +1,87 @@
+{
+    "Status": "passed",
+    "Error": "",
+    "Assertions": 59,
+    "Cases": [
+        {
+            "Name": "Unarmed_Left",
+            "Yaw": -190.79977416992188,
+            "Drift": 0.0,
+            "LeftLift": 0.049256712198257449,
+            "RightLift": 0.050129733979701999,
+            "MaxWeight": 1.0,
+            "PlantSlip": 8.458952152068378e-7,
+            "Assertions": 7
+        },
+        {
+            "Name": "Unarmed_Right",
+            "Yaw": 183.59991455078126,
+            "Drift": 0.0,
+            "LeftLift": 0.04970830678939819,
+            "RightLift": 0.04893326759338379,
+            "MaxWeight": 1.0,
+            "PlantSlip": 9.409585004505061e-7,
+            "Assertions": 7
+        },
+        {
+            "Name": "MP5_Left",
+            "Yaw": -183.59976196289063,
+            "Drift": 0.0,
+            "LeftLift": 0.04928278923034668,
+            "RightLift": 0.0500284880399704,
+            "MaxWeight": 1.0,
+            "PlantSlip": 0.0003687736752908677,
+            "Assertions": 7
+        },
+        {
+            "Name": "MP5_Right",
+            "Yaw": 183.59991455078126,
+            "Drift": 0.0,
+            "LeftLift": 0.04970298707485199,
+            "RightLift": 0.049695663154125217,
+            "MaxWeight": 1.0,
+            "PlantSlip": 0.0004148086009081453,
+            "Assertions": 7
+        },
+        {
+            "Name": "MP5_Aimed_Left",
+            "Yaw": -187.19976806640626,
+            "Drift": 0.0,
+            "LeftLift": 0.04966533184051514,
+            "RightLift": 0.04999321699142456,
+            "MaxWeight": 1.0,
+            "PlantSlip": 5.511415679393394e-7,
+            "Assertions": 7
+        },
+        {
+            "Name": "MP5_Aimed_Right",
+            "Yaw": 187.19992065429688,
+            "Drift": 0.0,
+            "LeftLift": 0.049993276596069339,
+            "RightLift": 0.049665749073028567,
+            "MaxWeight": 1.0,
+            "PlantSlip": 4.786961653735489e-7,
+            "Assertions": 7
+        },
+        {
+            "Name": "1911_Aimed_Left",
+            "Yaw": -187.19976806640626,
+            "Drift": 0.0,
+            "LeftLift": 0.049835339188575748,
+            "RightLift": 0.050297483801841739,
+            "MaxWeight": 1.0,
+            "PlantSlip": 7.183534194155072e-7,
+            "Assertions": 7
+        },
+        {
+            "Name": "1911_Aimed_Right",
+            "Yaw": 183.59991455078126,
+            "Drift": 0.0,
+            "LeftLift": 0.05029676854610443,
+            "RightLift": 0.049835145473480228,
+            "MaxWeight": 1.0,
+            "PlantSlip": 7.159302413128899e-7,
+            "Assertions": 7
+        }
+    ]
+}

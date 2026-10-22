@@ -58,15 +58,15 @@ MonoBehaviour:
   AttachOnEquipped: 1
   MoveOutOfInventoryOnEquip: 0
   AnimatorOverride:
-    m_Value: {fileID: 22100000, guid: e1a009f22572bad488a37556967c332e, type: 2}
+    m_Value: {fileID: 22100000, guid: 7db7a04ee3114981a0b54f413511a54d, type: 2}
   AnimatorLayerOverrides: []
   m_OnEquipAudioClip: {fileID: 0}
   AmmoItem: {fileID: 11400000, guid: ab1002d21c9c277409217d2a1e97fe8f, type: 2}
   MaxAmmo: 5
   ShotSound: {fileID: 8300000, guid: 0da1d9a64b194a188bee6e77fbdc2741, type: 3}
   ReloadSound: {fileID: 8300000, guid: fdff1bf85e484400a4dbb960b861e231, type: 3}
-  ReloadDuration: 2.2
-  AllowMovementDuringReload: 1
+  ReloadDuration: 1.3
+  AllowMovementDuringReload: 0
   references:
     version: 2
     RefIds: []

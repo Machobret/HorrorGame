@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
   m_Name: HorrorEngineSampleContent_en
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   m_LocaleId:
     m_Code: en
   m_SharedData: {fileID: 11400000, guid: 7bb2b06d71f243b428e4ad9bf566ec1f, type: 2}
@@ -56,7 +56,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5297341206528
-    m_Localized: 9mm Ammo
+    m_Localized: 9mm Standard rounds
     m_Metadata:
       m_Items: []
   - m_Id: 5450856927232
@@ -160,11 +160,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1055936808751104
-    m_Localized: Shotgun shells
+    m_Localized: 12-gauge shells
     m_Metadata:
       m_Items: []
   - m_Id: 1056031289643008
-    m_Localized: Shells for the Remington M1100 series
+    m_Localized: Buckshot shells for the double-barrel shotgun.
     m_Metadata:
       m_Items: []
   - m_Id: 1056307685888000

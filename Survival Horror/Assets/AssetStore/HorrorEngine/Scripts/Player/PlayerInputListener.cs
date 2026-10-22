@@ -56,6 +56,7 @@ namespace HorrorEngine
         private InputActionProcessor m_ChangeAimTargetP = new InputActionProcessor();
 
         private PlayerActions m_Actions;
+        private bool m_RequireAimRelease;
 
         private void Awake()
         {
@@ -87,7 +88,9 @@ namespace HorrorEngine
 
         public void OnAiming(InputAction.CallbackContext context)
         {
-            m_AimingP.Process(context.ReadValueAsButton());
+            bool pressed = context.ReadValueAsButton();
+            m_AimingP.Process(pressed);
+            if (!pressed) m_RequireAimRelease = false;
         }
 
         public void OnAttack(InputAction.CallbackContext context)
@@ -131,8 +134,11 @@ namespace HorrorEngine
 
         public bool IsAimingHeld()
         {
-            return AllowAiming && m_AimingP.IsHeld();
+            if (!m_AimingP.IsHeld()) m_RequireAimRelease = false;
+            return AllowAiming && !m_RequireAimRelease && m_AimingP.IsHeld();
         }
+
+        public void RequireAimRelease() => m_RequireAimRelease = m_AimingP.IsHeld();
 
         public bool IsAttackDown()
         {

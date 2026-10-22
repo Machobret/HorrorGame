@@ -55,6 +55,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4301339668756675137}
+  - component: {fileID: 740020000000000010}
   - component: {fileID: -6354697795275030185}
   - component: {fileID: 7031530861863085764}
   - component: {fileID: 186782091252812242}
@@ -86,6 +87,21 @@ Transform:
   - {fileID: 5155052975771215611}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &740020000000000010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056765183083116819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eddc4485ce24170be83e049e0a2d5a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ForeEndWrist: {x: 0.85, y: 0.24, z: 0.36}
+  WristRotation: {x: -0.508819, y: 0.28842303, z: -0.6400211, w: 0.49828678}
+  GripSeatMetres: 0.005
 --- !u!114 &-6354697795275030185
 MonoBehaviour:
   m_ObjectHideFlags: 0

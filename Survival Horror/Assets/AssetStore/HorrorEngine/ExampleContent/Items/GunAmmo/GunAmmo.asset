@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: GunAmmo
   m_EditorClassIdentifier: 
   UniqueId: 1e377b8b-f525-4381-844a-1f5b1ef04a1f
-  Image: {fileID: 21300000, guid: 453c6db3d57f64a46aedef379864db80, type: 3}
+  Image: {fileID: 21300000, guid: 1485556bde7992f47a93cc22b53cc4ce, type: 3}
   ExamineModel: {fileID: 2897502841733855801, guid: ffe1d43cd45481146829449972031559, type: 3}
   Name:
     IsLocalized: 1
-    Unlocalized: 9mm Ammo
+    Unlocalized: 9mm Standard rounds
     Localized:
       m_TableReference:
         m_TableCollectionName: GUID:7bb2b06d71f243b428e4ad9bf566ec1f
@@ -41,8 +41,10 @@ MonoBehaviour:
       m_LocalVariables: []
   InventoryAction: 0
   Flags: 122
-  DropPrefab: {fileID: 0}
+  Tags: []
+  DropPrefab: {fileID: 7439549904822446118, guid: 6bfb5afde754a0341b827e914bad8c2c, type: 3}
   MaxStackSize: 0
+  m_OnUseAudioClip: {fileID: 0}
   Name_DEPRECATED: 
   Description_DEPRECATED: 
   references:

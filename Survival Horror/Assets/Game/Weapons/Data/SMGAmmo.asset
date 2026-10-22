@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc96a989ad390774cbb347903ad9f782, type: 3}
+  m_Name: SMGAmmo
+  m_EditorClassIdentifier: 
+  UniqueId: 65d7d3c8-7746-4c1c-aafa-ef0b8b698078
+  Image: {fileID: 21300000, guid: b0824ab928bf4ab4b82d69a49f507416, type: 3}
+  ExamineModel: {fileID: 181793637635069778, guid: bde355a15890f9245be56f63bb05630b, type: 3}
+  Name:
+    IsLocalized: 0
+    Unlocalized: SMG rounds
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Description:
+    IsLocalized: 0
+    Unlocalized: 9 mm standard rounds reserved for the MP5. Blue ammunition carton.
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  InventoryAction: 0
+  Flags: 122
+  Tags: []
+  DropPrefab: {fileID: 2676374484700965916, guid: 8304ee97f1da4aa4cb0a9ee1068522b9, type: 3}
+  MaxStackSize: 120
+  m_OnUseAudioClip: {fileID: 0}
+  Name_DEPRECATED: 
+  Description_DEPRECATED: 
+  references:
+    version: 2
+    RefIds: []

@@ -8,6 +8,7 @@ namespace HorrorEngine
         Vector2 GetSecondaryAxis();
         bool IsRunHeld();
         bool IsAimingHeld();
+        void RequireAimRelease();
         bool IsAttackDown();
         bool IsAttackUp();
         bool IsInteractingDown();

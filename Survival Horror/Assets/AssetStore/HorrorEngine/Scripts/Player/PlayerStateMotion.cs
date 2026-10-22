@@ -12,6 +12,7 @@ namespace HorrorEngine
         [SerializeField] PushDetector m_PushDetector;
         
 
+        private PlayerStateReload m_ReloadState;
         private IPlayerInput m_Input;
         private PlayerMovement m_Movement;
         private PlayerInteractor m_Interaction;
@@ -23,6 +24,7 @@ namespace HorrorEngine
             base.Awake();
 
             m_Input = GetComponentInParent<IPlayerInput>();
+            m_ReloadState = Actor.GetComponentInChildren<PlayerStateReload>(true);
             m_Movement = GetComponentInParent<PlayerMovement>();
             m_Interaction = GetComponentInParent<PlayerInteractor>();
         }
@@ -45,6 +47,14 @@ namespace HorrorEngine
         public override void StateUpdate()
         {
             base.StateUpdate();
+            if (!GameManager.Instance.IsPlaying) return;
+            var inventory = GameManager.Instance.Inventory;
+            if (m_ReloadState && (inventory.HasPendingEquippedWeaponReload() ||
+                (m_Input.IsReloadDown() && inventory.CanReloadEquippedWeapon())))
+            {
+                SetState(m_ReloadState);
+                return;
+            }
 
             if (m_Interaction.IsInteracting)
             {

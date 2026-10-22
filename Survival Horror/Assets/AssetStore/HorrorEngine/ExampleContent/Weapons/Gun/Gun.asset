@@ -64,7 +64,8 @@ MonoBehaviour:
   MaxAmmo: 15
   ShotSound: {fileID: 8300000, guid: 290d5d761164f0d4c8519eb4afb523c5, type: 3}
   ReloadSound: {fileID: 8300000, guid: ef9974c2de99278489f3dd05ff269121, type: 3}
-  ReloadDuration: 1
+  ReloadDuration: 1.5
+  AllowMovementDuringReload: 1
   references:
     version: 2
     RefIds: []

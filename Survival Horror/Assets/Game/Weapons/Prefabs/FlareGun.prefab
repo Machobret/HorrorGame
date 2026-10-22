@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 1899601656769246773}
   - component: {fileID: 740004000000000001}
   - component: {fileID: 740010000000000001}
+  - component: {fileID: 740019000000000001}
   m_Layer: 0
   m_Name: FlareGun
   m_TagString: Untagged
@@ -355,6 +356,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Volume: 1.25
+--- !u!114 &740010000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4175334077132669004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69ce7fdeb4b84d4fb469f37c49985bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SupportOffset: {x: 0.06, y: 0.005, z: 0}
+  BlendSpeed: 10
+  SupportRotation: {x: 0, y: 0, z: 0}
+--- !u!114 &740019000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4175334077132669004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9b2448a85d24bf883c33372ec3e180b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BreakAngle: 55
+  ReloadHandPosition: {x: 0.13, y: 1.24, z: 0.24}
+  RightElbowHint: {x: 0.26, y: 0.96, z: 0.025}
+  LeftElbowHint: {x: -0.26, y: 0.96, z: 0.025}
 --- !u!1 &7099533979800722541
 GameObject:
   m_ObjectHideFlags: 0
@@ -463,18 +495,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5ce64bad076f73c4680c85e2c0508b02, type: 3}
   m_PrefabInstance: {fileID: 1246909330135039352}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &740010000000000001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4175334077132669004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69ce7fdeb4b84d4fb469f37c49985bae, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
-  SupportOffset: {x: 0.06, y: 0.005, z: 0}
-  BlendSpeed: 10
-  SupportRotation: {x: 0, y: 0, z: 0}

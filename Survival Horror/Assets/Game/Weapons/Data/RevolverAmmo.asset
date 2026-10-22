@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RevolverAmmo
   m_EditorClassIdentifier: 
   UniqueId: 2ddf3b1c-3e3f-4b35-86cc-33e5400f3daa
-  Image: {fileID: 21300000, guid: bba498e214d54576a95a33542a244e5f, type: 3}
+  Image: {fileID: 21300000, guid: 17a1c4fae77b0e7488f9803dfd9de664, type: 3}
   ExamineModel: {fileID: 8387337435026323378, guid: bd98a6a134ccc9142b70e12a8ee64af1, type: 3}
   Name:
     IsLocalized: 0
@@ -42,7 +42,7 @@ MonoBehaviour:
   InventoryAction: 0
   Flags: 122
   Tags: []
-  DropPrefab: {fileID: 0}
+  DropPrefab: {fileID: 7549048211491773760, guid: 3ca773b70e634d14589ecf783ec4d6f9, type: 3}
   MaxStackSize: 18
   m_OnUseAudioClip: {fileID: 0}
   Name_DEPRECATED: 

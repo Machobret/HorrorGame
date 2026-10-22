@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: ShotgunAmmo
   m_EditorClassIdentifier: 
   UniqueId: 9251e87c-9982-420a-bed6-5cbc92b7c780
-  Image: {fileID: 21300000, guid: 06b6defefdbe0f64aa99298181ebdada, type: 3}
+  Image: {fileID: 21300000, guid: 9a96e9283516f5d468f5a9f96459cb49, type: 3}
   ExamineModel: {fileID: 2897502841733855801, guid: e298bc6c35c3a9a4ab8a9ace04d6a444, type: 3}
   Name:
     IsLocalized: 1
-    Unlocalized: Shotgun shells
+    Unlocalized: 12-gauge shells
     Localized:
       m_TableReference:
         m_TableCollectionName: GUID:7bb2b06d71f243b428e4ad9bf566ec1f
@@ -29,7 +29,7 @@ MonoBehaviour:
       m_LocalVariables: []
   Description:
     IsLocalized: 1
-    Unlocalized: For the Remington M1100 series
+    Unlocalized: Buckshot shells for the double-barrel shotgun.
     Localized:
       m_TableReference:
         m_TableCollectionName: GUID:7bb2b06d71f243b428e4ad9bf566ec1f
@@ -41,8 +41,10 @@ MonoBehaviour:
       m_LocalVariables: []
   InventoryAction: 0
   Flags: 122
-  DropPrefab: {fileID: 0}
+  Tags: []
+  DropPrefab: {fileID: 9089956960193202422, guid: d08d6bd9d738ab3409500f9ba6edb7ae, type: 3}
   MaxStackSize: 0
+  m_OnUseAudioClip: {fileID: 0}
   Name_DEPRECATED: 
   Description_DEPRECATED: 
   references:

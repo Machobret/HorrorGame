@@ -135,6 +135,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1963059427852544310}
+  - component: {fileID: 740020000000000010}
   - component: {fileID: 234348231510581750}
   - component: {fileID: 9131132139964822261}
   - component: {fileID: 7536200229231286427}
@@ -169,6 +170,21 @@ Transform:
   - {fileID: 7336169178829380707}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &740020000000000010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8799184915728116030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eddc4485ce24170be83e049e0a2d5a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ForeEndWrist: {x: -0.075, y: 0.04, z: 0.19}
+  WristRotation: {x: 0.09277141, y: -0.14839445, z: -0.8123529, w: 0.55628824}
+  GripSeatMetres: 0.005
 --- !u!114 &234348231510581750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,7 +234,7 @@ MonoBehaviour:
   m_AttackOriginSocket: {fileID: 11400000, guid: d098dc4e8344d624c9a27847799359a5, type: 2}
   m_NoAmmoAttackDuration: 0.5
   m_MuzzleInstantiator: {fileID: 917474846257078030}
-  m_ShellKickInstantiator: {fileID: 555687133886461331}
+  m_ShellKickInstantiator: {fileID: 0}
   m_ShellKickDelay: 0.75
   m_CastRadius: 0.04
   m_MaxRange: 40
@@ -460,7 +476,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HorrorGame.Weapons.RifleBoltVisual
   Bolt: {fileID: 1469138558060404950}
-  Pull: {x: 0, y: 0, z: -0.055}
+  Pull: {x: 0, y: 0, z: -0.085}
+  LiftAngle: 60
+  CycleDuration: 1.4
+  CasingMaterial: {fileID: 2100000, guid: 803d46980d5f4225b717e5423d99c16b, type: 2}
 --- !u!114 &740004000000000001
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -76,8 +76,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3376cc107ccc50c42a19fd847b3acec0, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   Handle: {fileID: 11400000, guid: d098dc4e8344d624c9a27847799359a5, type: 2}
   m_GizmoSize: 0.1
 --- !u!1 &7221481570162075159
@@ -122,8 +122,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3376cc107ccc50c42a19fd847b3acec0, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   Handle: {fileID: 11400000, guid: 60d0f83cfd6675841b540421d462a62a, type: 2}
   m_GizmoSize: 0.1
 --- !u!1 &7483902960835580289
@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 432557780899203236}
   - component: {fileID: 740004000000000001}
   - component: {fileID: 740010000000000001}
+  - component: {fileID: 740019000000000001}
   m_Layer: 0
   m_Name: Revolver
   m_TagString: Untagged
@@ -178,8 +179,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5565186ac0ed0ff439f4a30fe070c16f, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   WeaponData: {fileID: 11400000, guid: 6139a2b5af749924393c58f789c1a418, type: 2}
   Visuals: {fileID: 6410455995093135697}
 --- !u!114 &4365614430130878160
@@ -192,8 +193,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3cab56a05b016fb44a03849deb3d6420, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7698203391934488997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,8 +205,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c11f7c914f5f2a459e01f752d7704aa, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_Attack: {fileID: 11400000, guid: 2648f56c190208b4185964fd32e5499e, type: 2}
   m_ShowDebug: 0
   OnAttackStart:
@@ -338,8 +339,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c505e6b38dd76641967185c92bbc153, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   Prefab: {fileID: 2929726956144024442, guid: c3fb96d686b8ec3459f33993bec943ae, type: 3}
   Settings:
     Parent: {fileID: 0}
@@ -360,8 +361,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 481abaa30e72ebd46a480d1e482cc146, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   Attack: {fileID: 7698203391934488997}
   CountConsumption: 1
   AllowMovementDuringAttack: 0
@@ -405,8 +406,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea8a6691b95d84043afe41e6a949be5e, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   IsInPool: 0
   Owner: {fileID: 0}
 --- !u!114 &432557780899203236
@@ -419,7 +420,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a65f022c3482f4c419482c2723f9c6b3, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.AttackRate
   CanBeHeld: 0
   MaxAttackCount: 1
@@ -434,9 +435,42 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bcdf3db86dc843c78c30bbfb1886d668, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   Volume: 1
+--- !u!114 &740010000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7483902960835580289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69ce7fdeb4b84d4fb469f37c49985bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SupportOffset: {x: 0.06, y: 0.005, z: 0}
+  BlendSpeed: 10
+  SupportRotation: {x: 0, y: 0, z: 0}
+--- !u!114 &740019000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7483902960835580289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f72ecf9ae1e74d5590c34a2562b1e152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Cylinder: {fileID: 0}
+  BrassMaterial: {fileID: 2100000, guid: 803d46980d5f4225b717e5423d99c16b, type: 2}
+  SwingAngle: 82
+  ReloadHandPosition: {x: 0.13, y: 1.22, z: 0.22}
+  RightElbowHint: {x: 0.26, y: 0.94, z: 0.025}
+  LeftElbowHint: {x: -0.26, y: 0.94, z: 0.025}
 --- !u!1001 &636224405502996456
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -499,18 +533,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 396a7cbd56b5d6f499000dac0eb5c6c3, type: 3}
   m_PrefabInstance: {fileID: 636224405502996456}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &740010000000000001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7483902960835580289}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69ce7fdeb4b84d4fb469f37c49985bae, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
-  SupportOffset: {x: 0.06, y: 0.005, z: 0}
-  BlendSpeed: 10
-  SupportRotation: {x: 0, y: 0, z: 0}

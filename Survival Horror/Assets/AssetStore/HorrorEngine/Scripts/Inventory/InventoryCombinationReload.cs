@@ -19,7 +19,7 @@ namespace HorrorEngine
                 ReloadableWeaponData reloadable = reloadableEntry.Item as ReloadableWeaponData;
                 if (reloadable.AmmoItem == ammoEntry.Item)
                 {
-                    return GameManager.Instance.Inventory.ReloadWeapon(reloadableEntry, ammoEntry);
+                    return GameManager.Instance.Inventory.RequestWeaponReload(reloadableEntry, ammoEntry);
                 }
             }
 

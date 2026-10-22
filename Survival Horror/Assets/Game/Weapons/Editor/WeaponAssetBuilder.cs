@@ -40,7 +40,7 @@ namespace HorrorGame.Weapons.Editor
             }
             var ammo = Copy(Load<AmmoData>(Examples + "Items/GunAmmo/GunAmmo.asset"), Root + "Data/RevolverAmmo.asset");
             ConfigureItem(ammo, ".357 Magnum rounds", "Rare ammunition for the six-shot revolver.", "RevolverAmmo"); ammo.MaxStackSize = 18;
-            var gun = BuildWeapon("Revolver", "Gun", ammo, 6, 1.1f, 3f, 4f);
+            var gun = BuildWeapon("Revolver", "Gun", ammo, 6, 1.1f, 2.35f, 4f);
             var pickups = new[] { Pickup(gun, "Revolver", 1, 6), Pickup(ammo, "RevolverAmmo", 3, 0) };
             string rackPath = Root + "Prefabs/Weapon_TestPickups.prefab";
             var rack = PrefabUtility.LoadPrefabContents(rackPath);
@@ -102,11 +102,11 @@ namespace HorrorGame.Weapons.Editor
             ConfigureModel("HuntingRifle"); ConfigureModel("FlareGun"); ConfigureModel("FlareAmmo"); ConfigureModel("RifleAmmo");
             var ammoTemplate = Load<AmmoData>(Examples + "Items/GunAmmo/GunAmmo.asset");
             var rifleAmmo = Copy(ammoTemplate, Root + "Data/HuntingRifleAmmo.asset");
-            ConfigureItem(rifleAmmo, "Rifle rounds", "Rounds for the hunting rifle.", "RifleAmmo"); rifleAmmo.MaxStackSize = 30;
+            ConfigureItem(rifleAmmo, ".300 Win Mag rounds", "Bottleneck rifle cartridges for the hunting rifle.", "RifleAmmo"); rifleAmmo.MaxStackSize = 30;
             var flareAmmo = Copy(ammoTemplate, Root + "Data/FlareAmmo.asset");
-            ConfigureItem(flareAmmo, "Flare rounds", "Signal flares for the flare gun.", "FlareAmmo"); flareAmmo.MaxStackSize = 10;
-            var rifle = BuildWeapon("HuntingRifle", "Shotgun", rifleAmmo, 5, 1.4f, 2.2f, 2);
-            var flare = BuildWeapon("FlareGun", "Gun", flareAmmo, 1, .8f, 1.8f, .25f);
+            ConfigureItem(flareAmmo, "Red signal flares", "Red aerial signal cartridges for the flare gun.", "FlareAmmo"); flareAmmo.MaxStackSize = 10;
+            var rifle = BuildWeapon("HuntingRifle", "Shotgun", rifleAmmo, 5, 1.4f, 1.3f, 2);
+            var flare = BuildWeapon("FlareGun", "Gun", flareAmmo, 1, .8f, 2.3f, .25f);
             var riflePickup = Pickup(rifle, "HuntingRifle", 1, 5);
             var flarePickup = Pickup(flare, "FlareGun", 1, 1);
             var roundsPickup = Pickup(rifleAmmo, "RifleAmmo", 5, 0);
@@ -171,6 +171,15 @@ namespace HorrorGame.Weapons.Editor
             item.Description = new LocalizableText { IsLocalized = false, Unlocalized = description };
             item.Name_DEPRECATED = item.Description_DEPRECATED = "";
             item.Image = Load<Sprite>(Root + "Models/" + model + "/" + model + (model == "RevolverAmmo" ? "_PickupIcon.png" : "_Icon.png"));
+            if (item is AmmoData)
+            {
+                string ammoKey = model == "RifleAmmo" ? "HuntingRifleAmmo" : model;
+                string revisedPath = ammoKey == "FlareAmmo" ? Root + "Models/FlareAmmo/FlareAmmo_Icon.png" : Root + "Models/AmmoSides/" + ammoKey + "_PickupIcon.png";
+                var revisedIcon = AssetDatabase.LoadAssetAtPath<Sprite>(revisedPath);
+                if (revisedIcon) item.Image = revisedIcon;
+                var revisedDrop = AssetDatabase.LoadAssetAtPath<GameObject>(Root + "Prefabs/" + ammoKey + "_Drop.prefab");
+                if (revisedDrop) item.DropPrefab = revisedDrop.GetComponent<SpawnableSavable>();
+            }
             item.ExamineModel = Examination(item.name, model);
             EditorUtility.SetDirty(item);
         }
@@ -179,7 +188,8 @@ namespace HorrorGame.Weapons.Editor
             var go = (GameObject)PrefabUtility.InstantiatePrefab(Load<GameObject>(Root + "Models/" + name + "/" + name + ".fbx"), parent);
             // FBX import can put its centimetre-to-metre correction on the
             // root transform (100 for the ammo models). Retain that scale.
-            go.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity); return go;
+            go.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            if (!AmmoPackagingBuilder.ApplyToModel(go, name)) AmmoBoxSideTextureBuilder.ApplyToModel(go, name); return go;
         }
         static Bounds BoundsOf(GameObject go)
         {
@@ -214,7 +224,7 @@ namespace HorrorGame.Weapons.Editor
             var data = Copy(Load<ReloadableWeaponData>(Examples + "Weapons/" + template + "/" + template + ".asset"), Root + "Data/" + name + ".asset");
             ConfigureItem(data, name == "Revolver" ? "Magnum revolver" : name == "HuntingRifle" ? "Hunting rifle" : "Flare gun", name == "Revolver" ? "A powerful six-shot .357 revolver. Fires on a trigger press." : name == "HuntingRifle" ? "A slow, powerful hunting rifle. Five-round magazine." : "A single-shot signal gun. Flares illuminate surfaces and burn enemies on contact.", name);
             data.MaxAmmo = magazine; data.AmmoItem = ammo; data.ReloadDuration = reload;
-            data.AllowMovementDuringReload = name == "FlareGun" || name == "HuntingRifle";
+            data.AllowMovementDuringReload = name != "HuntingRifle";
             var root = (GameObject)PrefabUtility.InstantiatePrefab(Load<GameObject>(Examples + "Weapons/" + template + "/" + template + ".prefab"));
             PrefabUtility.UnpackPrefabInstance(root, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction); root.name = name;
             var weapon = root.GetComponent<Weapon>(); weapon.WeaponData = data;
@@ -241,7 +251,10 @@ namespace HorrorGame.Weapons.Editor
             {
                 Set(shot,"m_Attack",type); Set(shot,"m_CastRadius",.04f); Set(shot,"m_MaxRange",40f); Set(shot,"m_Width",0f); Set(shot,"m_ForwardOffset",0f); Set(shot,"m_PenetrationHits",1);
                 Set(shot,"m_VerticalityFactor",1f);
+                Set(shot,"m_ShellKickInstantiator",null);
+                Set(data,"AnimatorOverride.m_Value",Load<AnimatorOverrideController>(Root + "Animation/RifleOverride.overrideController"));
                 var visual = root.AddComponent<RifleBoltVisual>(); visual.Bolt = model.GetComponentsInChildren<Transform>().First(t => t.name == "BARifleBolt");
+                visual.CasingMaterial = Load<Material>(Root + "Materials/RifleSpentBrass.mat");
             }
             else if (name == "Revolver")
             {
@@ -269,10 +282,28 @@ namespace HorrorGame.Weapons.Editor
             else if (name == "Revolver") data.CharacterAttachment.Rotation = new Vector3(-1.45f, -90f, -87f);
             if (name == "FlareGun" || name == "Revolver")
                 if (!root.GetComponent<HandgunSupportPose>()) root.AddComponent<HandgunSupportPose>();
+            if (name == "HuntingRifle")
+            {
+                var support = root.GetComponent<LongGunSupportPose>();
+                if (!support) support = root.AddComponent<LongGunSupportPose>();
+                support.ForeEndWrist = new Vector3(-.075f, .040f, .190f);
+                support.WristRotation = new Quaternion(.09277141f, -.14839445f, -.81235290f, .55628824f);
+                support.GripSeatMetres = .005f;
+            }
             var shotAudio = root.GetComponent<WeaponShotAudio>();
             if (!shotAudio) shotAudio = root.AddComponent<WeaponShotAudio>();
             shotAudio.Volume = name == "FlareGun" ? 1.25f : 1;
             root.GetComponent<AudioSource>().spatialBlend = 0;
+            if (name == "FlareGun")
+            {
+                if (!root.GetComponent<FlareGunReloadVisual>()) root.AddComponent<FlareGunReloadVisual>();
+                Set(data,"AnimatorOverride.m_Value",Load<AnimatorOverrideController>(Root + "Animation/FlareGunOverride.overrideController"));
+            }
+            else if (name == "Revolver")
+            {
+                if (!root.GetComponent<RevolverReloadVisual>()) root.AddComponent<RevolverReloadVisual>();
+                Set(data,"AnimatorOverride.m_Value",Load<AnimatorOverrideController>(Root + "Animation/RevolverOverride.overrideController"));
+            }
             data.EquipPrefab = PrefabUtility.SaveAsPrefabAsset(root, Root + "Prefabs/" + name + ".prefab");
             Object.DestroyImmediate(root); EditorUtility.SetDirty(data); return data;
         }

@@ -1,0 +1,55 @@
+{
+  "status": "passed",
+  "unityVersion": "6000.3.11f1",
+  "isolatedProject": "C:\\Users\\Mangis\\AppData\\Local\\Temp\\FlareSceneFinalValidation",
+  "copiedAssetsVerified": 174,
+  "tests": [
+    {
+      "test": "MP5IntegrationValidation",
+      "assertions": 36,
+      "result": "passed",
+      "coverage": [
+        "automatic fire",
+        "trigger release",
+        "empty trigger manual-only reload",
+        "walking reload with animated feet",
+        "sprint blocked",
+        "magazine/handle mechanism",
+        "held aim return",
+        "inventory-close reload"
+      ]
+    },
+    {
+      "test": "MP5AnimationValidation",
+      "result": "passed",
+      "cases": [
+        "aim held",
+        "aim released during reload",
+        "lowered reload"
+      ],
+      "framesPerSecond": 60
+    },
+    {
+      "test": "AmmoPackagingRuntimeValidation",
+      "assertions": 129,
+      "result": "passed",
+      "ammoTypes": 6,
+      "coverage": [
+        "actual drop/pickup",
+        "unique runtime IDs",
+        "DB lookup",
+        "tracked spawn",
+        "in-memory save-data roundtrip"
+      ]
+    },
+    {
+      "test": "native icon and carton render",
+      "result": "passed",
+      "preview": "Ammo_Packaging_Overview.jpg"
+    }
+  ],
+  "limitations": [
+    "MP5 audio is an authored approximation from existing project sounds; no listening test was available.",
+    "Animation is authored IK and adapted template recoil, not motion capture."
+  ]
+}

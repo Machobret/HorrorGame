@@ -1,0 +1,502 @@
+{
+  "Gun/equip": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 0.02723948548039549,
+      "localWristDegreesPerFrame": 0.014516983335454552
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 0.5545185888296771,
+      "localWristDegreesPerFrame": 4.975952143916051
+    }
+  },
+  "Gun/aim": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 10.894148794386606,
+      "localWristDegreesPerFrame": 22.50949912839123
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 10.831459566644607,
+      "localWristDegreesPerFrame": 15.101582530398597
+    }
+  },
+  "Gun/lower": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 94.05070086943016,
+      "localWristDegreesPerFrame": 93.33580953728581
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 13.820805565766596,
+      "localWristDegreesPerFrame": 15.621697795097473
+    }
+  },
+  "Gun/aim-fire": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 9.445591121744476,
+      "localWristDegreesPerFrame": 22.471833322937872
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 10.135079761808683,
+      "localWristDegreesPerFrame": 18.516307944702046
+    }
+  },
+  "Gun/aim-release-after-fire": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 93.6394316306627,
+      "localWristDegreesPerFrame": 93.08457317726335
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 13.664759227343277,
+      "localWristDegreesPerFrame": 15.63696474829395
+    }
+  },
+  "Gun/reload-lowered": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 10.995279907243386,
+      "localWristDegreesPerFrame": 22.549777554293417
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 10.995270893278754,
+      "localWristDegreesPerFrame": 22.54979699852144
+    }
+  },
+  "Gun/reload-aimed-held": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 94.03196810515776,
+      "localWristDegreesPerFrame": 93.32820816263889
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 12.194730453470006,
+      "localWristDegreesPerFrame": 18.52845256900632
+    }
+  },
+  "Gun/reload-aimed-release": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 93.99412087736656,
+      "localWristDegreesPerFrame": 93.3103569727125
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 12.072838191719384,
+      "localWristDegreesPerFrame": 13.904569197053059
+    }
+  },
+  "Gun/walk": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 5.462482893519453,
+      "localWristDegreesPerFrame": 3.0949351604553765
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 5.4625160563916975,
+      "localWristDegreesPerFrame": 3.0949351604553765
+    }
+  },
+  "Gun/stop": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 59.65189099893438,
+      "localWristDegreesPerFrame": 28.506724303193526
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 10.553856985425439,
+      "localWristDegreesPerFrame": 21.564156524853786
+    }
+  },
+  "Shotgun/equip": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 8.22684870432086,
+      "localWristDegreesPerFrame": 13.437651305438013
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 10.774836841721415,
+      "localWristDegreesPerFrame": 17.214136842778732
+    }
+  },
+  "Shotgun/aim": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 7.342270320868686,
+      "localWristDegreesPerFrame": 7.4326597083253745
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 7.349029709866454,
+      "localWristDegreesPerFrame": 7.438784022715378
+    }
+  },
+  "Shotgun/lower": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 4.566306153804373,
+      "localWristDegreesPerFrame": 5.624172849816834
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 4.566306153804373,
+      "localWristDegreesPerFrame": 5.624172849816834
+    }
+  },
+  "Shotgun/aim-fire": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 4.516538917359027,
+      "localWristDegreesPerFrame": 5.582177437626967
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 4.516552788354227,
+      "localWristDegreesPerFrame": 5.5824492462507935
+    }
+  },
+  "Shotgun/aim-release-after-fire": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 4.5964900458523195,
+      "localWristDegreesPerFrame": 5.70336915904947
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 4.5964812499958905,
+      "localWristDegreesPerFrame": 5.70336915904947
+    }
+  },
+  "Shotgun/reload-lowered": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 17.80334278938546,
+      "localWristDegreesPerFrame": 13.369941076887068
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 17.80334278938546,
+      "localWristDegreesPerFrame": 15.488824709461461
+    }
+  },
+  "Shotgun/reload-aimed-held": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 17.03527059589259,
+      "localWristDegreesPerFrame": 12.569145744713508
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 16.28142366546304,
+      "localWristDegreesPerFrame": 14.303763745506947
+    }
+  },
+  "Shotgun/reload-aimed-release": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 17.233540830300154,
+      "localWristDegreesPerFrame": 12.64420558696981
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 16.878820377913325,
+      "localWristDegreesPerFrame": 14.802499821122353
+    }
+  },
+  "Shotgun/walk": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 0.31683910735384313,
+      "localWristDegreesPerFrame": 1.785706767724369
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 0.31683910735384313,
+      "localWristDegreesPerFrame": 1.785706767724369
+    }
+  },
+  "Shotgun/stop": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 5.036639704778979,
+      "localWristDegreesPerFrame": 20.644026206031768
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 5.036639704778979,
+      "localWristDegreesPerFrame": 20.644026206031768
+    }
+  },
+  "HuntingRifle/equip": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 8.222865628833095,
+      "localWristDegreesPerFrame": 13.48006656386647
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 6.519582740528754,
+      "localWristDegreesPerFrame": 10.21949796446018
+    }
+  },
+  "HuntingRifle/aim": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 7.342142298541836,
+      "localWristDegreesPerFrame": 7.42736807913833
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 7.348922219884671,
+      "localWristDegreesPerFrame": 7.434070365095751
+    }
+  },
+  "HuntingRifle/lower": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 4.567780056005942,
+      "localWristDegreesPerFrame": 5.650237600389946
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 4.567780056005942,
+      "localWristDegreesPerFrame": 5.650237600389946
+    }
+  },
+  "HuntingRifle/aim-fire": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 7.071219653270428,
+      "localWristDegreesPerFrame": 8.031054264339106
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 7.071219653270428,
+      "localWristDegreesPerFrame": 8.031054264339106
+    }
+  },
+  "HuntingRifle/aim-release-after-fire": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 4.594894041990901,
+      "localWristDegreesPerFrame": 5.705120620638957
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 4.594894041990901,
+      "localWristDegreesPerFrame": 5.705120620638957
+    }
+  },
+  "HuntingRifle/reload-lowered": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 31.94468893404423,
+      "localWristDegreesPerFrame": 16.484419775326046
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 20.689358259967246,
+      "localWristDegreesPerFrame": 17.69939178663967
+    }
+  },
+  "HuntingRifle/reload-aimed-held": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 15.829147514506642,
+      "localWristDegreesPerFrame": 13.445269791429187
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 18.558805015701928,
+      "localWristDegreesPerFrame": 25.27460795114107
+    }
+  },
+  "HuntingRifle/reload-aimed-release": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 15.829147514506642,
+      "localWristDegreesPerFrame": 13.445269791429187
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 18.558805015701928,
+      "localWristDegreesPerFrame": 25.27460795114107
+    }
+  },
+  "HuntingRifle/walk": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 0.3134953827825801,
+      "localWristDegreesPerFrame": 1.7687609132099413
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 0.31353357081707856,
+      "localWristDegreesPerFrame": 1.7688147366926161
+    }
+  },
+  "HuntingRifle/stop": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 5.062850126707172,
+      "localWristDegreesPerFrame": 20.305266903940183
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 5.062850126707172,
+      "localWristDegreesPerFrame": 20.305266903940183
+    }
+  },
+  "Revolver/equip": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 0.02723948548039549,
+      "localWristDegreesPerFrame": 0.014516983335454552
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 10.268044340193486,
+      "localWristDegreesPerFrame": 14.259709009625725
+    }
+  },
+  "Revolver/aim": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 10.894310807398643,
+      "localWristDegreesPerFrame": 22.509386854004717
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 10.831541266158233,
+      "localWristDegreesPerFrame": 15.101510301751242
+    }
+  },
+  "Revolver/lower": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 94.05070086943016,
+      "localWristDegreesPerFrame": 93.33580953728581
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 13.820945666518995,
+      "localWristDegreesPerFrame": 15.62167083141379
+    }
+  },
+  "Revolver/aim-fire": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 9.444921152447144,
+      "localWristDegreesPerFrame": 22.47535332574253
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 10.132455639578874,
+      "localWristDegreesPerFrame": 18.51389463301774
+    }
+  },
+  "Revolver/aim-release-after-fire": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 93.37967080538196,
+      "localWristDegreesPerFrame": 92.72267529319387
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 13.642426243360916,
+      "localWristDegreesPerFrame": 15.534746101740339
+    }
+  },
+  "Revolver/reload-lowered": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 5.98595083099866,
+      "localWristDegreesPerFrame": 8.887573901687881
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 5.986390189257086,
+      "localWristDegreesPerFrame": 8.887522985380347
+    }
+  },
+  "Revolver/reload-aimed-held": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 94.03196810515776,
+      "localWristDegreesPerFrame": 93.32817496812714
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 10.923107145862703,
+      "localWristDegreesPerFrame": 18.485144595261552
+    }
+  },
+  "Revolver/reload-aimed-release": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 93.99412087736656,
+      "localWristDegreesPerFrame": 93.31033799358366
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 10.753096049706086,
+      "localWristDegreesPerFrame": 12.442426911388564
+    }
+  },
+  "Revolver/walk": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 5.457149692699982,
+      "localWristDegreesPerFrame": 3.0928967619676166
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 5.457149394717581,
+      "localWristDegreesPerFrame": 3.0928967619676166
+    }
+  },
+  "Revolver/stop": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 59.83397489525458,
+      "localWristDegreesPerFrame": 28.29967057042906
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 10.58545359053941,
+      "localWristDegreesPerFrame": 21.74607998968866
+    }
+  },
+  "FlareGun/equip": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 0.02723948548039549,
+      "localWristDegreesPerFrame": 0.014516983335454552
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 0.6146767719227186,
+      "localWristDegreesPerFrame": 4.9553072757913625
+    }
+  },
+  "FlareGun/aim": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 10.894310807398643,
+      "localWristDegreesPerFrame": 22.509386854004717
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 10.83145622369709,
+      "localWristDegreesPerFrame": 15.10158108441515
+    }
+  },
+  "FlareGun/lower": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 94.05070086943016,
+      "localWristDegreesPerFrame": 93.33580953728581
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 13.820945666518995,
+      "localWristDegreesPerFrame": 15.62167083141379
+    }
+  },
+  "FlareGun/aim-fire": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 9.445591121744476,
+      "localWristDegreesPerFrame": 22.4718162766095
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 10.134960483440851,
+      "localWristDegreesPerFrame": 18.51619593292828
+    }
+  },
+  "FlareGun/aim-release-after-fire": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 93.74378690659447,
+      "localWristDegreesPerFrame": 93.08762413628047
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 13.678770115272792,
+      "localWristDegreesPerFrame": 15.645078545944619
+    }
+  },
+  "FlareGun/reload-lowered": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 6.067411936722731,
+      "localWristDegreesPerFrame": 42.88587256471238
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 6.069823934504109,
+      "localWristDegreesPerFrame": 8.996775374937817
+    }
+  },
+  "FlareGun/reload-aimed-held": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 94.03196810515776,
+      "localWristDegreesPerFrame": 93.32817496812714
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 10.419692497211749,
+      "localWristDegreesPerFrame": 18.4976470443878
+    }
+  },
+  "FlareGun/reload-aimed-release": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 93.99412087736656,
+      "localWristDegreesPerFrame": 93.31033799358366
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 10.279596902588375,
+      "localWristDegreesPerFrame": 11.483767690879963
+    }
+  },
+  "FlareGun/walk": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 5.457149692699982,
+      "localWristDegreesPerFrame": 3.0928967619676166
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 5.457149394717581,
+      "localWristDegreesPerFrame": 3.0928967619676166
+    }
+  },
+  "FlareGun/stop": {
+    "baseline": {
+      "worldWristDegreesPerFrame": 59.7455874431215,
+      "localWristDegreesPerFrame": 28.40370800696646
+    },
+    "final": {
+      "worldWristDegreesPerFrame": 10.569515517814006,
+      "localWristDegreesPerFrame": 21.64780436267856
+    }
+  }
+}

@@ -18,6 +18,8 @@ namespace HorrorEngine
         [SerializeField] string m_Turn180;
         [SerializeField] string m_ChangeAimTarget;
 
+        private bool m_RequireAimRelease;
+
         private void Awake()
         {
             MessageBuffer<GameUnpausedMessage>.Subscribe(OnGameUnpaused);
@@ -36,10 +38,14 @@ namespace HorrorEngine
         {
             return new Vector2(Input.GetAxis(m_XSecondaryAxis), Input.GetAxis(m_YSecondaryAxis));
         }
+        private bool RawAimHeld() => Input.GetAxis(m_Aiming) > k_AxisActionThreshold || Input.GetButton(m_Aiming);
+        private void Update() { if (!RawAimHeld()) m_RequireAimRelease = false; }
         public bool IsAimingHeld()
         {
-            return Input.GetAxis(m_Aiming) > k_AxisActionThreshold || Input.GetButton(m_Aiming);
+            if (!RawAimHeld()) m_RequireAimRelease = false;
+            return !m_RequireAimRelease && RawAimHeld();
         }
+        public void RequireAimRelease() => m_RequireAimRelease = RawAimHeld();
 
         public bool IsAttackDown()
         {

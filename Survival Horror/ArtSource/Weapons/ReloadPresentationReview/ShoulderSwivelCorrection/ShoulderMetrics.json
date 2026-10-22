@@ -1,0 +1,20 @@
+{
+  "Gun": {
+    "pocketTime": 0.45,
+    "pocketElbowAngleDegrees": 97.70394322145789,
+    "shoulderLocalChangeFromIdleDegrees": 11.547994718278366,
+    "maxElbowAngleDuringPocketWindow": 101.9062143788018
+  },
+  "Shotgun": {
+    "pocketTime": 0.23333,
+    "pocketElbowAngleDegrees": 96.8794206116522,
+    "shoulderLocalChangeFromIdleDegrees": 8.16659980177672,
+    "maxElbowAngleDuringPocketWindow": 114.34380490710411
+  },
+  "HuntingRifle": {
+    "pocketTime": 0.21667,
+    "pocketElbowAngleDegrees": 89.9157042400282,
+    "shoulderLocalChangeFromIdleDegrees": 13.677529558741385,
+    "maxElbowAngleDuringPocketWindow": 110.73084167856123
+  }
+}

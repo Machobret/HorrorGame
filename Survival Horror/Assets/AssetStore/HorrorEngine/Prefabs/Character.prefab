@@ -1295,8 +1295,6 @@ MonoBehaviour:
   m_ExitState: {fileID: 4703174357432840993}
   m_AimingState: {fileID: 0}
   m_ReloadState: {fileID: 0}
-  m_AutoReloadOnAttackStart: 0
-  m_AutoReloadOnAttackEnd: 0
   m_MovementConstrains: 1
   m_Item: {fileID: 11400000, guid: dc55256a7c75c294cb36173590119c64, type: 2}
   m_Slot: 1
@@ -1757,8 +1755,6 @@ MonoBehaviour:
   m_ExitState: {fileID: 5304261676844326076}
   m_AimingState: {fileID: 5304261676844326076}
   m_ReloadState: {fileID: 6474223013066312300}
-  m_AutoReloadOnAttackStart: 1
-  m_AutoReloadOnAttackEnd: 1
   m_MovementConstrains: 1
 --- !u!1 &5788774830397416259
 GameObject:

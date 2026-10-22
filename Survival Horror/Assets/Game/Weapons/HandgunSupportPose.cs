@@ -35,9 +35,12 @@ namespace HorrorGame.Weapons
         {
             if (!upper || !lower || !hand || !firingHand || !states) return;
             bool aiming = states.m_CurrentState is PlayerStateAiming || states.m_CurrentState is PlayerStateAttack;
-            // Reloads, hurt and other actions retain their authored arm animation.
-            if (!aiming) { weight = 0; return; }
-            weight = Mathf.MoveTowards(weight, 1, Time.deltaTime * BlendSpeed);
+            var reload = states.m_CurrentState as PlayerStateReload;
+            float returnWeight = reload ? reload.AimReturnBlend : 0;
+            // Start the aiming support pose under the fading reload IK so the
+            // state transition does not abruptly introduce a new elbow solution.
+            if (!aiming && returnWeight <= 0) { weight = 0; return; }
+            weight = aiming ? Mathf.MoveTowards(weight, 1, Time.deltaTime * BlendSpeed) : returnWeight;
             if (weight <= 0) return;
             // Align the support palm beside the firing palm; neither hand is a platform under the gun.
             Vector3 target = Vector3.Lerp(hand.position, firingHand.position + firingHand.rotation * SupportOffset, weight);

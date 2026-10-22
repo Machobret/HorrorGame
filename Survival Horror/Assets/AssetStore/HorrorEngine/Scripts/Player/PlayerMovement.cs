@@ -20,7 +20,8 @@ namespace HorrorEngine
             None            = 0,
             Movement        = 1,
             Rotation        = 2,
-            MovementToAxis  = 4
+            MovementToAxis  = 4,
+            Running         = 8
         }
 
         public enum MovementInputType
@@ -82,6 +83,13 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
+        private void Start()
+        {
+            var owner = GetComponent<Actor>();
+            var animator = owner ? owner.MainAnimator : null;
+            if (animator && animator.isHuman && !animator.GetComponent<PlayerTurnAnimation>())
+                animator.gameObject.AddComponent<PlayerTurnAnimation>();
+        }
         private void OnEnable()
         {
             IntendedMovement = Vector3.zero;
@@ -222,7 +230,7 @@ namespace HorrorEngine
             {
                 if (fwd > Mathf.Epsilon)
                 {
-                    float fwdT = absFwd;
+                    float fwdT = Constrain.HasFlag(MovementConstrain.Running) ? 0f : absFwd;
                     fwdT *= DepleteStamina(fwdT) ? 1f : 0f;
 
                     speed = Mathf.Lerp(m_MovementSpeed * absFwd, m_MovementRunSpeed * absFwd, fwdT);
@@ -236,7 +244,7 @@ namespace HorrorEngine
             {
                 if (fwd > Mathf.Epsilon)
                 {
-                    speed = m_Running && DepleteStamina(1f) ? m_MovementRunSpeed : m_MovementSpeed * (m_MovementInputType == MovementInputType.Analog ? absFwd : 1f);
+                    speed = m_Running && !Constrain.HasFlag(MovementConstrain.Running) && DepleteStamina(1f) ? m_MovementRunSpeed : m_MovementSpeed * (m_MovementInputType == MovementInputType.Analog ? absFwd : 1f);
                 }
                 else if (fwd < -Mathf.Epsilon)
                 {

@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "unityVersion": "6000.3.11f1",
+  "motionAssertions": 189,
+  "gameplayAssertions": 36,
+  "reloadCases": [
+    "aim held",
+    "aim released",
+    "lowered"
+  ],
+  "reloadFramesPerCase": 198,
+  "clearance": {
+    "sampledFrames": 546,
+    "boneSamplesInsideReceiver": 0
+  },
+  "clearanceScope": "Left wrist and eight finger bone samples tested against actual receiver triangles, not a full skinned-surface collision proof.",
+  "maxSettledSupportErrorMetres": 0.0172,
+  "stockVsShoulderAtAim": {
+    "stockShoulderX": "-0.0461",
+    "stockShoulderY": "-0.0059",
+    "stockShoulderZ": "0.0225"
+  }
+}

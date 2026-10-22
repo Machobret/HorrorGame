@@ -130,11 +130,16 @@ namespace HorrorEngine
         private InventoryItemAddedMessage m_ItemAddedMsg = new InventoryItemAddedMessage();
         private InventoryItemRemovedMessage m_ItemRemovedMsg = new InventoryItemRemovedMessage();
 
+        // Combining requests the animation; ammunition is transferred only when it finishes.
+        // Weapon data is stable when inventory entries are rearranged or equipped.
+        [NonSerialized] private HashSet<ReloadableWeaponData> m_PendingWeaponReloads = new HashSet<ReloadableWeaponData>();
+
         
         // --------------------------------------------------------------------
 
         public void Init(CharacterData character)
         {
+            m_PendingWeaponReloads.Clear();
             m_EquippedChangedMsg.Character = character;
             m_ItemAddedMsg.Character = character;
             m_ItemRemovedMsg.Character = character;
@@ -164,6 +169,7 @@ namespace HorrorEngine
 
         public void Clear()
         {
+            m_PendingWeaponReloads.Clear();
             if (!IsInfinite())
             {
                 Items = new List<InventoryEntry>(m_MaxItems);
@@ -304,6 +310,8 @@ namespace HorrorEngine
                         Unequip(slotToUnequip, isDrop);
                 }
 
+                if (entry.Item is ReloadableWeaponData removedWeapon)
+                    m_PendingWeaponReloads.Remove(removedWeapon);
                 entry.Item = null; // This needs to happen after unequip
 
                 if (IsInfinite())
@@ -407,7 +415,7 @@ namespace HorrorEngine
                 ReloadableWeaponData reloadable = reloadableEntry.Item as ReloadableWeaponData;
                 if (reloadable.AmmoItem == ammoEntry.Item)
                 {
-                    return ReloadWeapon(reloadableEntry, ammoEntry);
+                    return RequestWeaponReload(reloadableEntry, ammoEntry);
                 }
             }
 
@@ -417,12 +425,66 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
+        public InventoryEntry RequestWeaponReload(InventoryEntry weaponEntry, InventoryEntry ammoEntry)
+        {
+            var weapon = weaponEntry?.Item as ReloadableWeaponData;
+            if (weapon && ammoEntry != null && ammoEntry.Item == weapon.AmmoItem &&
+                ammoEntry.Count > 0 && weaponEntry.SecondaryCount < weapon.MaxAmmo)
+            {
+                m_PendingWeaponReloads.Add(weapon);
+            }
+            return weaponEntry;
+        }
+
+        // Queried by gameplay states only after the inventory/input blocking UI closes.
+        // A request for an unequipped weapon waits until that weapon is equipped.
+        public bool HasPendingEquippedWeaponReload()
+        {
+            var entry = GetEquippedWeapon();
+            var weapon = entry?.Item as ReloadableWeaponData;
+            if (!weapon || !m_PendingWeaponReloads.Contains(weapon))
+                return false;
+            if (CanReloadWeapon(entry))
+                return true;
+            m_PendingWeaponReloads.Remove(weapon);
+            return false;
+        }
+
+        public void ConsumePendingWeaponReload(InventoryEntry weaponEntry)
+        {
+            if (weaponEntry?.Item is ReloadableWeaponData weapon)
+                m_PendingWeaponReloads.Remove(weapon);
+        }
+
+        // Immediate transfer is reserved for the completed gameplay reload animation.
+        public InventoryEntry ReloadWeapon(InventoryEntry weaponEntry)
+        {
+            var weapon = weaponEntry?.Item as ReloadableWeaponData;
+            if (!weapon)
+                return weaponEntry;
+
+            // Removing an exhausted stack can shrink infinite inventories.
+            var stacks = new List<InventoryEntry>();
+            GetAll(weapon.AmmoItem, stacks);
+            foreach (var stack in stacks)
+            {
+                if (weaponEntry.SecondaryCount >= weapon.MaxAmmo)
+                    break;
+                ReloadWeapon(weaponEntry, stack);
+            }
+            ConsumePendingWeaponReload(weaponEntry);
+            return weaponEntry;
+        }
+
         public InventoryEntry ReloadWeapon(InventoryEntry weaponEntry, InventoryEntry ammoEntry)
         {
-            ReloadableWeaponData weapon = weaponEntry.Item as ReloadableWeaponData;
-            
+            ReloadableWeaponData weapon = weaponEntry?.Item as ReloadableWeaponData;
+            if (!weapon || ammoEntry == null || ammoEntry.Item != weapon.AmmoItem || ammoEntry.Count <= 0)
+                return weaponEntry;
+
+            ConsumePendingWeaponReload(weaponEntry);
             float prevAmmo = weaponEntry.SecondaryCount;
-            float newAmmo = Mathf.Min(prevAmmo + ammoEntry.Count, weapon.MaxAmmo);
+            float newAmmo = Mathf.Min(prevAmmo + ammoEntry.Count, Mathf.Max(prevAmmo, weapon.MaxAmmo));
             weaponEntry.SecondaryCount = newAmmo;
             float dif = newAmmo - prevAmmo;
 
@@ -528,7 +590,13 @@ namespace HorrorEngine
                     Status = entry.Status,
                     Item = entry.Item
                 };
+                var reloadable = entry.Item as ReloadableWeaponData;
+                bool preserveReloadRequest = reloadable && m_PendingWeaponReloads.Contains(reloadable);
                 Remove(entry.Item, 1, false);
+                // Equipping moves this same weapon into an equipment-only entry;
+                // unlike dropping it, the move must retain the requested reload.
+                if (preserveReloadRequest)
+                    m_PendingWeaponReloads.Add(reloadable);
             }
 
             Unequip(equipable.Slot); // Needs to happen after the new item is removed from inventory
@@ -675,8 +743,13 @@ namespace HorrorEngine
             ReloadableWeaponData reloadableWeapon = weaponEntry.Item as ReloadableWeaponData;
             if (reloadableWeapon)
             {
-                return weaponEntry.SecondaryCount < reloadableWeapon.MaxAmmo &&
-                    TryGet(reloadableWeapon.AmmoItem, out InventoryEntry ammoEntry);
+                if (weaponEntry.SecondaryCount >= reloadableWeapon.MaxAmmo)
+                    return false;
+                foreach (var entry in Items)
+                {
+                    if (entry.Item == reloadableWeapon.AmmoItem && entry.Count > 0)
+                        return true;
+                }
             }
 
             return false;

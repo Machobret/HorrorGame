@@ -1,0 +1,37 @@
+{
+  "status": "passed",
+  "unityVersion": "6000.3.11f1",
+  "checked": "Six-face mesh/material/prefab validation and actual Unity front/back/icon renders",
+  "changedAmmo": [
+    "ShotgunAmmo",
+    "FlareAmmo",
+    "RevolverAmmo"
+  ],
+  "copiedFiles": [
+    "Assets/Game/Weapons/Models/AmmoPackaging/ShotgunAmmo_Carton.asset",
+    "Assets/Game/Weapons/Models/AmmoPackaging/ShotgunAmmo_LooseRound.asset",
+    "Assets/Game/Weapons/Models/AmmoPackaging/ShotgunAmmo_Model.prefab",
+    "Assets/Game/Weapons/Models/AmmoPackaging/ShotgunAmmo_Packaging.mat",
+    "Assets/Game/Weapons/Models/AmmoSides/ShotgunAmmo_PickupIcon.png",
+    "Assets/Game/Weapons/Prefabs/ShotgunAmmo_Pickup.prefab",
+    "Assets/Game/Weapons/Prefabs/ShotgunAmmo_Drop.prefab",
+    "Assets/Game/Weapons/Models/AmmoPackaging/FlareAmmo_Carton.asset",
+    "Assets/Game/Weapons/Models/AmmoPackaging/FlareAmmo_LooseRound.asset",
+    "Assets/Game/Weapons/Models/AmmoPackaging/FlareAmmo_Model.prefab",
+    "Assets/Game/Weapons/Models/AmmoPackaging/FlareAmmo_Packaging.mat",
+    "Assets/Game/Weapons/Models/FlareAmmo/FlareAmmo_Icon.png",
+    "Assets/Game/Weapons/Prefabs/FlareAmmo_Pickup.prefab",
+    "Assets/Game/Weapons/Prefabs/FlareAmmo_Drop.prefab",
+    "Assets/Game/Weapons/Prefabs/FlareAmmo_Examination.prefab",
+    "Assets/Game/Weapons/Models/AmmoPackaging/RevolverAmmo_Carton.asset",
+    "Assets/Game/Weapons/Models/AmmoPackaging/RevolverAmmo_LooseRound.asset",
+    "Assets/Game/Weapons/Models/AmmoPackaging/RevolverAmmo_Model.prefab",
+    "Assets/Game/Weapons/Models/AmmoPackaging/RevolverAmmo_Packaging.mat",
+    "Assets/Game/Weapons/Models/AmmoSides/RevolverAmmo_PickupIcon.png",
+    "Assets/Game/Weapons/Prefabs/RevolverAmmo_Pickup.prefab",
+    "Assets/Game/Weapons/Prefabs/RevolverAmmo_Drop.prefab",
+    "Assets/Game/Weapons/Prefabs/RevolverAmmo_Examination.prefab",
+    "Assets/AssetStore/HorrorEngine/ExampleContent/Items/ShotgunAmmo/ShotgunAmmo.prefab",
+    "Assets/AssetStore/HorrorEngine/ExampleContent/Items/ShotgunAmmo/ShotgunAmmoExamination.prefab"
+  ]
+}

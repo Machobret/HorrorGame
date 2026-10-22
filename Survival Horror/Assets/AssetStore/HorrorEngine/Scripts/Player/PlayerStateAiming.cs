@@ -95,6 +95,17 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
+        // Preview only the aiming pose as a reload finishes. State entry still
+        // owns input, targeting and movement, and happens after ammo is committed.
+        public void BlendReloadReturn(bool aiming, float duration)
+        {
+            if (!m_AnimationState) return;
+            if (aiming)
+                Actor.MainAnimator.CrossFadeInFixedTime(m_AnimationState.Hash, duration, m_AnimationState.Layer);
+            var blends = Actor.MainAnimator.GetComponent<AnimatorLayerBlendHandler>();
+            if (blends) blends.StartBlend(m_AnimationState.Layer, aiming ? 1 : 0, duration);
+        }
+
         private void SetInitialAimTarget()
         {
             RefreshAvailableTargets(true);
@@ -276,12 +287,18 @@ namespace HorrorEngine
                 Actor.MainAnimator.SetFloat(k_AimVerticalityHash, m_VerticalAiming.Verticality);
             }
 
+            if (!GameManager.Instance.IsPlaying) return;
+            var inventory = GameManager.Instance.Inventory;
+            if (m_ReloadState && (inventory.HasPendingEquippedWeaponReload() ||
+                (m_AllowManualReload && m_Input.IsReloadDown() && inventory.CanReloadEquippedWeapon())))
+            {
+                SetState(m_ReloadState);
+                return;
+            }
             if (m_Input.IsAttackDown())
                 SetState(m_AttackState);
             else if (!m_Input.IsAimingHeld())
                 SetState(m_MotionState);
-            else if (m_AllowManualReload && m_Input.IsReloadDown() && GameManager.Instance.Inventory.CanReloadEquippedWeapon())
-                SetState(m_ReloadState);
             else if (m_Input.IsChangeAimTargetDown())
                 ChangeAimTarget();
         }

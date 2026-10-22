@@ -16,6 +16,7 @@ namespace HorrorGame.Weapons.Editor
         const string Output = "C:/Users/Mangis/AppData/Local/Temp/FlareSceneFinalValidation";
         static double started, phaseStart;
         static int phase;
+        static int reloadPressFrame;
         static FlareTestRoom room;
         static SignalFlare demo;
         static Vector3 launchPosition;
@@ -113,6 +114,19 @@ namespace HorrorGame.Weapons.Editor
                     Check(errors.Length == 0, errors);
                     Debug.Log("FLARE_TEST_SCENE_PLAY_OK: player, equipped gun, ammo, demo flight/trail/light, camera captures, collision, real aim/fire input, last round consumed and exactly one projectile launched");
                     InputSystem.QueueStateEvent(inputMouse, new MouseState());
+                    phase = 10; phaseStart = now;
+                }
+                else if (phase == 10 && !(GameManager.Instance.Player.GetComponentInChildren<ActorStateController>().m_CurrentState is PlayerStateAttack))
+                {
+                    Check(GameManager.Instance.Inventory.GetEquippedWeapon().SecondaryCount == 0, "Empty flare auto-reloaded");
+                    inputKeyboard = InputSystem.AddDevice<Keyboard>("Flare manual reload keyboard");
+                    InputSystem.QueueStateEvent(inputKeyboard, new KeyboardState(UnityEngine.InputSystem.Key.R));
+                    reloadPressFrame = Time.frameCount;
+                    phase = 11;
+                }
+                else if (phase == 11 && Time.frameCount > reloadPressFrame)
+                {
+                    InputSystem.QueueStateEvent(inputKeyboard, new KeyboardState());
                     phase = 6; phaseStart = now;
                 }
                 else if (phase == 6 && GameManager.Instance.Player.GetComponentInChildren<ActorStateController>().m_CurrentState is PlayerStateReload)
@@ -120,7 +134,7 @@ namespace HorrorGame.Weapons.Editor
                     var movement = GameManager.Instance.Player.GetComponent<PlayerMovement>();
                     Check(movement.enabled && !movement.Constrain.HasFlag(PlayerMovement.MovementConstrain.Movement), "Reload still locks movement");
                     reloadPosition = GameManager.Instance.Player.transform.position;
-                    inputKeyboard = InputSystem.AddDevice<Keyboard>("Flare reload movement keyboard");
+                    if (inputKeyboard == null) inputKeyboard = InputSystem.AddDevice<Keyboard>("Flare reload movement keyboard");
                     InputSystem.QueueStateEvent(inputKeyboard, new KeyboardState(UnityEngine.InputSystem.Key.W));
                     phase = 7; phaseStart = now;
                 }

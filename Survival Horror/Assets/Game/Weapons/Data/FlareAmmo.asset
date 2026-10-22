@@ -17,7 +17,7 @@ MonoBehaviour:
   ExamineModel: {fileID: 5566984522258361102, guid: c143c2a0c8d59f44da7b73cc94f5662b, type: 3}
   Name:
     IsLocalized: 0
-    Unlocalized: Flare rounds
+    Unlocalized: Red signal flares
     Localized:
       m_TableReference:
         m_TableCollectionName: 
@@ -29,7 +29,7 @@ MonoBehaviour:
       m_LocalVariables: []
   Description:
     IsLocalized: 0
-    Unlocalized: Signal flares for the flare gun.
+    Unlocalized: Red aerial signal cartridges for the flare gun.
     Localized:
       m_TableReference:
         m_TableCollectionName: 
@@ -42,7 +42,7 @@ MonoBehaviour:
   InventoryAction: 0
   Flags: 122
   Tags: []
-  DropPrefab: {fileID: 0}
+  DropPrefab: {fileID: 7792979548724843371, guid: 6f83422347e303b449b92ee0b1512935, type: 3}
   MaxStackSize: 10
   m_OnUseAudioClip: {fileID: 0}
   Name_DEPRECATED: 

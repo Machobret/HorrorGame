@@ -16,6 +16,7 @@ namespace HorrorEngine
         private Dictionary<EquipmentSlot, EquipmentEntry> m_CurrentEquipment = new Dictionary<EquipmentSlot, EquipmentEntry>();
         private SocketController m_SocketController;
         private PlayerActor m_Actor;
+        private PlayerWristContinuity m_WristContinuity;
         private AnimatorOverrider m_AnimOverrider;
         private AnimatorLayerBlendHandler m_AnimLayerBlendHandler;
 
@@ -24,6 +25,8 @@ namespace HorrorEngine
         private void Awake()
         {
             m_Actor = GetComponentInParent<PlayerActor>();
+            m_WristContinuity = m_Actor.MainAnimator.GetComponent<PlayerWristContinuity>();
+            if (!m_WristContinuity) m_WristContinuity = m_Actor.MainAnimator.gameObject.AddComponent<PlayerWristContinuity>();
             m_AnimOverrider = m_Actor.MainAnimator.GetComponent<AnimatorOverrider>();
             m_AnimLayerBlendHandler = m_Actor.MainAnimator.GetComponent<AnimatorLayerBlendHandler>();
             m_SocketController = GetComponentInChildren<SocketController>();
@@ -80,6 +83,7 @@ namespace HorrorEngine
 
         public GameObject Equip(EquipableItemData equipable, EquipmentSlot slot)
         {
+            m_WristContinuity.BeginTransition();
             if (m_CurrentEquipment.ContainsKey(slot))
                 Unequip(slot);
 
@@ -118,6 +122,7 @@ namespace HorrorEngine
         {
             if (m_CurrentEquipment.TryGetValue(type, out EquipmentEntry entry))
             {
+                m_WristContinuity.BeginTransition();
                 if (destroy && Application.isPlaying)
                     Destroy(entry.Instance);
 
@@ -147,6 +152,7 @@ namespace HorrorEngine
 
             if (m_CurrentEquipment.TryGetValue(type, out EquipmentEntry entry))
             {
+                m_WristContinuity.BeginTransition();
                 item = entry.Data;
                 instance = entry.Instance;
                 return true;
@@ -161,6 +167,7 @@ namespace HorrorEngine
         {
             if (m_CurrentEquipment.TryGetValue(type, out EquipmentEntry entry))
             {
+                m_WristContinuity.BeginTransition();
                 if (entry.Data as WeaponData)
                     return entry.Instance;
             }

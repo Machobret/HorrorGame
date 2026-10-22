@@ -259,6 +259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Attack: {fileID: 186782091252812242}
   CountConsumption: 1
+  AllowMovementDuringAttack: 0
   Duration: 0.6
   MontageDelay: 0
   AttackActivationDelay: 0
@@ -303,6 +304,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsInPool: 0
   Owner: {fileID: 0}
+--- !u!114 &740010000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056765183083116819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69ce7fdeb4b84d4fb469f37c49985bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SupportOffset: {x: 0.06, y: 0.005, z: 0}
+  BlendSpeed: 10
+  SupportRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &2356198665036038230
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,18 +512,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7a42f82eabafc1d4eb56961a1e432058, type: 3}
   m_PrefabInstance: {fileID: 912955571891498353}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &740010000000000001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2056765183083116819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69ce7fdeb4b84d4fb469f37c49985bae, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
-  SupportOffset: {x: 0.06, y: 0.005, z: 0}
-  BlendSpeed: 10
-  SupportRotation: {x: 0, y: 0, z: 0}

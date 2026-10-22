@@ -1,0 +1,16 @@
+INVENTORY_RELOAD_CHECKS_OK assertions=105
+RELOAD_GAMEPLAY_OK Gun manual-only, walk-only with animated feet, no aim snap, real inventory-close reload
+RELOAD_GAMEPLAY_OK Shotgun manual-only, walk-only with animated feet, no aim snap, real inventory-close reload
+RIFLE_BOLT_SAMPLE 0 pos=(0.00, 0.00, 0.00) rotation=(270.00, 0.00, 0.00)
+RIFLE_BOLT_SAMPLE 1 pos=(0.06, 0.04, 0.00) rotation=(330.00, 270.00, 90.00)
+RIFLE_BOLT_SAMPLE 2 pos=(0.06, 0.04, -0.08) rotation=(330.00, 270.00, 90.00)
+RIFLE_BOLT_SAMPLE 3 pos=(0.01, 0.00, 0.00) rotation=(276.75, 270.00, 90.00)
+RELOAD_GAMEPLAY_OK HuntingRifle manual-only, stationary, no aim snap, real inventory-close reload
+RELOAD_GAMEPLAY_OK Revolver manual-only, walk-only with animated feet, no aim snap, real inventory-close reload
+RELOAD_GAMEPLAY_OK FlareGun manual-only, walk-only with animated feet, no aim snap, real inventory-close reload
+ALL_WEAPON_RELOAD_GAMEPLAY_OK
+
+FLARE_TEST_SCENE_PLAY_OK: player, equipped gun, ammo, demo flight/trail/light, camera captures, collision, real aim/fire input, last round consumed and exactly one projectile launched
+FLARE_RELOAD_MOVEMENT_OK walking distance=0.9999994; still reloading with empty chamber
+FLARE_RELOAD_FOOT_ANIMATION_OK relative foot movement=0.2448169, 0.3767822
+FLARE_RELOAD_COMPLETE_OK one round loaded, one reserve consumed, movement restored

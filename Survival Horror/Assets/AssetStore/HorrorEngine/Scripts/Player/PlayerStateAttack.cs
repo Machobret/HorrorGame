@@ -8,8 +8,6 @@ namespace HorrorEngine
     {
         [SerializeField] private PlayerStateAiming m_AimingState;
         [SerializeField] private ActorState m_ReloadState;
-        [SerializeField] private bool m_AutoReloadOnAttackStart;
-        [SerializeField] private bool m_AutoReloadOnAttackEnd;
         [SerializeField] private PlayerMovement.MovementConstrain m_MovementConstrains = PlayerMovement.MovementConstrain.Movement;
         
 
@@ -62,14 +60,6 @@ namespace HorrorEngine
             InitializeWeapon();
 
             m_Inventory = GameManager.Instance.Inventory;
-
-            if (m_AutoReloadOnAttackStart &&
-                m_Inventory.CanReloadWeapon(m_WeaponInventoryEntry) &&
-                m_WeaponInventoryEntry.SecondaryCount == 0)
-            {
-                SetState(m_ReloadState);
-                return;
-            }
 
             m_AttackCombo = m_WeaponInstance.GetComponent<AttackCombo>();
             if (m_AttackCombo)
@@ -292,23 +282,11 @@ namespace HorrorEngine
 
         protected override void OnStateDurationEnd()
         {
-            if (m_AutoReloadOnAttackEnd &&
-                m_Inventory.CanReloadEquippedWeapon() &&
-                m_WeaponInventoryEntry.SecondaryCount == 0)
-            {
-                SetState(m_ReloadState);
-            }
-            else
-            {
-                if (m_PendingThrowableClearing)
-                    ClearThrowable();
+            if (m_PendingThrowableClearing)
+                ClearThrowable();
 
-                bool canGoToAim = m_AimingState && m_Inventory.GetEquipped(m_Inventory.WeaponSlot) != null;
-                if (canGoToAim)
-                    SetState(m_AimingState);
-                else
-                    SetState(m_ExitState);
-            }
+            bool canGoToAim = m_AimingState && m_Inventory.GetEquipped(m_Inventory.WeaponSlot) != null;
+            SetState(canGoToAim ? m_AimingState : m_ExitState);
         }
 
         // --------------------------------------------------------------------

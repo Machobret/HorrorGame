@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: HuntingRifleAmmo
   m_EditorClassIdentifier: 
   UniqueId: ce81e7fc-f41c-41b3-a969-6a0066cf159d
-  Image: {fileID: 21300000, guid: 5c1d25bfe51a2044292ceaa1c133318c, type: 3}
+  Image: {fileID: 21300000, guid: 69aa09f223e54b84a974a233db5a9c90, type: 3}
   ExamineModel: {fileID: 484838719735597532, guid: 4da4d0b8cd9e1414fb8b6714227631e6, type: 3}
   Name:
     IsLocalized: 0
-    Unlocalized: Rifle rounds
+    Unlocalized: .300 Win Mag rounds
     Localized:
       m_TableReference:
         m_TableCollectionName: 
@@ -29,7 +29,7 @@ MonoBehaviour:
       m_LocalVariables: []
   Description:
     IsLocalized: 0
-    Unlocalized: Rounds for the hunting rifle.
+    Unlocalized: Bottleneck rifle cartridges for the hunting rifle.
     Localized:
       m_TableReference:
         m_TableCollectionName: 
@@ -42,7 +42,7 @@ MonoBehaviour:
   InventoryAction: 0
   Flags: 122
   Tags: []
-  DropPrefab: {fileID: 0}
+  DropPrefab: {fileID: 735514647276625290, guid: 9ea5dae2aba3bef40a4e2963616a0532, type: 3}
   MaxStackSize: 30
   m_OnUseAudioClip: {fileID: 0}
   Name_DEPRECATED: 

@@ -1,0 +1,62 @@
+{
+  "FlareGun_AimedHeld": {
+    "left": {
+      "max_step_metres": 0.035048255306077615,
+      "at_reload_second": 1.95
+    },
+    "right": {
+      "max_step_metres": 0.014940013386874835,
+      "at_reload_second": 2.05
+    }
+  },
+  "FlareGun_AimedReleased": {
+    "left": {
+      "max_step_metres": 0.035083269516964874,
+      "at_reload_second": 1.95
+    },
+    "right": {
+      "max_step_metres": 0.030791721289983125,
+      "at_reload_second": 2.3
+    }
+  },
+  "FlareGun_Lowered": {
+    "left": {
+      "max_step_metres": 0.012422870038763204,
+      "at_reload_second": 2.01667
+    },
+    "right": {
+      "max_step_metres": 0.018263559346414434,
+      "at_reload_second": 2.28333
+    }
+  },
+  "Revolver_AimedHeld": {
+    "left": {
+      "max_step_metres": 0.03337139493638224,
+      "at_reload_second": 2.0
+    },
+    "right": {
+      "max_step_metres": 0.015608042798506135,
+      "at_reload_second": 2.11667
+    }
+  },
+  "Revolver_AimedReleased": {
+    "left": {
+      "max_step_metres": 0.03335980515530638,
+      "at_reload_second": 2.0
+    },
+    "right": {
+      "max_step_metres": 0.02863392568265833,
+      "at_reload_second": 2.35
+    }
+  },
+  "Revolver_Lowered": {
+    "left": {
+      "max_step_metres": 0.011415239813512447,
+      "at_reload_second": 2.33333
+    },
+    "right": {
+      "max_step_metres": 0.01751678623492334,
+      "at_reload_second": 2.33333
+    }
+  }
+}

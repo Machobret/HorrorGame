@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ee00d1d7585610499dba305665f4c4c, type: 3}
+  m_Name: MP5
+  m_EditorClassIdentifier: 
+  UniqueId: 8341d4fc-c841-4335-a298-1707ea5e5c85
+  Image: {fileID: 21300000, guid: b1d92b4eaed159e4dbee895234c7764b, type: 3}
+  ExamineModel: {fileID: 5078771644982479309, guid: f87229fdc94586d45acced716675800a, type: 3}
+  Name:
+    IsLocalized: 0
+    Unlocalized: MP5
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Description:
+    IsLocalized: 0
+    Unlocalized: A standard fixed-stock 9 mm submachine gun. Thirty-round magazine,
+      automatic fire.
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  InventoryAction: 2
+  Flags: 248
+  Tags: []
+  DropPrefab: {fileID: 0}
+  MaxStackSize: 0
+  m_OnUseAudioClip: {fileID: 0}
+  Name_DEPRECATED: 
+  Description_DEPRECATED: 
+  EquipPrefab: {fileID: 5817251267950434878, guid: a1d2b0b57af170d419e56bfebdcf0d59, type: 3}
+  Slot: 1
+  CharacterAttachment:
+    Socket: {fileID: 11400000, guid: 66be86ee20b277041876bdc5d848683a, type: 2}
+    Position: {x: 0.0002, y: 0.0004, z: 0.00045}
+    Rotation: {x: 0, y: -90, z: -89.33}
+    Scale: {x: 0.01, y: 0.01, z: 0.01}
+    ApplyScale: 1
+  AttachOnEquipped: 1
+  MoveOutOfInventoryOnEquip: 0
+  AnimatorOverride:
+    m_Value: {fileID: 22100000, guid: 293f5d9a0f40e09409f673acea898a4e, type: 2}
+  AnimatorLayerOverrides: []
+  m_OnEquipAudioClip: {fileID: 0}
+  AmmoItem: {fileID: 11400000, guid: d3062c3f6650227408337c2515d9599c, type: 2}
+  MaxAmmo: 30
+  ShotSound: {fileID: 8300000, guid: 87c58443a50f4e61b85ff79f1b5eacab, type: 3}
+  ReloadSound: {fileID: 8300000, guid: a3acf0fee7c44f2ea2646d17fa2591f9, type: 3}
+  ReloadDuration: 3
+  AllowMovementDuringReload: 1
+  references:
+    version: 2
+    RefIds: []

@@ -1,0 +1,99 @@
+{
+  "authoring": "Edited project template recordings; not an authentic MP5 field recording.",
+  "events": [
+    {
+      "action": "charging handle locked rearward",
+      "transient_seconds": 0.6,
+      "source": "AssaultRifle/AssaultRifleReload.wav",
+      "source_crop_seconds": [
+        0.19,
+        0.365
+      ],
+      "start_seconds": 0.4922675736961451,
+      "gain_peak": 0.5
+    },
+    {
+      "action": "magazine release",
+      "transient_seconds": 0.9,
+      "source": "Gun/GunReload.wav",
+      "source_crop_seconds": [
+        1.08,
+        1.19
+      ],
+      "start_seconds": 0.8193877551020409,
+      "gain_peak": 0.24
+    },
+    {
+      "action": "magazine withdrawn",
+      "transient_seconds": 1.15,
+      "source": "Gun/GunReload.wav",
+      "source_crop_seconds": [
+        0.0,
+        0.17
+      ],
+      "start_seconds": 1.0748526077097507,
+      "gain_peak": 0.31
+    },
+    {
+      "action": "new magazine seated",
+      "transient_seconds": 1.95,
+      "source": "Gun/GunReload.wav",
+      "source_crop_seconds": [
+        0.6,
+        0.77
+      ],
+      "start_seconds": 1.8748072562358276,
+      "gain_peak": 0.59
+    },
+    {
+      "action": "magazine seating tug",
+      "transient_seconds": 2.1,
+      "source": "Gun/GunReload.wav",
+      "source_crop_seconds": [
+        0.0,
+        0.17
+      ],
+      "start_seconds": 2.0248526077097506,
+      "gain_peak": 0.24
+    },
+    {
+      "action": "palm releases charging handle",
+      "transient_seconds": 2.4,
+      "source": "AssaultRifle/AssaultRifleReload.wav",
+      "source_crop_seconds": [
+        1.075,
+        1.225
+      ],
+      "start_seconds": 2.3561224489795918,
+      "gain_peak": 0.73
+    },
+    {
+      "action": "settle into grip",
+      "transient_seconds": 2.7,
+      "source": "Gun/GunReload.wav",
+      "source_crop_seconds": [
+        1.26,
+        1.385
+      ],
+      "start_seconds": 2.651360544217687,
+      "gain_peak": 0.2
+    }
+  ],
+  "outputs": [
+    {
+      "file": "Assets/Game/Weapons/Audio/MP5_Shot.wav",
+      "duration": 0.24498866213151926,
+      "peak": 0.6472257119303154,
+      "rms": 0.21468134884387013,
+      "pcm": "mono signed 16-bit / 44100 Hz"
+    },
+    {
+      "file": "Assets/Game/Weapons/Audio/MP5_Reload.wav",
+      "duration": 3.0,
+      "peak": 0.73,
+      "rms": 0.04381840004443746,
+      "pcm": "mono signed 16-bit / 44100 Hz"
+    }
+  ],
+  "800rpm_eight_round_reference_mix_peak": 0.94
+}
