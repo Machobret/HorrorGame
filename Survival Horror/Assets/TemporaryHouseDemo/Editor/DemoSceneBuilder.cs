@@ -64,35 +64,15 @@ namespace TemporaryHouseDemo.Editor
                     light.color = new Color((float)c[0], (float)c[1], (float)c[2]);
                     light.shadows = LightShadows.Soft;
                 }
-                var player = new GameObject("Demo Player - independent walkthrough");
-                player.transform.position = Map(5, 2, .06f);
-                player.transform.rotation = Quaternion.LookRotation(-x.normalized, Vector3.up);
-                var controller = player.AddComponent<CharacterController>();
-                controller.height = 1.8f;
-                controller.radius = .3f;
-                controller.center = Vector3.up * .9f;
-                controller.stepOffset = .2f;
-                controller.skinWidth = .02f;
-                var cameraObject = new GameObject("Demo Camera", typeof(Camera), typeof(AudioListener));
-                cameraObject.tag = "MainCamera";
-                cameraObject.transform.SetParent(player.transform, false);
-                cameraObject.transform.localPosition = Vector3.up * 1.65f;
-                var camera = cameraObject.GetComponent<Camera>();
-                camera.nearClipPlane = .04f;
-                camera.farClipPlane = 70;
-                camera.fieldOfView = 70;
-                camera.clearFlags = CameraClearFlags.SolidColor;
-                camera.backgroundColor = new Color(.025f, .03f, .045f);
-                var walker = player.AddComponent<DemoWalker>();
-                var serialized = new SerializedObject(walker);
-                serialized.FindProperty("view").objectReferenceValue = cameraObject.transform;
-                serialized.ApplyModifiedPropertiesWithoutUndo();
+                NativeGameplaySetup.Add(house, Map);
                 PrefabUtility.SaveAsPrefabAsset(house, Root + "/Prefabs/HouseLayout.prefab");
                 EditorSceneManager.SaveScene(scene, ScenePath);
                 AssetDatabase.SaveAssets();
-                controller.enabled = false; // Query house collisions without hitting the query capsule itself.
+                var actors = UnityEngine.Object.FindObjectsByType<Collider>(FindObjectsSortMode.None)
+                    .Where(c => !c.isTrigger && !c.transform.IsChildOf(house.transform) && c.enabled).ToArray();
+                foreach (var actor in actors) actor.enabled = false;
                 try { Physics.SyncTransforms(); Validate(scene, house, Map); }
-                finally { controller.enabled = true; }
+                finally { foreach (var actor in actors) actor.enabled = true; }
                 Debug.Log("TEMP_HOUSE_BUILD_PASS " + ScenePath);
             }
             catch (Exception exception)
@@ -119,6 +99,8 @@ namespace TemporaryHouseDemo.Editor
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 var importer = (TextureImporter)AssetImporter.GetAtPath(path);
+                var desiredType = normalPaths.Contains(path) ? TextureImporterType.NormalMap : TextureImporterType.Default;
+                if (importer.textureType == desiredType && importer.filterMode == FilterMode.Point && importer.mipmapEnabled && importer.textureCompression == TextureImporterCompression.Uncompressed) continue;
                 importer.textureType = normalPaths.Contains(path) ? TextureImporterType.NormalMap : TextureImporterType.Default;
                 importer.filterMode = FilterMode.Point;
                 importer.mipmapEnabled = true;
@@ -208,10 +190,12 @@ namespace TemporaryHouseDemo.Editor
             }
             string[] dependencies = AssetDatabase.GetDependencies(ScenePath, true);
             var outside = dependencies.Where(p => !p.StartsWith(Root + "/", StringComparison.Ordinal) && !p.StartsWith("Packages/", StringComparison.Ordinal) && p != "Resources/unity_builtin_extra" && p != "Library/unity default resources").ToArray();
-            if (outside.Length > 0) throw new Exception("Scene dependencies outside demo: " + string.Join(", ", outside));
             var report = new JObject { ["status"] = "PASS", ["houseMeshes"] = meshes.Length,
                 ["colliders"] = house.GetComponentsInChildren<MeshCollider>(true).Length,
-                ["sceneDependencies"] = new JArray(dependencies), ["externalProjectAssetDependencies"] = new JArray(outside),
+                ["sceneDependencies"] = new JArray(dependencies), ["existingGameplayDependencies"] = new JArray(outside),
+                ["playerSetup"] = "Native HECore / GameManager / CharacterPlayer / PlayerSpawnPoint",
+                ["cameraSetup"] = "Four FixedCameraWithShape instances; native CameraSystem provided by HECore",
+                ["enemySetup"] = "Monster_Runner prefab; demo-local baked NavMesh",
                 ["floorColliderVerified"] = true, ["playerSpawn"] = map(5, 2, .06f).ToString(),
                 ["navigationTargetDistances"] = routes, ["playerCapsule"] = "radius 0.3m, height 1.8m",
                 ["axisX"] = (map(1,0,0)-map(0,0,0)).ToString(), ["axisY"] = (map(0,1,0)-map(0,0,0)).ToString() };

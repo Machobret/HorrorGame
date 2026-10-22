@@ -1,30 +1,31 @@
 # Temporary House Demo
 
-Open `Scenes/TemporaryHouseDemo.unity` directly and press Play.
-WASD moves, mouse looks, Escape releases the pointer, and click captures it again.
-The scene contains the furnished kitchen, bedroom and connecting corridor, static mesh collisions, lighting, and a standalone player.
+Open `Scenes/TemporaryHouseDemo.unity` directly and press Play. Use the project's normal player controls.
 
-## Scope and removal
+The scene uses existing gameplay prefabs:
 
-Everything authored for this demo is under `Assets/TemporaryHouseDemo/`.
-Delete that folder and `Assets/TemporaryHouseDemo.meta` to remove it.
-No demo scene is added to Build Profiles, Addressables, bootstraps, Resources, tags, layers, or project settings.
-The demo scripts are separate assemblies with `autoReferenced: false`; there are no automatic initialization or import hooks.
-The scene uses the project's existing URP and Input System packages without adding dependencies.
-Doors are fixed in their open pose. There is no production gameplay integration, baked lighting, or NavMesh.
+- `HECore.prefab` supplies the native game manager, camera system, input, UI and other core services.
+- `PlayerSpawnPoint.prefab` selects the existing `CharacterPlayer` data; the native game manager spawns the controllable character.
+- Four `FixedCameraWithShape.prefab` instances cover the kitchen, bedroom and two corridor sections. Scene-instance overrides set fixed poses, lenses and room trigger shapes, disable follow to keep cameras inside the rooms, and replace the legacy Cinemachine camera component with the project's Cinemachine 3 camera.
+- `Monster_Runner.prefab` is placed at the north end of the corridor on a demo-local baked NavMesh.
 
-## Contents
+There is no demo player controller, first-person camera, mouse-look or custom input implementation. Player movement, camera switching and enemy behavior come from the project.
 
-- `Models/HouseLayout.fbx`: assembled furnished house, 81 mesh objects.
-- `Models/AssetCatalog.fbx`: both original asset grids, 303 mesh objects representing 267 models, for browsing/reuse; not loaded into the demo scene.
-- `Textures/` and `Materials/`: local textures and URP materials, with point filtering.
-- `Prefabs/HouseLayout.prefab`: house geometry with static collision.
-- `Scripts/`: demo-only walk-through controller.
-- `Editor/`: explicit scene rebuild and validation tool, under Tools > Temporary House Demo.
-- `Data/`: source import mapping and generated validation report.
-- `Source/HouseSource.zip`: packed Blender source for editing, archived to prevent Unity's automatic .blend import.
+## Removal
 
-Asset licensing remains that of the supplied source packs. The demo does not grant additional redistribution rights.
+Delete `Assets/TemporaryHouseDemo/` and `Assets/TemporaryHouseDemo.meta`.
+The demo references existing gameplay assets in one direction. Existing scenes, prefabs, build profiles, Addressables and project settings do not reference the demo.
+No shared prefab or gameplay implementation is modified by this demo.
 
-The project keeps its existing global render/input settings; the demo scene and its player do not reference shared gameplay prefabs or scripts.
-To rebuild, use Tools > Temporary House Demo > Rebuild isolated scene. This replaces this demo scene and prefab; save other work first.
+## Assets
+
+`Models/HouseLayout.fbx` contains the furnished 81-mesh house, with collisions in `Prefabs/HouseLayout.prefab`.
+`Models/AssetCatalog.fbx` contains all 267 source models (303 meshes) in their browsing grids; it is not loaded into the level.
+Textures and URP materials are local. `Navigation/` holds the baked NavMesh and native camera trigger meshes.
+`Source/HouseSource.zip` contains the packed Blender source without invoking Unity's .blend importer.
+Doors remain in their authored open pose.
+
+The Editor assembly and tests are isolated with `autoReferenced: false`. Tools > Temporary House Demo > Rebuild isolated scene explicitly rebuilds this demo; save other work first.
+The targeted Edit Mode test `HouseWalkthroughTests.NativePlayerEnemyAndRoomCamerasWork` enters Play Mode to check native spawning, input, room cameras and navigation.
+
+Source-pack licensing continues to apply to all imported assets.

@@ -1,6 +1,6 @@
 {
   "name": "TemporaryHouseDemo.Tests",
-  "references": ["TemporaryHouseDemo.Runtime", "TemporaryHouseDemo.Editor"],
+  "references": ["TemporaryHouseDemo.Editor", "Unity.InputSystem"],
   "includePlatforms": ["Editor"],
   "optionalUnityReferences": ["TestAssemblies"],
   "autoReferenced": false
