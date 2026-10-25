@@ -2327,6 +2327,7 @@ GameObject:
   - component: {fileID: 8321661947047450039}
   - component: {fileID: 1062071965634339661}
   - component: {fileID: 8440753982111238144}
+  - component: {fileID: 7809286470219653841}
   m_Layer: 5
   m_Name: UIPause
   m_TagString: Untagged
@@ -2463,6 +2464,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7809286470219653841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321661947047450036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c6a9d3a44784b87815f317076aeae7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameFont: {fileID: 12800000, guid: 56c49ec600a859d41b4d8f9d684f62ea, type: 3}
+  exaltFallLogo: {fileID: 21300000, guid: 708820d1384f1f646a37cc64820a907a, type: 3}
 --- !u!114 &8440753982111238144
 MonoBehaviour:
   m_ObjectHideFlags: 0

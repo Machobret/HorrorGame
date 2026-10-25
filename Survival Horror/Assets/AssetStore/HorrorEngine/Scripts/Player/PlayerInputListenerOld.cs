@@ -57,6 +57,11 @@ namespace HorrorEngine
             return Input.GetButtonUp(m_Attack);
         }
 
+        public bool IsAttackHeld()
+        {
+            return Input.GetButton(m_Attack);
+        }
+
 
         public bool IsInteractingDown()
         {

@@ -11,6 +11,7 @@ namespace HorrorEngine
         void RequireAimRelease();
         bool IsAttackDown();
         bool IsAttackUp();
+        bool IsAttackHeld();
         bool IsInteractingDown();
         bool IsReloadDown();
 

@@ -15,6 +15,7 @@ namespace HorrorEngine
         private InventoryEntry m_WeaponEntry;
         private ReloadableWeaponData m_Weapon;
         private UnityAction<AnimationEvent> m_OnAnimatorEvent;
+        private UnityAction<IActorState, IActorState> m_OnReloadStateChanged;
         private PlayerEquipment m_Equipment;
         private WeaponAmmoVisuals m_WeaponAmmoVisuals;
         private SocketController m_SocketController;
@@ -48,6 +49,7 @@ namespace HorrorEngine
             base.Awake();
 
             m_OnAnimatorEvent = OnAnimatorEvent;
+            m_OnReloadStateChanged = OnReloadStateChanged;
             m_AudioSource = GetComponentInParent<AudioSource>();
             m_Equipment = GetComponentInParent<PlayerEquipment>();
             m_SocketController = GetComponentInParent<SocketController>();
@@ -108,7 +110,13 @@ namespace HorrorEngine
             // explicitly enable it while the reload timer and animation run.
             if (m_Movement)
             {
-                m_Movement.AddConstrain(PlayerMovement.MovementConstrain.Running);
+                // Stationary reloads use both a controller disable and an
+                // explicit constraint, so no external state can re-enable
+                // walking mid-reload. Legacy opt-in mobile reloads retain their
+                // walk-only behavior.
+                m_Movement.AddConstrain(m_Weapon.AllowMovementDuringReload
+                    ? PlayerMovement.MovementConstrain.Running
+                    : PlayerMovement.MovementConstrain.Movement | PlayerMovement.MovementConstrain.Running);
                 m_Movement.enabled = m_Weapon.AllowMovementDuringReload;
             }
 
@@ -156,7 +164,9 @@ namespace HorrorEngine
             if (m_Movement)
             {
                 m_Movement.enabled = false;
-                m_Movement.RemoveConstrain(PlayerMovement.MovementConstrain.Running);
+                m_Movement.RemoveConstrain(m_Weapon.AllowMovementDuringReload
+                    ? PlayerMovement.MovementConstrain.Running
+                    : PlayerMovement.MovementConstrain.Movement | PlayerMovement.MovementConstrain.Running);
             }
 
             UIManager.Get<UIInputListener>().RemoveBlockingContext(this);
@@ -299,6 +309,11 @@ namespace HorrorEngine
         {
             Reload();
             m_ReloadCompleted = true;
+            bool reopenInventory = GameManager.Instance.Inventory.ConsumeInventoryReopenAfterReload(m_WeaponEntry) &&
+                m_Input.GetPrimaryAxis().sqrMagnitude <= Mathf.Epsilon &&
+                !m_Input.IsAimingHeld() && !m_Input.IsAttackHeld();
+            if (reopenInventory)
+                Actor.StateController.OnStateChanged.AddListener(m_OnReloadStateChanged);
             if (ShouldReturnToAim)
                 SetState(m_AimingState);
             else
@@ -315,6 +330,15 @@ namespace HorrorEngine
             Debug.Assert(m_Weapon.AmmoItem != null, "Weapon can not reload, AmmoItem is null in the WeaponData");
 
             GameManager.Instance.Inventory.ReloadWeapon(m_WeaponEntry);
+        }
+
+        private void OnReloadStateChanged(IActorState fromState, IActorState toState)
+        {
+            if (!ReferenceEquals(fromState, this))
+                return;
+
+            Actor.StateController.OnStateChanged.RemoveListener(m_OnReloadStateChanged);
+            UIManager.Get<UIInventory>()?.Show();
         }
 
     }

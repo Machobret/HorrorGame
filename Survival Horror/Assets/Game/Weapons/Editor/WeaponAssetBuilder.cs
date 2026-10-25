@@ -224,7 +224,7 @@ namespace HorrorGame.Weapons.Editor
             var data = Copy(Load<ReloadableWeaponData>(Examples + "Weapons/" + template + "/" + template + ".asset"), Root + "Data/" + name + ".asset");
             ConfigureItem(data, name == "Revolver" ? "Magnum revolver" : name == "HuntingRifle" ? "Hunting rifle" : "Flare gun", name == "Revolver" ? "A powerful six-shot .357 revolver. Fires on a trigger press." : name == "HuntingRifle" ? "A slow, powerful hunting rifle. Five-round magazine." : "A single-shot signal gun. Flares illuminate surfaces and burn enemies on contact.", name);
             data.MaxAmmo = magazine; data.AmmoItem = ammo; data.ReloadDuration = reload;
-            data.AllowMovementDuringReload = name != "HuntingRifle";
+            data.AllowMovementDuringReload = false;
             var root = (GameObject)PrefabUtility.InstantiatePrefab(Load<GameObject>(Examples + "Weapons/" + template + "/" + template + ".prefab"));
             PrefabUtility.UnpackPrefabInstance(root, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction); root.name = name;
             var weapon = root.GetComponent<Weapon>(); weapon.WeaponData = data;

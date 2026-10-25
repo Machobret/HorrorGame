@@ -48,7 +48,7 @@ namespace HorrorEngine
 
         private void Update()
         {
-            if (m_Input.IsCancelDown())
+            if (m_Input.IsCancelDown() && !InputBindingSettings.ShouldBlockMenuCancel)
             {
                 DiscardSettings();
                 Hide();
@@ -62,6 +62,7 @@ namespace HorrorEngine
         public void ApplySettings()
         {
             SettingsManager.Instance.SaveAndApply();
+            InputBindingSettings.SaveActive();
         }
 
         // ----------------------------------------------------------------
@@ -69,6 +70,22 @@ namespace HorrorEngine
         public void DiscardSettings()
         {
             SettingsManager.Instance.Discard();
+            InputBindingSettings.DiscardActive();
+        }
+
+        // ----------------------------------------------------------------
+
+        public void ResetDefaults()
+        {
+            SettingsManager.Instance.ResetToDefaults();
+            InputBindingSettings.ResetActive();
+
+            foreach (var element in GetComponentsInChildren<UISettingsElement>(true))
+            {
+                if (element.Content != null) element.Fill(element.Content);
+            }
+
+            GetComponent<SettingsMenuEnhancer>()?.RefreshBindingLabels();
         }
     }
 }

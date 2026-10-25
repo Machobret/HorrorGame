@@ -79,7 +79,9 @@ namespace HorrorGame.Chapter0
             if (m_PlayerMovement) m_PlayerMovement.Constrain |= PlayerMovement.MovementConstrain.Rotation;
             EquipTutorialLoadout();
             m_UIInputListener = FindFirstObjectByType<UIInputListener>();
-            m_UIInputListener?.AddBlockingContext(this);
+            // Keep inventory and map disabled during the lesson, but let P open
+            // the standard pause menu at any point in the tutorial.
+            m_UIInputListener?.AddBlockingContext(this, true);
             m_CutsceneCameraA = FindCutsceneCamera("CutsceneCameraA");
             m_CutsceneCameraB = FindCutsceneCamera("CutsceneCameraB");
         }
@@ -438,6 +440,9 @@ namespace HorrorGame.Chapter0
 
         private void OnGUI()
         {
+            // The pause menu owns the screen while the game is paused. Do not
+            // draw tutorial instructions over it.
+            if (PauseController.Exists && PauseController.Instance.IsPaused) return;
             if (m_Step == Step.AwaitMovementZone || m_Step == Step.Complete) return;
             if (m_Step == Step.Cutscene) return;
             bool isCombatPrompt = m_Step == Step.Aim || m_Step == Step.AimHeldPause || m_Step == Step.Shoot;

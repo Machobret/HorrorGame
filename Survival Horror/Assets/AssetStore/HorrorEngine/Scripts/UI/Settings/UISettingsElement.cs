@@ -10,6 +10,7 @@ namespace HorrorEngine
         public UnityEvent<string> OnValueChanged;
 
         protected SettingsElementContent m_Content;
+        public SettingsElementContent Content => m_Content;
 
         // ---------------------------------------------------------
 

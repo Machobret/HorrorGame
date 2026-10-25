@@ -57,7 +57,7 @@ namespace HorrorGame.Weapons.Editor
             ammo.MaxStackSize = 120;
             var data = Copy(sourceData, Root + "Data/MP5.asset");
             Name(data, "MP5", "A standard fixed-stock 9 mm submachine gun. Thirty-round magazine, automatic fire.");
-            data.MaxAmmo = 30; data.AmmoItem = ammo; data.ReloadDuration = 3; data.AllowMovementDuringReload = true;
+            data.MaxAmmo = 30; data.AmmoItem = ammo; data.ReloadDuration = 3; data.AllowMovementDuringReload = false;
             // The source pack has no audio. Explicitly use the existing game pistol report as a fallback.
             data.ShotSound = Load<AudioClip>(Root + "Audio/MP5_Shot.wav") ?? pistol.ShotSound;
             data.ReloadSound = Load<AudioClip>(Root + "Audio/MP5_Reload.wav") ?? pistol.ReloadSound;

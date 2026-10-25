@@ -421,7 +421,25 @@ namespace HorrorEngine
 
         private void Combine()
         {
-            InventoryEntry highlightedEntry = GameManager.Instance.Inventory.Combine(m_SelectedSlot.InventoryEntry, m_CombiningSlot.InventoryEntry);
+            var inventory = GameManager.Instance.Inventory;
+            bool requestedReload = inventory.CanRequestWeaponReload(
+                m_SelectedSlot.InventoryEntry, m_CombiningSlot.InventoryEntry);
+            InventoryEntry highlightedEntry = inventory.Combine(m_SelectedSlot.InventoryEntry, m_CombiningSlot.InventoryEntry);
+
+            // A reload must begin in gameplay, never underneath the paused
+            // inventory. Close immediately after a valid ammo/weapon combine;
+            // the pending request starts the reload on the next gameplay frame.
+            if (requestedReload)
+            {
+                InventoryEntry weaponEntry = m_SelectedSlot.InventoryEntry.Item is ReloadableWeaponData
+                    ? m_SelectedSlot.InventoryEntry
+                    : m_CombiningSlot.InventoryEntry;
+                inventory.RequestInventoryReopenAfterReload(weaponEntry);
+                m_CombiningSlot = null;
+                Hide();
+                m_Input.Flush();
+                return;
+            }
             
             Fill();
             FillEquipped();

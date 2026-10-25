@@ -58,6 +58,8 @@ namespace HorrorEngine
         private PlayerActions m_Actions;
         private bool m_RequireAimRelease;
 
+        public PlayerActions Actions => m_Actions;
+
         private void Awake()
         {
             MessageBuffer<GameUnpausedMessage>.Subscribe(OnGameUnpaused);
@@ -66,6 +68,7 @@ namespace HorrorEngine
         private void Start()
         {
             m_Actions = new PlayerActions();
+            InputBindingSettings.Apply(m_Actions.asset);
             m_Actions.Gameplay.SetCallbacks(this);
             m_Actions.Enable();
         }
@@ -148,6 +151,11 @@ namespace HorrorEngine
         public bool IsAttackUp()
         {
             return m_AttackP.IsUp();
+        }
+
+        public bool IsAttackHeld()
+        {
+            return AllowAttack && m_AttackP.IsHeld();
         }
 
         public bool IsInteractingDown()

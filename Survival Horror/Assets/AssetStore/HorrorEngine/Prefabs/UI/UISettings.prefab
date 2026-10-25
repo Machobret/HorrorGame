@@ -1955,6 +1955,7 @@ GameObject:
   - component: {fileID: 5695317601561882185}
   - component: {fileID: 5043227898890172663}
   - component: {fileID: 3300989852063398893}
+  - component: {fileID: 4104089340247042241}
   m_Layer: 5
   m_Name: UISettings
   m_TagString: Untagged
@@ -2021,6 +2022,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &4104089340247042241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5695317601561882189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bda2098de1b431ca093c65ee1113c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameFont: {fileID: 12800000, guid: 56c49ec600a859d41b4d8f9d684f62ea, type: 3}
 --- !u!1 &6309042192035185204
 GameObject:
   m_ObjectHideFlags: 0

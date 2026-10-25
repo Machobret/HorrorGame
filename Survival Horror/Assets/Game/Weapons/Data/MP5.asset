@@ -67,7 +67,7 @@ MonoBehaviour:
   ShotSound: {fileID: 8300000, guid: 87c58443a50f4e61b85ff79f1b5eacab, type: 3}
   ReloadSound: {fileID: 8300000, guid: a3acf0fee7c44f2ea2646d17fa2591f9, type: 3}
   ReloadDuration: 3
-  AllowMovementDuringReload: 1
+  AllowMovementDuringReload: 0
   references:
     version: 2
     RefIds: []

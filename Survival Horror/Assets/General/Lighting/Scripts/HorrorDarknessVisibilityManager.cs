@@ -90,9 +90,11 @@ namespace HorrorGame.Lighting
         private readonly List<Light> lights = new();
         // Native Unity objects must be recreated after a Play-mode script reload.
         [System.NonSerialized] private MaterialPropertyBlock block;
-        [SerializeField, Range(.2f, 2f)] private float closeGlowDistance = .85f;
-        [SerializeField, Range(0f, .1f)] private float closeGlowIntensity = .025f;
+        [Header("Wall proximity glow (independent of scene lights)")]
+        [SerializeField, Range(.4f, 2f)] private float closeGlowDistance = .85f;
+        [SerializeField, Range(0f, .2f)] private float playerGlowIntensity = .05f;
         private Transform glowPlayer;
+        private Transform glowModel;
         private float closeGlowTarget;
         private float closeGlowAmount;
         private float nextRefresh;
@@ -120,7 +122,7 @@ namespace HorrorGame.Lighting
             {
                 nextRefresh = Time.unscaledTime + updateInterval;
                 RefreshTrackedObjects();
-                UpdateCloseGlowProximity();
+                UpdatePlayerGlowTarget();
                 RefreshLights();
             }
             closeGlowAmount = Mathf.MoveTowards(closeGlowAmount, closeGlowTarget, Time.deltaTime * 2.5f);
@@ -166,20 +168,18 @@ namespace HorrorGame.Lighting
                 if (light.enabled && light.gameObject.activeInHierarchy) lights.Add(light);
         }
 
-        private void UpdateCloseGlowProximity()
+        private void UpdatePlayerGlowTarget()
         {
-            var actor = FindFirstObjectByType<HorrorEngine.PlayerActor>();
+            var actor = HorrorEngine.GameManager.Exists ? HorrorEngine.GameManager.Instance.Player : null;
+            if (actor == null) actor = FindFirstObjectByType<HorrorEngine.PlayerActor>();
             glowPlayer = actor != null ? actor.transform : null;
+            glowModel = actor != null && actor.MainAnimator != null ? actor.MainAnimator.transform : glowPlayer;
             closeGlowTarget = 0f;
             if (glowPlayer == null) return;
 
-            // Retire old helpers. The bounce is now a texture-colored material fill.
-            foreach (var light in FindObjectsByType<Light>(FindObjectsInactive.Include, FindObjectsSortMode.None))
-                if (IsOldHelper(light)) light.enabled = false;
-
+            // Only proximity controls this fill. Scene lights and equipped lights
+            // never change its target intensity.
             float nearest = closeGlowDistance;
-            // Horizontal rays work with concave mesh colliders too. Ignore the floor
-            // and the character's own colliders instead of using Collider.ClosestPoint.
             for (int height = 0; height < 3; height++)
             {
                 Vector3 origin = glowPlayer.position + Vector3.up * (.45f + height * .45f);
@@ -187,15 +187,21 @@ namespace HorrorGame.Lighting
                 {
                     float angle = direction * Mathf.PI * 2f / 16f;
                     Vector3 heading = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
-                    foreach (var hit in Physics.RaycastAll(origin, heading, closeGlowDistance, ~0, QueryTriggerInteraction.Ignore))
+                    foreach (var hit in Physics.RaycastAll(origin, heading, closeGlowDistance,
+                                 ~0, QueryTriggerInteraction.Ignore))
                     {
-                        if (hit.transform.IsChildOf(glowPlayer) || Mathf.Abs(hit.normal.y) > .65f) continue;
+                        if (hit.transform.IsChildOf(glowPlayer) ||
+                            (glowModel != null && hit.transform.IsChildOf(glowModel)) ||
+                            Mathf.Abs(hit.normal.y) > .65f) continue;
                         nearest = Mathf.Min(nearest, hit.distance);
                     }
                 }
             }
             closeGlowTarget = Mathf.SmoothStep(0f, 1f,
                 Mathf.InverseLerp(closeGlowDistance, .3f, nearest));
+
+            foreach (var light in FindObjectsByType<Light>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+                if (IsOldHelper(light)) light.enabled = false;
         }
 
         private static bool IsOldHelper(Light light)
@@ -210,11 +216,12 @@ namespace HorrorGame.Lighting
             foreach (var pair in renderers)
             {
                 if (pair.Key == null) continue;
-                bool isPlayerRenderer = glowPlayer != null && pair.Key.transform.IsChildOf(glowPlayer) &&
-                    !(pair.Key is ParticleSystemRenderer);
+                bool isPlayerRenderer = !(pair.Key is ParticleSystemRenderer) &&
+                    ((glowPlayer != null && pair.Key.transform.IsChildOf(glowPlayer)) ||
+                     (glowModel != null && pair.Key.transform.IsChildOf(glowModel)));
                 if (refresh) pair.Value.Visibility = LocalVisibility(pair.Key.bounds.center, pair.Key);
                 float visibility = pair.Value.Visibility;
-                pair.Value.Apply(pair.Key, block, visibility, isPlayerRenderer ? closeGlowAmount * closeGlowIntensity : 0f, isPlayerRenderer);
+                pair.Value.Apply(pair.Key, block, visibility, isPlayerRenderer ? closeGlowAmount * playerGlowIntensity : 0f, isPlayerRenderer);
             }
             foreach (var pair in particles)
             {
@@ -352,7 +359,16 @@ namespace HorrorGame.Lighting
                     float albedoVisibility = naturallyLit ? 1f : blendedVisibility;
                     if (material.HasProperty("_BaseColor")) block.SetColor("_BaseColor", Dim(baseColors[i], albedoVisibility));
                     if (material.HasProperty("_Color")) block.SetColor("_Color", Dim(tintColors[i], albedoVisibility));
-                    if (material.HasProperty("_EmissionColor")) block.SetColor("_EmissionColor", isPlayer ? baseColors[i] * glow : Color.black);
+                    if (material.HasProperty("_EmissionColor"))
+                    {
+                        Color emission = isPlayer ? baseColors[i] * glow : Color.black;
+                        if (isPlayer)
+                        {
+                            material.EnableKeyword("_EMISSION");
+                            material.SetColor("_EmissionColor", emission);
+                        }
+                        block.SetColor("_EmissionColor", emission);
+                    }
                     if (material.HasProperty("_DarknessVisibility")) block.SetFloat("_DarknessVisibility", albedoVisibility);
                     renderer.SetPropertyBlock(block, i);
                 }

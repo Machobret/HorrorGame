@@ -182,6 +182,22 @@ namespace HorrorEngine
 
         // ---------------------------------------------------------
 
+        /// <summary>Stages every registered setting at its authored default value.</summary>
+        public void ResetToDefaults()
+        {
+            foreach (var set in m_SettingsSets)
+            {
+                foreach (var content in set.Elements)
+                {
+                    if (!content) continue;
+                    m_Settings[content] = content.GetDefaultValue();
+                    content.Apply();
+                }
+            }
+        }
+
+        // ---------------------------------------------------------
+
         public void SaveAndApply()
         {
             foreach (var setting in m_Settings)

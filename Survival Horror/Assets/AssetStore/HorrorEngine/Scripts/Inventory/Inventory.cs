@@ -133,6 +133,9 @@ namespace HorrorEngine
         // Combining requests the animation; ammunition is transferred only when it finishes.
         // Weapon data is stable when inventory entries are rearranged or equipped.
         [NonSerialized] private HashSet<ReloadableWeaponData> m_PendingWeaponReloads = new HashSet<ReloadableWeaponData>();
+        // Only UI ammo/weapon combines request that the inventory returns after
+        // the corresponding completed reload; keyboard reloads do not.
+        [NonSerialized] private HashSet<ReloadableWeaponData> m_ReopenInventoryAfterReloads = new HashSet<ReloadableWeaponData>();
 
         
         // --------------------------------------------------------------------
@@ -140,6 +143,7 @@ namespace HorrorEngine
         public void Init(CharacterData character)
         {
             m_PendingWeaponReloads.Clear();
+            m_ReopenInventoryAfterReloads.Clear();
             m_EquippedChangedMsg.Character = character;
             m_ItemAddedMsg.Character = character;
             m_ItemRemovedMsg.Character = character;
@@ -170,6 +174,7 @@ namespace HorrorEngine
         public void Clear()
         {
             m_PendingWeaponReloads.Clear();
+            m_ReopenInventoryAfterReloads.Clear();
             if (!IsInfinite())
             {
                 Items = new List<InventoryEntry>(m_MaxItems);
@@ -311,7 +316,10 @@ namespace HorrorEngine
                 }
 
                 if (entry.Item is ReloadableWeaponData removedWeapon)
+                {
                     m_PendingWeaponReloads.Remove(removedWeapon);
+                    m_ReopenInventoryAfterReloads.Remove(removedWeapon);
+                }
                 entry.Item = null; // This needs to happen after unequip
 
                 if (IsInfinite())
@@ -428,12 +436,37 @@ namespace HorrorEngine
         public InventoryEntry RequestWeaponReload(InventoryEntry weaponEntry, InventoryEntry ammoEntry)
         {
             var weapon = weaponEntry?.Item as ReloadableWeaponData;
-            if (weapon && ammoEntry != null && ammoEntry.Item == weapon.AmmoItem &&
-                ammoEntry.Count > 0 && weaponEntry.SecondaryCount < weapon.MaxAmmo)
+            if (CanRequestWeaponReload(weaponEntry, ammoEntry))
             {
                 m_PendingWeaponReloads.Add(weapon);
             }
             return weaponEntry;
+        }
+
+        // Reloading is initiated by combining a compatible ammunition stack with
+        // a weapon in the inventory. The UI uses this to close before the
+        // gameplay reload state is allowed to consume the request.
+        public bool CanRequestWeaponReload(InventoryEntry entry1, InventoryEntry entry2)
+        {
+            var firstWeapon = entry1?.Item as ReloadableWeaponData;
+            var secondWeapon = entry2?.Item as ReloadableWeaponData;
+            var weaponEntry = firstWeapon != null ? entry1 : secondWeapon != null ? entry2 : null;
+            var ammoEntry = weaponEntry == entry1 ? entry2 : entry1;
+            var weapon = weaponEntry?.Item as ReloadableWeaponData;
+            return weapon && ammoEntry != null && ammoEntry.Item == weapon.AmmoItem &&
+                ammoEntry.Count > 0 && weaponEntry.SecondaryCount < weapon.MaxAmmo;
+        }
+
+        public void RequestInventoryReopenAfterReload(InventoryEntry weaponEntry)
+        {
+            if (weaponEntry?.Item is ReloadableWeaponData weapon)
+                m_ReopenInventoryAfterReloads.Add(weapon);
+        }
+
+        public bool ConsumeInventoryReopenAfterReload(InventoryEntry weaponEntry)
+        {
+            return weaponEntry?.Item is ReloadableWeaponData weapon &&
+                m_ReopenInventoryAfterReloads.Remove(weapon);
         }
 
         // Queried by gameplay states only after the inventory/input blocking UI closes.

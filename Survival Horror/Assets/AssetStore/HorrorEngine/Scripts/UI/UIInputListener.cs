@@ -12,6 +12,10 @@ namespace HorrorEngine
         private UIPause m_Pause;
 
         private HashSet<Object> m_BlockingContext = new HashSet<Object>();
+        // Some scripted sequences need the normal UI blocked while still allowing
+        // the player to pause. Keep those contexts separate from the default,
+        // fully-blocking behavior.
+        private HashSet<Object> m_PauseAllowedBlockingContext = new HashSet<Object>();
 
         // --------------------------------------------------------------------
 
@@ -28,7 +32,7 @@ namespace HorrorEngine
 
             if (GameManager.Instance.IsPlaying)
             {
-                if (m_Input.IsToggleInventoryDown())
+                if (m_BlockingContext.Count == 0 && m_Input.IsToggleInventoryDown())
                 {
                     if (!m_Inventory)
                         m_Inventory = GetComponentInChildren<UIInventory>(true);
@@ -37,7 +41,7 @@ namespace HorrorEngine
                         m_Inventory?.Show();
                 }
 
-                if (m_Input.IsToggleMapDown())
+                if (m_BlockingContext.Count == 0 && m_Input.IsToggleMapDown())
                 {
                     if (!m_Map)
                         m_Map = GetComponentInChildren<UIMap>(true);
@@ -75,7 +79,20 @@ namespace HorrorEngine
         {
             m_BlockingContext.Add(context);
 
-            enabled = false;
+            RefreshEnabledState();
+        }
+
+        /// <summary>
+        /// Blocks inventory and map UI for a scripted context. When
+        /// <paramref name="allowPause"/> is true, the pause menu remains usable.
+        /// </summary>
+        public void AddBlockingContext(Object context, bool allowPause)
+        {
+            m_BlockingContext.Add(context);
+            if (allowPause)
+                m_PauseAllowedBlockingContext.Add(context);
+
+            RefreshEnabledState();
         }
 
         // --------------------------------------------------------------------
@@ -83,18 +100,21 @@ namespace HorrorEngine
         public void RemoveBlockingContext(Object context)
         {
             m_BlockingContext.Remove(context);
+            m_PauseAllowedBlockingContext.Remove(context);
 
-            if (m_BlockingContext.Count == 0)
-            {
-                enabled = true;
-            }
+            RefreshEnabledState();
+        }
+
+        private void RefreshEnabledState()
+        {
+            enabled = m_BlockingContext.Count == 0 || m_PauseAllowedBlockingContext.Count > 0;
         }
 
         // --------------------------------------------------------------------
 
         internal bool IsBlocked()
         {
-            return !enabled;
+            return m_BlockingContext.Count > 0;
         }
     }
 }
