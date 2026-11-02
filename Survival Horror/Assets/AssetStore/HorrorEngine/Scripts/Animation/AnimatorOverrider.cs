@@ -7,6 +7,10 @@ namespace HorrorEngine
  
     public class AnimatorOverrider : MonoBehaviour, IResetable
     {
+        [Tooltip("Optional player-specific idle. Applied after equipment overrides; other clips are unaffected.")]
+        [SerializeField] private AnimationClip m_RelaxedIdleClip;
+        [SerializeField] private AnimationClip[] m_RelaxedIdleSources;
+
         private Animator m_Animator;
 
         private AnimatorOverrideController m_OverrideController;
@@ -34,6 +38,15 @@ namespace HorrorEngine
             {
                 m_ClearOverrides.Add(new KeyValuePair<AnimationClip, AnimationClip>(anim, null));
             }
+
+            if (m_RelaxedIdleClip && m_RelaxedIdleSources != null)
+            {
+                m_NewOverrides.Clear();
+                foreach (var pair in m_ClearOverrides)
+                    if (IsRelaxedIdleSource(pair.Key))
+                        m_NewOverrides.Add(new KeyValuePair<AnimationClip, AnimationClip>(pair.Key, m_RelaxedIdleClip));
+                m_OverrideController.ApplyOverrides(m_NewOverrides);
+            }
         }
 
         // --------------------------------------------------------------------
@@ -56,7 +69,9 @@ namespace HorrorEngine
             
             foreach (var overrideEntry in m_OverridesDictionary)
             {
-                m_NewOverrides.Add(new KeyValuePair<AnimationClip, AnimationClip>(overrideEntry.Key, overrideEntry.Value));
+                var clip = overrideEntry.Value ? overrideEntry.Value : overrideEntry.Key;
+                var replacement = IsRelaxedIdleSource(clip) ? m_RelaxedIdleClip : overrideEntry.Value;
+                m_NewOverrides.Add(new KeyValuePair<AnimationClip, AnimationClip>(overrideEntry.Key, replacement));
             }
 
             m_OverrideController.ApplyOverrides(m_NewOverrides);
@@ -86,6 +101,14 @@ namespace HorrorEngine
         }
 
         // --------------------------------------------------------------------
+
+        private bool IsRelaxedIdleSource(AnimationClip clip)
+        {
+            if (!m_RelaxedIdleClip || m_RelaxedIdleSources == null) return false;
+            foreach (var source in m_RelaxedIdleSources)
+                if (source == clip) return true;
+            return false;
+        }
 
         private void MapOverrides(List<KeyValuePair<AnimationClip, AnimationClip>> overrideList, bool skipEmpty)
         {
