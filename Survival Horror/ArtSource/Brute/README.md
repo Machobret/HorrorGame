@@ -9,7 +9,7 @@ A hunched, heavy-bellied creature with distorted human features, darkened bruise
 - `build_brute.py`: reproducible Blender generator. Reuses the flesh atlas, exports the FBX and 256 x 256 atlas, and renders pose previews. Run from the Unity project root with Blender's background Python mode. The script currently targets this project's absolute path.
 - `Previews/Brute_Final_ThreeQuarter.png`: current model preview. The matching Walk and Attack previews show the hunched rig in motion. Earlier previews preserve the upright design.
 
-Unity assets live at `Assets/Game/Enemies/Resources/Brute/`. Use the existing `Assets/Game/Enemies/Blobber.prefab` for gameplay.
+Unity assets live at `Assets/Game/Enemies/Brute/Resources/Brute/`. Use the existing `Assets/Game/Enemies/Brute/Blobber.prefab` for gameplay.
 
 ## Rig and integration
 

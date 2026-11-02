@@ -7,7 +7,7 @@ holds the three rounds. The complete mesh has 303 polygon faces and occupies
 about 5.3 x 4.6 x 9.6 cm in Unity.
 
 The bundle uses native metre units and scale 1, with a dedicated
-`Assets/Game/Weapons/Models/FlareAmmo/FlareAmmo_Albedo.png` atlas and the template's
+`Assets/Game/Weapons/Ammunition/FlareAmmo/Models/FlareAmmo_Albedo.png` atlas and the template's
 unlit shader. The pickup/examination models and inventory icon use this new
 mesh. Pickup count remains three; original prefab, model and save IDs are
 retained. The downloaded assets were not modified.

@@ -13,7 +13,7 @@ namespace HorrorGame.Weapons.Editor
  {
   const string Key="HorrorGame.WeaponProgressCapture";
   static WeaponProgressCapture(){EditorApplication.playModeStateChanged+=OnState;}
-  public static void RunBatch(){EditorSceneManager.OpenScene("Assets/Scenes/FlareGun_TestRoom.unity");SessionState.SetBool(Key,true);EditorApplication.isPlaying=true;}
+  public static void RunBatch(){EditorSceneManager.OpenScene("Assets/Sandbox/WeaponTestRoom/Scenes/FlareGun_TestRoom.unity");SessionState.SetBool(Key,true);EditorApplication.isPlaying=true;}
   static void OnState(PlayModeStateChange s){if(s==PlayModeStateChange.EnteredPlayMode&&SessionState.GetBool(Key,false))new GameObject("Weapon media capture").AddComponent<WeaponProgressCaptureDriver>();}
   public static void Finish(int code){SessionState.SetBool(Key,false);Time.captureFramerate=0;EditorApplication.Exit(code);}
  }
@@ -21,7 +21,7 @@ namespace HorrorGame.Weapons.Editor
  public sealed class WeaponProgressCaptureDriver:MonoBehaviour
  {
   const string Output="C:/Users/Mangis/AppData/Local/Temp/FlareSceneFinalValidation/WeaponProgressMedia";
-  string[] paths={"Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Gun/Gun.asset","Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Shotgun/Shotgun.asset","Assets/Game/Weapons/Data/Revolver.asset","Assets/Game/Weapons/Data/HuntingRifle.asset","Assets/Game/Weapons/Data/FlareGun.asset"};
+  string[] paths={"Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Gun/Gun.asset","Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Shotgun/Shotgun.asset",WeaponAssetPaths.Content("Data", "Revolver.asset"),WeaponAssetPaths.Content("Data", "HuntingRifle.asset"),WeaponAssetPaths.Content("Data", "FlareGun.asset")};
   int stage,index,frame,shotFrame;float phase,recordStart;double started;Mouse mouse;Camera camera;RenderTexture target;Light key,fill;ReloadableWeaponData data;bool recording,seenFlare,seenLanded;float maxDistance;Vector3 initialFlare;
   void Awake(){started=EditorApplication.timeSinceStartup;Directory.CreateDirectory(Output);Directory.CreateDirectory(Output+"/Frames");Application.runInBackground=true;Time.captureFramerate=24;}
   void LateUpdate()

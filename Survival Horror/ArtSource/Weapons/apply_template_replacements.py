@@ -1,4 +1,10 @@
 """Keep every existing item/prefab identity; update its rendering and socket placement."""
+
+# Shared paths keep generated assets beside their owning weapon.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(next(p for p in _Path(__file__).resolve().parents if (p / "ProjectSettings").is_dir()) / "Tools" / "Art"))
+from weapon_paths import weapon_asset
 from pathlib import Path
 import json,re,uuid,shutil
 ROOT=Path(__file__).resolve().parents[2];ART=ROOT/'ArtSource/Weapons/TemplateReplacements'
@@ -16,7 +22,7 @@ for name,entry in report.items():
  material_guid=re.search(r'guid: ([0-9a-f]+)',(folder/(name+'.mat.meta')).read_text())[1]
  texmeta=folder/(name+'_PSX_Albedo.png.meta')
  if not texmeta.exists():
-  text=(ROOT/'Assets/Game/Weapons/Models/Revolver/ColtPython.png.meta').read_text()
+  text=(weapon_asset('Models', str('Revolver') + "/" + str('ColtPython.png.meta'))).read_text()
   text=re.sub(r'^guid: [0-9a-f]+','guid: '+uuid.uuid4().hex,text,flags=re.M)
  else:text=texmeta.read_text()
  text=re.sub(r'maxTextureSize: \d+','maxTextureSize: 128',text)
@@ -42,7 +48,7 @@ for name,entry in report.items():
  width,length,height=entry['size'];wx,forward_negative,up=entry['center']
  forward=-forward_negative;sign=-1 if name=='Gun' else 1
  center=[forward*sign,up,wx];minimum_y=up-height*.5
- pickup=ROOT/'Assets/Game/Weapons/Prefabs'/('Pistol_Pickup.prefab' if name=='Gun' else 'Shotgun_Pickup.prefab')
+ pickup=weapon_asset('Prefabs', str('Pistol_Pickup.prefab' if name=='Gun' else 'Shotgun_Pickup.prefab'))
  backup(pickup);text=pickup.read_text()
  for axis,value in zip('xyz',[-center[0],-minimum_y,-center[2]]):text=override(text,model_guid,'m_LocalPosition.'+axis,value)
  text=re.sub(r'm_Size: \{[^}]+\}',f'm_Size: {{x: {max(.2,length)}, y: {max(.2,height)}, z: {max(.2,width)}}}',text)

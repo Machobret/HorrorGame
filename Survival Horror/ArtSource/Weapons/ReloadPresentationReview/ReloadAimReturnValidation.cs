@@ -19,9 +19,9 @@ namespace HorrorGame.Weapons.Editor
         static readonly string[] Paths = {
             "Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Gun/Gun.asset",
             "Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Shotgun/Shotgun.asset",
-            "Assets/Game/Weapons/Data/HuntingRifle.asset",
-            "Assets/Game/Weapons/Data/Revolver.asset",
-            "Assets/Game/Weapons/Data/FlareGun.asset" };
+            WeaponAssetPaths.Content("Data", "HuntingRifle.asset"),
+            WeaponAssetPaths.Content("Data", "Revolver.asset"),
+            WeaponAssetPaths.Content("Data", "FlareGun.asset") };
         static int stage, index, variant, frame, lastFrame;
         static double started;
         static float phase, reloadStart, exitedAt, reserveBefore;
@@ -45,7 +45,7 @@ namespace HorrorGame.Weapons.Editor
         static ReloadAimReturnValidation() { EditorApplication.playModeStateChanged += OnPlay; }
         public static void RunBatch()
         {
-            EditorSceneManager.OpenScene("Assets/Scenes/FlareGun_TestRoom.unity");
+            EditorSceneManager.OpenScene("Assets/Sandbox/WeaponTestRoom/Scenes/FlareGun_TestRoom.unity");
             SessionState.SetBool(SessionKey, true); EditorApplication.isPlaying = true;
         }
         static void OnPlay(PlayModeStateChange change)

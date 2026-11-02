@@ -177,5 +177,5 @@ print('FLARE_TEST_SCENE_CREATED',path,'arena cubes',len(children))
 rsp=(root/'Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.rsp').read_text()
 rsp=re.sub(r'^-out:.*','-out:"C:/Users/Mangis/AppData/Local/Temp/FlareTestCompile.dll"',rsp,flags=re.M)
 rsp=re.sub(r'^-refout:.*','-refout:"C:/Users/Mangis/AppData/Local/Temp/FlareTestCompile.ref.dll"',rsp,flags=re.M)
-if 'Assets/Game/Weapons/FlareTestRoom.cs' not in rsp:rsp+='\n"Assets/Game/Weapons/FlareTestRoom.cs"\n'
+if 'Assets/Sandbox/WeaponTestRoom/Scripts/FlareTestRoom.cs' not in rsp:rsp+='\n"Assets/Sandbox/WeaponTestRoom/Scripts/FlareTestRoom.cs"\n'
 Path('C:/Users/Mangis/AppData/Local/Temp/flare-test-compile.rsp').write_text(rsp)

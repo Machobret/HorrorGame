@@ -2,7 +2,7 @@
 
 Sources: the three MP3 recordings supplied in Downloads/Assets/Guns. Analysis used waveform levels and time/frequency spectra to identify isolated firing transients and mechanical sequences. The source files are unchanged. Source durations are listed in analysis.json; exact edit boundaries, noise profile and output levels are recorded in edits.json.
 
-Delivered PCM WAV clips live in Assets/Game/Weapons/Audio (mono, 44.1 kHz, 16-bit, short fades, no clipped output):
+Delivered PCM WAV clips live in Assets/Game/Weapons/<Weapon>/Audio (mono, 44.1 kHz, 16-bit, short fades, no clipped output):
 
 | Clip | Source interval | Purpose |
 | --- | --- | --- |

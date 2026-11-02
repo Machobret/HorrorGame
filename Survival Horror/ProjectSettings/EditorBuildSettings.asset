@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/General/Scenes/MainMenu.unity
+    path: Assets/Game/UI/MainMenu/Scenes/MainMenu.unity
     guid: 244f0b785e69f4b4480ac64c30aa42fa
   - enabled: 1
     path: Assets/AssetStore/HorrorEngine/ExampleContent/Scenes/SampleScene2.unity
@@ -15,10 +15,10 @@ EditorBuildSettings:
     path: Assets/AssetStore/HorrorEngine/ExampleContent/Scenes/SampleScene1.unity
     guid: 63a0e531f639fad44b0397aafbded078
   - enabled: 1
-    path: Assets/Chapter0/Scenes/Tutorial.unity
+    path: Assets/Game/Levels/Chapter0/Scenes/Tutorial.unity
     guid: 7a216957b48e4c1e9571e5173d6609b1
   - enabled: 1
-    path: Assets/Chapter0/Scenes/Checkpoint.unity
+    path: Assets/Game/Levels/Chapter0/Scenes/Checkpoint.unity
     guid: b5c63d7b7c6240f9a347ea2120f4d804
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 455d7f7d52c731d49b0ccf0ad04a0872, type: 2}

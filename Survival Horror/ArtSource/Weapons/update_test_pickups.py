@@ -1,15 +1,21 @@
 """Update the test rack without resetting tuned weapons or requiring the open editor to close."""
+
+# Shared paths keep generated assets beside their owning weapon.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(next(p for p in _Path(__file__).resolve().parents if (p / "ProjectSettings").is_dir()) / "Tools" / "Art"))
+from weapon_paths import weapon_asset
 from pathlib import Path
 import re, json, uuid
 root=Path(__file__).resolve().parents[2]
-prefabs=root/'Assets/Game/Weapons/Prefabs'
+
 measurements=Path('C:/Users/Mangis/AppData/Local/Temp/WeaponVisualValidation')
 def guid(path): return re.search(r'^guid: (\w+)',Path(str(path)+'.meta').read_text(),re.M)[1]
 def meta(path):
     p=Path(str(path)+'.meta')
     if not p.exists(): p.write_text('fileFormatVersion: 2\nguid: '+uuid.uuid4().hex+'\nPrefabImporter:\n  externalObjects: {}\n  userData:\n  assetBundleName:\n  assetBundleVariant:\n')
-template=(prefabs/'HuntingRifle_Pickup.prefab').read_text()
-rifle_guid=guid(root/'Assets/Game/Weapons/Models/HuntingRifle/HuntingRifle.fbx')
+template=(weapon_asset('Prefabs', str('HuntingRifle_Pickup.prefab'))).read_text()
+rifle_guid=guid(weapon_asset('Models', str('HuntingRifle') + "/" + str('HuntingRifle.fbx')))
 for source,name,scale,material in [('Gun','Pistol',.01,'7916ee5fdc758f144b96ea3224defc55'),('Shotgun','Shotgun',.19875449,'91812d3d947bb724d90e4ceb46ca399c')]:
     data=root/('Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/'+source+'/'+source+'.asset')
     model=data.with_suffix('.fbx')
@@ -35,10 +41,10 @@ for source,name,scale,material in [('Gun','Pistol',.01,'7916ee5fdc758f144b96ea32
     prefix=re.sub(r'  m_Size: \{[^}]+\}', '  m_Size: {x: '+str(max(size['x'],.2))+', y: '+str(max(size['y'],.2))+', z: '+str(max(size['z'],.2))+'}',prefix)
     prefix=re.sub(r'  m_Center: \{[^}]+\}', '  m_Center: {x: 0, y: '+str(size['y']*.5)+', z: 0}',prefix)
     prefix=re.sub(r'  Offset: \{[^}]+\}', '  Offset: {x: 0, y: '+str(size['y']*.5)+', z: 0}',prefix)
-    out=prefabs/(name+'_Pickup.prefab');out.write_text(prefix+'--- !u!1001'+visual);meta(out)
+    out=weapon_asset('Prefabs', str(name+'_Pickup.prefab'));out.write_text(prefix+'--- !u!1001'+visual);meta(out)
     print('ADDED',name,'loaded rounds',magazine,'size',size)
 
-rackpath=prefabs/'Weapon_TestPickups.prefab'
+rackpath=weapon_asset('Prefabs', str('Weapon_TestPickups.prefab'))
 rack=rackpath.read_text()
 # Keep the existing nested IDs so scene instances retain their links.
 positions={'Pistol_Pickup':(0,0),'Shotgun_Pickup':(1.25,0),'HuntingRifle_Pickup':(2.5,0),'FlareGun_Pickup':(3.75,0),'HuntingRifleAmmo_Pickup':(2.5,1.25),'FlareAmmo_Pickup':(3.75,1.25)}
@@ -51,7 +57,7 @@ for index in range(1,len(chunks)):
 rack='--- !u!1001'.join(chunks)
 parent=5116455486725574071
 for offset,(name,x) in enumerate([('Pistol',0),('Shotgun',1.25)]):
-    path=prefabs/(name+'_Pickup.prefab');g=guid(path)
+    path=weapon_asset('Prefabs', str(name+'_Pickup.prefab'));g=guid(path)
     instance=740002000000000001+offset*10; stripped=instance+1
     target=7569754894736958610;go=5386159470166282903
     block='--- !u!1001 &'+str(instance)+'\nPrefabInstance:\n  m_ObjectHideFlags: 0\n  serializedVersion: 2\n  m_Modification:\n    serializedVersion: 3\n    m_TransformParent: {fileID: '+str(parent)+'}\n    m_Modifications:\n'
@@ -63,8 +69,8 @@ for offset,(name,x) in enumerate([('Pistol',0),('Shotgun',1.25)]):
         rack=rack.replace('  m_Children:\n','  m_Children:\n  - {fileID: '+str(stripped)+'}\n',1)
         rack+='\n'+block
 rackpath.write_text(rack)
-ammo_guid=guid(root/'Assets/Game/Weapons/Data/HuntingRifleAmmo.asset')
-assert ammo_guid in (root/'Assets/Game/Weapons/Data/HuntingRifle.asset').read_text()
-assert ammo_guid in (prefabs/'HuntingRifleAmmo_Pickup.prefab').read_text()
-assert guid(root/'Assets/Game/Weapons/Models/RifleAmmo/RifleAmmo.fbx') in (prefabs/'HuntingRifleAmmo_Pickup.prefab').read_text()
+ammo_guid=guid(weapon_asset('Data', str('HuntingRifleAmmo.asset')))
+assert ammo_guid in (weapon_asset('Data', str('HuntingRifle.asset'))).read_text()
+assert ammo_guid in (weapon_asset('Prefabs', str('HuntingRifleAmmo_Pickup.prefab'))).read_text()
+assert guid(weapon_asset('Models', str('RifleAmmo') + "/" + str('RifleAmmo.fbx'))) in (weapon_asset('Prefabs', str('HuntingRifleAmmo_Pickup.prefab'))).read_text()
 print('VERIFIED hunting rifle uses the downloaded rifle ammo box and matching ammo item')

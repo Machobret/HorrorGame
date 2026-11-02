@@ -1,7 +1,7 @@
 """Recreate the editable Blender scene and preview from the validated game mesh."""
 import bpy, os, math, json
 from mathutils import Vector
-SRC=os.path.dirname(__file__);ROOT=os.path.abspath(SRC+'/../..');OUT=ROOT+'/Assets/Game/Enemies/Resources/Witch'
+SRC=os.path.dirname(__file__);ROOT=os.path.abspath(SRC+'/../..');OUT=ROOT+'/Assets/Game/Enemies/Witch/Resources/Witch'
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.fbx(filepath=OUT+'/Witch_Model.fbx')
 arm=next(o for o in bpy.data.objects if o.type=='ARMATURE')

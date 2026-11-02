@@ -40,11 +40,11 @@ namespace HorrorGame.Weapons.Editor
 
         public static void ValidateAssets()
         {
-            data = Load<ReloadableWeaponData>(Root + "Data/MP5.asset");
+            data = Load<ReloadableWeaponData>(WeaponAssetPaths.Content("Data", "MP5.asset"));
             Check(data && data.MaxAmmo == 30 && Mathf.Abs(data.ReloadDuration - 3) < .01f, "30-round / 3-second weapon data missing");
-            Check(data.AllowMovementDuringReload && data.AmmoItem == Load<AmmoData>(Root + "Data/SMGAmmo.asset"), "walking reload / separate SMG reserve wiring missing");
+            Check(data.AllowMovementDuringReload && data.AmmoItem == Load<AmmoData>(WeaponAssetPaths.Content("Data", "SMGAmmo.asset")), "walking reload / separate SMG reserve wiring missing");
             Check(data.ShotSound && data.ReloadSound && data.Image && data.ExamineModel, "audio/icon/examination missing");
-            Check(AssetDatabase.GetAssetPath(data.Image) == Root + "Models/MP5/MP5_Icon.png", "MP5 still uses placeholder inventory icon");
+            Check(AssetDatabase.GetAssetPath(data.Image) == WeaponAssetPaths.Content("Models", "MP5/MP5_Icon.png"), "MP5 still uses placeholder inventory icon");
             var ammoData = data.AmmoItem as AmmoData; Check(ammoData && ammoData.MaxStackSize == 120, "SMG stack should be 120");
             var weapon = data.EquipPrefab.GetComponent<Weapon>(); Check(weapon && weapon.WeaponData == data, "equip prefab data mismatch");
             var rate = data.EquipPrefab.GetComponent<AttackRate>();
@@ -59,12 +59,12 @@ namespace HorrorGame.Weapons.Editor
             foreach (var item in new ItemData[] { data, ammoData })
             {
                 Check(database.Registers.Contains(item) && database.Registers.Where(x => x).Count(x => x.UniqueId == item.UniqueId) == 1, "item database registration or unique ID wrong: " + item.name);
-                var pickup = Load<GameObject>(Root + "Prefabs/" + (item == data ? "MP5" : "SMGAmmo") + "_Pickup.prefab");
+                var pickup = Load<GameObject>(WeaponAssetPaths.Content("Prefabs", (item == data ? "MP5" : "SMGAmmo") + "_Pickup.prefab"));
                 Check(pickup && pickup.GetComponent<PickupItem>().Entry.Item == item, "normal pickup wrong: " + item.name);
                 var interactive = pickup.GetComponentInChildren<Interactive>();
                 Check(interactive && interactive.GetComponent<Collider>().isTrigger && interactive.OnInteract.GetPersistentEventCount() > 0, "pickup callback/trigger missing");
             }
-            var rack = Load<GameObject>(Root + "Prefabs/Weapon_TestPickups.prefab");
+            var rack = Load<GameObject>(WeaponAssetPaths.Content("Prefabs", "Weapon_TestPickups.prefab"));
             Check(rack.transform.Find("MP5_Pickup") && rack.transform.Find("SMGAmmo_Pickup"), "test rack missing additions");
             var ids = rack.GetComponentsInChildren<ObjectUniqueId>(true).Select(x => x.Id).ToArray();
             Check(ids.All(x => !string.IsNullOrEmpty(x)) && ids.Distinct().Count() == ids.Length, "duplicate / empty test-rack IDs");
@@ -72,7 +72,7 @@ namespace HorrorGame.Weapons.Editor
         }
         public static void RunBatch()
         {
-            try { ValidateAssets(); EditorSceneManager.OpenScene("Assets/Scenes/FlareGun_TestRoom.unity"); SessionState.SetBool(Key, true); EditorApplication.isPlaying = true; }
+            try { ValidateAssets(); EditorSceneManager.OpenScene("Assets/Sandbox/WeaponTestRoom/Scenes/FlareGun_TestRoom.unity"); SessionState.SetBool(Key, true); EditorApplication.isPlaying = true; }
             catch (Exception error) { Debug.LogException(error); EditorApplication.Exit(1); }
         }
         static void OnPlay(PlayModeStateChange change)
@@ -100,7 +100,7 @@ namespace HorrorGame.Weapons.Editor
                     InputSystem.settings.editorInputBehaviorInPlayMode = InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
                     mouse = InputSystem.AddDevice<Mouse>(); keyboard = InputSystem.AddDevice<Keyboard>();
                     states = Player.GetComponentInChildren<ActorStateController>(); inventoryUI = UIManager.Get<UIInventory>();
-                    data = Load<ReloadableWeaponData>(Root + "Data/MP5.asset");
+                    data = Load<ReloadableWeaponData>(WeaponAssetPaths.Content("Data", "MP5.asset"));
                     if (!Inventory.TryGet(data, out gun)) gun = Inventory.Add(data, 1, 30); gun.SecondaryCount = 30; Inventory.Equip(gun); gun = Inventory.GetEquippedWeapon();
                     if (!Inventory.TryGet(data.AmmoItem, out ammo)) ammo = Inventory.Add(data.AmmoItem, 120); ammo.Count = 120;
                     camera = new GameObject("MP5 animation review").AddComponent<Camera>(); camera.enabled = false; camera.fieldOfView = 35; camera.nearClipPlane = .02f;
@@ -207,7 +207,7 @@ namespace HorrorGame.Weapons.Editor
                 RenderSettings.fog = false; RenderSettings.ambientMode = AmbientMode.Flat; RenderSettings.ambientLight = new Color(.18f, .19f, .21f);
                 var key = new GameObject("Warm horror key").AddComponent<Light>(); key.type = LightType.Directional; key.color = new Color(1, .65f, .35f); key.intensity = 2.2f; key.transform.rotation = Quaternion.Euler(35, -40, 0);
                 var fill = new GameObject("Cool horror edge").AddComponent<Light>(); fill.type = LightType.Directional; fill.color = new Color(.49f, .64f, 1); fill.intensity = 1.35f; fill.transform.rotation = Quaternion.Euler(30, 140, 0);
-                data = Load<ReloadableWeaponData>(Root + "Data/MP5.asset");
+                data = Load<ReloadableWeaponData>(WeaponAssetPaths.Content("Data", "MP5.asset"));
                 var model = Object.Instantiate(data.ExamineModel); foreach (var t in model.GetComponentsInChildren<Transform>()) t.gameObject.layer = 0;
                 // Runtime uses the established PSX unlit shader. Preview materials are
                 // temporary lit copies so the inventory render receives horror lighting.
@@ -247,7 +247,7 @@ namespace HorrorGame.Weapons.Editor
         static void CaptureIcon()
         {
             if (++warmup < 8) return;
-            try { Save(Root + "Models/MP5/MP5_Icon.png"); Save(Path.Combine(Output, "MP5_InventoryIcon.png")); AssetDatabase.ImportAsset(Root + "Models/MP5/MP5_Icon.png", ImportAssetOptions.ForceSynchronousImport); MP5AssetBuilder.RefreshIcon(); Debug.Log("MP5_ICON_OK"); FinishIcon(0); }
+            try { Save(WeaponAssetPaths.Content("Models", "MP5/MP5_Icon.png")); Save(Path.Combine(Output, "MP5_InventoryIcon.png")); AssetDatabase.ImportAsset(WeaponAssetPaths.Content("Models", "MP5/MP5_Icon.png"), ImportAssetOptions.ForceSynchronousImport); MP5AssetBuilder.RefreshIcon(); Debug.Log("MP5_ICON_OK"); FinishIcon(0); }
             catch (Exception error) { Debug.LogException(error); FinishIcon(1); }
         }
         static void FinishIcon(int code)

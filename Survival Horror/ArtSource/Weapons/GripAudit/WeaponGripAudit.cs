@@ -13,10 +13,10 @@ namespace HorrorGame.Weapons.Editor
  {
   const string Key="HorrorGame.WeaponHandgunClipping";
   const string Output="C:/Users/Mangis/AppData/Local/Temp/FlareSceneFinalValidation/HandgunGripFinal";
-  static string[] paths={"Assets/Game/Weapons/Data/FlareGun.asset","Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Gun/Gun.asset","Assets/Game/Weapons/Data/Revolver.asset"};
+  static string[] paths={WeaponAssetPaths.Content("Data", "FlareGun.asset"),"Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Gun/Gun.asset",WeaponAssetPaths.Content("Data", "Revolver.asset")};
   static int stage,index,pressFrame;static double started,phase;static Mouse mouse;static Camera camera;static RenderTexture target;static ReloadableWeaponData data;
   static WeaponGripAudit(){EditorApplication.playModeStateChanged+=OnState;}
-  public static void RunBatch(){EditorSceneManager.OpenScene("Assets/Scenes/FlareGun_TestRoom.unity");SessionState.SetBool(Key,true);EditorApplication.isPlaying=true;}
+  public static void RunBatch(){EditorSceneManager.OpenScene("Assets/Sandbox/WeaponTestRoom/Scenes/FlareGun_TestRoom.unity");SessionState.SetBool(Key,true);EditorApplication.isPlaying=true;}
   static void OnState(PlayModeStateChange state)
   {if(state!=PlayModeStateChange.EnteredPlayMode||!SessionState.GetBool(Key,false))return;started=phase=EditorApplication.timeSinceStartup;stage=index=0;EditorApplication.update+=Tick;Directory.CreateDirectory(Output);}
   static void Tick()

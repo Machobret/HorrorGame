@@ -1,6 +1,6 @@
 # Ammunition carton side textures
 
-Created using the built-in imagegen tool. Source: Ammo_Side_Atlas_Source.png. Runtime texture: Assets/Game/Weapons/Models/AmmoSides/Ammo_Side_Atlas.png, imported at 512 pixels with point filtering and no compression. The four row regions are assigned by the side materials. Existing lid/front textures remain in their original material slots.
+Created using the built-in imagegen tool. Source: Ammo_Side_Atlas_Source.png. Runtime texture: Assets/Game/Weapons/Ammunition/Shared/Models/AmmoSides/Ammo_Side_Atlas.png, imported at 512 pixels with point filtering and no compression. The four row regions are assigned by the side materials. Existing lid/front textures remain in their original material slots.
 
 Corrected static mesh assets separate side triangles into a dedicated submesh and give each face a non-degenerate planar UV map. Long vertical sides rotate the printed label rather than stretching it. Mesh vertices retain their original positions, dimensions and normals. Pickup colliders, quantities and save IDs are retained. Four pickup/inventory icons are refreshed. The weapon builder applies the corrected custom ammo geometry when it recreates the rifle or revolver models.
 

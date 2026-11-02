@@ -1,10 +1,10 @@
 # Standard MP5 integration
 
 ## Assets and testing
-- Equip data: `Assets/Game/Weapons/Data/MP5.asset`
-- Equipped model: `Assets/Game/Weapons/Prefabs/MP5.prefab`
-- Placeable weapon pickup: `Assets/Game/Weapons/Prefabs/MP5_Pickup.prefab`
-- SMG ammo pickup: `Assets/Game/Weapons/Prefabs/SMGAmmo_Pickup.prefab`
+- Equip data: `Assets/Game/Weapons/MP5/Data/MP5.asset`
+- Equipped model: `Assets/Game/Weapons/MP5/Prefabs/MP5.prefab`
+- Placeable weapon pickup: `Assets/Game/Weapons/MP5/Prefabs/MP5_Pickup.prefab`
+- SMG ammo pickup: `Assets/Game/Weapons/Ammunition/SMGAmmo/Prefabs/SMGAmmo_Pickup.prefab`
 - Ammo drop/examination models and inventory icon are included.
 - `Weapon_TestPickups.prefab` includes both MP5 and SMG ammunition beside the existing weapons.
 

@@ -38,7 +38,7 @@ namespace HorrorGame.Weapons.Editor
         static ReloadPresentationValidation() { EditorApplication.playModeStateChanged += OnState; }
         public static void RunBatch()
         {
-            EditorSceneManager.OpenScene("Assets/Scenes/FlareGun_TestRoom.unity");
+            EditorSceneManager.OpenScene("Assets/Sandbox/WeaponTestRoom/Scenes/FlareGun_TestRoom.unity");
             SessionState.SetBool(Key, true);
             EditorApplication.isPlaying = true;
         }
@@ -82,7 +82,7 @@ namespace HorrorGame.Weapons.Editor
                 }
                 else if (stage == 1 && dt > .3)
                 {
-                    data = AssetDatabase.LoadAssetAtPath<ReloadableWeaponData>("Assets/Game/Weapons/Data/" + Names[index] + ".asset");
+                    data = AssetDatabase.LoadAssetAtPath<ReloadableWeaponData>(WeaponAssetPaths.Content("Data", Names[index] + ".asset"));
                     if (!Inv.TryGet(data, out gun)) gun = Inv.Add(data, 1, 0);
                     gun.SecondaryCount = 0; Inv.Equip(gun); gun = Inv.GetEquippedWeapon();
                     if (!Inv.TryGet(data.AmmoItem, out ammo)) ammo = Inv.Add(data.AmmoItem, data.MaxAmmo * 4 + 4);

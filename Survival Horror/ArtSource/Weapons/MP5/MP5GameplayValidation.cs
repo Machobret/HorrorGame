@@ -13,10 +13,10 @@ namespace HorrorGame.Weapons.Editor
  {
   const string Key="HorrorGame.MP5GameplayValidation";
   public const string Output="C:/Users/Mangis/AppData/Local/Temp/FlareSceneFinalValidation/MP5GameplayReview";
-  static string[] paths={"Assets/Game/Weapons/Data/MP5.asset"};
+  static string[] paths={WeaponAssetPaths.Content("Data", "MP5.asset")};
   static int stage,index,frame,shotSample;static double started,phase;static float firedAt,reserveBefore,sampleTime;static Vector3 position,foot;static Mouse mouse;static Keyboard keyboard;static ActorStateController states;static ReloadableWeaponData data;static InventoryEntry gun,ammo;static UIInventory ui;static Camera camera;static RenderTexture target;static bool sawCase;
   static MP5GameplayValidation(){EditorApplication.playModeStateChanged+=OnState;}
-  public static void RunBatch(){try{InventoryReloadChecks.RunInventoryChecks();EditorSceneManager.OpenScene("Assets/Scenes/FlareGun_TestRoom.unity");SessionState.SetBool(Key,true);EditorApplication.isPlaying=true;}catch(Exception e){Debug.LogException(e);EditorApplication.Exit(1);}}
+  public static void RunBatch(){try{InventoryReloadChecks.RunInventoryChecks();EditorSceneManager.OpenScene("Assets/Sandbox/WeaponTestRoom/Scenes/FlareGun_TestRoom.unity");SessionState.SetBool(Key,true);EditorApplication.isPlaying=true;}catch(Exception e){Debug.LogException(e);EditorApplication.Exit(1);}}
   static void OnState(PlayModeStateChange s){if(s==PlayModeStateChange.EnteredPlayMode&&SessionState.GetBool(Key,false)){started=phase=EditorApplication.timeSinceStartup;stage=index=0;Directory.CreateDirectory(Output);EditorApplication.update+=Tick;}}
   static Inventory Inv=>GameManager.Instance.Inventory;
   static Actor Player=>GameManager.Instance.Player;

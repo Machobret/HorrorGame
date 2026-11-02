@@ -20,7 +20,7 @@ namespace HorrorGame.Weapons.Editor
         static MP5PoseReview(){EditorApplication.playModeStateChanged+=OnPlay;}
         public static void Apply()
         {
-            string path="Assets/Game/Weapons/Prefabs/MP5.prefab";
+            string path=WeaponAssetPaths.Content("Prefabs", "MP5.prefab");
             var root=PrefabUtility.LoadPrefabContents(path);
             try{
                 var hold=root.GetComponent<MP5HandlingPose>();
@@ -38,7 +38,7 @@ namespace HorrorGame.Weapons.Editor
             AssetDatabase.SaveAssets();
         }
         public static void RunIconBatch(){Apply();MP5IntegrationValidation.RunIconBatch();}
-        public static void RunBatch(){try{Apply();EditorSceneManager.OpenScene("Assets/Scenes/FlareGun_TestRoom.unity");SessionState.SetBool(Key,true);EditorApplication.isPlaying=true;}catch(Exception e){Debug.LogException(e);EditorApplication.Exit(1);}}
+        public static void RunBatch(){try{Apply();EditorSceneManager.OpenScene("Assets/Sandbox/WeaponTestRoom/Scenes/FlareGun_TestRoom.unity");SessionState.SetBool(Key,true);EditorApplication.isPlaying=true;}catch(Exception e){Debug.LogException(e);EditorApplication.Exit(1);}}
         static void OnPlay(PlayModeStateChange change)
         {
             if(change!=PlayModeStateChange.EnteredPlayMode||!SessionState.GetBool(Key,false))return;
@@ -57,7 +57,7 @@ namespace HorrorGame.Weapons.Editor
                 if(stage==0&&GameManager.Exists&&Player&&Time.timeSinceLevelLoad>3){
                     Application.runInBackground=true;InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;InputSystem.settings.editorInputBehaviorInPlayMode=InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
                     mouse=InputSystem.AddDevice<Mouse>();keyboard=InputSystem.AddDevice<Keyboard>();
-                    var inv=GameManager.Instance.Inventory;var data=AssetDatabase.LoadAssetAtPath<ReloadableWeaponData>("Assets/Game/Weapons/Data/MP5.asset");if(!inv.TryGet(data,out var entry))entry=inv.Add(data,1,30);inv.Equip(entry);
+                    var inv=GameManager.Instance.Inventory;var data=AssetDatabase.LoadAssetAtPath<ReloadableWeaponData>(WeaponAssetPaths.Content("Data", "MP5.asset"));if(!inv.TryGet(data,out var entry))entry=inv.Add(data,1,30);inv.Equip(entry);
                     states=Player.StateController;camera=new GameObject("MP5 pose revision review").AddComponent<Camera>();camera.enabled=false;camera.fieldOfView=35;camera.nearClipPlane=.02f;camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=new Color(.045f,.05f,.055f);camera.cullingMask=~(1<<5);target=new RenderTexture(960,720,24);camera.targetTexture=target;
                     var light=new GameObject("Pose review light").AddComponent<Light>();light.type=LightType.Directional;light.intensity=2;light.transform.rotation=Quaternion.Euler(35,35,0);Input();Next(1);
                 }else if(stage==1&&dt>.8f){pose=Player.GetComponentInChildren<MP5HandlingPose>();Check(pose,"MP5 not equipped");Capture("Idle",-1);Capture("Idle",1);Input(false,UnityEngine.InputSystem.Key.W);Next(2);}

@@ -11,7 +11,7 @@ for col,(key,label) in enumerate(items):
  x=col*320;d.text((x+14,105),label,font=font(18,True),fill=(223,214,190))
  for y,suffix,size in [(140,'Front',312),(480,'Back',266)]:
   im=Image.open(root/'Preview'/f'{key}_{suffix}.png').convert('RGBA');im.thumbnail((size,size),Image.Resampling.LANCZOS);sheet.paste(im,(x+(320-im.width)//2,y),im)
- iconpath=src/('Assets/Game/Weapons/Models/FlareAmmo/FlareAmmo_Icon.png' if key=='FlareAmmo' else f'Assets/Game/Weapons/Models/AmmoSides/{key}_PickupIcon.png')
+ iconpath=src/('Assets/Game/Weapons/Ammunition/FlareAmmo/Models/FlareAmmo_Icon.png' if key=='FlareAmmo' else f'Assets/Game/Weapons/Ammunition/Shared/Models/AmmoSides/{key}_PickupIcon.png')
  icon=Image.open(iconpath).convert('RGBA').resize((128,128),Image.Resampling.LANCZOS)
  d.rounded_rectangle((x+92,803,x+228,939),radius=4,fill=(25,29,31),outline=(65,69,67));sheet.paste(icon,(x+96,807),icon);d.text((x+94,952),'128 px UI icon',font=font(16),fill=(154,161,158))
  d.line((x+12,464,x+308,464),fill=(51,57,58))

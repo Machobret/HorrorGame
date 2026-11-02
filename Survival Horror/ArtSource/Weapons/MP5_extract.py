@@ -1,8 +1,14 @@
+
+# Shared paths keep generated assets beside their owning weapon.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(next(p for p in _Path(__file__).resolve().parents if (p / "ProjectSettings").is_dir()) / "Tools" / "Art"))
+from weapon_paths import weapon_asset
 from pathlib import Path
 from PIL import Image
 import json
 src=Path(r'C:/Users/Mangis/Downloads/Assets/Guns/PSXMP5[FIXED]/PSXMP5')
-root=Path(r'C:/Users/Mangis/Documents/GitHub/HorrorGame/Survival Horror');out=root/'Assets/Game/Weapons/Models/MP5';art=root/'ArtSource/Weapons/MP5';out.mkdir(parents=True,exist_ok=True);art.mkdir(parents=True,exist_ok=True)
+root=Path(r'C:/Users/Mangis/Documents/GitHub/HorrorGame/Survival Horror');out=weapon_asset('Models', str('MP5'));art=root/'ArtSource/Weapons/MP5';out.mkdir(parents=True,exist_ok=True);art.mkdir(parents=True,exist_ok=True)
 verts=[];uvs=[];normals=[];faces={};obj=''
 for line in (src/'MP5.obj').read_text().splitlines():
  a=line.split()

@@ -1,12 +1,18 @@
 """Author MP5 sound cues from existing licensed project sounds. Requires NumPy/Pillow.
 Run from any directory. Does not download sounds or alter Unity import settings.
 """
+
+# Shared paths keep generated assets beside their owning weapon.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(next(p for p in _Path(__file__).resolve().parents if (p / "ProjectSettings").is_dir()) / "Tools" / "Art"))
+from weapon_paths import weapon_asset
 from pathlib import Path
 import json, wave, re, uuid
 import numpy as np
 from PIL import Image, ImageDraw
 ROOT = Path(__file__).resolve().parents[3]
-OUT = ROOT / "Assets/Game/Weapons/Audio"
+
 NOTES = Path(__file__).resolve().parent
 SOURCE = ROOT / "Assets/AssetStore/HorrorEngine/ExampleContent/Weapons"
 RATE = 44100
@@ -29,13 +35,13 @@ def fade(a, attack=.003, release=.015):
 
 def write(name, a):
     if np.max(np.abs(a)) >= 1: raise ValueError("Clipping in " + name)
-    path = OUT / (name + ".wav")
+    path = weapon_asset('Audio', str(name + ".wav")); path.parent.mkdir(parents=True, exist_ok=True)
     with wave.open(str(path), "wb") as w:
         w.setparams((1, 2, RATE, len(a), "NONE", "not compressed"))
         w.writeframes(np.round(a * 32767).astype("<i2").tobytes())
     meta = Path(str(path) + ".meta")
     if not meta.exists():
-        template = (OUT / "Revolver_Shot.wav.meta").read_text()
+        template = (weapon_asset('Audio', str("Revolver_Shot.wav.meta"))).read_text()
         meta.write_text(re.sub(r"guid: [0-9a-f]+", "guid: " + uuid.uuid4().hex, template))
     return {"file": str(path.relative_to(ROOT)).replace("\\", "/"), "duration": len(a) / RATE,
             "peak": float(np.max(np.abs(a))), "rms": float(np.sqrt(np.mean(a*a))), "pcm": "mono signed 16-bit / 44100 Hz"}

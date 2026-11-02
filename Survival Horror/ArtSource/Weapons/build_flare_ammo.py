@@ -1,10 +1,16 @@
 """Three solid, low-poly signal cartridges with an explicit material UV layout."""
+
+# Shared paths keep generated assets beside their owning weapon.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(next(p for p in _Path(__file__).resolve().parents if (p / "ProjectSettings").is_dir()) / "Tools" / "Art"))
+from weapon_paths import weapon_asset
 from pathlib import Path
 import math
 import bpy
 
 ROOT = Path(__file__).resolve().parents[2]
-FOLDER = ROOT / 'Assets/Game/Weapons/Models/FlareAmmo'
+FOLDER = weapon_asset('Models', str('FlareAmmo'))
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.context.scene.unit_settings.system = 'METRIC'
 bpy.context.scene.unit_settings.scale_length = 1

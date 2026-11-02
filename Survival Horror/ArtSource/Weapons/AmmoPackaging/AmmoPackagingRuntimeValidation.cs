@@ -21,7 +21,7 @@ namespace HorrorGame.Weapons.Editor
         static readonly string[] DataPaths = {
             "Assets/AssetStore/HorrorEngine/ExampleContent/Items/GunAmmo/GunAmmo.asset",
             "Assets/AssetStore/HorrorEngine/ExampleContent/Items/ShotgunAmmo/ShotgunAmmo.asset",
-            Root+"Data/RevolverAmmo.asset", Root+"Data/HuntingRifleAmmo.asset", Root+"Data/FlareAmmo.asset", Root+"Data/SMGAmmo.asset"
+            WeaponAssetPaths.Content("Data", "RevolverAmmo.asset"), WeaponAssetPaths.Content("Data", "HuntingRifleAmmo.asset"), WeaponAssetPaths.Content("Data", "FlareAmmo.asset"), WeaponAssetPaths.Content("Data", "SMGAmmo.asset")
         };
         [Serializable] sealed class CaseReport
         {
@@ -56,7 +56,7 @@ namespace HorrorGame.Weapons.Editor
         {
             try
             {
-                EditorSceneManager.OpenScene("Assets/Scenes/FlareGun_TestRoom.unity");
+                EditorSceneManager.OpenScene("Assets/Sandbox/WeaponTestRoom/Scenes/FlareGun_TestRoom.unity");
                 SessionState.SetBool(SessionKey,true);
                 EditorApplication.isPlaying=true;
             }
@@ -89,7 +89,7 @@ namespace HorrorGame.Weapons.Editor
         static bool HasNewCarton(GameObject model,string name)
         {
             if(!model)return false;
-            string expected=Root+"Models/AmmoPackaging/"+name+"_Carton.asset";
+            string expected=WeaponAssetPaths.Content("Models", "AmmoPackaging/" + name+"_Carton.asset");
             return model.GetComponentsInChildren<MeshFilter>(true).Any(filter=>filter.sharedMesh&&AssetDatabase.GetAssetPath(filter.sharedMesh)==expected);
         }
         static void Tick()
@@ -110,11 +110,11 @@ namespace HorrorGame.Weapons.Editor
                 {
                     string name=Names[index];ammo=AssetDatabase.LoadAssetAtPath<AmmoData>(DataPaths[index]);
                     Check(ammo,"Ammo data missing");Check(ammo.DropPrefab,"Ammo DropPrefab missing");
-                    string expectedPrefab=Root+"Prefabs/"+name+"_Drop.prefab";
+                    string expectedPrefab=WeaponAssetPaths.Content("Prefabs", name+"_Drop.prefab");
                     Check(AssetDatabase.GetAssetPath(ammo.DropPrefab)==expectedPrefab,"DropPrefab points to the wrong asset");
                     var prefabId=ammo.DropPrefab.GetComponent<ObjectUniqueId>();Check(prefabId&&!string.IsNullOrEmpty(prefabId.Id),"Registered drop prefab ID is empty");
                     current=new CaseReport{Ammo=name,ItemId=ammo.UniqueId,PrefabId=prefabId.Id};report.Cases.Add(current);
-                    string expectedIcon=name=="FlareAmmo"?Root+"Models/FlareAmmo/FlareAmmo_Icon.png":Root+"Models/AmmoSides/"+name+"_PickupIcon.png";
+                    string expectedIcon=name=="FlareAmmo"?WeaponAssetPaths.Content("Models", "FlareAmmo/FlareAmmo_Icon.png"):WeaponAssetPaths.Content("Models", "AmmoSides/" + name+"_PickupIcon.png");
                     current.IconPath=AssetDatabase.GetAssetPath(ammo.Image);
                     current.SharedIcon=ammo.Image&&current.IconPath==expectedIcon;
                     Check(current.SharedIcon,"Ammo data does not use its shared updated pickup/inventory sprite");

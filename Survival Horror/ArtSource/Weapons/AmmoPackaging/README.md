@@ -1,6 +1,6 @@
 # Ammo packaging revision — research and artwork
 
-Five original diffuse atlases were generated with the built-in imagegen tool. Exact prompts are in GenerationPrompts.json; untouched source images are the *_Atlas_Source.png files. Runtime textures and six-face meshes/materials are under Assets/Game/Weapons/Models/AmmoPackaging. The import limit is 512 pixels with point filtering for deliberately coarse PSX texels.
+Five original diffuse atlases were generated with the built-in imagegen tool. Exact prompts are in GenerationPrompts.json; untouched source images are the *_Atlas_Source.png files. Runtime textures and six-face meshes/materials are under Assets/Game/Weapons/Ammunition/Shared/Models/AmmoPackaging. The import limit is 512 pixels with point filtering for deliberately coarse PSX texels.
 
 ## References
 
@@ -27,4 +27,4 @@ The original flare FBX bundle rendered stretched polygons, so the revised model 
 
 Unity 6000.3.11f1 validation: all five pickups/examinations and ten front/back views passed mesh/material/UV checks; all five drop prefabs resolved through the save database with distinct stable prefab IDs. Live Play Mode tested actual PickupDropper.Drop and PickupItem.Take for every ammo, counts, unique runtime IDs, spawn tracking, shared icons/examination models and in-memory pickup save-data restoration: 108 assertions passed. No on-disk player save was written. Build/runtime reports and logs are under Preview/. Original icons and serialized assets are retained under Before/.
 
-Ammo_Packaging_Overview.jpg is assembled from real Unity model renders and the assigned inventory sprites. GenerationPrompts.json records the exact prompt set used with the built-in imagegen tool; runtime atlas PNGs are in Assets/Game/Weapons/Models/AmmoPackaging/.
+Ammo_Packaging_Overview.jpg is assembled from real Unity model renders and the assigned inventory sprites. GenerationPrompts.json records the exact prompt set used with the built-in imagegen tool; runtime atlas PNGs are in Assets/Game/Weapons/Ammunition/Shared/Models/AmmoPackaging/.

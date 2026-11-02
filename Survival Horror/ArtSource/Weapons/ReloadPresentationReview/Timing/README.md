@@ -2,7 +2,7 @@
 
 `FlareGun_Reload_Original.wav` preserves the supplied, previously assigned 0.940-second clip. It is copied only when absent; the build script always reads that backup. The Unity WAV retains its existing path and GUID.
 
-Run `retime_flare_reload.py` with Python and NumPy to rebuild `Assets/Game/Weapons/Audio/FlareGun_Reload.wav`. It moves six intact sound events into a 2.300-second timeline. There is no time stretching, resampling, pitch shift, gain normalization, or synthetic sound. Format remains 44,100 Hz, mono, PCM16; peak remains approximately -8.00 dBFS.
+Run `retime_flare_reload.py` with Python and NumPy to rebuild `Assets/Game/Weapons/FlareGun/Audio/FlareGun_Reload.wav`. It moves six intact sound events into a 2.300-second timeline. There is no time stretching, resampling, pitch shift, gain normalization, or synthetic sound. Format remains 44,100 Hz, mono, PCM16; peak remains approximately -8.00 dBFS.
 
 ## Flare cuts and placement
 

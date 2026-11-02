@@ -1,19 +1,25 @@
 """Add the omitted pistol/shotgun boxes without rebuilding other weapons."""
+
+# Shared paths keep generated assets beside their owning weapon.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(next(p for p in _Path(__file__).resolve().parents if (p / "ProjectSettings").is_dir()) / "Tools" / "Art"))
+from weapon_paths import weapon_asset
 from pathlib import Path
 import json,re,uuid
 ROOT=Path(__file__).resolve().parents[2]
-FOLDER=ROOT/'Assets/Game/Weapons/Prefabs'
+
 ITEMS=ROOT/'Assets/AssetStore/HorrorEngine/ExampleContent/Items'
 REPORT=json.loads((Path(__file__).parent/'TemplateAmmoGeometry.json').read_text())
 def write(path,text):path.write_bytes(text.replace('\r\n','\n').replace('\n','\r\n').encode())
 def guid(path):return re.search(r'^guid: (\w+)',Path(str(path)+'.meta').read_text(),re.M)[1]
-rack=FOLDER/'Weapon_TestPickups.prefab';rack_text=rack.read_text()
+rack=weapon_asset('Prefabs', str('Weapon_TestPickups.prefab'));rack_text=rack.read_text()
 prototype=rack_text[rack_text.index('--- !u!1001 &9148733122171922768'):]
 for index,(name,model,count,model_transform,model_object) in enumerate([
  ('PistolAmmo','GunAmmo',15,3633606685666757362,4118254525684813896),
  ('ShotgunAmmo','ShotgunAmmo',4,5196804772522163944,4851804809731023954)]):
  entry=next(e for e in REPORT['entries'] if e['name']==model)
- target=FOLDER/(name+'_Pickup.prefab');text=(FOLDER/'HuntingRifleAmmo_Pickup.prefab').read_text()
+ target=weapon_asset('Prefabs', str(name+'_Pickup.prefab'));text=(weapon_asset('Prefabs', str('HuntingRifleAmmo_Pickup.prefab'))).read_text()
  identity=re.search(r'm_Id: ([^\n]+)',target.read_text())[1] if target.exists() else str(uuid.uuid4())
  text=text.replace('HuntingRifleAmmo_Pickup',name+'_Pickup')
  text=re.sub(r'm_Id: [^\n]+','m_Id: '+identity,text)

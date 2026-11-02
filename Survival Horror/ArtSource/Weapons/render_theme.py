@@ -2,13 +2,19 @@
 
 Run with Blender --background --python render_theme.py -- [--draft]
 """
+
+# Shared paths keep generated assets beside their owning weapon.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(next(p for p in _Path(__file__).resolve().parents if (p / "ProjectSettings").is_dir()) / "Tools" / "Art"))
+from weapon_paths import weapon_asset
 from pathlib import Path
 import sys, math, shutil
 import bpy
 from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[2]
-MODELS = ROOT / 'Assets/Game/Weapons/Models'
+
 OUTPUT = ROOT / 'ArtSource/Weapons/TextureTheme'
 DRAFT = '--draft' in sys.argv
 GENERATED = {
@@ -31,11 +37,11 @@ if '--apply' in sys.argv:
         image.filepath_raw = str(applied / filename)
         image.save()
         for name in weapons:
-            shutil.copy2(applied / filename, MODELS / name / filename)
+            shutil.copy2(applied / filename, weapon_asset('Models', str(name) + "/" + str(filename)))
 
 def render(name):
     bpy.ops.wm.read_factory_settings(use_empty=True)
-    folder = MODELS / name
+    folder = weapon_asset('Models', str(name))
     bpy.ops.import_scene.fbx(filepath=str(folder / (name + '.fbx')))
     meshes = [o for o in bpy.data.objects if o.type == 'MESH']
     for obj in meshes:

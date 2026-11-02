@@ -19,9 +19,9 @@ namespace HorrorGame.Weapons.Editor
             {
                 "Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Gun/Gun.asset",
                 "Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Shotgun/Shotgun.asset",
-                "Assets/Game/Weapons/Data/HuntingRifle.asset",
-                "Assets/Game/Weapons/Data/FlareGun.asset",
-                "Assets/Game/Weapons/Data/Revolver.asset"
+                WeaponAssetPaths.Content("Data", "HuntingRifle.asset"),
+                WeaponAssetPaths.Content("Data", "FlareGun.asset"),
+                WeaponAssetPaths.Content("Data", "Revolver.asset")
             };
             foreach (var path in paths)
             {

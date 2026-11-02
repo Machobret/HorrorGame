@@ -1,3 +1,9 @@
+
+# Shared paths keep generated assets beside their owning weapon.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(next(p for p in _Path(__file__).resolve().parents if (p / "ProjectSettings").is_dir()) / "Tools" / "Art"))
+from weapon_paths import weapon_asset
 from pathlib import Path
 from fractions import Fraction
 from PIL import Image
@@ -23,7 +29,7 @@ for gun in ('FlareGun','Revolver'):
   frame=av.VideoFrame.from_ndarray(np.asarray(image),format='rgb24');frame.pts=n;frame.time_base=Fraction(1,60)
   for packet in video.encode(frame):container.mux(packet)
  for packet in video.encode():container.mux(packet)
- with wave.open(str(root/'Assets/Game/Weapons/Audio'/f'{gun}_Reload.wav'),'rb') as wav:
+ with wave.open(str(weapon_asset('Audio', str(f'{gun}_Reload.wav'))),'rb') as wav:
   assert wav.getsampwidth()==2 and wav.getnchannels()==1 and wav.getframerate()==44100
   signal=np.frombuffer(wav.readframes(wav.getnframes()),dtype='<i2').astype('float32')/32768
  samples=np.zeros(round(count/60*44100),dtype='float32');offset=max(0,round((start-t0)*44100));length=min(len(signal),len(samples)-offset);samples[offset:offset+length]=signal[:length]

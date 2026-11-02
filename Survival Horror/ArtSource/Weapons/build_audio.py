@@ -1,9 +1,15 @@
 """Extract short weapon events from the supplied compilations. No synthetic layers."""
+
+# Shared paths keep generated assets beside their owning weapon.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(next(p for p in _Path(__file__).resolve().parents if (p / "ProjectSettings").is_dir()) / "Tools" / "Art"))
+from weapon_paths import weapon_asset
 from pathlib import Path
 import json, wave
 import numpy as np
 ROOT=Path(__file__).resolve().parents[2];SOURCE=ROOT/'ArtSource/Weapons/Audio'
-OUT=ROOT/'Assets/Game/Weapons/Audio';OUT.mkdir(parents=True,exist_ok=True)
+
 RATE=44100
 def denoise(signal,background):
     # Subtract only stationary sound estimated immediately before the shot.
@@ -41,7 +47,9 @@ for filename,weapon,start,end,peak_db,profile in events:
     signal*=10**(peak_db/20)/max(float(np.max(np.abs(signal))),1e-9)
     fade_in=int(RATE*.001);fade_out=int(RATE*.03)
     signal[:fade_in]*=np.linspace(0,1,fade_in);signal[-fade_out:]*=np.linspace(1,0,fade_out)
-    with wave.open(str(OUT/(filename+'.wav')),'wb') as output:
+    output_path = weapon_asset('Audio', str(filename+'.wav'))
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with wave.open(str(output_path),'wb') as output:
         output.setnchannels(1);output.setsampwidth(2);output.setframerate(RATE)
         output.writeframes((np.clip(signal,-1,1)*32767).astype('<i2').tobytes())
     report.append({'clip':filename,'source':weapon,'start':start,'end':end,'duration':len(signal)/RATE,'peak_db':peak_db,'noise_profile':profile,'peak':float(np.max(np.abs(signal)))})

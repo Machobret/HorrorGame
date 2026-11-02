@@ -2,7 +2,7 @@ import bpy, math, random, json, os
 from mathutils import Vector, Matrix
 from mathutils.bvhtree import BVHTree
 ROOT=r'C:/Users/Mangis/Documents/GitHub/HorrorGame/Survival Horror'
-OUT=ROOT+'/Assets/Game/Enemies/Resources/Brute'
+OUT=ROOT+'/Assets/Game/Enemies/Brute/Resources/Brute'
 SRC=ROOT+'/ArtSource/Brute'
 random.seed(31)
 bpy.ops.wm.read_factory_settings(use_empty=True)

@@ -21,7 +21,7 @@ namespace HorrorGame.Weapons.Editor
         static Actor Player=>GameManager.Instance.Player;static Inventory Inv=>GameManager.Instance.Inventory;
         static readonly string[] Names={"Unarmed_Left","Unarmed_Right","MP5_Left","MP5_Right","MP5_Aimed_Left","MP5_Aimed_Right","1911_Aimed_Left","1911_Aimed_Right"};
         static PlayerTurnValidation(){EditorApplication.playModeStateChanged+=OnPlay;}
-        public static void RunBatch(){try{EditorSceneManager.OpenScene("Assets/Scenes/FlareGun_TestRoom.unity");SessionState.SetBool(SessionKey,true);EditorApplication.isPlaying=true;}catch(Exception e){Debug.LogException(e);EditorApplication.Exit(1);}}
+        public static void RunBatch(){try{EditorSceneManager.OpenScene("Assets/Sandbox/WeaponTestRoom/Scenes/FlareGun_TestRoom.unity");SessionState.SetBool(SessionKey,true);EditorApplication.isPlaying=true;}catch(Exception e){Debug.LogException(e);EditorApplication.Exit(1);}}
         static void OnPlay(PlayModeStateChange state){if(state!=PlayModeStateChange.EnteredPlayMode||!SessionState.GetBool(SessionKey,false))return;Directory.CreateDirectory(Output);started=EditorApplication.timeSinceStartup;stage=index=frame=0;report=new Report();EditorApplication.update+=Tick;}
         static void Input(bool aim=false,params UnityEngine.InputSystem.Key[] keys){InputSystem.QueueStateEvent(keyboard,new KeyboardState(keys));InputSystem.QueueStateEvent(mouse,aim?new MouseState().WithButton(MouseButton.Right):new MouseState());}
         static void Next(int next){stage=next;phase=Time.time;lastFrame=-1;}
@@ -37,7 +37,7 @@ namespace HorrorGame.Weapons.Editor
                     camera=new GameObject("Turn animation review camera").AddComponent<Camera>();camera.enabled=false;camera.fieldOfView=40;camera.nearClipPlane=.02f;camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=new Color(.045f,.05f,.055f);camera.cullingMask=~(1<<5);target=new RenderTexture(1024,768,24);camera.targetTexture=target;
                     var light=new GameObject("Turn review light").AddComponent<Light>();light.type=LightType.Directional;light.intensity=2;light.transform.rotation=Quaternion.Euler(35,-40,0);Next(1);
                 }else if(stage==1){
-                    Input();Inv.Unequip(Inv.WeaponSlot);if(index>=2){var path=index>=6?"Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Gun/Gun.asset":"Assets/Game/Weapons/Data/MP5.asset";var data=AssetDatabase.LoadAssetAtPath<ReloadableWeaponData>(path);if(!Inv.TryGet(data,out var entry))entry=Inv.Add(data,1,30);Inv.Equip(entry);}Next(2);
+                    Input();Inv.Unequip(Inv.WeaponSlot);if(index>=2){var path=index>=6?"Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Gun/Gun.asset":WeaponAssetPaths.Content("Data", "MP5.asset");var data=AssetDatabase.LoadAssetAtPath<ReloadableWeaponData>(path);if(!Inv.TryGet(data,out var entry))entry=Inv.Add(data,1,30);Inv.Equip(entry);}Next(2);
                 }else if(stage==2&&dt>.6f){Input(index>=4);Next(3);}
                 else if(stage==3&&dt>.4f){
                     Check(index>=4?states.m_CurrentState is PlayerStateAiming:states.m_CurrentState is PlayerStateMotion,"Wrong source state");current=new Case{Name=Names[index]};report.Cases.Add(current);startPosition=Player.transform.position;lastYaw=Player.transform.eulerAngles.y;baseLeftY=left.position.y;baseRightY=right.position.y;previousStable=false;lastSwing=-1;Directory.CreateDirectory(Output+"/"+current.Name);

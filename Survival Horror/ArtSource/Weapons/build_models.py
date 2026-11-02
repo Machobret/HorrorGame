@@ -1,3 +1,9 @@
+
+# Shared paths keep generated assets beside their owning weapon.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(next(p for p in _Path(__file__).resolve().parents if (p / "ProjectSettings").is_dir()) / "Tools" / "Art"))
+from weapon_paths import weapon_asset
 import bpy, os, math, shutil
 from mathutils import Vector
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
@@ -27,7 +33,7 @@ def build(name, source, scale, grip, exclude, textures):
             for node in m.node_tree.nodes:
                 if node.type == 'BSDF_PRINCIPLED':
                     node.inputs['Roughness'].default_value = .85
-    dest = os.path.join(ROOT,'Assets/Game/Weapons/Models',name)
+    dest = str(weapon_asset('Models', str(name)))
     os.makedirs(dest,exist_ok=True)
     # Preserve the approved texture theme when geometry is rebuilt.
     for tex in textures:

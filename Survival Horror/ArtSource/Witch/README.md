@@ -1,6 +1,6 @@
 # Witch art revision
 
-The updated model and baked diffuse texture are in `Assets/Game/Enemies/Resources/Witch`. Existing instances of `Monster_Witch.prefab` load them automatically.
+The updated model and baked diffuse texture are in `Assets/Game/Enemies/Witch/Resources/Witch`. Existing instances of `Monster_Witch.prefab` load them automatically.
 
 - One joined skin surface with blended shoulders, hips, wrists and ankles.
 - Rounded hips that flow into the thighs, without the old flat thigh caps.

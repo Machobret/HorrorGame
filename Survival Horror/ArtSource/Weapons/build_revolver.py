@@ -1,9 +1,15 @@
 """Normalize the largest pack revolver and render opaque examination/inventory assets."""
+
+# Shared paths keep generated assets beside their owning weapon.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(next(p for p in _Path(__file__).resolve().parents if (p / "ProjectSettings").is_dir()) / "Tools" / "Art"))
+from weapon_paths import weapon_asset
 from pathlib import Path
 import bpy, shutil
 from mathutils import Matrix
 ROOT = Path(__file__).resolve().parents[2]
-MODELS = ROOT / 'Assets/Game/Weapons/Models'
+
 SOURCE = Path('C:/Users/Mangis/Downloads/Assets/Guns/PSXRevolverPack[FIXED]/PSXRevolverPack[FIXED]/Files/Colt Python')
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.fbx(filepath=str(SOURCE / 'Colt Python.fbx'))
@@ -16,7 +22,7 @@ for obj in list(bpy.data.objects):
         p = matrix @ vertex.co
         vertex.co = (p.y*.105, -(p.x+.65)*.105, (p.z-.70)*.105)
     obj.matrix_world = Matrix.Identity(4)
-folder = MODELS / 'Revolver'; folder.mkdir(parents=True, exist_ok=True)
+folder = weapon_asset('Models', str('Revolver')); folder.mkdir(parents=True, exist_ok=True)
 image = bpy.data.images.load(str(ROOT / 'ArtSource/Weapons/Revolver/ColtPython_Atlas_Source.png'))
 image.scale(400,206); image.file_format='PNG'; image.filepath_raw=str(folder/'ColtPython.png'); image.save()
 themed_cylinder=ROOT/'ArtSource/Weapons/Revolver/Cylinder_Atlas_Source.png'
@@ -34,7 +40,7 @@ bpy.ops.export_scene.fbx(filepath=str(folder/'Revolver.fbx'),use_selection=True,
 
 # A compact, solid box with a dedicated .357 label on each face.
 bpy.ops.wm.read_factory_settings(use_empty=True)
-folder=MODELS/'RevolverAmmo';folder.mkdir(parents=True,exist_ok=True)
+folder=weapon_asset('Models', str('RevolverAmmo'));folder.mkdir(parents=True,exist_ok=True)
 image=bpy.data.images.load(str(ROOT/'ArtSource/Weapons/Revolver/RevolverAmmo_Atlas_Source.png'))
 image.scale(256,256);image.file_format='PNG';image.filepath_raw=str(folder/'RevolverAmmo_Albedo.png');image.save()
 mat=bpy.data.materials.new('MagnumBox');mat.use_nodes=True

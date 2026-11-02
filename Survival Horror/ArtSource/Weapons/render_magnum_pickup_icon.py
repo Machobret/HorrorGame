@@ -1,8 +1,14 @@
 """Render the fixed carton as a fresh pickup/inventory icon; leave geometry alone."""
+
+# Shared paths keep generated assets beside their owning weapon.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(next(p for p in _Path(__file__).resolve().parents if (p / "ProjectSettings").is_dir()) / "Tools" / "Art"))
+from weapon_paths import weapon_asset
 from pathlib import Path
 import bpy,math,shutil,re,uuid
 from mathutils import Vector
-ROOT=Path(__file__).resolve().parents[2];folder=ROOT/'Assets/Game/Weapons/Models/RevolverAmmo'
+ROOT=Path(__file__).resolve().parents[2];folder=weapon_asset('Models', str('RevolverAmmo'))
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.fbx(filepath=str(folder/'RevolverAmmo.fbx'))
 meshes=[o for o in bpy.data.objects if o.type=='MESH']
@@ -39,6 +45,6 @@ text=meta.read_text() if meta.exists() else re.sub(r'^guid: \w+','guid: '+uuid.u
 text=re.sub(r'maxTextureSize: \d+','maxTextureSize: 1024',text);text=re.sub(r'textureCompression: \d+','textureCompression: 0',text)
 meta.write_text(text)
 guid=re.search(r'^guid: (\w+)',text,re.M)[1]
-data=ROOT/'Assets/Game/Weapons/Data/RevolverAmmo.asset';text=data.read_text()
+data=weapon_asset('Data', str('RevolverAmmo.asset'));text=data.read_text()
 text=re.sub(r'Image: \{[^}]+\}','Image: {fileID: 21300000, guid: '+guid+', type: 3}',text);data.write_text(text)
 print('MAGNUM_PICKUP_ICON_UPDATED',guid)

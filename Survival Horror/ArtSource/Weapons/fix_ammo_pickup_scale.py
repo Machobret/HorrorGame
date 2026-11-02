@@ -3,16 +3,22 @@
 The imported ammo FBXs have a scale of 100 on the root. The original builder
 overrode it with 1. Restore that correction and scale the baked offsets with it.
 """
+
+# Shared paths keep generated assets beside their owning weapon.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(next(p for p in _Path(__file__).resolve().parents if (p / "ProjectSettings").is_dir()) / "Tools" / "Art"))
+from weapon_paths import weapon_asset
 from pathlib import Path
 import re
 
-root = Path(__file__).resolve().parents[2] / 'Assets/Game/Weapons/Prefabs'
+root = Path(__file__).resolve().parents[2] / 'Assets/Game/Weapons'
 for name in ('HuntingRifleAmmo', 'FlareAmmo'):
-    if name == 'FlareAmmo' and (root.parent / 'Models/FlareAmmo/FlareAmmo_Albedo.png').exists():
+    if name == 'FlareAmmo' and (weapon_asset('Models', 'FlareAmmo/FlareAmmo_Albedo.png')).exists():
         print('NATIVE_METRE_MODEL', name)
         continue
     for kind in ('Pickup', 'Examination'):
-        path = root / f'{name}_{kind}.prefab'
+        path = weapon_asset('Prefabs', str(f'{name}_{kind}.prefab'))
         text = path.read_text()
         scales = re.findall(r'propertyPath: m_LocalScale\.[xyz]\n\s+value: ([^\n]+)', text)
         if scales == ['100'] * 3:

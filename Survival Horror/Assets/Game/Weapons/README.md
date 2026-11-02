@@ -1,14 +1,18 @@
-# Hunting rifle and flare gun prototype
+# Weapons
+
+Content is grouped by owning weapon: `Revolver`, `HuntingRifle`, `MP5`, and `FlareGun`. Ammunition lives in `Ammunition`; shared builders and code live in `Shared`. The playable test room is under `Assets/Sandbox/WeaponTestRoom`.
+
+The implementation notes below include the original rifle/flare prototype and later revisions.
 
 ## Try them
 
-Drag `Prefabs/Weapon_TestPickups.prefab` into a playable scene near the player.
+Drag `Assets/Sandbox/WeaponTestRoom/Prefabs/Weapon_TestPickups.prefab` into a playable scene near the player.
 It contains a loaded pistol (15 rounds), shotgun (3 shells), hunting rifle
 (5 rounds), and flare gun (1 flare). Behind the rifle and flare gun are a
 five-round rifle ammo box and three spare flares. The rifle box uses the
 downloaded `PSXAmmoBoxes/PSXAmmoBoxes/Rifle Ammo` mesh and texture.
 Use the normal pickup interaction, equip through the inventory, and use the
-existing aim, fire and reload controls. Individual pickups are in `Prefabs`.
+existing aim, fire and reload controls. Individual pickups are in each weapon or ammunition type's `Prefabs` folder.
 
 The rifle ammo FBX needs its imported root scale of 100 for centimetre-to-metre
 conversion. Its pickup and examination prefabs retain that scale on the model
@@ -38,12 +42,12 @@ part of the model; this prototype uses the existing aim system without a
 dedicated scope view. The shotgun's player animations and audio are reused.
 The flare gun reuses the pistol's player animations and audio.
 
-`Data/HuntingRifle.asset` and `Data/FlareGun.asset` control magazine size, ammunition,
+`Assets/Game/Weapons/HuntingRifle/Data/HuntingRifle.asset` and `Assets/Game/Weapons/FlareGun/Data/FlareGun.asset` control magazine size, ammunition,
 reload duration, sounds, animation overrides and hand attachment.
-Attack assets in `Data` control impact damage. The weapon prefab's
+Attack assets in each weapon's `Data` folder control impact damage. The weapon prefab's
 `AttackMontage.Duration` controls the firing cycle.
 
-`Effects/SignalFlare.prefab` controls the flare:
+`Assets/Game/Weapons/FlareGun/Effects/SignalFlare.prefab` controls the flare:
 
 - Launch speed: `FlareGunAttack.LaunchSpeed` on the gun, default 18 m/s.
 - Light: bright red, intensity 12, 12 m range, lasts 12 seconds with sparks,

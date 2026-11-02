@@ -3,7 +3,7 @@
         {
             "Ammo": "PistolAmmo",
             "DataPath": "Assets/AssetStore/HorrorEngine/ExampleContent/Items/GunAmmo/GunAmmo.asset",
-            "DropPath": "Assets/Game/Weapons/Prefabs/PistolAmmo_Drop.prefab",
+            "DropPath": "Assets/Game/Weapons/Ammunition/PistolAmmo/Prefabs/PistolAmmo_Drop.prefab",
             "PrefabId": "ebf265c2-ec7c-420f-abca-4c98ec53faff",
             "VisualSize": {
                 "x": 0.15000000596046449,
@@ -14,7 +14,7 @@
         {
             "Ammo": "ShotgunAmmo",
             "DataPath": "Assets/AssetStore/HorrorEngine/ExampleContent/Items/ShotgunAmmo/ShotgunAmmo.asset",
-            "DropPath": "Assets/Game/Weapons/Prefabs/ShotgunAmmo_Drop.prefab",
+            "DropPath": "Assets/Game/Weapons/Ammunition/ShotgunAmmo/Prefabs/ShotgunAmmo_Drop.prefab",
             "PrefabId": "83a2388b-36fa-4e43-9b0a-d674a64c197e",
             "VisualSize": {
                 "x": 0.12295733392238617,
@@ -24,8 +24,8 @@
         },
         {
             "Ammo": "RevolverAmmo",
-            "DataPath": "Assets/Game/Weapons/Data/RevolverAmmo.asset",
-            "DropPath": "Assets/Game/Weapons/Prefabs/RevolverAmmo_Drop.prefab",
+            "DataPath": "Assets/Game/Weapons/Ammunition/RevolverAmmo/Data/RevolverAmmo.asset",
+            "DropPath": "Assets/Game/Weapons/Ammunition/RevolverAmmo/Prefabs/RevolverAmmo_Drop.prefab",
             "PrefabId": "62d42e6e-c956-4acc-b8da-51473439c11f",
             "VisualSize": {
                 "x": 0.10999999940395355,
@@ -35,8 +35,8 @@
         },
         {
             "Ammo": "HuntingRifleAmmo",
-            "DataPath": "Assets/Game/Weapons/Data/HuntingRifleAmmo.asset",
-            "DropPath": "Assets/Game/Weapons/Prefabs/HuntingRifleAmmo_Drop.prefab",
+            "DataPath": "Assets/Game/Weapons/Ammunition/HuntingRifleAmmo/Data/HuntingRifleAmmo.asset",
+            "DropPath": "Assets/Game/Weapons/Ammunition/HuntingRifleAmmo/Prefabs/HuntingRifleAmmo_Drop.prefab",
             "PrefabId": "4b16cf1d-c022-4821-a7c8-bba8659d3f1d",
             "VisualSize": {
                 "x": 0.2212446928024292,
@@ -46,8 +46,8 @@
         },
         {
             "Ammo": "FlareAmmo",
-            "DataPath": "Assets/Game/Weapons/Data/FlareAmmo.asset",
-            "DropPath": "Assets/Game/Weapons/Prefabs/FlareAmmo_Drop.prefab",
+            "DataPath": "Assets/Game/Weapons/Ammunition/FlareAmmo/Data/FlareAmmo.asset",
+            "DropPath": "Assets/Game/Weapons/Ammunition/FlareAmmo/Prefabs/FlareAmmo_Drop.prefab",
             "PrefabId": "1495a831-0309-42b0-8738-cb388c4db3ed",
             "VisualSize": {
                 "x": 0.05747438222169876,

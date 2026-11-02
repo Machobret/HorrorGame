@@ -1,4 +1,10 @@
 """Use a different isolated rifle shot from the user-supplied compilation."""
+
+# Shared paths keep generated assets beside their owning weapon.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(next(p for p in _Path(__file__).resolve().parents if (p / "ProjectSettings").is_dir()) / "Tools" / "Art"))
+from weapon_paths import weapon_asset
 from pathlib import Path
 import av, json, shutil, wave
 import numpy as np
@@ -26,7 +32,7 @@ signal-=signal.mean();signal=np.tanh(signal/max(np.max(np.abs(signal)),1e-9)*1.6
 signal*=10**(-.8/20)/max(np.max(np.abs(signal)),1e-9)
 attack=int(RATE*.001);release=int(RATE*.06)
 signal[:attack]*=np.linspace(0,1,attack);signal[-release:]*=np.linspace(1,0,release)
-target=ROOT/'Assets/Game/Weapons/Audio/HuntingRifle_Shot.wav'
+target=weapon_asset('Audio', str('HuntingRifle_Shot.wav'))
 backup=ROOT/'ArtSource/Weapons/Audio/HuntingRifle_Shot_Previous.wav'
 if not backup.exists():shutil.copy2(target,backup)
 with wave.open(str(target),'wb') as output:

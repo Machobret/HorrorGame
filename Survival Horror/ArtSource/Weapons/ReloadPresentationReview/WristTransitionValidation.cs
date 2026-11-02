@@ -16,10 +16,10 @@ namespace HorrorGame.Weapons.Editor {
   public static void RunBaseline(){SessionState.SetBool(Key+"FlareOnly",false);SessionState.SetString(Key+"Output","WristTransitionsBaseline");RunBatchInternal();}
   public static void RunBatch(){SessionState.SetBool(Key+"FlareOnly",false);SessionState.SetString(Key+"Output","WristTransitionsArmFinal");RunBatchInternal();}
   public static void RunFlarePreview(){SessionState.SetBool(Key+"FlareOnly",true);SessionState.SetString(Key+"Output","WristFlarePreviewFinal");RunBatchInternal();}
-  static void RunBatchInternal(){EditorSceneManager.OpenScene("Assets/Scenes/FlareGun_TestRoom.unity");SessionState.SetBool(Key,true);EditorApplication.isPlaying=true;}
+  static void RunBatchInternal(){EditorSceneManager.OpenScene("Assets/Sandbox/WeaponTestRoom/Scenes/FlareGun_TestRoom.unity");SessionState.SetBool(Key,true);EditorApplication.isPlaying=true;}
  }
  [DefaultExecutionOrder(1000)] public class WristTransitionRunner:MonoBehaviour {
-  static readonly string[] paths={"Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Gun/Gun.asset","Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Shotgun/Shotgun.asset","Assets/Game/Weapons/Data/HuntingRifle.asset","Assets/Game/Weapons/Data/Revolver.asset","Assets/Game/Weapons/Data/FlareGun.asset"};
+  static readonly string[] paths={"Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Gun/Gun.asset","Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Shotgun/Shotgun.asset",WeaponAssetPaths.Content("Data", "HuntingRifle.asset"),WeaponAssetPaths.Content("Data", "Revolver.asset"),WeaponAssetPaths.Content("Data", "FlareGun.asset")};
   Actor actor;ActorStateController states;Mouse mouse;Keyboard keyboard;InventoryEntry entry;ReloadableWeaponData data;Transform left,right;StreamWriter csv;string phase="startup",output;int ticks;Camera cam;RenderTexture rt;float captureUntil;IActorState previousState;bool capture;
   Inventory Inv=>GameManager.Instance.Inventory;
   IEnumerator Start(){

@@ -16,7 +16,7 @@ namespace HorrorGame.Weapons.Editor
     public static class MP5AnimationValidation
     {
         const string SessionKey = "HorrorGame.MP5AnimationValidation";
-        static readonly string[] Paths = { "Assets/Game/Weapons/Data/MP5.asset" };
+        static readonly string[] Paths = { WeaponAssetPaths.Content("Data", "MP5.asset") };
         static int stage, index, variant, frame, lastFrame;
         static double started;
         static float phase, reloadStart, exitedAt, reserveBefore;
@@ -40,7 +40,7 @@ namespace HorrorGame.Weapons.Editor
         static MP5AnimationValidation() { EditorApplication.playModeStateChanged += OnPlay; }
         public static void RunBatch()
         {
-            EditorSceneManager.OpenScene("Assets/Scenes/FlareGun_TestRoom.unity");
+            EditorSceneManager.OpenScene("Assets/Sandbox/WeaponTestRoom/Scenes/FlareGun_TestRoom.unity");
             SessionState.SetBool(SessionKey, true); EditorApplication.isPlaying = true;
         }
         static void OnPlay(PlayModeStateChange change)

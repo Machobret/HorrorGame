@@ -1,6 +1,12 @@
 """Retime the existing flare reload by moving intact events; no resampling/pitch change.
 Run with Python + NumPy from any working directory. The backup is written once.
 """
+
+# Shared paths keep generated assets beside their owning weapon.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(next(p for p in _Path(__file__).resolve().parents if (p / "ProjectSettings").is_dir()) / "Tools" / "Art"))
+from weapon_paths import weapon_asset
 from pathlib import Path
 import json
 import shutil
@@ -9,7 +15,7 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 ROOT = Path(__file__).resolve().parents[4]
-TARGET = ROOT / 'Assets/Game/Weapons/Audio/FlareGun_Reload.wav'
+TARGET = weapon_asset('Audio', str('FlareGun_Reload.wav'))
 ORIGINAL = HERE / 'FlareGun_Reload_Original.wav'
 SOURCE_PEAKS = np.array([.075, .170, .294, .394, .509, .634])
 DESTINATION_PEAKS = np.array([.220, .490, .740, 1.300, 1.530, 1.860])

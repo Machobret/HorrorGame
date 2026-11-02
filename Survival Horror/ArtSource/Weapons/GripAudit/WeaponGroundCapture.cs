@@ -15,7 +15,7 @@ namespace HorrorGame.Weapons.Editor
    try{
     EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
     // Preview-only full-resolution capture; the models retain their point-filtered PSX textures.
-    var retro=AssetDatabase.LoadAssetAtPath<Material>("Assets/General/Materials/RetroComposite.mat");
+    var retro=AssetDatabase.LoadAssetAtPath<Material>("Assets/Game/Rendering/Materials/RetroComposite.mat");
     retro.SetVector("_VirtualResolution",new Vector4(1440,1280,0,0));retro.SetFloat("_DitherStrength",.12f);retro.SetFloat("_PixelWobble",0);retro.SetFloat("_PixelShiftStrength",0);retro.SetFloat("_LensWarp",0);
     RenderSettings.fog=false;RenderSettings.ambientMode=AmbientMode.Flat;RenderSettings.ambientLight=new Color(.5f,.52f,.56f);RenderSettings.ambientIntensity=1;
     var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);floor.name="Dark concrete floor";floor.transform.position=new Vector3(0,-.05f,0);floor.transform.localScale=new Vector3(12,.1f,7);
@@ -38,7 +38,7 @@ namespace HorrorGame.Weapons.Editor
     target=new RenderTexture(1440,1280,24);camera.targetTexture=target;warmup=0;EditorApplication.update+=Capture;
    }catch(Exception e){Debug.LogException(e);EditorApplication.Exit(1);}
   }
-  static GameObject Load(string name){var prefab=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Game/Weapons/Prefabs/"+name+"_Pickup.prefab");if(!prefab)throw new Exception("Missing pickup "+name);var go=UnityEngine.Object.Instantiate(prefab);go.name=name;foreach(var particle in go.GetComponentsInChildren<ParticleSystem>())UnityEngine.Object.DestroyImmediate(particle.gameObject);return go;}
+  static GameObject Load(string name){var prefab=AssetDatabase.LoadAssetAtPath<GameObject>(WeaponAssetPaths.Content("Prefabs", name+"_Pickup.prefab"));if(!prefab)throw new Exception("Missing pickup "+name);var go=UnityEngine.Object.Instantiate(prefab);go.name=name;foreach(var particle in go.GetComponentsInChildren<ParticleSystem>())UnityEngine.Object.DestroyImmediate(particle.gameObject);return go;}
   static Bounds BoundsOf(GameObject go){var renderers=go.GetComponentsInChildren<MeshRenderer>();if(renderers.Length==0)throw new Exception("No model for "+go.name);var b=renderers[0].bounds;foreach(var r in renderers)b.Encapsulate(r.bounds);return b;}
   static void Place(GameObject go,Vector3 location){var b=BoundsOf(go);go.transform.position+=new Vector3(location.x-b.center.x,.008f-b.min.y,location.z-b.center.z);}
   static void Capture()

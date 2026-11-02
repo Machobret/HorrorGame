@@ -17,8 +17,8 @@ namespace HorrorGame.Weapons.Editor
     {
         const string SessionKey = "HorrorGame.ReloadTimingSeamValidation";
         static readonly string[] Paths = {
-            "Assets/Game/Weapons/Data/Revolver.asset",
-            "Assets/Game/Weapons/Data/FlareGun.asset" };
+            WeaponAssetPaths.Content("Data", "Revolver.asset"),
+            WeaponAssetPaths.Content("Data", "FlareGun.asset") };
         static int stage, index, variant, frame, lastFrame;
         static double started;
         static float phase, reloadStart, exitedAt, reserveBefore;
@@ -42,7 +42,7 @@ namespace HorrorGame.Weapons.Editor
         static ReloadTimingSeamValidation() { EditorApplication.playModeStateChanged += OnPlay; }
         public static void RunBatch()
         {
-            EditorSceneManager.OpenScene("Assets/Scenes/FlareGun_TestRoom.unity");
+            EditorSceneManager.OpenScene("Assets/Sandbox/WeaponTestRoom/Scenes/FlareGun_TestRoom.unity");
             SessionState.SetBool(SessionKey, true); EditorApplication.isPlaying = true;
         }
         static void OnPlay(PlayModeStateChange change)

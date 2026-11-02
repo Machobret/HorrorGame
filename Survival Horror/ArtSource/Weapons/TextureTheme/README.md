@@ -38,7 +38,7 @@ models all pick up the change. No gameplay prefab or scene was rebuilt.
 `Original/` contains pre-edit gun textures and icons. Generated masters are
 `HuntingRifle_Atlas_Source.png` and `FlareGun_Atlas_Source.png`. The resized delivery
 textures live in `Applied/` and at the existing paths in
-`Assets/Game/Weapons/Models`. Masters were produced with the built-in imagegen
+`Assets/Game/Weapons/<Weapon>/Models`. Masters were produced with the built-in imagegen
 tool. Resizing only prepares those outputs for Unity.
 
 Validated in an isolated Unity 6000.3.11f1 project: every gun material resolves

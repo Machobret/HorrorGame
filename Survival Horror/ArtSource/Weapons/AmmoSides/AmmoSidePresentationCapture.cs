@@ -12,9 +12,9 @@ namespace HorrorGame.Weapons.Editor
  public static class AmmoSidePresentationCapture
  {
   const string Output="C:/Users/Mangis/AppData/Local/Temp/FlareSceneFinalValidation/AmmoSidesPreview";
-  const string Assets="Assets/Game/Weapons/Models/AmmoSides/";
+  const string Assets="Assets/Game/Weapons/Ammunition/Shared/Models/AmmoSides/";
   static string[] names={"PistolAmmo","ShotgunAmmo","RevolverAmmo","HuntingRifleAmmo"};
-  static string[] dataPaths={"Assets/AssetStore/HorrorEngine/ExampleContent/Items/GunAmmo/GunAmmo.asset","Assets/AssetStore/HorrorEngine/ExampleContent/Items/ShotgunAmmo/ShotgunAmmo.asset","Assets/Game/Weapons/Data/RevolverAmmo.asset","Assets/Game/Weapons/Data/HuntingRifleAmmo.asset"};
+  static string[] dataPaths={"Assets/AssetStore/HorrorEngine/ExampleContent/Items/GunAmmo/GunAmmo.asset","Assets/AssetStore/HorrorEngine/ExampleContent/Items/ShotgunAmmo/ShotgunAmmo.asset",WeaponAssetPaths.Content("Data", "RevolverAmmo.asset"),WeaponAssetPaths.Content("Data", "HuntingRifleAmmo.asset")};
   static Camera camera;static RenderTexture target;static int warmup;
   public static void RunBatch()
   {
@@ -32,7 +32,7 @@ namespace HorrorGame.Weapons.Editor
    if(++warmup<5)return;EditorApplication.update-=Capture;
    try{
     for(int i=0;i<names.Length;++i){
-     var model=Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Game/Weapons/Prefabs/"+names[i]+"_Pickup.prefab"));
+     var model=Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(WeaponAssetPaths.Content("Prefabs", names[i]+"_Pickup.prefab")));
      var renderers=model.GetComponentsInChildren<MeshRenderer>();if(renderers.Length==0)throw new Exception("Missing model");var b=renderers[0].bounds;foreach(var r in renderers)b.Encapsulate(r.bounds);
      foreach(var f in model.GetComponentsInChildren<MeshFilter>()){
       if(!f.sharedMesh||!AssetDatabase.GetAssetPath(f.sharedMesh).Contains("AmmoSides"))throw new Exception("Missing corrected mesh "+names[i]);
@@ -43,7 +43,7 @@ namespace HorrorGame.Weapons.Editor
      for(int view=0;view<2;++view){
       Vector3 direction=view==0?new Vector3(.9f,1.1f,-1.5f):new Vector3(-.9f,1.1f,1.5f);camera.transform.position=b.center+direction*b.size.magnitude*2;camera.transform.LookAt(b.center);camera.orthographicSize=Fit(b)*1.15f;
       Save(Output+"/"+names[i]+(view==0?"_Front.png":"_Back.png"));
-      if(view==(i==2?1:0)){string icon=Assets+names[i]+"_PickupIcon.png";Save(icon);AssetDatabase.ImportAsset(icon,ImportAssetOptions.ForceSynchronousImport);var importer=(TextureImporter)AssetImporter.GetAtPath(icon);importer.textureType=TextureImporterType.Sprite;importer.spriteImportMode=SpriteImportMode.Single;importer.alphaIsTransparency=true;importer.mipmapEnabled=false;importer.maxTextureSize=512;importer.filterMode=FilterMode.Bilinear;importer.textureCompression=TextureImporterCompression.Uncompressed;importer.SaveAndReimport();var data=AssetDatabase.LoadAssetAtPath<AmmoData>(dataPaths[i]);data.Image=AssetDatabase.LoadAssetAtPath<Sprite>(icon);EditorUtility.SetDirty(data);}
+      if(view==(i==2?1:0)){string icon=WeaponAssetPaths.Content("Models", "AmmoSides/" + names[i]+"_PickupIcon.png");Save(icon);AssetDatabase.ImportAsset(icon,ImportAssetOptions.ForceSynchronousImport);var importer=(TextureImporter)AssetImporter.GetAtPath(icon);importer.textureType=TextureImporterType.Sprite;importer.spriteImportMode=SpriteImportMode.Single;importer.alphaIsTransparency=true;importer.mipmapEnabled=false;importer.maxTextureSize=512;importer.filterMode=FilterMode.Bilinear;importer.textureCompression=TextureImporterCompression.Uncompressed;importer.SaveAndReimport();var data=AssetDatabase.LoadAssetAtPath<AmmoData>(dataPaths[i]);data.Image=AssetDatabase.LoadAssetAtPath<Sprite>(icon);EditorUtility.SetDirty(data);}
      }
      Object.DestroyImmediate(model);
     }

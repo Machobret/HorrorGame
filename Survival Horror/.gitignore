@@ -36,3 +36,8 @@ AssetStoreTools*
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Reproducible review output and Python caches.
+Exports/Reviews/
+__pycache__/
+*.py[cod]

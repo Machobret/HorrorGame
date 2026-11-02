@@ -2,17 +2,23 @@
 
 Render previews, then run assemble_horror_icons.py --apply after visual inspection.
 """
+
+# Shared paths keep generated assets beside their owning weapon.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(next(p for p in _Path(__file__).resolve().parents if (p / "ProjectSettings").is_dir()) / "Tools" / "Art"))
+from weapon_paths import weapon_asset
 from pathlib import Path
 import bpy, math
 from mathutils import Matrix, Vector
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'ArtSource/Weapons/HorrorIcons';OUT.mkdir(exist_ok=True)
-MODELS=ROOT/'Assets/Game/Weapons/Models'
+
 DOWNLOAD=Path('C:/Users/Mangis/Downloads/Assets/Guns')
 jobs=[
  ('1911',DOWNLOAD/'PSXMiscGuns/PSXMiscGuns/1911/1911.fbx',DOWNLOAD/'PSXMiscGuns/PSXMiscGuns/1911/1911_Texture.png',.087,(-.70,.92),{'1911_Mag_Full','45ACP','45ACP_Shell'}),
  ('DoubleBarrel',DOWNLOAD/'PSXShotgunPack[FIXED]/PSXShotgunPack[FIXED]/Files/DoubleBarrelShotgun/Fbx/DoubleBarrelShotgun.fbx',DOWNLOAD/'PSXShotgunPack[FIXED]/PSXShotgunPack[FIXED]/Files/DoubleBarrelShotgun/Textures/DBShotgunText.png',.25,(-.9,1.62),{'ShellLowPolyGreen.005','ShellLowPolyRed.005'}),
- *[(name,MODELS/name/(name+'.fbx'),None,None,None,set()) for name in ('Revolver','HuntingRifle','FlareGun')]]
+ *[(name,weapon_asset('Models', str(name) + "/" + str(name+'.fbx')),None,None,None,set()) for name in ('Revolver','HuntingRifle','FlareGun')]]
 for name,source,texture_path,scale,grip,exclude in jobs:
  bpy.ops.wm.read_factory_settings(use_empty=True);bpy.ops.import_scene.fbx(filepath=str(source))
  meshes=[]
@@ -37,7 +43,7 @@ for name,source,texture_path,scale,grip,exclude in jobs:
    if node.type=='TEX_IMAGE':
     if not texture_path:
      filename=('ScopeText.jpg' if '067' in mat.name else 'HuntingRifleText.png') if name=='HuntingRifle' else ('cylinderRefV2.jpg' if '034' in mat.name else 'ColtPython.png') if name=='Revolver' else 'Flaregun_Text_240.png'
-     node.image=bpy.data.images.load(str(MODELS/name/filename),check_existing=True)
+     node.image=bpy.data.images.load(str(weapon_asset('Models', str(name) + "/" + str(filename))),check_existing=True)
     ratio=min(1,128/max(node.image.size));node.image.scale(max(1,round(node.image.size[0]*ratio)),max(1,round(node.image.size[1]*ratio)))
     node.interpolation='Closest'
    elif node.type=='BSDF_PRINCIPLED':

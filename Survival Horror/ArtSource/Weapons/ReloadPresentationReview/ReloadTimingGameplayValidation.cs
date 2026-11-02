@@ -13,10 +13,10 @@ namespace HorrorGame.Weapons.Editor
  {
   const string Key="HorrorGame.ReloadTimingGameplayValidation";
   public const string Output="C:/Users/Mangis/AppData/Local/Temp/FlareSceneFinalValidation/ReloadTimingGameplayReview";
-  static string[] paths={"Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Gun/Gun.asset","Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Shotgun/Shotgun.asset","Assets/Game/Weapons/Data/HuntingRifle.asset","Assets/Game/Weapons/Data/Revolver.asset","Assets/Game/Weapons/Data/FlareGun.asset"};
+  static string[] paths={"Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Gun/Gun.asset","Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Shotgun/Shotgun.asset",WeaponAssetPaths.Content("Data", "HuntingRifle.asset"),WeaponAssetPaths.Content("Data", "Revolver.asset"),WeaponAssetPaths.Content("Data", "FlareGun.asset")};
   static int stage,index,frame,shotSample;static double started,phase;static float firedAt,reserveBefore,sampleTime;static Vector3 position,foot;static Mouse mouse;static Keyboard keyboard;static ActorStateController states;static ReloadableWeaponData data;static InventoryEntry gun,ammo;static UIInventory ui;static Camera camera;static RenderTexture target;static bool sawCase;
   static ReloadTimingGameplayValidation(){EditorApplication.playModeStateChanged+=OnState;}
-  public static void RunBatch(){try{InventoryReloadChecks.RunInventoryChecks();EditorSceneManager.OpenScene("Assets/Scenes/FlareGun_TestRoom.unity");SessionState.SetBool(Key,true);EditorApplication.isPlaying=true;}catch(Exception e){Debug.LogException(e);EditorApplication.Exit(1);}}
+  public static void RunBatch(){try{InventoryReloadChecks.RunInventoryChecks();EditorSceneManager.OpenScene("Assets/Sandbox/WeaponTestRoom/Scenes/FlareGun_TestRoom.unity");SessionState.SetBool(Key,true);EditorApplication.isPlaying=true;}catch(Exception e){Debug.LogException(e);EditorApplication.Exit(1);}}
   static void OnState(PlayModeStateChange s){if(s==PlayModeStateChange.EnteredPlayMode&&SessionState.GetBool(Key,false)){started=phase=EditorApplication.timeSinceStartup;stage=index=0;Directory.CreateDirectory(Output);EditorApplication.update+=Tick;}}
   static Inventory Inv=>GameManager.Instance.Inventory;
   static Actor Player=>GameManager.Instance.Player;

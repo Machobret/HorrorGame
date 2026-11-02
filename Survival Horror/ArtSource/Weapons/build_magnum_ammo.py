@@ -1,9 +1,15 @@
 """Correct carton UVs and render its pickup image without rebuilding weapons."""
+
+# Shared paths keep generated assets beside their owning weapon.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(next(p for p in _Path(__file__).resolve().parents if (p / "ProjectSettings").is_dir()) / "Tools" / "Art"))
+from weapon_paths import weapon_asset
 from pathlib import Path
 import bpy
 from mathutils import Vector
 ROOT=Path(__file__).resolve().parents[2]
-folder=ROOT/'Assets/Game/Weapons/Models/RevolverAmmo'
+folder=weapon_asset('Models', str('RevolverAmmo'))
 bpy.ops.wm.read_factory_settings(use_empty=True)
 image=bpy.data.images.load(str(folder/'RevolverAmmo_Albedo.png'))
 material=bpy.data.materials.new('MagnumBox');material.use_nodes=True
