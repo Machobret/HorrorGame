@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.SceneManagement;
+using HorrorGame.Chapter1;
 
 namespace HorrorEngine
 {
@@ -24,6 +26,7 @@ namespace HorrorEngine
 
         private MapController m_SelectedMap;
         private MapElement m_Selected;
+        private PowerCircuitPanelElement m_SelectedCircuit;
         private Material m_Mat;
 
         private bool m_EditingMapDetails;
@@ -56,6 +59,7 @@ namespace HorrorEngine
 
                 GameObject selectedGO = Selection.activeObject as GameObject;
                 m_Selected = selectedGO ? selectedGO.GetComponent<MapElement>() : null;
+                m_SelectedCircuit = selectedGO ? selectedGO.GetComponent<PowerCircuitPanelElement>() : null;
 
                 var rooms = m_SelectedMap.GetComponentsInChildren<MapRoom>(true);
                 for (int i = 0; i < rooms.Length; ++i)
@@ -69,6 +73,8 @@ namespace HorrorEngine
                     DrawDoor(m_SelectedMap, doors[i], m_Selected == doors[i]);
                 }
 
+                DrawPowerCircuits();
+
                 // Images need to go last since GUI.DrawTexture seems to interfere with other graphic GL calls
                 foreach (var room in rooms)
                 {
@@ -77,10 +83,11 @@ namespace HorrorEngine
                 }
 
                 // This needs to go before the inspector so new items are already in the arrays
-                if (m_Selected)
+                if (m_Selected || m_SelectedCircuit)
                 {
                     UpdateTransformOps();
-                    DrawSelectedProperties();
+                    if (m_Selected) DrawSelectedProperties();
+                    else DrawSelectedCircuitProperties();
                 }
 
                 int defaultFontSize = GUI.skin.label.fontSize;
@@ -101,7 +108,13 @@ namespace HorrorEngine
                 GUILayout.BeginArea(new Rect(position.width * 0.5f - w * 0.5f, position.height * 0.5f - h * 0.5f, w, h));
                 GUILayout.BeginVertical();
 
-                m_SelectedMap = FindFirstObjectByType<MapController>();
+                MapController[] availableMaps = FindObjectsByType<MapController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+                m_SelectedMap = null;
+                foreach (MapController map in availableMaps)
+                {
+                    if (map && map.Data) { m_SelectedMap = map; break; }
+                }
+                if (!m_SelectedMap && availableMaps.Length > 0) m_SelectedMap = availableMaps[0];
                 if (!m_SelectedMap)
                 {
                     EditorGUILayout.HelpBox("There is no MapController in the scene", MessageType.Error);
@@ -214,8 +227,30 @@ namespace HorrorEngine
 
         private void UpdateTransformOps()
         {
-
             Vector2 scrolledMousePos = Event.current.mousePosition - m_ScrollPos;
+            if (m_SelectedCircuit)
+            {
+                if (m_Moving)
+                {
+                    if (m_SelectedCircuit.Room)
+                    {
+                        Matrix4x4 roomTransform = GetElementTRS(m_SelectedMap.Data, m_SelectedCircuit.Room);
+                        Vector3 localPoint = roomTransform.inverse.MultiplyPoint(new Vector3(Event.current.mousePosition.x, 0, Event.current.mousePosition.y));
+                        m_SelectedCircuit.RoomOffset = new Vector2(localPoint.x, localPoint.z);
+                    }
+                    else
+                    {
+                        m_SelectedCircuit.transform.localPosition = new Vector3(scrolledMousePos.x, 0, scrolledMousePos.y);
+                    }
+                    PowerPanelController controller = m_SelectedCircuit.GetComponentInParent<PowerPanelController>();
+                    controller?.SerializeToData();
+                    Repaint();
+                    EditorUtility.SetDirty(m_SelectedCircuit);
+                }
+                return;
+            }
+
+            if (!m_Selected) return;
             if (m_Moving)
             {
                 m_Selected.Offset = scrolledMousePos;
@@ -254,6 +289,70 @@ namespace HorrorEngine
                 m_Selected.Scale = m_Selected.transform.lossyScale;
                 EditorUtility.SetDirty(m_Selected);
             }
+        }
+
+        private void DrawSelectedCircuitProperties()
+        {
+            string roomName = m_SelectedCircuit.Room
+                ? (string.IsNullOrEmpty(m_SelectedCircuit.Room.Name) ? m_SelectedCircuit.Room.name : m_SelectedCircuit.Room.Name)
+                : "No room assigned";
+            GUIStyle propsStyle = new GUIStyle();
+            propsStyle.normal.background = MakeTex(2, 2, new Color(0.1f, 0.1f, 0.1f, 0.75f));
+
+            GUILayout.BeginArea(new Rect(m_InspectorWidth + 20, position.height - 325, 350, 315));
+            GUILayout.BeginVertical(propsStyle);
+            GUILayout.Label("Power Circuit", EditorStyles.boldLabel);
+
+            string previousId = m_SelectedCircuit.CircuitId;
+            EditorGUI.BeginChangeCheck();
+            m_SelectedCircuit.Label = EditorGUILayout.TextField("Name", m_SelectedCircuit.Label);
+            EditorGUILayout.LabelField("Circuit ID", string.IsNullOrEmpty(m_SelectedCircuit.CircuitId) ? "Generated after naming" : m_SelectedCircuit.CircuitId);
+            m_SelectedCircuit.Consumption = Mathf.Max(0, EditorGUILayout.IntField("Power Draw", m_SelectedCircuit.Consumption));
+            m_SelectedCircuit.StartsEnabled = EditorGUILayout.Toggle("Starts Powered", m_SelectedCircuit.StartsEnabled);
+            EditorGUILayout.LabelField("Map Room", roomName);
+            GUILayout.Space(4);
+            GUILayout.Label("Powered Targets", EditorStyles.boldLabel);
+
+            bool targetsChanged = false;
+            CircuitDrivenObject removedTarget = null;
+            for (int i = 0; i < m_SelectedCircuit.LinkedTargets.Count; i++)
+            {
+                GUILayout.BeginHorizontal();
+                m_SelectedCircuit.LinkedTargets[i] = (CircuitDrivenObject)EditorGUILayout.ObjectField(m_SelectedCircuit.LinkedTargets[i], typeof(CircuitDrivenObject), true);
+                if (GUILayout.Button("-", GUILayout.Width(24)))
+                {
+                    removedTarget = m_SelectedCircuit.LinkedTargets[i];
+                    m_SelectedCircuit.LinkedTargets.RemoveAt(i);
+                    targetsChanged = true;
+                    i--;
+                }
+                GUILayout.EndHorizontal();
+            }
+            if (GUILayout.Button("+ Add Target")) { m_SelectedCircuit.LinkedTargets.Add(null); targetsChanged = true; }
+
+            if (EditorGUI.EndChangeCheck() || targetsChanged)
+            {
+                Undo.RecordObject(m_SelectedCircuit, "Change power circuit");
+                if (removedTarget && removedTarget.CircuitId == previousId)
+                {
+                    Undo.RecordObject(removedTarget, "Unlink power circuit target");
+                    removedTarget.CircuitId = string.Empty;
+                    EditorUtility.SetDirty(removedTarget);
+                }
+                PowerPanelController controller = m_SelectedCircuit.GetComponentInParent<PowerPanelController>();
+                if (controller && previousId != m_SelectedCircuit.CircuitId)
+                    controller.SyncCircuitData(m_SelectedCircuit, previousId);
+                else controller?.RefreshAutomaticCircuitId(m_SelectedCircuit);
+                controller?.SerializeToData();
+                EditorUtility.SetDirty(m_SelectedCircuit);
+                if (controller) EditorUtility.SetDirty(controller);
+                EditorSceneManager.MarkSceneDirty(m_SelectedCircuit.gameObject.scene);
+                AssetDatabase.SaveAssets();
+            }
+            GUILayout.Space(5);
+            GUILayout.Label("Hold [G] to position the dot inside its room", EditorStyles.miniLabel);
+            GUILayout.EndVertical();
+            GUILayout.EndArea();
         }
 
         // --------------------------------------------------------------------
@@ -455,6 +554,45 @@ namespace HorrorEngine
 
             GUILayout.Space(20);
 
+            // ----------- Chapter 1 power-circuit dots
+            PowerPanelController powerController = FindFirstObjectByType<PowerPanelController>();
+            if (powerController)
+            {
+                GUILayout.BeginVertical();
+                GUILayout.Label("Power Circuits", EditorStyles.boldLabel);
+                foreach (PowerCircuitPanelElement circuit in powerController.GetComponentsInChildren<PowerCircuitPanelElement>(true))
+                {
+                    if (GUILayout.Button(string.IsNullOrEmpty(circuit.Label) ? circuit.CircuitId : circuit.Label))
+                        Selection.activeObject = circuit.gameObject;
+                }
+                if (GUILayout.Button("+ Add Circuit"))
+                {
+                    MapRoom room = m_Selected as MapRoom;
+                    if (!room)
+                    {
+                        EditorUtility.DisplayDialog("Add Power Circuit", "Select a room first. Circuit dots are anchored to map rooms.", "OK");
+                    }
+                    else
+                    {
+                        GameObject dot = new GameObject("Circuit Dot — New circuit");
+                        dot.transform.SetParent(powerController.transform);
+                        PowerCircuitPanelElement circuit = dot.AddComponent<PowerCircuitPanelElement>();
+                        circuit.Label = "New circuit";
+                        circuit.Room = room;
+                        circuit.RoomOffset = Vector2.zero;
+                        Undo.RegisterCreatedObjectUndo(dot, "Add Power Circuit");
+                        powerController.RefreshAutomaticCircuitId(circuit);
+                        powerController.SerializeToData();
+                        Selection.activeObject = dot;
+                        EditorUtility.SetDirty(powerController);
+                        EditorSceneManager.MarkSceneDirty(dot.scene);
+                        AssetDatabase.SaveAssets();
+                    }
+                }
+                GUILayout.EndVertical();
+                GUILayout.Space(20);
+            }
+
 
             // ----------- Doors
             GUILayout.BeginVertical();
@@ -539,6 +677,28 @@ namespace HorrorEngine
             Vector3 scale = element.Scale;
             scale.z *= -1;
             return Matrix4x4.TRS(new Vector3(element.Offset.x, 0, element.Offset.y) + new Vector3(m_ScrollPos.x, 0, m_ScrollPos.y), Quaternion.Euler(0, element.Rotation, 0), scale * map.GlobalScale);
+        }
+
+        private void DrawPowerCircuits()
+        {
+            PowerPanelController controller = FindFirstObjectByType<PowerPanelController>();
+            if (!controller) return;
+            GL.PushMatrix(); GL.LoadPixelMatrix(); GL.Begin(GL.QUADS);
+            foreach (PowerCircuitPanelElement circuit in controller.GetComponentsInChildren<PowerCircuitPanelElement>(true))
+            {
+                Vector3 p;
+                if (circuit.Room)
+                {
+                    Matrix4x4 roomTransform = GetElementTRS(m_SelectedMap.Data, circuit.Room);
+                    p = roomTransform.MultiplyPoint(new Vector3(circuit.RoomOffset.x, 0, circuit.RoomOffset.y));
+                }
+                else p = circuit.transform.localPosition + new Vector3(m_ScrollPos.x, 0, m_ScrollPos.y);
+                float radius = 10f;
+                GL.Color(Selection.activeObject == circuit.gameObject ? Color.green : Color.yellow);
+                GL.Vertex3(p.x - radius, p.z - radius, 0); GL.Vertex3(p.x + radius, p.z - radius, 0);
+                GL.Vertex3(p.x + radius, p.z + radius, 0); GL.Vertex3(p.x - radius, p.z + radius, 0);
+            }
+            GL.End(); GL.PopMatrix();
         }
 
         // --------------------------------------------------------------------

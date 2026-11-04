@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Rendering.Universal;
 
 namespace HorrorEngine
 {
@@ -32,8 +33,19 @@ namespace HorrorEngine
         private Camera m_Cam;
         private MapData m_Map;
         private RenderTexture m_RenderTexture;
+        private Material m_RuntimeGridMaterial;
+        private Material m_RuntimeMarkerMaterial;
         
         public RenderTexture RenderTexture => m_RenderTexture;
+        public Vector2 TargetViewportPosition
+        {
+            get
+            {
+                if (m_Cam == null || m_MapTarget == null) return new Vector2(.5f, .5f);
+                Vector3 viewport = m_Cam.WorldToViewportPoint(m_MapTarget.position);
+                return new Vector2(viewport.x, viewport.y);
+            }
+        }
 
         // Height layers
         private readonly int m_GridHeight = -1;
@@ -52,6 +64,74 @@ namespace HorrorEngine
             base.Awake();
             m_Cam = GetComponentInChildren<Camera>();
             Debug.Assert(m_Cam, "MapRenderer does not contain a camera");
+            // The crosshair uses very long line meshes. Occlusion culling can
+            // incorrectly cull one line while the orthographic map camera pans.
+            m_Cam.useOcclusionCulling = false;
+            var cameraData = m_Cam.GetComponent<UniversalAdditionalCameraData>();
+            if (cameraData == null) cameraData = m_Cam.gameObject.AddComponent<UniversalAdditionalCameraData>();
+            // Renderer index 1 has no global full-screen effects. The primary
+            // renderer keeps the game's Retro Composite pass for normal cameras.
+            cameraData.SetRenderer(1);
+            cameraData.renderPostProcessing = false;
+            cameraData.renderShadows = false;
+            cameraData.dithering = false;
+            CreateStableMapMaterials();
+        }
+
+        // --------------------------------------------------------------------
+
+        private void CreateStableMapMaterials()
+        {
+            // The original map assets use a mix of legacy Standard and URP Lit
+            // shaders. In a URP project that causes the grid and marker alpha to
+            // vary with rendering order. Map overlays do not need lighting, so
+            // use dedicated unlit materials with deterministic colours instead.
+            Shader unlit = Shader.Find("Universal Render Pipeline/Unlit");
+            if (unlit == null) unlit = Shader.Find("Unlit/Transparent");
+            if (unlit == null) return;
+
+            Texture gridTexture = GridMaterial != null ? GridMaterial.mainTexture : null;
+            m_RuntimeGridMaterial = CreateMapMaterial(unlit, new Color(.42f, .42f, .42f, .8f), gridTexture, true);
+            m_RuntimeMarkerMaterial = CreateMapMaterial(unlit, Color.white, m_MapPlayer.GetComponentInChildren<Renderer>(true).sharedMaterial.mainTexture, true);
+
+            GridMaterial = m_RuntimeGridMaterial;
+            foreach (var renderer in m_MapPlayer.GetComponentsInChildren<Renderer>(true))
+                renderer.sharedMaterial = m_RuntimeMarkerMaterial;
+            foreach (var renderer in m_MapTarget.GetComponentsInChildren<Renderer>(true))
+            {
+                // UIMap renders the crosshair as a screen-space overlay instead.
+                // Rendering these enormous world-space planes into the texture
+                // was the source of the flashing at the map panel's edges.
+                renderer.enabled = false;
+            }
+        }
+
+        private static Material CreateMapMaterial(Shader shader, Color color, Texture texture, bool alphaClip)
+        {
+            var material = new Material(shader) { name = "Runtime Map Overlay" };
+            if (material.HasProperty("_BaseMap")) material.SetTexture("_BaseMap", texture);
+            if (material.HasProperty("_MainTex")) material.SetTexture("_MainTex", texture);
+            if (material.HasProperty("_BaseColor")) material.SetColor("_BaseColor", color);
+            if (material.HasProperty("_Color")) material.SetColor("_Color", color);
+            if (alphaClip)
+            {
+                // Keep the grid and triangle solid while preserving their texture
+                // silhouettes. Alpha clipping writes depth and avoids sorting
+                // flashes when the map camera moves.
+                material.SetFloat("_AlphaClip", 1);
+                material.SetFloat("_Cutoff", .1f);
+                material.EnableKeyword("_ALPHATEST_ON");
+                material.renderQueue = 2450;
+            }
+            return material;
+        }
+
+        // --------------------------------------------------------------------
+
+        private void OnDestroy()
+        {
+            Destroy(m_RuntimeGridMaterial);
+            Destroy(m_RuntimeMarkerMaterial);
         }
 
         // --------------------------------------------------------------------
@@ -60,6 +140,9 @@ namespace HorrorEngine
         {
             m_RenderTexture = new RenderTexture((int)(Screen.width* m_RenderTextureScale), (int)(Screen.height* m_RenderTextureScale), 16);
             m_RenderTexture.filterMode = m_RenderTextureFilterMode;
+            m_RenderTexture.wrapMode = TextureWrapMode.Clamp;
+            m_RenderTexture.useMipMap = false;
+            m_RenderTexture.autoGenerateMips = false;
             gameObject.SetActive(false);
         }
 
@@ -80,7 +163,7 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
-        public void GenerateAll(MapData map)
+        public void GenerateAll(MapData map, bool revealUnknownRooms = false)
         {
             m_Map = map;
 
@@ -122,7 +205,7 @@ namespace HorrorEngine
             for (int i = 0; i < rooms.Count; ++i)
             {
 
-                if (GenerateRoom( rooms[i]))
+                if (GenerateRoom(rooms[i], revealUnknownRooms))
                 {
                     foreach (var elm in rooms[i].LinkedElements)
                         m_VisibleElements.Add(elm);
@@ -140,13 +223,13 @@ namespace HorrorEngine
         }
         // --------------------------------------------------------------------
 
-        private bool GenerateRoom(MapRoomSerializedData room)
+        private bool GenerateRoom(MapRoomSerializedData room, bool revealUnknownRooms)
         {
             MapRoomState state = room.GetState();
             bool hasMap = GameManager.Instance.Inventory.Maps.Contains(m_Map);
             if (state == MapRoomState.Unknown)
             {
-                if (hasMap) // Fallback for when the player has the map but hasn't even visited the level
+                if (hasMap || revealUnknownRooms) // Tablet panels may show their authored service map before discovery.
                     state = MapRoomState.NotVisited;
                 else
                     return false;
@@ -266,10 +349,12 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
-        public void SetTargetPosition(Vector2 pos)
+        public void SetTargetPosition(Vector2 pos, bool snapCamera = false)
         {
             m_MapTarget.position = new Vector3(pos.x, m_TargetHeight, pos.y);
             ClampTargetToSafeArea();
+            if (snapCamera && m_Cam)
+                m_Cam.transform.position = new Vector3(m_MapTarget.position.x, m_Cam.transform.position.y, m_MapTarget.position.z);
         }
 
         // --------------------------------------------------------------------

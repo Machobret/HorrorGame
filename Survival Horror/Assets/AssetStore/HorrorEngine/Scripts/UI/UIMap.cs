@@ -1,4 +1,5 @@
 using System;
+using HorrorGame.Chapter1;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +26,8 @@ namespace HorrorEngine
         private IUIInput m_Input;
         private MapData m_CurrentMap;
         private UIContext m_UIContext;
+        private Image m_CrosshairVertical;
+        private Image m_CrosshairHorizontal;
 
         // --------------------------------------------------------------------
 
@@ -51,17 +54,14 @@ namespace HorrorEngine
             m_CurrentMap = map;
 
             MapController currentMapCtrl = MapController.GetCurrent();
-
-            bool isCurrent = currentMapCtrl.Data == map;
+            bool isCurrent = currentMapCtrl && currentMapCtrl.Data == map;
             MapRenderer.Instance.GenerateAll(map);
             MapRenderer.Instance.SetPlayerVisible(isCurrent);
             if (isCurrent)
             {
                 currentMapCtrl.UpdateContent();
-                currentMapCtrl.GetTransformInRoom(GameManager.Instance.Player.transform, out Vector3 playerPos, out Quaternion playerRot);
-                MapRenderer.Instance.SetPlayerPositionAndRotation(playerPos, playerRot);
-                MapRenderer.Instance.SetTargetPosition(playerPos);
             }
+            MapPlayerFocus.FocusOnPlayer(MapRenderer.Instance, map);
             
             m_MapList.gameObject.SetActive(false);
             m_MapName.text = map.Name;
@@ -149,6 +149,8 @@ namespace HorrorEngine
 
             if (MapRenderer.Exists && m_CurrentMap)
                 MapRenderer.Instance.MoveTarget(move* Time.unscaledDeltaTime * m_MovementSpeed);
+
+            UpdateCrosshairPosition();
         }
 
         // --------------------------------------------------------------------
@@ -243,8 +245,17 @@ namespace HorrorEngine
 
             if (MapRenderer.Exists)
             {
-                m_MapImage.texture = MapRenderer.Instance.RenderTexture;
+                RenderTexture renderTexture = MapRenderer.Instance.RenderTexture;
+                m_MapImage.texture = renderTexture;
+                // Do not sample the render texture's outermost pixels. Those
+                // pixels can contain a transient clear colour while the map
+                // camera pans, which shows up as a flashing panel-edge border.
+                float insetX = 1.5f / renderTexture.width;
+                float insetY = 1.5f / renderTexture.height;
+                m_MapImage.uvRect = new Rect(insetX, insetY, 1f - insetX * 2f, 1f - insetY * 2f);
                 m_MapImage.gameObject.SetActive(true);
+                CreateCrosshair();
+                UpdateCrosshairPosition();
 
                 MapRenderer.Instance.gameObject.SetActive(true);
             }
@@ -277,6 +288,45 @@ namespace HorrorEngine
             m_UIContext.Deactivate();
 
             UIManager.PopAction();
+        }
+
+        // --------------------------------------------------------------------
+
+        private void CreateCrosshair()
+        {
+            if (m_CrosshairVertical != null) return;
+            m_CrosshairVertical = CreateCrosshairLine("MapCrosshairVertical");
+            m_CrosshairHorizontal = CreateCrosshairLine("MapCrosshairHorizontal");
+        }
+
+        private Image CreateCrosshairLine(string name)
+        {
+            var lineObject = new GameObject(name, typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            lineObject.transform.SetParent(m_MapImage.transform, false);
+            var line = lineObject.GetComponent<Image>();
+            line.color = Color.white;
+            line.raycastTarget = false;
+            return line;
+        }
+
+        private void UpdateCrosshairPosition()
+        {
+            if (m_CrosshairVertical == null || m_CrosshairHorizontal == null || !MapRenderer.Exists) return;
+            Vector2 position = MapRenderer.Instance.TargetViewportPosition;
+            position.x = Mathf.Clamp01(position.x);
+            position.y = Mathf.Clamp01(position.y);
+
+            RectTransform vertical = m_CrosshairVertical.rectTransform;
+            vertical.anchorMin = new Vector2(position.x, 0);
+            vertical.anchorMax = new Vector2(position.x, 1);
+            vertical.anchoredPosition = Vector2.zero;
+            vertical.sizeDelta = new Vector2(2, 0);
+
+            RectTransform horizontal = m_CrosshairHorizontal.rectTransform;
+            horizontal.anchorMin = new Vector2(0, position.y);
+            horizontal.anchorMax = new Vector2(1, position.y);
+            horizontal.anchoredPosition = Vector2.zero;
+            horizontal.sizeDelta = new Vector2(0, 2);
         }
 
         // --------------------------------------------------------------------

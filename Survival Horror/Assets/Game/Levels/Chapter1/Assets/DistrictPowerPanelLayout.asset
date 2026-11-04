@@ -1,0 +1,184 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3076550ad26bad6488de9f5538368149, type: 3}
+  m_Name: DistrictPowerPanelLayout
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorGame.Chapter1.PowerPanelLayout
+  CanvasSize: {x: 800, y: 500}
+  Circuits:
+  - CircuitId: street_lamp_1
+    Label: Street_Lamp_1
+    Bounds:
+      serializedVersion: 2
+      x: -105.44
+      y: -37.37999
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -105.44, y: -37.37999}
+    - {x: 114.56, y: -37.37999}
+    - {x: 114.56, y: 27.62001}
+    - {x: -105.44, y: 27.62001}
+    MapPosition: {x: 683.1999, y: 662.39996}
+  - CircuitId: 
+    Label: 
+    Bounds:
+      serializedVersion: 2
+      x: -173.4976
+      y: 28.460361
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -173.4976, y: 28.460361}
+    - {x: 46.502396, y: 28.460361}
+    - {x: 46.502396, y: 93.46036}
+    - {x: -173.4976, y: 93.46036}
+    MapPosition: {x: 2.62397, y: 3.9964828}
+  - CircuitId: circuit
+    Label: circuit
+    Bounds:
+      serializedVersion: 2
+      x: -173.4976
+      y: 28.460361
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -173.4976, y: 28.460361}
+    - {x: 46.502396, y: 28.460361}
+    - {x: 46.502396, y: 93.46036}
+    - {x: -173.4976, y: 93.46036}
+    MapPosition: {x: 2.62397, y: 3.9964828}
+  - CircuitId: new_circuit
+    Label: New circuit
+    Bounds:
+      serializedVersion: 2
+      x: -110
+      y: -32.5
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -110, y: -32.5}
+    - {x: 110, y: -32.5}
+    - {x: 110, y: 32.5}
+    - {x: -110, y: 32.5}
+    MapPosition: {x: 637.6, y: 613.6001}
+  - CircuitId: s
+    Label: S
+    Bounds:
+      serializedVersion: 2
+      x: -110
+      y: -32.5
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -110, y: -32.5}
+    - {x: 110, y: -32.5}
+    - {x: 110, y: 32.5}
+    - {x: -110, y: 32.5}
+    MapPosition: {x: 637.6, y: 613.6001}
+  - CircuitId: sh
+    Label: Sh
+    Bounds:
+      serializedVersion: 2
+      x: -110
+      y: -32.5
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -110, y: -32.5}
+    - {x: 110, y: -32.5}
+    - {x: 110, y: 32.5}
+    - {x: -110, y: 32.5}
+    MapPosition: {x: 637.6, y: 613.6001}
+  - CircuitId: shu
+    Label: Shu
+    Bounds:
+      serializedVersion: 2
+      x: -110
+      y: -32.5
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -110, y: -32.5}
+    - {x: 110, y: -32.5}
+    - {x: 110, y: 32.5}
+    - {x: -110, y: 32.5}
+    MapPosition: {x: 637.6, y: 613.6001}
+  - CircuitId: shut
+    Label: Shut
+    Bounds:
+      serializedVersion: 2
+      x: -110
+      y: -32.5
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -110, y: -32.5}
+    - {x: 110, y: -32.5}
+    - {x: 110, y: 32.5}
+    - {x: -110, y: 32.5}
+    MapPosition: {x: 637.6, y: 613.6001}
+  - CircuitId: shutt
+    Label: Shutt
+    Bounds:
+      serializedVersion: 2
+      x: -110
+      y: -32.5
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -110, y: -32.5}
+    - {x: 110, y: -32.5}
+    - {x: 110, y: 32.5}
+    - {x: -110, y: 32.5}
+    MapPosition: {x: 637.6, y: 613.6001}
+  - CircuitId: shutte
+    Label: Shutte
+    Bounds:
+      serializedVersion: 2
+      x: -110
+      y: -32.5
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -110, y: -32.5}
+    - {x: 110, y: -32.5}
+    - {x: 110, y: 32.5}
+    - {x: -110, y: 32.5}
+    MapPosition: {x: 637.6, y: 613.6001}
+  - CircuitId: shutter
+    Label: Shutter
+    Bounds:
+      serializedVersion: 2
+      x: -110
+      y: -32.5
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -110, y: -32.5}
+    - {x: 110, y: -32.5}
+    - {x: 110, y: 32.5}
+    - {x: -110, y: 32.5}
+    MapPosition: {x: 637.6, y: 613.6001}
+  - CircuitId: shutters
+    Label: Shutters
+    Bounds:
+      serializedVersion: 2
+      x: -118.87999
+      y: -30.89999
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -118.87999, y: -30.89999}
+    - {x: 101.12001, y: -30.89999}
+    - {x: 101.12001, y: 34.10001}
+    - {x: -118.87999, y: 34.10001}
+    MapPosition: {x: 548.8001, y: 597.6}

@@ -1,4 +1,5 @@
 using System.Collections;
+using HorrorGame.Chapter1;
 using UnityEngine;
 
 namespace HorrorEngine
@@ -41,6 +42,7 @@ namespace HorrorEngine
 
         public override void Use(IInteractor interactor)
         {
+            if (CircuitDrivenShutter.TryBlockDoorUse(this)) return;
             if (m_Lock && m_Lock.IsLocked)
             {
                 m_Lock.OnTryToUnlock(out bool open);

@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a815d38e77048d9b6828e4b721f0f94, type: 3}
+  m_Name: DistrictPowerGridData
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorGame.Chapter1.DistrictPowerGridData
+  MaximumCapacity: 100
+  Circuits:
+  - Id: washing_machines
+    DisplayName: Washing machines
+    Consumption: 50
+    StartsEnabled: 0
+    Enabled: 0
+  - Id: pharmacy_refrigerator
+    DisplayName: Pharmacy refrigerator
+    Consumption: 50
+    StartsEnabled: 0
+    Enabled: 0
+  - Id: apartment_emergency_exit
+    DisplayName: Apartment emergency exit
+    Consumption: 50
+    StartsEnabled: 0
+    Enabled: 0
+  - Id: laundromat_lights
+    DisplayName: Laundromat lights
+    Consumption: 20
+    StartsEnabled: 0
+    Enabled: 0
+  - Id: pharmacy_lights
+    DisplayName: Pharmacy lights
+    Consumption: 20
+    StartsEnabled: 0
+    Enabled: 0
+  - Id: street_lamp_1
+    DisplayName: Street_Lamp_1
+    Consumption: 20
+    StartsEnabled: 0
+    Enabled: 0
+  - Id: street_lamp_2
+    DisplayName: Street lamp 2
+    Consumption: 20
+    StartsEnabled: 0
+    Enabled: 0
+  - Id: street_lamp_3
+    DisplayName: Street lamp 3
+    Consumption: 20
+    StartsEnabled: 0
+    Enabled: 0
+  - Id: street_lamp_4
+    DisplayName: Street lamp 4
+    Consumption: 20
+    StartsEnabled: 0
+    Enabled: 0
+  - Id: laundromat_shutter
+    DisplayName: Laundromat shutter
+    Consumption: 10
+    StartsEnabled: 0
+    Enabled: 0
+  - Id: pharmacy_shutter
+    DisplayName: Pharmacy shutter
+    Consumption: 10
+    StartsEnabled: 0
+    Enabled: 0
+  - Id: shutters_1
+    DisplayName: Shutters 1
+    Consumption: 20
+    StartsEnabled: 0
+    Enabled: 0
+  - Id: circuit
+    DisplayName: circuit
+    Consumption: 20
+    StartsEnabled: 0
+    Enabled: 0
+  - Id: shutters
+    DisplayName: Shutters
+    Consumption: 20
+    StartsEnabled: 0
+    Enabled: 0

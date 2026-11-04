@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4992fa4685309e447a9abb36b7fb16c1, type: 3}
+  m_Name: Elec_Puzzle
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.MapData
+  UniqueId: 34f20cae-972a-4230-b095-9d1e88ce6b17
+  ControllerUniqueId: eecae8d9-7ff5-40d4-a0de-355e733c853d
+  Name:
+    IsLocalized: 0
+    Unlocalized: 
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Abbreviation:
+    IsLocalized: 0
+    Unlocalized: 
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Name_DEPRECATED: NoName
+  Abbreviation_DEPRECATED: 
+  Size: {x: 25, y: 25}
+  CellSize: 50
+  GlobalScale: 10
+  MapSet: {fileID: 11400000, guid: 2a25645896c049042af84cd91dc2938b, type: 2}
+  Rooms:
+  - Name: Test area
+    UniqueId: babc6e59-08fc-4bc5-a09b-4d62b4112185
+    Transform:
+      Offset: {x: 637.6, y: 613.6001}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 0
+    Shapes:
+    - Points:
+      - {x: -3.5, y: 0, z: 0.52949166}
+      - {x: -3.5, y: 0, z: 6.5}
+      - {x: 1, y: 0, z: 6.5}
+      - {x: 1, y: 0, z: -0.45897138}
+      - {x: 10.792879, y: 0, z: -0.45897257}
+      - {x: 10.942413, y: 0, z: -7.5083838}
+      - {x: -16, y: 0, z: -7.4683156}
+      - {x: -16, y: 0, z: 0.44677997}
+    LinkedElements: []
+    Details: []
+    Images: []
+  Doors: []
+  references:
+    version: 2
+    RefIds: []

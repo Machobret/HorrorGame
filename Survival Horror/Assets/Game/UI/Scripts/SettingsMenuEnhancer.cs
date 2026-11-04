@@ -169,7 +169,7 @@ namespace HorrorEngine
             var layout = section.gameObject.AddComponent<VerticalLayoutGroup>();
             layout.padding = new RectOffset(10, 10, 10, 10); layout.spacing = 6; layout.childControlWidth = true; layout.childControlHeight = false; layout.childForceExpandWidth = true; layout.childForceExpandHeight = false;
             section.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-            Label(section, "KEYBOARD CONTROLS — Pause is fixed to P", 19);
+            Label(section, "KEYBOARD CONTROLS — Default: P Pause · E Interact", 19);
             AddRow(section, listener.Actions.asset, "PrimaryAxis", "Move Forward", "up");
             AddRow(section, listener.Actions.asset, "PrimaryAxis", "Move Back", "down");
             AddRow(section, listener.Actions.asset, "PrimaryAxis", "Move Left", "left");
