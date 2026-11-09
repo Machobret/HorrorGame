@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98c83dfe5ec24a0c956fbba0e8ba68ff, type: 3}
+  m_Name: Waterpixels Windows
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.OpeningFamily
+  Kind: 1
+  Sets:
+  - Name: Windows 01 Clean
+    State: 0
+    Models:
+    - {fileID: 11400000, guid: 3f7a121cf6a8f5a45adaed41d169f773, type: 2}
+    - {fileID: 11400000, guid: 6af24d43a0b63224697fbd2c4443aebb, type: 2}
+    - {fileID: 11400000, guid: 163bb42015b4a264d9411046751d3c69, type: 2}
+    - {fileID: 11400000, guid: bade971f2d37bd349ad5d4ef129ddf73, type: 2}
+    - {fileID: 11400000, guid: 990625eb93e4cae4cbe0a627927d79b2, type: 2}
+    - {fileID: 11400000, guid: a1bb7cad9a39e374b8478793b4d15d99, type: 2}
+    - {fileID: 11400000, guid: 8823242ecf7b09942ae92dff792eebdb, type: 2}
+    - {fileID: 11400000, guid: 0dcc47f2893ef424d9192d4d7b36ff59, type: 2}
+  - Name: Windows 01 Broken
+    State: 1
+    Models:
+    - {fileID: 11400000, guid: aad29eaa8f739af44a687be58dc3d4db, type: 2}
+    - {fileID: 11400000, guid: 8580db631bdfe8c489359c2d198c2e65, type: 2}
+    - {fileID: 11400000, guid: 41f0e9ac362b96d4c9b2bf9e06fbd395, type: 2}
+    - {fileID: 11400000, guid: f0a977dea3316e84985b2bb85a949ef1, type: 2}
+    - {fileID: 11400000, guid: 417ce640ed1e69f4f982648cd292a5a7, type: 2}
+    - {fileID: 11400000, guid: 1339b33b2c9c2af4e857cc25134b7c9c, type: 2}
+    - {fileID: 11400000, guid: 77a6f16697375354c9573bc33b52a5d4, type: 2}
+    - {fileID: 11400000, guid: 1f0ad3ac3d5fd214b8587294b4e46ea6, type: 2}

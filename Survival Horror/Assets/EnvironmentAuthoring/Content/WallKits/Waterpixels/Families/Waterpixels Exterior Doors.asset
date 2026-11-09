@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98c83dfe5ec24a0c956fbba0e8ba68ff, type: 3}
+  m_Name: Waterpixels Exterior Doors
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.OpeningFamily
+  Kind: 0
+  Sets:
+  - Name: Doors Exterior 01
+    State: 0
+    Models:
+    - {fileID: 11400000, guid: 95f6aa0421f009040a09979f2c8b40ef, type: 2}
+    - {fileID: 11400000, guid: cccfb7dc5492ff148bec0a30685c7336, type: 2}
+    - {fileID: 11400000, guid: 957d8ecf440028c42a277ee160da1974, type: 2}
+    - {fileID: 11400000, guid: c05577008fc97de42ba8b5ee2fd73a2a, type: 2}
+    - {fileID: 11400000, guid: cac7d40f480d0ad47a3e3ab04be904b3, type: 2}
+    - {fileID: 11400000, guid: 758be7a72d7d7e44c8fa2f9553386657, type: 2}
+    - {fileID: 11400000, guid: 7b7b4023b6dd32c4ca1e475271933dc2, type: 2}
+    - {fileID: 11400000, guid: b775338c1ca122441b4777b748a848bc, type: 2}

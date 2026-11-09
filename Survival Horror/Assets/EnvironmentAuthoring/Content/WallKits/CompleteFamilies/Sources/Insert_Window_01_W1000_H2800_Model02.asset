@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e272d2b65ed540ecb8c439b38ceed6c9, type: 3}
+  m_Name: Insert_Window_01_W1000_H2800_Model02
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.WallOpeningInsert
+  Shape: 01
+  Kind: 1
+  SegmentWidth: 1
+  Opening:
+    serializedVersion: 2
+    x: 0.175
+    y: 0.79999995
+    width: 0.65
+    height: 1.2
+  Mesh: {fileID: 2959467708922500008, guid: eda9228a7bc14d0194ef125cfe677360, type: 3}
+  Material: {fileID: -5081792898505675300, guid: eda9228a7bc14d0194ef125cfe677360, type: 3}
+  MinimumWallThickness: 0
+  MaximumWallThickness: 0

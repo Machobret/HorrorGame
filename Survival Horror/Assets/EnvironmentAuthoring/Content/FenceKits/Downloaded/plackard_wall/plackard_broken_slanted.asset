@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f7844fe72ca4fd78135e1e448987cbc, type: 3}
+  m_Name: plackard_broken_slanted
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.TownModule
+  Kind: 0
+  Mesh: {fileID: 2959467708922500008, guid: f6fd1862a1b541fba0b0f66687b16e6c, type: 3}
+  AllowStretch: 0
+  Materials:
+  - {fileID: 2100000, guid: 5a60d87c6ab856a43a9f59265d24577a, type: 2}
+  Length: 3
+  Height: 2.5079181
+  Width: 0.15

@@ -1,0 +1,877 @@
+{
+  "finishes": [
+    {
+      "name": "Wall_Brick",
+      "category": "Wall",
+      "source": "PSX modular house interior pack (1)/geometry/wallBrick.glb",
+      "sourceSha256": "cda3244ddb9167150c5d98d66a019dcc6a1bd6d2e80ed5b1c076e1f0710aa603",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/e6f14057832e01d8f4ae.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Wall_Brick_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2.8,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Brick/M_Brick_Red_01.mat",
+      "materialName": "M_Brick_Red_01",
+      "surface": "Brick",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Wall_Marble",
+      "category": "Wall",
+      "source": "PSX modular house interior pack (1)/geometry/wallMarble.glb",
+      "sourceSha256": "aa16d497f54517e21e40a094e25044aab0195cee55b36ac307c05853f7d2ad6b",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/d06e17cacf0e441d961b.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Wall_Marble_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2.8,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Marble/M_Marble_Grey_01.mat",
+      "materialName": "M_Marble_Grey_01",
+      "surface": "Marble",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Wall_Plaster",
+      "category": "Wall",
+      "source": "PSX modular house interior pack (1)/geometry/wallPlaster.glb",
+      "sourceSha256": "eee43f500689cb44c85ff3e5d016f17b3d3a1cdb3a2bfd929593697272e9feae",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/d81ef90d3a9a282b63a6.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Wall_Plaster_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2.8,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Plaster/M_Plaster_Cream_01.mat",
+      "materialName": "M_Plaster_Cream_01",
+      "surface": "Plaster",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Wall_Plaster2",
+      "category": "Wall",
+      "source": "PSX modular house interior pack (1)/geometry/wallPlaster2.glb",
+      "sourceSha256": "06ddbce8fbb1cde193c43ebf70e90433116a9583a27fa3cfec23ea385f37e8f5",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/09f2f4ac7e4d43c03c49.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Wall_Plaster2_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2.8,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Plaster/M_Plaster_Grey_01.mat",
+      "materialName": "M_Plaster_Grey_01",
+      "surface": "Plaster",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Wall_Plaster3",
+      "category": "Wall",
+      "source": "PSX modular house interior pack (1)/geometry/wallPlaster3.glb",
+      "sourceSha256": "c83f9578b301cb477ec0fcca36454d0b0e56b5d6cf35df0390571666095fb4ec",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/30bdd9e41455b1ac04ba.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Wall_Plaster3_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2.8,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Plaster/M_Plaster_Blue_01.mat",
+      "materialName": "M_Plaster_Blue_01",
+      "surface": "Plaster",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Wall_Tiles",
+      "category": "Wall",
+      "source": "PSX modular house interior pack (1)/geometry/wallTiles.glb",
+      "sourceSha256": "aa5b763d846c9c358c7aa8e648f5c690690d4e45b59843fece66db8def45857e",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/09160d06f1f574db9dbf.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Wall_Tiles_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2.8,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Tiles/M_Tiles_WhiteGrid_01.mat",
+      "materialName": "M_Tiles_WhiteGrid_01",
+      "surface": "Tiles",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Wall_Wallpaper",
+      "category": "Wall",
+      "source": "PSX modular house interior pack (1)/geometry/wallWallpaper.glb",
+      "sourceSha256": "a5e1c387e18f829ca9ce9eed4ae62ac969acab54a850e4a69032c952f4319abb",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/9390b32c8c5dcca3d9b5.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Wall_Wallpaper_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2.8,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Wallpaper/M_Wallpaper_StripedCream_01.mat",
+      "materialName": "M_Wallpaper_StripedCream_01",
+      "surface": "Wallpaper",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Wall_Wallpaper2",
+      "category": "Wall",
+      "source": "PSX modular house interior pack (1)/geometry/wallWallpaper2.glb",
+      "sourceSha256": "913352f0aada6454d0108fa3a2c3e2c09c3c19a1b1ca1b5b1c817598dd62fc07",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/5f432f23e21fbb8d28f6.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Wall_Wallpaper2_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2.8,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Wallpaper/M_Wallpaper_StripedGrey_01.mat",
+      "materialName": "M_Wallpaper_StripedGrey_01",
+      "surface": "Wallpaper",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Wall_Wood",
+      "category": "Wall",
+      "source": "PSX modular house interior pack (1)/geometry/wallWood.glb",
+      "sourceSha256": "bc00a9fd3c27e432b0c0a84c6c2a46bd7262d5d6efa7934b139b609c6b5b674e",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/58a1b05b24613b75a6f2.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Wall_Wood_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2.8,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Wood/M_Wood_BrownPanels_01.mat",
+      "materialName": "M_Wood_BrownPanels_01",
+      "surface": "Wood",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Floor_Carpet",
+      "category": "Floor",
+      "source": "PSX modular house interior pack (1)/geometry/floorCarpet.glb",
+      "sourceSha256": "b7a9d770da1231219c19a54f5221e70ee955cca1c9ec35eaacc72dd6ce0a5da5",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/f74ec93545edbc38f818.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Floor_Carpet_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Carpet/M_Carpet_Blue_01.mat",
+      "materialName": "M_Carpet_Blue_01",
+      "surface": "Carpet",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Floor_Carpet2",
+      "category": "Floor",
+      "source": "PSX modular house interior pack (1)/geometry/floorCarpet2.glb",
+      "sourceSha256": "74ff59dce21f17ad35830a81930fd41d5e1795b7782986a8cea0ea5aaa681219",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/29446da796fba0c8c49a.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Floor_Carpet2_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Carpet/M_Carpet_Red_01.mat",
+      "materialName": "M_Carpet_Red_01",
+      "surface": "Carpet",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Floor_Marble",
+      "category": "Floor",
+      "source": "PSX modular house interior pack (1)/geometry/floorMarble.glb",
+      "sourceSha256": "bce5ef3b8f2384ad4b5b66878ce4490e11a0572fafa33461f15d38e4e6fca1af",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/ae46d6a225e34acf615b.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Floor_Marble_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Marble/M_Marble_White_01.mat",
+      "materialName": "M_Marble_White_01",
+      "surface": "Marble",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Floor_Stone",
+      "category": "Floor",
+      "source": "PSX modular house interior pack (1)/geometry/floorStone.glb",
+      "sourceSha256": "522b78892cd8bd11f66397218feef5852db891619c6120ff40d57224601fa34b",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/0e12aaab2e3feface0e2.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Floor_Stone_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Stone/M_Stone_Grey_01.mat",
+      "materialName": "M_Stone_Grey_01",
+      "surface": "Stone",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Floor_Tiles",
+      "category": "Floor",
+      "source": "PSX modular house interior pack (1)/geometry/floorTiles.glb",
+      "sourceSha256": "4c9038e04303ff92105b7cf3db5618e243be8e41794ea76ac98d9e0e2e5d57af",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/92c314123786f1e186d8.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Floor_Tiles_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Tiles/M_Tiles_Checker_01.mat",
+      "materialName": "M_Tiles_Checker_01",
+      "surface": "Tiles",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Floor_Wood",
+      "category": "Floor",
+      "source": "PSX modular house interior pack (1)/geometry/floorWood.glb",
+      "sourceSha256": "71b8139a3fe0d844a9fcbe7e6f98eec104c4f6ef5980e25e64a3195611a53867",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/928ed18619b8ebc1a48b.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Floor_Wood_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Wood/M_Wood_LightPlanks_01.mat",
+      "materialName": "M_Wood_LightPlanks_01",
+      "surface": "Wood",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Floor_Wood2",
+      "category": "Floor",
+      "source": "PSX modular house interior pack (1)/geometry/floorWood2.glb",
+      "sourceSha256": "eccd9234274924a5ecb38be836bbf3faa347da9b0278972996d86a2285b7805e",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/2a74ff93424e3d100937.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Floor_Wood2_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Wood/M_Wood_DarkPlanks_01.mat",
+      "materialName": "M_Wood_DarkPlanks_01",
+      "surface": "Wood",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Ceiling_Concrete",
+      "category": "Ceiling",
+      "source": "PSX modular house interior pack (1)/geometry/ceilingConcrete.glb",
+      "sourceSha256": "762ab6d7d976487f9f2d7c1053e46498a7589dc9d9fe7185964453ce1f4f06de",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/f2ca1c8d001d3571cc7b.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Ceiling_Concrete_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Concrete/M_Concrete_Grey_01.mat",
+      "materialName": "M_Concrete_Grey_01",
+      "surface": "Concrete",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Ceiling_Plaster",
+      "category": "Ceiling",
+      "source": "PSX modular house interior pack (1)/geometry/ceilingPlaster.glb",
+      "sourceSha256": "b0de563dc9ad83f08449c0cf00310851b62dff22d5729b1e81aa0f2e9a3ed4bf",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/73906c40e716de366f4d.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Ceiling_Plaster_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Plaster/M_Plaster_White_01.mat",
+      "materialName": "M_Plaster_White_01",
+      "surface": "Plaster",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Ceiling_Plaster2",
+      "category": "Ceiling",
+      "source": "PSX modular house interior pack (1)/geometry/ceilingPlaster2.glb",
+      "sourceSha256": "993311739c0ce1a1f9d2c26a2900105db76b24a65bebf0d59ee0a6221a796c4c",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/09f2f4ac7e4d43c03c49.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Ceiling_Plaster2_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Plaster/M_Plaster_White_02.mat",
+      "materialName": "M_Plaster_White_02",
+      "surface": "Plaster",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Ceiling_Plaster3",
+      "category": "Ceiling",
+      "source": "PSX modular house interior pack (1)/geometry/ceilingPlaster3.glb",
+      "sourceSha256": "f18e23286b78a1b75a5d047b98bf7c7ad3150a07e2a428a8334973853e89dab5",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/ecbf2a460b99edeca7fe.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Ceiling_Plaster3_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Plaster/M_Plaster_White_03.mat",
+      "materialName": "M_Plaster_White_03",
+      "surface": "Plaster",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Ceiling_Tiles",
+      "category": "Ceiling",
+      "source": "PSX modular house interior pack (1)/geometry/ceilingTiles.glb",
+      "sourceSha256": "5414c00031ca8d20c2137dbe65a592ed07ec29522a2850149f01d225e7df3de5",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/0fa38215e60d5b6e027d.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Ceiling_Tiles_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Tiles/M_Tiles_PanelGrid_01.mat",
+      "materialName": "M_Tiles_PanelGrid_01",
+      "surface": "Tiles",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Ceiling_Wood",
+      "category": "Ceiling",
+      "source": "PSX modular house interior pack (1)/geometry/ceilingWood.glb",
+      "sourceSha256": "451591fa5d188913ee909a59d2f21d748af688011156e7dd02ce77d2dec788f0",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/98fbd261a7a5b66cf25b.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Ceiling_Wood_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Wood/M_Wood_PanelGrid_01.mat",
+      "materialName": "M_Wood_PanelGrid_01",
+      "surface": "Wood",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Roof_Concrete",
+      "category": "Roof",
+      "source": "PSX modular house interior pack (1)/geometry/capRoofConcrete.glb",
+      "sourceSha256": "680f5e1209c6fac5c7a66fe03794059299b2a762468747fe64681697a72dc645",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/da92034e88b7f1ed233a.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Roof_Concrete_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Concrete/M_Concrete_Rough_01.mat",
+      "materialName": "M_Concrete_Rough_01",
+      "surface": "Concrete",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Roof_Metal",
+      "category": "Roof",
+      "source": "PSX modular house interior pack (1)/geometry/capRoofMetal.glb",
+      "sourceSha256": "c64ea5665cef62d29ee355ba550749d0d679680da3b6df569c450ba45458c76b",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/0c7c79717d96bb439042.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Roof_Metal_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Metal/M_Metal_Sheet_01.mat",
+      "materialName": "M_Metal_Sheet_01",
+      "surface": "Metal",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Roof_Wood",
+      "category": "Roof",
+      "source": "PSX modular house interior pack (1)/geometry/capRoofWood.glb",
+      "sourceSha256": "86da68e18c0160201c1e1e5f94115cdf1377aee9e1dc8817b9e121226e08bc01",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/30c3d8bb49287adced68.png",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Roof_Wood_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Materials/Surfaces/Wood/M_Wood_Shingles_01.mat",
+      "materialName": "M_Wood_Shingles_01",
+      "surface": "Wood",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Asphalt",
+      "category": "Paving",
+      "source": "asphalt_04_1k/textures/asphalt_04_diff_1k.jpg",
+      "sourceSha256": "837a78bb1e94864c221f847c85480484e953a9ee958772481dd2c501e18def2e",
+      "baseTexture": "Assets/TownKits/Basic/Asphalt/asphalt_04_diff_1k.jpg",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Asphalt_Surface.png",
+      "normalStrength": 1,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Existing tileable paving set; compare path UV and triplanar orientation",
+      "materialPath": "Assets/Materials/Surfaces/Asphalt/M_Asphalt_Rough_01.mat",
+      "materialName": "M_Asphalt_Rough_01",
+      "surface": "Asphalt",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Cobblestone",
+      "category": "Paving",
+      "source": "cobblestone_pavement_1k/textures/cobblestone_pavement_diff_1k.jpg",
+      "sourceSha256": "23836906f541944eac09108d94d232a4f80d0c22f52aa5b2f849c22f1dda3a25",
+      "baseTexture": "Assets/TownKits/Basic/Cobblestone/cobblestone_pavement_diff_1k.jpg",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Cobblestone_Surface.png",
+      "normalStrength": 1,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Existing tileable paving set; compare path UV and triplanar orientation",
+      "materialPath": "Assets/Materials/Surfaces/Stone/M_Stone_Cobblestone_01.mat",
+      "materialName": "M_Stone_Cobblestone_01",
+      "surface": "Stone",
+      "curated": true,
+      "review": "Curated repeat surface"
+    },
+    {
+      "name": "Photo_Brick",
+      "category": "Wall",
+      "source": "all_fences/textures/brick_wall.jpg",
+      "sourceSha256": "9c438611b1c223587313107d9e7918cec0c09637c10737cd83f1be367fb32f81",
+      "baseTexture": "Assets/FenceKits/Downloaded/Textures/9c438611b1c223587313.jpg",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Photo_NeutralSurface.png",
+      "normalStrength": 0,
+      "repeatU": 2.0,
+      "repeatV": 2.8,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Repeated photo-surface candidate; inspect visible joins, particularly roof direction",
+      "materialPath": "Assets/Materials/Candidates/Brick/M_Brick_WeatheredPhoto_01.mat",
+      "materialName": "M_Brick_WeatheredPhoto_01",
+      "surface": "Brick",
+      "curated": false,
+      "review": "Example/diagnostic finish"
+    },
+    {
+      "name": "Photo_Stucco",
+      "category": "Wall",
+      "source": "all_fences/textures/sctucco.jpg",
+      "sourceSha256": "6b40bc105ff840933c135fa56d15d21c8aa5139ad4ddc2827e8433369bad18b2",
+      "baseTexture": "Assets/FenceKits/Downloaded/Textures/6b40bc105ff840933c13.jpg",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Photo_NeutralSurface.png",
+      "normalStrength": 0,
+      "repeatU": 2.0,
+      "repeatV": 2.8,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Repeated photo-surface candidate; inspect visible joins, particularly roof direction",
+      "materialPath": "Assets/Materials/Candidates/Plaster/M_Plaster_StuccoPhoto_01.mat",
+      "materialName": "M_Plaster_StuccoPhoto_01",
+      "surface": "Plaster",
+      "curated": false,
+      "review": "Example/diagnostic finish"
+    },
+    {
+      "name": "Photo_Stone",
+      "category": "Wall",
+      "source": "all_fences/textures/stonewall.jpg",
+      "sourceSha256": "e9f39d57517edcbe3bcba44a0574876b7a9cb2419e42391a4bd57265796f13f5",
+      "baseTexture": "Assets/FenceKits/Downloaded/Textures/e9f39d57517edcbe3bcb.jpg",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Photo_NeutralSurface.png",
+      "normalStrength": 0,
+      "repeatU": 2.0,
+      "repeatV": 2.8,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Repeated photo-surface candidate; inspect visible joins, particularly roof direction",
+      "materialPath": "Assets/Materials/Candidates/Stone/M_Stone_RubblePhoto_01.mat",
+      "materialName": "M_Stone_RubblePhoto_01",
+      "surface": "Stone",
+      "curated": false,
+      "review": "Example/diagnostic finish"
+    },
+    {
+      "name": "Photo_RoofTilesA",
+      "category": "Roof",
+      "source": "all_fences/textures/rooftiles.jpg",
+      "sourceSha256": "17a2b17a212519b07f9d6eb6b6a59a398ab5a0bde10fa964de4780f1c44892cb",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/17a2b17a212519b07f9d.jpg",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Photo_NeutralSurface.png",
+      "normalStrength": 0,
+      "repeatU": 4.40625,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Repeated photo-surface candidate; inspect visible joins, particularly roof direction",
+      "materialPath": "Assets/Materials/Candidates/Tiles/M_Tiles_RoofPhoto_01.mat",
+      "materialName": "M_Tiles_RoofPhoto_01",
+      "surface": "Tiles",
+      "curated": false,
+      "review": "Example/diagnostic finish"
+    },
+    {
+      "name": "Photo_RoofTilesB",
+      "category": "Roof",
+      "source": "all_fences/textures/rooftiles2.jpg",
+      "sourceSha256": "ad3d6b46de009b107dd5368d717eae17af282d0b1f1f748273058567a7083cbb",
+      "baseTexture": "Assets/FenceKits/Downloaded/Textures/ad3d6b46de009b107dd5.jpg",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Photo_NeutralSurface.png",
+      "normalStrength": 0,
+      "repeatU": 2.0,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Repeated photo-surface candidate; inspect visible joins, particularly roof direction",
+      "materialPath": "Assets/Materials/Candidates/Tiles/M_Tiles_RoofPhoto_02.mat",
+      "materialName": "M_Tiles_RoofPhoto_02",
+      "surface": "Tiles",
+      "curated": false,
+      "review": "Example/diagnostic finish"
+    },
+    {
+      "name": "Photo_SidewalkTiles",
+      "category": "Paving",
+      "source": "all_fences/textures/sidewalk.jpg",
+      "sourceSha256": "47fd6fe67c49fbd668867c8962b0cb966bd91b74f98b7d94b967776623f53e74",
+      "baseTexture": "Assets/ConstructionMaterials/Imported/Textures/47fd6fe67c49fbd66886.jpg",
+      "surfaceTexture": "Assets/ConstructionMaterials/Imported/Textures/Photo_NeutralSurface.png",
+      "normalStrength": 0,
+      "repeatU": 2.0,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Repeated photo-surface candidate; inspect visible joins, particularly roof direction",
+      "materialPath": "Assets/Materials/Candidates/Tiles/M_Tiles_PavingPhoto_01.mat",
+      "materialName": "M_Tiles_PavingPhoto_01",
+      "surface": "Tiles",
+      "curated": false,
+      "review": "Example/diagnostic finish"
+    }
+  ],
+  "excludedFenceTextures": [
+    {
+      "source": "all_fences/textures/bag.png",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/barbage_container.jpg",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/barbage_container_blue.jpg",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/barbage_container_red.png",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/bollards.png",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/concrete_bare.jpg",
+      "reason": "Directional edge wear/stains; whole-image vertical repetition is unsuitable for the universal trial"
+    },
+    {
+      "source": "all_fences/textures/concrete_barriers.png",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/cones.png",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/galvenised.png",
+      "reason": "Directional edge wear/stains; whole-image vertical repetition is unsuitable for the universal trial"
+    },
+    {
+      "source": "all_fences/textures/houses.png",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/low_wooden_wall.jpg",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/metal_bare_2.png",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/plackard_wall.jpg",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/plastic_gate.png",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/pots.png",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/road1_alt.png",
+      "reason": "Directional road artwork; retain authored/path UV sampling, not a general all-axis construction finish"
+    },
+    {
+      "source": "all_fences/textures/road2.png",
+      "reason": "Directional road artwork; retain authored/path UV sampling, not a general all-axis construction finish"
+    },
+    {
+      "source": "all_fences/textures/road3.png",
+      "reason": "Directional road artwork; retain authored/path UV sampling, not a general all-axis construction finish"
+    },
+    {
+      "source": "all_fences/textures/road4.png",
+      "reason": "Directional road artwork; retain authored/path UV sampling, not a general all-axis construction finish"
+    },
+    {
+      "source": "all_fences/textures/TexturesCom_Metal_PipeRusted2_1.82x0.47_512_albedo.png",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/TexturesCom_Metal_PipeRusted2_1_82x0_47_512_albedo.png",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/TexturesCom_MetalVarious0026_1_seamless_S.png",
+      "reason": "Alpha chain-link artwork; keep its baked transparent fence material"
+    },
+    {
+      "source": "all_fences/textures/trafficlight.png",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/trash.png",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/trash2.jpg",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/trashcans.png",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/type_barriers.png",
+      "reason": "Baked prop/fence atlas or unrelated prop texture; retained by the fence import where referenced"
+    },
+    {
+      "source": "all_fences/textures/wood_painted_3662_4638_Small.jpg",
+      "reason": "Directional edge wear/stains; whole-image vertical repetition is unsuitable for the universal trial"
+    }
+  ]
+}

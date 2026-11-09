@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68e0a8d5bb634e69849f2fc3d1a000bb, type: 3}
+  m_Name: Independent
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.TrimFamily
+  Meshes:
+  - {fileID: 2959467708922500008, guid: 07f19c6ce03944d989bfbd13032c2ef5, type: 3}
+  - {fileID: 2959467708922500008, guid: fd5eb9a8f3f946e68c4b15a49f77a0ba, type: 3}

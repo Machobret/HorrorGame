@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 53
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff2fd672fad45a3bdfe2ffa283a283b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: EnvironmentAuthoring.Editor::EnvironmentAuthoring.Editor.EnvironmentProjectSettings
+  InteriorFamily: {fileID: 11400000, guid: 5aff1a8fbaaaedd40a99623a5c9ed78e, type: 2}
+  ExteriorFamily: {fileID: 11400000, guid: 8d2eddb37e7a6cd47bf65900fe77900f, type: 2}
+  CustomInserts: []
+  InsideWalls: {fileID: 2100000, guid: 1effb7f05e4a58e49b2eb34b357740d1, type: 2}
+  OutsideWalls: {fileID: 2100000, guid: f5fdab057b5757f408fd7fa6333bba71, type: 2}
+  Floors: {fileID: 2100000, guid: 694466a4d987c6b42861cacfeed3b2f9, type: 2}
+  Ceilings: {fileID: 2100000, guid: 1effb7f05e4a58e49b2eb34b357740d1, type: 2}
+  CutSurface: {fileID: 2100000, guid: a13d239bc3b5d92448346fae7b1e118f, type: 2}
+  WallModel: {fileID: 11400000, guid: b1b975231f36ac44cbf5c736a2b03670, type: 2}
+  RoadSurface: {fileID: 2100000, guid: ebe363f33b4192a4086c151c672537aa, type: 2}
+  SidewalkSurface: {fileID: 2100000, guid: dbea229acdf79fe4e919a7fb1dfde8d8, type: 2}

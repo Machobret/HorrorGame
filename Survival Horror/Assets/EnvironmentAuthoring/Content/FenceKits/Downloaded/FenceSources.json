@@ -1,0 +1,2022 @@
+{
+  "sourcePack": "all_fences",
+  "sourceCount": 79,
+  "pieces": [
+    {
+      "name": "brick_wall",
+      "style": "brick_fence",
+      "role": "Panel",
+      "source": "brick_fence/brick_wall.glb",
+      "sourceSha256": "ae4d25eb8c193704ac96b7f51a73fad687810bf927161028985f8673ec861da1",
+      "fbx": "brick_fence/Sources/brick_wall.fbx",
+      "length": 4.0,
+      "height": 2.081082582473755,
+      "width": 0.3,
+      "materials": [
+        "89dae5ba51dc9331f477",
+        "6885ed69efd53e5bcc7f"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        4.0,
+        0.29963743686676025,
+        2.081082582473755
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "brick_Wall_corner",
+      "style": "brick_fence",
+      "role": "Manual",
+      "source": "brick_fence/brick_Wall_corner.glb",
+      "sourceSha256": "0c1381def5d308b6b15866df516573fc81adcbf0e2ecd6708cdf9e4533e21263",
+      "fbx": "brick_fence/Sources/brick_Wall_corner.fbx",
+      "length": 1.151108741760254,
+      "height": 2.081082757319308,
+      "width": 1.148911476135254,
+      "materials": [
+        "89dae5ba51dc9331f477",
+        "6885ed69efd53e5bcc7f"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        1.151108741760254,
+        1.148911476135254,
+        2.081082820892334
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "brick_wall_gate",
+      "style": "brick_fence",
+      "role": "Manual",
+      "source": "brick_fence/brick_wall_gate.glb",
+      "sourceSha256": "8c68d475da5525c1150cadafa703d5af725bd94b1c0728ea6486983a9cf188eb",
+      "fbx": "brick_fence/Sources/brick_wall_gate.fbx",
+      "length": 1.580496907234192,
+      "height": 1.6389796733856201,
+      "width": 0.08400002121925354,
+      "materials": [
+        "e974e1f7f015c9d1a775"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        1.580496907234192,
+        0.08400002121925354,
+        1.6389796733856201
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "brick_wall_one_overhang",
+      "style": "brick_fence",
+      "role": "Panel",
+      "source": "brick_fence/brick_wall_one_overhang.glb",
+      "sourceSha256": "a2f48a25b265e0e3aa786e3452789cd940820ac142eebbb43f8d5907706d5e0a",
+      "fbx": "brick_fence/Sources/brick_wall_one_overhang.fbx",
+      "length": 4.0,
+      "height": 2.081082582473755,
+      "width": 0.3,
+      "materials": [
+        "89dae5ba51dc9331f477",
+        "6885ed69efd53e5bcc7f"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        4.04852819442749,
+        0.29963743686676025,
+        2.081082582473755
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "brick_wall_one_overhang_small",
+      "style": "brick_fence",
+      "role": "Panel",
+      "source": "brick_fence/brick_wall_one_overhang_small.glb",
+      "sourceSha256": "e3b327119d311cc6ef646975902e0b5a6d651390f57b47dc3becff6f78229fd1",
+      "fbx": "brick_fence/Sources/brick_wall_one_overhang_small.fbx",
+      "length": 2.0,
+      "height": 2.081082582473755,
+      "width": 0.3,
+      "materials": [
+        "89dae5ba51dc9331f477",
+        "6885ed69efd53e5bcc7f"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.0486502647399902,
+        0.29963743686676025,
+        2.081082582473755
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "brick_wall_pole",
+      "style": "brick_fence",
+      "role": "Post",
+      "source": "brick_fence/brick_wall_pole.glb",
+      "sourceSha256": "ca7dd30d44c126ba1632fa60a4fca27bc4b6ef4de441d570f79c3cdab6324d21",
+      "fbx": "brick_fence/Sources/brick_wall_pole.fbx",
+      "length": 0.47999998927116394,
+      "height": 2.200000047683716,
+      "width": 0.47999998927116394,
+      "materials": [
+        "89dae5ba51dc9331f477",
+        "6885ed69efd53e5bcc7f"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.47999998927116394,
+        0.47999998927116394,
+        2.200000047683716
+      ],
+      "disposition": "Authored post"
+    },
+    {
+      "name": "brick_wall_small",
+      "style": "brick_fence",
+      "role": "Panel",
+      "source": "brick_fence/brick_wall_small.glb",
+      "sourceSha256": "39c2425ce834f637d0e796a301ca3fafbbf0ac852ebec1f5a5787bb32f7bd124",
+      "fbx": "brick_fence/Sources/brick_wall_small.fbx",
+      "length": 2.0,
+      "height": 2.081082582473755,
+      "width": 0.3,
+      "materials": [
+        "89dae5ba51dc9331f477",
+        "6885ed69efd53e5bcc7f"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.0,
+        0.29963743686676025,
+        2.081082582473755
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "drystone_column",
+      "style": "drystone_wall",
+      "role": "Post",
+      "source": "drystone_wall/drystone_column.glb",
+      "sourceSha256": "2df685ed8456add82e37925fe4b6054393bf27a59b9421f26c0493a3cebd6320",
+      "fbx": "drystone_wall/Sources/drystone_column.fbx",
+      "length": 0.5691483020782471,
+      "height": 0.8999999761581421,
+      "width": 0.5528796315193176,
+      "materials": [
+        "ffd5c37db9ba9949c2ec"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.5691483020782471,
+        0.5528796315193176,
+        0.8999999761581421
+      ],
+      "disposition": "Authored post"
+    },
+    {
+      "name": "drystone_column_capped",
+      "style": "drystone_wall",
+      "role": "Post",
+      "source": "drystone_wall/drystone_column_capped.glb",
+      "sourceSha256": "ce7190c21b1435e53cc363912d8ebad317b9924c978a361788a3cbbb6493fc76",
+      "fbx": "drystone_wall/Sources/drystone_column_capped.fbx",
+      "length": 0.6000000238418579,
+      "height": 0.948581337928772,
+      "width": 0.6000000238418579,
+      "materials": [
+        "ffd5c37db9ba9949c2ec",
+        "6885ed69efd53e5bcc7f"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.6000000238418579,
+        0.6000000238418579,
+        0.948581337928772
+      ],
+      "disposition": "Authored post"
+    },
+    {
+      "name": "drystone_column_tiles",
+      "style": "drystone_wall",
+      "role": "Post",
+      "source": "drystone_wall/drystone_column_tiles.glb",
+      "sourceSha256": "849a4724ac9160043596c73983a99951160ea853f9175147c6b27ccbcd5156a0",
+      "fbx": "drystone_wall/Sources/drystone_column_tiles.fbx",
+      "length": 0.5691483020782471,
+      "height": 0.9791349172592163,
+      "width": 0.5645961165428162,
+      "materials": [
+        "ffd5c37db9ba9949c2ec",
+        "f173e2b255129117bb1e"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.5691483020782471,
+        0.5645961165428162,
+        0.9791349172592163
+      ],
+      "disposition": "Authored post"
+    },
+    {
+      "name": "drystone_wall",
+      "style": "drystone_wall",
+      "role": "Panel",
+      "source": "drystone_wall/drystone_wall.glb",
+      "sourceSha256": "fd5d9181fac23443006803917e99fb69b72b30b2c6a24dd8f9ab3d1fb782e1bb",
+      "fbx": "drystone_wall/Sources/drystone_wall.fbx",
+      "length": 2.0,
+      "height": 0.8459337949752808,
+      "width": 0.3,
+      "materials": [
+        "ffd5c37db9ba9949c2ec"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.0,
+        0.5728793144226074,
+        0.8459337949752808
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "drystone_wall_capped",
+      "style": "drystone_wall",
+      "role": "Panel",
+      "source": "drystone_wall/drystone_wall_capped.glb",
+      "sourceSha256": "f1ef0ceef3279ed10d0282f0f2b99688df8a498a7cb54da667108803a0a82c2f",
+      "fbx": "drystone_wall/Sources/drystone_wall_capped.fbx",
+      "length": 2.0,
+      "height": 0.8328007459640503,
+      "width": 0.3,
+      "materials": [
+        "ffd5c37db9ba9949c2ec",
+        "6885ed69efd53e5bcc7f"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.0132157802581787,
+        0.5728793144226074,
+        0.8328007459640503
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "drystone_wall_half",
+      "style": "drystone_wall",
+      "role": "Panel",
+      "source": "drystone_wall/drystone_wall_half.glb",
+      "sourceSha256": "9fa24c6257c8ac847dd9ade1b01a8e508c288786514044acf187e321e1b875aa",
+      "fbx": "drystone_wall/Sources/drystone_wall_half.fbx",
+      "length": 1.0,
+      "height": 0.8150945901870728,
+      "width": 0.3,
+      "materials": [
+        "ffd5c37db9ba9949c2ec"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.9999998807907104,
+        0.5129532217979431,
+        0.8150945901870728
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "drystone_wall_half_capped",
+      "style": "drystone_wall",
+      "role": "Panel",
+      "source": "drystone_wall/drystone_wall_half_capped.glb",
+      "sourceSha256": "a632d163ff368ea237e2e098b6630b862322cab06aca0c9ce30e6e59497e93ef",
+      "fbx": "drystone_wall/Sources/drystone_wall_half_capped.fbx",
+      "length": 1.0,
+      "height": 0.8328007459640503,
+      "width": 0.3,
+      "materials": [
+        "ffd5c37db9ba9949c2ec",
+        "6885ed69efd53e5bcc7f"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        1.0132156610488892,
+        0.5133408904075623,
+        0.8328007459640503
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "drystone_wall_half_tiles",
+      "style": "drystone_wall",
+      "role": "Panel",
+      "source": "drystone_wall/drystone_wall_half_tiles.glb",
+      "sourceSha256": "0ae27c3f195dcf23aad2f61cc5b38d45d549e14175e67e5c55dffdb0c2b78279",
+      "fbx": "drystone_wall/Sources/drystone_wall_half_tiles.fbx",
+      "length": 1.0,
+      "height": 0.9397779703140259,
+      "width": 0.3,
+      "materials": [
+        "ffd5c37db9ba9949c2ec",
+        "f173e2b255129117bb1e"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        1.0004873275756836,
+        0.4805392026901245,
+        0.9397779703140259
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "drystone_wall_tiles",
+      "style": "drystone_wall",
+      "role": "Panel",
+      "source": "drystone_wall/drystone_wall_tiles.glb",
+      "sourceSha256": "1882fd95072ea9fa7ebf6fc28fb7e54d2aad04ab9278fc295994f59c83d42946",
+      "fbx": "drystone_wall/Sources/drystone_wall_tiles.fbx",
+      "length": 2.0,
+      "height": 0.9397779703140259,
+      "width": 0.3,
+      "materials": [
+        "ffd5c37db9ba9949c2ec",
+        "f173e2b255129117bb1e"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.0067713260650635,
+        0.5114121437072754,
+        0.9397779703140259
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "wooden_fence_beam",
+      "style": "low_wooden_fence",
+      "role": "Manual",
+      "source": "low_wooden_fence/wooden_fence_beam.glb",
+      "sourceSha256": "78a2ed7e7dc487b40f3a58b24ccbed8fb34839e8bc09fd0befd4ce1f550cd9be",
+      "fbx": "low_wooden_fence/Sources/wooden_fence_beam.fbx",
+      "length": 1.9974454641342163,
+      "height": 0.17846056446433067,
+      "width": 0.12811943888664246,
+      "materials": [
+        "986dbb1ce1cce2a4ba81"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        1.9974454641342163,
+        0.12811943888664246,
+        0.17846056818962097
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "wooden_fence_beam_alt",
+      "style": "low_wooden_fence",
+      "role": "Manual",
+      "source": "low_wooden_fence/wooden_fence_beam_alt.glb",
+      "sourceSha256": "1cdb2f7ce6960d039d54e24a421d41f1cca3aa58bde9f491c3b2a75eec456004",
+      "fbx": "low_wooden_fence/Sources/wooden_fence_beam_alt.fbx",
+      "length": 2.020437717437744,
+      "height": 0.18726412951946259,
+      "width": 0.11961467564105988,
+      "materials": [
+        "986dbb1ce1cce2a4ba81"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.020437717437744,
+        0.11961467564105988,
+        0.18726412951946259
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "wooden_fence_beam_alt_2",
+      "style": "low_wooden_fence",
+      "role": "Manual",
+      "source": "low_wooden_fence/wooden_fence_beam_alt_2.glb",
+      "sourceSha256": "169fa8e47eea1b3b228f70c27174fce50ef8a314627e5105d00db56d768c906b",
+      "fbx": "low_wooden_fence/Sources/wooden_fence_beam_alt_2.fbx",
+      "length": 2.0175490379333496,
+      "height": 0.15191048383712769,
+      "width": 0.1312030553817749,
+      "materials": [
+        "986dbb1ce1cce2a4ba81"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.0175490379333496,
+        0.1312030553817749,
+        0.15191048383712769
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "wooden_fence_broken",
+      "style": "low_wooden_fence",
+      "role": "Panel",
+      "source": "low_wooden_fence/wooden_fence_broken.glb",
+      "sourceSha256": "1f2177b446339c16ebda100b4f16a170442b25258b66db767328f055433af56a",
+      "fbx": "low_wooden_fence/Sources/wooden_fence_broken.fbx",
+      "length": 2.0,
+      "height": 1.0372733175754547,
+      "width": 0.2450602650642395,
+      "materials": [
+        "986dbb1ce1cce2a4ba81"
+      ],
+      "removedPostFaces": 36,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.1059482097625732,
+        0.29243096709251404,
+        1.2745484113693237
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "wooden_fence_broken_alt",
+      "style": "low_wooden_fence",
+      "role": "Panel",
+      "source": "low_wooden_fence/wooden_fence_broken_alt.glb",
+      "sourceSha256": "bd7795e5ddddd30c3b7fbd17017065adc964804fda8a6022ddadeb0171ad63ef",
+      "fbx": "low_wooden_fence/Sources/wooden_fence_broken_alt.fbx",
+      "length": 2.0,
+      "height": 0.9845274537801743,
+      "width": 0.13640046119689941,
+      "materials": [
+        "986dbb1ce1cce2a4ba81"
+      ],
+      "removedPostFaces": 36,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.1365654468536377,
+        0.18906092643737793,
+        1.1988950967788696
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "wooden_fence_broken_alt2",
+      "style": "low_wooden_fence",
+      "role": "Panel",
+      "source": "low_wooden_fence/wooden_fence_broken_alt2.glb",
+      "sourceSha256": "818dc9160b14d770e5dad51a69bd01815301a41e8dd61fb44663742b4131731e",
+      "fbx": "low_wooden_fence/Sources/wooden_fence_broken_alt2.fbx",
+      "length": 2.0,
+      "height": 0.6295503973960876,
+      "width": 0.8299738168716431,
+      "materials": [
+        "986dbb1ce1cce2a4ba81"
+      ],
+      "removedPostFaces": 78,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.0719211101531982,
+        0.8299738168716431,
+        1.034372091293335
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "wooden_fence_closed",
+      "style": "low_wooden_fence",
+      "role": "Panel",
+      "source": "low_wooden_fence/wooden_fence_closed.glb",
+      "sourceSha256": "49a693b0153bdd8fc371b9ac718c7b799efcb806aa9a0127142d3924955589dd",
+      "fbx": "low_wooden_fence/Sources/wooden_fence_closed.fbx",
+      "length": 2.0,
+      "height": 1.0160011649131775,
+      "width": 0.1292153298854828,
+      "materials": [
+        "986dbb1ce1cce2a4ba81"
+      ],
+      "removedPostFaces": 72,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.2121059894561768,
+        0.19908878207206726,
+        1.1988952159881592
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "wooden_fence_oen_crossed",
+      "style": "low_wooden_fence",
+      "role": "Panel",
+      "source": "low_wooden_fence/wooden_fence_oen_crossed.glb",
+      "sourceSha256": "c2787725881d98bbfb14a08005a153d1391d9c54a1e83f98f1b4c3db5754aef6",
+      "fbx": "low_wooden_fence/Sources/wooden_fence_oen_crossed.fbx",
+      "length": 2.0,
+      "height": 0.9636188000440598,
+      "width": 0.11961467564105988,
+      "materials": [
+        "986dbb1ce1cce2a4ba81"
+      ],
+      "removedPostFaces": 36,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.123650550842285,
+        0.23699724674224854,
+        1.1988950967788696
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "wooden_fence_open",
+      "style": "low_wooden_fence",
+      "role": "Panel",
+      "source": "low_wooden_fence/wooden_fence_open.glb",
+      "sourceSha256": "f6e5d8bf9dad1b3febfea074a6b7b3c5699c7da0a1937befc5e79e79962639a9",
+      "fbx": "low_wooden_fence/Sources/wooden_fence_open.fbx",
+      "length": 2.0,
+      "height": 1.0202466696500778,
+      "width": 0.13640040159225464,
+      "materials": [
+        "986dbb1ce1cce2a4ba81"
+      ],
+      "removedPostFaces": 36,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.1172261238098145,
+        0.18906092643737793,
+        1.1988950967788696
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "wooden_fence_open_alt",
+      "style": "low_wooden_fence",
+      "role": "Panel",
+      "source": "low_wooden_fence/wooden_fence_open_alt.glb",
+      "sourceSha256": "1dddf73f5231e448493545838238fa87d49b8cf4e9672657e8bed5622dc903ea",
+      "fbx": "low_wooden_fence/Sources/wooden_fence_open_alt.fbx",
+      "length": 2.0,
+      "height": 1.0583979338407516,
+      "width": 0.14882761240005493,
+      "materials": [
+        "986dbb1ce1cce2a4ba81"
+      ],
+      "removedPostFaces": 36,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.1945130825042725,
+        0.2664339542388916,
+        1.1988950967788696
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "wooden_fence_pile",
+      "style": "low_wooden_fence",
+      "role": "Manual",
+      "source": "low_wooden_fence/wooden_fence_pile.glb",
+      "sourceSha256": "f21e97e1e713d14217c0ec5579989598079b0a95e8127281870c4354f74e53f6",
+      "fbx": "low_wooden_fence/Sources/wooden_fence_pile.fbx",
+      "length": 2.0615153312683105,
+      "height": 0.276326559484005,
+      "width": 0.8313902616500854,
+      "materials": [
+        "986dbb1ce1cce2a4ba81"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.0615153312683105,
+        0.8313902616500854,
+        0.27632656693458557
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "wooden_fence_pole",
+      "style": "low_wooden_fence",
+      "role": "Post",
+      "source": "low_wooden_fence/wooden_fence_pole.glb",
+      "sourceSha256": "7f041a8d6ec6967853e5a7ba21b728658b295fa1044854c7f59a41b4ccac1983",
+      "fbx": "low_wooden_fence/Sources/wooden_fence_pole.fbx",
+      "length": 0.23699721693992615,
+      "height": 1.1988951414823532,
+      "width": 0.248832106590271,
+      "materials": [
+        "986dbb1ce1cce2a4ba81"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.23699721693992615,
+        0.248832106590271,
+        1.1988950967788696
+      ],
+      "disposition": "Authored post"
+    },
+    {
+      "name": "wooden_fence_pole_alt",
+      "style": "low_wooden_fence",
+      "role": "Post",
+      "source": "low_wooden_fence/wooden_fence_pole_alt.glb",
+      "sourceSha256": "d4d97e2460b4a146f411b7c34f1d1f84e96fa24acf49bc141a6b6a5c6b06bcc6",
+      "fbx": "low_wooden_fence/Sources/wooden_fence_pole_alt.fbx",
+      "length": 0.18906091153621674,
+      "height": 1.1988951414823532,
+      "width": 0.18450583517551422,
+      "materials": [
+        "986dbb1ce1cce2a4ba81"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.18906091153621674,
+        0.18450583517551422,
+        1.1988950967788696
+      ],
+      "disposition": "Authored post"
+    },
+    {
+      "name": "wooden_fence_pole_alt_2",
+      "style": "low_wooden_fence",
+      "role": "Post",
+      "source": "low_wooden_fence/wooden_fence_pole_alt_2.glb",
+      "sourceSha256": "240bcd718e7eb07ed2806160850bc90fee350ee1f43789674236aec6f538974a",
+      "fbx": "low_wooden_fence/Sources/wooden_fence_pole_alt_2.fbx",
+      "length": 0.2664339542388916,
+      "height": 1.1988951414823532,
+      "width": 0.2563917934894562,
+      "materials": [
+        "986dbb1ce1cce2a4ba81"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.2664339542388916,
+        0.2563917934894562,
+        1.1988950967788696
+      ],
+      "disposition": "Authored post"
+    },
+    {
+      "name": "wooden_fence_pole_broken_large",
+      "style": "low_wooden_fence",
+      "role": "Post",
+      "source": "low_wooden_fence/wooden_fence_pole_broken_large.glb",
+      "sourceSha256": "9b487baf4b453cd00c2052bae8f6af7cd71879e87a62463d2c26d0e033d116c8",
+      "fbx": "low_wooden_fence/Sources/wooden_fence_pole_broken_large.fbx",
+      "length": 0.2664339542388916,
+      "height": 0.9675155729055405,
+      "width": 0.2563917934894562,
+      "materials": [
+        "986dbb1ce1cce2a4ba81"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.2664339542388916,
+        0.2563917934894562,
+        0.9675155878067017
+      ],
+      "disposition": "Authored post"
+    },
+    {
+      "name": "wooden_fence_pole_broken_small",
+      "style": "low_wooden_fence",
+      "role": "Post",
+      "source": "low_wooden_fence/wooden_fence_pole_broken_small.glb",
+      "sourceSha256": "775308f1c4f80b7a4adbb50bff683eb9de07de2bda277e345fc47f5a4cc8942a",
+      "fbx": "low_wooden_fence/Sources/wooden_fence_pole_broken_small.fbx",
+      "length": 0.21933558583259583,
+      "height": 0.4534721076488495,
+      "width": 0.20795205235481262,
+      "materials": [
+        "986dbb1ce1cce2a4ba81"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.21933558583259583,
+        0.20795205235481262,
+        0.4534721076488495
+      ],
+      "disposition": "Authored post"
+    },
+    {
+      "name": "gate",
+      "style": "metal_fence",
+      "role": "Manual",
+      "source": "metal_fence/gate.glb",
+      "sourceSha256": "a9b0153ef9826b29390ae515bb893faf20bc71e108f135b7114b475ab360e21a",
+      "fbx": "metal_fence/Sources/gate.fbx",
+      "length": 1.0347347259521484,
+      "height": 1.2502705752849579,
+      "width": 0.05038994178175926,
+      "materials": [
+        "ce6bda3a7827e4628217",
+        "d555bf85eb2926b27474"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        1.0347347259521484,
+        0.05038994178175926,
+        1.2502706050872803
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "metal_fence_gate_with_gate",
+      "style": "metal_fence",
+      "role": "Manual",
+      "source": "metal_fence/metal_fence_gate_with_gate.glb",
+      "sourceSha256": "e26340caa65e9f927070be1f30a920f6a489b28d2934525ffef99f960d8d1c4f",
+      "fbx": "metal_fence/Sources/metal_fence_gate_with_gate.fbx",
+      "length": 1.1893130540847778,
+      "height": 1.667160451412201,
+      "width": 0.040000081062316895,
+      "materials": [
+        "ce6bda3a7827e4628217"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        1.1893130540847778,
+        0.040000081062316895,
+        1.6671605110168457
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "metalfence_both_sides_no_topbar",
+      "style": "metal_fence",
+      "role": "Panel",
+      "source": "metal_fence/metalfence_both_sides_no_topbar.glb",
+      "sourceSha256": "c19215a023ea56608ac3e87182d1e6041a0faef19a2c3df6e2738f4b12a809cf",
+      "fbx": "metal_fence/Sources/metalfence_both_sides_no_topbar.fbx",
+      "length": 2.5,
+      "height": 1.55308198928833,
+      "width": 0.020000014454126358,
+      "materials": [
+        "ce6bda3a7827e4628217",
+        "d555bf85eb2926b27474"
+      ],
+      "removedPostFaces": 32,
+      "solidifiedSheetFaces": 2,
+      "sourceDimensions": [
+        2.6956753730773926,
+        0.040000081062316895,
+        1.6671605110168457
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "metalfence_both_sides_topbar",
+      "style": "metal_fence",
+      "role": "Panel",
+      "source": "metal_fence/metalfence_both_sides_topbar.glb",
+      "sourceSha256": "b6cb0dad15d923e0cb5798fab2896963b2bbceb31f7330075dff0195a113c947",
+      "fbx": "metal_fence/Sources/metalfence_both_sides_topbar.fbx",
+      "length": 2.5,
+      "height": 1.5689927116036415,
+      "width": 0.03729577362537384,
+      "materials": [
+        "d555bf85eb2926b27474",
+        "ce6bda3a7827e4628217"
+      ],
+      "removedPostFaces": 32,
+      "solidifiedSheetFaces": 2,
+      "sourceDimensions": [
+        2.6956753730773926,
+        0.040000081062316895,
+        1.6671606302261353
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "metalfence_gate_only_sides",
+      "style": "metal_fence",
+      "role": "Manual",
+      "source": "metal_fence/metalfence_gate_only_sides.glb",
+      "sourceSha256": "4b733861ef77c6af3e6f64166955571edeac49d5f7219fbfdd9ee544faeb7217",
+      "fbx": "metal_fence/Sources/metalfence_gate_only_sides.fbx",
+      "length": 1.1893130540847778,
+      "height": 1.667160451412201,
+      "width": 0.040000081062316895,
+      "materials": [
+        "39652f4405482e2daac6"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        1.1893130540847778,
+        0.040000081062316895,
+        1.6671605110168457
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "metalfence_one_side_no_topbar",
+      "style": "metal_fence",
+      "role": "Panel",
+      "source": "metal_fence/metalfence_one_side_no_topbar.glb",
+      "sourceSha256": "0b337d3a67501fe8061220eaad4561a98e4f77019bf914bb3fb29a2cb944a523",
+      "fbx": "metal_fence/Sources/metalfence_one_side_no_topbar.fbx",
+      "length": 2.5,
+      "height": 1.551028810441494,
+      "width": 0.020000029355287552,
+      "materials": [
+        "ce6bda3a7827e4628217",
+        "d555bf85eb2926b27474"
+      ],
+      "removedPostFaces": 16,
+      "solidifiedSheetFaces": 2,
+      "sourceDimensions": [
+        2.685164213180542,
+        0.040000081062316895,
+        1.6671605110168457
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "metalfence_one_side_topbar",
+      "style": "metal_fence",
+      "role": "Panel",
+      "source": "metal_fence/metalfence_one_side_topbar.glb",
+      "sourceSha256": "366fa7b74d7a17635143f71de74e9f1efd6f1d669e35946435bb097dea903e4b",
+      "fbx": "metal_fence/Sources/metalfence_one_side_topbar.fbx",
+      "length": 2.5,
+      "height": 1.5737628936767578,
+      "width": 0.036092523485422134,
+      "materials": [
+        "ce6bda3a7827e4628217",
+        "d555bf85eb2926b27474"
+      ],
+      "removedPostFaces": 16,
+      "solidifiedSheetFaces": 2,
+      "sourceDimensions": [
+        2.696430206298828,
+        0.040000081062316895,
+        1.6671605110168457
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "plackard_broken",
+      "style": "plackard_wall",
+      "role": "Panel",
+      "source": "plackard_wall/plackard_broken.glb",
+      "sourceSha256": "f1f6e36b70e3f6080a655ec0862f49b7694dd2bb57993fb5464e1921abd4a99c",
+      "fbx": "plackard_wall/Sources/plackard_broken.fbx",
+      "length": 3.0,
+      "height": 2.5,
+      "width": 0.15,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        3.0513663291931152,
+        0.20000004768371582,
+        2.5
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "plackard_broken_alt",
+      "style": "plackard_wall",
+      "role": "Panel",
+      "source": "plackard_wall/plackard_broken_alt.glb",
+      "sourceSha256": "b37f57b1bc2cc0182f407cc52d2970459de51f0338566b530748e65033d44831",
+      "fbx": "plackard_wall/Sources/plackard_broken_alt.fbx",
+      "length": 3.0,
+      "height": 2.5,
+      "width": 0.15,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        3.0513663291931152,
+        0.20000004768371582,
+        2.5
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "plackard_broken_slanted",
+      "style": "plackard_wall",
+      "role": "Panel",
+      "source": "plackard_wall/plackard_broken_slanted.glb",
+      "sourceSha256": "1b553401b084e6c478be2eb28f01ec5ca5db0c56170835a6c95379d4c142fb2e",
+      "fbx": "plackard_wall/Sources/plackard_broken_slanted.fbx",
+      "length": 3.0,
+      "height": 2.5079180654138327,
+      "width": 0.15,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        3.1589131355285645,
+        0.20000004768371582,
+        2.507918119430542
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "plackard_closed",
+      "style": "plackard_wall",
+      "role": "Panel",
+      "source": "plackard_wall/plackard_closed.glb",
+      "sourceSha256": "231791e7ffa06f03499ff45154bb3b597e1551567516c85a2a0d718979004a4a",
+      "fbx": "plackard_wall/Sources/plackard_closed.fbx",
+      "length": 3.0,
+      "height": 2.5,
+      "width": 0.15,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        3.0500001907348633,
+        0.20000004768371582,
+        2.5
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "plackard_closed_full",
+      "style": "plackard_wall",
+      "role": "Panel",
+      "source": "plackard_wall/plackard_closed_full.glb",
+      "sourceSha256": "67083a132bc36f0965cd41038f897ea37c567b618af4f55a62df861c4d9a7fec",
+      "fbx": "plackard_wall/Sources/plackard_closed_full.fbx",
+      "length": 3.0,
+      "height": 2.5,
+      "width": 0.15,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        3.200000286102295,
+        0.2000001072883606,
+        2.5
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "plackard_corner",
+      "style": "plackard_wall",
+      "role": "Manual",
+      "source": "plackard_wall/plackard_corner.glb",
+      "sourceSha256": "39269c1fc075e547732c723d4fcf6d83f6bf0cd4189c12d6104e65d679f8d089",
+      "fbx": "plackard_wall/Sources/plackard_corner.fbx",
+      "length": 3.0500001907348633,
+      "height": 2.5,
+      "width": 0.20000004768371582,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        3.0500001907348633,
+        0.20000004768371582,
+        2.5
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "plackard_corner_closed",
+      "style": "plackard_wall",
+      "role": "Post",
+      "source": "plackard_wall/plackard_corner_closed.glb",
+      "sourceSha256": "c10814a814adab4cf0fa42ab4e2c939aeb7da845498f2b648c98751218fc276e",
+      "fbx": "plackard_wall/Sources/plackard_corner_closed.fbx",
+      "length": 0.20000004768371582,
+      "height": 2.5,
+      "width": 0.20000004768371582,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.20000004768371582,
+        0.20000004768371582,
+        2.5
+      ],
+      "disposition": "Authored post"
+    },
+    {
+      "name": "plackard_corner_closed_alt",
+      "style": "plackard_wall",
+      "role": "Post",
+      "source": "plackard_wall/plackard_corner_closed_alt.glb",
+      "sourceSha256": "d694ae6834a4d9117bf2c7d27fc04b6b81a85719ef518cb96d418a531ba61965",
+      "fbx": "plackard_wall/Sources/plackard_corner_closed_alt.fbx",
+      "length": 0.20000004768371582,
+      "height": 2.5,
+      "width": 0.20000004768371582,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.20000004768371582,
+        0.20000004768371582,
+        2.5
+      ],
+      "disposition": "Authored post"
+    },
+    {
+      "name": "plackard_corner_open",
+      "style": "plackard_wall",
+      "role": "Post",
+      "source": "plackard_wall/plackard_corner_open.glb",
+      "sourceSha256": "fc8dc1663fcfdb644820581f5cdecedb2e9ce79dd48546621f93ac8eeede652f",
+      "fbx": "plackard_wall/Sources/plackard_corner_open.fbx",
+      "length": 0.20000004768371582,
+      "height": 2.5,
+      "width": 0.20000004768371582,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.20000004768371582,
+        0.20000004768371582,
+        2.5
+      ],
+      "disposition": "Authored post"
+    },
+    {
+      "name": "plackard_corner_open_90",
+      "style": "plackard_wall",
+      "role": "Post",
+      "source": "plackard_wall/plackard_corner_open_90.glb",
+      "sourceSha256": "3548190b8d64ba7f24f8b32edc377aa7f755c51529e6e596060014f0b9cd6354",
+      "fbx": "plackard_wall/Sources/plackard_corner_open_90.fbx",
+      "length": 0.20000004768371582,
+      "height": 2.5,
+      "width": 0.20000004768371582,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.20000004768371582,
+        0.20000004768371582,
+        2.5
+      ],
+      "disposition": "Authored post"
+    },
+    {
+      "name": "plackard_corner_open_90_alt",
+      "style": "plackard_wall",
+      "role": "Post",
+      "source": "plackard_wall/plackard_corner_open_90_alt.glb",
+      "sourceSha256": "32d5f529ec470dc5dfb56e28a76570b31178556538c4224a287b7812cc01499a",
+      "fbx": "plackard_wall/Sources/plackard_corner_open_90_alt.fbx",
+      "length": 0.20000004768371582,
+      "height": 2.5,
+      "width": 0.20000004768371582,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.20000004768371582,
+        0.20000004768371582,
+        2.5
+      ],
+      "disposition": "Authored post"
+    },
+    {
+      "name": "plackard_corner_open_alt",
+      "style": "plackard_wall",
+      "role": "Post",
+      "source": "plackard_wall/plackard_corner_open_alt.glb",
+      "sourceSha256": "d7fc9fefd15b72ea423a8790868be8b155bfaf81e905ab925c054ec242b28b83",
+      "fbx": "plackard_wall/Sources/plackard_corner_open_alt.fbx",
+      "length": 0.20000004768371582,
+      "height": 2.5,
+      "width": 0.20000004768371582,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.20000004768371582,
+        0.20000004768371582,
+        2.5
+      ],
+      "disposition": "Authored post"
+    },
+    {
+      "name": "plackard_open",
+      "style": "plackard_wall",
+      "role": "Panel",
+      "source": "plackard_wall/plackard_open.glb",
+      "sourceSha256": "e2d82653965a0112accdb1fc14cd23d5f0fdeb35a7541d253315df19a522a837",
+      "fbx": "plackard_wall/Sources/plackard_open.fbx",
+      "length": 3.0,
+      "height": 2.5,
+      "width": 0.15,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        3.0500001907348633,
+        0.20000004768371582,
+        2.5
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "plackard_open_alt",
+      "style": "plackard_wall",
+      "role": "Panel",
+      "source": "plackard_wall/plackard_open_alt.glb",
+      "sourceSha256": "f07d45e940e02017c9314b5cde9e687b66eb51fa05db6051b0bbf9ab1ad868f9",
+      "fbx": "plackard_wall/Sources/plackard_open_alt.fbx",
+      "length": 3.0,
+      "height": 2.5,
+      "width": 0.15,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        3.0500001907348633,
+        0.20000004768371582,
+        2.5
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "plackard_open_alt2",
+      "style": "plackard_wall",
+      "role": "Panel",
+      "source": "plackard_wall/plackard_open_alt2.glb",
+      "sourceSha256": "f49c8611e733e8fd74361570abb3b7431290204ebcb22b3183b29723dce20ab1",
+      "fbx": "plackard_wall/Sources/plackard_open_alt2.fbx",
+      "length": 3.0,
+      "height": 2.5,
+      "width": 0.15,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        3.0500001907348633,
+        0.20000004768371582,
+        2.5
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "plackard_open_patched",
+      "style": "plackard_wall",
+      "role": "Panel",
+      "source": "plackard_wall/plackard_open_patched.glb",
+      "sourceSha256": "6984c9bd86c898280b30a629ef725e88e1a28e170173fcd2c8df038f5ae81831",
+      "fbx": "plackard_wall/Sources/plackard_open_patched.fbx",
+      "length": 3.0,
+      "height": 2.5,
+      "width": 0.15,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        3.0500001907348633,
+        0.20000004768371582,
+        2.5
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "plackard_slab_boken",
+      "style": "plackard_wall",
+      "role": "Manual",
+      "source": "plackard_wall/plackard_slab_boken.glb",
+      "sourceSha256": "e63c07761472207286b98b762a5a5f9a2bf97fe2b9c8d1ae581c083cec1eb339",
+      "fbx": "plackard_wall/Sources/plackard_slab_boken.fbx",
+      "length": 2.9013662338256836,
+      "height": 0.7999999523162842,
+      "width": 0.10000002384185791,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.9013662338256836,
+        0.10000002384185791,
+        0.7999999523162842
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "plackard_slab_broken_alt",
+      "style": "plackard_wall",
+      "role": "Manual",
+      "source": "plackard_wall/plackard_slab_broken_alt.glb",
+      "sourceSha256": "db93930ce8807bacc93db6a6004188c879b81db0c40ffe45160fcfaa5cf77ef3",
+      "fbx": "plackard_wall/Sources/plackard_slab_broken_alt.fbx",
+      "length": 2.9013662338256836,
+      "height": 0.7999999523162842,
+      "width": 0.10000002384185791,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.9013662338256836,
+        0.10000002384185791,
+        0.7999999523162842
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "plackard_slab_chipped",
+      "style": "plackard_wall",
+      "role": "Manual",
+      "source": "plackard_wall/plackard_slab_chipped.glb",
+      "sourceSha256": "26e5cc86bb5d4d05c23fb262034290c4f885e6f9c4d4bd9b32d0d1c0877a175b",
+      "fbx": "plackard_wall/Sources/plackard_slab_chipped.fbx",
+      "length": 2.9000000953674316,
+      "height": 0.7999999523162842,
+      "width": 0.10000002384185791,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.9000000953674316,
+        0.10000002384185791,
+        0.7999999523162842
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "plackard_slab_chipped_alt",
+      "style": "plackard_wall",
+      "role": "Manual",
+      "source": "plackard_wall/plackard_slab_chipped_alt.glb",
+      "sourceSha256": "29125842b01bac3138bc5ac39c0807fbc164f75e2777eaaa5f0a0cb41faca6f9",
+      "fbx": "plackard_wall/Sources/plackard_slab_chipped_alt.fbx",
+      "length": 2.9000000953674316,
+      "height": 0.7999999523162842,
+      "width": 0.10000002384185791,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.9000000953674316,
+        0.10000002384185791,
+        0.7999999523162842
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "plackard_slab_full",
+      "style": "plackard_wall",
+      "role": "Panel",
+      "source": "plackard_wall/plackard_slab_full.glb",
+      "sourceSha256": "347b44479c9eaa5e545de4bc65fa778d2badc69be30e4132d893d0e6fab94fd3",
+      "fbx": "plackard_wall/Sources/plackard_slab_full.fbx",
+      "length": 3.0,
+      "height": 2.4327311515808105,
+      "width": 0.15,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.9000000953674316,
+        0.10000002384185791,
+        2.4327311515808105
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "plackard_slab_half",
+      "style": "plackard_wall",
+      "role": "Manual",
+      "source": "plackard_wall/plackard_slab_half.glb",
+      "sourceSha256": "739af1ebf9d441fe950a925ed69950946c90526a9c8d5cbf705a1cd5eab21f00",
+      "fbx": "plackard_wall/Sources/plackard_slab_half.fbx",
+      "length": 2.9000000953674316,
+      "height": 1.616232991218567,
+      "width": 0.10000050067901611,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.9000000953674316,
+        0.10000050067901611,
+        1.616232991218567
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "plackard_slab_single",
+      "style": "plackard_wall",
+      "role": "Manual",
+      "source": "plackard_wall/plackard_slab_single.glb",
+      "sourceSha256": "800f3309556f5a92c3eaa3f1f5dd8ab7fc87e8dbc4f0f3a4880efb50f9857150",
+      "fbx": "plackard_wall/Sources/plackard_slab_single.fbx",
+      "length": 2.9000000953674316,
+      "height": 0.7999999523162842,
+      "width": 0.10000002384185791,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.9000000953674316,
+        0.10000002384185791,
+        0.7999999523162842
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "plackard_slab_wood_patched",
+      "style": "plackard_wall",
+      "role": "Manual",
+      "source": "plackard_wall/plackard_slab_wood_patched.glb",
+      "sourceSha256": "cd3acc111f514037b21ddb727fde4877207b62393fae5621d73d41b62aa6cb39",
+      "fbx": "plackard_wall/Sources/plackard_slab_wood_patched.fbx",
+      "length": 2.9000000953674316,
+      "height": 0.7999999523162842,
+      "width": 0.10000002384185791,
+      "materials": [
+        "1c5750ccf677521676f5"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.9000000953674316,
+        0.10000002384185791,
+        0.7999999523162842
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "gate_handle",
+      "style": "plaster_wall",
+      "role": "Manual",
+      "source": "plaster_wall/gate_handle.glb",
+      "sourceSha256": "329d89d2d507b6a31c52930d3a85e606fe69bb6ace07c1c196d267e029958503",
+      "fbx": "plaster_wall/Sources/gate_handle.fbx",
+      "length": 0.10965728759765625,
+      "height": 0.026075363159179688,
+      "width": 0.08449727296829224,
+      "materials": [
+        "653f988e83cb574ef733"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.10965728759765625,
+        0.08449727296829224,
+        0.026075363159179688
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "plaster_wall",
+      "style": "plaster_wall",
+      "role": "Panel",
+      "source": "plaster_wall/plaster_wall.glb",
+      "sourceSha256": "6f62c1c46529020a4c5fec25918330475dbb97babfcaa7668f0cb09db4b388e6",
+      "fbx": "plaster_wall/Sources/plaster_wall.fbx",
+      "length": 2.0,
+      "height": 0.7497754096984863,
+      "width": 0.3,
+      "materials": [
+        "91d52797b0ee79ec0c68",
+        "f173e2b255129117bb1e"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.0,
+        0.39908623695373535,
+        0.7497754096984863
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "plaster_wall_column",
+      "style": "plaster_wall",
+      "role": "Post",
+      "source": "plaster_wall/plaster_wall_column.glb",
+      "sourceSha256": "812d78bd6ae52504e4fe6219d606a64498031dd00f2e5978ea17975fe7559b61",
+      "fbx": "plaster_wall/Sources/plaster_wall_column.fbx",
+      "length": 0.5278935432434082,
+      "height": 2.143340125878405,
+      "width": 0.5278935432434082,
+      "materials": [
+        "91d52797b0ee79ec0c68",
+        "6885ed69efd53e5bcc7f"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.5278935432434082,
+        0.5278935432434082,
+        2.1433401107788086
+      ],
+      "disposition": "Authored post"
+    },
+    {
+      "name": "plaster_wall_column_fancy",
+      "style": "plaster_wall",
+      "role": "Post",
+      "source": "plaster_wall/plaster_wall_column_fancy.glb",
+      "sourceSha256": "c81bc6dfa42ead5f08fb8cfd84e7a50d2afc7254dbc2f6e329d57ffbe9074e10",
+      "fbx": "plaster_wall/Sources/plaster_wall_column_fancy.fbx",
+      "length": 0.5278935432434082,
+      "height": 2.143340125878405,
+      "width": 0.5278935432434082,
+      "materials": [
+        "91d52797b0ee79ec0c68",
+        "6885ed69efd53e5bcc7f"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.5278935432434082,
+        0.5278935432434082,
+        2.1433401107788086
+      ],
+      "disposition": "Authored post"
+    },
+    {
+      "name": "plaster_wall_fenced",
+      "style": "plaster_wall",
+      "role": "Panel",
+      "source": "plaster_wall/plaster_wall_fenced.glb",
+      "sourceSha256": "d21389be7f6c7e29a92292630695ea637ff448d31c5cc88cfa0c9e14fa1706e9",
+      "fbx": "plaster_wall/Sources/plaster_wall_fenced.fbx",
+      "length": 2.0,
+      "height": 1.4827872514724731,
+      "width": 0.3,
+      "materials": [
+        "91d52797b0ee79ec0c68",
+        "f173e2b255129117bb1e",
+        "653f988e83cb574ef733"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.0,
+        0.4195505380630493,
+        1.4827872514724731
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "plaster_wall_half",
+      "style": "plaster_wall",
+      "role": "Panel",
+      "source": "plaster_wall/plaster_wall_half.glb",
+      "sourceSha256": "3247d081ac12350da4eb324a4b582826abb13d4fbdfd098c334c7db4b8f48e53",
+      "fbx": "plaster_wall/Sources/plaster_wall_half.fbx",
+      "length": 1.0,
+      "height": 0.7497754096984863,
+      "width": 0.3,
+      "materials": [
+        "91d52797b0ee79ec0c68",
+        "f173e2b255129117bb1e"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        1.0,
+        0.39908623695373535,
+        0.7497754096984863
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "plaster_wall_half_fenced",
+      "style": "plaster_wall",
+      "role": "Panel",
+      "source": "plaster_wall/plaster_wall_half_fenced.glb",
+      "sourceSha256": "28ee8c0cff3e7f3e810062b61003ddeb7730e0e5d0db3082795972f48696ea3b",
+      "fbx": "plaster_wall/Sources/plaster_wall_half_fenced.fbx",
+      "length": 1.0,
+      "height": 1.4827871322631836,
+      "width": 0.3,
+      "materials": [
+        "91d52797b0ee79ec0c68",
+        "f173e2b255129117bb1e",
+        "653f988e83cb574ef733"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        1.0067495107650757,
+        0.42959362268447876,
+        1.4827871322631836
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "plastic_gate_left",
+      "style": "plaster_wall",
+      "role": "Manual",
+      "source": "plaster_wall/plastic_gate_left.glb",
+      "sourceSha256": "c5d76d26ee94319563e3a6c3f42d76c816508646df522a3b486fd9c62a1fed26",
+      "fbx": "plaster_wall/Sources/plastic_gate_left.fbx",
+      "length": 2.0,
+      "height": 1.7999999523162842,
+      "width": 0.06046496704220772,
+      "materials": [
+        "653f988e83cb574ef733"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.0,
+        0.06046496704220772,
+        1.7999999523162842
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "plastic_gate_right",
+      "style": "plaster_wall",
+      "role": "Manual",
+      "source": "plaster_wall/plastic_gate_right.glb",
+      "sourceSha256": "db2205f91f3fa8c7157d686e62c6afd094992a523d5eddfcfa03267b3dd226dd",
+      "fbx": "plaster_wall/Sources/plastic_gate_right.fbx",
+      "length": 2.0242598056793213,
+      "height": 1.7999999523162842,
+      "width": 0.06046586483716965,
+      "materials": [
+        "653f988e83cb574ef733"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.0242598056793213,
+        0.06046586483716965,
+        1.7999999523162842
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "white_picket_fence_closed_left",
+      "style": "white_picket_fence",
+      "role": "Panel",
+      "source": "white_picket_fence/white_picket_fence_closed_left.glb",
+      "sourceSha256": "26997318e9a3742c8ce27f9d942ea13e76672d67ab52a84960cde4dced81515e",
+      "fbx": "white_picket_fence/Sources/white_picket_fence_closed_left.fbx",
+      "length": 2.0,
+      "height": 1.3224096771183653,
+      "width": 0.06223129853606224,
+      "materials": [
+        "d034d83df4d40bc0c56d"
+      ],
+      "removedPostFaces": 36,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.3880319595336914,
+        0.2613188326358795,
+        1.3655835390090942
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "white_picket_fence_closed_right",
+      "style": "white_picket_fence",
+      "role": "Panel",
+      "source": "white_picket_fence/white_picket_fence_closed_right.glb",
+      "sourceSha256": "a6972195bf6841fd09cc9bf1b0ef1119f5e7996480bc62a511e3a674e9851735",
+      "fbx": "white_picket_fence/Sources/white_picket_fence_closed_right.fbx",
+      "length": 2.0,
+      "height": 1.3224096948723911,
+      "width": 0.06223129853606224,
+      "materials": [
+        "d034d83df4d40bc0c56d"
+      ],
+      "removedPostFaces": 36,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.3894197940826416,
+        0.2613188326358795,
+        1.3655836582183838
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "white_picket_fence_gate",
+      "style": "white_picket_fence",
+      "role": "Manual",
+      "source": "white_picket_fence/white_picket_fence_gate.glb",
+      "sourceSha256": "69192efac6f1d55193a023d7a82802e792e56b2674494bfc3244838655c4e2c4",
+      "fbx": "white_picket_fence/Sources/white_picket_fence_gate.fbx",
+      "length": 1.0797206163406372,
+      "height": 1.265637457370758,
+      "width": 0.062231533229351044,
+      "materials": [
+        "d034d83df4d40bc0c56d"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        1.0797206163406372,
+        0.062231533229351044,
+        1.2656373977661133
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "white_picket_fence_gate_poles",
+      "style": "white_picket_fence",
+      "role": "Manual",
+      "source": "white_picket_fence/white_picket_fence_gate_poles.glb",
+      "sourceSha256": "a83347a54ced20dcfb409c0b2b28f79417d2bcc6ac04a70c885284e2021a6ce3",
+      "fbx": "white_picket_fence/Sources/white_picket_fence_gate_poles.fbx",
+      "length": 1.5462851524353027,
+      "height": 1.365583604059708,
+      "width": 0.2613193392753601,
+      "materials": [
+        "d034d83df4d40bc0c56d"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        1.5462851524353027,
+        0.2613193392753601,
+        1.3655836582183838
+      ],
+      "disposition": "Manual special piece; not automatically repeated"
+    },
+    {
+      "name": "white_picket_fence_open_left",
+      "style": "white_picket_fence",
+      "role": "Panel",
+      "source": "white_picket_fence/white_picket_fence_open_left.glb",
+      "sourceSha256": "ea1695b7fba62b2fee3bfdbc3963de12a30e67c431860449171fa378aa65e6ad",
+      "fbx": "white_picket_fence/Sources/white_picket_fence_open_left.fbx",
+      "length": 2.0,
+      "height": 1.2656375020742416,
+      "width": 0.06223129853606224,
+      "materials": [
+        "d034d83df4d40bc0c56d"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.164246082305908,
+        0.06223129853606224,
+        1.2656375169754028
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "white_picket_fence_open_right",
+      "style": "white_picket_fence",
+      "role": "Panel",
+      "source": "white_picket_fence/white_picket_fence_open_right.glb",
+      "sourceSha256": "63e6e748ca4e55275ccc97ff93d82dfe40f1a1fc00a5af4dd0914154260a6e9a",
+      "fbx": "white_picket_fence/Sources/white_picket_fence_open_right.fbx",
+      "length": 2.0,
+      "height": 1.265637457370758,
+      "width": 0.06223129853606224,
+      "materials": [
+        "d034d83df4d40bc0c56d"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        2.164246082305908,
+        0.06223129853606224,
+        1.2656373977661133
+      ],
+      "disposition": "Native repeat panel; UVs preserved"
+    },
+    {
+      "name": "white_picket_fence_pole",
+      "style": "white_picket_fence",
+      "role": "Post",
+      "source": "white_picket_fence/white_picket_fence_pole.glb",
+      "sourceSha256": "ba5e35ea3c687821f924de70dd1d542cbfe074d4104e1e1a3c5db1a6894ef277",
+      "fbx": "white_picket_fence/Sources/white_picket_fence_pole.fbx",
+      "length": 0.2569895386695862,
+      "height": 1.365583604059708,
+      "width": 0.2613188326358795,
+      "materials": [
+        "d034d83df4d40bc0c56d"
+      ],
+      "removedPostFaces": 0,
+      "solidifiedSheetFaces": 0,
+      "sourceDimensions": [
+        0.2569895386695862,
+        0.2613188326358795,
+        1.3655836582183838
+      ],
+      "disposition": "Authored post"
+    }
+  ],
+  "derivedPosts": [
+    {
+      "name": "metal_fence_authored_post",
+      "style": "metal_fence",
+      "role": "Post",
+      "source": "metal_fence/metalfence_both_sides_no_topbar.glb",
+      "sourceSha256": "c19215a023ea56608ac3e87182d1e6041a0faef19a2c3df6e2738f4b12a809cf",
+      "fbx": "metal_fence/Sources/metal_fence_authored_post.fbx",
+      "length": 0.03464102745056152,
+      "height": 1.6671605110168457,
+      "width": 0.040000081062316895,
+      "materials": [
+        "ce6bda3a7827e4628217"
+      ],
+      "disposition": "Separated original authored upright; original source retained"
+    }
+  ],
+  "materials": [
+    {
+      "label": "brick",
+      "texture": "Textures/9c438611b1c223587313.jpg",
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "metallic": 0,
+      "roughness": 1,
+      "alpha": "OPAQUE",
+      "cutoff": 0.5,
+      "doubleSided": true,
+      "id": "89dae5ba51dc9331f477",
+      "materialPath": "Assets/Materials/ModelSpecific/Fences/M_Brick_Baked_01.mat",
+      "materialName": "M_Brick_Baked_01"
+    },
+    {
+      "label": "concrete",
+      "texture": "Textures/eb1c8d0dbe87c261f3fd.jpg",
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "metallic": 0,
+      "roughness": 1,
+      "alpha": "OPAQUE",
+      "cutoff": 0.5,
+      "doubleSided": true,
+      "id": "6885ed69efd53e5bcc7f",
+      "materialPath": "Assets/Materials/ModelSpecific/Fences/M_Concrete_Baked_01.mat",
+      "materialName": "M_Concrete_Baked_01"
+    },
+    {
+      "label": "bare_metal",
+      "texture": "Textures/354191769ba05cc1bd1c.png",
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "metallic": 1,
+      "roughness": 1,
+      "alpha": "OPAQUE",
+      "cutoff": 0.5,
+      "doubleSided": true,
+      "id": "e974e1f7f015c9d1a775",
+      "materialPath": "Assets/Materials/ModelSpecific/Fences/M_Metal_BareBaked_01.mat",
+      "materialName": "M_Metal_BareBaked_01"
+    },
+    {
+      "label": "stone_wall",
+      "texture": "Textures/e9f39d57517edcbe3bcb.jpg",
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "metallic": 0,
+      "roughness": 1,
+      "alpha": "OPAQUE",
+      "cutoff": 0.5,
+      "doubleSided": true,
+      "id": "ffd5c37db9ba9949c2ec",
+      "materialPath": "Assets/Materials/ModelSpecific/Fences/M_Stone_RubbleBaked_01.mat",
+      "materialName": "M_Stone_RubbleBaked_01"
+    },
+    {
+      "label": "roof_tiles",
+      "texture": "Textures/ad3d6b46de009b107dd5.jpg",
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "metallic": 0,
+      "roughness": 1,
+      "alpha": "OPAQUE",
+      "cutoff": 0.5,
+      "doubleSided": true,
+      "id": "f173e2b255129117bb1e",
+      "materialPath": "Assets/Materials/ModelSpecific/Fences/M_Tiles_RoofBaked_01.mat",
+      "materialName": "M_Tiles_RoofBaked_01"
+    },
+    {
+      "label": "low_wooden_wall",
+      "texture": "Textures/94bc0ed29eebf0a4959f.jpg",
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "metallic": 0,
+      "roughness": 1,
+      "alpha": "OPAQUE",
+      "cutoff": 0.5,
+      "doubleSided": true,
+      "id": "986dbb1ce1cce2a4ba81",
+      "materialPath": "Assets/Materials/ModelSpecific/Fences/M_Wood_WeatheredBaked_01.mat",
+      "materialName": "M_Wood_WeatheredBaked_01"
+    },
+    {
+      "label": "rusted_pipe",
+      "texture": "Textures/79898bc239336a5a2a3a.png",
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "metallic": 0,
+      "roughness": 1,
+      "alpha": "OPAQUE",
+      "cutoff": 0.5,
+      "doubleSided": true,
+      "id": "ce6bda3a7827e4628217",
+      "materialPath": "Assets/Materials/ModelSpecific/Fences/M_Metal_RustedPipeBaked_01.mat",
+      "materialName": "M_Metal_RustedPipeBaked_01"
+    },
+    {
+      "label": "fence",
+      "texture": "Textures/395cb739ccee5c4bfef8.png",
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "metallic": 0,
+      "roughness": 1,
+      "alpha": "BLEND",
+      "cutoff": 0.5,
+      "doubleSided": true,
+      "id": "d555bf85eb2926b27474",
+      "materialPath": "Assets/Materials/ModelSpecific/Fences/M_Metal_ChainLinkBaked_01.mat",
+      "materialName": "M_Metal_ChainLinkBaked_01"
+    },
+    {
+      "label": "rusted_pipe.001",
+      "texture": "Textures/f10c84e3ff8bac4f9159.png",
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "metallic": 0,
+      "roughness": 1,
+      "alpha": "OPAQUE",
+      "cutoff": 0.5,
+      "doubleSided": true,
+      "id": "39652f4405482e2daac6",
+      "materialPath": "Assets/Materials/ModelSpecific/Fences/M_Metal_RustedPipeBaked_02.mat",
+      "materialName": "M_Metal_RustedPipeBaked_02"
+    },
+    {
+      "label": "Plackard_wall",
+      "texture": "Textures/98eef1f37a104d81ec6c.jpg",
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "metallic": 0,
+      "roughness": 1,
+      "alpha": "OPAQUE",
+      "cutoff": 0.5,
+      "doubleSided": true,
+      "id": "1c5750ccf677521676f5",
+      "materialPath": "Assets/Materials/ModelSpecific/Fences/M_Wood_PanelsBaked_01.mat",
+      "materialName": "M_Wood_PanelsBaked_01"
+    },
+    {
+      "label": "plastic_gate",
+      "texture": "Textures/66d881325c5d94a36155.png",
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "metallic": 0,
+      "roughness": 1,
+      "alpha": "OPAQUE",
+      "cutoff": 0.5,
+      "doubleSided": true,
+      "id": "653f988e83cb574ef733",
+      "materialPath": "Assets/Materials/ModelSpecific/Fences/M_Plastic_GateBaked_01.mat",
+      "materialName": "M_Plastic_GateBaked_01"
+    },
+    {
+      "label": "Stucco",
+      "texture": "Textures/6b40bc105ff840933c13.jpg",
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "metallic": 0,
+      "roughness": 1,
+      "alpha": "OPAQUE",
+      "cutoff": 0.5,
+      "doubleSided": true,
+      "id": "91d52797b0ee79ec0c68",
+      "materialPath": "Assets/Materials/ModelSpecific/Fences/M_Plaster_StuccoBaked_01.mat",
+      "materialName": "M_Plaster_StuccoBaked_01"
+    },
+    {
+      "label": "white_wood",
+      "texture": "Textures/f093e28d52af882bc10a.jpg",
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "metallic": 0,
+      "roughness": 1,
+      "alpha": "OPAQUE",
+      "cutoff": 0.5,
+      "doubleSided": true,
+      "id": "d034d83df4d40bc0c56d",
+      "materialPath": "Assets/Materials/ModelSpecific/Fences/M_Wood_PaintedWhiteBaked_01.mat",
+      "materialName": "M_Wood_PaintedWhiteBaked_01"
+    }
+  ]
+}

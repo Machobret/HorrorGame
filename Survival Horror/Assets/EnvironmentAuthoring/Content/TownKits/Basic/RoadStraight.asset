@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f7844fe72ca4fd78135e1e448987cbc, type: 3}
+  m_Name: RoadStraight
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.TownModule
+  Kind: 1
+  Mesh: {fileID: 4300000, guid: 6693d7751ab80f2458125264aeccd25a, type: 2}
+  Materials:
+  - {fileID: 2100000, guid: ebe363f33b4192a4086c151c672537aa, type: 2}
+  Length: 2
+  Height: 0.12
+  Width: 4
+  Connections:
+  - Position: {x: 0, y: 0, z: 0}
+    Outward: {x: -1, y: 0, z: 0}
+    Width: 4
+  - Position: {x: 2, y: 0, z: 0}
+    Outward: {x: 1, y: 0, z: 0}
+    Width: 4
+  Footprint:
+  - {x: 0, y: -2}
+  - {x: 2, y: -2}
+  - {x: 2, y: 2}
+  - {x: 0, y: 2}

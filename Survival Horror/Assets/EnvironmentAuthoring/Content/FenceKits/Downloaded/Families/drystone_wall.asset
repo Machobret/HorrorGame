@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c7e5072cec44c929a48ade0a1729e33, type: 3}
+  m_Name: drystone_wall
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.FenceFamily
+  Panels:
+  - {fileID: 11400000, guid: 82df32eecc4008b4489fbc5bfaed545c, type: 2}
+  - {fileID: 11400000, guid: e979f00d0f57ae144ae7e11cebd7cfd6, type: 2}
+  - {fileID: 11400000, guid: 2a0e159d7661cef41992d575ca79c945, type: 2}
+  - {fileID: 11400000, guid: 5019c9752a35b5a488cd50606cee96be, type: 2}
+  - {fileID: 11400000, guid: 604f0978631e7ba44a598ef513a48444, type: 2}
+  - {fileID: 11400000, guid: 43d1d70f076ea7a46aab9176bbb285f4, type: 2}
+  Posts:
+  - Mesh: {fileID: 2959467708922500008, guid: 06f920d0ea57423c814de1d242cb3eed, type: 3}
+    Materials:
+    - {fileID: 2100000, guid: 071f588d8e24f894c97497607fd30071, type: 2}
+  - Mesh: {fileID: 2959467708922500008, guid: 8c6c252bd24641569b55732731e75098, type: 3}
+    Materials:
+    - {fileID: 2100000, guid: 071f588d8e24f894c97497607fd30071, type: 2}
+    - {fileID: 2100000, guid: 9abae51281ffcd04898cddceaba8f2b2, type: 2}
+  - Mesh: {fileID: 2959467708922500008, guid: d6ff90be0c9d4ee1aa0aa52efe65c6ce, type: 3}
+    Materials:
+    - {fileID: 2100000, guid: 071f588d8e24f894c97497607fd30071, type: 2}
+    - {fileID: 2100000, guid: e09eb23668d44e84c99a42a2173a3ba7, type: 2}

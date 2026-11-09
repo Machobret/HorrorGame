@@ -1,5 +1,17 @@
 # Two-sided doors
 
+## Procedural building doors
+
+`Prefabs/Door_Base.prefab` is the reusable starting point. It contains `TwoSidedDoor`, the shared Door interaction data, a bidirectional interaction trigger, a separate solid leaf collider, and two prewired child exits facing away from the doorway. `Interactive.OnInteract` calls this instance's `TwoSidedDoor.Use(IInteractor)`. No exit setup is needed when choosing another visual.
+
+The sixteen `Door_Interior_*` / `Door_Exterior_*` prefabs are native variants of this base. The existing Waterpixels door-family presets reference those variants and remain compatible with the supplied 1 m and 2 m doorway segments. Place or replace them through the normal wall-family selector, including bulk edits. Outside House edit mode, the placed door is independently selectable; edit its ordinary prefab overrides, events, exit transforms or optional lock components there. Wall rebuilds move its attachment without recreating the prefab. Explicitly changing its preset creates that preset's defaults; arbitrary overrides are not transferred to a different door.
+
+For a custom door, create a variant of `Door_Base`, replace its `Visual`, and assign that prefab to a compatible `WallOpeningInsert`. Keep the prefab root at doorway centre/floor height, with +Z facing the module front and unit scale. The base includes an unlocked transition door, not an animated swinging-leaf controller; assign the usual Door Animation or add custom gameplay in a variant if needed. The level still needs Horror Engine's normal shared `DoorTransitionController`, UI and pause setup. Existing scenes and game-wide settings are not modified by this integration.
+
+`Tools > Game > Doors > Set up procedural door prefabs` creates missing base/variant assets and connects empty bundled preset assignments. It preserves existing prefabs and custom assignments on rerun. Run it again after replacing bundled presets with a toolkit update.
+
+## Custom door setup
+
 Add `HorrorEngine.TwoSidedDoor` to a door object instead of `SceneDoor`. Keep custom game code under `Assets/Game/Doors`; no Horror Engine source changes are needed.
 
 1. Create two empty child objects, one on each side of the doorway, clear of walls and colliders. Place them roughly symmetrically and rotate each to face away from the door.

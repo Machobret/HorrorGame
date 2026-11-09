@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f7844fe72ca4fd78135e1e448987cbc, type: 3}
+  m_Name: RoadBend90
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.TownModule
+  Kind: 1
+  Mesh: {fileID: 4300000, guid: 36cef58feb525ee41b1001dcf34af86d, type: 2}
+  Materials:
+  - {fileID: 2100000, guid: ebe363f33b4192a4086c151c672537aa, type: 2}
+  Length: 4
+  Height: 0.12
+  Width: 4
+  Connections:
+  - Position: {x: -4, y: 0, z: 0}
+    Outward: {x: -1, y: 0, z: 0}
+    Width: 4
+  - Position: {x: 0, y: 0, z: 4}
+    Outward: {x: 0, y: 0, z: 1}
+    Width: 4
+  Footprint:
+  - {x: -4.0000005, y: -2}
+  - {x: -3.4118972, y: -1.9711084}
+  - {x: -2.8294587, y: -1.8847117}
+  - {x: -2.2582922, y: -1.741642}
+  - {x: -1.7038994, y: -1.5432768}
+  - {x: -1.1716201, y: -1.2915277}
+  - {x: -0.66657877, y: -0.98881817}
+  - {x: -0.19364023, y: -0.6380625}
+  - {x: 0.2426405, y: -0.2426405}
+  - {x: 0.6380625, y: 0.19364}
+  - {x: 0.9888177, y: 0.66657853}
+  - {x: 1.2915273, y: 1.1716194}
+  - {x: 1.5432768, y: 1.7038994}
+  - {x: 1.741642, y: 2.258292}
+  - {x: 1.8847113, y: 2.829458}
+  - {x: 1.9711084, y: 3.4118972}
+  - {x: 2, y: 4}
+  - {x: -2, y: 4}
+  - {x: -2.0096307, y: 3.8039658}
+  - {x: -2.0384295, y: 3.6098194}
+  - {x: -2.0861192, y: 3.4194307}
+  - {x: -2.152241, y: 3.234633}
+  - {x: -2.2361574, y: 3.0572066}
+  - {x: -2.337061, y: 2.8888595}
+  - {x: -2.453979, y: 2.7312133}
+  - {x: -2.5857863, y: 2.5857863}
+  - {x: -2.7312136, y: 2.453979}
+  - {x: -2.8888597, y: 2.3370607}
+  - {x: -3.0572066, y: 2.2361574}
+  - {x: -3.2346332, y: 2.152241}
+  - {x: -3.4194307, y: 2.0861192}
+  - {x: -3.6098194, y: 2.0384293}
+  - {x: -3.8039658, y: 2.0096307}
+  - {x: -4, y: 2}

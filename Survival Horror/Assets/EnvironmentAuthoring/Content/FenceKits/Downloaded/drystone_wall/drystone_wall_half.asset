@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f7844fe72ca4fd78135e1e448987cbc, type: 3}
+  m_Name: drystone_wall_half
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.TownModule
+  Kind: 0
+  Mesh: {fileID: 2959467708922500008, guid: 580cd31e4e6544a3bd18d67d5f64e22a, type: 3}
+  AllowStretch: 0
+  Materials:
+  - {fileID: 2100000, guid: 071f588d8e24f894c97497607fd30071, type: 2}
+  Length: 1
+  Height: 0.8150946
+  Width: 0.3

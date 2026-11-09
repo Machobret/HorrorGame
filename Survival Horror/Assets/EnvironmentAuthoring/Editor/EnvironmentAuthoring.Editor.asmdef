@@ -1,0 +1,6 @@
+{
+  "name": "EnvironmentAuthoring.Editor",
+  "rootNamespace": "EnvironmentAuthoring.Editor",
+  "references": ["EnvironmentAuthoring", "Unity.Collections"],
+  "includePlatforms": ["Editor"]
+}

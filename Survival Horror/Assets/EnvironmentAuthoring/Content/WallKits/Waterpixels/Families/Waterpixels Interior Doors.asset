@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98c83dfe5ec24a0c956fbba0e8ba68ff, type: 3}
+  m_Name: Waterpixels Interior Doors
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.OpeningFamily
+  Kind: 0
+  Sets:
+  - Name: Doors Interior 01
+    State: 0
+    Models:
+    - {fileID: 11400000, guid: 2f722a2748fa3f04f869fb3056eced67, type: 2}
+    - {fileID: 11400000, guid: 0ccd388fa1ea2764a96ed99749edff8f, type: 2}
+    - {fileID: 11400000, guid: 1e3164b35f892c4448429cdeef72630f, type: 2}
+    - {fileID: 11400000, guid: bc3735d47ef946942b8cf996af55a259, type: 2}
+    - {fileID: 11400000, guid: b1c30ed0e0b4c7c4c99c02983176ac8d, type: 2}
+    - {fileID: 11400000, guid: 8444b4d186228cc46aa3801e0baf5f9d, type: 2}
+    - {fileID: 11400000, guid: ac71362e0c96d134dafc1fc37fa2b137, type: 2}
+    - {fileID: 11400000, guid: e2a63f5684a2a014f8338ae5f3253dee, type: 2}
