@@ -3,7 +3,9 @@ using EnvironmentAuthoring;
 using EnvironmentAuthoring.Editor;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public sealed class PrefabDoorMaterialTests
 {
@@ -74,11 +76,18 @@ public sealed class PrefabDoorMaterialTests
     [Test]
     public void InheritedBindingsSurviveSerializationAndCanBeRefreshedAgain()
     {
-        var frame = NewMaterial(); var glass = NewMaterial();
+        // Editor JSON persists asset references, not unsaved temporary Material objects.
+        var frame = AssetDatabase.LoadAssetAtPath<Material>(AssetDatabase.GUIDToAssetPath("74459f3667fa947429ecac46c7516172"));
+        var glass = attachment.Preset.GlassMaterial;
+        Assert.That(frame, Is.Not.Null);
         HouseDoorObjects.RefreshMaterials(attachment, frame, glass, true);
+        var instance = attachment.Instance;
         string serialized = EditorJsonUtility.ToJson(attachment);
         attachment.InheritedMaterials = System.Array.Empty<Material>();
         EditorJsonUtility.FromJsonOverwrite(serialized, attachment);
+        // JSON asset-reference round trips do not retain an unsaved scene instance.
+        attachment.Instance = instance;
+        Assert.That(attachment.InheritedMaterials, Is.EqualTo(new[] { frame, glass }));
         var nextFrame = NewMaterial(); var nextGlass = NewMaterial();
         Assert.That(HouseDoorObjects.RefreshMaterials(attachment, nextFrame, nextGlass, true), Is.True);
         Assert.That(visual.sharedMaterials, Is.EqualTo(new[] { nextFrame, nextGlass }));
@@ -90,5 +99,22 @@ public sealed class PrefabDoorMaterialTests
         var original = visual.sharedMaterials;
         Assert.That(HouseDoorObjects.RefreshMaterials(attachment, null, null, true), Is.False);
         Assert.That(visual.sharedMaterials, Is.EqualTo(original));
+    }
+
+    [Test]
+    public void MergedElectricitySceneLoadsWithoutMissingScriptsOrPrefabs()
+    {
+        const string path = "Assets/Game/Levels/Chapter1/Scenes/Electricity_Puzzle.unity";
+        var scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
+        try
+        {
+            foreach (var sceneRoot in scene.GetRootGameObjects())
+            foreach (var item in sceneRoot.GetComponentsInChildren<Transform>(true))
+            {
+                Assert.That(GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(item.gameObject), Is.Zero, item.name);
+                Assert.That(PrefabUtility.GetPrefabInstanceStatus(item.gameObject), Is.Not.EqualTo(PrefabInstanceStatus.MissingAsset), item.name);
+            }
+        }
+        finally { EditorSceneManager.CloseScene(scene, true); }
     }
 }

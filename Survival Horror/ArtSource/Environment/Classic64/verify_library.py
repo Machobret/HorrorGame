@@ -63,6 +63,9 @@ def main():
     assert all(not (PROJECT/p).exists() for p in scope['remove_assets']), 'Excluded building geometry remains'
     assert all(not (PROJECT/p).exists() for p in quality['remove_assets']), 'Unfinished or untextured assets remain'
     scenes=json.loads((REVIEW/'BeforeFinishedAssetsScope/SceneBaseline.json').read_text(encoding='utf-8'))
+    # The cleanup checked every scene at execution time. Later verification owns
+    # only this library's reviews; normal level edits and Git merges remain valid.
+    scenes={p:value for p,value in scenes.items() if p.startswith('Assets/Sandbox/Classic64/')}
     assert all(sha(PROJECT/p)==value for p,value in scenes.items()), 'Scene file changed'
     manifest=json.loads((HERE/'LibraryManifest.json').read_text(encoding='utf-8'))
     assert all(not a.get('authored_unfinished') for a in manifest['assets'])
@@ -70,7 +73,7 @@ def main():
     report = dict(verified_files=len(receipt['files']), source_records_represented=842, excluded_source_models=20,
                   source_models=130, source_images=732, unexpected_unresolved_guid_references=0,
                   intentional_missing_references_in_unchanged_review_scene=expected_missing,
-                  scene_files_and_metadata_unchanged=len(scenes),
+                  review_scene_files_and_metadata_unchanged=len(scenes),
                   no_duplicate_import_guids=True, pilot_files_unchanged=len(baseline),
                   review_excluded_from_build_settings=True, finished_models_only=True, all_materials_textured=True, captures=len(receipt['captures']), **counts)
     (REVIEW / 'FinalReferenceCheck.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
