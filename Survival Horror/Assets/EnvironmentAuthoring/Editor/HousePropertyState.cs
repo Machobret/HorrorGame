@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Linq;
 
 namespace EnvironmentAuthoring.Editor
 {
@@ -20,6 +21,8 @@ namespace EnvironmentAuthoring.Editor
                 + ":" + context?.Session?.ContextRevision + ":" + context?.Controller.HasSelectionGesture
                 + ":" + plan.HasSupportedTransform + ":" + HouseRebuildCoordinator.NeedsSceneInstance(plan)
                 + ":" + JsonUtility.ToJson(builder) + ":" + builder?.Data.ReferenceBlank?.Height
+                + ":" + (builder == null ? "" : string.Join("|", builder.Data.FamilyDefinitions(plan.Data)
+                    .Where(family => family.HasMaterialRoles).Select(family => JsonUtility.ToJson(family))))
                 + ":" + builder?.Output?.InputSignature + ":" + (building != null ? HouseSlabBuilder.Output(building)?.Signature : "")
                 + ":" + HouseEditorSession.instance.Pending.DisplayRevision;
         }

@@ -102,6 +102,7 @@ namespace EnvironmentAuthoring
             var corner = new Corner(position);
             var newWall = new Wall(Guid.NewGuid().ToString("N"), corner.Id, wall.EndId, wall.Type, wall.Presence);
             newWall.SetMaterials(wall.LeftMaterial, wall.RightMaterial);
+            newWall.CopyMaterialRolesFrom(wall);
             newWall.SetFamily(wall.Family);
 
             float cut = Vector2.Distance(PositionOf(wall.StartId, corners), position);

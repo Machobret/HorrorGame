@@ -56,11 +56,16 @@ namespace EnvironmentAuthoring
 
         public void SetSideMaterials(Material sideA, Material sideB)
         {
-            Bind(body, sideA, sideB);
+            var fixedSlots = definition != null ? definition.BodyMaterials : null;
+            if (fixedSlots != null && fixedSlots.Length == 2)
+                Bind(body, fixedSlots[0], fixedSlots[1]);
+            else Bind(body, sideA, sideB);
         }
 
+        public void SetRoleMaterials(Material slot0, Material slot1) => Bind(body, slot0, slot1);
+
         // Appearance refresh changes bindings only; it does not reapply geometry.
-        internal void ApplyInsertMaterial()
+        internal void ApplyInsertMaterial(Material role0 = null, Material role1 = null)
         {
             if (openingInsert == null) return;
             openingInsert.transform.localPosition = selectedInsert != null
@@ -68,11 +73,13 @@ namespace EnvironmentAuthoring
             var renderer = openingInsert.GetComponent<MeshRenderer>();
             int count = selectedInsert != null ? selectedInsert.Mesh.subMeshCount : 0;
             var current = renderer.sharedMaterials;
+            Material MaterialFor(int index) => selectedInsert.UseWallMaterialRoles
+                && (index == 0 ? role0 : role1) != null ? (index == 0 ? role0 : role1) : selectedInsert.MaterialFor(index);
             bool same = current.Length == count;
-            for (int i = 0; same && i < count; i++) same = current[i] == selectedInsert.MaterialFor(i);
+            for (int i = 0; same && i < count; i++) same = current[i] == MaterialFor(i);
             if (same) return;
             var materials = new Material[count];
-            for (int i = 0; i < count; i++) materials[i] = selectedInsert.MaterialFor(i);
+            for (int i = 0; i < count; i++) materials[i] = MaterialFor(i);
             renderer.sharedMaterials = materials;
         }
 

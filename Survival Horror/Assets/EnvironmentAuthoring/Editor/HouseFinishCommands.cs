@@ -49,6 +49,46 @@ namespace EnvironmentAuthoring.Editor
             return preview.Commit( "Change wall-side finishes");
         }
 
+        internal static HouseEditResult SetWallRole(HousePlan plan, IEnumerable<string> ids, string role, Material material)
+        {
+            if (!HouseEditValidation.Source(plan, out string reason)) return HouseEditResult.Reject(reason);
+            var selected = ids?.Distinct().ToArray();
+            var kit = plan.GetComponent<HouseWallBuilder>()?.Data;
+            if (selected == null || selected.Length == 0 || kit == null || selected.Any(id =>
+                !plan.Data.Walls.Any(wall => wall.Id == id && kit.FamilyFor(plan.Data, wall)?.Role(role) != null)))
+                return HouseEditResult.Reject("Choose walls with the requested material role.");
+            using var draft = new HouseFinishDraft(plan);
+            if (!draft.SetWallRoleMaterials(selected, role, material)) return HouseEditResult.Reject("Choose existing walls.");
+            return draft.Commit("Change wall " + role + " material");
+        }
+
+        internal static HouseEditResult SetFamilyRole(WallFamily family, string roleId, Material material)
+        {
+            var role = family != null ? family.Role(roleId) : null;
+            if (role == null || material == null) return HouseEditResult.Reject("Family material roles need a material.");
+            if (role.DefaultMaterial == material) return new HouseEditResult(HouseEditStatus.Unchanged);
+            const string action = "Change wall family material default";
+            var owners = Object.FindObjectsByType<HousePlan>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+                .Where(plan => plan.gameObject.scene.IsValid()
+                    && plan.GetComponent<HouseWallBuilder>()?.Data.FamilyDefinitions(plan.Data).Contains(family) == true)
+                .Select(plan => (Component)HouseBuilding.For(plan) ?? plan).Distinct().ToArray();
+            foreach (var owner in owners) HouseOutputUndo.Prepare(owner);
+            Undo.IncrementCurrentGroup();
+            int group = Undo.GetCurrentGroup();
+            Undo.SetCurrentGroupName(action);
+            Undo.RecordObject(family, action);
+            role.DefaultMaterial = material;
+            EditorUtility.SetDirty(family);
+            Undo.FlushUndoRecordObjects();
+            // Asset defaults are shared by all Houses. Refresh appearance through
+            // the normal coordinator; its geometry keys remain unchanged.
+            foreach (var owner in owners) HouseOutputUndo.Refresh(owner, action);
+            Undo.CollapseUndoOperations(group);
+            Undo.IncrementCurrentGroup();
+            SceneView.RepaintAll();
+            return new HouseEditResult(HouseEditStatus.Applied);
+        }
+
         internal static HouseEditResult SetSurfaceFinish(HousePlan plan, string boundaryId, string regionId,
             bool ceiling, bool useOverride, Material material)
             => SetSurfaceFinishes(plan, boundaryId, new[] { regionId }, ceiling, useOverride, material);

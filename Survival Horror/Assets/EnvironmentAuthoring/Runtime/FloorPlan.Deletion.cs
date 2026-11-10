@@ -35,7 +35,8 @@ namespace EnvironmentAuthoring
             Material Right(Wall w, bool reverse) => reverse ? w.LeftMaterial : w.RightMaterial;
             reason = "Match the two walls' geometry, finishes and presence before dissolving this junction.";
             if (start == end || a.Type != b.Type || a.Presence != b.Presence || a.Family != b.Family
-                || Left(a, reverseA) != Left(b, reverseB) || Right(a, reverseA) != Right(b, reverseB)) return false;
+                || Left(a, reverseA) != Left(b, reverseB) || Right(a, reverseA) != Right(b, reverseB)
+                || !a.SameMaterialRoles(b)) return false;
             reason = "Match the adjoining trims before dissolving this junction; a partial trim cannot cover the merged wall.";
             if (a.OverridesTrim != b.OverridesTrim || a.TrimDisabled != b.TrimDisabled
                 || (a.Trim == null ? b.Trim != null : !a.Trim.SameProfile(b.Trim))) return false;
@@ -60,6 +61,7 @@ namespace EnvironmentAuthoring
                 && !straight) return false;
             var merged = new Wall(a.Id, start, end, a.Type, a.Presence);
             merged.SetMaterials(Left(a, reverseA), Right(a, reverseA));
+            merged.CopyMaterialRolesFrom(a);
             merged.SetFamily(a.Family);
             if (a.OverridesTrim) merged.SetTrim(trim); else merged.ResetTrim();
             foreach (var wall in incident)

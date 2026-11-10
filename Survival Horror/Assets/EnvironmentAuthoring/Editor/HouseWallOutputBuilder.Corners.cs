@@ -111,6 +111,10 @@ namespace EnvironmentAuthoring.Editor
             // A single finish belongs to the missing corner sector. Stable wall ID
             // order resolves competing overrides without triangle-by-triangle policies.
             var wall=plan.Data.Walls.First(w=>w.Id==cover.WallA);
+            var family=plan.GetComponent<HouseWallBuilder>()?.Data.FamilyFor(plan.Data,wall);
+            if(family!=null && family.HasMaterialRoles)return family.RoleMaterial(wall,0);
+            var fixedSlots=family?.ReferenceBlank?.BodyMaterials;
+            if(fixedSlots!=null && fixedSlots.Length==2 && fixedSlots[0]!=null)return fixedSlots[0];
             var stored=plan.Data.GetPosition(wall.EndId)-plan.Data.GetPosition(wall.StartId);
             bool left=Vector2.Dot(new Vector2(-stored.y,stored.x),cover.Center-cover.Node)>0;
             return HouseFinishResolution.Wall(plan, wall, left);

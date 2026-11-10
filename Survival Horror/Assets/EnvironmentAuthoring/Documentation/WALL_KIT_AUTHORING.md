@@ -100,7 +100,7 @@ Paths below are relative to `Packages/com.manta.environment-authoring`:
 
 The editor uses Unity's existing read-only mesh snapshot API; importing a family does not require enabling runtime Read/Write or installing a processing package.
 
-Trim material sampling: the supplied M_Plaster_SampleBox_01 material uses Triplanar so top/end density follows the same physical repeat sizes as the other faces. Shared construction materials use Triplanar on trims too; choose another mode explicitly only for an authored mapping requirement. Authored UV remains available for baked decoration. This is a material choice; catalog membership and mesh assignment do not force it.
+Trim material sampling: the supplied M_Plaster_SampleWall_01 material uses Triplanar so top/end density follows the same physical repeat sizes as the other faces. Shared construction materials use Triplanar on trims too; choose another mode explicitly only for an authored mapping requirement. Authored UV remains available for baked decoration. This is a material choice; catalog membership and mesh assignment do not force it.
 
 ## Shared construction finishes and fence samples
 
@@ -117,3 +117,15 @@ Assets/EnvironmentAuthoring/Content/WallKits/FramedWindows contains clear/divide
 Keep the existing Door Family and Wall Opening Insert presets. Assign a project prefab to the preset's Prefab field to replace its mesh visual. Mesh/material fields remain available for ordinary visual-only presets. Door prefabs retain the same 1m/2m segment and aperture compatibility metadata. Author the prefab root at doorway centre/floor height, unit scale, with +Z toward the module front. Put scripts, visual models, colliders and both prewired exit transforms in the project's base prefab; use prefab variants for ordinary visual/behaviour choices. The generator does not know about or attach gameplay scripts.
 
 After placement, leave House edit mode to select the door object and edit ordinary prefab overrides in Unity. Its parent attachment follows wall/opening movement; edit prefab-local offsets, not the attachment. Rebuilding walls retains the same prefab instance and all its overrides. Choosing another preset is an explicit Undoable replacement, using that preset's defaults. Native Delete removes the door object but leaves the logical opening and does not respawn it during rebuild; undo deletion or choose another preset to restore it. Removing the opening removes its attached object through the same source command's Undo group. The game-specific base prefab is deferred until integration.
+
+
+## Named material regions on glazed wall bodies
+
+Wall families can declare two `MaterialRoles`, each with a stable ID, display name, mesh slot (0/1) and default material. The Storefront T150 family uses `frame`/Frame at slot 0 and `glass`/Glass at slot 1. House Properties displays these names in place of side finishes, with per-wall overrides and Reset to family inheritance. Family defaults are shared asset edits with Undo. The level Defaults view shows the roles of its active families; mixed wall selections keep each family's controls separate. Ordinary families leave MaterialRoles empty and retain House/level/room/side finish inheritance.
+
+Named roles always follow mesh regions, without direction-based swapping. Corner covers use slot 0. Finish-only signatures track family defaults and per-wall overrides separately from geometry, retaining generated meshes. Wall copy, split, serialization and Undo preserve overrides; dissolve rejects different role assignments. An override remains dormant if its wall changes to a family without that role. Two-slot mesh inserts may enable `UseWallMaterialRoles` to follow the same host assignments; other inserts retain their own materials. This is a project integration extension to the bundled toolkit; retain it when updating the toolkit.
+
+Legacy definitions may still assign two fixed `BodyMaterials`; both must be non-null. These apply when the host family has no named roles. Prefer family roles for new glazed content. Storefront imports migrate their previous palette to family defaults and clear duplicate definition palettes without resetting artist-edited defaults.
+
+
+Framed wall definitions can disable `CoverSlabEdge` to stop rendered modules and generated corner covers at the nominal ceiling height. Ordinary opaque definitions keep this flag enabled for the established facade coverage over the slab edge. Storefront T150 imports set it false, so a 2.8 m wall is not stretched to 2.995 m over a 0.2 m slab. The flag participates in geometry signatures, allowing existing generated output to refresh on the next normal rebuild.

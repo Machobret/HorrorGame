@@ -9,6 +9,25 @@ namespace EnvironmentAuthoring
     public sealed class WallFamily : ScriptableObject
     {
         public string Id = "01";
+        [Serializable] public sealed class MaterialRole
+        {
+            public string Id;
+            public string Name;
+            [Range(0, 1)] public int Slot;
+            public Material DefaultMaterial;
+        }
+        // Empty preserves the ordinary wall-side/room finish contract. Named
+        // roles describe mesh regions and are never swapped with wall direction.
+        public MaterialRole[] MaterialRoles = Array.Empty<MaterialRole>();
+        public bool HasMaterialRoles => MaterialRoles != null && MaterialRoles.Length > 0;
+        public MaterialRole Role(string id) => MaterialRoles?.FirstOrDefault(role => role != null && role.Id == id);
+        public Material RoleMaterial(FloorPlan.Wall wall, int slot)
+        {
+            var role = MaterialRoles?.FirstOrDefault(value => value != null && value.Slot == slot);
+            if (role == null) return null;
+            var material = wall?.RoleMaterial(role.Id);
+            return material != null ? material : role.DefaultMaterial;
+        }
         public WallModuleDefinition Blank;
         public WallModuleDefinition[] BlankVariants = Array.Empty<WallModuleDefinition>();
         [Serializable] public sealed class Opening
@@ -41,6 +60,12 @@ namespace EnvironmentAuthoring
 
         public bool IsValid(out string reason)
         {
+            reason = "Named material roles need two unique IDs, names, slots 0/1 and non-null family defaults.";
+            if (HasMaterialRoles && (MaterialRoles.Length != 2
+                || MaterialRoles.Any(role => role == null || string.IsNullOrWhiteSpace(role.Id)
+                    || string.IsNullOrWhiteSpace(role.Name) || role.Slot < 0 || role.Slot > 1 || role.DefaultMaterial == null)
+                || MaterialRoles.Select(role => role.Id).Distinct().Count() != 2
+                || MaterialRoles.Select(role => role.Slot).Distinct().Count() != 2)) return false;
             reason = "A complete family needs a solid primary and a family ID.";
             if (Blank == null || string.IsNullOrWhiteSpace(Id) || !Blank.AllowLengthStretch) return false;
             var widths = new HashSet<float>();

@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -23,14 +22,6 @@ namespace EnvironmentAuthoring.Editor
             var independent = Family("Independent", new[] { meshes[0], meshes[1] });
             // A family may reuse another collection's profile without copying its mesh.
             var townhouse = Family("Townhouse", new[] { meshes[2], meshes[1] });
-            if (AssetDatabase.LoadAssetAtPath<Material>("Assets/EnvironmentAuthoring/Content/Materials/Examples/M_Plaster_SampleBox_01.mat") == null)
-            {
-                var source = AssetDatabase.LoadAssetAtPath<Material>("Assets/EnvironmentAuthoring/Content/Materials/Examples/M_Plaster_SampleWall_01.mat");
-                if (source == null) throw new InvalidOperationException("Create the complete wall samples first.");
-                var material = new Material(source) { name = "M_Plaster_SampleBox_01" };
-                material.SetFloat("_Mapping",3); // One construction finish works on every face.
-                AssetDatabase.CreateAsset(material, "Assets/EnvironmentAuthoring/Content/Materials/Examples/M_Plaster_SampleBox_01.mat");
-            }
             AssetDatabase.SaveAssets();
             return new[] { independent, townhouse };
         }

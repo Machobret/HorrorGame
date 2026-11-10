@@ -85,9 +85,9 @@ void TriplanarSurface(float3 positionWS, half3 normalWS, out half4 color,
     half4 x = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, uvX);
     half4 y = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, uvY);
     half4 z = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, uvZ);
-    half4 px = SAMPLE_TEXTURE2D(_SurfaceMap, sampler_SurfaceMap, uvX);
-    half4 py = SAMPLE_TEXTURE2D(_SurfaceMap, sampler_SurfaceMap, uvY);
-    half4 pz = SAMPLE_TEXTURE2D(_SurfaceMap, sampler_SurfaceMap, uvZ);
+    half4 px = SampleWallSurface(uvX);
+    half4 py = SampleWallSurface(uvY);
+    half4 pz = SampleWallSurface(uvZ);
     color = (x * weight.x + y * weight.y + z * weight.z) * _BaseColor;
     roughness = px.b * weight.x + py.b * weight.y + pz.b * weight.z;
     mappedNormal = normalize(WallMappedNormal(positionWS, normalWS, uvX, px.rg) * weight.x

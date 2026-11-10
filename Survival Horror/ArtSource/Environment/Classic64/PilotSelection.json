@@ -1,0 +1,102 @@
+{
+  "models": [
+    {
+      "source": "Books/book_black_01.blend",
+      "family": "HouseholdDecor",
+      "subject": "BookBlack01",
+      "target_height_m": null
+    },
+    {
+      "source": "Boxes/box_01.blend",
+      "family": "StorageContainers",
+      "subject": "CardboardBox01",
+      "target_height_m": null
+    },
+    {
+      "source": "Shelves/commerical_shelf_one_side.blend",
+      "family": "Furniture",
+      "subject": "CommercialShelf",
+      "target_height_m": null
+    },
+    {
+      "source": "Food/food_canned_soup_1.blend",
+      "family": "FoodKitchenware",
+      "subject": "SoupCan01",
+      "target_height_m": null
+    },
+    {
+      "source": "Food/drink_can_soda.blend",
+      "family": "FoodKitchenware",
+      "subject": "SodaCan01",
+      "target_height_m": null
+    },
+    {
+      "source": "Electrical/electrical_junctionbox_small.blend",
+      "family": "LightingElectrical",
+      "subject": "JunctionBox",
+      "target_height_m": null
+    },
+    {
+      "source": "Industrial/pump_station.blend",
+      "family": "ToolsEquipment",
+      "subject": "PumpStation",
+      "target_height_m": null
+    },
+    {
+      "source": "Tools/shovel.blend",
+      "family": "ToolsEquipment",
+      "subject": "Shovel",
+      "target_height_m": 1.25
+    },
+    {
+      "source": "Nature/bush_01.blend",
+      "family": "Vegetation",
+      "subject": "Bush01",
+      "target_height_m": null
+    },
+    {
+      "source": "Units/generator.blend",
+      "family": "AppliancesElectronics",
+      "subject": "Generator",
+      "target_height_m": null
+    },
+    {
+      "source": "Industrial/fire_extenguisher_case.blend",
+      "family": "InteriorFixtures",
+      "subject": "ExtinguisherCase",
+      "target_height_m": null
+    }
+  ],
+  "surfaces": [
+    {
+      "source": "Concrete/Materials/concrete_01.png",
+      "family": "MasonrySurfaces",
+      "subject": "Concrete01"
+    },
+    {
+      "source": "Bricks/Materials/brick_medium_mossy.png",
+      "family": "MasonrySurfaces",
+      "subject": "MossyBrick"
+    },
+    {
+      "source": "Metal/Materials/metal_rusty_06.jpg",
+      "family": "ToolsEquipment",
+      "subject": "RustyMetal06"
+    },
+    {
+      "source": "Wood/Materials/wood_bare.png",
+      "family": "InteriorFixtures",
+      "subject": "BareWood"
+    },
+    {
+      "source": "Floor/Materials/carpet_darkgray_01.png",
+      "family": "InteriorFixtures",
+      "subject": "DarkCarpet"
+    },
+    {
+      "source": "Tiles/Materials/tiles_ceiling_02.jpg",
+      "family": "MasonrySurfaces",
+      "subject": "CeilingTiles02"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98c83dfe5ec24a0c956fbba0e8ba68ff, type: 3}
+  m_Name: GravelGlass_WindowFamily
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.OpeningFamily
+  Kind: 1
+  Sets:
+  - Name: Gravel glass
+    State: 0
+    Models:
+    - {fileID: 11400000, guid: d40057a72933b634683ec7ae6be93868, type: 2}
+    - {fileID: 11400000, guid: bf4b80c53e7162647b2d030adca12a4a, type: 2}

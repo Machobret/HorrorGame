@@ -9,6 +9,12 @@ namespace EnvironmentAuthoring.Editor
     // This owner reads authored settings only; it never generates or edits geometry.
     internal static class HouseFinishResolution
     {
+        internal static WallFamily Family(HousePlan plan, FloorPlan.Wall wall)
+            => plan.GetComponent<HouseWallBuilder>()?.Data.FamilyFor(plan.Data, wall);
+
+        internal static Material Role(HousePlan plan, FloorPlan.Wall wall, int slot)
+            => Family(plan, wall)?.RoleMaterial(wall, slot);
+
         internal static Material RenderMaterial(Material material)
             => material != null ? material : GraphicsSettings.currentRenderPipeline != null
                 ? GraphicsSettings.currentRenderPipeline.defaultMaterial : AssetDatabase.GetBuiltinExtraResource<Material>("Default-Material.mat");

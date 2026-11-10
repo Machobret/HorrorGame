@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e1a6fc1fcc56a84caf14b17fda8e03e, type: 3}
+  m_Name: Wall_Storefront_Solid_01_W0500_H2800_T150
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.WallModuleDefinition
+  DisplayName: Wall_Storefront_Solid_01_W0500_H2800_T150
+  PreserveImportOverrides: 0
+  FamilyId: Storefront
+  OpeningShape: 
+  Width: 0.5
+  Height: 2.8
+  Thickness: 0.15
+  CoverSlabEdge: 0
+  AllowLengthStretch: 1
+  OpeningOutline:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  Body: {fileID: 2959467708922500008, guid: c4e54f58c41d5e0f8008e34480d8bfb8, type: 3}
+  BodyMaterials: []

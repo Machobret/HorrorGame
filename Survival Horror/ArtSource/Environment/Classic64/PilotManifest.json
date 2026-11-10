@@ -1,0 +1,953 @@
+{
+  "batch": "Classic64_Pilot",
+  "assets": [
+    {
+      "name": "Classic64_BookBlack01",
+      "source": "ArtSource/Environment/Classic64/Original/Books/book_black_01.blend",
+      "family": "HouseholdDecor",
+      "model_path": "Assets/Game/Environment/HouseholdDecor/Classic64_BookBlack01_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/HouseholdDecor/Classic64_BookBlack01_Visual.prefab",
+      "material_names": [
+        "Classic64_BookBlack01_Book_Black"
+      ],
+      "geometry": [
+        {
+          "source_object": "Book_Black",
+          "exported_object": "Classic64_BookBlack01_Part00",
+          "vertices": 64,
+          "polygons": 62,
+          "uv_corners": 248
+        }
+      ],
+      "bounds_m": [
+        0.15916797518730164,
+        0.23906174302101135,
+        0.03810003027319908
+      ],
+      "original_bounds_m": [
+        0.15916797518730164,
+        0.03810003027319908,
+        0.23906174302101135
+      ],
+      "scale_correction": 1.0,
+      "pivot_source": [
+        0.003383997827768326,
+        -1.6763806343078613e-08,
+        -0.1203148365020752
+      ],
+      "pivot": "GroundCenter"
+    },
+    {
+      "name": "Classic64_CardboardBox01",
+      "source": "ArtSource/Environment/Classic64/Original/Boxes/box_01.blend",
+      "family": "StorageContainers",
+      "model_path": "Assets/Game/Environment/StorageContainers/Classic64_CardboardBox01_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/StorageContainers/Classic64_CardboardBox01_Visual.prefab",
+      "material_names": [
+        "Classic64_CardboardBox01_Box_Industry_Food"
+      ],
+      "geometry": [
+        {
+          "source_object": "Box_Industry_Food",
+          "exported_object": "Classic64_CardboardBox01_Part00",
+          "vertices": 8,
+          "polygons": 6,
+          "uv_corners": 24
+        }
+      ],
+      "bounds_m": [
+        0.3657599687576294,
+        0.3657599985599518,
+        0.3657599687576294
+      ],
+      "original_bounds_m": [
+        0.3657599687576294,
+        0.3657599687576294,
+        0.3657599985599518
+      ],
+      "scale_correction": 1.0,
+      "pivot_source": [
+        1.4901161193847656e-08,
+        -2.2351741790771484e-08,
+        -0.1828799992799759
+      ],
+      "pivot": "GroundCenter"
+    },
+    {
+      "name": "Classic64_CommercialShelf",
+      "source": "ArtSource/Environment/Classic64/Original/Shelves/commerical_shelf_one_side.blend",
+      "family": "Furniture",
+      "model_path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Visual.prefab",
+      "material_names": [
+        "Classic64_CommercialShelf_Commerical_Shelf_Back",
+        "Classic64_CommercialShelf_Commerical_Shelf",
+        "Classic64_CommercialShelf_Commerical_Shelf_Bottom",
+        "Classic64_CommercialShelf_Color_OffWhite"
+      ],
+      "geometry": [
+        {
+          "source_object": "Commerical_Shelf_One_Side",
+          "exported_object": "Classic64_CommercialShelf_Part00",
+          "vertices": 8,
+          "polygons": 5,
+          "uv_corners": 20
+        },
+        {
+          "source_object": "Commerical_Shelf_One_Side_Base",
+          "exported_object": "Classic64_CommercialShelf_Part01",
+          "vertices": 12,
+          "polygons": 10,
+          "uv_corners": 40
+        },
+        {
+          "source_object": "Commerical_Shelf_One_Side_Bottom",
+          "exported_object": "Classic64_CommercialShelf_Part02",
+          "vertices": 8,
+          "polygons": 5,
+          "uv_corners": 20
+        },
+        {
+          "source_object": "Commerical_Shelf_One_Side_Shelf",
+          "exported_object": "Classic64_CommercialShelf_Part03",
+          "vertices": 8,
+          "polygons": 3,
+          "uv_corners": 12
+        },
+        {
+          "source_object": "Commerical_Shelf_One_Side_Shelf.001",
+          "exported_object": "Classic64_CommercialShelf_Part04",
+          "vertices": 8,
+          "polygons": 3,
+          "uv_corners": 12
+        },
+        {
+          "source_object": "Commerical_Shelf_One_Side_Shelf.002",
+          "exported_object": "Classic64_CommercialShelf_Part05",
+          "vertices": 8,
+          "polygons": 3,
+          "uv_corners": 12
+        },
+        {
+          "source_object": "Commerical_Shelf_One_Side_Shelf_EndCap",
+          "exported_object": "Classic64_CommercialShelf_Part06",
+          "vertices": 8,
+          "polygons": 6,
+          "uv_corners": 24
+        },
+        {
+          "source_object": "Commerical_Shelf_One_Side_Shelf_EndCap.001",
+          "exported_object": "Classic64_CommercialShelf_Part07",
+          "vertices": 8,
+          "polygons": 6,
+          "uv_corners": 24
+        },
+        {
+          "source_object": "Commerical_Shelf_One_Side_Shelf_EndCap.002",
+          "exported_object": "Classic64_CommercialShelf_Part08",
+          "vertices": 8,
+          "polygons": 6,
+          "uv_corners": 24
+        },
+        {
+          "source_object": "Commerical_Shelf_One_Side_Shelf_EndCap.003",
+          "exported_object": "Classic64_CommercialShelf_Part09",
+          "vertices": 8,
+          "polygons": 6,
+          "uv_corners": 24
+        },
+        {
+          "source_object": "Commerical_Shelf_One_Side_Shelf_EndCap.004",
+          "exported_object": "Classic64_CommercialShelf_Part10",
+          "vertices": 8,
+          "polygons": 6,
+          "uv_corners": 24
+        },
+        {
+          "source_object": "Commerical_Shelf_One_Side_Shelf_EndCap.005",
+          "exported_object": "Classic64_CommercialShelf_Part11",
+          "vertices": 8,
+          "polygons": 6,
+          "uv_corners": 24
+        }
+      ],
+      "bounds_m": [
+        0.9143999814987183,
+        1.6768490076065063,
+        1.134554147720337
+      ],
+      "original_bounds_m": [
+        0.9143999814987183,
+        1.134554147720337,
+        1.6768490076065063
+      ],
+      "scale_correction": 1.0,
+      "pivot_source": [
+        2.9802322387695312e-08,
+        8.940696716308594e-08,
+        -0.7624489665031433
+      ],
+      "pivot": "GroundCenter"
+    },
+    {
+      "name": "Classic64_SoupCan01",
+      "source": "ArtSource/Environment/Classic64/Original/Food/food_canned_soup_1.blend",
+      "family": "FoodKitchenware",
+      "model_path": "Assets/Game/Environment/FoodKitchenware/Classic64_SoupCan01_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/FoodKitchenware/Classic64_SoupCan01_Visual.prefab",
+      "material_names": [
+        "Classic64_SoupCan01_Food_Canned_Soup_1"
+      ],
+      "geometry": [
+        {
+          "source_object": "Food_Canned_Soup_1",
+          "exported_object": "Classic64_SoupCan01_Part00",
+          "vertices": 18,
+          "polygons": 11,
+          "uv_corners": 54
+        }
+      ],
+      "bounds_m": [
+        0.10159999877214432,
+        0.12700000405311584,
+        0.10159999132156372
+      ],
+      "original_bounds_m": [
+        0.10159999877214432,
+        0.10159999132156372,
+        0.12700000405311584
+      ],
+      "scale_correction": 1.0,
+      "pivot_source": [
+        0.0,
+        0.0015794318169355392,
+        -0.06350000202655792
+      ],
+      "pivot": "GroundCenter"
+    },
+    {
+      "name": "Classic64_SodaCan01",
+      "source": "ArtSource/Environment/Classic64/Original/Food/drink_can_soda.blend",
+      "family": "FoodKitchenware",
+      "model_path": "Assets/Game/Environment/FoodKitchenware/Classic64_SodaCan01_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/FoodKitchenware/Classic64_SodaCan01_Visual.prefab",
+      "material_names": [
+        "Classic64_SodaCan01_Drink_Can_Soda_1"
+      ],
+      "geometry": [
+        {
+          "source_object": "Drink_Can_Soda_1",
+          "exported_object": "Classic64_SodaCan01_Part00",
+          "vertices": 36,
+          "polygons": 29,
+          "uv_corners": 126
+        }
+      ],
+      "bounds_m": [
+        0.11595204472541809,
+        0.15240000188350677,
+        0.11595204472541809
+      ],
+      "original_bounds_m": [
+        0.11595204472541809,
+        0.11595204472541809,
+        0.15240000188350677
+      ],
+      "scale_correction": 1.0,
+      "pivot_source": [
+        1.862645149230957e-09,
+        0.0018025431782007217,
+        -0.07620000094175339
+      ],
+      "pivot": "GroundCenter"
+    },
+    {
+      "name": "Classic64_JunctionBox",
+      "source": "ArtSource/Environment/Classic64/Original/Electrical/electrical_junctionbox_small.blend",
+      "family": "LightingElectrical",
+      "model_path": "Assets/Game/Environment/LightingElectrical/Classic64_JunctionBox_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/LightingElectrical/Classic64_JunctionBox_Visual.prefab",
+      "material_names": [
+        "Classic64_JunctionBox_electrical_junctionbox_small"
+      ],
+      "geometry": [
+        {
+          "source_object": "electrical_junctionbox_small",
+          "exported_object": "Classic64_JunctionBox_Part00",
+          "vertices": 64,
+          "polygons": 45,
+          "uv_corners": 190
+        }
+      ],
+      "bounds_m": [
+        0.15240001678466797,
+        0.038100000470876694,
+        0.03175000101327896
+      ],
+      "original_bounds_m": [
+        0.15240001678466797,
+        0.03175000101327896,
+        0.038100000470876694
+      ],
+      "scale_correction": 1.0,
+      "pivot_source": [
+        -2.596154808998108e-05,
+        -0.0024185795336961746,
+        -0.0190499946475029
+      ],
+      "pivot": "GroundCenter"
+    },
+    {
+      "name": "Classic64_PumpStation",
+      "source": "ArtSource/Environment/Classic64/Original/Industrial/pump_station.blend",
+      "family": "ToolsEquipment",
+      "model_path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_Visual.prefab",
+      "material_names": [
+        "Classic64_PumpStation_panel_electric",
+        "Classic64_PumpStation_Concrete",
+        "Classic64_PumpStation_Manhole",
+        "Classic64_PumpStation_metal_painted_gray"
+      ],
+      "geometry": [
+        {
+          "source_object": "panel_electric",
+          "exported_object": "Classic64_PumpStation_Part00",
+          "vertices": 36,
+          "polygons": 34,
+          "uv_corners": 136
+        },
+        {
+          "source_object": "panel_electric.001",
+          "exported_object": "Classic64_PumpStation_Part01",
+          "vertices": 36,
+          "polygons": 34,
+          "uv_corners": 136
+        },
+        {
+          "source_object": "panel_electric_handle",
+          "exported_object": "Classic64_PumpStation_Part02",
+          "vertices": 24,
+          "polygons": 20,
+          "uv_corners": 80
+        },
+        {
+          "source_object": "panel_electric_handle.001",
+          "exported_object": "Classic64_PumpStation_Part03",
+          "vertices": 24,
+          "polygons": 20,
+          "uv_corners": 80
+        },
+        {
+          "source_object": "pump_station",
+          "exported_object": "Classic64_PumpStation_Part04",
+          "vertices": 80,
+          "polygons": 55,
+          "uv_corners": 244
+        },
+        {
+          "source_object": "pump_station_electrical_bracket",
+          "exported_object": "Classic64_PumpStation_Part05",
+          "vertices": 64,
+          "polygons": 38,
+          "uv_corners": 152
+        },
+        {
+          "source_object": "pump_station_electrical_pipes",
+          "exported_object": "Classic64_PumpStation_Part06",
+          "vertices": 240,
+          "polygons": 220,
+          "uv_corners": 888
+        }
+      ],
+      "bounds_m": [
+        2.034834623336792,
+        2.14365553855896,
+        2.0
+      ],
+      "original_bounds_m": [
+        2.034834623336792,
+        2.0,
+        2.14365553855896
+      ],
+      "scale_correction": 1.0,
+      "pivot_source": [
+        -0.017417311668395996,
+        0.0,
+        -0.9931304454803467
+      ],
+      "pivot": "GroundCenter"
+    },
+    {
+      "name": "Classic64_Shovel",
+      "source": "ArtSource/Environment/Classic64/Original/Tools/shovel.blend",
+      "family": "ToolsEquipment",
+      "model_path": "Assets/Game/Environment/ToolsEquipment/Classic64_Shovel_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/ToolsEquipment/Classic64_Shovel_Visual.prefab",
+      "material_names": [
+        "Classic64_Shovel_Handle",
+        "Classic64_Shovel_Shovel"
+      ],
+      "geometry": [
+        {
+          "source_object": "Handke",
+          "exported_object": "Classic64_Shovel_Part00",
+          "vertices": 24,
+          "polygons": 17,
+          "uv_corners": 72
+        },
+        {
+          "source_object": "Shovel",
+          "exported_object": "Classic64_Shovel_Part01",
+          "vertices": 38,
+          "polygons": 36,
+          "uv_corners": 144
+        }
+      ],
+      "bounds_m": [
+        0.2560799249453247,
+        1.25,
+        0.0578704483840855
+      ],
+      "original_bounds_m": [
+        2.0,
+        0.45197176933288574,
+        9.762577056884766
+      ],
+      "scale_correction": 0.12803996247266236,
+      "pivot_source": [
+        0.0,
+        0.0,
+        -1.2996344566345215
+      ],
+      "pivot": "GroundCenter"
+    },
+    {
+      "name": "Classic64_Bush01",
+      "source": "ArtSource/Environment/Classic64/Original/Nature/bush_01.blend",
+      "family": "Vegetation",
+      "model_path": "Assets/Game/Environment/Vegetation/Classic64_Bush01_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/Vegetation/Classic64_Bush01_Visual.prefab",
+      "material_names": [
+        "Classic64_Bush01_default"
+      ],
+      "geometry": [
+        {
+          "source_object": "bush_01",
+          "exported_object": "Classic64_Bush01_Part00",
+          "vertices": 412,
+          "polygons": 358,
+          "uv_corners": 1074
+        }
+      ],
+      "bounds_m": [
+        1.2458999156951904,
+        1.1731479167938232,
+        1.153419017791748
+      ],
+      "original_bounds_m": [
+        1.2458999156951904,
+        1.153419017791748,
+        1.1731479167938232
+      ],
+      "scale_correction": 1.0,
+      "pivot_source": [
+        0.03402701020240784,
+        0.02349051833152771,
+        -0.18696799874305725
+      ],
+      "pivot": "GroundCenter"
+    },
+    {
+      "name": "Classic64_Generator",
+      "source": "ArtSource/Environment/Classic64/Original/Units/generator.blend",
+      "family": "AppliancesElectronics",
+      "model_path": "Assets/Game/Environment/AppliancesElectronics/Classic64_Generator_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/AppliancesElectronics/Classic64_Generator_Visual.prefab",
+      "material_names": [
+        "Classic64_Generator_generator"
+      ],
+      "geometry": [
+        {
+          "source_object": "generator",
+          "exported_object": "Classic64_Generator_Part00",
+          "vertices": 16,
+          "polygons": 13,
+          "uv_corners": 52
+        }
+      ],
+      "bounds_m": [
+        2.2860000133514404,
+        1.2177414894104004,
+        1.0667999982833862
+      ],
+      "original_bounds_m": [
+        2.2860000133514404,
+        1.0667999982833862,
+        1.2177414894104004
+      ],
+      "scale_correction": 1.0,
+      "pivot_source": [
+        0.0,
+        -5.960464477539063e-08,
+        -0.6081414222717285
+      ],
+      "pivot": "GroundCenter"
+    },
+    {
+      "name": "Classic64_ExtinguisherCase",
+      "source": "ArtSource/Environment/Classic64/Original/Industrial/fire_extenguisher_case.blend",
+      "family": "InteriorFixtures",
+      "model_path": "Assets/Game/Environment/InteriorFixtures/Classic64_ExtinguisherCase_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/InteriorFixtures/Classic64_ExtinguisherCase_Visual.prefab",
+      "material_names": [
+        "Classic64_ExtinguisherCase_fire_extenguisher_case"
+      ],
+      "geometry": [
+        {
+          "source_object": "fire_extenguisher_case",
+          "exported_object": "Classic64_ExtinguisherCase_Part00",
+          "vertices": 8,
+          "polygons": 6,
+          "uv_corners": 24
+        }
+      ],
+      "bounds_m": [
+        0.2523553669452667,
+        0.5588651895523071,
+        0.20319999754428864
+      ],
+      "original_bounds_m": [
+        0.2523553669452667,
+        0.20319999754428864,
+        0.5588651895523071
+      ],
+      "scale_correction": 1.0,
+      "pivot_source": [
+        0.0,
+        0.0,
+        -0.2540000081062317
+      ],
+      "pivot": "GroundCenter"
+    }
+  ],
+  "materials": [
+    {
+      "name": "Classic64_BookBlack01_Book_Black",
+      "path": "Assets/Game/Environment/HouseholdDecor/Classic64_BookBlack01_Book_Black.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/HouseholdDecor/Classic64_BookBlack01_Book_Black_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Books/Materials/book_black_01.png",
+        "sha256": "5516aa9e6e489b047d85e3ad5eef9a7c86ddd2877eb0bebd52611dbe0d64a758",
+        "width": 64,
+        "height": 64,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": true,
+      "source_material": "Book_Black"
+    },
+    {
+      "name": "Classic64_CardboardBox01_Box_Industry_Food",
+      "path": "Assets/Game/Environment/StorageContainers/Classic64_CardboardBox01_Box_Industry_Food.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/StorageContainers/Classic64_CardboardBox01_Box_Industry_Food_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Boxes/Materials/box_01.png",
+        "sha256": "82f870d7cdd0b61496bbfb68c2ca5da4f50027a09d76dc6641e987c940c8ff47",
+        "width": 194,
+        "height": 190,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": true,
+      "source_material": "Box_Industry_Food"
+    },
+    {
+      "name": "Classic64_CommercialShelf_Commerical_Shelf_Back",
+      "path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Commerical_Shelf_Back.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Commerical_Shelf_Back_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Shelves/Materials/StoreShelfBack.png",
+        "sha256": "d88dd3e7a04c3cc50a7f46256c4ee73a8663b4217c2752c9d6c6c8a9a7d2976d",
+        "width": 208,
+        "height": 64,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": true,
+      "source_material": "Commerical_Shelf_Back"
+    },
+    {
+      "name": "Classic64_CommercialShelf_Commerical_Shelf",
+      "path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Commerical_Shelf.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Commerical_Shelf_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Shelves/Materials/StoreShelfBottom.png",
+        "sha256": "666bfb1043dbc84113da42e6cc207fc2eb185f626437ee02f105a24fbd2e9926",
+        "width": 64,
+        "height": 146,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": true,
+      "source_material": "Commerical_Shelf"
+    },
+    {
+      "name": "Classic64_CommercialShelf_Commerical_Shelf_Bottom",
+      "path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Commerical_Shelf_Bottom.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Commerical_Shelf_Bottom_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Shelves/../Misc/Colors/color_blackdirty.png",
+        "sha256": "adaf466545954f3a61a85e40a1c01ec0fc5c207fe875f939352536de026024f0",
+        "width": 64,
+        "height": 64,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": true,
+      "source_material": "Commerical_Shelf_Bottom"
+    },
+    {
+      "name": "Classic64_CommercialShelf_Color_OffWhite",
+      "path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Color_OffWhite.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Color_OffWhite_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Shelves/../Misc/Colors/Color_OffWhite.png",
+        "sha256": "1f747a6f1138175fb46b8b1fa19a8c7e4a0d84a2e994641530489305766ef20a",
+        "width": 64,
+        "height": 64,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": true,
+      "source_material": "Color_OffWhite"
+    },
+    {
+      "name": "Classic64_SoupCan01_Food_Canned_Soup_1",
+      "path": "Assets/Game/Environment/FoodKitchenware/Classic64_SoupCan01_Food_Canned_Soup_1.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/FoodKitchenware/Classic64_SoupCan01_Food_Canned_Soup_1_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Food/Materials/food_canned_soup_1.png",
+        "sha256": "d0e5aabaf5932aceb5ffd94f06184d0abed05c3c59476331b9778e1035f7f96e",
+        "width": 64,
+        "height": 64,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": true,
+      "source_material": "Food_Canned_Soup_1"
+    },
+    {
+      "name": "Classic64_SodaCan01_Drink_Can_Soda_1",
+      "path": "Assets/Game/Environment/FoodKitchenware/Classic64_SodaCan01_Drink_Can_Soda_1.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/FoodKitchenware/Classic64_SodaCan01_Drink_Can_Soda_1_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Food/Materials/drink_can_soda_1.png",
+        "sha256": "f20cc831c387f728aea6c69b388c1adee7075779d239d7c7c5ad2879813099d2",
+        "width": 64,
+        "height": 64,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": true,
+      "source_material": "Drink_Can_Soda_1"
+    },
+    {
+      "name": "Classic64_JunctionBox_electrical_junctionbox_small",
+      "path": "Assets/Game/Environment/LightingElectrical/Classic64_JunctionBox_electrical_junctionbox_small.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/LightingElectrical/Classic64_JunctionBox_electrical_junctionbox_small_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Electrical/Materials/electrical_junctionbox_small.png",
+        "sha256": "b995c19f72d35c926a7c862fd3f00a1fbf547949e3068066264946b5fb06f22d",
+        "width": 128,
+        "height": 79,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": true,
+      "source_material": "electrical_junctionbox_small"
+    },
+    {
+      "name": "Classic64_PumpStation_panel_electric",
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_panel_electric.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_panel_electric_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Industrial/pump_station.blend#panel_electric.png",
+        "sha256": "00a44ef9e746a6521ddd57c00b7c77b23b31890ad776767178e15c192901ba79",
+        "width": 64,
+        "height": 129,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": true,
+      "source_material": "panel_electric"
+    },
+    {
+      "name": "Classic64_PumpStation_Concrete",
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_Concrete.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_Concrete_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Industrial/pump_station.blend#concrete_5.png",
+        "sha256": "0fe236254d428b03bd4f03d7324df6d35314fcf042261777ca322167cf5243d9",
+        "width": 128,
+        "height": 128,
+        "cutout": true
+      },
+      "cutout": true,
+      "double_sided": true,
+      "source_material": "Concrete"
+    },
+    {
+      "name": "Classic64_PumpStation_Manhole",
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_Manhole.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_Manhole_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Industrial/pump_station.blend#metal_manhole.png",
+        "sha256": "86c56f09440db8a92c8d66afd0672749a1fd9bc2d0762665b964722d7f0291fa",
+        "width": 124,
+        "height": 111,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": true,
+      "source_material": "Manhole"
+    },
+    {
+      "name": "Classic64_PumpStation_metal_painted_gray",
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_metal_painted_gray.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_metal_painted_gray_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Industrial/pump_station.blend#metal_painted_gray.png",
+        "sha256": "78024a4d662665517a1908c010ab4ff9ad20f4dc958de4288a6b517198c27e68",
+        "width": 128,
+        "height": 128,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": true,
+      "source_material": "metal_painted_gray"
+    },
+    {
+      "name": "Classic64_BrownDoor_Door_Shed_A",
+      "path": "Assets/Game/Environment/InteriorFixtures/Classic64_BrownDoor_Door_Shed_A.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/InteriorFixtures/Classic64_BrownDoor_Door_Shed_A_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Doors/Materials/door_double_brown_left.png",
+        "sha256": "2d4ad05cc8929a479b9d1aa238c93defe94e4a329087c036059cd6bfba4ac467",
+        "width": 64,
+        "height": 156,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": true,
+      "source_material": "Door_Shed_A"
+    },
+    {
+      "name": "Classic64_BrownDoor_Door_Shed_B",
+      "path": "Assets/Game/Environment/InteriorFixtures/Classic64_BrownDoor_Door_Shed_B.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/InteriorFixtures/Classic64_BrownDoor_Door_Shed_B_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Doors/door_brown_a.blend#door_double_brown_right.png",
+        "sha256": "3a500ca24dd15dfdbaf24c090e27e6b055bdb91bb0fb7bc9473ebd4388c5b77b",
+        "width": 64,
+        "height": 152,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": true,
+      "source_material": "Door_Shed_B"
+    },
+    {
+      "name": "Classic64_Shovel_Handle",
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_Shovel_Handle.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/ToolsEquipment/Classic64_Shovel_Handle_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Tools/shovel.blend#wooden_handle.png",
+        "sha256": "f18a1f0cd0396c56def83e4a4342d15455f7bfd65c9dc37aca34ed43ecb7550b",
+        "width": 64,
+        "height": 358,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": true,
+      "source_material": "Handle"
+    },
+    {
+      "name": "Classic64_Shovel_Shovel",
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_Shovel_Shovel.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/ToolsEquipment/Classic64_Shovel_Shovel_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Tools/shovel.blend#shovel_rusty.png",
+        "sha256": "b931f053d0f9dc98e331c34c064ae8d1b8a8d34a30761586df57c8844931dd5c",
+        "width": 103,
+        "height": 97,
+        "cutout": true
+      },
+      "cutout": true,
+      "double_sided": true,
+      "source_material": "Shovel"
+    },
+    {
+      "name": "Classic64_Bush01_default",
+      "path": "Assets/Game/Environment/Vegetation/Classic64_Bush01_default.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/Vegetation/Classic64_Bush01_default_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Nature/bush_01.blend#bush_01.png.001",
+        "sha256": "00821cb5cda0327e6040f4f67149612ae9ee1ac14d65059639453a4af4874111",
+        "width": 128,
+        "height": 128,
+        "cutout": true
+      },
+      "cutout": true,
+      "double_sided": true,
+      "source_material": "default"
+    },
+    {
+      "name": "Classic64_Generator_generator",
+      "path": "Assets/Game/Environment/AppliancesElectronics/Classic64_Generator_generator.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/AppliancesElectronics/Classic64_Generator_generator_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Units/generator.blend#generator.png",
+        "sha256": "106dd0244bc085ee99c18556721ac41e4c2aaaf8e39e747c466bf6cf093c3a30",
+        "width": 256,
+        "height": 256,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": true,
+      "source_material": "generator"
+    },
+    {
+      "name": "Classic64_ExtinguisherCase_fire_extenguisher_case",
+      "path": "Assets/Game/Environment/InteriorFixtures/Classic64_ExtinguisherCase_fire_extenguisher_case.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/InteriorFixtures/Classic64_ExtinguisherCase_fire_extenguisher_case_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Industrial/fire_extenguisher_case.blend#fire_extenguisher_case.png",
+        "sha256": "a9b647645cdefb9d8732e9f23a0b9b7d0ba811a337ed60a8fde6c5913c5d63de",
+        "width": 64,
+        "height": 84,
+        "cutout": true
+      },
+      "cutout": true,
+      "double_sided": true,
+      "source_material": "fire_extenguisher_case"
+    },
+    {
+      "name": "Classic64_Concrete01",
+      "path": "Assets/Game/Environment/MasonrySurfaces/Classic64_Concrete01.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/MasonrySurfaces/Classic64_Concrete01_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Concrete/Materials/concrete_01.png",
+        "sha256": "a4c950b7383101e899f40031033353ea775e2cd6cef099a13cc83beb2a8e68e9",
+        "width": 128,
+        "height": 128,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": false,
+      "source_material": "Standalone surface"
+    },
+    {
+      "name": "Classic64_MossyBrick",
+      "path": "Assets/Game/Environment/MasonrySurfaces/Classic64_MossyBrick.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/MasonrySurfaces/Classic64_MossyBrick_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Bricks/Materials/brick_medium_mossy.png",
+        "sha256": "56b3ee992ada5972309f41cd64782664c1b9cb662ebd199f6858e94247f30c9f",
+        "width": 128,
+        "height": 128,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": false,
+      "source_material": "Standalone surface"
+    },
+    {
+      "name": "Classic64_RustyMetal06",
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_RustyMetal06.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/ToolsEquipment/Classic64_RustyMetal06_Albedo.jpg",
+        "source": "ArtSource/Environment/Classic64/Original/Metal/Materials/metal_rusty_06.jpg",
+        "sha256": "60cd88d875ae8844a124de000cd00cccba06a78f5476efe250fbf6a60a6f54b7",
+        "width": 64,
+        "height": 64,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": false,
+      "source_material": "Standalone surface"
+    },
+    {
+      "name": "Classic64_BareWood",
+      "path": "Assets/Game/Environment/InteriorFixtures/Classic64_BareWood.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/InteriorFixtures/Classic64_BareWood_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Wood/Materials/wood_bare.png",
+        "sha256": "f29f96c9135f2f3fb432e54ff282f0b3740ef69ea6872ae8c62777f0091b5217",
+        "width": 64,
+        "height": 64,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": false,
+      "source_material": "Standalone surface"
+    },
+    {
+      "name": "Classic64_DarkCarpet",
+      "path": "Assets/Game/Environment/InteriorFixtures/Classic64_DarkCarpet.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/InteriorFixtures/Classic64_DarkCarpet_Albedo.png",
+        "source": "ArtSource/Environment/Classic64/Original/Floor/Materials/carpet_darkgray_01.png",
+        "sha256": "848d842cd98aab5790bd914b54546a7b814b6e718f6fb3ec4a023227795135d9",
+        "width": 64,
+        "height": 64,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": false,
+      "source_material": "Standalone surface"
+    },
+    {
+      "name": "Classic64_CeilingTiles02",
+      "path": "Assets/Game/Environment/MasonrySurfaces/Classic64_CeilingTiles02.mat",
+      "texture": {
+        "path": "Assets/Game/Environment/MasonrySurfaces/Classic64_CeilingTiles02_Albedo.jpg",
+        "source": "ArtSource/Environment/Classic64/Original/Tiles/Materials/tiles_ceiling_02.jpg",
+        "sha256": "a7afaabeafd45b0dcdb37774ce9652138685051f8f48d8debb124bd7f0777007",
+        "width": 60,
+        "height": 128,
+        "cutout": false
+      },
+      "cutout": false,
+      "double_sided": false,
+      "source_material": "Standalone surface"
+    }
+  ],
+  "surfaces": [
+    {
+      "name": "Classic64_Concrete01",
+      "material_path": "Assets/Game/Environment/MasonrySurfaces/Classic64_Concrete01.mat"
+    },
+    {
+      "name": "Classic64_MossyBrick",
+      "material_path": "Assets/Game/Environment/MasonrySurfaces/Classic64_MossyBrick.mat"
+    },
+    {
+      "name": "Classic64_RustyMetal06",
+      "material_path": "Assets/Game/Environment/ToolsEquipment/Classic64_RustyMetal06.mat"
+    },
+    {
+      "name": "Classic64_BareWood",
+      "material_path": "Assets/Game/Environment/InteriorFixtures/Classic64_BareWood.mat"
+    },
+    {
+      "name": "Classic64_DarkCarpet",
+      "material_path": "Assets/Game/Environment/InteriorFixtures/Classic64_DarkCarpet.mat"
+    },
+    {
+      "name": "Classic64_CeilingTiles02",
+      "material_path": "Assets/Game/Environment/MasonrySurfaces/Classic64_CeilingTiles02.mat"
+    }
+  ],
+  "geometry_scope": "Complete buildings and props; exclude standalone doors, windows and wall/structural pieces; retain surface textures"
+}

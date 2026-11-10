@@ -14,15 +14,22 @@ namespace EnvironmentAuthoring
         [Min(0.01f)] public float Height = 2.8f;
         [Min(0.01f), Tooltip("Full connection thickness about Z=0. Decorative projections do not enlarge this footprint.")]
         public float Thickness = 0.15f;
+        [Tooltip("Extend the solid wall head above ceiling height to conceal the slab edge. Disable for framed/glazed modules that must retain their authored height.")]
+        public bool CoverSlabEdge = true;
         public Vector2 ConnectionDepths => new Vector2(-Thickness / 2, Thickness / 2);
         [Tooltip("Only enable for plain bodies whose length can change without distorting details.")]
         public bool AllowLengthStretch;
         [Tooltip("Clear opening outline in module-local X/Y metres; used by placement previews. Empty for blanks.")]
         public Rect OpeningOutline;
         public Mesh Body;
+        [Tooltip("Optional fixed body slots for mixed frame/glass modules. Two assigned materials override House side finishes; leave empty for ordinary +Z/-Z wall finishes.")]
+        public Material[] BodyMaterials = System.Array.Empty<Material>();
         public bool IsValid(out string reason)
         {
             reason = "";
+            if (BodyMaterials != null && BodyMaterials.Length > 0
+                && (BodyMaterials.Length != 2 || BodyMaterials[0] == null || BodyMaterials[1] == null))
+            { reason = "Fixed body materials require two assigned slots, or an empty array for inherited wall finishes."; return false; }
             if (!PositiveFinite(Width) || !PositiveFinite(Height) || !PositiveFinite(Thickness))
                 reason = "Module dimensions must be finite and greater than zero.";
             else if (!AllowLengthStretch && (!float.IsFinite(OpeningOutline.x) || !float.IsFinite(OpeningOutline.y)

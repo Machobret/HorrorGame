@@ -5,11 +5,13 @@ Shader "Environment Authoring/Horizontal Wall (Prototype)"
         [MainTexture] _BaseMap("Base color", 2D) = "white" {}
         [MainColor] _BaseColor("Tint", Color) = (1,1,1,1)
         [NoScaleOffset] _SurfaceMap("Linear packed surface: normal XY, roughness, height", 2D) = "white" {}
+        [ToggleUI] _UseNormalMap("Use standard normal map instead of packed XY", Float) = 0
+        [Normal][NoScaleOffset] _BumpMap("Normal map", 2D) = "bump" {}
         [Enum(Authored UV,0,Wall projection,1,Box projection,2,Triplanar,3)] _Mapping("Mapping", Float) = 3
         _RepeatMetres("U repeat (metres)", Float) = 2
         _RepeatHeightMetres("V repeat (metres)", Float) = 2.8
         _BlendSharpness("Triplanar blend sharpness", Range(1,16)) = 4
-        _NormalStrength("Normal strength (enable after assigning packed surface)", Range(0,1)) = 0
+        _NormalStrength("Normal strength", Range(0,1)) = 0
         // Height is reserved for future layer blending, not displacement.
     }
     SubShader
@@ -18,13 +20,25 @@ Shader "Environment Authoring/Horizontal Wall (Prototype)"
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl"
         CBUFFER_START(UnityPerMaterial)
             float4 _BaseMap_ST;
             half4 _BaseColor;
             float _Mapping, _RepeatMetres, _RepeatHeightMetres, _NormalStrength, _BlendSharpness;
+            float _UseNormalMap;
         CBUFFER_END
         TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
         TEXTURE2D(_SurfaceMap); SAMPLER(sampler_SurfaceMap);
+        TEXTURE2D(_BumpMap); SAMPLER(sampler_BumpMap);
+        half4 SampleWallSurface(float2 uv)
+        {
+            half4 packed = SAMPLE_TEXTURE2D(_SurfaceMap, sampler_SurfaceMap, uv);
+            // Unity normal-map imports can use platform-specific channel packing.
+            // Decode first; the mapping code expects plain encoded normal XY.
+            UNITY_BRANCH if (_UseNormalMap > .5 && _NormalStrength > 0)
+                packed.rg = UnpackNormal(SAMPLE_TEXTURE2D(_BumpMap, sampler_BumpMap, uv)).xy * .5 + .5;
+            return packed;
+        }
         #include "HorizontalWallMapping.hlsl"
         struct Attributes
         {
@@ -105,15 +119,15 @@ Shader "Environment Authoring/Horizontal Wall (Prototype)"
                 half4 color;
                 half roughness;
                 half3 mappedNormal;
-                // Material-wide branches retain two reads in UV/wall/box modes;
-                // the triplanar experiment performs three reads of each texture.
+                // Packed surfaces need two reads per projection. A separate
+                // standard normal map adds one read when normal strength is nonzero.
                 UNITY_BRANCH if (_Mapping > 2.5)
                     TriplanarSurface(input.positionWS, normalWS, color, roughness, mappedNormal);
                 else
                 {
                     float2 uv = _Mapping > 1.5 ? BoxMappedUV(input.positionWS, normalWS) : input.uv;
                     color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, uv) * _BaseColor;
-                    half4 packed = SAMPLE_TEXTURE2D(_SurfaceMap, sampler_SurfaceMap, uv);
+                    half4 packed = SampleWallSurface(uv);
                     roughness = packed.b;
                     mappedNormal = WallMappedNormal(input.positionWS, normalWS, uv, packed.rg);
                 }

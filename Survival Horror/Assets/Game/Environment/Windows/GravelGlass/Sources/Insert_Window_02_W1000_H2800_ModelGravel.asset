@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e272d2b65ed540ecb8c439b38ceed6c9, type: 3}
+  m_Name: Insert_Window_02_W1000_H2800_ModelGravel
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.WallOpeningInsert
+  Shape: 02
+  Kind: 1
+  SegmentWidth: 1
+  Opening:
+    serializedVersion: 2
+    x: 0.25
+    y: 0.7999999
+    width: 0.5
+    height: 0.90000004
+  Prefab: {fileID: 0}
+  Mesh: {fileID: 2959467708922500008, guid: 9c35d3cfaa7555c986f16b44b22215bd, type: 3}
+  Material: {fileID: 2100000, guid: 8b035daf022789b49bcea3228549566f, type: 2}
+  GlassMaterial: {fileID: 2100000, guid: 6dde4499f5325eb89c5137863597d966, type: 2}
+  MinimumWallThickness: 0
+  MaximumWallThickness: 0

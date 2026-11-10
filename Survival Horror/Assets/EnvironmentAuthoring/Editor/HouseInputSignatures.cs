@@ -17,7 +17,8 @@ namespace EnvironmentAuthoring.Editor
             string finishes = string.Join("|", plan.Data.Cells.Select(room => room == null ? "missing-room"
                 : room.Id + ":" + AssetIdentity(room.WallMaterial)))
                 + string.Join("|", plan.Data.Walls.Select(wall => wall == null ? "missing-wall"
-                    : wall.Id + ":" + AssetIdentity(wall.LeftMaterial) + ":" + AssetIdentity(wall.RightMaterial)));
+                    : wall.Id + ":" + AssetIdentity(wall.LeftMaterial) + ":" + AssetIdentity(wall.RightMaterial)
+                        + string.Concat(wall.MaterialRoleIds.OrderBy(id => id).Select(id => ":role:" + id + ":" + AssetIdentity(wall.RoleMaterial(id))))));
             var effectiveTrims = plan.Data.Walls.Select(w => (Wall: w, Trim: HouseTrimLayout.Resolve(plan, w))).Where(v => v.Trim != null);
             string trims = string.Join("|", effectiveTrims.Select(v => v.Wall.Id
                 + ":" + MeshInput(v.Trim.Mesh) + ":" + AssetIdentity(v.Trim.Material)
@@ -92,10 +93,18 @@ namespace EnvironmentAuthoring.Editor
             foreach (var family in kit.FamilyDefinitions(plan))
             {
                 foreach (var piece in family.Definitions())
+                {
                     inputs.Append(":complete:").Append(data?.KitSignature(piece) ?? KitSignature(piece));
+                    if (appearance && piece != null && piece.BodyMaterials != null && piece.BodyMaterials.Length > 0)
+                        foreach (var material in piece.BodyMaterials) inputs.Append(":body-material:").Append(AssetIdentity(material));
+                }
                 foreach (var opening in family.Openings ?? System.Array.Empty<WallFamily.Opening>())
                     if (opening != null) inputs.Append(":complete-opening:").Append(opening.Kind.ToString()).Append(':').Append(AssetIdentity(opening.Definition));
                 inputs.Append(":family:").Append(AssetIdentity(family)).Append(':').Append(family.Id);
+                if (appearance && family.HasMaterialRoles)
+                    foreach (var role in family.MaterialRoles)
+                        inputs.Append(":role:").Append(role.Id).Append(':').Append(role.Name).Append(':').Append(role.Slot)
+                            .Append(':').Append(AssetIdentity(role.DefaultMaterial));
             }
             // Catalog membership affects the selector only. Render inputs track placed models;
             // wall fitting and collision do not interpret model geometry or finishes.
@@ -109,7 +118,8 @@ namespace EnvironmentAuthoring.Editor
                         .Append(':').Append(insert.Kind.ToString()).Append(':').Append(insert.SegmentWidth.ToString("R", CultureInfo.InvariantCulture))
                         .Append(':').Append(JsonUtility.ToJson(insert.Opening)).Append(':').Append(insert.MinimumWallThickness.ToString("R", CultureInfo.InvariantCulture))
                         .Append(':').Append(insert.MaximumWallThickness.ToString("R", CultureInfo.InvariantCulture))
-                        .Append(':').Append(data?.MeshSignature(insert.Mesh) ?? GeneratedMeshResources.SourceSignature(insert.Mesh)).Append(':').Append(AssetIdentity(insert.Material)).Append(':').Append(AssetIdentity(insert.GlassMaterial)).Append(':').Append(AssetIdentity(insert.Prefab));
+                        .Append(':').Append(data?.MeshSignature(insert.Mesh) ?? GeneratedMeshResources.SourceSignature(insert.Mesh)).Append(':').Append(AssetIdentity(insert.Material)).Append(':').Append(AssetIdentity(insert.GlassMaterial)).Append(':').Append(AssetIdentity(insert.Prefab))
+                        .Append(insert.UseWallMaterialRoles ? ":host-material-roles" : "");
             }
             return inputs.ToString();
         }
@@ -144,6 +154,7 @@ namespace EnvironmentAuthoring.Editor
                 + definition.Height.ToString("R", CultureInfo.InvariantCulture) + ":"
                 + definition.Thickness.ToString("R", CultureInfo.InvariantCulture) + ":"
                 + definition.AllowLengthStretch + ":"
+                + (definition.CoverSlabEdge ? "" : "native-height:")
                 + (data?.MeshSignature(definition.Body) ?? GeneratedMeshResources.SourceSignature(definition.Body)) + ":"
                 + "no-mesh"
                 // Keep the current key layout, including unused source tokens, so

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7667a0150d246d08a2b63cd94fe4053, type: 3}
+  m_Name: GravelGlass_WallFamily
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.WallFamily
+  Id: 01
+  Blank: {fileID: 11400000, guid: 320cb783da66e624c8a0f8da8c62492e, type: 2}
+  BlankVariants:
+  - {fileID: 11400000, guid: 96ded56048b2dec4a938c5fef2286fe9, type: 2}
+  - {fileID: 11400000, guid: 9dc5704c22d2f92459f71980c038c447, type: 2}
+  Openings:
+  - Kind: 0
+    Definition: {fileID: 11400000, guid: 4c883b941abb680489eb98190877b2fe, type: 2}
+  - Kind: 0
+    Definition: {fileID: 11400000, guid: 2027f10c0f9839f4fb3dbeca06f0c782, type: 2}
+  - Kind: 1
+    Definition: {fileID: 11400000, guid: 566d135c50d784c4997258e3ebbf380a, type: 2}
+  - Kind: 1
+    Definition: {fileID: 11400000, guid: f3d6a2f6b2239134aa81db7007daa50f, type: 2}
+  - Kind: 1
+    Definition: {fileID: 11400000, guid: 149b1563be908e1458c3f41c82a23539, type: 2}
+  - Kind: 1
+    Definition: {fileID: 11400000, guid: 43f9883213dad724b866bbe5a7d62adf, type: 2}
+  OpeningFamilies:
+  - {fileID: 11400000, guid: b8b0dda77afcbc04ab85fe39e848f703, type: 2}
+  - {fileID: 11400000, guid: b3c53acbf356b5c449d749055731552b, type: 2}
+  - {fileID: 11400000, guid: 19ffc698eeacb0c47adb9886386afd04, type: 2}
+  - {fileID: 11400000, guid: 7413d5d184d34fd44a2192983e7836c7, type: 2}

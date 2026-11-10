@@ -1,0 +1,344 @@
+{
+  "batch": "Classic64_Pilot",
+  "unity_version": "6000.3.11f1",
+  "completed_utc": "2026-11-10T15:43:45.9980758Z",
+  "review_scene": "Assets/Sandbox/Classic64/Classic64_PilotReview.unity",
+  "render_pipeline": "Assets/AssetStore/HorrorEngine/Rendering/HEUniversalPipelineAsset.asset",
+  "capture_note": "Neutral captures use a temporary plain URP renderer for asset inspection; horror captures use the game's original render pipeline and retro effects.",
+  "prefabs": 11,
+  "materials": 26,
+  "textures": 26,
+  "mesh_parts": 29,
+  "verified": true,
+  "files": [
+    {
+      "path": "Assets/Game/Environment/AppliancesElectronics/Classic64_Generator_generator.mat",
+      "guid": "f03fdd36c3b378c43a9b4b8dd3c6aeb8"
+    },
+    {
+      "path": "Assets/Game/Environment/AppliancesElectronics/Classic64_Generator_generator_Albedo.png",
+      "guid": "fd9f258e3bd4c7e40a8160ff02088b4f"
+    },
+    {
+      "path": "Assets/Game/Environment/AppliancesElectronics/Classic64_Generator_Model.fbx",
+      "guid": "924dda308f872824facd3becb5080e5d"
+    },
+    {
+      "path": "Assets/Game/Environment/AppliancesElectronics/Classic64_Generator_Visual.prefab",
+      "guid": "a45447a8d037ed84791f982997c578e6"
+    },
+    {
+      "path": "Assets/Game/Environment/FoodKitchenware/Classic64_SodaCan01_Drink_Can_Soda_1.mat",
+      "guid": "9fd4b38a1b66dc947bff527827ed2214"
+    },
+    {
+      "path": "Assets/Game/Environment/FoodKitchenware/Classic64_SodaCan01_Drink_Can_Soda_1_Albedo.png",
+      "guid": "d75824bb20c53b04092f0b0f09f8607d"
+    },
+    {
+      "path": "Assets/Game/Environment/FoodKitchenware/Classic64_SodaCan01_Model.fbx",
+      "guid": "a0de3d88ff3303940970bc4b9bf87332"
+    },
+    {
+      "path": "Assets/Game/Environment/FoodKitchenware/Classic64_SodaCan01_Visual.prefab",
+      "guid": "bdea0ca066ae7444bbd317eb393eba5f"
+    },
+    {
+      "path": "Assets/Game/Environment/FoodKitchenware/Classic64_SoupCan01_Food_Canned_Soup_1.mat",
+      "guid": "073a12122c458a249907f8ac40ead2a4"
+    },
+    {
+      "path": "Assets/Game/Environment/FoodKitchenware/Classic64_SoupCan01_Food_Canned_Soup_1_Albedo.png",
+      "guid": "639ea7c9c9e0d1b4fbc64fae93db6731"
+    },
+    {
+      "path": "Assets/Game/Environment/FoodKitchenware/Classic64_SoupCan01_Model.fbx",
+      "guid": "4d4e2ad6e98214b49b058668677dace3"
+    },
+    {
+      "path": "Assets/Game/Environment/FoodKitchenware/Classic64_SoupCan01_Visual.prefab",
+      "guid": "0a79d33a0636cb54cb5b8a0cc240e7e7"
+    },
+    {
+      "path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Color_OffWhite.mat",
+      "guid": "cdb5142ae85edd9489b6db9f75c8e6cd"
+    },
+    {
+      "path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Color_OffWhite_Albedo.png",
+      "guid": "ac55bca2090ae2b43b5c5a0bbb7b7802"
+    },
+    {
+      "path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Commerical_Shelf.mat",
+      "guid": "2ea660fe6f872f940974537a8fd4e6d2"
+    },
+    {
+      "path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Commerical_Shelf_Albedo.png",
+      "guid": "b1aefd62fd6391d44bfb2b7927d7c799"
+    },
+    {
+      "path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Commerical_Shelf_Back.mat",
+      "guid": "7917d60ab3da1a244bda7c41a5c4de89"
+    },
+    {
+      "path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Commerical_Shelf_Back_Albedo.png",
+      "guid": "dedd88d7a497ab94cb0d6883e70b8e5b"
+    },
+    {
+      "path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Commerical_Shelf_Bottom.mat",
+      "guid": "786c66f883fce4a4dbeb62ceaa27a56e"
+    },
+    {
+      "path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Commerical_Shelf_Bottom_Albedo.png",
+      "guid": "acb33d01f06ff074d910892814e0dbda"
+    },
+    {
+      "path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Model.fbx",
+      "guid": "780303312212d084db4ea1e6a841d718"
+    },
+    {
+      "path": "Assets/Game/Environment/Furniture/Classic64_CommercialShelf_Visual.prefab",
+      "guid": "713cdc3999701e542b7f8385117800ee"
+    },
+    {
+      "path": "Assets/Game/Environment/HouseholdDecor/Classic64_BookBlack01_Book_Black.mat",
+      "guid": "e898ed58cd4942d48ab20ec056ee69ee"
+    },
+    {
+      "path": "Assets/Game/Environment/HouseholdDecor/Classic64_BookBlack01_Book_Black_Albedo.png",
+      "guid": "f2c2e8152ffb4f949a11a3c8b25fd28a"
+    },
+    {
+      "path": "Assets/Game/Environment/HouseholdDecor/Classic64_BookBlack01_Model.fbx",
+      "guid": "8338ad448b7d4ca488b4bfecae695339"
+    },
+    {
+      "path": "Assets/Game/Environment/HouseholdDecor/Classic64_BookBlack01_Visual.prefab",
+      "guid": "6cafed5e3ab8c6640b09c7c26452fd7b"
+    },
+    {
+      "path": "Assets/Game/Environment/InteriorFixtures/Classic64_BareWood.mat",
+      "guid": "703c495cc11a4b2498e8c4d530aa84a1"
+    },
+    {
+      "path": "Assets/Game/Environment/InteriorFixtures/Classic64_BareWood_Albedo.png",
+      "guid": "071eed3873d87b74db1ee10436e5d726"
+    },
+    {
+      "path": "Assets/Game/Environment/InteriorFixtures/Classic64_BrownDoor_Door_Shed_A.mat",
+      "guid": "d73682b20d884284cb488e2eb17852d4"
+    },
+    {
+      "path": "Assets/Game/Environment/InteriorFixtures/Classic64_BrownDoor_Door_Shed_A_Albedo.png",
+      "guid": "c0846b93aa35e234abac41a12580b171"
+    },
+    {
+      "path": "Assets/Game/Environment/InteriorFixtures/Classic64_BrownDoor_Door_Shed_B.mat",
+      "guid": "795abafd9a67c1f4786b94927d6bd5e3"
+    },
+    {
+      "path": "Assets/Game/Environment/InteriorFixtures/Classic64_BrownDoor_Door_Shed_B_Albedo.png",
+      "guid": "2bd75c4ea5d38e14cabfe07655205463"
+    },
+    {
+      "path": "Assets/Game/Environment/InteriorFixtures/Classic64_DarkCarpet.mat",
+      "guid": "eed4f375b154da64b9d16347d91b2e17"
+    },
+    {
+      "path": "Assets/Game/Environment/InteriorFixtures/Classic64_DarkCarpet_Albedo.png",
+      "guid": "4c14112aab0b2954ca1e629be5d67a6a"
+    },
+    {
+      "path": "Assets/Game/Environment/InteriorFixtures/Classic64_ExtinguisherCase_fire_extenguisher_case.mat",
+      "guid": "5fe993abf53591b4a9a5bae0b832863d"
+    },
+    {
+      "path": "Assets/Game/Environment/InteriorFixtures/Classic64_ExtinguisherCase_fire_extenguisher_case_Albedo.png",
+      "guid": "0dede879e57724f4cb4e0c427a17288f"
+    },
+    {
+      "path": "Assets/Game/Environment/InteriorFixtures/Classic64_ExtinguisherCase_Model.fbx",
+      "guid": "64a5339759db23f4dad700bf5ea3a4bb"
+    },
+    {
+      "path": "Assets/Game/Environment/InteriorFixtures/Classic64_ExtinguisherCase_Visual.prefab",
+      "guid": "4ced8a03daf20ae489711a5108d769ae"
+    },
+    {
+      "path": "Assets/Game/Environment/LightingElectrical/Classic64_JunctionBox_electrical_junctionbox_small.mat",
+      "guid": "10fa1da282656864182cf48ad2052080"
+    },
+    {
+      "path": "Assets/Game/Environment/LightingElectrical/Classic64_JunctionBox_electrical_junctionbox_small_Albedo.png",
+      "guid": "4452b615cb5cd184ba336c5170092847"
+    },
+    {
+      "path": "Assets/Game/Environment/LightingElectrical/Classic64_JunctionBox_Model.fbx",
+      "guid": "5eac07dfdca43d74db458270de0a8571"
+    },
+    {
+      "path": "Assets/Game/Environment/LightingElectrical/Classic64_JunctionBox_Visual.prefab",
+      "guid": "db1adc7e610a2a34d89df3e5423edd18"
+    },
+    {
+      "path": "Assets/Game/Environment/MasonrySurfaces/Classic64_CeilingTiles02.mat",
+      "guid": "c072db370c272a344a075330d5f8743b"
+    },
+    {
+      "path": "Assets/Game/Environment/MasonrySurfaces/Classic64_CeilingTiles02_Albedo.jpg",
+      "guid": "c062a6bb298d0374c8b07df7c062b603"
+    },
+    {
+      "path": "Assets/Game/Environment/MasonrySurfaces/Classic64_Concrete01.mat",
+      "guid": "210145bf2198ef342a370f0ff7165667"
+    },
+    {
+      "path": "Assets/Game/Environment/MasonrySurfaces/Classic64_Concrete01_Albedo.png",
+      "guid": "0b778e7b69ae78a42a82203794c6f849"
+    },
+    {
+      "path": "Assets/Game/Environment/MasonrySurfaces/Classic64_MossyBrick.mat",
+      "guid": "be3ef1b9cb93f2c4d88faaa530bd8200"
+    },
+    {
+      "path": "Assets/Game/Environment/MasonrySurfaces/Classic64_MossyBrick_Albedo.png",
+      "guid": "bc431a82b74f8be49b5a88eee2949df9"
+    },
+    {
+      "path": "Assets/Game/Environment/StorageContainers/Classic64_CardboardBox01_Box_Industry_Food.mat",
+      "guid": "8766ea5336a2e5c4e819680477d6eb48"
+    },
+    {
+      "path": "Assets/Game/Environment/StorageContainers/Classic64_CardboardBox01_Box_Industry_Food_Albedo.png",
+      "guid": "426e7d9f3f512724c8a1be164be5442b"
+    },
+    {
+      "path": "Assets/Game/Environment/StorageContainers/Classic64_CardboardBox01_Model.fbx",
+      "guid": "524ba5b5d51dd1648a03c2bca80ebeb4"
+    },
+    {
+      "path": "Assets/Game/Environment/StorageContainers/Classic64_CardboardBox01_Visual.prefab",
+      "guid": "85a3986480085354dbf633f69877eccf"
+    },
+    {
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_Concrete.mat",
+      "guid": "fe0233ab87526624ca88d25e190ad2c8"
+    },
+    {
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_Concrete_Albedo.png",
+      "guid": "b871806010b169e44a54c01a1584f1f5"
+    },
+    {
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_Manhole.mat",
+      "guid": "9b2559f019db1da46be88cc0ac938b1f"
+    },
+    {
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_Manhole_Albedo.png",
+      "guid": "b8ffdf35607501844b61d2f2d5bd395a"
+    },
+    {
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_metal_painted_gray.mat",
+      "guid": "724fee8082229a1438034db42d2cf6f8"
+    },
+    {
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_metal_painted_gray_Albedo.png",
+      "guid": "fec9d421a6290d6419295be8380bdaef"
+    },
+    {
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_Model.fbx",
+      "guid": "a2e46f9e098aead49a61e8c16d0f49c6"
+    },
+    {
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_panel_electric.mat",
+      "guid": "8edf543dc5469154799411164a595c50"
+    },
+    {
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_panel_electric_Albedo.png",
+      "guid": "c7e1fcbe2b740054b8b6f586c0c6ef6a"
+    },
+    {
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_PumpStation_Visual.prefab",
+      "guid": "e6076a4697ac7f646b3d1ba6e81fa472"
+    },
+    {
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_RustyMetal06.mat",
+      "guid": "a398498fe877d6f44a86f1f98c6e85e9"
+    },
+    {
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_RustyMetal06_Albedo.jpg",
+      "guid": "60a1db160d2761e4281553cc04da6e6e"
+    },
+    {
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_Shovel_Handle.mat",
+      "guid": "a469b0d4c893922459f8bd123adb209c"
+    },
+    {
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_Shovel_Handle_Albedo.png",
+      "guid": "ec31e2ad284c68c47b23f6145c7f7eae"
+    },
+    {
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_Shovel_Model.fbx",
+      "guid": "62e56c55ebf48794d92f70aae985b420"
+    },
+    {
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_Shovel_Shovel.mat",
+      "guid": "1ce1fed7307ff964798b44dd02ad448d"
+    },
+    {
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_Shovel_Shovel_Albedo.png",
+      "guid": "818fa0120a67a65428cf227eec232174"
+    },
+    {
+      "path": "Assets/Game/Environment/ToolsEquipment/Classic64_Shovel_Visual.prefab",
+      "guid": "f3409ebe9aac71142b3ebef71bde09f5"
+    },
+    {
+      "path": "Assets/Game/Environment/Vegetation/Classic64_Bush01_default.mat",
+      "guid": "163c3794358ab684f8b38d330bcd06a0"
+    },
+    {
+      "path": "Assets/Game/Environment/Vegetation/Classic64_Bush01_default_Albedo.png",
+      "guid": "f92059f1f29e16845a887cfc6898c515"
+    },
+    {
+      "path": "Assets/Game/Environment/Vegetation/Classic64_Bush01_Model.fbx",
+      "guid": "cc28c76cb1fa95b44b068e19e22b07c6"
+    },
+    {
+      "path": "Assets/Game/Environment/Vegetation/Classic64_Bush01_Visual.prefab",
+      "guid": "4a14de4af9772934f90b6c60a6aaddb9"
+    },
+    {
+      "path": "Assets/Sandbox/Classic64/Classic64_PilotReview.unity",
+      "guid": "4a717f51af11ae8419a83e88051df332"
+    },
+    {
+      "path": "Assets/Sandbox/Classic64/Classic64_ReviewFloor.mat",
+      "guid": "f819cf06aed67794d98d1dd06ffb74e2"
+    },
+    {
+      "path": "Assets/Sandbox/Classic64/Classic64_ReviewPlinth.mat",
+      "guid": "684405c13db41eb4b9742f975fb87e1b"
+    }
+  ],
+  "checks": [
+    "Imported bounds match exported dimensions",
+    "All authored mesh parts and UV channels present",
+    "Material slots resolve to textured URP materials",
+    "Original texture sizes preserved; point filtering and mipmaps",
+    "Cutout alpha and coverage mipmaps enabled where required",
+    "Visual prefabs contain no gameplay scripts or colliders",
+    "No runtime dependency on Blender sources",
+    "Existing receipt GUIDs preserved",
+    "Review scene is excluded from enabled build scenes"
+  ],
+  "captures": [
+    "Exports/Reviews/Classic64/Neutral_Overview.png",
+    "Exports/Reviews/Classic64/Neutral_SmallProps.png",
+    "Exports/Reviews/Classic64/Neutral_SurfaceSamples.png",
+    "Exports/Reviews/Classic64/Horror_Overview.png",
+    "Exports/Reviews/Classic64/Horror_SmallProps.png",
+    "Exports/Reviews/Classic64/Horror_SurfaceSamples.png"
+  ],
+  "geometry_scope": "Complete buildings and props; exclude standalone doors, windows and wall/structural pieces; retain surface textures",
+  "captures_note": "Original pilot captures predate geometry exclusion; current review scene removes the door."
+}

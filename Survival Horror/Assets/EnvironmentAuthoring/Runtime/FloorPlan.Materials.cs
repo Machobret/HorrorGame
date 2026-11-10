@@ -38,6 +38,15 @@ namespace EnvironmentAuthoring
             return true;
         }
 
+        public bool TrySetWallRoleMaterials(IEnumerable<string> wallIds, string role, Material material)
+        {
+            var selected = wallIds?.Distinct().Select(id => walls.Find(wall => wall.Id == id)).ToArray();
+            if (string.IsNullOrWhiteSpace(role) || selected == null || selected.Length == 0 || selected.Any(wall => wall == null))
+                return false;
+            foreach (var wall in selected) wall.SetRoleMaterial(role, material);
+            return true;
+        }
+
         // Left/right are relative to the saved start-to-end direction, never the camera.
         // Boundaries give exact ownership; only an incomplete wall needs a point-in-room check.
         public Cell RoomOnSide(Wall wall, bool left)

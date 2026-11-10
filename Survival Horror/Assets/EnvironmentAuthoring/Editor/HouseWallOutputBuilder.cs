@@ -172,7 +172,7 @@ namespace EnvironmentAuthoring.Editor
                 var body=crop ? WallLengthFit.Crop(definition,nativeLength) : definition.Body;
                 float fittedHeight=height ?? definition.Height;
                 float openingHead=span.DoorwayId==null ? 0 : definition.OpeningOutline.yMax;
-                body=WallHeightClip.Fit(body,fittedHeight,fittedHeight+topExtension,openingHead);
+                body=WallHeightClip.Fit(body,fittedHeight,fittedHeight+(definition.CoverSlabEdge?topExtension:0),openingHead);
                 if(!module.TryConfigureGenerated(definition,piece.Length,piece.Fit,body,
                     WallModuleExamples.CreatePart(child,"Body"),
                     span.Insert != null && !span.Insert.UsesPrefab ? WallModuleExamples.CreatePart(child,"Opening insert") : null,out string reason))

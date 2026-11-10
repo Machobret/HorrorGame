@@ -171,12 +171,17 @@ namespace EnvironmentAuthoring.Editor
             // Resolve it once; a reversed module only swaps the two bindings.
             var left = HouseFinishResolution.RenderMaterial(HouseFinishResolution.Wall(plan, wall, true));
             var right = HouseFinishResolution.RenderMaterial(HouseFinishResolution.Wall(plan, wall, false));
+            var family = HouseFinishResolution.Family(plan, wall);
             foreach (var module in root.GetComponentsInChildren<WallModule>(true))
             {
                 var along = plan.transform.InverseTransformDirection(module.transform.right);
                 bool sideAIsLeft = Vector2.Dot(stored, new Vector2(along.x, along.z)) > 0;
-                module.SetSideMaterials(sideAIsLeft ? left : right, sideAIsLeft ? right : left);
-                module.ApplyInsertMaterial();
+                if (family != null && family.HasMaterialRoles)
+                    module.SetRoleMaterials(HouseFinishResolution.RenderMaterial(family.RoleMaterial(wall, 0)),
+                        HouseFinishResolution.RenderMaterial(family.RoleMaterial(wall, 1)));
+                else module.SetSideMaterials(sideAIsLeft ? left : right, sideAIsLeft ? right : left);
+                module.ApplyInsertMaterial(family != null && family.HasMaterialRoles ? family.RoleMaterial(wall, 0) : null,
+                    family != null && family.HasMaterialRoles ? family.RoleMaterial(wall, 1) : null);
             }
         }
 

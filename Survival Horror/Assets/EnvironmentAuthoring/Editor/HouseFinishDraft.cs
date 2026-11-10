@@ -35,6 +35,8 @@ namespace EnvironmentAuthoring.Editor
             => plan.TrySetRoomSurfaceMaterials(ids, ceiling, material);
         internal bool SetWallMaterials(System.Collections.Generic.IEnumerable<string> ids, bool left, Material material)
             => plan.TrySetWallMaterials(ids, left, material);
+        internal bool SetWallRoleMaterials(System.Collections.Generic.IEnumerable<string> ids, string role, Material material)
+            => plan.TrySetWallRoleMaterials(ids, role, material);
         internal bool ApplyRoomFinishToWalls(System.Collections.Generic.IEnumerable<string> roomIds)
         {
             var ids = roomIds?.Distinct().ToArray();

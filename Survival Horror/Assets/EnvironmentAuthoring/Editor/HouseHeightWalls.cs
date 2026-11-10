@@ -117,8 +117,11 @@ namespace EnvironmentAuthoring.Editor
                 var wall = plan.Data.Walls.First(w => w.Id == wallId);
                 var start = plan.Data.GetPosition(wall.StartId); var end = plan.Data.GetPosition(wall.EndId);
                 var sections = data.HeightSections(plan, start, end);
-                return sections.Count == 0 ? 0 : ((start - cover.Node).sqrMagnitude < (end - cover.Node).sqrMagnitude
-                    ? sections[0] : sections[sections.Count - 1]).CoverageTop;
+                if (sections.Count == 0) return 0;
+                var terminal = (start - cover.Node).sqrMagnitude < (end - cover.Node).sqrMagnitude
+                    ? sections[0] : sections[sections.Count - 1];
+                var definition = HouseWallLayout.DefinitionFor(plan.Data, wall, plan.GetComponent<HouseWallBuilder>().Data);
+                return definition != null && !definition.CoverSlabEdge ? terminal.Top : terminal.CoverageTop;
             }
         }
 
@@ -131,7 +134,8 @@ namespace EnvironmentAuthoring.Editor
             // Keep healthy modules and their manual mesh overrides when height fitting
             // produces their original dimensions, regardless of House metadata changes.
             if (pieces.All(piece => piece.sections.All(s =>
-                Mathf.Abs(s.Top - piece.span.Definition.Height) < .0001f && Mathf.Abs(s.CoverageTop - s.Top) < .0001f))) return "";
+                Mathf.Abs(s.Top - piece.span.Definition.Height) < .0001f
+                && (!piece.span.Definition.CoverSlabEdge || Mathf.Abs(s.CoverageTop - s.Top) < .0001f)))) return "";
             string signature = string.Join("|", pieces.SelectMany(piece => piece.sections).Select(s => $"{s.From:R},{s.To:R},0,{s.Top:R},{s.CoverageTop:R}"));
             var definitions = new HashSet<WallModuleDefinition>(pieces.Select(piece => piece.span.Definition));
             foreach (var piece in pieces)

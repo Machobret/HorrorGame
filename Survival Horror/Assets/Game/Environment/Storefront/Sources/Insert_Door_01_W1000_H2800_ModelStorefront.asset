@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e272d2b65ed540ecb8c439b38ceed6c9, type: 3}
+  m_Name: Insert_Door_01_W1000_H2800_ModelStorefront
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.WallOpeningInsert
+  Shape: 01
+  Kind: 0
+  SegmentWidth: 1
+  Opening:
+    serializedVersion: 2
+    x: 0.049999993
+    y: 0
+    width: 0.9
+    height: 2.1
+  Prefab: {fileID: 0}
+  Mesh: {fileID: 2959467708922500008, guid: e9d67a27c3c54b8d8aec2d78d970a930, type: 3}
+  Material: {fileID: 2100000, guid: 01a8527f45be4d84cb1b9b72fda34116, type: 2}
+  GlassMaterial: {fileID: 2100000, guid: 6dde4499f5325eb89c5137863597d966, type: 2}
+  UseWallMaterialRoles: 1
+  MinimumWallThickness: 0
+  MaximumWallThickness: 0

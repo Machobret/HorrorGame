@@ -50,6 +50,26 @@ namespace EnvironmentAuthoring
             [SerializeField] private PhysicalPresence presence;
             [SerializeField] private Material leftMaterial;
             [SerializeField] private Material rightMaterial;
+            [Serializable] private sealed class RoleOverride
+            {
+                public string Role;
+                public Material Material;
+                public RoleOverride Copy() => new RoleOverride { Role = Role, Material = Material };
+            }
+            [SerializeField] private List<RoleOverride> materialRoles = new List<RoleOverride>();
+            public IEnumerable<string> MaterialRoleIds => (materialRoles ?? new List<RoleOverride>())
+                .Where(value => value.Material != null).Select(value => value.Role);
+            public Material RoleMaterial(string role) => materialRoles?.Find(value => value.Role == role)?.Material;
+            internal void SetRoleMaterial(string role, Material material)
+            {
+                materialRoles ??= new List<RoleOverride>();
+                materialRoles.RemoveAll(value => value.Role == role);
+                if (material != null) materialRoles.Add(new RoleOverride { Role = role, Material = material });
+            }
+            internal void CopyMaterialRolesFrom(Wall other)
+                => materialRoles = other.materialRoles?.ConvertAll(value => value.Copy()) ?? new List<RoleOverride>();
+            internal bool SameMaterialRoles(Wall other) => MaterialRoleIds.Union(other.MaterialRoleIds)
+                .All(role => RoleMaterial(role) == other.RoleMaterial(role));
             [SerializeField] private WallFamily family;
             [SerializeField] private WallTrim trim;
             [SerializeField] private bool hasTrim;
@@ -76,6 +96,7 @@ namespace EnvironmentAuthoring
             public IReadOnlyList<Opening> Openings => ReadOnlyModelList<Opening>.For(MutableOpenings, ref openingView);
             internal Wall Copy() => new Wall(id, startId, endId, type, presence)
                 { doorways = MutableOpenings.ConvertAll(d => d.Copy()), leftMaterial = leftMaterial, rightMaterial = rightMaterial,
+                    materialRoles = materialRoles?.ConvertAll(value => value.Copy()) ?? new List<RoleOverride>(),
                     family = family, trim = Trim?.Copy(), hasTrim = hasTrim, trimDisabled = trimDisabled };
 
             public Wall(string startId, string endId)

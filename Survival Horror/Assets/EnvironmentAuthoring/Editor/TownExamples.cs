@@ -18,20 +18,18 @@ namespace EnvironmentAuthoring.Editor
             var found = AssetDatabase.LoadAssetAtPath<T>(path); if (found != null) return found;
             var value = create(); value.name = name; AssetDatabase.CreateAsset(value, path); return value;
         }
-        private static Material Material(string name, Color color)
+        private static Material Material(string name)
         {
-            string path = name switch { "Asphalt" => "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Asphalt/M_Asphalt_PathUV_01.mat", "Cobblestone" => "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Stone/M_Stone_CobblestonePathUV_01.mat", "Concrete" => "Assets/EnvironmentAuthoring/Content/Materials/Examples/M_Concrete_FlatSample_01.mat", "FenceWood" => "Assets/EnvironmentAuthoring/Content/Materials/Examples/M_Wood_FlatSample_01.mat", "Grass" => "Assets/EnvironmentAuthoring/Content/Materials/Examples/M_Grass_FlatSample_01.mat", _ => throw new ArgumentException("Unknown town sample finish: " + name) };
-            Directory.CreateDirectory(Path.GetDirectoryName(path)); AssetDatabase.Refresh();
+            string path = name switch { "Asphalt" => "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Asphalt/M_Asphalt_PathUV_01.mat", "Cobblestone" => "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Stone/M_Stone_CobblestonePathUV_01.mat", "Concrete" => "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Concrete/M_Concrete_Grey_01.mat", "FenceWood" => "Assets/EnvironmentAuthoring/Content/Materials/Examples/M_Wood_SampleUV_01.mat", _ => throw new ArgumentException("Unknown town sample finish: " + name) };
             var found = AssetDatabase.LoadAssetAtPath<Material>(path); if (found != null) return found;
-            var value = new Material(Shader.Find("Universal Render Pipeline/Lit")) { name = Path.GetFileNameWithoutExtension(path), enableInstancing = true };
-            value.SetColor("_BaseColor", color); value.SetFloat("_Smoothness", .05f); AssetDatabase.CreateAsset(value, path); return value;
+            throw new InvalidOperationException("Missing bundled town material: " + path);
         }
         [MenuItem("Assets/Environment/Town/Create sample assets")]
         internal static void EnsureAssets()
         {
             Directory.CreateDirectory(Folder); AssetDatabase.Refresh();
-            var concrete = Material("Concrete", new Color(.54f, .52f, .47f)); var wood = Material("FenceWood", new Color(.38f, .23f, .12f));
-            Material("Asphalt", new Color(.12f, .13f, .14f)); Material("Grass", new Color(.20f, .30f, .17f));
+            var concrete = Material("Concrete"); var wood = Material("FenceWood");
+            Material("Asphalt");
             var post = Asset("PostMesh", () => UnityEngine.Object.Instantiate(HouseBooleanMesh.Box(new Vector3(0, .5f, 0), Vector3.one)));
             var panel = Asset("FenceMesh", () =>
             {
@@ -60,7 +58,7 @@ namespace EnvironmentAuthoring.Editor
             {
                 wall.Model = AssetDatabase.LoadAssetAtPath<TownModule>(Folder + (fence ? "/Fence.asset" : "/Wall.asset"));
                 if (wall.Model != null) wall.Height = wall.Model.Height;
-                if (fence) { wall.PostMesh = AssetDatabase.LoadAssetAtPath<Mesh>(Folder + "/PostMesh.asset"); wall.PostMaterials = new[] { AssetDatabase.LoadAssetAtPath<Material>("Assets/EnvironmentAuthoring/Content/Materials/Examples/M_Wood_FlatSample_01.mat") }; }
+                if (fence) { wall.PostMesh = AssetDatabase.LoadAssetAtPath<Mesh>(Folder + "/PostMesh.asset"); wall.PostMaterials = new[] { AssetDatabase.LoadAssetAtPath<Material>("Assets/EnvironmentAuthoring/Content/Materials/Examples/M_Wood_SampleUV_01.mat") }; }
             }
             if (target is TownSidewalk walk) walk.Material = AssetDatabase.LoadAssetAtPath<Material>("Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Stone/M_Stone_CobblestonePathUV_01.mat");
             if (target is TownRoad road)
@@ -95,7 +93,7 @@ namespace EnvironmentAuthoring.Editor
             var ground = new GameObject("Ground — collider for point placement and settling"); SceneManager.MoveGameObjectToScene(ground, scene);
             var hillOutline = SlabGeometry.Shape(new[] { new Vector2(-1, 5), new Vector2(12, 5), new Vector2(12, 12), new Vector2(-1, 12) });
             ground.AddComponent<MeshFilter>().sharedMesh = Asset("GroundMesh", () => SlabGeometry.Extrude(SlabGeometry.Subtract(SlabGeometry.Shape(new[] { new Vector2(-14, -5), new Vector2(26, -5), new Vector2(26, 66), new Vector2(-14, 66) }), hillOutline), -.3f, -.01f, Vector2.one * 2));
-            ground.AddComponent<MeshRenderer>().sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>("Assets/EnvironmentAuthoring/Content/Materials/Examples/M_Grass_FlatSample_01.mat"); ground.AddComponent<MeshCollider>().sharedMesh = ground.GetComponent<MeshFilter>().sharedMesh;
+            ground.AddComponent<MeshRenderer>().sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>("Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Concrete/M_Concrete_Grey_01.mat"); ground.AddComponent<MeshCollider>().sharedMesh = ground.GetComponent<MeshFilter>().sharedMesh;
             var hill = new GameObject("Fence terrain — raycast support"); SceneManager.MoveGameObjectToScene(hill, scene);
             // Sampled terrain makes the stepped rigid panels visible. It is sample
             // content, not an implicit terrain-conformity feature in the generator.

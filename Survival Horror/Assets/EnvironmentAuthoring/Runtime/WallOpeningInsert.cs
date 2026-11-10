@@ -17,6 +17,8 @@ namespace EnvironmentAuthoring
         public Material Material;
         [Tooltip("Optional glass finish for submesh 1; blank uses Material on both slots. Use a transparent shader for glass.")]
         public Material GlassMaterial;
+        [Tooltip("For a two-slot framed insert, use the host family's named material roles (slots 0/1), including per-wall overrides.")]
+        public bool UseWallMaterialRoles;
 
         internal bool HasValidMaterials => Mesh != null && Material != null
             && (Mesh.subMeshCount == 1 || Mesh.subMeshCount == 2);

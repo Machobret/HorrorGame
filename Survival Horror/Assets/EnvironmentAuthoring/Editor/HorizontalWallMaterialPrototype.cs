@@ -27,8 +27,19 @@ namespace EnvironmentAuthoring.Editor
                 material.SetTextureOffset("_BaseMap", source.GetTextureOffset("_BaseMap"));
                 if (source.HasProperty("_BaseColor")) material.SetColor("_BaseColor", source.GetColor("_BaseColor"));
             }
-            // Existing imported normals are not packed RGBA surface data. Leave
-            // the neutral default rather than reinterpret and corrupt their channels.
+            if (source != null && source.HasProperty("_SurfaceMap"))
+            {
+                material.SetTexture("_SurfaceMap", source.GetTexture("_SurfaceMap"));
+                if (source.HasProperty("_NormalStrength")) material.SetFloat("_NormalStrength", source.GetFloat("_NormalStrength"));
+            }
+            if (source != null && source.HasProperty("_BumpMap") && source.GetTexture("_BumpMap") != null)
+            {
+                material.SetTexture("_BumpMap", source.GetTexture("_BumpMap"));
+                bool standard = !source.HasProperty("_UseNormalMap") || source.GetFloat("_UseNormalMap") > .5f;
+                material.SetFloat("_UseNormalMap", standard ? 1 : 0);
+                if (standard) material.SetFloat("_NormalStrength", source.HasProperty("_NormalStrength")
+                    ? source.GetFloat("_NormalStrength") : source.HasProperty("_BumpScale") ? Mathf.Clamp01(source.GetFloat("_BumpScale")) : 1);
+            }
             return material;
         }
     }

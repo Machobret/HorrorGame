@@ -22,7 +22,7 @@ namespace EnvironmentAuthoring.Editor
             if (AssetDatabase.LoadAssetAtPath<WallFamily>(CompleteFamilyPath) == null) WallFamilyImporter.ImportAll(CompleteSources);
             foreach (string name in new[] { "Interior", "Exterior" })
                 if (AssetDatabase.LoadAssetAtPath<Material>(FinishPath(name)) == null)
-                    Projected(name, name == "Interior" ? "Assets/EnvironmentAuthoring/Content/Materials/Examples/M_Plaster_SampleUV_01.mat" : "Assets/EnvironmentAuthoring/Content/Materials/Examples/M_Brick_SampleUV_01.mat");
+                    throw new InvalidOperationException("Missing bundled example material: " + FinishPath(name));
             AssetDatabase.SaveAssets();
             return AssetDatabase.FindAssets("t:WallFamily", new[] { CompleteFolder }).Select(AssetDatabase.GUIDToAssetPath)
                 .Select(AssetDatabase.LoadAssetAtPath<WallFamily>).OrderBy(f => f.Id).ToArray();
@@ -30,15 +30,6 @@ namespace EnvironmentAuthoring.Editor
 
         public static WallOpeningInsert[] CompleteModels() => AssetDatabase.FindAssets("t:WallOpeningInsert", new[] { CompleteFolder })
             .Select(AssetDatabase.GUIDToAssetPath).Select(AssetDatabase.LoadAssetAtPath<WallOpeningInsert>).ToArray();
-
-        private static void Projected(string name, string sourcePath)
-        {
-            var material = HorizontalWallMaterialPrototype.CopyBaseColor(AssetDatabase.LoadAssetAtPath<Material>(sourcePath));
-            material.SetTextureScale("_BaseMap", Vector2.one); material.SetFloat("_RepeatMetres", 2);
-            material.SetFloat("_RepeatHeightMetres", 2.8f);
-            string path = FinishPath(name); System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path)); AssetDatabase.Refresh();
-            material.name = System.IO.Path.GetFileNameWithoutExtension(path); AssetDatabase.CreateAsset(material, path);
-        }
 
         public static void UpdateReferenceScene()
         {
@@ -104,7 +95,7 @@ namespace EnvironmentAuthoring.Editor
                             var filter = WallModuleExamples.CreatePart(item, "Trim repeat " + (repeat + 1));
                             filter.transform.localPosition = Vector3.right * repeat * mesh.bounds.size.x;
                             filter.sharedMesh = mesh;
-                            filter.GetComponent<MeshRenderer>().sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>("Assets/EnvironmentAuthoring/Content/Materials/Examples/M_Plaster_SampleBox_01.mat");
+                            filter.GetComponent<MeshRenderer>().sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>("Assets/EnvironmentAuthoring/Content/Materials/Examples/M_Plaster_SampleWall_01.mat");
                         }
                         Label(item, family.name + " / " + name + "\n"
                             + $"{mesh.bounds.size.x:0.##} m repeat / {mesh.bounds.size.y:0.##} m height / {mesh.bounds.size.z:0.##} m projection");
@@ -130,7 +121,7 @@ namespace EnvironmentAuthoring.Editor
                 {
                     var mesh = profiles[index % profiles.Length];
                     plan.Data.Walls[index].SetTrim(new WallTrim { Mesh = mesh,
-                        Material = AssetDatabase.LoadAssetAtPath<Material>("Assets/EnvironmentAuthoring/Content/Materials/Examples/M_Plaster_SampleBox_01.mat"),
+                        Material = AssetDatabase.LoadAssetAtPath<Material>("Assets/EnvironmentAuthoring/Content/Materials/Examples/M_Plaster_SampleWall_01.mat"),
                         Height = mesh.bounds.size.y, Depth = mesh.bounds.size.z, Offset = 0 });
                 }
                 var building = HouseBuilding.For(plan);
