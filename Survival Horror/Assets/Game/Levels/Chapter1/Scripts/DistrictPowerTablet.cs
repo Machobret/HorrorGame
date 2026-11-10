@@ -16,6 +16,8 @@ namespace HorrorGame.Chapter1
         public MapData DistrictMapData;
         [Tooltip("The editable map-style circuit layout used when the panel is created at runtime.")]
         public PowerPanelLayout PanelLayout;
+        [Tooltip("Circuit diagram/key item required before this map exposes controllable circuit dots.")]
+        public ItemData CircuitItem;
         public KeyCode CloseKey = KeyCode.Escape;
         public bool IsOpen { get; private set; }
 
@@ -23,11 +25,21 @@ namespace HorrorGame.Chapter1
         {
             Interactive interactive = GetComponent<Interactive>();
             if (interactive != null) interactive.OnInteract.AddListener(_ => Open());
+            EnsureMapCircuitOverlay();
         }
 
         private void OnMouseDown() => Open();
         public void Open()
         {
+            if (DistrictMapData != null && (GameManager.Instance == null || !GameManager.Instance.Inventory.Maps.Contains(DistrictMapData)))
+            {
+                Debug.Log("The district map has not been found yet.", this);
+                return;
+            }
+            // The normal UIMap is the sole map screen. The component created in Awake
+            // adds circuit dots only after CircuitItem has been found.
+            PowerMapCircuitPanel mapOverlay = EnsureMapCircuitOverlay();
+            if (mapOverlay != null) { mapOverlay.Open(Grid); return; }
             if (PanelPrefab != null && PanelPrefab.TryGetComponent(out PowerMapUI isolatedMap))
             {
                 PowerMapUI instance = Instantiate(isolatedMap);
@@ -60,6 +72,26 @@ namespace HorrorGame.Chapter1
             }
             Panel.Open(Grid);
             IsOpen = false;
+        }
+
+        private PowerMapCircuitPanel EnsureMapCircuitOverlay()
+        {
+            if (DistrictMapData == null) return null;
+            foreach (PowerMapCircuitPanel existing in FindObjectsByType<PowerMapCircuitPanel>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            {
+                if (existing.MapData != DistrictMapData) continue;
+                existing.Grid = Grid; existing.Layout = PanelLayout; existing.CircuitItem = CircuitItem; existing.DisplayInPlayerMap = true;
+                return existing;
+            }
+
+            GameObject overlayObject = new GameObject("Map Circuit Overlay — " + DistrictMapData.name);
+            PowerMapCircuitPanel overlay = overlayObject.AddComponent<PowerMapCircuitPanel>();
+            overlay.MapData = DistrictMapData;
+            overlay.Layout = PanelLayout;
+            overlay.Grid = Grid;
+            overlay.CircuitItem = CircuitItem;
+            overlay.DisplayInPlayerMap = true;
+            return overlay;
         }
         public void Close() { if (Panel != null) Panel.Close(); IsOpen = false; }
 

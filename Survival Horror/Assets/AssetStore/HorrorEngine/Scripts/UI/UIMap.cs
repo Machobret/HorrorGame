@@ -28,6 +28,7 @@ namespace HorrorEngine
         private UIContext m_UIContext;
         private Image m_CrosshairVertical;
         private Image m_CrosshairHorizontal;
+        public MapData CurrentMap => m_CurrentMap;
 
         // --------------------------------------------------------------------
 
