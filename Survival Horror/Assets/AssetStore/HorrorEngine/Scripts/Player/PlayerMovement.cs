@@ -292,6 +292,23 @@ namespace HorrorEngine
         public void AddConstrain(MovementConstrain constrain) { Constrain |= constrain; }
         public void RemoveConstrain(MovementConstrain constrain) { Constrain &= ~constrain; }
 
+        /// <summary>
+        /// Moves an actor through the same CharacterController and intended-motion path
+        /// used by normal locomotion. Scripted sequences use this while player input is
+        /// locked so animation speed setters still receive real movement data.
+        /// </summary>
+        public void MoveCinematic(Vector3 displacement)
+        {
+            IntendedMovement = displacement;
+            if (m_CharacterCtrl)
+                m_CharacterCtrl.Move(displacement);
+        }
+
+        public void StopCinematicMovement()
+        {
+            IntendedMovement = Vector3.zero;
+        }
+
 
         // --------------------------------------------------------------------
 

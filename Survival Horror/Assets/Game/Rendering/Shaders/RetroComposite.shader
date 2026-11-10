@@ -38,6 +38,8 @@ Shader "Hidden/HorrorGame/Retro Composite"
 
             TEXTURE2D_X(_BlitTexture);
 
+            float _RetroCompositeEditorEnabled;
+
             CBUFFER_START(UnityPerMaterial)
                 float4 _VirtualResolution;
                 float _ColorDepth;
@@ -87,6 +89,10 @@ Shader "Hidden/HorrorGame/Retro Composite"
 
             half4 Frag(Varyings input) : SV_Target
             {
+                // The editor controls this global. Runtime initialization always forces it on for Play mode and builds.
+                if (_RetroCompositeEditorEnabled < 0.5)
+                    return SAMPLE_TEXTURE2D_X(_BlitTexture, sampler_PointClamp, input.uv);
+
                 float2 virtualResolution = max(_VirtualResolution.xy, 1.0);
                 float frame = floor(_Time.y * 12.0);
                 float2 centeredUv = input.uv * 2.0 - 1.0;

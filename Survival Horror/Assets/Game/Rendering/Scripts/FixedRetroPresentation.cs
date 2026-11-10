@@ -18,6 +18,8 @@ namespace HorrorGame.General
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Create()
         {
+            // Player builds and Play mode must never inherit the editor preview toggle.
+            Shader.SetGlobalFloat("_RetroCompositeEditorEnabled", 1f);
             if (!Enabled) return;
             if (FindFirstObjectByType<FixedRetroPresentation>() != null) return;
 

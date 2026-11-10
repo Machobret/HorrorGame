@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1ecb7a2e09fa034e9ac4d93f68b08d0, type: 3}
+  m_Name: CigaretteLadderCombination
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorGame.Chapter1.CigaretteLadderInventoryCombination
+  Item1: {fileID: 11400000, guid: 3c3a0ab1a839df54d83debdebdc3bf0c, type: 2}
+  Item2: {fileID: 11400000, guid: be5665d8ebb7f0642b07d2060e0437d8, type: 2}

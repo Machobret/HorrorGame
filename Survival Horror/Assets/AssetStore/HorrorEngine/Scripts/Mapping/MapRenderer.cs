@@ -35,6 +35,12 @@ namespace HorrorEngine
         private RenderTexture m_RenderTexture;
         private Material m_RuntimeGridMaterial;
         private Material m_RuntimeMarkerMaterial;
+        private Material m_RuntimeContourMaterial;
+
+        [Header("Contour readability")]
+        [Tooltip("Renders room borders as high-contrast white lines in the player map.")]
+        [SerializeField] private bool m_UseBoldWhiteContours = true;
+        [SerializeField, Min(1f)] private float m_ContourThicknessMultiplier = 2.25f;
         
         public RenderTexture RenderTexture => m_RenderTexture;
         public Vector2 TargetViewportPosition
@@ -93,6 +99,7 @@ namespace HorrorEngine
             Texture gridTexture = GridMaterial != null ? GridMaterial.mainTexture : null;
             m_RuntimeGridMaterial = CreateMapMaterial(unlit, new Color(.42f, .42f, .42f, .8f), gridTexture, true);
             m_RuntimeMarkerMaterial = CreateMapMaterial(unlit, Color.white, m_MapPlayer.GetComponentInChildren<Renderer>(true).sharedMaterial.mainTexture, true);
+            m_RuntimeContourMaterial = CreateMapMaterial(unlit, Color.white, Texture2D.whiteTexture, true);
 
             GridMaterial = m_RuntimeGridMaterial;
             foreach (var renderer in m_MapPlayer.GetComponentsInChildren<Renderer>(true))
@@ -132,6 +139,7 @@ namespace HorrorEngine
         {
             Destroy(m_RuntimeGridMaterial);
             Destroy(m_RuntimeMarkerMaterial);
+            Destroy(m_RuntimeContourMaterial);
         }
 
         // --------------------------------------------------------------------
@@ -249,6 +257,7 @@ namespace HorrorEngine
 
             var walls = WallsSP.Create(room.Name, m_MapContent, layer, room.Shapes, roomTRS);
             walls.transform.localPosition = new Vector3(walls.transform.localPosition.x, m_WallsHeight, walls.transform.localPosition.z);
+            ApplyContourStyle(walls);
 
             // Draw Details
             int index = 0;
@@ -288,6 +297,18 @@ namespace HorrorEngine
             }
 
             return true;
+        }
+
+        private void ApplyContourStyle(GameObject walls)
+        {
+            if (!m_UseBoldWhiteContours || walls == null || m_RuntimeContourMaterial == null) return;
+            foreach (LineRenderer line in walls.GetComponentsInChildren<LineRenderer>(true))
+            {
+                line.sharedMaterial = m_RuntimeContourMaterial;
+                line.widthMultiplier *= m_ContourThicknessMultiplier;
+                line.numCapVertices = Mathf.Max(line.numCapVertices, 4);
+                line.numCornerVertices = Mathf.Max(line.numCornerVertices, 4);
+            }
         }
 
         // --------------------------------------------------------------------
