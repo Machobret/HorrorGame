@@ -38,13 +38,45 @@ namespace EnvironmentAuthoring.Editor
             Vector3.Distance(attachment.transform.position, plan.transform.TransformPoint(Position(span))) < .00001f
             && Quaternion.Angle(attachment.transform.rotation, plan.transform.rotation * Rotation(span)) < .001f;
 
+        internal static bool RefreshMaterials(HouseDoorAttachment attachment, Material frame, Material glass, bool apply)
+        {
+            var preset = attachment.Preset;
+            if (preset == null || !preset.UseWallMaterialRoles || attachment.Instance == null) return false;
+            var renderer = attachment.Instance.transform.Find("Visual")?.GetComponent<MeshRenderer>();
+            var source = attachment.SourcePrefab?.transform.Find("Visual")?.GetComponent<MeshRenderer>();
+            if (renderer == null || source == null) return false;
+            var current = renderer.sharedMaterials;
+            var previous = attachment.InheritedMaterials;
+            if (previous == null || previous.Length != current.Length) previous = source.sharedMaterials;
+            if (current.Length != 2 || previous.Length != 2) return false;
+            var desired = new[] { frame != null ? frame : preset.Material, glass != null ? glass : preset.MaterialFor(1) };
+            bool changed = false;
+            for (int i = 0; i < current.Length; i++)
+                if (current[i] == previous[i] && current[i] != desired[i])
+                { current[i] = desired[i]; changed = true; }
+            if (!changed || !apply) return changed;
+            Undo.RecordObject(renderer, "Inherit door finishes");
+            Undo.RecordObject(attachment, "Inherit door finishes");
+            renderer.sharedMaterials = current;
+            attachment.InheritedMaterials = desired;
+            PrefabUtility.RecordPrefabInstancePropertyModifications(renderer);
+            EditorUtility.SetDirty(renderer); EditorUtility.SetDirty(attachment);
+            return true;
+        }
+
+        private static bool RefreshMaterials(HouseDoorAttachment attachment, HousePlan plan, HouseWallLayout.Span span, bool apply)
+        {
+            var wall = plan.Data.Walls.First(w => w.Id == span.WallId);
+            return RefreshMaterials(attachment, HouseFinishResolution.Role(plan, wall, 0), HouseFinishResolution.Role(plan, wall, 1), apply);
+        }
+
         internal static bool IsCurrent(HousePlan plan, HouseGenerationData data)
         {
             var placed = plan.GetComponentsInChildren<HouseDoorAttachment>(true).Where(a => a.Owner == plan).ToArray();
             var doors = Doors(plan, data, placed.Length != 0);
             if (doors == null) return true; // The existing geometry validator owns invalid-source diagnostics.
             return doors.Length == placed.Length && doors.All(span => placed.Count(a => a.OpeningId == span.DoorwayId
-                && Matches(a, span) && PoseCurrent(a, plan, span)) == 1);
+                && Matches(a, span) && PoseCurrent(a, plan, span) && !RefreshMaterials(a, plan, span, false)) == 1);
         }
 
         internal static void Build(HousePlan plan, HouseGenerationData data)
@@ -61,6 +93,7 @@ namespace EnvironmentAuthoring.Editor
                     placed.Remove(attachment);
                     // A manually deleted prefab stays deleted. Undo or a different preset restores it;
                     // geometry rebuilds must not resurrect ordinary scene content.
+                    if (RefreshMaterials(attachment, plan, span, true)) data.HasOutputChanges = true;
                     if (PoseCurrent(attachment, plan, span)) continue;
                 }
                 else
@@ -79,6 +112,7 @@ namespace EnvironmentAuthoring.Editor
                         selection.hideFlags |= HideFlags.HideInInspector;
                     }
                     EditorUtility.SetDirty(attachment);
+                    RefreshMaterials(attachment, plan, span, true);
                 }
                 // Content is not a generated-mesh root. Record only the anchor pose;
                 // ordinary wall edits must not snapshot every gameplay script/override.

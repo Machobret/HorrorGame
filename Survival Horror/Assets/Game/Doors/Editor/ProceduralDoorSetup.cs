@@ -38,18 +38,7 @@ namespace Game.Doors.Editor
                 // A rerun must never replace a user's custom prefab assignment or edit its contents.
                 if (preset.Prefab != null) continue;
                 string path = Prefabs + "/" + preset.name.Replace(' ', '_') + ".prefab";
-                var variant = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-                if (variant == null)
-                {
-                    var instance = (GameObject)PrefabUtility.InstantiatePrefab(basePrefab);
-                    try
-                    {
-                        instance.name = preset.name.Replace(' ', '_');
-                        SetVisual(instance.transform.Find("Visual"), preset);
-                        variant = PrefabUtility.SaveAsPrefabAsset(instance, path);
-                    }
-                    finally { Object.DestroyImmediate(instance); }
-                }
+                var variant = EnsureVariant(preset, path);
                 Undo.RecordObject(preset, "Connect procedural door prefab");
                 preset.Prefab = variant;
                 EditorUtility.SetDirty(preset);
@@ -57,6 +46,23 @@ namespace Game.Doors.Editor
             Undo.CollapseUndoOperations(group);
             AssetDatabase.SaveAssets();
             Debug.Log("PROCEDURAL_DOORS_INSTALLED: base + 16 native variants; existing family presets retained.");
+        }
+
+        public static GameObject EnsureVariant(WallOpeningInsert preset, string path)
+        {
+            var existing = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            if (existing != null) return existing;
+            var basePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(BasePath);
+            Require(basePrefab != null, "Set up procedural door prefabs before adding custom door variants.");
+            Require(preset != null && preset.Mesh != null && preset.Material != null, "A door visual needs its mesh and frame material.");
+            var instance = (GameObject)PrefabUtility.InstantiatePrefab(basePrefab);
+            try
+            {
+                instance.name = System.IO.Path.GetFileNameWithoutExtension(path);
+                SetVisual(instance.transform.Find("Visual"), preset);
+                return PrefabUtility.SaveAsPrefabAsset(instance, path);
+            }
+            finally { Object.DestroyImmediate(instance); }
         }
 
         private static GameObject CreateBase(WallOpeningInsert visualPreset)
@@ -103,7 +109,8 @@ namespace Game.Doors.Editor
         {
             visual.localPosition = new Vector3(-preset.Opening.center.x, -preset.Opening.yMin, 0);
             visual.GetComponent<MeshFilter>().sharedMesh = preset.Mesh;
-            visual.GetComponent<MeshRenderer>().sharedMaterial = preset.Material;
+            visual.GetComponent<MeshRenderer>().sharedMaterials = Enumerable.Range(0, preset.Mesh.subMeshCount)
+                .Select(slot => slot == 1 && preset.GlassMaterial != null ? preset.GlassMaterial : preset.Material).ToArray();
             if (!PrefabUtility.IsPartOfPrefabInstance(visual)) return;
             PrefabUtility.RecordPrefabInstancePropertyModifications(visual);
             PrefabUtility.RecordPrefabInstancePropertyModifications(visual.GetComponent<MeshFilter>());

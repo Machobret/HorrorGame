@@ -8,6 +8,8 @@ The sixteen `Door_Interior_*` / `Door_Exterior_*` prefabs are native variants of
 
 For a custom door, create a variant of `Door_Base`, replace its `Visual`, and assign that prefab to a compatible `WallOpeningInsert`. Keep the prefab root at doorway centre/floor height, with +Z facing the module front and unit scale. The base includes an unlocked transition door, not an animated swinging-leaf controller; assign the usual Door Animation or add custom gameplay in a variant if needed. The level still needs Horror Engine's normal shared `DoorTransitionController`, UI and pause setup. Existing scenes and game-wide settings are not modified by this integration.
 
+`Door_Glass` is the storefront variant, connected through `Glass_DoorFamily`. Its Visual has frame and glass slots. The storefront import creates it only if missing and preserves custom preset assignments. For presets with `UseWallMaterialRoles`, a two-slot `Visual` renderer inherits host finishes; explicit instance material overrides survive subsequent host finish changes. The `PrefabDoorMaterialTests` fixture checks inheritance, override preservation and serialization.
+
 `Tools > Game > Doors > Set up procedural door prefabs` creates missing base/variant assets and connects empty bundled preset assignments. It preserves existing prefabs and custom assignments on rerun. Run it again after replacing bundled presets with a toolkit update.
 
 ## Custom door setup

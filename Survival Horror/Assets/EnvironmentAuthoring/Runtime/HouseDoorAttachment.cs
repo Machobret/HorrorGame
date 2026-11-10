@@ -11,5 +11,7 @@ namespace EnvironmentAuthoring
         [HideInInspector] public WallOpeningInsert Preset;
         [HideInInspector] public GameObject SourcePrefab;
         [HideInInspector] public GameObject Instance;
+        // Last inherited finishes distinguish host updates from ordinary prefab overrides.
+        [HideInInspector] public Material[] InheritedMaterials = System.Array.Empty<Material>();
     }
 }
