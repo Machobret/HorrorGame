@@ -11,7 +11,9 @@ namespace HorrorGame.Lighting
         internal static bool IsLit(Material material)
         {
             string name = material.shader.name;
-            return name == "Standard" || name.StartsWith("Standard (") ||
+            // Custom URP lit shaders already apply scene lighting, including ambient light.
+            return material.GetTag("UniversalMaterialType", false) == "Lit" ||
+                name == "Standard" || name.StartsWith("Standard (") ||
                 name.StartsWith("Universal Render Pipeline/") && !name.Contains("Unlit") ||
                 name.Contains("Vertex Lit") || name.Contains("VertexLit") ||
                 name.Contains("Tri-Planar");
