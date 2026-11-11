@@ -159,16 +159,22 @@ namespace HorrorEngine
 
         public void GetTransformInRoom(Transform transform, out Vector3 roomPos, out Quaternion roomRotation)
         {
+            TryGetTransformInRoom(transform, out roomPos, out roomRotation);
+        }
+
+        /// <summary>Converts a world transform into this controller's map space.</summary>
+        public bool TryGetTransformInRoom(Transform transform, out Vector3 roomPos, out Quaternion roomRotation)
+        {
             MapRoom room = GetContainingRoom(transform.position);
             if (room)
             {
                 TransformToRoom(transform, room, out roomPos, out roomRotation);
+                return true;
             }
-            else
-            {
-                roomPos = Vector3.zero;
-                roomRotation = Quaternion.identity;
-            }
+
+            roomPos = Vector3.zero;
+            roomRotation = Quaternion.identity;
+            return false;
         }
 
         // --------------------------------------------------------------------

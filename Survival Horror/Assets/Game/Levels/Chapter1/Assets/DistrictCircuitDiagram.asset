@@ -3,61 +3,20 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a543205dd590b764295581a5ae2883d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d536aeb0b714277bcf2132b3651ef58, type: 3}
   m_Name: DistrictCircuitDiagram
-  m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.DocumentData
-  UniqueId: 364da761-3301-4bbd-9e7c-8d1764d4c6f2
-  Name:
-    IsLocalized: 0
-    Unlocalized: District Circuit Diagram
-    Localized:
-      m_TableReference: {m_TableCollectionName: }
-      m_TableEntryReference: {m_KeyId: 0, m_Key: , m_FallbackState: 0, m_WaitForCompletion: 0}
-      m_LocalVariables: []
-  Image:
-    IsLocalized: 0
-    Unlocalized: {fileID: 0}
-    Localized:
-      m_TableReference: {m_TableCollectionName: }
-      m_TableEntryReference: {m_KeyId: 0, m_Key: , m_FallbackState: 0, m_WaitForCompletion: 0}
-      m_LocalVariables: []
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorGame.Chapter1.CircuitDiagramUnlockItemData
+  UniqueId: 38d5d478-3f79-4a68-9fdf-b6a692f4fcbf
+  Image: {fileID: 0}
+  ExamineModel: {fileID: 0}
+  Name: {IsLocalized: 0, Unlocalized: District Circuit Diagram, Localized: {m_TableReference: {m_TableCollectionName: }, m_TableEntryReference: {m_KeyId: 0, m_Key: , m_FallbackState: 0, m_WaitForCompletion: 0}, m_LocalVariables: []}}
+  Description: {IsLocalized: 0, Unlocalized: A marked district circuit diagram., Localized: {m_TableReference: {m_TableCollectionName: }, m_TableEntryReference: {m_KeyId: 0, m_Key: , m_FallbackState: 0, m_WaitForCompletion: 0}, m_LocalVariables: []}}
+  InventoryAction: 0
+  Flags: 0
+  Tags: []
+  DropPrefab: {fileID: 0}
+  MaxStackSize: 0
+  m_OnUseAudioClip: {fileID: 0}
   Name_DEPRECATED: 
-  Image_DEPRECATED: {fileID: 0}
-  ShowImageOnRead: 0
-  ShowPageCount: 0
-  Pages:
-  - Text:
-      IsLocalized: 0
-      Unlocalized: District power distribution diagram. Circuit control points are now available on the district map.
-      Localized:
-        m_TableReference: {m_TableCollectionName: }
-        m_TableEntryReference: {m_KeyId: 0, m_Key: , m_FallbackState: 0, m_WaitForCompletion: 0}
-        m_LocalVariables: []
-    Image:
-      IsLocalized: 0
-      Unlocalized: {fileID: 0}
-      Localized:
-        m_TableReference: {m_TableCollectionName: }
-        m_TableEntryReference: {m_KeyId: 0, m_Key: , m_FallbackState: 0, m_WaitForCompletion: 0}
-        m_LocalVariables: []
-    Caption:
-      IsLocalized: 0
-      Unlocalized: 
-      Localized:
-        m_TableReference: {m_TableCollectionName: }
-        m_TableEntryReference: {m_KeyId: 0, m_Key: , m_FallbackState: 0, m_WaitForCompletion: 0}
-        m_LocalVariables: []
-    Text_DEPRECATED: 
-    Image_DEPRECATED: {fileID: 0}
-    Caption_DEPRECATED: 
-    ChangeImageColor: 0
-    ImageColor: {r: 1, g: 1, b: 1, a: 1}
-  references:
-    version: 2
-    RefIds: []
+  Description_DEPRECATED: 
+  CircuitDiagram: {fileID: 11400000, guid: d7f4139e04a24a18a0061ceafba2f650, type: 2}

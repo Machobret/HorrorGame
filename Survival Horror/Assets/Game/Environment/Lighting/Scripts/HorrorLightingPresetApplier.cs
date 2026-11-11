@@ -23,10 +23,7 @@ namespace HorrorGame.Lighting
             RenderSettings.ambientEquatorColor = preset.ambientEquator;
             RenderSettings.ambientGroundColor = preset.ambientGround;
             RenderSettings.ambientIntensity = preset.ambientIntensity;
-            RenderSettings.fog = true;
-            RenderSettings.fogMode = FogMode.ExponentialSquared;
-            RenderSettings.fogColor = preset.fogColor;
-            RenderSettings.fogDensity = preset.fogDensity;
+            AtmosphericFog.ApplyBaseFog(true, FogMode.ExponentialSquared, preset.fogColor, preset.fogDensity);
 
             if (keyLight == null) return;
             keyLight.color = preset.keyColor;

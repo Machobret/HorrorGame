@@ -142,6 +142,13 @@ namespace HorrorGame.Lighting
                     pair.Value.Restore(null);
                     expiredRenderers.Add(pair.Key);
                 }
+                else if (ShouldIgnore(pair.Key))
+                {
+                    // Return previously tracked UI/map meshes to their original
+                    // unlit materials instead of leaving darkness overrides behind.
+                    pair.Value.Restore(pair.Key);
+                    expiredRenderers.Add(pair.Key);
+                }
             foreach (var key in expiredRenderers) renderers.Remove(key);
             expiredParticles.Clear();
             foreach (var pair in particles)
@@ -287,6 +294,8 @@ namespace HorrorGame.Lighting
         private static bool ShouldIgnore(Component component)
         {
             if (component.gameObject.layer == 5) return true; // Unity UI
+            if (component.gameObject.layer == LayerMask.NameToLayer("MapSystem")) return true;
+            if (component.GetComponentInParent<HorrorEngine.MapRenderer>() != null) return true;
             if (component.GetComponentInParent<Canvas>() != null) return true;
             if (component.GetComponentInParent<Light>() != null) return true;
             return component.GetComponentInParent<HorrorLightSource>() != null;

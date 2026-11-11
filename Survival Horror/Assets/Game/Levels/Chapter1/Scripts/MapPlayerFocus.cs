@@ -22,7 +22,8 @@ namespace HorrorGame.Chapter1
             }
             if (!controller) return false;
 
-            controller.GetTransformInRoom(GameManager.Instance.Player.transform, out Vector3 playerPosition, out Quaternion playerRotation);
+            if (!controller.TryGetTransformInRoom(GameManager.Instance.Player.transform, out Vector3 playerPosition, out Quaternion playerRotation))
+                return false;
             renderer.SetPlayerPositionAndRotation(playerPosition, playerRotation);
             renderer.SetTargetPosition(playerPosition, true);
             return true;

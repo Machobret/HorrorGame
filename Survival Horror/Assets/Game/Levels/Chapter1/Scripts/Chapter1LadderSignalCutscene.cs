@@ -46,7 +46,8 @@ namespace HorrorGame.Chapter1
 
             // The remaining beat is deliberately still. The placeholder animation can
             // provide the look-around motion without rotating the actor transform.
-            if (animator && !string.IsNullOrWhiteSpace(LookAroundAnimationState))
+            if (animator && !string.IsNullOrWhiteSpace(LookAroundAnimationState)
+                && animator.HasState(0, Animator.StringToHash(LookAroundAnimationState)))
                 animator.CrossFade(LookAroundAnimationState, .1f, 0);
             float lookElapsed = 0f;
             while (lookElapsed < Mathf.Max(0f, Duration - RunToPointSeconds))
@@ -57,7 +58,8 @@ namespace HorrorGame.Chapter1
 
             yield return FadeBars(0f);
             player.Enable(this);
-            if (Ladder) yield return LowerLadder();
+            if (Ladder) yield return LowerLadder(Ladder);
+            else Debug.LogWarning("Assign the exact ladder to move in Chapter1LadderSignalCutscene.Ladder.", this);
             m_Playing = false;
         }
 
@@ -90,21 +92,21 @@ namespace HorrorGame.Chapter1
             movement.StopCinematicMovement();
         }
 
-        private IEnumerator LowerLadder()
+        private IEnumerator LowerLadder(Transform ladder)
         {
-            Vector3 from = Ladder.position;
+            Vector3 from = ladder.position;
             Vector3 to = LadderLoweredPosition ? LadderLoweredPosition.position : from;
-            Quaternion fromRotation = Ladder.rotation;
+            Quaternion fromRotation = ladder.rotation;
             Quaternion toRotation = LadderLoweredPosition ? LadderLoweredPosition.rotation : fromRotation;
             float elapsed = 0f;
             while (elapsed < LadderLowerSeconds)
             {
                 elapsed += Time.deltaTime;
                 float t = Mathf.SmoothStep(0f, 1f, elapsed / LadderLowerSeconds);
-                Ladder.SetPositionAndRotation(Vector3.Lerp(from, to, t), Quaternion.Slerp(fromRotation, toRotation, t));
+                ladder.SetPositionAndRotation(Vector3.Lerp(from, to, t), Quaternion.Slerp(fromRotation, toRotation, t));
                 yield return null;
             }
-            Ladder.SetPositionAndRotation(to, toRotation);
+            ladder.SetPositionAndRotation(to, toRotation);
         }
 
         private void EnsureAudio()

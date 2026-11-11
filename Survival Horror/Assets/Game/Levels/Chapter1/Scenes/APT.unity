@@ -308,7 +308,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1001 &4096060
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -523,7 +522,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &5836759
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,7 +745,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &9286929
 GameObject:
   m_ObjectHideFlags: 8
@@ -1043,7 +1040,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &16536754
 GameObject:
   m_ObjectHideFlags: 8
@@ -1460,7 +1456,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &34496932
 GameObject:
   m_ObjectHideFlags: 8
@@ -1667,7 +1662,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3808100923881986137, guid: 3d1853d82822fe440aaecd158d2e9b1c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.23
+      value: 32.22336
       objectReference: {fileID: 0}
     - target: {fileID: 3808100923881986137, guid: 3d1853d82822fe440aaecd158d2e9b1c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3020,7 +3015,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &86329748
 GameObject:
   m_ObjectHideFlags: 8
@@ -3072,7 +3066,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &88336390
 GameObject:
   m_ObjectHideFlags: 8
@@ -3124,7 +3117,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &90586234
 GameObject:
   m_ObjectHideFlags: 8
@@ -3208,7 +3200,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &93410714
 GameObject:
   m_ObjectHideFlags: 8
@@ -3817,7 +3808,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &98053701
 GameObject:
   m_ObjectHideFlags: 8
@@ -4285,7 +4275,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!43 &111869161
 Mesh:
   m_ObjectHideFlags: 0
@@ -4621,7 +4610,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &118076230
 GameObject:
   m_ObjectHideFlags: 8
@@ -4943,7 +4931,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!43 &130781153
 Mesh:
   m_ObjectHideFlags: 0
@@ -5173,7 +5160,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &131810310
 GameObject:
   m_ObjectHideFlags: 8
@@ -5469,7 +5455,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &139267477
 GameObject:
   m_ObjectHideFlags: 0
@@ -5765,7 +5750,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5789214400614700604, guid: 57be7cbfb83c77b4196f49c1698080c1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.19
+      value: 39.26336
       objectReference: {fileID: 0}
     - target: {fileID: 5789214400614700604, guid: 57be7cbfb83c77b4196f49c1698080c1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -7183,7 +7168,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &177067448 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2582221656512718686, guid: 3d1853d82822fe440aaecd158d2e9b1c, type: 3}
@@ -7523,7 +7507,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &193697600
 GameObject:
   m_ObjectHideFlags: 8
@@ -8477,7 +8460,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &206053437
 GameObject:
   m_ObjectHideFlags: 8
@@ -8635,7 +8617,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &212774132
 GameObject:
   m_ObjectHideFlags: 8
@@ -8968,7 +8949,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &219232054
 GameObject:
   m_ObjectHideFlags: 8
@@ -9451,7 +9431,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &233489904
 GameObject:
   m_ObjectHideFlags: 8
@@ -9836,7 +9815,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &238229825
 GameObject:
   m_ObjectHideFlags: 8
@@ -10864,7 +10842,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &263000229
 GameObject:
   m_ObjectHideFlags: 8
@@ -11191,7 +11168,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &274050415
 GameObject:
   m_ObjectHideFlags: 8
@@ -12177,7 +12153,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000007450581, y: 2.993, z: 0, w: 2}
 --- !u!114 &297013397 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3077572970377364874, guid: 3d1853d82822fe440aaecd158d2e9b1c, type: 3}
@@ -12309,11 +12284,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6374117880912354002, guid: 316e22677e2d4e4ca899b644e7c4798f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.62396
+      value: 36.8294
       objectReference: {fileID: 0}
     - target: {fileID: 6374117880912354002, guid: 316e22677e2d4e4ca899b644e7c4798f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6374117880912354002, guid: 316e22677e2d4e4ca899b644e7c4798f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12530,7 +12505,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000007450581, y: 2.9949996, z: 0, w: 2}
 --- !u!1 &302057420
 GameObject:
   m_ObjectHideFlags: 8
@@ -12582,7 +12556,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &304378893
 GameObject:
   m_ObjectHideFlags: 8
@@ -12634,7 +12607,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &309070549
 GameObject:
   m_ObjectHideFlags: 8
@@ -12880,7 +12852,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &315139975
 GameObject:
   m_ObjectHideFlags: 8
@@ -13001,7 +12972,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.6929994, z: 0, w: 2}
 --- !u!1 &320380884
 GameObject:
   m_ObjectHideFlags: 8
@@ -14052,7 +14022,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &334520325
 GameObject:
   m_ObjectHideFlags: 8
@@ -14286,7 +14255,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!43 &344607081
 Mesh:
   m_ObjectHideFlags: 0
@@ -14668,7 +14636,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.6929994, z: 0, w: 2}
 --- !u!1 &364589639
 GameObject:
   m_ObjectHideFlags: 8
@@ -15235,7 +15202,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0.645, z: 0, w: 2}
 --- !u!1 &375196457
 GameObject:
   m_ObjectHideFlags: 8
@@ -15376,7 +15342,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &380716373
 GameObject:
   m_ObjectHideFlags: 8
@@ -15428,7 +15393,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &381129460
 GameObject:
   m_ObjectHideFlags: 0
@@ -15623,7 +15587,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &384584449
 GameObject:
   m_ObjectHideFlags: 8
@@ -15675,7 +15638,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &385619259
 GameObject:
   m_ObjectHideFlags: 8
@@ -15833,7 +15795,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &388400369
 GameObject:
   m_ObjectHideFlags: 8
@@ -15885,7 +15846,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000007450581, y: 2.9949996, z: 0, w: 2}
 --- !u!1 &390439661
 GameObject:
   m_ObjectHideFlags: 8
@@ -15937,7 +15897,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.6929994, z: 0, w: 2}
 --- !u!1 &391771061
 GameObject:
   m_ObjectHideFlags: 8
@@ -15989,7 +15948,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &392242146
 GameObject:
   m_ObjectHideFlags: 8
@@ -16041,7 +15999,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &396507683
 GameObject:
   m_ObjectHideFlags: 8
@@ -16594,7 +16551,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6790323245104024334, guid: acabceca505dde746a416f75d3af4ba8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.14
+      value: 37.31336
       objectReference: {fileID: 0}
     - target: {fileID: 6790323245104024334, guid: acabceca505dde746a416f75d3af4ba8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -16688,7 +16645,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &409219242
 GameObject:
   m_ObjectHideFlags: 8
@@ -17152,7 +17108,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.7999997, y: 1.8929996, z: 0, w: 2}
 --- !u!1 &419461879
 GameObject:
   m_ObjectHideFlags: 8
@@ -17295,7 +17250,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.6929994, z: 0, w: 2}
 --- !u!1 &420349301
 GameObject:
   m_ObjectHideFlags: 8
@@ -17519,7 +17473,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!43 &424234130
 Mesh:
   m_ObjectHideFlags: 0
@@ -17823,7 +17776,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3808100923881986137, guid: 3d1853d82822fe440aaecd158d2e9b1c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.74
+      value: 42.19336
       objectReference: {fileID: 0}
     - target: {fileID: 3808100923881986137, guid: 3d1853d82822fe440aaecd158d2e9b1c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -17921,7 +17874,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.7999997, y: 1.8929996, z: 0, w: 2}
 --- !u!1 &436383041
 GameObject:
   m_ObjectHideFlags: 8
@@ -18525,7 +18477,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0.645, z: 0, w: 2}
 --- !u!1 &443704416
 GameObject:
   m_ObjectHideFlags: 8
@@ -18577,7 +18528,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &447532654
 GameObject:
   m_ObjectHideFlags: 8
@@ -18937,7 +18887,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &452086362
 GameObject:
   m_ObjectHideFlags: 8
@@ -18989,7 +18938,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000007450581, y: 2.9949996, z: 0, w: 2}
 --- !u!1 &452829445
 GameObject:
   m_ObjectHideFlags: 8
@@ -19292,7 +19240,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &470480265
 GameObject:
   m_ObjectHideFlags: 8
@@ -19344,7 +19291,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0.645, z: 0, w: 2}
 --- !u!43 &470663525
 Mesh:
   m_ObjectHideFlags: 0
@@ -20333,7 +20279,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.6929994, z: 0, w: 2}
 --- !u!43 &511195190
 Mesh:
   m_ObjectHideFlags: 0
@@ -20563,7 +20508,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.7999997, y: 1.8929996, z: 0, w: 2}
 --- !u!1 &516500937
 GameObject:
   m_ObjectHideFlags: 8
@@ -20647,7 +20591,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &520156110
 GameObject:
   m_ObjectHideFlags: 8
@@ -21048,7 +20991,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &531817745
 GameObject:
   m_ObjectHideFlags: 8
@@ -21312,7 +21254,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &537830713
 GameObject:
   m_ObjectHideFlags: 8
@@ -21364,7 +21305,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000007450581, y: 2.9949996, z: 0, w: 2}
 --- !u!1 &542548489
 GameObject:
   m_ObjectHideFlags: 8
@@ -21685,7 +21625,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0.645, z: 0, w: 2}
 --- !u!43 &564543679
 Mesh:
   m_ObjectHideFlags: 0
@@ -22036,7 +21975,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &569164267
 GameObject:
   m_ObjectHideFlags: 8
@@ -22443,7 +22381,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &578549156
 GameObject:
   m_ObjectHideFlags: 8
@@ -22548,7 +22485,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &585516135
 GameObject:
   m_ObjectHideFlags: 8
@@ -22705,7 +22641,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &586818341
 GameObject:
   m_ObjectHideFlags: 8
@@ -23078,7 +23013,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &589020365
 GameObject:
   m_ObjectHideFlags: 8
@@ -23130,7 +23064,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &591223156
 GameObject:
   m_ObjectHideFlags: 8
@@ -23182,7 +23115,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &591688387
 GameObject:
   m_ObjectHideFlags: 8
@@ -23586,7 +23518,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000007450581, y: 2.993, z: 0, w: 2}
 --- !u!1 &597680444
 GameObject:
   m_ObjectHideFlags: 8
@@ -23638,7 +23569,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &598844898
 GameObject:
   m_ObjectHideFlags: 8
@@ -23690,7 +23620,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &599919649
 GameObject:
   m_ObjectHideFlags: 8
@@ -23742,7 +23671,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0.645, z: 0, w: 2}
 --- !u!1 &601485787
 GameObject:
   m_ObjectHideFlags: 8
@@ -23794,7 +23722,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &603483163
 GameObject:
   m_ObjectHideFlags: 8
@@ -23846,7 +23773,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!43 &604993346
 Mesh:
   m_ObjectHideFlags: 0
@@ -24197,7 +24123,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &610996163
 GameObject:
   m_ObjectHideFlags: 8
@@ -24407,7 +24332,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &617602824
 GameObject:
   m_ObjectHideFlags: 8
@@ -24459,7 +24383,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0.6430001, z: 0, w: 2}
 --- !u!1 &622904030
 GameObject:
   m_ObjectHideFlags: 8
@@ -24511,7 +24434,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &624700621
 GameObject:
   m_ObjectHideFlags: 8
@@ -24616,7 +24538,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &626191421
 GameObject:
   m_ObjectHideFlags: 8
@@ -24952,7 +24873,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!43 &629081183
 Mesh:
   m_ObjectHideFlags: 0
@@ -25197,7 +25117,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &632817348
 GameObject:
   m_ObjectHideFlags: 8
@@ -25249,7 +25168,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &633109200
 GameObject:
   m_ObjectHideFlags: 8
@@ -25641,7 +25559,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &646706435
 GameObject:
   m_ObjectHideFlags: 8
@@ -25939,7 +25856,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8203255208461063176, guid: 193bf82098c71a341a2c6f67ffa422b5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 39.453358
       objectReference: {fileID: 0}
     - target: {fileID: 8203255208461063176, guid: 193bf82098c71a341a2c6f67ffa422b5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -26008,7 +25925,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3772103242538898809, guid: 455a0d83e7921ab4e9335a2fe24b143f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.44
+      value: 39.01336
       objectReference: {fileID: 0}
     - target: {fileID: 3772103242538898809, guid: 455a0d83e7921ab4e9335a2fe24b143f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -26648,7 +26565,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &669353598
 GameObject:
   m_ObjectHideFlags: 8
@@ -26700,7 +26616,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &671345073
 GameObject:
   m_ObjectHideFlags: 8
@@ -26875,7 +26790,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000007450581, y: 2.993, z: 0, w: 2}
 --- !u!1 &673945356
 GameObject:
   m_ObjectHideFlags: 8
@@ -27033,7 +26947,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0.6430001, z: 0, w: 2}
 --- !u!1 &678057219
 GameObject:
   m_ObjectHideFlags: 8
@@ -27085,7 +26998,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &680968002
 GameObject:
   m_ObjectHideFlags: 0
@@ -27654,7 +27566,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &698273930
 GameObject:
   m_ObjectHideFlags: 8
@@ -27706,7 +27617,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.6929994, z: 0, w: 2}
 --- !u!1 &698480292
 GameObject:
   m_ObjectHideFlags: 0
@@ -28060,7 +27970,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &710144190
 GameObject:
   m_ObjectHideFlags: 8
@@ -28865,7 +28774,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0.645, z: 0, w: 2}
 --- !u!1 &742913706
 GameObject:
   m_ObjectHideFlags: 8
@@ -28917,7 +28825,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 7bdddb83932c4bf4a45c8bc899c99892
   selectedInsert: {fileID: 11400000, guid: b1c30ed0e0b4c7c4c99c02983176ac8d, type: 2}
-  verticalProjectionRange: {x: 0.000000007450581, y: 2.993, z: 0, w: 2}
 --- !u!1 &743286789
 GameObject:
   m_ObjectHideFlags: 8
@@ -29350,7 +29257,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &756546242
 GameObject:
   m_ObjectHideFlags: 8
@@ -29545,7 +29451,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &772360101
 GameObject:
   m_ObjectHideFlags: 8
@@ -30098,7 +30003,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &784842314
 GameObject:
   m_ObjectHideFlags: 8
@@ -30219,7 +30123,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &788723540
 GameObject:
   m_ObjectHideFlags: 8
@@ -30271,7 +30174,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &793592031
 GameObject:
   m_ObjectHideFlags: 8
@@ -31166,7 +31068,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1001 &805669223
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31840,7 +31741,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &827294382
 GameObject:
   m_ObjectHideFlags: 8
@@ -32279,7 +32179,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &835731398
 GameObject:
   m_ObjectHideFlags: 8
@@ -32422,7 +32321,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &842353001
 GameObject:
   m_ObjectHideFlags: 8
@@ -32594,7 +32492,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &847454990
 GameObject:
   m_ObjectHideFlags: 8
@@ -32646,7 +32543,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &847797719
 GameObject:
   m_ObjectHideFlags: 8
@@ -32804,7 +32700,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &850179888
 GameObject:
   m_ObjectHideFlags: 8
@@ -33009,7 +32904,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &855939024
 GameObject:
   m_ObjectHideFlags: 8
@@ -33061,7 +32955,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &856127096
 GameObject:
   m_ObjectHideFlags: 8
@@ -33113,7 +33006,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &857123315
 GameObject:
   m_ObjectHideFlags: 8
@@ -33271,7 +33163,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &860845942
 GameObject:
   m_ObjectHideFlags: 0
@@ -34385,7 +34276,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &874133995
 GameObject:
   m_ObjectHideFlags: 8
@@ -34702,7 +34592,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.7999997, y: 1.8929996, z: 0, w: 2}
 --- !u!1 &878554921
 GameObject:
   m_ObjectHideFlags: 8
@@ -34786,7 +34675,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &889743068
 GameObject:
   m_ObjectHideFlags: 8
@@ -35106,7 +34994,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &900804775
 GameObject:
   m_ObjectHideFlags: 8
@@ -36210,7 +36097,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &913063571
 GameObject:
   m_ObjectHideFlags: 8
@@ -36537,7 +36423,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &926462668
 GameObject:
   m_ObjectHideFlags: 8
@@ -36924,7 +36809,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &935795133
 GameObject:
   m_ObjectHideFlags: 0
@@ -37031,7 +36915,7 @@ Transform:
   m_GameObject: {fileID: 935795133}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6, y: 3, z: 3}
+  m_LocalPosition: {x: 45.453358, y: 3, z: 3}
   m_LocalScale: {x: 10, y: 6, z: 7}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -37420,7 +37304,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.7999997, y: 1.8929996, z: 0, w: 2}
 --- !u!1 &945938747
 GameObject:
   m_ObjectHideFlags: 8
@@ -37472,7 +37355,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &947023321
 GameObject:
   m_ObjectHideFlags: 8
@@ -37577,7 +37459,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &948345437
 GameObject:
   m_ObjectHideFlags: 8
@@ -37766,7 +37647,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &954864227
 GameObject:
   m_ObjectHideFlags: 8
@@ -38064,7 +37944,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &960148971
 GameObject:
   m_ObjectHideFlags: 8
@@ -38540,7 +38419,7 @@ Transform:
   m_GameObject: {fileID: 967288006}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14, y: 1.2, z: -5}
+  m_LocalPosition: {x: 25.453358, y: 1.2, z: -5}
   m_LocalScale: {x: 2, y: 2.4, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -38649,7 +38528,7 @@ Transform:
   m_GameObject: {fileID: 969237213}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 39.453358, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -38885,7 +38764,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1001 &974056228
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38896,7 +38774,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2266876105442559074, guid: 46c0632bf131b784da70ef7fffd1ffbc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 39.453358
       objectReference: {fileID: 0}
     - target: {fileID: 2266876105442559074, guid: 46c0632bf131b784da70ef7fffd1ffbc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -39021,7 +38899,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &976762832
 GameObject:
   m_ObjectHideFlags: 8
@@ -39765,7 +39642,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1008178586
 GameObject:
   m_ObjectHideFlags: 8
@@ -39870,7 +39746,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.7999997, y: 1.8929996, z: 0, w: 2}
 --- !u!1 &1010252068
 GameObject:
   m_ObjectHideFlags: 8
@@ -39922,7 +39797,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &1012096667
 GameObject:
   m_ObjectHideFlags: 8
@@ -40284,7 +40158,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &1018299816
 GameObject:
   m_ObjectHideFlags: 8
@@ -40336,7 +40209,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000007450581, y: 2.9949996, z: 0, w: 2}
 --- !u!1 &1018422789
 GameObject:
   m_ObjectHideFlags: 8
@@ -40587,7 +40459,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1026526932
 GameObject:
   m_ObjectHideFlags: 8
@@ -40639,7 +40510,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1032448746
 GameObject:
   m_ObjectHideFlags: 8
@@ -41075,7 +40945,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1041339855
 GameObject:
   m_ObjectHideFlags: 8
@@ -41250,7 +41119,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &1045909714
 GameObject:
   m_ObjectHideFlags: 8
@@ -41302,7 +41170,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1047292725
 GameObject:
   m_ObjectHideFlags: 8
@@ -41598,7 +41465,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1050613652
 GameObject:
   m_ObjectHideFlags: 8
@@ -41650,7 +41516,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1051204948
 GameObject:
   m_ObjectHideFlags: 0
@@ -41842,7 +41707,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.6929994, z: 0, w: 2}
 --- !u!1 &1057897036
 GameObject:
   m_ObjectHideFlags: 0
@@ -42162,7 +42026,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1061151926
 GameObject:
   m_ObjectHideFlags: 8
@@ -43120,7 +42983,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &1081769857
 GameObject:
   m_ObjectHideFlags: 8
@@ -43473,7 +43335,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &1089408873
 GameObject:
   m_ObjectHideFlags: 8
@@ -43525,7 +43386,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1098453963
 GameObject:
   m_ObjectHideFlags: 8
@@ -43609,7 +43469,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1099744385
 GameObject:
   m_ObjectHideFlags: 8
@@ -44236,7 +44095,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.6929994, z: 0, w: 2}
 --- !u!1 &1106146329
 GameObject:
   m_ObjectHideFlags: 8
@@ -44288,7 +44146,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1106844386
 GameObject:
   m_ObjectHideFlags: 8
@@ -44552,7 +44409,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.7999997, y: 1.8929996, z: 0, w: 2}
 --- !u!1 &1114561450
 GameObject:
   m_ObjectHideFlags: 8
@@ -44749,7 +44605,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &1124165065
 GameObject:
   m_ObjectHideFlags: 0
@@ -45160,7 +45015,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0.6430001, z: 0, w: 2}
 --- !u!43 &1137503495
 Mesh:
   m_ObjectHideFlags: 0
@@ -46007,7 +45861,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1164062303
 GameObject:
   m_ObjectHideFlags: 8
@@ -46328,7 +46181,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.7999997, y: 1.8929996, z: 0, w: 2}
 --- !u!43 &1174715519
 Mesh:
   m_ObjectHideFlags: 0
@@ -47129,7 +46981,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000007450581, y: 2.993, z: 0, w: 2}
 --- !u!1 &1185279450
 GameObject:
   m_ObjectHideFlags: 8
@@ -47658,7 +47509,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.6929994, z: 0, w: 2}
 --- !u!1 &1193808524
 GameObject:
   m_ObjectHideFlags: 8
@@ -48442,7 +48292,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1225454070
 GameObject:
   m_ObjectHideFlags: 8
@@ -48637,7 +48486,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1227048588
 GameObject:
   m_ObjectHideFlags: 8
@@ -48848,7 +48696,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.6929994, z: 0, w: 2}
 --- !u!1 &1238652775
 GameObject:
   m_ObjectHideFlags: 8
@@ -48900,7 +48747,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1239297468
 GameObject:
   m_ObjectHideFlags: 8
@@ -49343,7 +49189,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1262040909
 GameObject:
   m_ObjectHideFlags: 8
@@ -49395,7 +49240,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.7999997, y: 1.8929996, z: 0, w: 2}
 --- !u!1 &1263025719
 GameObject:
   m_ObjectHideFlags: 0
@@ -49498,7 +49342,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1265633808
 GameObject:
   m_ObjectHideFlags: 8
@@ -50291,7 +50134,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1286646459
 GameObject:
   m_ObjectHideFlags: 8
@@ -50571,7 +50413,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1298876425
 GameObject:
   m_ObjectHideFlags: 8
@@ -50623,7 +50464,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1302542960
 GameObject:
   m_ObjectHideFlags: 8
@@ -50675,7 +50515,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1302832077
 GameObject:
   m_ObjectHideFlags: 8
@@ -51126,7 +50965,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1316570917
 GameObject:
   m_ObjectHideFlags: 8
@@ -51630,7 +51468,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000007450581, y: 2.9949996, z: 0, w: 2}
 --- !u!1 &1322455597
 GameObject:
   m_ObjectHideFlags: 0
@@ -51934,7 +51771,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1336608618
 GameObject:
   m_ObjectHideFlags: 0
@@ -52017,7 +51853,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1336717057
 GameObject:
   m_ObjectHideFlags: 8
@@ -52069,7 +51904,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &1340184329
 GameObject:
   m_ObjectHideFlags: 8
@@ -52410,7 +52244,7 @@ Transform:
   m_GameObject: {fileID: 1341381333}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.05, z: 0}
+  m_LocalPosition: {x: 39.453358, y: -0.05, z: 0}
   m_LocalScale: {x: 5, y: 1, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -52678,7 +52512,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!43 &1349318782
 Mesh:
   m_ObjectHideFlags: 0
@@ -53203,7 +53036,6 @@ MonoBehaviour:
   openingInsert: {fileID: 807019048}
   openingId: b6409fc10d4a4eddb9047f5320305922
   selectedInsert: {fileID: 11400000, guid: bade971f2d37bd349ad5d4ef129ddf73, type: 2}
-  verticalProjectionRange: {x: 0.000000007450581, y: 2.993, z: 0, w: 2}
 --- !u!43 &1359976427
 Mesh:
   m_ObjectHideFlags: 0
@@ -54046,7 +53878,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1367199066
 GameObject:
   m_ObjectHideFlags: 0
@@ -54447,7 +54278,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1382864749
 GameObject:
   m_ObjectHideFlags: 0
@@ -54697,7 +54527,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &1386532531
 GameObject:
   m_ObjectHideFlags: 8
@@ -54887,7 +54716,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1393827784
 GameObject:
   m_ObjectHideFlags: 8
@@ -55238,7 +55066,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1001 &1394801492
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55436,7 +55263,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1397354262
 GameObject:
   m_ObjectHideFlags: 8
@@ -56859,7 +56685,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1443028124
 GameObject:
   m_ObjectHideFlags: 8
@@ -56946,7 +56771,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!43 &1444318991
 Mesh:
   m_ObjectHideFlags: 0
@@ -57223,7 +57047,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1001 &1451961471
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57250,7 +57073,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8870096082408191259, guid: 299986237dd54674cb025cfc08a04919, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10
+      value: 49.453358
       objectReference: {fileID: 0}
     - target: {fileID: 8870096082408191259, guid: 299986237dd54674cb025cfc08a04919, type: 3}
       propertyPath: m_LocalPosition.y
@@ -57376,7 +57199,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1455931225
 GameObject:
   m_ObjectHideFlags: 8
@@ -57534,7 +57356,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1456443393
 GameObject:
   m_ObjectHideFlags: 8
@@ -57639,7 +57460,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1459009955
 GameObject:
   m_ObjectHideFlags: 8
@@ -58091,7 +57911,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1467492415
 GameObject:
   m_ObjectHideFlags: 8
@@ -59214,7 +59033,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.6929994, z: 0, w: 2}
 --- !u!1 &1488998228
 GameObject:
   m_ObjectHideFlags: 8
@@ -59656,7 +59474,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1495808321
 GameObject:
   m_ObjectHideFlags: 8
@@ -59708,7 +59525,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1497614623
 GameObject:
   m_ObjectHideFlags: 8
@@ -60447,7 +60263,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &1528074787 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2811630720602771336, guid: ab3a56bc29ed0b746a0723fbf750e94d, type: 3}
@@ -60510,7 +60325,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1533321505
 GameObject:
   m_ObjectHideFlags: 8
@@ -60846,7 +60660,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0.6430001, z: 0, w: 2}
 --- !u!1 &1534915043
 GameObject:
   m_ObjectHideFlags: 8
@@ -60898,7 +60711,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &1536728112
 GameObject:
   m_ObjectHideFlags: 0
@@ -61177,7 +60989,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &1543412795
 GameObject:
   m_ObjectHideFlags: 8
@@ -61823,7 +61634,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1563862672
 GameObject:
   m_ObjectHideFlags: 8
@@ -61875,7 +61685,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1563883319
 GameObject:
   m_ObjectHideFlags: 8
@@ -62120,7 +61929,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1566539160
 GameObject:
   m_ObjectHideFlags: 8
@@ -62542,7 +62350,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1591548936
 GameObject:
   m_ObjectHideFlags: 8
@@ -62944,7 +62751,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000007450581, y: 2.9949996, z: 0, w: 2}
 --- !u!43 &1596928252
 Mesh:
   m_ObjectHideFlags: 0
@@ -63242,7 +63048,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1600085217
 GameObject:
   m_ObjectHideFlags: 8
@@ -63294,7 +63099,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1601557551
 GameObject:
   m_ObjectHideFlags: 8
@@ -64333,7 +64137,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &1611231844
 GameObject:
   m_ObjectHideFlags: 8
@@ -64385,7 +64188,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1612879200
 GameObject:
   m_ObjectHideFlags: 8
@@ -65177,7 +64979,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &1623453418
 GameObject:
   m_ObjectHideFlags: 8
@@ -65229,7 +65030,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1001 &1629197731
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65444,7 +65244,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1633494015
 GameObject:
   m_ObjectHideFlags: 8
@@ -65496,7 +65295,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.7999997, y: 1.8929996, z: 0, w: 2}
 --- !u!1 &1635037314
 GameObject:
   m_ObjectHideFlags: 8
@@ -65745,7 +65543,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.7999997, y: 1.8929996, z: 0, w: 2}
 --- !u!1 &1638009652
 GameObject:
   m_ObjectHideFlags: 8
@@ -65882,7 +65679,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1644797251
 GameObject:
   m_ObjectHideFlags: 8
@@ -65934,7 +65730,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1645372126
 GameObject:
   m_ObjectHideFlags: 8
@@ -65986,7 +65781,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!43 &1649025333
 Mesh:
   m_ObjectHideFlags: 0
@@ -66515,7 +66309,7 @@ Transform:
   m_GameObject: {fileID: 1657930350}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7, y: 1.75, z: 3}
+  m_LocalPosition: {x: 32.453358, y: 1.75, z: 3}
   m_LocalScale: {x: 7, y: 3.5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -66604,7 +66398,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &1664006937
 GameObject:
   m_ObjectHideFlags: 8
@@ -67069,7 +66862,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1666852168
 GameObject:
   m_ObjectHideFlags: 8
@@ -68017,7 +67809,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &1704892824
 GameObject:
   m_ObjectHideFlags: 8
@@ -68069,7 +67860,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1705441049
 GameObject:
   m_ObjectHideFlags: 8
@@ -68121,7 +67911,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000007450581, y: 2.993, z: 0, w: 2}
 --- !u!1 &1719548288
 GameObject:
   m_ObjectHideFlags: 8
@@ -68173,7 +67962,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1720412136
 GameObject:
   m_ObjectHideFlags: 8
@@ -68257,7 +68045,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1722821344
 GameObject:
   m_ObjectHideFlags: 8
@@ -68309,7 +68096,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1723016144
 GameObject:
   m_ObjectHideFlags: 8
@@ -68502,7 +68288,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.7999997, y: 1.8929996, z: 0, w: 2}
 --- !u!1 &1726726237
 GameObject:
   m_ObjectHideFlags: 8
@@ -68554,7 +68339,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.7999997, y: 1.8929996, z: 0, w: 2}
 --- !u!1 &1731531836
 GameObject:
   m_ObjectHideFlags: 8
@@ -68642,7 +68426,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &1733319031
 GameObject:
   m_ObjectHideFlags: 8
@@ -68694,7 +68477,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &1733333603
 GameObject:
   m_ObjectHideFlags: 8
@@ -68987,7 +68769,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &1747898137
 GameObject:
   m_ObjectHideFlags: 8
@@ -69039,7 +68820,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.7999997, y: 1.8929996, z: 0, w: 2}
 --- !u!1001 &1749571191
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69491,7 +69271,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1760034709
 GameObject:
   m_ObjectHideFlags: 8
@@ -69543,7 +69322,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1760392996
 GameObject:
   m_ObjectHideFlags: 8
@@ -70075,7 +69853,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.6929994, z: 0, w: 2}
 --- !u!1 &1775307380
 GameObject:
   m_ObjectHideFlags: 8
@@ -70445,7 +70222,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!43 &1799821129
 Mesh:
   m_ObjectHideFlags: 0
@@ -70675,7 +70451,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1001 &1800985403
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70793,7 +70568,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1802312276
 GameObject:
   m_ObjectHideFlags: 8
@@ -70845,7 +70619,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1804783672
 GameObject:
   m_ObjectHideFlags: 8
@@ -71051,7 +70824,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.6929994, z: 0, w: 2}
 --- !u!43 &1807705613
 Mesh:
   m_ObjectHideFlags: 0
@@ -71387,7 +71159,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1813359984
 GameObject:
   m_ObjectHideFlags: 8
@@ -71439,7 +71210,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!43 &1813917729
 Mesh:
   m_ObjectHideFlags: 0
@@ -72006,7 +71776,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1820957344
 GameObject:
   m_ObjectHideFlags: 8
@@ -72254,7 +72023,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0.645, z: 0, w: 2}
 --- !u!1 &1828297889
 GameObject:
   m_ObjectHideFlags: 8
@@ -72373,7 +72141,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.6929994, z: 0, w: 2}
 --- !u!1 &1832011754
 GameObject:
   m_ObjectHideFlags: 0
@@ -72722,7 +72489,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6376889571931217852, guid: 28bd7c3bb9b005543ad5adbf291f10dc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.0633574
+      value: 32.39
       objectReference: {fileID: 0}
     - target: {fileID: 6376889571931217852, guid: 28bd7c3bb9b005543ad5adbf291f10dc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -73028,7 +72795,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!43 &1842464290
 Mesh:
   m_ObjectHideFlags: 0
@@ -73356,7 +73122,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1001 &1847174557
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -75082,7 +74847,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1001 &1873985055
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -75271,7 +75035,7 @@ Transform:
   m_GameObject: {fileID: 1874520269}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -18.01}
+  m_LocalPosition: {x: 39.453358, y: 1, z: -18.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -75328,7 +75092,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.6929994, z: 0, w: 2}
 --- !u!1 &1876117649
 GameObject:
   m_ObjectHideFlags: 8
@@ -75486,7 +75249,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1876895608
 GameObject:
   m_ObjectHideFlags: 8
@@ -75644,7 +75406,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &1878546411
 GameObject:
   m_ObjectHideFlags: 8
@@ -75802,7 +75563,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &1881838997
 GameObject:
   m_ObjectHideFlags: 8
@@ -76433,7 +76193,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.7999997, y: 1.8929996, z: 0, w: 2}
 --- !u!1001 &1889711112
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77152,7 +76911,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1913992660
 GameObject:
   m_ObjectHideFlags: 8
@@ -77310,7 +77068,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1914474448
 GameObject:
   m_ObjectHideFlags: 8
@@ -77447,7 +77204,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &1918554700
 GameObject:
   m_ObjectHideFlags: 8
@@ -78430,7 +78186,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0.6430001, z: 0, w: 2}
 --- !u!1 &1948726053
 GameObject:
   m_ObjectHideFlags: 8
@@ -78815,7 +78570,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.7999997, y: 1.8929996, z: 0, w: 2}
 --- !u!1 &1956186583
 GameObject:
   m_ObjectHideFlags: 8
@@ -78972,7 +78726,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &1957570914
 GameObject:
   m_ObjectHideFlags: 8
@@ -79274,7 +79027,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &1962843748
 GameObject:
   m_ObjectHideFlags: 0
@@ -79792,7 +79544,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1967691015
 GameObject:
   m_ObjectHideFlags: 8
@@ -80285,7 +80036,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1977342569
 GameObject:
   m_ObjectHideFlags: 8
@@ -80422,7 +80172,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0.645, z: 0, w: 2}
 --- !u!1 &1979608181
 GameObject:
   m_ObjectHideFlags: 8
@@ -80474,7 +80223,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &1979741890
 GameObject:
   m_ObjectHideFlags: 8
@@ -80526,7 +80274,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.694999, z: 0, w: 2}
 --- !u!1 &1982919063
 GameObject:
   m_ObjectHideFlags: 8
@@ -82841,7 +82588,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2027306818
 GameObject:
   m_ObjectHideFlags: 8
@@ -83090,7 +82836,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!43 &2032171161
 Mesh:
   m_ObjectHideFlags: 0
@@ -83320,7 +83065,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1001 &2034338717
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -83722,7 +83466,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2048850040
 GameObject:
   m_ObjectHideFlags: 8
@@ -83910,7 +83653,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2057335951
 GameObject:
   m_ObjectHideFlags: 8
@@ -83994,7 +83736,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2058555022
 GameObject:
   m_ObjectHideFlags: 8
@@ -84046,7 +83787,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0.6430001, z: 0, w: 2}
 --- !u!1 &2061759331
 GameObject:
   m_ObjectHideFlags: 8
@@ -84507,7 +84247,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2066389000
 GameObject:
   m_ObjectHideFlags: 8
@@ -84559,7 +84298,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2067435673
 GameObject:
   m_ObjectHideFlags: 8
@@ -84611,7 +84349,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2071869907
 GameObject:
   m_ObjectHideFlags: 8
@@ -85172,7 +84909,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2101763010
 GameObject:
   m_ObjectHideFlags: 8
@@ -85224,7 +84960,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000029802322, y: 4.6929994, z: 0, w: 2}
 --- !u!1 &2101934177
 GameObject:
   m_ObjectHideFlags: 8
@@ -85414,7 +85149,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &2103653866
 GameObject:
   m_ObjectHideFlags: 8
@@ -85572,7 +85306,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2105257525
 GameObject:
   m_ObjectHideFlags: 0
@@ -85665,7 +85398,7 @@ Transform:
   m_GameObject: {fileID: 2105257525}
   serializedVersion: 2
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 39.453358, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -85948,7 +85681,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: -2.8, y: 1.8949995, z: 0, w: 2}
 --- !u!1 &2113581567
 GameObject:
   m_ObjectHideFlags: 8
@@ -87063,7 +86795,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0.000000007450581, y: 2.9949996, z: 0, w: 2}
 --- !u!1 &2135569360
 GameObject:
   m_ObjectHideFlags: 8
@@ -87180,7 +86911,6 @@ MonoBehaviour:
   openingInsert: {fileID: 0}
   openingId: 
   selectedInsert: {fileID: 0}
-  verticalProjectionRange: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2140451329
 GameObject:
   m_ObjectHideFlags: 8

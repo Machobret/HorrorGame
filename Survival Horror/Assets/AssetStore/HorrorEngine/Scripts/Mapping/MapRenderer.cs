@@ -99,7 +99,7 @@ namespace HorrorEngine
 
             Texture gridTexture = GridMaterial != null ? GridMaterial.mainTexture : null;
             // Keep the grid present but subdued; the room contour is the primary readable layer.
-            m_RuntimeGridMaterial = CreateMapMaterial(unlit, new Color(.52f, .54f, .58f, .28f), gridTexture, false);
+            m_RuntimeGridMaterial = CreateMapMaterial(unlit, new Color(.34f, .36f, .40f, .65f), gridTexture, true);
             m_RuntimeMarkerMaterial = CreateMapMaterial(unlit, Color.white, m_MapPlayer.GetComponentInChildren<Renderer>(true).sharedMaterial.mainTexture, true);
             m_RuntimeContourMaterial = CreateMapMaterial(unlit, Color.white, Texture2D.whiteTexture, true);
 

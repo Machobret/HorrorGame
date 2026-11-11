@@ -56,12 +56,13 @@ namespace HorrorEngine
 
             MapController currentMapCtrl = MapController.GetCurrent();
             bool isCurrent = currentMapCtrl && currentMapCtrl.Data == map;
-            MapRenderer.Instance.GenerateAll(map);
-            MapRenderer.Instance.SetPlayerVisible(isCurrent);
             if (isCurrent)
-            {
                 currentMapCtrl.UpdateContent();
-            }
+            MapRenderer.Instance.GenerateAll(map);
+            // The player marker is part of the map HUD, not room discovery.
+            // Keep it visible on every owned map screen, including prototype
+            // areas whose player position is momentarily outside a MapRoom.
+            MapRenderer.Instance.SetPlayerVisible(true);
             MapPlayerFocus.FocusOnPlayer(MapRenderer.Instance, map);
             
             m_MapList.gameObject.SetActive(false);
@@ -234,7 +235,9 @@ namespace HorrorEngine
                 MapController mapCtrl = MapController.GetCurrent();
                 if (map == null)
                 {
-                    map = mapCtrl.Data;
+                    // A controller can exist while the player is outside every
+                    // authored map room. In that case M must not open a blank UI.
+                    map = mapCtrl ? mapCtrl.Data : null;
                 }
             }
             else
@@ -242,14 +245,29 @@ namespace HorrorEngine
                 Debug.LogWarning("There isn't a MapController in the scene. Map won't be visible in the map screen");
             }
 
+            // Door transitions and prototype areas can briefly place the player
+            // outside a MapRoom. Continue showing an owned map in that case.
+            if (map == null && GameManager.Exists && GameManager.Instance.Inventory != null)
+            {
+                foreach (MapData ownedMap in GameManager.Instance.Inventory.Maps)
+                {
+                    map = ownedMap;
+                    break;
+                }
+            }
+
+            bool playerOwnsMap = map != null && GameManager.Exists && GameManager.Instance.Inventory != null && GameManager.Instance.Inventory.Maps.Contains(map);
+
             // Generate the selected map before exposing its render texture. This
             // prevents the previous map frame from briefly showing in the UI.
-            if (map)
+            if (playerOwnsMap)
                 OnMapSelected(map);
+            else
+                m_CurrentMap = null;
 
             gameObject.SetActive(true);
 
-            if (MapRenderer.Exists)
+            if (MapRenderer.Exists && playerOwnsMap)
             {
                 RenderTexture renderTexture = MapRenderer.Instance.RenderTexture;
                 m_MapImage.texture = renderTexture;
@@ -264,6 +282,13 @@ namespace HorrorEngine
                 UpdateCrosshairPosition();
 
                 MapRenderer.Instance.gameObject.SetActive(true);
+            }
+            else if (MapRenderer.Exists)
+            {
+                // The player can still open M before finding a map. Keep the
+                // familiar map frame/list visible but don't show a district layout.
+                m_MapImage.gameObject.SetActive(false);
+                MapRenderer.Instance.gameObject.SetActive(false);
             }
             else
             {
