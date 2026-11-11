@@ -17,7 +17,7 @@ namespace HorrorEngine
             Shape shape = (Shape)target;
 
             EditorGUILayout.BeginVertical("box");
-            EditorGUILayout.LabelField("Points:");
+            EditorGUILayout.LabelField("Path points:");
             if (GUILayout.Button("Add Point"))
             {
                 Undo.RecordObject(shape, "Add Shape Point");
@@ -74,7 +74,26 @@ namespace HorrorEngine
             EditorGUILayout.Space();
 
 
-            shape.CloseShape = EditorGUILayout.Toggle("Close Shape", shape.CloseShape);
+            EditorGUI.BeginChangeCheck();
+            bool closeShape = EditorGUILayout.Toggle("Close Path Into Loop", shape.CloseShape);
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(shape, "Toggle Path Loop");
+                shape.CloseShape = closeShape;
+                EditorUtility.SetDirty(shape);
+            }
+
+            if (shape.GetComponentInParent<MapRoom>())
+            {
+                GUILayout.Space(6);
+                if (GUILayout.Button(MapPathConnectionTool.IsActive ? "Cancel Map Point Connection" : "Connect Existing Map Points"))
+                {
+                    if (MapPathConnectionTool.IsActive) MapPathConnectionTool.Cancel();
+                    else MapPathConnectionTool.Begin(shape);
+                }
+                if (MapPathConnectionTool.IsActive)
+                    EditorGUILayout.HelpBox("Click the two blue points directly in the Scene view. This adds a line between them; selecting the two ends of one path closes it into a loop.", MessageType.Info);
+            }
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(shape.GizmoColor)));
 

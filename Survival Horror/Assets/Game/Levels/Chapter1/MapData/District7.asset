@@ -1,0 +1,134 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4992fa4685309e447a9abb36b7fb16c1, type: 3}
+  m_Name: District7
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.MapData
+  UniqueId: 34f20cae-972a-4230-b095-9d1e88ce6b17
+  ControllerUniqueId: f912e801-696d-444a-9b65-79574bef240c
+  Name:
+    IsLocalized: 0
+    Unlocalized: District 7
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Abbreviation:
+    IsLocalized: 0
+    Unlocalized: D7
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Name_DEPRECATED: NoName
+  Abbreviation_DEPRECATED: 
+  Size: {x: 25, y: 25}
+  CellSize: 50
+  GlobalScale: 10
+  MapSet: {fileID: 11400000, guid: 2a25645896c049042af84cd91dc2938b, type: 2}
+  Rooms:
+  - Name: Distrcit 7 OutDoors
+    UniqueId: f4d1f147-4651-4c7d-baa4-6723b1f29629
+    Transform:
+      Offset: {x: 200, y: 695}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: -180
+    Shapes:
+    - Points:
+      - {x: -3.4, y: 0, z: -5.100583}
+      - {x: -18.9, y: 0, z: -5.100583}
+      - {x: -18.9, y: 0, z: -15.053911}
+      - {x: -23.478622, y: 0, z: -21.144794}
+      - {x: -31.901852, y: 0, z: -29.817186}
+      - {x: -36.197357, y: 0, z: -31.7}
+      - {x: -48.3, y: 0, z: -31.7}
+      - {x: -48.3, y: 0, z: -16.7}
+      - {x: -76.5, y: 0, z: -16.7}
+      - {x: -76.5, y: 0, z: -5.6}
+      - {x: -88.58387, y: 0, z: -5.6}
+      - {x: -91.3, y: 0, z: -3.3725185}
+      - {x: -91.3, y: 0, z: 20.8}
+      - {x: -83, y: 0, z: 20.8}
+      - {x: -83, y: 0, z: 2.2}
+      - {x: -3.4, y: 0, z: 2.2}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details:
+    - Transform:
+        Offset: {x: -38.15, y: -10.24}
+        Scale: {x: 1, y: 1, z: 1}
+        ZOrder: 0
+        Rotation: 89.99983
+      Shape:
+        Points:
+        - {x: -5.5, y: 0, z: -18.2}
+        - {x: -5.5, y: 0, z: 11}
+        - {x: 0.12358475, y: 0, z: 11.000004}
+        - {x: 11.7, y: 0, z: -0.3}
+        - {x: 11.7, y: 0, z: -7}
+        - {x: 4.4, y: 0, z: -7}
+        - {x: 4.4, y: 0, z: -18.200003}
+        Closed: 1
+        Connections: []
+      CreationProcess: {fileID: 11400000, guid: 9f084c23132ffd941a3672bd1097039a, type: 2}
+      UniqueId: 
+      DefaultState: 1
+    - Transform:
+        Offset: {x: -70.7, y: -10.5}
+        Scale: {x: 1, y: 1, z: 1}
+        ZOrder: 0
+        Rotation: 89.99983
+      Shape:
+        Points:
+        - {x: -5.0000005, y: 0, z: -5.7}
+        - {x: -5, y: 0, z: 5.8}
+        - {x: 3, y: 0, z: 5.8}
+        - {x: 3, y: 0, z: -5.7}
+        Closed: 1
+        Connections: []
+      CreationProcess: {fileID: 11400000, guid: 9f084c23132ffd941a3672bd1097039a, type: 2}
+      UniqueId: 
+      DefaultState: 1
+    Images: []
+  - Name: 
+    UniqueId: 2c520d73-595d-4f15-b9d9-90e3230de9e6
+    Transform:
+      Offset: {x: 625, y: 625}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 0
+    Shapes:
+    - Points:
+      - {x: -1, y: 0, z: -1}
+      - {x: -1, y: 0, z: 1}
+      - {x: 1, y: 0, z: 1}
+      - {x: 1, y: 0, z: -1}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+  Doors: []
+  references:
+    version: 2
+    RefIds: []

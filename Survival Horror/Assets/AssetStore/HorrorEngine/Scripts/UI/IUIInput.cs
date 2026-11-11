@@ -16,6 +16,8 @@ namespace HorrorEngine
         bool IsPrevSubmapDown();
         bool IsNextSubmapDown();
 
+        float ConsumeScrollDelta();
+
         void Flush();
 
     }

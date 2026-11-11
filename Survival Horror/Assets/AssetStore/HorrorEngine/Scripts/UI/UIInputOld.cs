@@ -60,6 +60,11 @@ namespace HorrorEngine
             return Input.GetButtonDown(m_NextSubmap);
         }
 
+        public float ConsumeScrollDelta()
+        {
+            return Input.mouseScrollDelta.y;
+        }
+
         public void Flush()
         {
             Input.ResetInputAxes();

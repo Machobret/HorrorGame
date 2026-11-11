@@ -10,6 +10,7 @@ namespace HorrorEngine
     {
         private UIActions m_Actions;
         private Vector2 m_InputAxis;
+        private float m_ScrollDelta;
 
         private InputActionProcessor m_CancelP = new InputActionProcessor();
         private InputActionProcessor m_ConfirmP = new InputActionProcessor();
@@ -171,6 +172,13 @@ namespace HorrorEngine
             return m_NextSubmapP.IsDown();
         }
 
+        public float ConsumeScrollDelta()
+        {
+            float delta = m_ScrollDelta;
+            m_ScrollDelta = 0f;
+            return delta;
+        }
+
         public void Flush()
         {
             m_CancelP.Clear();
@@ -201,7 +209,8 @@ namespace HorrorEngine
 
         public void OnScrollWheel(InputAction.CallbackContext context)
         {
-            // Do Nothing
+            if (context.phase == InputActionPhase.Performed)
+                m_ScrollDelta += context.ReadValue<Vector2>().y;
         }
 
         public void OnMiddleClick(InputAction.CallbackContext context)

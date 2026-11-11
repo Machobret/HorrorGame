@@ -16,9 +16,17 @@ namespace HorrorEngine
         [SerializeField] private float m_CameraInterpolationSpeed = 10f;
         [SerializeField] private float m_RenderTextureScale = 1f;
         [SerializeField] private FilterMode m_RenderTextureFilterMode = FilterMode.Bilinear;
+        [Header("Map zoom")]
+        [SerializeField, Min(1f)] private float m_MinZoom = 100f;
+        [SerializeField, Min(1f)] private float m_MaxZoom = 750f;
+        [SerializeField, Min(1f)] private float m_ZoomStep = 75f;
 
         [Header("Visuals")]
         public Material GridMaterial;
+        [Tooltip("Shows the faint authoring grid behind the player map.")]
+        [SerializeField] private bool m_ShowGridInRuntime = true;
+        [Tooltip("Extra world-space room around the drawn map that the player may pan into.")]
+        [SerializeField, Min(0f)] private float m_MapPanPadding = 500f;
 
         public ShapeCreationProcess RoomIncompletedSP;
         public ShapeCreationProcess RoomCompletedSP;
@@ -37,6 +45,8 @@ namespace HorrorEngine
         private Material m_RuntimeGridMaterial;
         private Material m_RuntimeMarkerMaterial;
         private Material m_RuntimeContourMaterial;
+        private Bounds m_ContentBounds;
+        private float m_DefaultZoom;
 
         [Header("Contour readability")]
         [Tooltip("Renders room borders as high-contrast white lines in the player map.")]
@@ -44,6 +54,7 @@ namespace HorrorEngine
         [SerializeField, Min(1f)] private float m_ContourThicknessMultiplier = 2.25f;
         
         public RenderTexture RenderTexture => m_RenderTexture;
+        public MapData CurrentMap => m_Map;
         public Vector2 TargetViewportPosition
         {
             get
@@ -71,6 +82,7 @@ namespace HorrorEngine
             base.Awake();
             m_Cam = GetComponentInChildren<Camera>();
             Debug.Assert(m_Cam, "MapRenderer does not contain a camera");
+            m_DefaultZoom = m_Cam.orthographicSize;
             // The crosshair uses very long line meshes. Occlusion culling can
             // incorrectly cull one line while the orthographic map camera pans.
             m_Cam.useOcclusionCulling = false;
@@ -98,8 +110,8 @@ namespace HorrorEngine
             if (unlit == null) return;
 
             Texture gridTexture = GridMaterial != null ? GridMaterial.mainTexture : null;
-            // Keep the grid present but subdued; the room contour is the primary readable layer.
-            m_RuntimeGridMaterial = CreateMapMaterial(unlit, new Color(.34f, .36f, .40f, .65f), gridTexture, true);
+            // Keep the grid faint; room contours remain the primary readable layer.
+            m_RuntimeGridMaterial = CreateMapMaterial(unlit, new Color(.34f, .36f, .40f, .42f), gridTexture, false);
             m_RuntimeMarkerMaterial = CreateMapMaterial(unlit, Color.white, m_MapPlayer.GetComponentInChildren<Renderer>(true).sharedMaterial.mainTexture, true);
             m_RuntimeContourMaterial = CreateMapMaterial(unlit, Color.white, Texture2D.whiteTexture, true);
 
@@ -186,6 +198,7 @@ namespace HorrorEngine
         public void GenerateAll(MapData map, bool revealUnknownRooms = false)
         {
             m_Map = map;
+            m_ContentBounds = CalculateContentBounds(map);
 
             // Clear map
             for (int i = 0; i < m_MapContent.childCount; ++i)
@@ -202,15 +215,35 @@ namespace HorrorEngine
                     DestroyImmediate(m_MapContent.GetChild(i).gameObject);
             }
 
-            // Generate grid
+            // The grid helps while authoring, but is visual noise in the player map.
             var gridGen = GetComponentInChildren<GridGenerator>();
-            gridGen.gameObject.layer = GetLayer();
-            gridGen.Size = map.Size;
-            gridGen.Generate(map.Size.x, map.Size.y);
-            gridGen.transform.localScale = new Vector3(1, 1, -1) * map.CellSize;
-            gridGen.transform.rotation = Quaternion.Euler(-90, 0, 0);
-            gridGen.transform.position = new Vector3(0, m_GridHeight, 0);
-            gridGen.GetComponent<MeshRenderer>().sharedMaterial = GridMaterial;
+            if (gridGen)
+            {
+                // The player map always renders a subtle grid. It establishes scale
+                // while panning and is shared with the editor's map representation.
+                bool showGrid = true;
+                gridGen.gameObject.SetActive(showGrid);
+                if (showGrid)
+                {
+                    // The map canvas is defined by the generated drawing's
+                    // bounds, not MapData.Size (which is only the authoring
+                    // grid). Generate enough cells to cover that full canvas.
+                    int cellSize = Mathf.Max(1, map.CellSize);
+                    int cellsX = Mathf.Max(1, Mathf.CeilToInt(m_ContentBounds.size.x / cellSize));
+                    int cellsY = Mathf.Max(1, Mathf.CeilToInt(m_ContentBounds.size.z / cellSize));
+                    gridGen.gameObject.layer = GetLayer();
+                    gridGen.Size = new Vector2Int(cellsX, cellsY);
+                    gridGen.Generate(cellsX, cellsY);
+                    // The grid is visual only. Keep its authored density instead
+                    // of multiplying it by the room transform scale.
+                    gridGen.transform.localScale = new Vector3(1, 1, -1) * cellSize;
+                    gridGen.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    // A rotated grid expands toward negative Z, so anchor its
+                    // top-left at the calculated canvas bounds.
+                    gridGen.transform.position = new Vector3(m_ContentBounds.min.x, m_GridHeight, m_ContentBounds.max.z);
+                    gridGen.GetComponent<MeshRenderer>().sharedMaterial = GridMaterial;
+                }
+            }
 
             // Generate camera
             m_Cam = GetComponentInChildren<Camera>();
@@ -386,6 +419,26 @@ namespace HorrorEngine
             ClampTargetToSafeArea();
         }
 
+        /// <summary>Zooms the map camera. Positive scroll zooms in.</summary>
+        public void Zoom(float scrollDirection)
+        {
+            if (!m_Cam || Mathf.Approximately(scrollDirection, 0f)) return;
+            float min = Mathf.Min(m_MinZoom, m_MaxZoom);
+            float max = Mathf.Max(m_MinZoom, m_MaxZoom);
+            m_Cam.orthographicSize = Mathf.Clamp(m_Cam.orthographicSize - Mathf.Sign(scrollDirection) * m_ZoomStep, min, max);
+            ClampTargetToSafeArea();
+        }
+
+        /// <summary>
+        /// Keeps map panning proportional to the visible area without making
+        /// high zoom levels feel uncontrollably fast.
+        /// </summary>
+        public float GetPanSpeedMultiplier()
+        {
+            if (!m_Cam || m_DefaultZoom <= 0f) return 1f;
+            return Mathf.Clamp(Mathf.Sqrt(m_Cam.orthographicSize / m_DefaultZoom), .65f, 1.5f);
+        }
+
         // --------------------------------------------------------------------
 
         public void SetTargetPosition(Vector2 pos, bool snapCamera = false)
@@ -431,20 +484,79 @@ namespace HorrorEngine
         public void SetPlayerVisible(bool visible)
         {
             m_MapPlayer.gameObject.SetActive(visible);
+            // The map player marker has no gameplay visibility state; make every
+            // renderer explicit after UIMap reactivates the map camera.
+            foreach (var renderer in m_MapPlayer.GetComponentsInChildren<Renderer>(true))
+                renderer.enabled = visible;
         }
 
         // --------------------------------------------------------------------
 
         private Vector3 GetCenter()
         {
-            return new Vector3(m_Map.CellSize * m_Map.Size.x * 0.5f, 0, -m_Map.CellSize * m_Map.Size.y * 0.5f);
+            return new Vector3(m_ContentBounds.center.x, 0, m_ContentBounds.center.z);
         }
 
         private Vector3 GetSafeArea()
         {
-            float height = m_Cam.orthographicSize * 2;
-            float width = height * m_Cam.aspect;
-            return new Vector3(m_Map.Size.x * m_Map.CellSize - width, 0, m_Map.Size.y * m_Map.CellSize - height);
+            // This is the permitted position range for the map crosshair, not
+            // the camera's viewport range. Subtracting the viewport size here
+            // made the crosshair stop one half-screen before the end of every
+            // drawn room. Clamp it to the contour bounds themselves instead.
+            return new Vector3(m_ContentBounds.size.x, 0, m_ContentBounds.size.z);
+        }
+
+        /// <summary>Uses rendered room geometry rather than MapData.Size, which is only an authoring grid size.</summary>
+        private Bounds CalculateContentBounds(MapData map)
+        {
+            bool hasPoint = false;
+            Bounds bounds = new Bounds();
+            foreach (MapRoomSerializedData room in map.Rooms)
+            {
+                if (room?.Shapes == null) continue;
+                Matrix4x4 matrix = map.GetTRS(room.Transform.Offset, room.Transform.Rotation, room.Transform.Scale, room.Transform.ZOrder);
+                foreach (ShapeData shape in room.Shapes)
+                {
+                    if (shape?.Points == null) continue;
+                    foreach (Vector3 localPoint in shape.Points)
+                    {
+                        Vector3 point = matrix.MultiplyPoint(localPoint);
+                        if (!hasPoint) { bounds = new Bounds(point, Vector3.zero); hasPoint = true; }
+                        else bounds.Encapsulate(point);
+                    }
+                }
+
+                // Paths added through the room's + Path control are rendered
+                // details, not room collision geometry. They still count as
+                // visible map drawing and must therefore extend the pan bounds.
+                if (room.Details == null) continue;
+                foreach (MapDetailsSerializedData details in room.Details)
+                {
+                    if (details?.Shape?.Points == null) continue;
+                    Matrix4x4 detailMatrix = matrix * Matrix4x4.TRS(
+                        new Vector3(details.Transform.Offset.x, details.Transform.ZOrder * .01f, details.Transform.Offset.y),
+                        Quaternion.Euler(0, details.Transform.Rotation, 0),
+                        details.Transform.Scale);
+                    foreach (Vector3 localPoint in details.Shape.Points)
+                    {
+                        Vector3 point = detailMatrix.MultiplyPoint(localPoint);
+                        if (!hasPoint) { bounds = new Bounds(point, Vector3.zero); hasPoint = true; }
+                        else bounds.Encapsulate(point);
+                    }
+                }
+            }
+            float canvasWidth = map.CellSize * map.Size.x * map.GlobalScale;
+            float canvasHeight = map.CellSize * map.Size.y * map.GlobalScale;
+            Bounds minimumCanvas = new Bounds(
+                new Vector3(canvasWidth * .5f, 0, -canvasHeight * .5f),
+                new Vector3(canvasWidth, 0, canvasHeight));
+            if (hasPoint)
+            {
+                // Clamp to the actual map drawing, with a small breathing margin.
+                bounds.Expand(new Vector3(m_MapPanPadding * 2f, 0f, m_MapPanPadding * 2f));
+                return bounds;
+            }
+            return minimumCanvas;
         }
 
         // --------------------------------------------------------------------

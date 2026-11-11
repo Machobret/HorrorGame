@@ -44,7 +44,33 @@ MonoBehaviour:
   CellSize: 50
   GlobalScale: 10
   MapSet: {fileID: 11400000, guid: 2a25645896c049042af84cd91dc2938b, type: 2}
+<<<<<<< Updated upstream
   Rooms: []
+=======
+  Rooms:
+  - Name: Test area
+    UniqueId: babc6e59-08fc-4bc5-a09b-4d62b4112185
+    Transform:
+      Offset: {x: 637.6, y: 613.6001}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 0
+    Shapes:
+    - Points:
+      - {x: -3.5, y: 0, z: 0.52949166}
+      - {x: -3.5, y: 0, z: 6.5}
+      - {x: 1, y: 0, z: 6.5}
+      - {x: 1, y: 0, z: -0.45897138}
+      - {x: 10.792879, y: 0, z: -0.45897257}
+      - {x: 10.942413, y: 0, z: -7.5083838}
+      - {x: -16, y: 0, z: -7.4683156}
+      - {x: -16, y: 0, z: 0.44677997}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+>>>>>>> Stashed changes
   Doors: []
   references:
     version: 2

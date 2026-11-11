@@ -14,6 +14,10 @@ namespace HorrorEngine
     public class ShapeData
     {
         public Vector3[] Points;
+        // Individual map paths may be open branches or closed loops. This is
+        // intentionally stored with the points so it survives map serialization.
+        public bool Closed;
+        public ShapeEdge[] Connections;
     }
 
     [Serializable]

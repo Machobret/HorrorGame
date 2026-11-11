@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2470300049438884174}
   - component: {fileID: 4929046983260173943}
+  - component: {fileID: 440101000000000002}
   m_Layer: 0
   m_Name: Map Blocked Path Cross
   m_TagString: Untagged
@@ -47,8 +48,29 @@ MonoBehaviour:
   Type: 1
   Map: {fileID: 0}
   Target: {fileID: 0}
+  TriggerArea: {fileID: 440101000000000002}
   IndicatorColor: {r: 0.95, g: 0.16, b: 0.16, a: 1}
   Size: 28
   ReachedDistance: 0
   HideWhenReached: 0
   IsEnabled: 1
+--- !u!114 &440101000000000002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7199184628849471102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8f2af79ccf73b244b9e607124fda97b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DrawGizmo: 1
+  Points:
+  - {x: -1, y: 0, z: -1}
+  - {x: -1, y: 0, z: 1}
+  - {x: 1, y: 0, z: 1}
+  - {x: 1, y: 0, z: -1}
+  CloseShape: 1
+  Connections: []

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5381124977635117092
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6790323245104024330, guid: b015e31022d5dad4fb3f485ff3e51321, type: 3}
+      propertyPath: m_Name
+      value: RoomCircuitDiagramPickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 6790323245104024333, guid: b015e31022d5dad4fb3f485ff3e51321, type: 3}
+      propertyPath: m_ReadOnPickup
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3097733056778002997, guid: b015e31022d5dad4fb3f485ff3e51321, type: 3}
+      propertyPath: m_Id
+      value: 467490d0-5bd5-445c-9e59-1ae5dac5d9f8
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b015e31022d5dad4fb3f485ff3e51321, type: 3}
+--- !u!4 &6790323245104024334 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6790323245104024334, guid: b015e31022d5dad4fb3f485ff3e51321, type: 3}
+  m_PrefabInstance: {fileID: 5381124977635117092}
+  m_PrefabAsset: {fileID: 0}

@@ -10,8 +10,8 @@ namespace HorrorGame.Chapter1
         public MapData MapData;
         public PowerPanelLayout Layout;
         public DistrictPowerGrid Grid;
-        [Tooltip("The circuit diagram document that unlocks this map's power dots. Documents never use an inventory slot.")]
-        public DocumentData CircuitDiagram;
+        [Tooltip("Collected room-specific diagrams unlock only that room's circuit dots.")]
+        public CircuitDiagramData[] CircuitDiagrams;
         [Tooltip("When enabled, dots appear on the normal player map instead of a separate power-panel UI.")]
         public bool DisplayInPlayerMap = true;
         private DistrictPowerGrid grid;
@@ -56,6 +56,7 @@ namespace HorrorGame.Chapter1
             float height = MapData.Size.y * MapData.CellSize;
             foreach (PowerPanelCircuitShape shape in Layout.Circuits)
             {
+                if (!IsCircuitRoomRevealed(shape)) continue;
                 // MapPosition is generated from the assigned MapRoom. Bounds belong to the
                 // obsolete standalone layout editor and may be nowhere near this map.
                 Vector2 mapPosition = shape.MapPosition == Vector2.zero
@@ -66,6 +67,22 @@ namespace HorrorGame.Chapter1
             }
         }
 
+        private bool IsCircuitRoomRevealed(PowerPanelCircuitShape shape)
+        {
+            if (MapData == null || string.IsNullOrWhiteSpace(shape.RoomUniqueId)) return false;
+            bool hasDiagram = false;
+            foreach (DocumentData document in GameManager.Instance.Inventory.Documents)
+            {
+                if (!(document is CircuitDiagramData diagram)) continue;
+                if (diagram.Map == MapData && diagram.RoomUniqueId == shape.RoomUniqueId) { hasDiagram = true; break; }
+            }
+            if (!hasDiagram) return false;
+            // The diagram itself is the discovery gate. A player can find a circuit
+            // diagram before fully exploring its room, so do not hide its dots behind
+            // the map fog/state a second time.
+            return true;
+        }
+
         private bool PlayerOwnsMap()
         {
             return GameManager.Exists && GameManager.Instance.Inventory != null && GameManager.Instance.Inventory.Maps.Contains(MapData);
@@ -73,7 +90,10 @@ namespace HorrorGame.Chapter1
 
         private bool PlayerOwnsCircuitDiagram()
         {
-            return CircuitDiagram != null && GameManager.Exists && GameManager.Instance.Inventory != null && GameManager.Instance.Inventory.Documents.Contains(CircuitDiagram);
+            if (!GameManager.Exists || GameManager.Instance.Inventory == null) return false;
+            foreach (DocumentData document in GameManager.Instance.Inventory.Documents)
+                if (document is CircuitDiagramData) return true;
+            return false;
         }
 
         private void TryActivateCrosshairPoint()

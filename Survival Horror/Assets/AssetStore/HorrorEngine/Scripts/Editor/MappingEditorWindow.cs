@@ -26,7 +26,14 @@ namespace HorrorEngine
 
         private MapController m_SelectedMap;
         private MapElement m_Selected;
+        private MapDetailingShape m_SelectedPath;
+        private bool m_ConnectingPathPoints;
+        private Shape m_ConnectionStartShape;
+        private int m_ConnectionStartPoint = -1;
         private PowerCircuitPanelElement m_SelectedCircuit;
+        // Circuit editing selects the dot GameObject, so keep its room context
+        // independently from Unity's one-object Selection state.
+        private MapRoom m_CircuitRoomContext;
         private Material m_Mat;
 
         private bool m_EditingMapDetails;
@@ -59,7 +66,10 @@ namespace HorrorEngine
 
                 GameObject selectedGO = Selection.activeObject as GameObject;
                 m_Selected = selectedGO ? selectedGO.GetComponent<MapElement>() : null;
+                m_SelectedPath = selectedGO ? selectedGO.GetComponent<MapDetailingShape>() : null;
                 m_SelectedCircuit = selectedGO ? selectedGO.GetComponent<PowerCircuitPanelElement>() : null;
+                if (m_Selected is MapRoom selectedRoom) m_CircuitRoomContext = selectedRoom;
+                else if (m_SelectedCircuit && m_SelectedCircuit.Room) m_CircuitRoomContext = m_SelectedCircuit.Room;
 
                 var rooms = m_SelectedMap.GetComponentsInChildren<MapRoom>(true);
                 for (int i = 0; i < rooms.Length; ++i)
@@ -74,6 +84,9 @@ namespace HorrorEngine
                 }
 
                 DrawPowerCircuits();
+                DrawPathConnectionPoints(rooms);
+                HandlePathConnectionClick(rooms);
+                DrawNavigationIndicators(rooms);
 
                 // Images need to go last since GUI.DrawTexture seems to interfere with other graphic GL calls
                 foreach (var room in rooms)
@@ -83,11 +96,12 @@ namespace HorrorEngine
                 }
 
                 // This needs to go before the inspector so new items are already in the arrays
-                if (m_Selected || m_SelectedCircuit)
+                if (m_Selected || m_SelectedCircuit || m_SelectedPath)
                 {
                     UpdateTransformOps();
                     if (m_Selected) DrawSelectedProperties();
-                    else DrawSelectedCircuitProperties();
+                    else if (m_SelectedCircuit) DrawSelectedCircuitProperties();
+                    else DrawSelectedPathProperties(m_SelectedPath);
                 }
 
                 int defaultFontSize = GUI.skin.label.fontSize;
@@ -355,6 +369,71 @@ namespace HorrorEngine
             GUILayout.EndArea();
         }
 
+        private void DrawSelectedPathProperties(MapDetailingShape path)
+        {
+            if (!path || !path.TryGetComponent(out Shape shape)) return;
+
+            GUIStyle propsStyle = new GUIStyle();
+            propsStyle.normal.background = MakeTex(2, 2, new Color(0.1f, 0.1f, 0.1f, 0.75f));
+
+            GUILayout.BeginArea(new Rect(m_InspectorWidth + 20, position.height - 390, 390, 380));
+            GUILayout.BeginVertical(propsStyle);
+            GUILayout.Label("Map Path", EditorStyles.boldLabel);
+            GUILayout.Label("Independent paths can share endpoints to form branches.", EditorStyles.miniLabel);
+
+            EditorGUI.BeginChangeCheck();
+            string pathName = EditorGUILayout.TextField("Name", path.gameObject.name);
+            bool closed = EditorGUILayout.Toggle("Close Into Loop", shape.CloseShape);
+            GUILayout.Label("Points", EditorStyles.boldLabel);
+            int removePoint = -1;
+            for (int i = 0; i < shape.Points.Count; ++i)
+            {
+                GUILayout.BeginHorizontal();
+                shape.Points[i] = EditorGUILayout.Vector3Field(i.ToString(), shape.Points[i]);
+                if (GUILayout.Button("-", GUILayout.Width(24))) removePoint = i;
+                GUILayout.EndHorizontal();
+            }
+            if (GUILayout.Button("+ Add Point"))
+            {
+                Undo.RecordObject(shape, "Add Map Path Point");
+                shape.Points.Add(shape.Points.Count > 0 ? shape.Points[shape.Points.Count - 1] : Vector3.zero);
+                EditorUtility.SetDirty(shape);
+                EditorSceneManager.MarkSceneDirty(path.gameObject.scene);
+            }
+            if (removePoint >= 0)
+            {
+                Undo.RecordObject(shape, "Remove Map Path Point");
+                shape.Points.RemoveAt(removePoint);
+                EditorUtility.SetDirty(shape);
+                EditorSceneManager.MarkSceneDirty(path.gameObject.scene);
+            }
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(path.gameObject, "Edit Map Path");
+                Undo.RecordObject(shape, "Edit Map Path");
+                path.gameObject.name = pathName;
+                shape.CloseShape = closed;
+                EditorUtility.SetDirty(path);
+                EditorUtility.SetDirty(shape);
+                EditorSceneManager.MarkSceneDirty(path.gameObject.scene);
+            }
+
+            GUILayout.Space(4);
+            if (GUILayout.Button(m_ConnectingPathPoints ? "Cancel Point Connection" : "Connect Existing Points"))
+            {
+                m_ConnectingPathPoints = !m_ConnectingPathPoints;
+                m_ConnectionStartShape = null;
+                m_ConnectionStartPoint = -1;
+                Repaint();
+            }
+            if (m_ConnectingPathPoints)
+                EditorGUILayout.HelpBox("Click the first point on the map, then click the point to join to it. Selecting this path's first and last point closes it into a loop.", MessageType.Info);
+            else
+                GUILayout.Label("Close Into Loop joins this path's last point back to its first.", EditorStyles.wordWrappedMiniLabel);
+            GUILayout.EndVertical();
+            GUILayout.EndArea();
+        }
+
         // --------------------------------------------------------------------
 
         private void DrawSelectedRoomProperties(MapRoom room)
@@ -390,7 +469,7 @@ namespace HorrorEngine
                 Selection.activeObject = detail;
             }
 
-            if (GUILayout.Button("+ Line"))
+            if (GUILayout.Button("+ Path"))
             {
                 var detail = PrefabUtility.InstantiatePrefab(MapDetailsLinePrefab, room.transform) as GameObject;
                 detail.transform.localPosition = Vector3.zero;
@@ -418,6 +497,7 @@ namespace HorrorEngine
             }
             */
             GUILayout.EndHorizontal();
+            GUILayout.Label("Paths are independent: add more to create branches, then close any path to make a loop.", EditorStyles.miniLabel);
             GUILayout.EndVertical();
             GUILayout.EndArea();
         }
@@ -556,18 +636,25 @@ namespace HorrorEngine
 
             // ----------- Chapter 1 power-circuit dots
             PowerPanelController powerController = FindFirstObjectByType<PowerPanelController>();
-            if (powerController)
+            // The map selector can briefly clear its selection while changing maps.
+            // Do not begin a circuit layout group until there is a valid map to
+            // scope it to; otherwise the null exception leaves IMGUI's stack open.
+            if (powerController && m_SelectedMap && m_SelectedMap.Data)
             {
                 GUILayout.BeginVertical();
                 GUILayout.Label("Power Circuits", EditorStyles.boldLabel);
                 foreach (PowerCircuitPanelElement circuit in powerController.GetComponentsInChildren<PowerCircuitPanelElement>(true))
                 {
+                    // Circuits are permanently scoped to the MapData they were created on.
+                    // A shared PowerPanelController must never make dots leak to another map.
+                    if (circuit.GetMapData() != m_SelectedMap.Data) continue;
+                    if (m_CircuitRoomContext && circuit.Room != m_CircuitRoomContext) continue;
                     if (GUILayout.Button(string.IsNullOrEmpty(circuit.Label) ? circuit.CircuitId : circuit.Label))
                         Selection.activeObject = circuit.gameObject;
                 }
                 if (GUILayout.Button("+ Add Circuit"))
                 {
-                    MapRoom room = m_Selected as MapRoom;
+                    MapRoom room = m_CircuitRoomContext;
                     if (!room)
                     {
                         EditorUtility.DisplayDialog("Add Power Circuit", "Select a room first. Circuit dots are anchored to map rooms.", "OK");
@@ -578,6 +665,7 @@ namespace HorrorEngine
                         dot.transform.SetParent(powerController.transform);
                         PowerCircuitPanelElement circuit = dot.AddComponent<PowerCircuitPanelElement>();
                         circuit.Label = "New circuit";
+                        circuit.MapData = m_SelectedMap.Data;
                         circuit.Room = room;
                         circuit.RoomOffset = Vector2.zero;
                         Undo.RegisterCreatedObjectUndo(dot, "Add Power Circuit");
@@ -589,6 +677,8 @@ namespace HorrorEngine
                         AssetDatabase.SaveAssets();
                     }
                 }
+                if (m_CircuitRoomContext && GUILayout.Button("+ Create Circuit Diagram For Room"))
+                    CreateRoomCircuitDiagram(m_CircuitRoomContext);
                 GUILayout.EndVertical();
                 GUILayout.Space(20);
             }
@@ -630,6 +720,35 @@ namespace HorrorEngine
             EditorGUILayout.EndScrollView();
 
             GUILayout.EndArea();
+        }
+
+        private void CreateRoomCircuitDiagram(MapRoom room)
+        {
+            if (!room || !m_SelectedMap || !m_SelectedMap.Data) return;
+            if (!room.TryGetComponent(out ObjectUniqueId roomId)) return;
+            CircuitDiagramData diagram = ScriptableObject.CreateInstance<CircuitDiagramData>();
+            diagram.Map = m_SelectedMap.Data;
+            diagram.RoomUniqueId = roomId.Id;
+            string roomName = string.IsNullOrWhiteSpace(room.Name) ? room.name : room.Name;
+            diagram.Name = new LocalizableText { IsLocalized = false, Unlocalized = roomName + " Circuit Diagram" };
+            diagram.ShowPageCount = false;
+            diagram.Pages = new System.Collections.Generic.List<DocumentPage>
+            {
+                new DocumentPage { Text = new LocalizableText { IsLocalized = false, Unlocalized = "Circuit controls for this room have been added to the map." } }
+            };
+            string path = AssetDatabase.GenerateUniqueAssetPath("Assets/Game/Levels/Chapter1/Assets/" + roomName.Replace(" ", "_") + "_CircuitDiagram.asset");
+            AssetDatabase.CreateAsset(diagram, path);
+            DistrictPowerTablet tablet = FindFirstObjectByType<DistrictPowerTablet>();
+            if (tablet)
+            {
+                var diagrams = new System.Collections.Generic.List<CircuitDiagramData>(tablet.CircuitDiagrams ?? System.Array.Empty<CircuitDiagramData>());
+                diagrams.Add(diagram);
+                tablet.CircuitDiagrams = diagrams.ToArray();
+                EditorUtility.SetDirty(tablet);
+            }
+            AssetDatabase.SaveAssets();
+            EditorSceneManager.MarkSceneDirty(m_SelectedMap.gameObject.scene);
+            Selection.activeObject = diagram;
         }
 
         // --------------------------------------------------------------------
@@ -686,6 +805,8 @@ namespace HorrorEngine
             GL.PushMatrix(); GL.LoadPixelMatrix(); GL.Begin(GL.QUADS);
             foreach (PowerCircuitPanelElement circuit in controller.GetComponentsInChildren<PowerCircuitPanelElement>(true))
             {
+                if (!m_SelectedMap || circuit.GetMapData() != m_SelectedMap.Data) continue;
+                if (m_CircuitRoomContext && circuit.Room != m_CircuitRoomContext) continue;
                 Vector3 p;
                 if (circuit.Room)
                 {
@@ -699,6 +820,163 @@ namespace HorrorEngine
                 GL.Vertex3(p.x + radius, p.z + radius, 0); GL.Vertex3(p.x - radius, p.z + radius, 0);
             }
             GL.End(); GL.PopMatrix();
+        }
+
+        private void DrawNavigationIndicators(MapRoom[] rooms)
+        {
+            // Read the selected controller's hierarchy directly. This makes the
+            // editor preview reliable for prefab instances and inactive objects.
+            MapNavigationIndicator[] indicators = m_SelectedMap.GetComponentsInChildren<MapNavigationIndicator>(true);
+            foreach (MapNavigationIndicator indicator in indicators)
+            {
+                if (!indicator) continue;
+                Shape area = indicator.TriggerArea ? indicator.TriggerArea : indicator.GetComponent<Shape>();
+                Color color = indicator.Type == MapNavigationIndicatorType.ObjectiveArrow ? Color.cyan : Color.red;
+                string displayText = string.IsNullOrWhiteSpace(indicator.DisplayText)
+                    ? (indicator.Type == MapNavigationIndicatorType.ObjectiveArrow ? "Objective" : "Blocked")
+                    : indicator.DisplayText;
+                if (!area)
+                {
+                    Matrix4x4 markerTRS = Matrix4x4.TRS(new Vector3(m_ScrollPos.x, 0, m_ScrollPos.y), Quaternion.identity, Vector3.one)
+                        * m_SelectedMap.transform.worldToLocalMatrix * indicator.transform.localToWorldMatrix;
+                    Vector3 markerPosition = markerTRS.MultiplyPoint(Vector3.zero);
+                    Handles.color = color;
+                    Handles.DrawSolidDisc(new Vector3(markerPosition.x, markerPosition.z, 0), Vector3.forward, 8f);
+                    Handles.Label(new Vector3(markerPosition.x + 10, markerPosition.z, 0), displayText + " (add Shape)");
+                    continue;
+                }
+
+                MapRoom containingRoom = area.GetComponentInParent<MapRoom>();
+                Matrix4x4 shapeTRS;
+                if (containingRoom)
+                {
+                    shapeTRS = GetElementTRS(m_SelectedMap.Data, containingRoom) * containingRoom.transform.worldToLocalMatrix * area.transform.localToWorldMatrix;
+                }
+                else
+                {
+                    // Indicators directly under the MapController use their
+                    // authored local position on the editor canvas.
+                    shapeTRS = Matrix4x4.TRS(new Vector3(m_ScrollPos.x, 0, m_ScrollPos.y), Quaternion.identity, Vector3.one)
+                        * m_SelectedMap.transform.worldToLocalMatrix * area.transform.localToWorldMatrix;
+                }
+
+                DrawShape(area, shapeTRS, color);
+                if (area.Points == null || area.Points.Count == 0) continue;
+
+                Vector3 center = Vector3.zero;
+                foreach (Vector3 point in area.Points) center += shapeTRS.MultiplyPoint(point);
+                center /= area.Points.Count;
+                Handles.color = color;
+                Handles.DrawSolidDisc(new Vector3(center.x, center.z, 0), Vector3.forward, 8f);
+                Handles.Label(new Vector3(center.x + 10, center.z, 0), displayText);
+            }
+        }
+
+        private void DrawPathConnectionPoints(MapRoom[] rooms)
+        {
+            if (!m_ConnectingPathPoints || !m_SelectedMap) return;
+
+            GL.PushMatrix();
+            GL.LoadPixelMatrix();
+            GL.Begin(GL.QUADS);
+            foreach (MapRoom room in rooms)
+            {
+                if (!room) continue;
+                Matrix4x4 roomTRS = GetElementTRS(m_SelectedMap.Data, room);
+                Matrix4x4 roomToEditor = GetElementTRS(m_SelectedMap.Data, room);
+                foreach (Shape shape in room.GetComponentsInChildren<Shape>(true))
+                {
+                    if (!shape) continue;
+                    Matrix4x4 pathTRS = roomToEditor * room.transform.worldToLocalMatrix * shape.transform.localToWorldMatrix;
+                    for (int i = 0; i < shape.Points.Count; ++i)
+                    {
+                        Vector3 point = pathTRS.MultiplyPoint(shape.Points[i]);
+                        bool isStart = shape == m_ConnectionStartShape && i == m_ConnectionStartPoint;
+                        GL.Color(isStart ? Color.green : new Color(.15f, .65f, 1f, 1f));
+                        const float radius = 8f;
+                        GL.Vertex3(point.x - radius, point.z - radius, 0);
+                        GL.Vertex3(point.x + radius, point.z - radius, 0);
+                        GL.Vertex3(point.x + radius, point.z + radius, 0);
+                        GL.Vertex3(point.x - radius, point.z + radius, 0);
+                    }
+                }
+            }
+            GL.End();
+            GL.PopMatrix();
+        }
+
+        private void HandlePathConnectionClick(MapRoom[] rooms)
+        {
+            if (!m_ConnectingPathPoints || Event.current.type != EventType.MouseDown || Event.current.button != 0) return;
+            if (Event.current.mousePosition.x <= m_InspectorWidth) return;
+
+            Shape closestShape = null;
+            int closestPoint = -1;
+            float closestDistance = 12f * 12f;
+            foreach (MapRoom room in rooms)
+            {
+                if (!room) continue;
+                Matrix4x4 roomToEditor = GetElementTRS(m_SelectedMap.Data, room);
+                foreach (Shape shape in room.GetComponentsInChildren<Shape>(true))
+                {
+                    if (!shape) continue;
+                    Matrix4x4 pathTRS = roomToEditor * room.transform.worldToLocalMatrix * shape.transform.localToWorldMatrix;
+                    for (int i = 0; i < shape.Points.Count; ++i)
+                    {
+                        Vector3 point = pathTRS.MultiplyPoint(shape.Points[i]);
+                        float distance = (new Vector2(point.x, point.z) - Event.current.mousePosition).sqrMagnitude;
+                        if (distance >= closestDistance) continue;
+                        closestDistance = distance;
+                        closestShape = shape;
+                        closestPoint = i;
+                    }
+                }
+            }
+
+            if (!closestShape) return;
+            if (!m_ConnectionStartShape)
+            {
+                m_ConnectionStartShape = closestShape;
+                m_ConnectionStartPoint = closestPoint;
+                Repaint();
+                Event.current.Use();
+                return;
+            }
+
+            ConnectShapePoints(m_ConnectionStartShape, m_ConnectionStartPoint, closestShape, closestPoint);
+            m_ConnectionStartShape = null;
+            m_ConnectionStartPoint = -1;
+            Repaint();
+            Event.current.Use();
+        }
+
+        private static void ConnectShapePoints(Shape firstShape, int firstPoint, Shape secondShape, int secondPoint)
+        {
+            if (firstPoint < 0 || firstPoint >= firstShape.Points.Count || secondPoint < 0 || secondPoint >= secondShape.Points.Count) return;
+            if (firstShape != secondShape)
+            {
+                Debug.LogWarning("A single map Shape can only connect points belonging to that same Shape.");
+                return;
+            }
+
+            // Selecting the two ends of one path is the direct "make loop"
+            // operation: the renderer joins them without creating duplicate points.
+            bool samePathEnds =
+                ((firstPoint == 0 && secondPoint == firstShape.Points.Count - 1) ||
+                 (secondPoint == 0 && firstPoint == firstShape.Points.Count - 1));
+            if (samePathEnds)
+            {
+                Undo.RecordObject(firstShape, "Close Map Path Loop");
+                firstShape.CloseShape = true;
+                EditorUtility.SetDirty(firstShape);
+                EditorSceneManager.MarkSceneDirty(firstShape.gameObject.scene);
+                return;
+            }
+            Undo.RecordObject(firstShape, "Connect Map Shape Points");
+            if (firstShape.Connections == null) firstShape.Connections = new System.Collections.Generic.List<ShapeEdge>();
+            firstShape.Connections.Add(new ShapeEdge { From = firstPoint, To = secondPoint });
+            EditorUtility.SetDirty(firstShape);
+            EditorSceneManager.MarkSceneDirty(firstShape.gameObject.scene);
         }
 
         // --------------------------------------------------------------------

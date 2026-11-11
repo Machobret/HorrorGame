@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2731745609554475265}
   - component: {fileID: 1854095849429852210}
   - component: {fileID: 7615504365484145370}
+  - component: {fileID: 6543219876543210987}
   m_Layer: 0
   m_Name: ActivatableLamp
   m_TagString: Untagged
@@ -134,7 +135,23 @@ MonoBehaviour:
   - {fileID: 8849236848450664045}
   EmissiveRenderers:
   - {fileID: 4982540006689771805}
+  FogClearVolume: {fileID: 6543219876543210987}
   OnEmission: {r: 1, g: 0.62, b: 0.18, a: 1}
+--- !u!114 &6543219876543210987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4771093128434408778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e101e2656a946b7988fda7365d0f1a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorGame.Lighting.FogClearingLampLight
+  SourceLight: {fileID: 8849236848450664045}
+  ClearRadius: 5
+  ClearStrength: 0.82
 --- !u!1 &7779568141439218237
 GameObject:
   m_ObjectHideFlags: 0

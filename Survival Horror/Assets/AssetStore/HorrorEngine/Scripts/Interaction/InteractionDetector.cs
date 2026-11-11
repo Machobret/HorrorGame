@@ -36,6 +36,18 @@ namespace HorrorEngine
             }
         }
 
+        /// <summary>
+        /// Re-emits the currently focused interaction. Use this when an
+        /// interaction component is enabled or disabled while its collider is
+        /// already overlapping this detector; Unity does not send a new
+        /// trigger-enter event in that situation.
+        /// </summary>
+        public void RefreshFocusedInteractive()
+        {
+            m_InteractionChangedMsg.Interactive = FocusedInteractive;
+            MessageBuffer<InteractionChangedMessage>.Dispatch(m_InteractionChangedMsg);
+        }
+
         // --------------------------------------------------------------------
 
         protected virtual void Awake()

@@ -150,7 +150,13 @@ namespace HorrorEngine
             move.y = Mathf.Abs(move.y) > m_InputSnapThreshold ? move.y : 0f;
 
             if (MapRenderer.Exists && m_CurrentMap)
-                MapRenderer.Instance.MoveTarget(move* Time.unscaledDeltaTime * m_MovementSpeed);
+            {
+                float panSpeed = m_MovementSpeed * MapRenderer.Instance.GetPanSpeedMultiplier();
+                MapRenderer.Instance.MoveTarget(move * Time.unscaledDeltaTime * panSpeed);
+                float scroll = m_Input.ConsumeScrollDelta();
+                if (Mathf.Abs(scroll) > 0.001f)
+                    MapRenderer.Instance.Zoom(Mathf.Sign(scroll));
+            }
 
             UpdateCrosshairPosition();
         }

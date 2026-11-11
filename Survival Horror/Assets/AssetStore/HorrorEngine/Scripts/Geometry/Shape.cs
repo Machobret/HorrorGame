@@ -8,6 +8,13 @@ using UnityEditor;
 
 namespace HorrorEngine
 {
+    [System.Serializable]
+    public struct ShapeEdge
+    {
+        public int From;
+        public int To;
+    }
+
     public class Shape : MonoBehaviour
     {
         public Color GizmoColor = Color.white;
@@ -21,6 +28,9 @@ namespace HorrorEngine
             };
 
         public bool CloseShape = true;
+
+        [Tooltip("Extra links between existing points. The normal point order remains a line; these links add branches and loops to this same shape.")]
+        public List<ShapeEdge> Connections = new List<ShapeEdge>();
 
         public Vector3 GetWorldPoint(int index)
         {
@@ -114,6 +124,12 @@ namespace HorrorEngine
                     Vector3 p1 = transform.TransformPoint(Points[Points.Count - 1]);
                     Vector3 p2 = transform.TransformPoint(Points[0]);
                     Handles.DrawLine(p1, p2);
+                }
+
+                foreach (ShapeEdge edge in Connections)
+                {
+                    if (edge.From < 0 || edge.To < 0 || edge.From >= Points.Count || edge.To >= Points.Count || edge.From == edge.To) continue;
+                    Handles.DrawLine(transform.TransformPoint(Points[edge.From]), transform.TransformPoint(Points[edge.To]));
                 }
             }
         }

@@ -16,8 +16,8 @@ namespace HorrorGame.Chapter1
         public MapData DistrictMapData;
         [Tooltip("The editable map-style circuit layout used when the panel is created at runtime.")]
         public PowerPanelLayout PanelLayout;
-        [Tooltip("Circuit diagram document required before this map exposes controllable circuit dots. It never occupies an inventory slot.")]
-        public DocumentData CircuitDiagram;
+        [Tooltip("Room-bound circuit diagrams which unlock the matching room's dots.")]
+        public CircuitDiagramData[] CircuitDiagrams;
         public KeyCode CloseKey = KeyCode.Escape;
         public bool IsOpen { get; private set; }
 
@@ -25,7 +25,7 @@ namespace HorrorGame.Chapter1
         {
             Interactive interactive = GetComponent<Interactive>();
             if (interactive != null) interactive.OnInteract.AddListener(_ => Open());
-            EnsureMapCircuitOverlay();
+            EnsureAllMapCircuitOverlays();
         }
 
         private void OnMouseDown() => Open();
@@ -80,7 +80,7 @@ namespace HorrorGame.Chapter1
             foreach (PowerMapCircuitPanel existing in FindObjectsByType<PowerMapCircuitPanel>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             {
                 if (existing.MapData != DistrictMapData) continue;
-                existing.Grid = Grid; existing.Layout = PanelLayout; existing.CircuitDiagram = CircuitDiagram; existing.DisplayInPlayerMap = true;
+                existing.Grid = Grid; existing.Layout = PanelLayout; existing.CircuitDiagrams = CircuitDiagrams; existing.DisplayInPlayerMap = true;
                 return existing;
             }
 
@@ -89,9 +89,45 @@ namespace HorrorGame.Chapter1
             overlay.MapData = DistrictMapData;
             overlay.Layout = PanelLayout;
             overlay.Grid = Grid;
-            overlay.CircuitDiagram = CircuitDiagram;
+            overlay.CircuitDiagrams = CircuitDiagrams;
             overlay.DisplayInPlayerMap = true;
             return overlay;
+        }
+
+        private void EnsureAllMapCircuitOverlays()
+        {
+            // A single panel controller may contain circuits for several maps. Build
+            // one overlay for every map explicitly stored by its circuit dots.
+            foreach (PowerPanelController controller in FindObjectsByType<PowerPanelController>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            {
+                if (!controller || !controller.Data) continue;
+                var maps = new System.Collections.Generic.HashSet<MapData>();
+                foreach (PowerCircuitPanelElement circuit in controller.GetComponentsInChildren<PowerCircuitPanelElement>(true))
+                {
+                    MapData map = circuit.GetMapData();
+                    if (map) maps.Add(map);
+                }
+                MapController sourceMap = controller.ResolveSourceMap();
+                if (sourceMap && sourceMap.Data) maps.Add(sourceMap.Data);
+
+                foreach (MapData map in maps)
+                {
+                    PowerMapCircuitPanel overlay = null;
+                    foreach (PowerMapCircuitPanel existing in FindObjectsByType<PowerMapCircuitPanel>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+                    {
+                        if (existing.MapData == map) { overlay = existing; break; }
+                    }
+                    if (!overlay)
+                    {
+                        GameObject overlayObject = new GameObject("Map Circuit Overlay — " + map.name);
+                        overlay = overlayObject.AddComponent<PowerMapCircuitPanel>();
+                        overlay.MapData = map;
+                    }
+                    overlay.Grid = Grid;
+                    overlay.Layout = controller.Data;
+                    overlay.DisplayInPlayerMap = true;
+                }
+            }
         }
         public void Close() { if (Panel != null) Panel.Close(); IsOpen = false; }
 

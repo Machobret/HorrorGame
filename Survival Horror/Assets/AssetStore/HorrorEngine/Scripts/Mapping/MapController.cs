@@ -166,6 +166,19 @@ namespace HorrorEngine
         public bool TryGetTransformInRoom(Transform transform, out Vector3 roomPos, out Quaternion roomRotation)
         {
             MapRoom room = GetContainingRoom(transform.position);
+            // During door/camera transitions the player can be a few centimetres
+            // outside the authored room shape. Project through the nearest room
+            // instead of losing the map marker or leaving it at its old position.
+            if (!room && m_Rooms != null && m_Rooms.Length > 0)
+            {
+                float nearestDistance = float.MaxValue;
+                foreach (MapRoom candidate in m_Rooms)
+                {
+                    if (!candidate) continue;
+                    float distance = (candidate.GetBounds().ClosestPoint(transform.position) - transform.position).sqrMagnitude;
+                    if (distance < nearestDistance) { nearestDistance = distance; room = candidate; }
+                }
+            }
             if (room)
             {
                 TransformToRoom(transform, room, out roomPos, out roomRotation);
@@ -175,6 +188,34 @@ namespace HorrorEngine
             roomPos = Vector3.zero;
             roomRotation = Quaternion.identity;
             return false;
+        }
+
+        /// <summary>Converts an arbitrary world point into authored map space.</summary>
+        public bool TryGetWorldPositionInRoom(Vector3 worldPosition, out Vector3 roomPos)
+        {
+            MapRoom room = GetContainingRoom(worldPosition);
+            // Map-only authoring markers often sit just outside a room's
+            // gameplay polygon. Use the nearest authored room, matching the
+            // player-marker fallback in TryGetTransformInRoom.
+            if (!room && m_Rooms != null && m_Rooms.Length > 0)
+            {
+                float nearestDistance = float.MaxValue;
+                foreach (MapRoom candidate in m_Rooms)
+                {
+                    if (!candidate) continue;
+                    float distance = (candidate.GetBounds().ClosestPoint(worldPosition) - worldPosition).sqrMagnitude;
+                    if (distance < nearestDistance) { nearestDistance = distance; room = candidate; }
+                }
+            }
+            if (!room)
+            {
+                roomPos = Vector3.zero;
+                return false;
+            }
+
+            Matrix4x4 roomTRS = Data.GetTRS(room.Offset, room.Rotation, room.Scale, room.ZOrder);
+            roomPos = roomTRS.MultiplyPoint(room.transform.InverseTransformPoint(worldPosition));
+            return true;
         }
 
         // --------------------------------------------------------------------

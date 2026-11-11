@@ -42,9 +42,23 @@ namespace HorrorGame.Chapter1
                 foreach (Collider collider in BlockingColliders) if (collider) collider.enabled = !open;
             if (LocalDoorInteractionsToDisable != null)
                 foreach (Interactive interactive in LocalDoorInteractionsToDisable) if (interactive) interactive.enabled = open;
+
+            // A door can be toggled while its interaction collider is already
+            // inside the player's detector. Enabling/disabling the component
+            // does not cause Unity to send another trigger event, so force the
+            // prompt to clear or return immediately.
+            RefreshInteractionPrompts();
+
             if (!MovingPart) return;
             if (move != null) StopCoroutine(move);
             move = StartCoroutine(Move(open ? OpenLocalPosition : ClosedLocalPosition));
+        }
+
+        private static void RefreshInteractionPrompts()
+        {
+            InteractionDetector[] detectors = FindObjectsByType<InteractionDetector>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+            foreach (InteractionDetector detector in detectors)
+                detector.RefreshFocusedInteractive();
         }
 
         private IEnumerator Move(Vector3 destination)

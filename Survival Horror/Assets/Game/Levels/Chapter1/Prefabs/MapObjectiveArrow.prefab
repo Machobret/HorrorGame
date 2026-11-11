@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6949182034805793972}
   - component: {fileID: 1666760382857177947}
+  - component: {fileID: 440101000000000001}
   m_Layer: 0
   m_Name: Map Objective Arrow
   m_TagString: Untagged
@@ -47,8 +48,29 @@ MonoBehaviour:
   Type: 0
   Map: {fileID: 0}
   Target: {fileID: 0}
+  TriggerArea: {fileID: 440101000000000001}
   IndicatorColor: {r: 1, g: 1, b: 1, a: 1}
   Size: 28
   ReachedDistance: 1.25
   HideWhenReached: 1
   IsEnabled: 1
+--- !u!114 &440101000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442036117962521663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8f2af79ccf73b244b9e607124fda97b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DrawGizmo: 1
+  Points:
+  - {x: -1, y: 0, z: -1}
+  - {x: -1, y: 0, z: 1}
+  - {x: 1, y: 0, z: 1}
+  - {x: 1, y: 0, z: -1}
+  CloseShape: 1
+  Connections: []

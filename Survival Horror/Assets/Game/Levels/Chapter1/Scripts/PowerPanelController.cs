@@ -30,18 +30,14 @@ namespace HorrorGame.Chapter1
         }
 #endif
 
-        /// <summary>Finds the actual authored map, skipping empty/template MapControllers.</summary>
+        /// <summary>Finds the map explicitly assigned to this panel authoring object.</summary>
         public HorrorEngine.MapController ResolveSourceMap()
         {
             if (SourceMap && SourceMap.Data) return SourceMap;
+            // Prefer a controller that owns this authoring object in the hierarchy.
+            HorrorEngine.MapController parentMap = GetComponentInParent<HorrorEngine.MapController>();
+            if (parentMap && parentMap.Data) return parentMap;
 
-            HorrorEngine.MapController[] maps = FindObjectsByType<HorrorEngine.MapController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-            foreach (HorrorEngine.MapController map in maps)
-            {
-                if (!map || !map.Data) continue;
-                SourceMap = map;
-                return map;
-            }
             return null;
         }
 
@@ -101,6 +97,7 @@ namespace HorrorGame.Chapter1
         public void SyncCircuitData(PowerCircuitPanelElement element, string previousId = null)
         {
             if (!element || string.IsNullOrWhiteSpace(element.CircuitId)) return;
+            if (string.IsNullOrWhiteSpace(previousId)) previousId = element.LastSyncedCircuitId;
             DistrictPowerGrid resolvedGrid = ResolveGrid();
             if (!GridData && resolvedGrid) GridData = resolvedGrid.Data;
             if (GridData)
@@ -132,6 +129,7 @@ namespace HorrorGame.Chapter1
                 UnityEditor.EditorUtility.SetDirty(target);
 #endif
             }
+            element.LastSyncedCircuitId = element.CircuitId;
         }
 
         /// <summary>Creates a stable readable key from the circuit name. Designers never need to type IDs.</summary>
@@ -168,14 +166,16 @@ namespace HorrorGame.Chapter1
             Data.CanvasSize = CanvasSize;
             BindLegacyDotsToRooms();
             ResolveGrid();
-            ResolveSourceMap();
-            foreach (PowerCircuitPanelElement element in GetComponentsInChildren<PowerCircuitPanelElement>(true))
+            HorrorEngine.MapController sourceMap = ResolveSourceMap();
+            PowerCircuitPanelElement[] elements = GetComponentsInChildren<PowerCircuitPanelElement>(true);
+            // The scene objects are authoritative. Rebuild rather than incrementally
+            // appending, so typing a label/ID cannot leave f, fi, fir, etc. behind.
+            Data.Circuits.Clear();
+            foreach (PowerCircuitPanelElement element in elements)
             {
                 SyncCircuitData(element);
-                PowerPanelCircuitShape shape = element.ToShape(SourceMap ? SourceMap.Data : null);
-                int index = Data.Circuits.FindIndex(value => value.CircuitId == shape.CircuitId);
-                if (index >= 0) Data.Circuits[index] = shape;
-                else Data.Circuits.Add(shape);
+                PowerPanelCircuitShape shape = element.ToShape(sourceMap ? sourceMap.Data : null);
+                Data.Circuits.Add(shape);
             }
 #if UNITY_EDITOR
             UnityEditor.EditorUtility.SetDirty(Data);
@@ -183,36 +183,4 @@ namespace HorrorGame.Chapter1
         }
     }
 
-    /// <summary>Place one of these under PowerPanelController for every selectable power circuit.</summary>
-    public sealed class PowerCircuitPanelElement : MonoBehaviour
-    {
-        public string CircuitId;
-        public string Label;
-        [Min(0)] public int Consumption = 20;
-        public bool StartsEnabled;
-        [Tooltip("The map room this circuit dot belongs to. The editor assigns the currently selected room when adding a circuit.")]
-        public HorrorEngine.MapRoom Room;
-        [Tooltip("Dot position in the selected room's local map space.")]
-        public Vector2 RoomOffset;
-        [Tooltip("Lamps, shutters, and other CircuitDrivenObjects powered by this circuit.")]
-        public List<CircuitDrivenObject> LinkedTargets = new List<CircuitDrivenObject>();
-        public Vector2 Size = new Vector2(220, 65);
-        public List<Vector2> BorderPoints = new List<Vector2>();
-
-        public PowerPanelCircuitShape ToShape(HorrorEngine.MapData map)
-        {
-            Vector2 center = Room ? RoomOffset : new Vector2(transform.localPosition.x, transform.localPosition.z);
-            Rect bounds = new Rect(center - Size * .5f, Size);
-            List<Vector2> points = new List<Vector2>(BorderPoints);
-            if (points.Count == 0) points.AddRange(new[] { bounds.min, new Vector2(bounds.xMax, bounds.yMin), bounds.max, new Vector2(bounds.xMin, bounds.yMax) });
-            Vector2 mapPosition = center;
-            if (Room && map)
-            {
-                Matrix4x4 matrix = map.GetTRS(Room.Offset, Room.Rotation, Room.Scale, Room.ZOrder);
-                Vector3 point = matrix.MultiplyPoint(new Vector3(RoomOffset.x, 0, RoomOffset.y));
-                mapPosition = new Vector2(point.x, -point.z);
-            }
-            return new PowerPanelCircuitShape { CircuitId = CircuitId, Label = string.IsNullOrWhiteSpace(Label) ? CircuitId : Label, Bounds = bounds, BorderPoints = points, MapPosition = mapPosition };
-        }
-    }
 }

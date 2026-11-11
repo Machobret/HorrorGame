@@ -27,6 +27,11 @@ Shader "Hidden/HorrorGame/Stylized Flare Lighting"
    int _StylizedFlareCount;
    float4 _StylizedFlarePositions[8];
    float4 _StylizedFlareSettings[8];
+   int _HorrorFogClearCount;
+   float4 _HorrorFogClearPositions[8];
+   float4 _HorrorFogClearSettings[8];
+   float4 _HorrorFogClearColor;
+   float _HorrorFogClearDensity;
    struct Attributes { uint vertexID : SV_VertexID; };
    struct Varyings { float4 positionCS : SV_POSITION; float2 uv : TEXCOORD0; };
    Varyings Vert(Attributes input)
@@ -44,7 +49,6 @@ Shader "Hidden/HorrorGame/Stylized Flare Lighting"
    half4 Frag(Varyings input) : SV_Target
    {
     half4 source=SAMPLE_TEXTURE2D_X(_BlitTexture,sampler_PointClamp,input.uv);
-    if (_StylizedFlareCount==0 || _Strength<=0) return source;
     float depth=SampleSceneDepth(input.uv);
     #if UNITY_REVERSED_Z
      if(depth<=.00001) return source;
@@ -53,6 +57,24 @@ Shader "Hidden/HorrorGame/Stylized Flare Lighting"
      depth=lerp(UNITY_NEAR_CLIP_VALUE,1,depth);
     #endif
     float3 world=ComputeWorldSpacePosition(input.uv,depth,UNITY_MATRIX_I_VP);
+    // Built-in distance fog is global and does not react to point lights. For
+    // powered lamps, undo the fog blend only inside each local light volume.
+    float fogClear=0;
+    for(int i=0;i<min(_HorrorFogClearCount,8);++i)
+    {
+     float radius=max(_HorrorFogClearPositions[i].w,.01);
+     float distanceToLight=distance(world,_HorrorFogClearPositions[i].xyz);
+     float edge=saturate(1-distanceToLight/radius);
+     fogClear=max(fogClear,edge*edge*_HorrorFogClearSettings[i].x);
+    }
+    if(fogClear>0 && _HorrorFogClearDensity>0)
+    {
+     float cameraDistance=distance(world,_WorldSpaceCameraPos);
+     float fogFactor=exp(-_HorrorFogClearDensity*_HorrorFogClearDensity*cameraDistance*cameraDistance);
+     float3 unfogged=(source.rgb-_HorrorFogClearColor.rgb*(1-fogFactor))/max(fogFactor,.08);
+     source.rgb=lerp(source.rgb,max(unfogged,0),saturate(fogClear));
+    }
+    if (_StylizedFlareCount==0 || _Strength<=0) return source;
     float best=0; float intensity=0; float3 palette=0;
     float dither=Bayer((uint2)floor(input.positionCS.xy/max(1,_DitherPixels)));
     for(int i=0;i<min(_StylizedFlareCount,8);++i)

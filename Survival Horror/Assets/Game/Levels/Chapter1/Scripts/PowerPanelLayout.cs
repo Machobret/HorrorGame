@@ -23,5 +23,8 @@ namespace HorrorGame.Chapter1
         [Tooltip("Optional map-style border points, relative to the layout canvas. They are drawn over Bounds.")]
         public List<Vector2> BorderPoints = new List<Vector2>();
         [HideInInspector] public Vector2 MapPosition;
+        [HideInInspector] public string RoomName;
+        [HideInInspector] public string MapUniqueId;
+        [HideInInspector] public string RoomUniqueId;
     }
 }

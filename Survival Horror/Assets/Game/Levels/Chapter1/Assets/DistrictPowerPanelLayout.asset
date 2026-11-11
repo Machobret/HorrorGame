@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HorrorGame.Chapter1.PowerPanelLayout
   CanvasSize: {x: 800, y: 500}
   Circuits:
-  - CircuitId: street_lamp_1
-    Label: Street_Lamp_1
+  - CircuitId: fire_escape_ladder
+    Label: Fire Escape Ladder
     Bounds:
       serializedVersion: 2
+<<<<<<< Updated upstream
       x: -107.37604
       y: -28.50351
       width: 220
@@ -30,27 +31,48 @@ MonoBehaviour:
     MapPosition: {x: 2.62396, y: 3.99649}
   - CircuitId: 
     Label: 
-    Bounds:
-      serializedVersion: 2
-      x: -173.4976
-      y: 28.460361
+=======
+      x: -167.6
+      y: -39.54002
       width: 220
       height: 65
     BorderPoints:
-    - {x: -173.4976, y: 28.460361}
-    - {x: 46.502396, y: 28.460361}
-    - {x: 46.502396, y: 93.46036}
-    - {x: -173.4976, y: 93.46036}
-    MapPosition: {x: 2.62397, y: 3.9964828}
-  - CircuitId: circuit
-    Label: circuit
+    - {x: -167.6, y: -39.54002}
+    - {x: 52.399994, y: -39.54002}
+    - {x: 52.399994, y: 25.45998}
+    - {x: -167.6, y: 25.45998}
+    MapPosition: {x: 776.00006, y: 624.59985}
+    RoomName: Distrcit 7 OutDoors
+    MapUniqueId: 34f20cae-972a-4230-b095-9d1e88ce6b17
+    RoomUniqueId: f4d1f147-4651-4c7d-baa4-6723b1f29629
+  - CircuitId: street_lights
+    Label: Street Lights
+>>>>>>> Stashed changes
     Bounds:
       serializedVersion: 2
-      x: -173.4976
-      y: 28.460361
+      x: -149.92
+      y: -32.42002
       width: 220
       height: 65
     BorderPoints:
+    - {x: -149.92, y: -32.42002}
+    - {x: 70.08, y: -32.42002}
+    - {x: 70.08, y: 32.57998}
+    - {x: -149.92, y: 32.57998}
+    MapPosition: {x: 599.19995, y: 695.79987}
+    RoomName: Distrcit 7 OutDoors
+    MapUniqueId: 34f20cae-972a-4230-b095-9d1e88ce6b17
+    RoomUniqueId: f4d1f147-4651-4c7d-baa4-6723b1f29629
+  - CircuitId: store_shutters
+    Label: Store Shutters
+    Bounds:
+      serializedVersion: 2
+      x: -130.56
+      y: -31.44
+      width: 220
+      height: 65
+    BorderPoints:
+<<<<<<< Updated upstream
     - {x: -173.4976, y: 28.460361}
     - {x: 46.502396, y: 28.460361}
     - {x: 46.502396, y: 93.46036}
@@ -182,3 +204,13 @@ MonoBehaviour:
     - {x: 112.62396, y: 36.49649}
     - {x: -107.37604, y: 36.49649}
     MapPosition: {x: 2.62396, y: 3.99649}
+=======
+    - {x: -130.56, y: -31.44}
+    - {x: 89.44, y: -31.44}
+    - {x: 89.44, y: 33.559998}
+    - {x: -130.56, y: 33.559998}
+    MapPosition: {x: 405.59995, y: 705.60004}
+    RoomName: Distrcit 7 OutDoors
+    MapUniqueId: 34f20cae-972a-4230-b095-9d1e88ce6b17
+    RoomUniqueId: f4d1f147-4651-4c7d-baa4-6723b1f29629
+>>>>>>> Stashed changes

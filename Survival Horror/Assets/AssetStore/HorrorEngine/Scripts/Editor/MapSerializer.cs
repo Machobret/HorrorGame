@@ -84,7 +84,9 @@ namespace HorrorEngine
                 {
                     shapesData[i] = new ShapeData()
                     {
-                        Points = shapes[i].Points.ToArray()
+                        Points = shapes[i].Points.ToArray(),
+                        Closed = shapes[i].CloseShape,
+                        Connections = shapes[i].Connections.ToArray()
                     };
                 }
 
@@ -114,7 +116,9 @@ namespace HorrorEngine
                             },
                             Shape = new ShapeData()
                             {
-                                Points = shape.Points.ToArray()
+                                Points = shape.Points.ToArray(),
+                                Closed = shape.CloseShape,
+                                Connections = shape.Connections.ToArray()
                             },
                             DefaultState = details.isActiveAndEnabled,
                             CreationProcess = details.CreationProcess,

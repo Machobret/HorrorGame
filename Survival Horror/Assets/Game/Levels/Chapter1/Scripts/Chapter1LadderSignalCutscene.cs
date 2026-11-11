@@ -12,6 +12,8 @@ namespace HorrorGame.Chapter1
         public Transform Ladder;
         [Tooltip("Move this scene placeholder to the exact final location for the ladder.")]
         public Transform LadderLoweredPosition;
+        [Tooltip("The circuit-driven ladder gate. The cutscene marks it complete; its power circuit performs the actual lowering.")]
+        public CircuitDrivenLadder LadderCircuit;
         [Min(.1f)] public float Duration = 3f;
         [Min(.1f)] public float RunToPointSeconds = 1.25f;
         [Min(.05f)] public float BarFadeSeconds = .35f;
@@ -58,7 +60,8 @@ namespace HorrorGame.Chapter1
 
             yield return FadeBars(0f);
             player.Enable(this);
-            if (Ladder) yield return LowerLadder(Ladder);
+            if (LadderCircuit) LadderCircuit.MarkPuzzleComplete();
+            else if (Ladder) yield return LowerLadder(Ladder);
             else Debug.LogWarning("Assign the exact ladder to move in Chapter1LadderSignalCutscene.Ladder.", this);
             m_Playing = false;
         }
