@@ -32,16 +32,23 @@ namespace EnvironmentAuthoring.Editor
             return new HouseEditResult(applied ? HouseEditStatus.Applied : HouseEditStatus.Unchanged);
         }
 
-        public static HouseEditResult SetWallFamily(HousePlan plan, IEnumerable<string> ids, WallFamily family)
+        public static HouseEditResult SetWallFamily(HousePlan plan, IEnumerable<string> ids, UnityEngine.Object family)
         {
             if (!HouseEditValidation.Source(plan, out string reason)) return HouseEditResult.Reject(reason);
-            if (family != null && !family.IsValid(out reason)) return HouseEditResult.Reject(reason);
+            if (family != null && !(family is WallFamily) && !(family is FenceFamily))
+                return HouseEditResult.Reject("Choose a wall or fence family.");
+            if (family is WallFamily masonry && !masonry.IsValid(out reason)) return HouseEditResult.Reject(reason);
+            if (family is FenceFamily fence && !fence.IsValid(out reason)) return HouseEditResult.Reject(reason);
             using var preview = new HouseEditPreview(plan);
             var selected = new HashSet<string>(ids);
             var walls = preview.Plan.Walls.Where(w => selected.Contains(w.Id)).ToArray();
             if (walls.Length == 0 || walls.Length != selected.Count || walls.Any(w => !w.IsPhysical))
                 return HouseEditResult.Reject("Choose existing physical walls.");
-            foreach (var wall in walls) wall.SetFamily(family);
+            foreach (var wall in walls)
+            {
+                wall.SetFamily(family as WallGeometryFamily);
+                if (wall.IsFence) wall.MutableOpenings.Clear();
+            }
             return preview.Validate(out reason) ? CommitPreview(preview, "Change wall family") : HouseEditResult.Reject(reason);
         }
 

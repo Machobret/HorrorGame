@@ -121,6 +121,7 @@ namespace EnvironmentAuthoring.Editor
                 var terminal = (start - cover.Node).sqrMagnitude < (end - cover.Node).sqrMagnitude
                     ? sections[0] : sections[sections.Count - 1];
                 var definition = HouseWallLayout.DefinitionFor(plan.Data, wall, plan.GetComponent<HouseWallBuilder>().Data);
+                if (definition != null && definition.KeepNativeHeight) return definition.Height;
                 return definition != null && !definition.CoverSlabEdge ? terminal.Top : terminal.CoverageTop;
             }
         }

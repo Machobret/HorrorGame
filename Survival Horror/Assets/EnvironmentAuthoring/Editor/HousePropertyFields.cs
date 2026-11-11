@@ -72,13 +72,13 @@ namespace EnvironmentAuthoring.Editor
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
                 return EditorGUI.DelayedTextField(InputRect(new GUIContent(label)), value);
         }
-        internal static Material Material(string label, Material value) => Material(new GUIContent(label), value);
-        internal static Material Material(GUIContent label, Material value)
+        internal static Material Material(string label, Material value, bool wallFinish = false) => Material(new GUIContent(label), value, wallFinish);
+        internal static Material Material(GUIContent label, Material value, bool wallFinish = false)
         {
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
-                return MaterialInput(InputRect(label), value);
+                return MaterialInput(InputRect(label), value, wallFinish);
         }
-        private static Material MaterialInput(Rect row, Material value)
+        private static Material MaterialInput(Rect row, Material value, bool wallFinish = false)
         {
             int picker = GUIUtility.GetControlID("construction-material-picker".GetHashCode(), FocusType.Passive);
             if (Event.current.type == EventType.ExecuteCommand && Event.current.commandName == "ObjectSelectorUpdated"
@@ -87,19 +87,40 @@ namespace EnvironmentAuthoring.Editor
             var browse = row; browse.xMin = row.xMax - 23; row.xMax = browse.xMin - 2;
             value = (Material)EditorGUI.ObjectField(row, value, typeof(Material), false);
             bool changed = GUI.changed;
-            if (GUI.Button(browse, new GUIContent("…", "Browse curated construction finishes with native mesh previews. Search by surface, e.g. M_Brick. The object field also accepts custom/baked materials.")))
-                EditorGUIUtility.ShowObjectPicker<Material>(value, false, "l:Construction", picker);
+            if (GUI.Button(browse, new GUIContent("…", wallFinish
+                ? "Browse wall finishes by surface. Custom materials can still be dragged into the object field."
+                : "Browse curated construction finishes with native mesh previews. Search by surface, e.g. M_Brick. The object field also accepts custom/baked materials.")))
+            {
+                if (wallFinish)
+                {
+                    var menu = new GenericMenu();
+                    var current = value;
+                    menu.AddItem(new GUIContent("All wall finishes"), false,
+                        () => EditorGUIUtility.ShowObjectPicker<Material>(current, false, ConstructionMaterialCatalog.WallQuery(), picker));
+                    menu.AddItem(new GUIContent("All construction materials"), false,
+                        () => EditorGUIUtility.ShowObjectPicker<Material>(current, false, "l:Construction", picker));
+                    menu.AddSeparator("");
+                    foreach (string surface in ConstructionMaterialCatalog.WallSurfaces)
+                    {
+                        string category = surface;
+                        menu.AddItem(new GUIContent(category), false,
+                            () => EditorGUIUtility.ShowObjectPicker<Material>(current, false, ConstructionMaterialCatalog.WallQuery(category), picker));
+                    }
+                    menu.DropDown(browse);
+                }
+                else EditorGUIUtility.ShowObjectPicker<Material>(value, false, "l:Construction", picker);
+            }
             GUI.changed = changed; // Opening the browser alone must never create an inherited override.
             return value;
         }
         internal static Material InheritedMaterial(GUIContent label, Material stored, Material effective,
-            bool anyOverrides, out bool reset)
+            bool anyOverrides, out bool reset, bool wallFinish = false)
         {
             var row = InputRect(label);
             var resetRect = row; resetRect.xMin = row.xMax - 40;
             row.xMax = resetRect.xMin - 3;
             EditorGUI.BeginChangeCheck();
-            var next = MaterialInput(row, effective);
+            var next = MaterialInput(row, effective, wallFinish);
             bool edited = EditorGUI.EndChangeCheck();
             using (new EditorGUI.DisabledScope(!anyOverrides))
                 reset = GUI.Button(resetRect, new GUIContent("Reset", "Restore inheritance for every selected target."));

@@ -1,11 +1,17 @@
 {
   "source_archive": "C:\\Users\\manta\\Downloads\\URBAN.zip",
   "archive_sha256": "a92eb1f2be095bd63ff5f313f6a2ddf38057975dea830c1683971922f30c894d",
-  "archive_entries": 1011,
+  "archive_entries": 1054,
   "selected_apartment_models": 6,
   "available_apartment_models": 8,
   "license_status": "Unverified: no license or readme in supplied archive",
   "license_documents": [],
-  "texture_note": "Apartment atlas is houses.png; embedded images match the loose atlas byte for byte. Other pack textures include TexturesCom filenames and are not imported.",
-  "source_scope": "Six complete exterior apartment buildings; no modular building pieces, interiors or scene changes"
+  "texture_note": "All 40 loose textures and four distinct embedded texture versions imported; original pixel bytes retained.",
+  "source_scope": "Complete supplied URBAN pack; all 483 model entries mapped to 446 distinct runtime prefabs.",
+  "archive_files": 1011,
+  "full_import_manifest": "ArtSource/Environment/Urban/FullImportManifest.json",
+  "full_import_receipt": "ArtSource/Environment/Urban/FullImportReceipt.json",
+  "complete_pack_models": 446,
+  "exact_duplicate_model_aliases": 37,
+  "new_models_in_complete_import": 440
 }

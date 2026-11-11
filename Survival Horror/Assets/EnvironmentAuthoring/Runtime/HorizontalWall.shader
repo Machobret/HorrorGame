@@ -15,11 +15,14 @@ Shader "Environment Authoring/Horizontal Wall (Prototype)"
         [HideInInspector] _WallProjectionYRange("Wall projection range", Vector) = (0,0,0,0)
         _BlendSharpness("Triplanar blend sharpness", Range(1,16)) = 4
         _NormalStrength("Normal strength", Range(0,1)) = 0
+        _RoughnessScale("Roughness multiplier", Range(0,1)) = 1
+        [Enum(UnityEngine.Rendering.CullMode)] _Cull("Render face", Float) = 2
         // Height is reserved for future layer blending, not displacement.
     }
     SubShader
     {
         Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalPipeline" "UniversalMaterialType"="Lit" }
+        Cull [_Cull]
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
@@ -27,7 +30,7 @@ Shader "Environment Authoring/Horizontal Wall (Prototype)"
         CBUFFER_START(UnityPerMaterial)
             float4 _BaseMap_ST;
             half4 _BaseColor;
-            float _Mapping, _RepeatMetres, _RepeatHeightMetres, _NormalStrength, _BlendSharpness;
+            float _Mapping, _RepeatMetres, _RepeatHeightMetres, _NormalStrength, _BlendSharpness, _RoughnessScale;
             float _UseNormalMap, _AnchorToWallBottom, _PointSampling;
             float4 _WallProjectionYRange, _BaseMap_TexelSize;
         CBUFFER_END
@@ -156,7 +159,7 @@ Shader "Environment Authoring/Horizontal Wall (Prototype)"
                 lighting.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.positionCS);
                 SurfaceData surface = (SurfaceData)0;
                 surface.albedo = color.rgb;
-                surface.smoothness = 1 - roughness;
+                surface.smoothness = 1 - saturate(roughness * _RoughnessScale);
                 surface.occlusion = 1;
                 surface.alpha = 1;
                 half4 result = UniversalFragmentPBR(lighting, surface);

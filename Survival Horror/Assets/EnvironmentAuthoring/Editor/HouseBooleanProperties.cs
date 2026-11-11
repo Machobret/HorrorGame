@@ -17,7 +17,7 @@ namespace EnvironmentAuthoring.Editor
             using (new EditorGUI.DisabledScope(controller.HasSceneGesture))
             {
                 EditorGUI.BeginChangeCheck();
-                var cutMaterial = HousePropertyFields.Material(new GUIContent("Wall cut material", "Finish for newly exposed wall faces. None uses the source's first material. Slab cuts retain their top and bottom layer finishes."), building.Data.BooleanCutMaterial);
+                var cutMaterial = HousePropertyFields.Material(new GUIContent("Wall cut material", "Finish for newly exposed wall faces. None uses the source's first material. Slab cuts retain their top and bottom layer finishes."), building.Data.BooleanCutMaterial, wallFinish: true);
                 if (EditorGUI.EndChangeCheck()) controller.RunCommand(() => HouseBooleanCommands.SetCutMaterial(plan, cutMaterial));
                 using (new EditorGUILayout.HorizontalScope())
                 {

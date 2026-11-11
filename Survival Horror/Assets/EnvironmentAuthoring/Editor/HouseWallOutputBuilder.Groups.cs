@@ -51,6 +51,7 @@ namespace EnvironmentAuthoring.Editor
                 next.Add(group);
             }
 
+            UpdateFenceGroups(output, previous, next, builder, data);
             var failedTrims = UpdateTrimGroups(output, previous, next, builder, data);
             UpdateCornerGroups(output, previous, next, builder, data, layout, failedTrims);
 
@@ -127,8 +128,9 @@ namespace EnvironmentAuthoring.Editor
             return true;
         }
 
-        private static string GroupSignature(string key, string inputs) => key.StartsWith("wall:", StringComparison.Ordinal)
-            ? GeometryKey(inputs) : Hash128.Compute(inputs).ToString();
+        private static string GroupSignature(string key, string inputs) => inputs.StartsWith("house-fence:", StringComparison.Ordinal)
+            ? "fence-geometry-v1:" + Hash128.Compute(inputs)
+            : key.StartsWith("wall:", StringComparison.Ordinal) ? GeometryKey(inputs) : Hash128.Compute(inputs).ToString();
 
         private static string GeometryKey(string inputs) => "wall-geometry-v1:" + Hash128.Compute(inputs);
 
@@ -155,7 +157,7 @@ namespace EnvironmentAuthoring.Editor
             if (group.Root.GetComponentsInChildren<WallModule>(true).Length != group.ModuleCount) return false;
             if (filters.Length == 0 || filters.Any(f => f.sharedMesh == null || f.GetComponent<MeshRenderer>() == null)) return false;
             if (!group.Key.StartsWith("wall:", StringComparison.Ordinal)) return true;
-            return WallModulesAreHealthy(group.Root);
+            return group.Signature.StartsWith("fence-geometry-v1:", StringComparison.Ordinal) || WallModulesAreHealthy(group.Root);
         }
 
         internal static bool WallModulesAreHealthy(GameObject root)

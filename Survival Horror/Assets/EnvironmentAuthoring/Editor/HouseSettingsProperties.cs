@@ -15,8 +15,8 @@ namespace EnvironmentAuthoring.Editor
                 var trims = HouseTrimProperties.Defaults(building, null);
                 if (trims.Status != HouseEditStatus.Unchanged) return trims;
                 EditorGUI.BeginChangeCheck();
-                var inside = HousePropertyFields.Material("Interior wall finish", building.Data.InsideMaterial);
-                var outside = HousePropertyFields.Material("Exterior wall finish", building.Data.OutsideMaterial);
+                var inside = HousePropertyFields.Material("Interior wall finish", building.Data.InsideMaterial, wallFinish: true);
+                var outside = HousePropertyFields.Material("Exterior wall finish", building.Data.OutsideMaterial, wallFinish: true);
                 var floor = HousePropertyFields.Material("Floor finish", building.Data.FloorMaterial);
                 var material = HousePropertyFields.Material("Ceiling finish", building.CeilingMaterial);
                 bool changed = EditorGUI.EndChangeCheck();

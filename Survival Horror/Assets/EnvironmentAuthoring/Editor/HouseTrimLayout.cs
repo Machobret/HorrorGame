@@ -14,7 +14,7 @@ namespace EnvironmentAuthoring.Editor
         internal static WallTrim Default(HousePlan plan)
             => Default(plan.GetComponent<HouseWallBuilder>()?.Data, HouseBuilding.For(plan)?.Data);
         internal static WallTrim Resolve(FloorPlan.Wall wall, WallTrim defaults)
-            => wall.TrimDisabled ? null : wall.Trim ?? defaults;
+            => wall.IsFence || wall.TrimDisabled ? null : wall.Trim ?? defaults;
         internal static WallTrim Resolve(HousePlan plan, FloorPlan.Wall wall) => Resolve(wall, Default(plan));
 
         internal readonly struct Piece
@@ -26,7 +26,7 @@ namespace EnvironmentAuthoring.Editor
         }
 
         internal static bool Eligible(FloorPlan plan, FloorPlan.Wall wall)
-            => wall != null && wall.IsPhysical && plan.TryGetExteriorOutward(wall, out _);
+            => wall != null && wall.IsPhysical && !wall.IsFence && plan.TryGetExteriorOutward(wall, out _);
 
         // The back reaches the wall datum; Projection still measures beyond its outside face.
         internal static Vector2 DepthRange(FloorPlan plan, FloorPlan.Wall wall, WallKit kit, float projection)

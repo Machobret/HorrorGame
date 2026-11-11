@@ -158,6 +158,13 @@ namespace EnvironmentAuthoring.Editor
             var key = (plan, span.WallId, span.Start, span.End);
             if (!heightSections.TryGetValue(key, out var result))
             {
+                if (span.Definition.KeepNativeHeight)
+                {
+                    result = new List<HouseHeightWalls.Section> { new HouseHeightWalls.Section {
+                        From = 0, To = 1, Top = span.Definition.Height, CoverageTop = span.Definition.Height } };
+                    heightSections.Add(key, result);
+                    return result;
+                }
                 var wall = plan.Data.Walls.First(w => w.Id == span.WallId);
                 var start = plan.Data.GetPosition(wall.StartId);
                 var end = plan.Data.GetPosition(wall.EndId);

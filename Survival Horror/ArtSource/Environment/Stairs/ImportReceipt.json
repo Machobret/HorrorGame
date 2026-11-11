@@ -1,0 +1,22 @@
+{
+    "verified": true,
+    "unity_version": "6000.3.11f1",
+    "model": "Assets/Game/Environment/Stairs/Stairs_WoodRustedMetal_Model.fbx",
+    "prefab": "Assets/Game/Environment/Stairs/Stairs_WoodRustedMetal.prefab",
+    "model_guid": "fa375b9c7afd8d045a3acdde06a8ebe2",
+    "prefab_guid": "a68235328e39d6546a142766878f0aba",
+    "wood": "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Wood/M_Wood_DarkPlanks_01.mat",
+    "rust": "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Metal/M_Metal_Rusty_04.mat",
+    "triangles": 1080,
+    "bounds_m": {
+        "x": 4.484355449676514,
+        "y": 3.866572380065918,
+        "z": 1.1991829872131348
+    },
+    "checks": [
+        "Source geometry, scale and pivot preserved",
+        "Wood assigned to Stairs; rusty metal assigned to Railing",
+        "Nonzero railing UVs; textured materials; no shader errors",
+        "Existing shared materials reused without edits"
+    ]
+}

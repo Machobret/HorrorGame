@@ -25,7 +25,7 @@ namespace EnvironmentAuthoring
         // A per-wall choice is deliberate. Automatic walls follow current room
         // ownership, so enclosure edits change geometry as well as finishes.
         public WallFamily FamilyFor(FloorPlan plan, FloorPlan.Wall wall)
-            => wall.Family != null ? wall.Family
+            => wall.IsFence ? null : wall.Family != null ? wall.Family
                 : plan.GetEffectiveWallType(wall) == FloorPlan.WallType.Exterior && ExteriorFamily != null
                     ? ExteriorFamily : DefaultFamily;
 

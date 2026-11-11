@@ -17,7 +17,7 @@ namespace EnvironmentAuthoring.Editor
         {
             serializedObject.Update();
             foreach (string field in new[] { "DisplayName", "PreserveImportOverrides", "FamilyId", "OpeningShape",
-                "Width", "Height", "Thickness", "AllowLengthStretch", "OpeningOutline", "Body" })
+                "Width", "Height", "Thickness", "CoverSlabEdge", "KeepNativeHeight", "AllowLengthStretch", "OpeningOutline", "Body" })
                 EditorGUILayout.PropertyField(serializedObject.FindProperty(field));
             bool changed = serializedObject.ApplyModifiedProperties();
             if (GUILayout.Button("Validate module") || changed)

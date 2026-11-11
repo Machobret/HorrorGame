@@ -1,0 +1,61 @@
+{
+  "batch": "FireEscapesAndRustyMetal04",
+  "models": [
+    {
+      "name": "FireEscape_Repeat",
+      "source_object": "repeat-base",
+      "model_path": "Assets/Game/Environment/FireEscapes/FireEscape_Repeat_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/FireEscapes/FireEscape_Repeat.prefab",
+      "texture_path": "Assets/Game/Environment/FireEscapes/FireEscape_Repeat_Albedo.png",
+      "material_name": "FireEscape_Repeat_Surface",
+      "material_path": "Assets/Game/Environment/FireEscapes/FireEscape_Repeat_Surface.mat",
+      "bounds_m": [
+        11.828872680664062,
+        8.631681442260742,
+        5.42929744720459
+      ],
+      "source_pivot_blender": [
+        0.0,
+        -1.1920928955078125e-07,
+        -0.12549257278442383
+      ],
+      "vertices": 956,
+      "triangles": 2144,
+      "source_uv_corners": 4288,
+      "metallic": 1.0,
+      "smoothness": 0.24090909957885742,
+      "model_sha256": "5e8d88e016d19353e12c7cbe31059343e030dd4cb2eb51da6855e52428058571"
+    },
+    {
+      "name": "FireEscape_Top",
+      "source_object": "top-base",
+      "model_path": "Assets/Game/Environment/FireEscapes/FireEscape_Top_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/FireEscapes/FireEscape_Top.prefab",
+      "texture_path": "Assets/Game/Environment/FireEscapes/FireEscape_Top_Albedo.png",
+      "material_name": "FireEscape_Top_Surface",
+      "material_path": "Assets/Game/Environment/FireEscapes/FireEscape_Top_Surface.mat",
+      "bounds_m": [
+        11.828872680664062,
+        3.399531364440918,
+        5.42929744720459
+      ],
+      "source_pivot_blender": [
+        -2.384185791015625e-07,
+        -1.1920928955078125e-07,
+        8.3843994140625
+      ],
+      "vertices": 860,
+      "triangles": 2000,
+      "source_uv_corners": 4000,
+      "metallic": 1.0,
+      "smoothness": 0.24090909957885742,
+      "model_sha256": "34b02cda7eaca22ccab1182e13eb5bebd4de6bf13a2d28803920e0a3253053b3"
+    }
+  ],
+  "rusty_material": "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Metal/M_Metal_Rusty_04.mat",
+  "rusty_textures": "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Metal/RustyMetal04",
+  "surface_packing": "Linear R=metallic, G=B=0, A=1-roughness; 8-bit RGBA",
+  "source_geometry": "Evaluated modifiers; source metre scale and orientation; ground-centred pivots; no simplification.",
+  "source_mapping": "Generated-box source appearance baked to new UV0; original UVs retained in UV1.",
+  "displacement": "Preserved in ArtSource; not applied to geometry or enabled in URP Lit."
+}

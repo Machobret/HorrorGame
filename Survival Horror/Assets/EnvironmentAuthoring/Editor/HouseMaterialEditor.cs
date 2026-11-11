@@ -28,7 +28,7 @@ namespace EnvironmentAuthoring.Editor
 
             Material Field(string label, Material stored, Material inherited)
                 => HousePropertyFields.InheritedMaterial(new GUIContent(label), stored,
-                    stored != null ? stored : inherited, stored != null, out _);
+                    stored != null ? stored : inherited, stored != null, out _, wallFinish: true);
         }
 
         internal static void DrawWallOverrides(HousePlan plan, FloorPlan.Wall[] walls)
@@ -44,7 +44,7 @@ namespace EnvironmentAuthoring.Editor
                 foreach (var role in family.MaterialRoles.OrderBy(role => role.Slot))
                     DrawInherited(new GUIContent(role.Name, "Wall override. Reset restores the " + family.name + " family default."),
                         group.Select(wall => (wall.RoleMaterial(role.Id), family.RoleMaterial(wall, role.Slot))),
-                        material => HouseFinishCommands.SetWallRole(plan, group.Select(wall => wall.Id), role.Id, material), plan);
+                        material => HouseFinishCommands.SetWallRole(plan, group.Select(wall => wall.Id), role.Id, material), plan, wallFinish: true);
                 DrawFamilyDefaults(family, collapsible: true);
             }
             walls = walls.Where(wall => HouseFinishResolution.Family(plan, wall)?.HasMaterialRoles != true).ToArray();
@@ -61,7 +61,7 @@ namespace EnvironmentAuthoring.Editor
 
                 DrawInherited(new GUIContent(label, "Left/right follow the saved wall direction. Reset restores room/kit inheritance."),
                     walls.Select(w => (Get(w), HouseFinishResolution.Wall(plan, w, left))),
-                    material => HouseEditCommands.SetWallFinishes(plan, walls.Select(w => w.Id), left, material), plan);
+                    material => HouseEditCommands.SetWallFinishes(plan, walls.Select(w => w.Id), left, material), plan, wallFinish: true);
             }
         }
 
@@ -79,7 +79,7 @@ namespace EnvironmentAuthoring.Editor
             foreach (var role in family.MaterialRoles.OrderBy(role => role.Slot))
             {
                 EditorGUI.BeginChangeCheck();
-                var material = HousePropertyFields.Material(new GUIContent(role.Name, "Shared family default material assignment."), role.DefaultMaterial);
+                var material = HousePropertyFields.Material(new GUIContent(role.Name, "Shared family default material assignment."), role.DefaultMaterial, wallFinish: true);
                 if (EditorGUI.EndChangeCheck())
                 {
                     var result = HouseFinishCommands.SetFamilyRole(family, role.Id, material);
@@ -93,7 +93,7 @@ namespace EnvironmentAuthoring.Editor
             if (rooms.Length == 0) return;
             DrawInherited(new GUIContent("Wall finish", "Room default for facing walls; explicit wall-side exceptions remain."),
                 rooms.SelectMany(room => RoomWallMaterials(plan, room).Select(material => (room.WallMaterial, material))),
-                material => HouseEditCommands.SetRoomFinishes(plan, rooms.Select(room => room.Id), material), plan);
+                material => HouseEditCommands.SetRoomFinishes(plan, rooms.Select(room => room.Id), material), plan, wallFinish: true);
             foreach (bool ceiling in new[] { false, true })
             {
                 Material Get(FloorPlan.Cell room) => ceiling ? room.CeilingMaterial : room.FloorMaterial;
@@ -121,13 +121,13 @@ namespace EnvironmentAuthoring.Editor
         }
 
         private static void DrawInherited(GUIContent label, IEnumerable<(Material Stored, Material Effective)> values,
-            Func<Material, HouseEditResult> edit, HousePlan plan)
+            Func<Material, HouseEditResult> edit, HousePlan plan, bool wallFinish = false)
         {
             var samples = values.ToArray();
             bool any = samples.Any(v => v.Stored != null);
             EditorGUI.showMixedValue = samples.Any(v => v.Effective != samples[0].Effective);
             EditorGUI.BeginChangeCheck();
-            var material = HousePropertyFields.InheritedMaterial(label, samples[0].Stored, samples[0].Effective, any, out _);
+            var material = HousePropertyFields.InheritedMaterial(label, samples[0].Stored, samples[0].Effective, any, out _, wallFinish);
             bool changed = EditorGUI.EndChangeCheck();
             EditorGUI.showMixedValue = false;
             if (changed)

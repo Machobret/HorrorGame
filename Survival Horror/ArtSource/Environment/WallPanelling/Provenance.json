@@ -1,0 +1,18 @@
+{
+  "materials": [
+    {
+      "source": "C:\\Users\\manta\\Downloads\\WallPanelling (1).png",
+      "source_sha256": "870533ab690583873cf61dbfea0fc4216de6d13cfa08f45ac9a3832be231fa87",
+      "texture": "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Wallpaper/WallPanelling/WallPanelling_Striped_Albedo.png",
+      "material": "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Wallpaper/M_Wallpaper_StripedWoodPanelling_01.mat"
+    },
+    {
+      "source": "C:\\Users\\manta\\Downloads\\WallPanelling (2).png",
+      "source_sha256": "51b3fb964a7dd42d89057595249ba34de2afc8747c40022db8b5abdbfc2ae520",
+      "texture": "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Wallpaper/WallPanelling/WallPanelling_Patterned_Albedo.png",
+      "material": "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Wallpaper/M_Wallpaper_PatternedWoodPanelling_01.mat"
+    }
+  ],
+  "mapping": "Wall projection, bottom anchored; U and V repeat 2.8 metres, matching square image proportions. Shorter walls crop; taller walls repeat.",
+  "source_maps": "Albedo only; no invented normal, height or roughness maps."
+}

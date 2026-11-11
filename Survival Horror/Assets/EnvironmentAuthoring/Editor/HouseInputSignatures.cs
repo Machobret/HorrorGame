@@ -58,7 +58,7 @@ namespace EnvironmentAuthoring.Editor
             {
                 if (wall == null) { Text("missing-wall"); continue; }
                 Text(wall.Id); Text(wall.StartId); Text(wall.EndId); Text(wall.Type.ToString()); Text(wall.Presence.ToString());
-                if (wall.Family != null) Text(AssetIdentity(wall.Family));
+                if (wall.FamilyOverride != null) Text(AssetIdentity(wall.FamilyOverride));
                 foreach (var opening in wall.Openings)
                 {
                     if (opening == null) { Text("missing-opening"); continue; }
@@ -88,6 +88,9 @@ namespace EnvironmentAuthoring.Editor
             // Source lists grow with the family/opening count. Write the same
             // ordered text once instead of copying the whole prefix per item.
             var inputs = new StringBuilder();
+            if (plan != null)
+                foreach (var wall in plan.Walls.Where(w => w.IsPhysical && w.IsFence))
+                    inputs.Append(HouseWallOutputBuilder.FenceInputs(wall, data));
             if (kit.DefaultFamily != null) inputs.Append(":default-family:").Append(AssetIdentity(kit.DefaultFamily));
             if (kit.ExteriorFamily != null) inputs.Append(":exterior-family:").Append(AssetIdentity(kit.ExteriorFamily));
             foreach (var family in kit.FamilyDefinitions(plan))
@@ -155,6 +158,7 @@ namespace EnvironmentAuthoring.Editor
                 + definition.Thickness.ToString("R", CultureInfo.InvariantCulture) + ":"
                 + definition.AllowLengthStretch + ":"
                 + (definition.CoverSlabEdge ? "" : "native-height:")
+                + (definition.KeepNativeHeight ? "keep-native-height:" : "")
                 + (data?.MeshSignature(definition.Body) ?? GeneratedMeshResources.SourceSignature(definition.Body)) + ":"
                 + "no-mesh"
                 // Keep the current key layout, including unused source tokens, so

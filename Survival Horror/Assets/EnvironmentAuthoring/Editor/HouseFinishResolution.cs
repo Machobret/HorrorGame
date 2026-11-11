@@ -43,6 +43,14 @@ namespace EnvironmentAuthoring.Editor
 
         internal static Material Wall(HousePlan plan, FloorPlan.Wall wall, bool left, bool roomOnly = false)
         {
+            if (wall.IsFence && !roomOnly)
+            {
+                var material = left ? wall.LeftMaterial : wall.RightMaterial;
+                var defaults = wall.Fence.Panel?.Materials;
+                int slot = left ? 0 : 1;
+                return material != null ? material : defaults != null && defaults.Length > 0
+                    ? defaults[Mathf.Min(slot, defaults.Length - 1)] : null;
+            }
             var (inside, outside) = Defaults(plan);
             return roomOnly ? FloorPlan.RoomWallMaterial(plan.Data.RoomOnSide(wall, left), inside, outside)
                 : plan.Data.WallMaterial(wall, left, inside, outside);

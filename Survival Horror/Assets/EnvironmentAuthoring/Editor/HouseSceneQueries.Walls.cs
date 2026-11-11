@@ -69,6 +69,9 @@ namespace EnvironmentAuthoring.Editor
 
         internal static float WallTop(HousePlan plan, FloorPlan.Wall wall, float along)
         {
+            if (wall.IsFence) return wall.Fence.Panel != null ? wall.Fence.Panel.Height : 0;
+            var native = HouseWallLayout.DefinitionFor(plan.Data, wall, plan.GetComponent<HouseWallBuilder>()?.Data);
+            if (native != null && native.KeepNativeHeight) return native.Height;
             var start = plan.Data.GetPosition(wall.StartId);
             var end = plan.Data.GetPosition(wall.EndId);
             if (HouseBuilding.For(plan) == null)
@@ -83,6 +86,13 @@ namespace EnvironmentAuthoring.Editor
 
         internal static HouseSectionData.Range WallHeight(HousePlan plan, FloorPlan.Wall wall)
         {
+            var native = HouseWallLayout.DefinitionFor(plan.Data, wall, plan.GetComponent<HouseWallBuilder>()?.Data);
+            if (native != null && native.KeepNativeHeight) return new HouseSectionData.Range(native.Height, native.Height);
+            if (wall.IsFence)
+            {
+                float height = wall.Fence.Panel != null ? wall.Fence.Panel.Height : 0;
+                return new HouseSectionData.Range(height, height);
+            }
             if (HouseBuilding.For(plan) == null)
             {
                 var builder = plan.GetComponent<HouseWallBuilder>();

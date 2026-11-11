@@ -1,0 +1,20 @@
+{
+  "source_file": "C:\\Users\\manta\\Downloads\\Stairs_2.fbx",
+  "source_sha256": "7d2b87cd84605b9e439cda4210bdb752398684136a9f91d647e5f25da28456ce",
+  "source_objects": [
+    "Stairs_2.8_Railing"
+  ],
+  "model_path": "Assets/Game/Environment/Stairs/Stairs_WoodRustedMetal_Model.fbx",
+  "prefab_path": "Assets/Game/Environment/Stairs/Stairs_WoodRustedMetal.prefab",
+  "triangles": 1080,
+  "vertices": 458,
+  "bounds_m": [
+    4.484355449676514,
+    3.8665721267461777,
+    1.1991822123527527
+  ],
+  "wood_material": "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Wood/M_Wood_DarkPlanks_01.mat",
+  "railing_material": "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Metal/M_Metal_Rusty_04.mat",
+  "changes": "Geometry, source scale, pivot, orientation, material slots and stair UVs preserved. Replaced all-zero railing UVs with per-face box projection at one metre per repeat.",
+  "license_status": "No license document supplied with the FBX."
+}

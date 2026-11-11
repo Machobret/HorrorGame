@@ -1,0 +1,43 @@
+{
+  "source_file": "Railing_Source.blend",
+  "original_path": "C:\\Users\\manta\\Downloads\\Procedural Toolkit Demos\\Fence_Family_Reference.blend",
+  "source_sha256": "1c1adbe81cbae6c0b91f8caff132cf6bdd0f0703fb39965aa65e645f771649a2",
+  "source_object": "Railing",
+  "source_modified": false,
+  "evaluated_dimensions_metres": [
+    1.961920976638794,
+    0.055973488837480545,
+    1.1582592725753784
+  ],
+  "height_normalization_metres": 1.158,
+  "modifier": "Wireframe (evaluated, including boundary edges)",
+  "exports": [
+    {
+      "file": "Wall_Railing_Solid_01_W2000_H1158_T100.fbx",
+      "width": 2,
+      "height": 1.158,
+      "thickness": 0.1,
+      "vertices": 138,
+      "faces": 168,
+      "nonmanifold_edges": null
+    },
+    {
+      "file": "Wall_Railing_Solid_01_W1000_H1158_T100.fbx",
+      "width": 1,
+      "height": 1.158,
+      "thickness": 0.1,
+      "vertices": 89,
+      "faces": 101,
+      "nonmanifold_edges": null
+    },
+    {
+      "file": "Wall_Railing_Solid_01_W0500_H1158_T100.fbx",
+      "width": 0.5,
+      "height": 1.158,
+      "thickness": 0.1,
+      "vertices": 49,
+      "faces": 45,
+      "nonmanifold_edges": null
+    }
+  ]
+}

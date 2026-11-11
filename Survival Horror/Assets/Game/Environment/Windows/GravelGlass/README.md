@@ -1,6 +1,6 @@
 # Gravel glass windows
 
-Assign **GravelGlass_WallFamily** to a House's wall-family setting or an individual wall override. Select **GravelGlass_WindowFamily → Clean → Gravel glass** for either aperture. This separate catalog reuses the existing Wall_01 solid/opening modules and door families. It does not replace creation defaults or edit existing levels.
+Select **GravelGlass_WindowFamily → Clean** in the window insert selector for **Wall_01** or **Wall_02**, then choose either model. Their existing window choices remain available. The separate **GravelGlass_WallFamily** also retains this catalog and shares Wall_01 geometry; switching the wall family is not required. Explicit gravel glass reimport reconnects the catalog to all three families without replacing their other choices or editing existing levels.
 
 The two presets use the revised Models1.blend objects, each with one shared-vertex quad for glass. Shape 01 fits a 0.65 × 1.20 m opening; shape 02 fits a 0.50 × 0.90 m opening. Both use the 1 m segment datum and also fit the engine's compatible 2 m segments. Frame and pane remain submeshes 0 and 1 of one mesh. Frames reference the existing **M_Window_Clean_01** atlas material; their UVs are inset into the upper-left atlas tile. Pane UVs cover 0..1 separately. Existing FBX and preset GUIDs are retained.
 

@@ -1,9 +1,41 @@
-# URBAN selected apartment buildings
+# URBAN environment library
 
-The runtime library is `Assets/Game/Environment/Buildings/Urban`. Six prebuilt
-exteriors were selected from the supplied URBAN.zip: all four L-shaped apartment
-blocks, one square brick block and one square concrete block. Other apartment
-alternates, the hangar, modular building pieces and street furniture are not imported.
+The complete supplied pack is imported: 483 GLB/FBX model pairs map to 446 distinct
+prefabs. Thirty-seven exact duplicate archive entries share their authoritative
+prefab. The six previously imported apartment exteriors retain their paths and GUIDs;
+the complete import adds 440 prefabs, 43 textures and 43 materials.
+
+`FullPackIndex.csv` maps every archive model to its Unity prefab. `FullImportManifest.json`
+records sources, exact aliases, native destinations, texture hashes, material slots,
+scales and source geometry notes. `FullImportReceipt.json` records verified asset
+GUIDs and hashes. Shared surfaces and the runtime navigation guide live in
+`Assets/Game/Environment/UrbanSurfaces`. Search `Urban t:Prefab` in Unity.
+
+Runtime families contain 58 building models (49 modular pieces and nine prebuilt
+exteriors), 73 road-furniture models, 105 fence/wall variants, 72 bins/litter models,
+24 pipe models, 104 road/bridge/sidewalk models and 10 vents. Exact duplicates are
+shared; distinct embedded texture variants remain separate. All 40 loose textures
+and four additional embedded versions are retained byte-for-byte in the runtime
+texture collection, including the existing houses atlas.
+
+Source display-grid translations are removed. Modular pieces retain their authored
+origins; prebuilt buildings are ground-centred. Architecture uses the established
+0.7 correction to match the existing 2.8 m storey pitch. Other props retain source
+metres. Complete buildings have static mesh colliders; other new prefabs are visual
+assets without gameplay scripts or colliders. Engine omissions of duplicate and
+zero-area source triangles are independently counted in the manifest. No visible
+surface is simplified. The complete import installs no editor menus or scripts.
+
+Original canonical GLB/FBX pairs, five editable Blender masters and loose images
+are preserved under `Original/Pack`; embedded-only image versions are under
+`Original/EmbeddedTextures`. Review contact sheets and one-time conversion/import
+tools remain in ignored `Exports/Reviews/UrbanFull`.
+
+## Original six-apartment workflow
+
+The following retained workflow applies only to the original six `_Exterior`
+prefabs. It does not rebuild the full pack. `Selection.json` and `ImportReceipt.json`
+retain this narrower contract; the `FullImport*` files describe the complete import.
 
 Original GLB and FBX files for the selection, and the shared houses atlas, are kept
 under `Original`. `Provenance.json` records the archive and source status. The archive

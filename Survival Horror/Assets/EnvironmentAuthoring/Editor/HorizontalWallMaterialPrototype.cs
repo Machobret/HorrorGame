@@ -32,6 +32,12 @@ namespace EnvironmentAuthoring.Editor
                 material.SetTexture("_SurfaceMap", source.GetTexture("_SurfaceMap"));
                 if (source.HasProperty("_NormalStrength")) material.SetFloat("_NormalStrength", source.GetFloat("_NormalStrength"));
             }
+            if (source != null)
+            {
+                material.SetFloat("_RoughnessScale", source.HasProperty("_RoughnessScale") ? source.GetFloat("_RoughnessScale")
+                    : source.HasProperty("_Smoothness") ? 1 - source.GetFloat("_Smoothness") : 1);
+                if (source.HasProperty("_Cull")) material.SetFloat("_Cull", source.GetFloat("_Cull"));
+            }
             if (source != null && source.HasProperty("_BumpMap") && source.GetTexture("_BumpMap") != null)
             {
                 material.SetTexture("_BumpMap", source.GetTexture("_BumpMap"));

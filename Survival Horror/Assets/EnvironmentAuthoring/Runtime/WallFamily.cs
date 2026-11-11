@@ -6,7 +6,7 @@ using UnityEngine;
 namespace EnvironmentAuthoring
 {
     [CreateAssetMenu(menuName = "Environment/Wall Family")]
-    public sealed class WallFamily : ScriptableObject
+    public sealed class WallFamily : WallGeometryFamily
     {
         public string Id = "01";
         [Serializable] public sealed class MaterialRole

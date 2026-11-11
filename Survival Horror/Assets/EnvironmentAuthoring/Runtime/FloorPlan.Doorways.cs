@@ -44,7 +44,7 @@ namespace EnvironmentAuthoring
         {
             var wall = walls.Find(w => w.Id == wallId);
             reason = "Select an existing wall and a finite, positive opening width.";
-            if (wall == null || !wall.IsPhysical || float.IsNaN(distance) || float.IsInfinity(distance)
+            if (wall == null || !wall.IsPhysical || wall.IsFence || float.IsNaN(distance) || float.IsInfinity(distance)
                 || float.IsNaN(width) || float.IsInfinity(width) || width <= 0) return false;
             reason = "The opening must fit entirely on its wall.";
             float length = Vector2.Distance(GetPosition(wall.StartId), GetPosition(wall.EndId));

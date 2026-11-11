@@ -55,16 +55,20 @@ namespace HorrorGame.Environment.Editor
                     .Append(windows).ToArray();
                 AssetDatabase.CreateAsset(wall, WallPath);
             }
-            else if (!wall.OpeningFamilies.Contains(windows))
-            {
-                wall.OpeningFamilies = wall.OpeningFamilies.Append(windows).ToArray();
-                EditorUtility.SetDirty(wall);
-            }
             if (!wall.IsValid(out string reason)) throw new InvalidOperationException(reason);
-            foreach (var model in models)
-                foreach (float width in new[] { 1f, 2f })
-                    if (!model.Fits(wall, FloorPlan.OpeningKind.Window, wall.OpeningFor(FloorPlan.OpeningKind.Window, width, model.Shape)))
-                        throw new InvalidOperationException("Incompatible gravel glass window: " + model.name);
+            var hosts = new[] { wall, source, Required<WallFamily>(WallFamilyExamples.ExteriorFamilyPath) };
+            foreach (var host in hosts)
+                foreach (var model in models)
+                    foreach (float width in new[] { 1f, 2f })
+                        if (!model.Fits(host, FloorPlan.OpeningKind.Window, host.OpeningFor(FloorPlan.OpeningKind.Window, width, model.Shape)))
+                            throw new InvalidOperationException("Incompatible gravel glass window: " + model.name + " in " + host.name);
+            foreach (var host in hosts)
+            {
+                var catalogs = host.OpeningFamilies ?? Array.Empty<OpeningFamily>();
+                if (catalogs.Contains(windows)) continue;
+                host.OpeningFamilies = catalogs.Append(windows).ToArray();
+                EditorUtility.SetDirty(host);
+            }
             AssetDatabase.SaveAssets();
         }
 

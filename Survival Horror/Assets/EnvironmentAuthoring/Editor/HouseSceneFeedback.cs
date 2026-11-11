@@ -204,7 +204,8 @@ namespace EnvironmentAuthoring.Editor
                             // Keep the drag ghost separate from the unchanged generated output.
                             var builder = plan.GetComponent<HouseWallBuilder>();
                             var definition = HouseWallLayout.DefinitionFor(plan.Data, wall, builder?.Data);
-                            var up = plan.transform.up * (builder != null && builder.Data.ShowWalls && definition != null ? definition.Height : 0);
+                            var up = plan.transform.up * (builder != null && builder.Data.ShowWalls
+                                ? wall.IsFence ? HouseSceneQueries.WallHeight(plan, wall).Max : definition != null ? definition.Height : 0 : 0);
                             var start = HouseSceneQueries.NodeWorld(plan, Position(wall.StartId));
                             var end = HouseSceneQueries.NodeWorld(plan, Position(wall.EndId));
                             Handles.DrawAAPolyLine(4, start, end, end + up, start + up, start);

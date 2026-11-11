@@ -1,0 +1,29 @@
+{
+    "verified": true,
+    "unity_version": "6000.3.11f1",
+    "files": [
+        {
+            "path": "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Wallpaper/M_Wallpaper_StripedWoodPanelling_01.mat",
+            "guid": "878f8aaddf46f694fb7a2c270f6a2326"
+        },
+        {
+            "path": "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Wallpaper/WallPanelling/WallPanelling_Striped_Albedo.png",
+            "guid": "bf5657bfd71612649a3e14585d2ab9e2"
+        },
+        {
+            "path": "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Wallpaper/M_Wallpaper_PatternedWoodPanelling_01.mat",
+            "guid": "817d520fbb817cd4890fcff540462504"
+        },
+        {
+            "path": "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Wallpaper/WallPanelling/WallPanelling_Patterned_Albedo.png",
+            "guid": "95fccddd5c7e8af4796aa6ef6b5ed76c"
+        }
+    ],
+    "checks": [
+        "Two 256x256 sRGB repeat textures; point filtering and mipmaps; source pixels retained",
+        "Wall shader; bottom anchor; 2.8 m U/V repeat; no fabricated normal maps",
+        "Construction/Surface_Wallpaper picker labels",
+        "Rendered wall previews: source orientation and lower panelling band",
+        "No game-project scenes saved or menus/scripts added"
+    ]
+}

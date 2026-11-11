@@ -70,7 +70,8 @@ namespace EnvironmentAuthoring
                 => materialRoles = other.materialRoles?.ConvertAll(value => value.Copy()) ?? new List<RoleOverride>();
             internal bool SameMaterialRoles(Wall other) => MaterialRoleIds.Union(other.MaterialRoleIds)
                 .All(role => RoleMaterial(role) == other.RoleMaterial(role));
-            [SerializeField] private WallFamily family;
+            // Keep the serialized reference name so existing wall overrides retain their GUIDs.
+            [SerializeField] private WallGeometryFamily family;
             [SerializeField] private WallTrim trim;
             [SerializeField] private bool hasTrim;
             [SerializeField] private bool trimDisabled;
@@ -88,7 +89,10 @@ namespace EnvironmentAuthoring
             public bool IsPhysical => presence == PhysicalPresence.Wall;
             public Material LeftMaterial => leftMaterial;
             public Material RightMaterial => rightMaterial;
-            public WallFamily Family => family;
+            public WallGeometryFamily FamilyOverride => family;
+            public WallFamily Family => family as WallFamily;
+            public FenceFamily Fence => family as FenceFamily;
+            public bool IsFence => Fence != null;
             // Unity inline serialization can recreate a class saved as null.
             // Presence is explicit so Undo/reopen cannot resurrect a removed trim.
             public WallTrim Trim => hasTrim ? trim : null;
@@ -121,7 +125,7 @@ namespace EnvironmentAuthoring
             internal void SetType(WallType value) => type = value;
             internal void SetPresence(PhysicalPresence value) => presence = value;
             internal void SetMaterials(Material left, Material right) { leftMaterial = left; rightMaterial = right; }
-            internal void SetFamily(WallFamily value) => family = value;
+            internal void SetFamily(WallGeometryFamily value) => family = value;
             internal void SetTrim(WallTrim value) { trim = value?.Copy(); hasTrim = value != null; trimDisabled = value == null; }
             internal void ResetTrim() { trim = null; hasTrim = false; trimDisabled = false; }
             internal void CopyTrimFrom(Wall other) { trim = other.Trim?.Copy(); hasTrim = other.hasTrim; trimDisabled = other.trimDisabled; }

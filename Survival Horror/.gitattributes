@@ -8,6 +8,10 @@
 /ArtSource/Environment/Urban/** -text
 /Assets/Game/Environment/Buildings/Urban/** -text
 
+# Complete URBAN family imports retain native asset and receipt hashes.
+/Assets/Game/Environment/**/Urban/** -text
+/Assets/Game/Environment/UrbanSurfaces/** -text
+
 # Assembled ALEX buildings preserve source and receipt bytes across checkouts.
 /ArtSource/Environment/AlexBuildingKit/** -text
 /Assets/Game/Environment/Buildings/AlexBuildingKit/** -text

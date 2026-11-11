@@ -65,11 +65,12 @@ namespace EnvironmentAuthoring.Editor
         {
             if (!walls.All(w => w.IsPhysical)) return;
             var kit = plan.GetComponent<HouseWallBuilder>()?.Data;
-            var effective = kit != null ? kit.FamilyFor(plan.Data, walls[0]) : walls[0].Family;
-            EditorGUI.showMixedValue = walls.Any(w => (kit != null ? kit.FamilyFor(plan.Data, w) : w.Family) != effective);
+            WallGeometryFamily Effective(FloorPlan.Wall wall) => wall.FamilyOverride != null ? wall.FamilyOverride : kit?.FamilyFor(plan.Data, wall);
+            var effective = Effective(walls[0]);
+            EditorGUI.showMixedValue = walls.Any(w => Effective(w) != effective);
             EditorGUI.BeginChangeCheck();
-            var family = HousePropertyFields.ObjectOverride(new GUIContent("Wall family", "Optional geometry override. Reset uses the current Interior/Exterior family default."),
-                walls[0].Family, effective, walls.Any(w => w.Family != null));
+            var family = HousePropertyFields.ObjectOverride(new GUIContent("Wall / fence family", "Choose a Wall Family or Fence Family. Fences use their authored height and remove door/window openings. Reset restores the Interior/Exterior default."),
+                walls[0].FamilyOverride, effective, walls.Any(w => w.FamilyOverride != null));
             if (EditorGUI.EndChangeCheck())
                 controller.RunCommand(() => HouseEditCommands.SetWallFamily(plan, walls.Select(w => w.Id), family));
             EditorGUI.showMixedValue = false;

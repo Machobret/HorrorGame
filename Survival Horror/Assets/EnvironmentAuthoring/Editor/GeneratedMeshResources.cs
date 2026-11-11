@@ -103,6 +103,8 @@ namespace EnvironmentAuthoring.Editor
 
         internal static bool IsModuleSource(GameObject part, Mesh mesh)
         {
+            var townPart = part.GetComponent<TownOutputPart>();
+            if (townPart != null && townPart.Source == mesh) return true;
             var module = part.GetComponentInParent<WallModule>(true);
             var definition = module != null ? module.Definition : null;
             return definition != null && mesh == definition.Body

@@ -1,0 +1,99 @@
+{
+    "verified": true,
+    "unity_version": "6000.3.11f1",
+    "completed_utc": "2026-11-11T14:47:12.0895638Z",
+    "models": [
+        {
+            "name": "FireEscape_Repeat",
+            "source_object": "repeat-base",
+            "model_path": "Assets/Game/Environment/FireEscapes/FireEscape_Repeat_Model.fbx",
+            "prefab_path": "Assets/Game/Environment/FireEscapes/FireEscape_Repeat.prefab",
+            "texture_path": "Assets/Game/Environment/FireEscapes/FireEscape_Repeat_Albedo.png",
+            "material_name": "FireEscape_Repeat_Surface",
+            "material_path": "Assets/Game/Environment/FireEscapes/FireEscape_Repeat_Surface.mat",
+            "bounds_m": [
+                11.828872680664063,
+                8.631681442260743,
+                5.42929744720459
+            ],
+            "triangles": 2144,
+            "metallic": 1.0,
+            "smoothness": 0.24090909957885743
+        },
+        {
+            "name": "FireEscape_Top",
+            "source_object": "top-base",
+            "model_path": "Assets/Game/Environment/FireEscapes/FireEscape_Top_Model.fbx",
+            "prefab_path": "Assets/Game/Environment/FireEscapes/FireEscape_Top.prefab",
+            "texture_path": "Assets/Game/Environment/FireEscapes/FireEscape_Top_Albedo.png",
+            "material_name": "FireEscape_Top_Surface",
+            "material_path": "Assets/Game/Environment/FireEscapes/FireEscape_Top_Surface.mat",
+            "bounds_m": [
+                11.828872680664063,
+                3.399531364440918,
+                5.42929744720459
+            ],
+            "triangles": 2000,
+            "metallic": 1.0,
+            "smoothness": 0.24090909957885743
+        }
+    ],
+    "files": [
+        {
+            "path": "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Metal/M_Metal_Rusty_04.mat",
+            "guid": "5619797a9b36755469fff86f7d5220ce"
+        },
+        {
+            "path": "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Metal/RustyMetal04/RustyMetal04_Albedo.jpg",
+            "guid": "5c7777b42edc72d40a5300599c31413a"
+        },
+        {
+            "path": "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Metal/RustyMetal04/RustyMetal04_MetallicSmoothness.png",
+            "guid": "321b2d1ef83846e48b16f0c0da983ada"
+        },
+        {
+            "path": "Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Metal/RustyMetal04/RustyMetal04_Normal.jpg",
+            "guid": "8136d2cbdc33ca14aae6537053c5dcc8"
+        },
+        {
+            "path": "Assets/Game/Environment/FireEscapes/FireEscape_Repeat.prefab",
+            "guid": "591c3cbd51efbb445930cd53ac053ea3"
+        },
+        {
+            "path": "Assets/Game/Environment/FireEscapes/FireEscape_Repeat_Albedo.png",
+            "guid": "a09f4109a0eb3b9459bc4d0ec60d521b"
+        },
+        {
+            "path": "Assets/Game/Environment/FireEscapes/FireEscape_Repeat_Model.fbx",
+            "guid": "ef28b11b90ef189488b8a19ebc27e41b"
+        },
+        {
+            "path": "Assets/Game/Environment/FireEscapes/FireEscape_Repeat_Surface.mat",
+            "guid": "68f6bf7613904b448ab913b76573940f"
+        },
+        {
+            "path": "Assets/Game/Environment/FireEscapes/FireEscape_Top.prefab",
+            "guid": "5368a2b86b6453a408395c4d10e60109"
+        },
+        {
+            "path": "Assets/Game/Environment/FireEscapes/FireEscape_Top_Albedo.png",
+            "guid": "f35b9abf7788e274abb5b9586c485bae"
+        },
+        {
+            "path": "Assets/Game/Environment/FireEscapes/FireEscape_Top_Model.fbx",
+            "guid": "81f998c1fa335b943ab656232b15dc89"
+        },
+        {
+            "path": "Assets/Game/Environment/FireEscapes/FireEscape_Top_Surface.mat",
+            "guid": "1731bc705d7b2fa46876fbecc49e529a"
+        }
+    ],
+    "checks": [
+        "Two prefabs: source metre bounds and triangle counts preserved; ground pivots; unit root scale",
+        "All model material slots remapped to native URP Lit assets with base textures",
+        "Rusty finish: sRGB albedo, standard OpenGL normal, linear metallic/smoothness packing",
+        "Construction and Surface_Metal labels expose the rusty finish in the material collection",
+        "Every imported runtime file has a GUID; no Blender source dependency",
+        "No scenes saved"
+    ]
+}

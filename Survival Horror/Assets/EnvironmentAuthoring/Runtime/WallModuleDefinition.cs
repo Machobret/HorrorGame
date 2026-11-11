@@ -16,6 +16,8 @@ namespace EnvironmentAuthoring
         public float Thickness = 0.15f;
         [Tooltip("Extend the solid wall head above ceiling height to conceal the slab edge. Disable for framed/glazed modules that must retain their authored height.")]
         public bool CoverSlabEdge = true;
+        [Tooltip("Keep this module's authored height instead of filling the storey. Use for railings and low walls.")]
+        public bool KeepNativeHeight;
         public Vector2 ConnectionDepths => new Vector2(-Thickness / 2, Thickness / 2);
         [Tooltip("Only enable for plain bodies whose length can change without distorting details.")]
         public bool AllowLengthStretch;

@@ -1,4 +1,16 @@
-# URBAN apartment exteriors
+# URBAN building library
+
+This family now contains all nine prebuilt exteriors and 49 modular building pieces
+from URBAN. The additional complete prefabs are `Urban_FlatSquareBrickAlt`,
+`Urban_FlatSquareConcreteAlt` and `Urban_Hangar1`; modular models are under `Modular`.
+The full pack's road furniture, fences, bins, pipes, roads and vents live in their
+own environment families. See `Assets/Game/Environment/UrbanSurfaces/README.md` and
+`ArtSource/Environment/Urban/FullPackIndex.csv` for navigation.
+
+The six original apartment prefabs described below retain their existing paths,
+GUIDs, geometry and materials. The retained apartment rebuild menu applies only
+to those six; no additional menu or runtime/editor script is installed by the
+complete-pack import.
 
 Six complete, static apartment exteriors from the supplied URBAN archive. Search
 `Urban_Apartment` in Unity's Project window and place the `_Exterior` prefabs.

@@ -92,6 +92,12 @@ namespace EnvironmentAuthoring
             foreach (var wall in plan.Walls)
             {
                 if (!wall.IsPhysical) continue;
+                if (wall.IsFence)
+                {
+                    if (!wall.Fence.IsValid(out string fenceProblem) && !skipInvalidFamilies)
+                        return new Result { Problem = fenceProblem };
+                    continue;
+                }
                 var family = builder.FamilyFor(plan, wall);
                 if (family == null)
                 {
@@ -222,14 +228,16 @@ namespace EnvironmentAuthoring
         }
 
         public static WallModuleDefinition DefinitionFor(FloorPlan plan, FloorPlan.Wall wall, WallKit builder)
-            => !wall.IsPhysical || builder == null ? null
+            => !wall.IsPhysical || wall.IsFence || builder == null ? null
                 : builder.FamilyFor(plan, wall) is WallFamily family ? family.ReferenceBlank
                 : null;
 
         public static Vector2 WallDepths(FloorPlan plan, FloorPlan.Wall wall, WallKit kit)
         {
             var module = DefinitionFor(plan, wall, kit);
-            return module != null ? module.ConnectionDepths : Vector2.zero;
+            return wall.IsFence && wall.Fence.Panel != null
+                ? new Vector2(-wall.Fence.Panel.Width / 2, wall.Fence.Panel.Width / 2)
+                : module != null ? module.ConnectionDepths : Vector2.zero;
         }
 
         private static bool HasPhysicalWalls(FloorPlan plan)

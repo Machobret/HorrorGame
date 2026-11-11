@@ -170,6 +170,31 @@ namespace EnvironmentAuthoring.Editor
                                 group.Root.transform.localPosition = position;
                                 next.Add(group);
                             }
+                            foreach (var wall in plan.Data.Walls.Where(w => w.IsPhysical && w.IsFence))
+                            {
+                                var a = plan.Data.GetPosition(wall.StartId); var b = plan.Data.GetPosition(wall.EndId);
+                                var delta = b - a;
+                                string inputs = HouseWallOutputBuilder.FenceInputs(wall, data) + ":" + delta.ToString("R")
+                                    + ":" + a.ToString("R") + data.BooleanInputs;
+                                var group = RetainOrCreate(output, "wall:" + wall.Id, inputs, out bool changed);
+                                group.Root.transform.localPosition = new Vector3(a.x, 0, a.y);
+                                if (changed)
+                                {
+                                    var parts = new List<TownRebuild.Part>();
+                                    TownWallBuilder.BuildFence(wall.Id, wall.Fence, Vector3.zero, new Vector3(delta.x, 0, delta.y),
+                                        null, null, true, parts);
+                                    foreach (var part in parts)
+                                    {
+                                        var child = new GameObject(part.Key);
+                                        child.transform.SetParent(group.Root.transform, false);
+                                        child.transform.localPosition = part.Position;
+                                        child.transform.localRotation = part.Rotation;
+                                        child.transform.localScale = part.Scale;
+                                        Mesh(child.transform, part.Mesh);
+                                    }
+                                }
+                                next.Add(group);
+                            }
                         }
                     }
                     else if (plan.Data.Walls.Count > 0)

@@ -103,7 +103,7 @@ namespace EnvironmentAuthoring
             var newWall = new Wall(Guid.NewGuid().ToString("N"), corner.Id, wall.EndId, wall.Type, wall.Presence);
             newWall.SetMaterials(wall.LeftMaterial, wall.RightMaterial);
             newWall.CopyMaterialRolesFrom(wall);
-            newWall.SetFamily(wall.Family);
+            newWall.SetFamily(wall.FamilyOverride);
 
             float cut = Vector2.Distance(PositionOf(wall.StartId, corners), position);
             newWall.CopyTrimFrom(wall);
