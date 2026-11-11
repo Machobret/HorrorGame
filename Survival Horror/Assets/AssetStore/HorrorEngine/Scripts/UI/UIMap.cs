@@ -229,8 +229,6 @@ namespace HorrorEngine
         {
             PauseController.Instance.Pause(this);
 
-            gameObject.SetActive(true);
-
             if (MapController.Exists)
             {
                 MapController mapCtrl = MapController.GetCurrent();
@@ -243,6 +241,13 @@ namespace HorrorEngine
             {
                 Debug.LogWarning("There isn't a MapController in the scene. Map won't be visible in the map screen");
             }
+
+            // Generate the selected map before exposing its render texture. This
+            // prevents the previous map frame from briefly showing in the UI.
+            if (map)
+                OnMapSelected(map);
+
+            gameObject.SetActive(true);
 
             if (MapRenderer.Exists)
             {
@@ -266,9 +271,6 @@ namespace HorrorEngine
             }
 
             m_MapList.Fill();
-
-            if (map)
-                OnMapSelected(map);
 
             m_UIContext.Activate();
         }

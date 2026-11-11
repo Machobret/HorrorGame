@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c7e5072cec44c929a48ade0a1729e33, type: 3}
+  m_Name: ConcreteSlabFence
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.FenceFamily
+  Panels:
+  - {fileID: 11400000, guid: f0bd257ba4a589648ba39236619020dc, type: 2}
+  - {fileID: 11400000, guid: a8ccbac217832ab44aa333563db9e0ac, type: 2}
+  - {fileID: 11400000, guid: a49695dc0da398a4598db58c5ecab6af, type: 2}
+  - {fileID: 11400000, guid: ce08f35cf782d4349bc6ee0f7cd0c218, type: 2}
+  - {fileID: 11400000, guid: 864df0969bdb8d842bfc79db6809d457, type: 2}
+  - {fileID: 11400000, guid: d1d86ba43d9d56f46af29092685cbb6c, type: 2}
+  - {fileID: 11400000, guid: d31e86519b1a45f44b28ef2138181e15, type: 2}
+  - {fileID: 11400000, guid: 5954db6ec8c575144aeab930dfbd7af4, type: 2}
+  - {fileID: 11400000, guid: cb30abd6101338c41b08c1d7fa11c2bc, type: 2}
+  - {fileID: 11400000, guid: a02c8680ebca87d468094104c47fe6f5, type: 2}
+  Posts:
+  - Mesh: {fileID: 2959467708922500008, guid: ed5452b6dff74f99ab1138f830a0f595, type: 3}
+    Materials:
+    - {fileID: 2100000, guid: 5a60d87c6ab856a43a9f59265d24577a, type: 2}
+  - Mesh: {fileID: 2959467708922500008, guid: a726f99fa941486f9e14f5d1f8087853, type: 3}
+    Materials:
+    - {fileID: 2100000, guid: 5a60d87c6ab856a43a9f59265d24577a, type: 2}
+  - Mesh: {fileID: 2959467708922500008, guid: 011305c6d06d471eb9284fb6ca8a97ed, type: 3}
+    Materials:
+    - {fileID: 2100000, guid: 5a60d87c6ab856a43a9f59265d24577a, type: 2}
+  - Mesh: {fileID: 2959467708922500008, guid: c3d1e988fb4a44b1903d70be2068c304, type: 3}
+    Materials:
+    - {fileID: 2100000, guid: 5a60d87c6ab856a43a9f59265d24577a, type: 2}
+  - Mesh: {fileID: 2959467708922500008, guid: 93d02b807dbd4696969ad748adf9cb82, type: 3}
+    Materials:
+    - {fileID: 2100000, guid: 5a60d87c6ab856a43a9f59265d24577a, type: 2}
+  - Mesh: {fileID: 2959467708922500008, guid: 5952d4ae13ee4632b66251e92890567b, type: 3}
+    Materials:
+    - {fileID: 2100000, guid: 5a60d87c6ab856a43a9f59265d24577a, type: 2}

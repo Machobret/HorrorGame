@@ -172,6 +172,11 @@ MonoBehaviour:
     CenterFollowDistance: 0
     FollowHorizontal: 1
     FollowVertical: 1
+  ThirdPersonFollow:
+    Enabled: 0
+    Distance: 3
+    Rotation: 0
+    Pitch: 0
 --- !u!54 &6382256387346569678
 Rigidbody:
   m_ObjectHideFlags: 0

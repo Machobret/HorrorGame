@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c7e5072cec44c929a48ade0a1729e33, type: 3}
+  m_Name: WoodRailFence
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.FenceFamily
+  Panels:
+  - {fileID: 11400000, guid: ac936763817996642835972dede852ac, type: 2}
+  - {fileID: 11400000, guid: 97f8ec38574baf54bb22030c60d3a9d7, type: 2}
+  - {fileID: 11400000, guid: 953272986b7b24940981311a2f2a0176, type: 2}
+  - {fileID: 11400000, guid: 17b3da41a40159b42b20e3f44f282df4, type: 2}
+  - {fileID: 11400000, guid: d66975d79e8b4df4583a38ec3d2ccf16, type: 2}
+  - {fileID: 11400000, guid: d68b196567a89a340895f2c667a33465, type: 2}
+  - {fileID: 11400000, guid: 7187e1616890dac4997c4048e00298fe, type: 2}
+  Posts:
+  - Mesh: {fileID: 2959467708922500008, guid: 998d33450dad43d882d39e4ee0a9a310, type: 3}
+    Materials:
+    - {fileID: 2100000, guid: cba4be4fd55ffcd419a7bf588853a265, type: 2}
+  - Mesh: {fileID: 2959467708922500008, guid: 41d54b36993a4ecdb377202156211263, type: 3}
+    Materials:
+    - {fileID: 2100000, guid: cba4be4fd55ffcd419a7bf588853a265, type: 2}
+  - Mesh: {fileID: 2959467708922500008, guid: 950cb2a2ac004372a7bc23cee4ce7442, type: 3}
+    Materials:
+    - {fileID: 2100000, guid: cba4be4fd55ffcd419a7bf588853a265, type: 2}
+  - Mesh: {fileID: 2959467708922500008, guid: a236081462574be6b8b02f8a14d3aae2, type: 3}
+    Materials:
+    - {fileID: 2100000, guid: cba4be4fd55ffcd419a7bf588853a265, type: 2}
+  - Mesh: {fileID: 2959467708922500008, guid: 8c313dc617d84006b7d66efd424e91ac, type: 3}
+    Materials:
+    - {fileID: 2100000, guid: cba4be4fd55ffcd419a7bf588853a265, type: 2}

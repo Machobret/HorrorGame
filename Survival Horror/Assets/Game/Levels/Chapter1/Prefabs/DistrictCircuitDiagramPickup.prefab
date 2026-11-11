@@ -8,19 +8,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2027679269891604231, guid: 5c73ef28b5f95b14b92bec958713307d, type: 3}
+    - target: {fileID: 6790323245104024330, guid: b015e31022d5dad4fb3f485ff3e51321, type: 3}
       propertyPath: m_Name
       value: DistrictCircuitDiagramPickup
       objectReference: {fileID: 0}
-    - target: {fileID: 5379111683642358938, guid: 5c73ef28b5f95b14b92bec958713307d, type: 3}
-      propertyPath: Entry.Item
+    - target: {fileID: 6790323245104024333, guid: b015e31022d5dad4fb3f485ff3e51321, type: 3}
+      propertyPath: m_Data
       value: 
       objectReference: {fileID: 11400000, guid: 7354a83d8de145a2b8d982af1b3d3490, type: 2}
-    - target: {fileID: 5379111683642358938, guid: 5c73ef28b5f95b14b92bec958713307d, type: 3}
-      propertyPath: Entry.Count
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8633626557548862847, guid: 5c73ef28b5f95b14b92bec958713307d, type: 3}
+    - target: {fileID: 3097733056778002997, guid: b015e31022d5dad4fb3f485ff3e51321, type: 3}
       propertyPath: m_Id
       value: 3c5d6431-ecaa-427d-85f7-90c36a3e8b10
       objectReference: {fileID: 0}
@@ -28,9 +24,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 5c73ef28b5f95b14b92bec958713307d, type: 3}
---- !u!4 &2027679269891604227 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: b015e31022d5dad4fb3f485ff3e51321, type: 3}
+--- !u!4 &6790323245104024334 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 2027679269891604227, guid: 5c73ef28b5f95b14b92bec958713307d, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6790323245104024334, guid: b015e31022d5dad4fb3f485ff3e51321, type: 3}
   m_PrefabInstance: {fileID: 8402335177991046311}
   m_PrefabAsset: {fileID: 0}

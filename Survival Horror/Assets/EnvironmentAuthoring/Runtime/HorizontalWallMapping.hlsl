@@ -10,10 +10,41 @@ float3 WallHorizontalAxis()
     return signAxis < 0 ? -axis : axis;
 }
 
+// Fixed physical repeat, anchored once per logical wall rather than fitted
+// to its height. Short walls crop; tall walls continue into the next tile.
+float WallVerticalUV(float worldY)
+{
+    float origin = 0;
+    UNITY_BRANCH if (_AnchorToWallBottom > .5)
+    {
+        origin = unity_RendererBounds_Min.y;
+        if (_WallProjectionYRange.w > 1.5)
+            origin = GetObjectToWorldMatrix()._m13 + _WallProjectionYRange.x;
+        else if (_WallProjectionYRange.w > .5)
+            origin += _WallProjectionYRange.x; // Previously saved renderer-relative range.
+    }
+    return (worldY - origin) / max(_RepeatHeightMetres, .001);
+}
+
+// Each triangle supplies its own world-space wall plane, including baked meshes.
+float2 WorldWallUV(float3 positionWS, float3 normalWS)
+{
+    float3 face = cross(ddx(positionWS), ddy(positionWS));
+    float lengthSquared = dot(face, face);
+    face = lengthSquared > 1e-16 ? face * rsqrt(lengthSquared) : normalWS;
+    float3 world = GetAbsolutePositionWS(positionWS);
+    float3 along = abs(face.y) > .999 ? float3(1,0,0) : normalize(cross(float3(0,1,0), face));
+    float direction = abs(along.x) + .001 >= abs(along.z) ? along.x : along.z;
+    along *= direction < 0 ? -1 : 1;
+    float2 uv = abs(face.y) > .999 ? world.xz / max(float2(_RepeatMetres, _RepeatHeightMetres), .001)
+        : float2(dot(world, along) / max(_RepeatMetres, .001), WallVerticalUV(world.y));
+    return uv * _BaseMap_ST.xy + _BaseMap_ST.zw;
+}
+
 float2 WallMappedUV(float2 authoredUV, float3 positionWS, float project, float3 axis)
 {
     float3 world = GetAbsolutePositionWS(positionWS);
-    float2 projected = float2(dot(world, axis) / max(_RepeatMetres, .001), world.y / max(_RepeatHeightMetres, .001));
+    float2 projected = float2(dot(world, axis) / max(_RepeatMetres, .001), WallVerticalUV(world.y));
     return lerp(authoredUV, projected, project) * _BaseMap_ST.xy + _BaseMap_ST.zw;
 }
 
@@ -31,7 +62,9 @@ float2 BoxMappedUV(float3 positionWS, float3 normalWS)
     // bevels switching planes solely from floating-point/normal precision.
     float2 plane = normal.y + .001 >= max(normal.x, normal.z) ? position.xz
         : normal.x + .001 >= normal.z ? position.zy : position.xy;
-    return plane / max(float2(_RepeatMetres, _RepeatHeightMetres), .001) * _BaseMap_ST.xy + _BaseMap_ST.zw;
+    float2 uv = plane / max(float2(_RepeatMetres, _RepeatHeightMetres), .001);
+    if (normal.y + .001 < max(normal.x, normal.z)) uv.y = WallVerticalUV(world.y);
+    return uv * _BaseMap_ST.xy + _BaseMap_ST.zw;
 }
 
 float3 CoverHorizontalAxis(float3 normalWS)
@@ -79,12 +112,12 @@ void TriplanarSurface(float3 positionWS, half3 normalWS, out half4 color,
     float3 weight = pow(abs(normalWS), max(_BlendSharpness, 1));
     weight /= max(dot(weight, 1), .00001);
     float2 repeat = max(float2(_RepeatMetres, _RepeatHeightMetres), .001);
-    float2 uvX = world.zy / repeat * _BaseMap_ST.xy + _BaseMap_ST.zw;
+    float2 uvX = float2(world.z / repeat.x, WallVerticalUV(world.y)) * _BaseMap_ST.xy + _BaseMap_ST.zw;
     float2 uvY = world.xz / repeat * _BaseMap_ST.xy + _BaseMap_ST.zw;
-    float2 uvZ = world.xy / repeat * _BaseMap_ST.xy + _BaseMap_ST.zw;
-    half4 x = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, uvX);
-    half4 y = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, uvY);
-    half4 z = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, uvZ);
+    float2 uvZ = float2(world.x / repeat.x, WallVerticalUV(world.y)) * _BaseMap_ST.xy + _BaseMap_ST.zw;
+    half4 x = SampleWallColor(uvX, true);
+    half4 y = SampleWallColor(uvY, false);
+    half4 z = SampleWallColor(uvZ, true);
     half4 px = SampleWallSurface(uvX);
     half4 py = SampleWallSurface(uvY);
     half4 pz = SampleWallSurface(uvZ);

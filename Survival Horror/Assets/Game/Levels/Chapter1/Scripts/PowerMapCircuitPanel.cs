@@ -10,8 +10,8 @@ namespace HorrorGame.Chapter1
         public MapData MapData;
         public PowerPanelLayout Layout;
         public DistrictPowerGrid Grid;
-        [Tooltip("The circuit diagram/key item that unlocks this map's power dots. It is checked, never consumed.")]
-        public ItemData CircuitItem;
+        [Tooltip("The circuit diagram document that unlocks this map's power dots. Documents never use an inventory slot.")]
+        public DocumentData CircuitDiagram;
         [Tooltip("When enabled, dots appear on the normal player map instead of a separate power-panel UI.")]
         public bool DisplayInPlayerMap = true;
         private DistrictPowerGrid grid;
@@ -37,7 +37,7 @@ namespace HorrorGame.Chapter1
         {
             if (grid == null) grid = Grid;
             if (mapUi == null) mapUi = UIManager.Get<UIMap>(true);
-            bool showCircuits = DisplayInPlayerMap && mapUi && mapUi.gameObject.activeInHierarchy && mapUi.CurrentMap == MapData && PlayerOwnsMap() && PlayerOwnsCircuitItem();
+            bool showCircuits = DisplayInPlayerMap && mapUi && mapUi.gameObject.activeInHierarchy && mapUi.CurrentMap == MapData && PlayerOwnsMap() && PlayerOwnsCircuitDiagram();
             if (!showCircuits) { hoveredPoint = null; ClearPoints(); return; }
             if (points.Count == 0) CreateCircuitPoints();
             hoveredPoint = GetCrosshairPoint();
@@ -71,9 +71,9 @@ namespace HorrorGame.Chapter1
             return GameManager.Exists && GameManager.Instance.Inventory != null && GameManager.Instance.Inventory.Maps.Contains(MapData);
         }
 
-        private bool PlayerOwnsCircuitItem()
+        private bool PlayerOwnsCircuitDiagram()
         {
-            return CircuitItem != null && GameManager.Exists && GameManager.Instance.Inventory != null && GameManager.Instance.Inventory.Contains(CircuitItem);
+            return CircuitDiagram != null && GameManager.Exists && GameManager.Instance.Inventory != null && GameManager.Instance.Inventory.Documents.Contains(CircuitDiagram);
         }
 
         private void TryActivateCrosshairPoint()
@@ -102,7 +102,7 @@ namespace HorrorGame.Chapter1
 
         private void OnGUI()
         {
-            if (grid == null || !mapUi || !mapUi.gameObject.activeInHierarchy || mapUi.CurrentMap != MapData || !PlayerOwnsMap() || !PlayerOwnsCircuitItem()) return;
+            if (grid == null || !mapUi || !mapUi.gameObject.activeInHierarchy || mapUi.CurrentMap != MapData || !PlayerOwnsMap() || !PlayerOwnsCircuitDiagram()) return;
             Rect energyBar = new Rect(16, 16, 260, 48);
             GUI.Box(energyBar, GUIContent.none);
             GUI.Label(new Rect(energyBar.x + 12, energyBar.y + 7, energyBar.width - 24, 20), "DISTRICT POWER");

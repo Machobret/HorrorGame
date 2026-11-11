@@ -1,0 +1,455 @@
+{
+  "families": [
+    {
+      "source": "brick_fence",
+      "name": "BrickWall",
+      "surface": "Brick"
+    },
+    {
+      "source": "drystone_wall",
+      "name": "StoneWall",
+      "surface": "Stone"
+    },
+    {
+      "source": "low_wooden_fence",
+      "name": "WoodRailFence",
+      "surface": "Wood"
+    },
+    {
+      "source": "metal_fence",
+      "name": "MetalChainLinkFence",
+      "surface": "Metal"
+    },
+    {
+      "source": "plackard_wall",
+      "name": "ConcreteSlabFence",
+      "surface": "Concrete"
+    },
+    {
+      "source": "plaster_wall",
+      "name": "PlasterWall",
+      "surface": "Plaster"
+    },
+    {
+      "source": "white_picket_fence",
+      "name": "WoodPicketFence",
+      "surface": "Wood"
+    }
+  ],
+  "pieces": [
+    {
+      "source": "brick_fence/brick_wall.glb",
+      "name": "BrickWall_Panel_Full"
+    },
+    {
+      "source": "brick_fence/brick_Wall_corner.glb",
+      "name": "BrickWall_Corner"
+    },
+    {
+      "source": "brick_fence/brick_wall_gate.glb",
+      "name": "BrickWall_Gate"
+    },
+    {
+      "source": "brick_fence/brick_wall_one_overhang.glb",
+      "name": "BrickWall_Panel_Overhang"
+    },
+    {
+      "source": "brick_fence/brick_wall_one_overhang_small.glb",
+      "name": "BrickWall_Panel_OverhangShort"
+    },
+    {
+      "source": "brick_fence/brick_wall_pole.glb",
+      "name": "BrickWall_Post"
+    },
+    {
+      "source": "brick_fence/brick_wall_small.glb",
+      "name": "BrickWall_Panel_Short"
+    },
+    {
+      "source": "drystone_wall/drystone_column.glb",
+      "name": "StoneWall_Post"
+    },
+    {
+      "source": "drystone_wall/drystone_column_capped.glb",
+      "name": "StoneWall_Post_Capped"
+    },
+    {
+      "source": "drystone_wall/drystone_column_tiles.glb",
+      "name": "StoneWall_Post_TileCoping"
+    },
+    {
+      "source": "drystone_wall/drystone_wall.glb",
+      "name": "StoneWall_Panel_Full"
+    },
+    {
+      "source": "drystone_wall/drystone_wall_capped.glb",
+      "name": "StoneWall_Panel_Capped"
+    },
+    {
+      "source": "drystone_wall/drystone_wall_half.glb",
+      "name": "StoneWall_Panel_Half"
+    },
+    {
+      "source": "drystone_wall/drystone_wall_half_capped.glb",
+      "name": "StoneWall_Panel_HalfCapped"
+    },
+    {
+      "source": "drystone_wall/drystone_wall_half_tiles.glb",
+      "name": "StoneWall_Panel_HalfTileCoping"
+    },
+    {
+      "source": "drystone_wall/drystone_wall_tiles.glb",
+      "name": "StoneWall_Panel_TileCoping"
+    },
+    {
+      "source": "low_wooden_fence/wooden_fence_beam.glb",
+      "name": "WoodRailFence_Beam_01"
+    },
+    {
+      "source": "low_wooden_fence/wooden_fence_beam_alt.glb",
+      "name": "WoodRailFence_Beam_02"
+    },
+    {
+      "source": "low_wooden_fence/wooden_fence_beam_alt_2.glb",
+      "name": "WoodRailFence_Beam_03"
+    },
+    {
+      "source": "low_wooden_fence/wooden_fence_broken.glb",
+      "name": "WoodRailFence_Panel_Broken01"
+    },
+    {
+      "source": "low_wooden_fence/wooden_fence_broken_alt.glb",
+      "name": "WoodRailFence_Panel_Broken02"
+    },
+    {
+      "source": "low_wooden_fence/wooden_fence_broken_alt2.glb",
+      "name": "WoodRailFence_Panel_Broken03"
+    },
+    {
+      "source": "low_wooden_fence/wooden_fence_closed.glb",
+      "name": "WoodRailFence_Panel_Closed"
+    },
+    {
+      "source": "low_wooden_fence/wooden_fence_oen_crossed.glb",
+      "name": "WoodRailFence_Panel_Crossed"
+    },
+    {
+      "source": "low_wooden_fence/wooden_fence_open.glb",
+      "name": "WoodRailFence_Panel_Open01"
+    },
+    {
+      "source": "low_wooden_fence/wooden_fence_open_alt.glb",
+      "name": "WoodRailFence_Panel_Open02"
+    },
+    {
+      "source": "low_wooden_fence/wooden_fence_pile.glb",
+      "name": "WoodRailFence_TimberPile"
+    },
+    {
+      "source": "low_wooden_fence/wooden_fence_pole.glb",
+      "name": "WoodRailFence_Post_01"
+    },
+    {
+      "source": "low_wooden_fence/wooden_fence_pole_alt.glb",
+      "name": "WoodRailFence_Post_02"
+    },
+    {
+      "source": "low_wooden_fence/wooden_fence_pole_alt_2.glb",
+      "name": "WoodRailFence_Post_03"
+    },
+    {
+      "source": "low_wooden_fence/wooden_fence_pole_broken_large.glb",
+      "name": "WoodRailFence_Post_BrokenTall"
+    },
+    {
+      "source": "low_wooden_fence/wooden_fence_pole_broken_small.glb",
+      "name": "WoodRailFence_Post_BrokenShort"
+    },
+    {
+      "source": "metal_fence/gate.glb",
+      "name": "MetalChainLinkFence_Gate"
+    },
+    {
+      "source": "metal_fence/metal_fence_gate_with_gate.glb",
+      "name": "MetalChainLinkFence_Gate_WithFrame"
+    },
+    {
+      "source": "metal_fence/metalfence_both_sides_no_topbar.glb",
+      "name": "MetalChainLinkFence_Panel_DoubleSided"
+    },
+    {
+      "source": "metal_fence/metalfence_both_sides_topbar.glb",
+      "name": "MetalChainLinkFence_Panel_DoubleSidedTopRail"
+    },
+    {
+      "source": "metal_fence/metalfence_gate_only_sides.glb",
+      "name": "MetalChainLinkFence_Gate_Frame"
+    },
+    {
+      "source": "metal_fence/metalfence_one_side_no_topbar.glb",
+      "name": "MetalChainLinkFence_Panel_SingleSided"
+    },
+    {
+      "source": "metal_fence/metalfence_one_side_topbar.glb",
+      "name": "MetalChainLinkFence_Panel_SingleSidedTopRail"
+    },
+    {
+      "source": "plackard_wall/plackard_broken.glb",
+      "name": "ConcreteSlabFence_Panel_Broken01"
+    },
+    {
+      "source": "plackard_wall/plackard_broken_alt.glb",
+      "name": "ConcreteSlabFence_Panel_Broken02"
+    },
+    {
+      "source": "plackard_wall/plackard_broken_slanted.glb",
+      "name": "ConcreteSlabFence_Panel_BrokenSlanted"
+    },
+    {
+      "source": "plackard_wall/plackard_closed.glb",
+      "name": "ConcreteSlabFence_Panel_Closed"
+    },
+    {
+      "source": "plackard_wall/plackard_closed_full.glb",
+      "name": "ConcreteSlabFence_Panel_ClosedFull"
+    },
+    {
+      "source": "plackard_wall/plackard_corner.glb",
+      "name": "ConcreteSlabFence_Corner"
+    },
+    {
+      "source": "plackard_wall/plackard_corner_closed.glb",
+      "name": "ConcreteSlabFence_Post_Closed01"
+    },
+    {
+      "source": "plackard_wall/plackard_corner_closed_alt.glb",
+      "name": "ConcreteSlabFence_Post_Closed02"
+    },
+    {
+      "source": "plackard_wall/plackard_corner_open.glb",
+      "name": "ConcreteSlabFence_Post_Open01"
+    },
+    {
+      "source": "plackard_wall/plackard_corner_open_90.glb",
+      "name": "ConcreteSlabFence_Post_OpenRightAngle01"
+    },
+    {
+      "source": "plackard_wall/plackard_corner_open_90_alt.glb",
+      "name": "ConcreteSlabFence_Post_OpenRightAngle02"
+    },
+    {
+      "source": "plackard_wall/plackard_corner_open_alt.glb",
+      "name": "ConcreteSlabFence_Post_Open02"
+    },
+    {
+      "source": "plackard_wall/plackard_open.glb",
+      "name": "ConcreteSlabFence_Panel_Open01"
+    },
+    {
+      "source": "plackard_wall/plackard_open_alt.glb",
+      "name": "ConcreteSlabFence_Panel_Open02"
+    },
+    {
+      "source": "plackard_wall/plackard_open_alt2.glb",
+      "name": "ConcreteSlabFence_Panel_Open03"
+    },
+    {
+      "source": "plackard_wall/plackard_open_patched.glb",
+      "name": "ConcreteSlabFence_Panel_WoodPatched"
+    },
+    {
+      "source": "plackard_wall/plackard_slab_boken.glb",
+      "name": "ConcreteSlabFence_Slab_Broken01"
+    },
+    {
+      "source": "plackard_wall/plackard_slab_broken_alt.glb",
+      "name": "ConcreteSlabFence_Slab_Broken02"
+    },
+    {
+      "source": "plackard_wall/plackard_slab_chipped.glb",
+      "name": "ConcreteSlabFence_Slab_Chipped01"
+    },
+    {
+      "source": "plackard_wall/plackard_slab_chipped_alt.glb",
+      "name": "ConcreteSlabFence_Slab_Chipped02"
+    },
+    {
+      "source": "plackard_wall/plackard_slab_full.glb",
+      "name": "ConcreteSlabFence_Panel_SlabsFull"
+    },
+    {
+      "source": "plackard_wall/plackard_slab_half.glb",
+      "name": "ConcreteSlabFence_Slab_HalfStack"
+    },
+    {
+      "source": "plackard_wall/plackard_slab_single.glb",
+      "name": "ConcreteSlabFence_Slab_Single"
+    },
+    {
+      "source": "plackard_wall/plackard_slab_wood_patched.glb",
+      "name": "ConcreteSlabFence_Slab_WoodPatched"
+    },
+    {
+      "source": "plaster_wall/gate_handle.glb",
+      "name": "MetalGate_Handle"
+    },
+    {
+      "source": "plaster_wall/plaster_wall.glb",
+      "name": "PlasterWall_Panel_Full"
+    },
+    {
+      "source": "plaster_wall/plaster_wall_column.glb",
+      "name": "PlasterWall_Post"
+    },
+    {
+      "source": "plaster_wall/plaster_wall_column_fancy.glb",
+      "name": "PlasterWall_Post_Decorative"
+    },
+    {
+      "source": "plaster_wall/plaster_wall_fenced.glb",
+      "name": "PlasterWall_Panel_MetalTop"
+    },
+    {
+      "source": "plaster_wall/plaster_wall_half.glb",
+      "name": "PlasterWall_Panel_Half"
+    },
+    {
+      "source": "plaster_wall/plaster_wall_half_fenced.glb",
+      "name": "PlasterWall_Panel_HalfMetalTop"
+    },
+    {
+      "source": "plaster_wall/plastic_gate_left.glb",
+      "name": "PlasticGate_Left"
+    },
+    {
+      "source": "plaster_wall/plastic_gate_right.glb",
+      "name": "PlasticGate_Right"
+    },
+    {
+      "source": "white_picket_fence/white_picket_fence_closed_left.glb",
+      "name": "WoodPicketFence_Panel_ClosedLeft"
+    },
+    {
+      "source": "white_picket_fence/white_picket_fence_closed_right.glb",
+      "name": "WoodPicketFence_Panel_ClosedRight"
+    },
+    {
+      "source": "white_picket_fence/white_picket_fence_gate.glb",
+      "name": "WoodPicketFence_Gate"
+    },
+    {
+      "source": "white_picket_fence/white_picket_fence_gate_poles.glb",
+      "name": "WoodPicketFence_Gate_PostPair"
+    },
+    {
+      "source": "white_picket_fence/white_picket_fence_open_left.glb",
+      "name": "WoodPicketFence_Panel_OpenLeft"
+    },
+    {
+      "source": "white_picket_fence/white_picket_fence_open_right.glb",
+      "name": "WoodPicketFence_Panel_OpenRight"
+    },
+    {
+      "source": "white_picket_fence/white_picket_fence_pole.glb",
+      "name": "WoodPicketFence_Post"
+    },
+    {
+      "source": "metal_fence/metalfence_both_sides_no_topbar.glb",
+      "sourceName": "metal_fence_authored_post",
+      "name": "MetalChainLinkFence_Post"
+    }
+  ],
+  "materials": [
+    {
+      "id": "89dae5ba51dc9331f477",
+      "sourceLabel": "brick",
+      "name": "M_Brick_FenceAtlas_01",
+      "textureName": "BrickWall_Albedo",
+      "surface": "Brick"
+    },
+    {
+      "id": "6885ed69efd53e5bcc7f",
+      "sourceLabel": "concrete",
+      "name": "M_Concrete_FenceCapsAtlas_01",
+      "textureName": "ConcreteFenceCaps_Albedo",
+      "surface": "Concrete"
+    },
+    {
+      "id": "e974e1f7f015c9d1a775",
+      "sourceLabel": "bare_metal",
+      "name": "M_Metal_BareFenceAtlas_01",
+      "textureName": "MetalFenceBare_Albedo",
+      "surface": "Metal"
+    },
+    {
+      "id": "ffd5c37db9ba9949c2ec",
+      "sourceLabel": "stone_wall",
+      "name": "M_Stone_RubbleWallAtlas_01",
+      "textureName": "StoneWallRubble_Albedo",
+      "surface": "Stone"
+    },
+    {
+      "id": "f173e2b255129117bb1e",
+      "sourceLabel": "roof_tiles",
+      "name": "M_Tiles_WallCopingAtlas_01",
+      "textureName": "TileWallCoping_Albedo",
+      "surface": "Tiles"
+    },
+    {
+      "id": "986dbb1ce1cce2a4ba81",
+      "sourceLabel": "low_wooden_wall",
+      "name": "M_Wood_WeatheredFenceAtlas_01",
+      "textureName": "WoodRailFence_Albedo",
+      "surface": "Wood"
+    },
+    {
+      "id": "ce6bda3a7827e4628217",
+      "sourceLabel": "rusted_pipe",
+      "name": "M_Metal_RustedFencePostAtlas_01",
+      "textureName": "MetalFencePostRust01_Albedo",
+      "surface": "Metal"
+    },
+    {
+      "id": "d555bf85eb2926b27474",
+      "sourceLabel": "fence",
+      "name": "M_Metal_ChainLinkAtlas_01",
+      "textureName": "MetalChainLinkFence_Albedo",
+      "surface": "Metal"
+    },
+    {
+      "id": "39652f4405482e2daac6",
+      "sourceLabel": "rusted_pipe.001",
+      "name": "M_Metal_RustedFencePostAtlas_02",
+      "textureName": "MetalFencePostRust02_Albedo",
+      "surface": "Metal"
+    },
+    {
+      "id": "1c5750ccf677521676f5",
+      "sourceLabel": "Plackard_wall",
+      "name": "M_Concrete_SlabFenceAtlas_01",
+      "textureName": "ConcreteSlabFence_Albedo",
+      "surface": "Concrete"
+    },
+    {
+      "id": "653f988e83cb574ef733",
+      "sourceLabel": "plastic_gate",
+      "name": "M_Plastic_GateAtlas_01",
+      "textureName": "PlasticGate_Albedo",
+      "surface": "Plastic"
+    },
+    {
+      "id": "91d52797b0ee79ec0c68",
+      "sourceLabel": "Stucco",
+      "name": "M_Plaster_StuccoWallAtlas_01",
+      "textureName": "PlasterWallStucco_Albedo",
+      "surface": "Plaster"
+    },
+    {
+      "id": "d034d83df4d40bc0c56d",
+      "sourceLabel": "white_wood",
+      "name": "M_Wood_WhitePicketAtlas_01",
+      "textureName": "WoodPicketFence_Albedo",
+      "surface": "Wood"
+    }
+  ]
+}

@@ -16,8 +16,8 @@ namespace HorrorGame.Chapter1
         public MapData DistrictMapData;
         [Tooltip("The editable map-style circuit layout used when the panel is created at runtime.")]
         public PowerPanelLayout PanelLayout;
-        [Tooltip("Circuit diagram/key item required before this map exposes controllable circuit dots.")]
-        public ItemData CircuitItem;
+        [Tooltip("Circuit diagram document required before this map exposes controllable circuit dots. It never occupies an inventory slot.")]
+        public DocumentData CircuitDiagram;
         public KeyCode CloseKey = KeyCode.Escape;
         public bool IsOpen { get; private set; }
 
@@ -37,7 +37,7 @@ namespace HorrorGame.Chapter1
                 return;
             }
             // The normal UIMap is the sole map screen. The component created in Awake
-            // adds circuit dots only after CircuitItem has been found.
+            // adds circuit dots only after the circuit diagram has been found.
             PowerMapCircuitPanel mapOverlay = EnsureMapCircuitOverlay();
             if (mapOverlay != null) { mapOverlay.Open(Grid); return; }
             if (PanelPrefab != null && PanelPrefab.TryGetComponent(out PowerMapUI isolatedMap))
@@ -80,7 +80,7 @@ namespace HorrorGame.Chapter1
             foreach (PowerMapCircuitPanel existing in FindObjectsByType<PowerMapCircuitPanel>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             {
                 if (existing.MapData != DistrictMapData) continue;
-                existing.Grid = Grid; existing.Layout = PanelLayout; existing.CircuitItem = CircuitItem; existing.DisplayInPlayerMap = true;
+                existing.Grid = Grid; existing.Layout = PanelLayout; existing.CircuitDiagram = CircuitDiagram; existing.DisplayInPlayerMap = true;
                 return existing;
             }
 
@@ -89,7 +89,7 @@ namespace HorrorGame.Chapter1
             overlay.MapData = DistrictMapData;
             overlay.Layout = PanelLayout;
             overlay.Grid = Grid;
-            overlay.CircuitItem = CircuitItem;
+            overlay.CircuitDiagram = CircuitDiagram;
             overlay.DisplayInPlayerMap = true;
             return overlay;
         }

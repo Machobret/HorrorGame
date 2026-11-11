@@ -90,7 +90,13 @@ namespace EnvironmentAuthoring.Editor
                     {
                         if (postChoices.Length > 0)
                         {
-                            var labels = new[] { "Custom" }.Concat(postChoices.Select(item => item.Mesh.name)).ToArray();
+                            // Imported mesh names retain source IDs. Show the normalized model filename.
+                            var labels = new[] { "Custom" }.Concat(postChoices.Select(item =>
+                            {
+                                string path = AssetDatabase.GetAssetPath(item.Mesh);
+                                return string.IsNullOrEmpty(path) ? item.Mesh.name
+                                    : System.IO.Path.GetFileNameWithoutExtension(path);
+                            })).ToArray();
                             int index = Array.FindIndex(postChoices, item => item.Mesh == post) + 1;
                             int next = EditorGUILayout.Popup("Post", index, labels);
                             if (next != index && next > 0)

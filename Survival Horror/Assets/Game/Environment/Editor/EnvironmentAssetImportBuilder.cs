@@ -16,6 +16,8 @@ namespace HorrorGame.Environment.Editor
             public string id, name, category, source, source_asset, model_path, mesh_name, prefab_path;
             public string[] source_objects, material_names;
             public float[] dimensions_m;
+            public float[] source_dimensions_m;
+            public float scale_correction;
             public int triangles, vertices, source_material_count, target_texels_per_metre;
         }
         [Serializable] public sealed class AtlasEntry
@@ -36,6 +38,8 @@ namespace HorrorGame.Environment.Editor
             public string id, name, category, source, prefab_path, prefab_guid, model_path, model_guid;
             public string[] material_paths, material_guids;
             public float[] bounds_m;
+            public float[] source_bounds_m;
+            public float scale_correction;
             public string status = "ImportedAndVerified";
         }
         [Serializable] public sealed class Receipt
@@ -240,7 +244,10 @@ namespace HorrorGame.Environment.Editor
                         model_path = asset.model_path, model_guid = AssetDatabase.AssetPathToGUID(asset.model_path),
                         material_paths = renderer.sharedMaterials.Select(AssetDatabase.GetAssetPath).ToArray(),
                         material_guids = renderer.sharedMaterials.Select(m => AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(m))).ToArray(),
-                        bounds_m = new[] { size.x, size.y, size.z }
+                        bounds_m = new[] { size.x, size.y, size.z },
+                        source_bounds_m = asset.source_dimensions_m != null && asset.source_dimensions_m.Length == 3
+                            ? new[] { asset.source_dimensions_m[0], asset.source_dimensions_m[2], asset.source_dimensions_m[1] } : null,
+                        scale_correction = asset.scale_correction > 0 ? asset.scale_correction : 1
                     });
                 }
                 finally { UnityEngine.Object.DestroyImmediate(go); }

@@ -183,6 +183,7 @@ namespace EnvironmentAuthoring.Editor
                 module.ApplyInsertMaterial(family != null && family.HasMaterialRoles ? family.RoleMaterial(wall, 0) : null,
                     family != null && family.HasMaterialRoles ? family.RoleMaterial(wall, 1) : null);
             }
+            ApplyWallProjectionRange(root);
         }
 
 

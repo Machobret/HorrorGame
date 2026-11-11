@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f7844fe72ca4fd78135e1e448987cbc, type: 3}
+  m_Name: WoodRailFence_Panel_Broken01
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.TownModule
+  Kind: 0
+  Mesh: {fileID: 2959467708922500008, guid: e17922ce004743afae9e133fb6a9db87, type: 3}
+  AllowStretch: 0
+  Materials:
+  - {fileID: 2100000, guid: cba4be4fd55ffcd419a7bf588853a265, type: 2}
+  Length: 2
+  Height: 1.0372733
+  Width: 0.24506027

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f7844fe72ca4fd78135e1e448987cbc, type: 3}
+  m_Name: PlasterWall_Panel_HalfMetalTop
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.TownModule
+  Kind: 0
+  Mesh: {fileID: 2959467708922500008, guid: 529aefdbe47b423f8415a9a9366f148d, type: 3}
+  AllowStretch: 0
+  Materials:
+  - {fileID: 2100000, guid: bb26681c5b70f09428c436ab9bba95de, type: 2}
+  - {fileID: 2100000, guid: e09eb23668d44e84c99a42a2173a3ba7, type: 2}
+  - {fileID: 2100000, guid: 3d71cf1b4fce1264296b5105b037e134, type: 2}
+  Length: 1
+  Height: 1.4827871
+  Width: 0.3

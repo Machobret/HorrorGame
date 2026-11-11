@@ -484,7 +484,7 @@ GameObject:
   - component: {fileID: 8430715}
   - component: {fileID: 8430714}
   m_Layer: 0
-  m_Name: 'gate_handle [Manual]'
+  m_Name: 'MetalGate_Handle [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -513,7 +513,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8430712}
-  m_Text: 'gate_handle [Manual]'
+  m_Text: 'MetalGate_Handle [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -1301,7 +1301,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 599149020808244900, guid: af5d4b9d6131db644b91d79a80091c62, type: 3}
       propertyPath: m_Name
-      value: metalfence_one_side_topbar
+      value: MetalChainLinkFence_Panel_SingleSidedTopRail
       objectReference: {fileID: 0}
     - target: {fileID: 3598029571675934936, guid: af5d4b9d6131db644b91d79a80091c62, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1406,7 +1406,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8935163277743529046, guid: aedf42aeed6eedf48b4e6f757b05dd7f, type: 3}
       propertyPath: m_Name
-      value: metalfence_one_side_no_topbar
+      value: MetalChainLinkFence_Panel_SingleSided
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1751,7 +1751,7 @@ GameObject:
   - component: {fileID: 44937614}
   - component: {fileID: 44937613}
   m_Layer: 0
-  m_Name: 'brick_wall [Panel]'
+  m_Name: 'BrickWall_Panel_Full [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1780,7 +1780,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 44937611}
-  m_Text: 'brick_wall [Panel]'
+  m_Text: 'BrickWall_Panel_Full [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -1893,7 +1893,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5866975941219333546, guid: b7fb8b0c5709d6249b0bf2cd4daf58da, type: 3}
       propertyPath: m_Name
-      value: wooden_fence_pole_alt
+      value: WoodRailFence_Post_02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3218,7 +3218,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 837812831756227002, guid: 6be7cfb023bd32b44a1de5a98e623c4a, type: 3}
       propertyPath: m_Name
-      value: metal_fence_gate_with_gate
+      value: MetalChainLinkFence_Gate_WithFrame
       objectReference: {fileID: 0}
     - target: {fileID: 7632927635971377715, guid: 6be7cfb023bd32b44a1de5a98e623c4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3788,7 +3788,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1739829637604751548, guid: 474132d1c0d01aa4aadfbd0e2f41bca7, type: 3}
       propertyPath: m_Name
-      value: wooden_fence_pole_broken_large
+      value: WoodRailFence_Post_BrokenTall
       objectReference: {fileID: 0}
     - target: {fileID: 8916137673370921882, guid: 474132d1c0d01aa4aadfbd0e2f41bca7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4162,7 +4162,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6982495180155094900, guid: abcc6784a471e2e479440eca6ba0e35e, type: 3}
       propertyPath: m_Name
-      value: brick_wall
+      value: BrickWall_Panel_Full
       objectReference: {fileID: 0}
     - target: {fileID: 8648625717568600299, guid: abcc6784a471e2e479440eca6ba0e35e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4335,7 +4335,7 @@ GameObject:
   - component: {fileID: 109625134}
   - component: {fileID: 109625133}
   m_Layer: 0
-  m_Name: 'wooden_fence_pole_broken_small [Post]'
+  m_Name: 'WoodRailFence_Post_BrokenShort [Post]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4364,7 +4364,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 109625131}
-  m_Text: 'wooden_fence_pole_broken_small [Post]'
+  m_Text: 'WoodRailFence_Post_BrokenShort [Post]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -4703,7 +4703,7 @@ GameObject:
   - component: {fileID: 115467120}
   - component: {fileID: 115467119}
   m_Layer: 0
-  m_Name: 'plastic_gate_left [Manual]'
+  m_Name: 'PlasticGate_Left [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4732,7 +4732,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 115467117}
-  m_Text: 'plastic_gate_left [Manual]'
+  m_Text: 'PlasticGate_Left [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -4805,7 +4805,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4165300218817833523, guid: fddc7474d871a63468c6f98352d408ca, type: 3}
       propertyPath: m_Name
-      value: drystone_wall_half_capped
+      value: StoneWall_Panel_HalfCapped
       objectReference: {fileID: 0}
     - target: {fileID: 6966269191699496893, guid: fddc7474d871a63468c6f98352d408ca, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4963,7 +4963,7 @@ GameObject:
   - component: {fileID: 119494157}
   - component: {fileID: 119494156}
   m_Layer: 0
-  m_Name: 'plackard_slab_full [Panel]'
+  m_Name: 'ConcreteSlabFence_Panel_SlabsFull [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4992,7 +4992,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 119494154}
-  m_Text: 'plackard_slab_full [Panel]'
+  m_Text: 'ConcreteSlabFence_Panel_SlabsFull [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -6154,7 +6154,7 @@ GameObject:
   - component: {fileID: 153024857}
   - component: {fileID: 153024856}
   m_Layer: 0
-  m_Name: plackard_wall / editable native panels and authored posts
+  m_Name: ConcreteSlabFence / editable native panels and authored posts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6183,7 +6183,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153024854}
-  m_Text: plackard_wall / editable native panels and authored posts
+  m_Text: ConcreteSlabFence / editable native panels and authored posts
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -6614,7 +6614,7 @@ GameObject:
   - component: {fileID: 161126934}
   - component: {fileID: 161126933}
   m_Layer: 0
-  m_Name: 'metal_fence_gate_with_gate [Manual]'
+  m_Name: 'MetalChainLinkFence_Gate_WithFrame [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6643,7 +6643,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 161126931}
-  m_Text: 'metal_fence_gate_with_gate [Manual]'
+  m_Text: 'MetalChainLinkFence_Gate_WithFrame [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -6879,7 +6879,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2162279102710366802, guid: cb5034c8db1d83b4088e4ec6510f0ec0, type: 3}
       propertyPath: m_Name
-      value: wooden_fence_pole_alt_2
+      value: WoodRailFence_Post_03
       objectReference: {fileID: 0}
     - target: {fileID: 4343646301113711667, guid: cb5034c8db1d83b4088e4ec6510f0ec0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7034,7 +7034,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1698842070317953479, guid: d601de28d73612b47885344ed8cc42aa, type: 3}
       propertyPath: m_Name
-      value: plackard_open_alt
+      value: ConcreteSlabFence_Panel_Open02
       objectReference: {fileID: 0}
     - target: {fileID: 5554620369830958247, guid: d601de28d73612b47885344ed8cc42aa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8104,7 +8104,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3665097660802020477, guid: 27e2356badfefb548aa7a844fae10e84, type: 3}
       propertyPath: m_Name
-      value: plaster_wall_fenced
+      value: PlasterWall_Panel_MetalTop
       objectReference: {fileID: 0}
     - target: {fileID: 3918120065253387542, guid: 27e2356badfefb548aa7a844fae10e84, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9271,7 +9271,7 @@ GameObject:
   - component: {fileID: 218667296}
   - component: {fileID: 218667295}
   m_Layer: 0
-  m_Name: 'metalfence_both_sides_no_topbar [Panel]'
+  m_Name: 'MetalChainLinkFence_Panel_DoubleSided [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9300,7 +9300,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 218667293}
-  m_Text: 'metalfence_both_sides_no_topbar [Panel]'
+  m_Text: 'MetalChainLinkFence_Panel_DoubleSided [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -9908,7 +9908,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6440644895614673767, guid: afaf3724d1cf2cf408e6bf7d77839f72, type: 3}
       propertyPath: m_Name
-      value: brick_wall_gate
+      value: BrickWall_Gate
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10103,7 +10103,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4719070385056577024, guid: 319dc9c6f850cc24cbee2fe3e6d57c84, type: 3}
       propertyPath: m_Name
-      value: plackard_slab_chipped
+      value: ConcreteSlabFence_Slab_Chipped01
       objectReference: {fileID: 0}
     - target: {fileID: 7404466914230662139, guid: 319dc9c6f850cc24cbee2fe3e6d57c84, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10320,7 +10320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6053211853964295532, guid: 8434ce4fb40d88744953d47eecdc09ed, type: 3}
       propertyPath: m_Name
-      value: plackard_corner_closed
+      value: ConcreteSlabFence_Post_Closed01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10345,7 +10345,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1502958678152980232, guid: 62cfbb68d5790fe4f9f7c937e06333e0, type: 3}
       propertyPath: m_Name
-      value: plackard_slab_wood_patched
+      value: ConcreteSlabFence_Slab_WoodPatched
       objectReference: {fileID: 0}
     - target: {fileID: 3545493768291169268, guid: 62cfbb68d5790fe4f9f7c937e06333e0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10702,7 +10702,7 @@ GameObject:
   - component: {fileID: 248128649}
   - component: {fileID: 248128648}
   m_Layer: 0
-  m_Name: 'wooden_fence_pole_broken_large [Post]'
+  m_Name: 'WoodRailFence_Post_BrokenTall [Post]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10731,7 +10731,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 248128646}
-  m_Text: 'wooden_fence_pole_broken_large [Post]'
+  m_Text: 'WoodRailFence_Post_BrokenTall [Post]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -11141,7 +11141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8092190382535289397, guid: 1f99928dd01488f429c0e54fef78e364, type: 3}
       propertyPath: m_Name
-      value: brick_wall_small
+      value: BrickWall_Panel_Short
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11374,7 +11374,7 @@ GameObject:
   - component: {fileID: 269097910}
   - component: {fileID: 269097909}
   m_Layer: 0
-  m_Name: 'white_picket_fence_open_right [Panel]'
+  m_Name: 'WoodPicketFence_Panel_OpenRight [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11403,7 +11403,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 269097907}
-  m_Text: 'white_picket_fence_open_right [Panel]'
+  m_Text: 'WoodPicketFence_Panel_OpenRight [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -11986,7 +11986,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6329144953474762095, guid: 8ec3f0f971ae1b449b53684e6fca0026, type: 3}
       propertyPath: m_Name
-      value: plackard_slab_chipped_alt
+      value: ConcreteSlabFence_Slab_Chipped02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12125,7 +12125,7 @@ GameObject:
   - component: {fileID: 283653432}
   - component: {fileID: 283653431}
   m_Layer: 0
-  m_Name: 'plackard_slab_chipped_alt [Manual]'
+  m_Name: 'ConcreteSlabFence_Slab_Chipped02 [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12154,7 +12154,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 283653429}
-  m_Text: 'plackard_slab_chipped_alt [Manual]'
+  m_Text: 'ConcreteSlabFence_Slab_Chipped02 [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -12741,7 +12741,7 @@ GameObject:
   - component: {fileID: 294582445}
   - component: {fileID: 294582444}
   m_Layer: 0
-  m_Name: 'wooden_fence_beam_alt_2 [Manual]'
+  m_Name: 'WoodRailFence_Beam_03 [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12770,7 +12770,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 294582442}
-  m_Text: 'wooden_fence_beam_alt_2 [Manual]'
+  m_Text: 'WoodRailFence_Beam_03 [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -12981,7 +12981,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4786915513439044916, guid: d8b218ef99d6c9d419b2663b2803d2dc, type: 3}
       propertyPath: m_Name
-      value: white_picket_fence_open_right
+      value: WoodPicketFence_Panel_OpenRight
       objectReference: {fileID: 0}
     - target: {fileID: 8679977578227830851, guid: d8b218ef99d6c9d419b2663b2803d2dc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13792,7 +13792,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8760727849783406942, guid: b3a7fd06528e5154cbb067b86a2f10fa, type: 3}
       propertyPath: m_Name
-      value: plackard_open_alt2
+      value: ConcreteSlabFence_Panel_Open03
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15262,7 +15262,7 @@ GameObject:
   - component: {fileID: 346693589}
   - component: {fileID: 346693588}
   m_Layer: 0
-  m_Name: 'drystone_column [Post]'
+  m_Name: 'StoneWall_Post [Post]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15291,7 +15291,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 346693586}
-  m_Text: 'drystone_column [Post]'
+  m_Text: 'StoneWall_Post [Post]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -15566,7 +15566,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3050095265901940742, guid: 5afc9723ba28d9b499f8ef89cc5e4767, type: 3}
       propertyPath: m_Name
-      value: plackard_slab_broken_alt
+      value: ConcreteSlabFence_Slab_Broken02
       objectReference: {fileID: 0}
     - target: {fileID: 7875885659366512718, guid: 5afc9723ba28d9b499f8ef89cc5e4767, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15838,7 +15838,7 @@ GameObject:
   - component: {fileID: 360950080}
   - component: {fileID: 360950079}
   m_Layer: 0
-  m_Name: metal_fence / editable native panels and authored posts
+  m_Name: MetalChainLinkFence / editable native panels and authored posts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15867,7 +15867,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 360950077}
-  m_Text: metal_fence / editable native panels and authored posts
+  m_Text: MetalChainLinkFence / editable native panels and authored posts
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -16185,7 +16185,7 @@ GameObject:
   - component: {fileID: 366900125}
   - component: {fileID: 366900124}
   m_Layer: 0
-  m_Name: 'plackard_broken [Panel]'
+  m_Name: 'ConcreteSlabFence_Panel_Broken01 [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16214,7 +16214,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 366900122}
-  m_Text: 'plackard_broken [Panel]'
+  m_Text: 'ConcreteSlabFence_Panel_Broken01 [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -16664,7 +16664,7 @@ GameObject:
   - component: {fileID: 375067103}
   - component: {fileID: 375067102}
   m_Layer: 0
-  m_Name: 'plackard_slab_chipped [Manual]'
+  m_Name: 'ConcreteSlabFence_Slab_Chipped01 [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16693,7 +16693,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 375067100}
-  m_Text: 'plackard_slab_chipped [Manual]'
+  m_Text: 'ConcreteSlabFence_Slab_Chipped01 [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -16768,7 +16768,7 @@ GameObject:
   - component: {fileID: 381439291}
   - component: {fileID: 381439290}
   m_Layer: 0
-  m_Name: 'wooden_fence_broken [Panel]'
+  m_Name: 'WoodRailFence_Panel_Broken01 [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16797,7 +16797,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 381439288}
-  m_Text: 'wooden_fence_broken [Panel]'
+  m_Text: 'WoodRailFence_Panel_Broken01 [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -17984,7 +17984,7 @@ GameObject:
   - component: {fileID: 401471908}
   - component: {fileID: 401471907}
   m_Layer: 0
-  m_Name: 'plackard_corner_open [Post]'
+  m_Name: 'ConcreteSlabFence_Post_Open01 [Post]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18013,7 +18013,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 401471905}
-  m_Text: 'plackard_corner_open [Post]'
+  m_Text: 'ConcreteSlabFence_Post_Open01 [Post]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -19411,7 +19411,7 @@ GameObject:
   - component: {fileID: 423315945}
   - component: {fileID: 423315944}
   m_Layer: 0
-  m_Name: 'brick_wall_one_overhang [Panel]'
+  m_Name: 'BrickWall_Panel_Overhang [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19440,7 +19440,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 423315942}
-  m_Text: 'brick_wall_one_overhang [Panel]'
+  m_Text: 'BrickWall_Panel_Overhang [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -20421,7 +20421,7 @@ GameObject:
   m_Component:
   - component: {fileID: 445765657}
   m_Layer: 0
-  m_Name: Fence family brick_fence
+  m_Name: Fence family BrickWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21378,7 +21378,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3266367792523994555, guid: 866599eb9780c1140b1d5992d0007bdb, type: 3}
       propertyPath: m_Name
-      value: plackard_corner_open
+      value: ConcreteSlabFence_Post_Open01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -22397,7 +22397,7 @@ GameObject:
   - component: {fileID: 496107984}
   - component: {fileID: 496107983}
   m_Layer: 0
-  m_Name: 'white_picket_fence_pole [Post]'
+  m_Name: 'WoodPicketFence_Post [Post]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22426,7 +22426,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 496107981}
-  m_Text: 'white_picket_fence_pole [Post]'
+  m_Text: 'WoodPicketFence_Post [Post]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -24185,7 +24185,7 @@ GameObject:
   - component: {fileID: 525893716}
   - component: {fileID: 525893715}
   m_Layer: 0
-  m_Name: 'plaster_wall_column [Post]'
+  m_Name: 'PlasterWall_Post [Post]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24214,7 +24214,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 525893713}
-  m_Text: 'plaster_wall_column [Post]'
+  m_Text: 'PlasterWall_Post [Post]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -24379,7 +24379,7 @@ GameObject:
   - component: {fileID: 526803776}
   - component: {fileID: 526803775}
   m_Layer: 0
-  m_Name: 'drystone_wall_tiles [Panel]'
+  m_Name: 'StoneWall_Panel_TileCoping [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24408,7 +24408,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 526803773}
-  m_Text: 'drystone_wall_tiles [Panel]'
+  m_Text: 'StoneWall_Panel_TileCoping [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -25258,7 +25258,7 @@ GameObject:
   - component: {fileID: 561182990}
   - component: {fileID: 561182989}
   m_Layer: 0
-  m_Name: 'plackard_slab_boken [Manual]'
+  m_Name: 'ConcreteSlabFence_Slab_Broken01 [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25287,7 +25287,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 561182987}
-  m_Text: 'plackard_slab_boken [Manual]'
+  m_Text: 'ConcreteSlabFence_Slab_Broken01 [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -26522,7 +26522,7 @@ GameObject:
   - component: {fileID: 580546529}
   - component: {fileID: 580546528}
   m_Layer: 0
-  m_Name: 'plackard_corner [Manual]'
+  m_Name: 'ConcreteSlabFence_Corner [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26551,7 +26551,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 580546526}
-  m_Text: 'plackard_corner [Manual]'
+  m_Text: 'ConcreteSlabFence_Corner [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -26811,7 +26811,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7819176906467724009, guid: e71e47d38d9c9ad4c96c892bce4847c1, type: 3}
       propertyPath: m_Name
-      value: drystone_wall_half_tiles
+      value: StoneWall_Panel_HalfTileCoping
       objectReference: {fileID: 0}
     - target: {fileID: 8766985398729988372, guid: e71e47d38d9c9ad4c96c892bce4847c1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -27172,7 +27172,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1640468672069280684, guid: e1172ab32c729c64ba03314f3a52fc58, type: 3}
       propertyPath: m_Name
-      value: plackard_slab_full
+      value: ConcreteSlabFence_Panel_SlabsFull
       objectReference: {fileID: 0}
     - target: {fileID: 4645229223426610840, guid: e1172ab32c729c64ba03314f3a52fc58, type: 3}
       propertyPath: m_LocalPosition.x
@@ -27421,7 +27421,7 @@ GameObject:
   - component: {fileID: 599145576}
   - component: {fileID: 599145575}
   m_Layer: 0
-  m_Name: 'metalfence_both_sides_topbar [Panel]'
+  m_Name: 'MetalChainLinkFence_Panel_DoubleSidedTopRail [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27450,7 +27450,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 599145573}
-  m_Text: 'metalfence_both_sides_topbar [Panel]'
+  m_Text: 'MetalChainLinkFence_Panel_DoubleSidedTopRail [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -28594,7 +28594,7 @@ GameObject:
   - component: {fileID: 612439513}
   - component: {fileID: 612439512}
   m_Layer: 0
-  m_Name: 'brick_wall_one_overhang_small [Panel]'
+  m_Name: 'BrickWall_Panel_OverhangShort [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28623,7 +28623,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 612439510}
-  m_Text: 'brick_wall_one_overhang_small [Panel]'
+  m_Text: 'BrickWall_Panel_OverhangShort [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -28696,7 +28696,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6112611243018589031, guid: 544ea51818ba0314bb16566d9fbf0138, type: 3}
       propertyPath: m_Name
-      value: plackard_broken
+      value: ConcreteSlabFence_Panel_Broken01
       objectReference: {fileID: 0}
     - target: {fileID: 7929912490552792177, guid: 544ea51818ba0314bb16566d9fbf0138, type: 3}
       propertyPath: m_LocalPosition.x
@@ -28933,7 +28933,7 @@ GameObject:
   - component: {fileID: 624876752}
   - component: {fileID: 624876751}
   m_Layer: 0
-  m_Name: 'wooden_fence_pole_alt [Post]'
+  m_Name: 'WoodRailFence_Post_02 [Post]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28962,7 +28962,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 624876749}
-  m_Text: 'wooden_fence_pole_alt [Post]'
+  m_Text: 'WoodRailFence_Post_02 [Post]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -30144,7 +30144,7 @@ GameObject:
   - component: {fileID: 662637291}
   - component: {fileID: 662637290}
   m_Layer: 0
-  m_Name: 'wooden_fence_beam_alt [Manual]'
+  m_Name: 'WoodRailFence_Beam_02 [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30173,7 +30173,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 662637288}
-  m_Text: 'wooden_fence_beam_alt [Manual]'
+  m_Text: 'WoodRailFence_Beam_02 [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -30248,7 +30248,7 @@ GameObject:
   - component: {fileID: 663020128}
   - component: {fileID: 663020127}
   m_Layer: 0
-  m_Name: 'drystone_column_tiles [Post]'
+  m_Name: 'StoneWall_Post_TileCoping [Post]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30277,7 +30277,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 663020125}
-  m_Text: 'drystone_column_tiles [Post]'
+  m_Text: 'StoneWall_Post_TileCoping [Post]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -31745,7 +31745,7 @@ GameObject:
   - component: {fileID: 697413267}
   - component: {fileID: 697413268}
   m_Layer: 0
-  m_Name: Edit plaster_wall
+  m_Name: Edit PlasterWall_Panel_Full
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32002,7 +32002,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 221001454695750225, guid: d1ceb0e3d2392e14f8be1d10610fb799, type: 3}
       propertyPath: m_Name
-      value: plaster_wall_column_fancy
+      value: PlasterWall_Post_Decorative
       objectReference: {fileID: 0}
     - target: {fileID: 2712326050309946083, guid: d1ceb0e3d2392e14f8be1d10610fb799, type: 3}
       propertyPath: m_LocalPosition.x
@@ -32107,7 +32107,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6961488073824698465, guid: 975c8420a26202a42a0128935cce2315, type: 3}
       propertyPath: m_Name
-      value: plackard_slab_single
+      value: ConcreteSlabFence_Slab_Single
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -32507,7 +32507,7 @@ GameObject:
   - component: {fileID: 711660975}
   - component: {fileID: 711660974}
   m_Layer: 0
-  m_Name: 'brick_wall_gate [Manual]'
+  m_Name: 'BrickWall_Gate [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32536,7 +32536,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 711660972}
-  m_Text: 'brick_wall_gate [Manual]'
+  m_Text: 'BrickWall_Gate [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -32931,7 +32931,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5997593096991797140, guid: 5dfd2c1d2a56dca40a0e4e9d73e8ed6d, type: 3}
       propertyPath: m_Name
-      value: plackard_corner_closed_alt
+      value: ConcreteSlabFence_Post_Closed02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -33167,7 +33167,7 @@ GameObject:
   m_Component:
   - component: {fileID: 725354637}
   m_Layer: 0
-  m_Name: Fence family metal_fence
+  m_Name: Fence family MetalChainLinkFence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33550,7 +33550,7 @@ GameObject:
   - component: {fileID: 730878073}
   - component: {fileID: 730878072}
   m_Layer: 0
-  m_Name: 'plackard_broken_slanted [Panel]'
+  m_Name: 'ConcreteSlabFence_Panel_BrokenSlanted [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33579,7 +33579,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730878070}
-  m_Text: 'plackard_broken_slanted [Panel]'
+  m_Text: 'ConcreteSlabFence_Panel_BrokenSlanted [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -34317,7 +34317,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1350427903199322251, guid: a88a36245e1421a41b6452b86888da2c, type: 3}
       propertyPath: m_Name
-      value: wooden_fence_broken_alt
+      value: WoodRailFence_Panel_Broken02
       objectReference: {fileID: 0}
     - target: {fileID: 8715880642698742843, guid: a88a36245e1421a41b6452b86888da2c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -35134,7 +35134,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8528009959264909313, guid: efb1676b4daeea64998abeb0ebbb7def, type: 3}
       propertyPath: m_Name
-      value: plackard_open
+      value: ConcreteSlabFence_Panel_Open01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -35265,7 +35265,7 @@ GameObject:
   - component: {fileID: 766591566}
   - component: {fileID: 766591565}
   m_Layer: 0
-  m_Name: 'plaster_wall_half_fenced [Panel]'
+  m_Name: 'PlasterWall_Panel_HalfMetalTop [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35294,7 +35294,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 766591563}
-  m_Text: 'plaster_wall_half_fenced [Panel]'
+  m_Text: 'PlasterWall_Panel_HalfMetalTop [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -35655,7 +35655,7 @@ GameObject:
   m_Component:
   - component: {fileID: 773789482}
   m_Layer: 0
-  m_Name: Fence family plackard_wall
+  m_Name: Fence family ConcreteSlabFence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35715,7 +35715,7 @@ GameObject:
   - component: {fileID: 774782528}
   - component: {fileID: 774782527}
   m_Layer: 0
-  m_Name: 'brick_Wall_corner [Manual]'
+  m_Name: 'BrickWall_Corner [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35744,7 +35744,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 774782525}
-  m_Text: 'brick_Wall_corner [Manual]'
+  m_Text: 'BrickWall_Corner [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -36095,7 +36095,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6032569622659115628, guid: 2c08fc55faabf284eb655884b8aa97e9, type: 3}
       propertyPath: m_Name
-      value: white_picket_fence_pole
+      value: WoodPicketFence_Post
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -36192,7 +36192,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5587882860746980884, guid: de04faf9e48fadb45b0fe5690066b41e, type: 3}
       propertyPath: m_Name
-      value: gate_handle
+      value: MetalGate_Handle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -36303,7 +36303,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2681232243087625986, guid: 751f0cea3b0b0bf45bcffe1b546905e7, type: 3}
       propertyPath: m_Name
-      value: brick_wall_one_overhang_small
+      value: BrickWall_Panel_OverhangShort
       objectReference: {fileID: 0}
     - target: {fileID: 5694989594158392090, guid: 751f0cea3b0b0bf45bcffe1b546905e7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -36857,7 +36857,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6903687135411487729, guid: 32691189b4e7745408c467b5e3b8d6fe, type: 3}
       propertyPath: m_Name
-      value: plaster_wall_column
+      value: PlasterWall_Post
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -37052,7 +37052,7 @@ GameObject:
   - component: {fileID: 825186763}
   - component: {fileID: 825186762}
   m_Layer: 0
-  m_Name: 'plaster_wall_fenced [Panel]'
+  m_Name: 'PlasterWall_Panel_MetalTop [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37081,7 +37081,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 825186760}
-  m_Text: 'plaster_wall_fenced [Panel]'
+  m_Text: 'PlasterWall_Panel_MetalTop [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -37720,7 +37720,7 @@ GameObject:
   - component: {fileID: 838387443}
   - component: {fileID: 838387442}
   m_Layer: 0
-  m_Name: 'white_picket_fence_open_left [Panel]'
+  m_Name: 'WoodPicketFence_Panel_OpenLeft [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37749,7 +37749,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 838387440}
-  m_Text: 'white_picket_fence_open_left [Panel]'
+  m_Text: 'WoodPicketFence_Panel_OpenLeft [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -37946,7 +37946,7 @@ GameObject:
   - component: {fileID: 842954756}
   - component: {fileID: 842954755}
   m_Layer: 0
-  m_Name: 'wooden_fence_broken_alt [Panel]'
+  m_Name: 'WoodRailFence_Panel_Broken02 [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37975,7 +37975,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 842954753}
-  m_Text: 'wooden_fence_broken_alt [Panel]'
+  m_Text: 'WoodRailFence_Panel_Broken02 [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -38155,7 +38155,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2187574878910798986, guid: 78b966e6ea64c4142ae9b26a3e1e153d, type: 3}
       propertyPath: m_Name
-      value: plackard_corner_open_90_alt
+      value: ConcreteSlabFence_Post_OpenRightAngle02
       objectReference: {fileID: 0}
     - target: {fileID: 5098102585435059671, guid: 78b966e6ea64c4142ae9b26a3e1e153d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -38746,7 +38746,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1216339186042354359, guid: 0d928d7f225b8414d829501a3a228f12, type: 3}
       propertyPath: m_Name
-      value: plackard_closed_full
+      value: ConcreteSlabFence_Panel_ClosedFull
       objectReference: {fileID: 0}
     - target: {fileID: 3637453407274584285, guid: 0d928d7f225b8414d829501a3a228f12, type: 3}
       propertyPath: m_LocalPosition.x
@@ -39154,7 +39154,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1519580416515303570, guid: 956f74c4dcf4c0d4fa90682723fc9b98, type: 3}
       propertyPath: m_Name
-      value: drystone_wall
+      value: StoneWall_Panel_Full
       objectReference: {fileID: 0}
     - target: {fileID: 8411296552588073009, guid: 956f74c4dcf4c0d4fa90682723fc9b98, type: 3}
       propertyPath: m_LocalPosition.x
@@ -39221,7 +39221,7 @@ GameObject:
   - component: {fileID: 876054415}
   - component: {fileID: 876054414}
   m_Layer: 0
-  m_Name: 'drystone_wall [Panel]'
+  m_Name: 'StoneWall_Panel_Full [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39250,7 +39250,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 876054412}
-  m_Text: 'drystone_wall [Panel]'
+  m_Text: 'StoneWall_Panel_Full [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -39448,7 +39448,7 @@ GameObject:
   - component: {fileID: 886698067}
   - component: {fileID: 886698066}
   m_Layer: 0
-  m_Name: white_picket_fence / editable native panels and authored posts
+  m_Name: WoodPicketFence / editable native panels and authored posts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39477,7 +39477,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 886698064}
-  m_Text: white_picket_fence / editable native panels and authored posts
+  m_Text: WoodPicketFence / editable native panels and authored posts
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -39696,7 +39696,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6518907884544921484, guid: 4b569e13e0b84bf44991e6a8f13b9a68, type: 3}
       propertyPath: m_Name
-      value: plackard_broken_alt
+      value: ConcreteSlabFence_Panel_Broken02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -40294,7 +40294,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8205643030471133604, guid: 1a186859673f46049a59339933268488, type: 3}
       propertyPath: m_Name
-      value: metalfence_gate_only_sides
+      value: MetalChainLinkFence_Gate_Frame
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -41097,7 +41097,7 @@ GameObject:
   - component: {fileID: 928516367}
   - component: {fileID: 928516366}
   m_Layer: 0
-  m_Name: 'plackard_corner_open_alt [Post]'
+  m_Name: 'ConcreteSlabFence_Post_Open02 [Post]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41126,7 +41126,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 928516364}
-  m_Text: 'plackard_corner_open_alt [Post]'
+  m_Text: 'ConcreteSlabFence_Post_Open02 [Post]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -41694,7 +41694,7 @@ GameObject:
   - component: {fileID: 945565198}
   - component: {fileID: 945565197}
   m_Layer: 0
-  m_Name: 'plaster_wall_column_fancy [Post]'
+  m_Name: 'PlasterWall_Post_Decorative [Post]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41723,7 +41723,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 945565195}
-  m_Text: 'plaster_wall_column_fancy [Post]'
+  m_Text: 'PlasterWall_Post_Decorative [Post]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -41900,7 +41900,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 451620976285598595, guid: 6c69e72765b8cde45abe582f39e60083, type: 3}
       propertyPath: m_Name
-      value: brick_wall_pole
+      value: BrickWall_Post
       objectReference: {fileID: 0}
     - target: {fileID: 3230845301952941476, guid: 6c69e72765b8cde45abe582f39e60083, type: 3}
       propertyPath: m_LocalPosition.x
@@ -42557,7 +42557,7 @@ GameObject:
   - component: {fileID: 960342248}
   - component: {fileID: 960342247}
   m_Layer: 0
-  m_Name: 'wooden_fence_pile [Manual]'
+  m_Name: 'WoodRailFence_TimberPile [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42586,7 +42586,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 960342245}
-  m_Text: 'wooden_fence_pile [Manual]'
+  m_Text: 'WoodRailFence_TimberPile [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -42744,7 +42744,7 @@ GameObject:
   - component: {fileID: 968830014}
   - component: {fileID: 968830013}
   m_Layer: 0
-  m_Name: 'wooden_fence_open_alt [Panel]'
+  m_Name: 'WoodRailFence_Panel_Open02 [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42773,7 +42773,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 968830011}
-  m_Text: 'wooden_fence_open_alt [Panel]'
+  m_Text: 'WoodRailFence_Panel_Open02 [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -43285,7 +43285,7 @@ GameObject:
   - component: {fileID: 980933678}
   - component: {fileID: 980933677}
   m_Layer: 0
-  m_Name: 'metalfence_one_side_no_topbar [Panel]'
+  m_Name: 'MetalChainLinkFence_Panel_SingleSided [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43314,7 +43314,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 980933675}
-  m_Text: 'metalfence_one_side_no_topbar [Panel]'
+  m_Text: 'MetalChainLinkFence_Panel_SingleSided [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -43388,7 +43388,7 @@ GameObject:
   - component: {fileID: 981660524}
   - component: {fileID: 981660525}
   m_Layer: 0
-  m_Name: Edit metal_fence
+  m_Name: Edit MetalChainLinkFence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43467,7 +43467,7 @@ GameObject:
   - component: {fileID: 985534960}
   - component: {fileID: 985534959}
   m_Layer: 0
-  m_Name: 'plackard_slab_half [Manual]'
+  m_Name: 'ConcreteSlabFence_Slab_HalfStack [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43496,7 +43496,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 985534957}
-  m_Text: 'plackard_slab_half [Manual]'
+  m_Text: 'ConcreteSlabFence_Slab_HalfStack [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -43734,7 +43734,7 @@ GameObject:
   - component: {fileID: 988260954}
   - component: {fileID: 988260953}
   m_Layer: 0
-  m_Name: 'wooden_fence_closed [Panel]'
+  m_Name: 'WoodRailFence_Panel_Closed [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43763,7 +43763,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 988260951}
-  m_Text: 'wooden_fence_closed [Panel]'
+  m_Text: 'WoodRailFence_Panel_Closed [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -46722,7 +46722,7 @@ GameObject:
   - component: {fileID: 1051070148}
   - component: {fileID: 1051070147}
   m_Layer: 0
-  m_Name: 'white_picket_fence_closed_right [Panel]'
+  m_Name: 'WoodPicketFence_Panel_ClosedRight [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46751,7 +46751,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1051070145}
-  m_Text: 'white_picket_fence_closed_right [Panel]'
+  m_Text: 'WoodPicketFence_Panel_ClosedRight [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -46826,7 +46826,7 @@ GameObject:
   - component: {fileID: 1052882004}
   - component: {fileID: 1052882003}
   m_Layer: 0
-  m_Name: 'brick_wall_small [Panel]'
+  m_Name: 'BrickWall_Panel_Short [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46855,7 +46855,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1052882001}
-  m_Text: 'brick_wall_small [Panel]'
+  m_Text: 'BrickWall_Panel_Short [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -46928,7 +46928,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5244097020303534077, guid: 7cf1b4215e5d3f6469c193fdda2d63a8, type: 3}
       propertyPath: m_Name
-      value: plackard_corner_open_alt
+      value: ConcreteSlabFence_Post_Open02
       objectReference: {fileID: 0}
     - target: {fileID: 7840988341205729906, guid: 7cf1b4215e5d3f6469c193fdda2d63a8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -47027,7 +47027,7 @@ GameObject:
   - component: {fileID: 1056508847}
   - component: {fileID: 1056508846}
   m_Layer: 0
-  m_Name: 'plackard_open_alt2 [Panel]'
+  m_Name: 'ConcreteSlabFence_Panel_Open03 [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47056,7 +47056,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1056508844}
-  m_Text: 'plackard_open_alt2 [Panel]'
+  m_Text: 'ConcreteSlabFence_Panel_Open03 [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -48125,7 +48125,7 @@ GameObject:
   - component: {fileID: 1077236663}
   - component: {fileID: 1077236664}
   m_Layer: 0
-  m_Name: Edit plackard_wall
+  m_Name: Edit ConcreteSlabFence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48722,7 +48722,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1496009180436806377, guid: f22f468b1214c3e438a64739ef2be6fd, type: 3}
       propertyPath: m_Name
-      value: wooden_fence_open
+      value: WoodRailFence_Panel_Open01
       objectReference: {fileID: 0}
     - target: {fileID: 4033634596646826611, guid: f22f468b1214c3e438a64739ef2be6fd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -48789,7 +48789,7 @@ GameObject:
   - component: {fileID: 1091223587}
   - component: {fileID: 1091223586}
   m_Layer: 0
-  m_Name: 'plackard_corner_open_90_alt [Post]'
+  m_Name: 'ConcreteSlabFence_Post_OpenRightAngle02 [Post]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48818,7 +48818,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1091223584}
-  m_Text: 'plackard_corner_open_90_alt [Post]'
+  m_Text: 'ConcreteSlabFence_Post_OpenRightAngle02 [Post]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -49578,7 +49578,7 @@ GameObject:
   - component: {fileID: 1109573769}
   - component: {fileID: 1109573768}
   m_Layer: 0
-  m_Name: 'plaster_wall_half [Panel]'
+  m_Name: 'PlasterWall_Panel_Half [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49607,7 +49607,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1109573766}
-  m_Text: 'plaster_wall_half [Panel]'
+  m_Text: 'PlasterWall_Panel_Half [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -51056,7 +51056,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6718287243313076481, guid: 23f03dce7b4d62a42a9532a38544a4b8, type: 3}
       propertyPath: m_Name
-      value: drystone_wall_tiles
+      value: StoneWall_Panel_TileCoping
       objectReference: {fileID: 0}
     - target: {fileID: 9036767097423590935, guid: 23f03dce7b4d62a42a9532a38544a4b8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -51465,7 +51465,7 @@ GameObject:
   - component: {fileID: 1144683362}
   - component: {fileID: 1144683361}
   m_Layer: 0
-  m_Name: 'plackard_slab_wood_patched [Manual]'
+  m_Name: 'ConcreteSlabFence_Slab_WoodPatched [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51494,7 +51494,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1144683359}
-  m_Text: 'plackard_slab_wood_patched [Manual]'
+  m_Text: 'ConcreteSlabFence_Slab_WoodPatched [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -51625,7 +51625,7 @@ GameObject:
   - component: {fileID: 1146964418}
   - component: {fileID: 1146964417}
   m_Layer: 0
-  m_Name: 'metalfence_one_side_topbar [Panel]'
+  m_Name: 'MetalChainLinkFence_Panel_SingleSidedTopRail [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51654,7 +51654,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1146964415}
-  m_Text: 'metalfence_one_side_topbar [Panel]'
+  m_Text: 'MetalChainLinkFence_Panel_SingleSidedTopRail [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -52851,7 +52851,7 @@ GameObject:
   - component: {fileID: 1169510703}
   - component: {fileID: 1169510702}
   m_Layer: 0
-  m_Name: brick_fence / editable native panels and authored posts
+  m_Name: BrickWall / editable native panels and authored posts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52880,7 +52880,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1169510700}
-  m_Text: brick_fence / editable native panels and authored posts
+  m_Text: BrickWall / editable native panels and authored posts
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -53224,7 +53224,7 @@ GameObject:
   - component: {fileID: 1176152887}
   - component: {fileID: 1176152886}
   m_Layer: 0
-  m_Name: plaster_wall / editable native panels and authored posts
+  m_Name: PlasterWall_Panel_Full / editable native panels and authored posts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53253,7 +53253,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1176152884}
-  m_Text: plaster_wall / editable native panels and authored posts
+  m_Text: PlasterWall_Panel_Full / editable native panels and authored posts
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -53503,7 +53503,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3769196160863716503, guid: 34a7cf0420bb3614996aa5f00b8fcefb, type: 3}
       propertyPath: m_Name
-      value: plackard_corner
+      value: ConcreteSlabFence_Corner
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -54439,7 +54439,7 @@ GameObject:
   - component: {fileID: 1199022230}
   - component: {fileID: 1199022229}
   m_Layer: 0
-  m_Name: 'drystone_wall_capped [Panel]'
+  m_Name: 'StoneWall_Panel_Capped [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54468,7 +54468,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1199022227}
-  m_Text: 'drystone_wall_capped [Panel]'
+  m_Text: 'StoneWall_Panel_Capped [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -54762,7 +54762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1888712804732541412, guid: c094052988f399d469a2731eff7cf019, type: 3}
       propertyPath: m_Name
-      value: wooden_fence_pile
+      value: WoodRailFence_TimberPile
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -55779,7 +55779,7 @@ GameObject:
   - component: {fileID: 1235124390}
   - component: {fileID: 1235124389}
   m_Layer: 0
-  m_Name: 'white_picket_fence_closed_left [Panel]'
+  m_Name: 'WoodPicketFence_Panel_ClosedLeft [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55808,7 +55808,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1235124387}
-  m_Text: 'white_picket_fence_closed_left [Panel]'
+  m_Text: 'WoodPicketFence_Panel_ClosedLeft [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -56839,7 +56839,7 @@ GameObject:
   - component: {fileID: 1254261643}
   - component: {fileID: 1254261642}
   m_Layer: 0
-  m_Name: 'gate [Manual]'
+  m_Name: 'MetalChainLinkFence_Gate [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56868,7 +56868,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1254261640}
-  m_Text: 'gate [Manual]'
+  m_Text: 'MetalChainLinkFence_Gate [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -57231,7 +57231,7 @@ GameObject:
   - component: {fileID: 1261065679}
   - component: {fileID: 1261065678}
   m_Layer: 0
-  m_Name: 'plaster_wall [Panel]'
+  m_Name: 'PlasterWall_Panel_Full [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57260,7 +57260,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1261065676}
-  m_Text: 'plaster_wall [Panel]'
+  m_Text: 'PlasterWall_Panel_Full [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -58451,7 +58451,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1277459201}
   m_Layer: 0
-  m_Name: Fence family white_picket_fence
+  m_Name: Fence family WoodPicketFence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58525,7 +58525,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1744624613050079785, guid: 978ac906fa98f094ab79fe6702c8a6cf, type: 3}
       propertyPath: m_Name
-      value: drystone_column_tiles
+      value: StoneWall_Post_TileCoping
       objectReference: {fileID: 0}
     - target: {fileID: 2874742169975530772, guid: 978ac906fa98f094ab79fe6702c8a6cf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -58731,7 +58731,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1010379428991689831, guid: cab50a6ce2e286c47beca4a8a7f6b9d3, type: 3}
       propertyPath: m_Name
-      value: white_picket_fence_closed_right
+      value: WoodPicketFence_Panel_ClosedRight
       objectReference: {fileID: 0}
     - target: {fileID: 3040778047982965018, guid: cab50a6ce2e286c47beca4a8a7f6b9d3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -59391,7 +59391,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8865944360718200687, guid: 9667bc4fafe7b8347ad1dbcd5b35fb65, type: 3}
       propertyPath: m_Name
-      value: wooden_fence_beam
+      value: WoodRailFence_Beam_01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -59528,7 +59528,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7235138045279574653, guid: 6f060e7495e890547a7ce7886b7e5625, type: 3}
       propertyPath: m_Name
-      value: plastic_gate_left
+      value: PlasticGate_Left
       objectReference: {fileID: 0}
     - target: {fileID: 7554406160877974165, guid: 6f060e7495e890547a7ce7886b7e5625, type: 3}
       propertyPath: m_LocalPosition.x
@@ -59793,7 +59793,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8417218992749697577, guid: eea0c617c7bc7394aa3b38722eab97d3, type: 3}
       propertyPath: m_Name
-      value: plastic_gate_right
+      value: PlasticGate_Right
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -60430,7 +60430,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5972653348842883566, guid: d9dfd6a56444a6e4aa700a397c297924, type: 3}
       propertyPath: m_Name
-      value: plaster_wall_half
+      value: PlasterWall_Panel_Half
       objectReference: {fileID: 0}
     - target: {fileID: 8626464514330697436, guid: d9dfd6a56444a6e4aa700a397c297924, type: 3}
       propertyPath: m_LocalPosition.x
@@ -60619,7 +60619,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3489797273284447847, guid: 61162a513da1a8f458327fd3e45c14f7, type: 3}
       propertyPath: m_Name
-      value: wooden_fence_pole
+      value: WoodRailFence_Post_01
       objectReference: {fileID: 0}
     - target: {fileID: 5890884652294271438, guid: 61162a513da1a8f458327fd3e45c14f7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -61905,7 +61905,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2537802118629535203, guid: 26feb67b33101a749bfa632f58b72b07, type: 3}
       propertyPath: m_Name
-      value: wooden_fence_broken_alt2
+      value: WoodRailFence_Panel_Broken03
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -62074,7 +62074,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4818271247659763732, guid: 39784bba1f7095349aba1d1ab12c298c, type: 3}
       propertyPath: m_Name
-      value: plackard_closed
+      value: ConcreteSlabFence_Panel_Closed
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -62389,7 +62389,7 @@ GameObject:
   - component: {fileID: 1351906544}
   - component: {fileID: 1351906543}
   m_Layer: 0
-  m_Name: 'drystone_wall_half_tiles [Panel]'
+  m_Name: 'StoneWall_Panel_HalfTileCoping [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62418,7 +62418,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1351906541}
-  m_Text: 'drystone_wall_half_tiles [Panel]'
+  m_Text: 'StoneWall_Panel_HalfTileCoping [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -62950,7 +62950,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4079600271040352243, guid: b0394fd27c10bea4ab1c2af1d8b06ab1, type: 3}
       propertyPath: m_Name
-      value: white_picket_fence_gate
+      value: WoodPicketFence_Gate
       objectReference: {fileID: 0}
     - target: {fileID: 7062156684754962848, guid: b0394fd27c10bea4ab1c2af1d8b06ab1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -63105,7 +63105,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7931766122234409419, guid: 919d3a2032098c94b9a8ea07a86e6b6c, type: 3}
       propertyPath: m_Name
-      value: plackard_slab_boken
+      value: ConcreteSlabFence_Slab_Broken01
       objectReference: {fileID: 0}
     - target: {fileID: 8382631926677702524, guid: 919d3a2032098c94b9a8ea07a86e6b6c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -63751,7 +63751,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3134247687043553406, guid: e91bf13581b22e04ca7715fa7d6390ac, type: 3}
       propertyPath: m_Name
-      value: wooden_fence_beam_alt_2
+      value: WoodRailFence_Beam_03
       objectReference: {fileID: 0}
     - target: {fileID: 7065426553709970532, guid: e91bf13581b22e04ca7715fa7d6390ac, type: 3}
       propertyPath: m_LocalPosition.x
@@ -63939,7 +63939,7 @@ GameObject:
   - component: {fileID: 1397082975}
   - component: {fileID: 1397082976}
   m_Layer: 0
-  m_Name: Edit brick_fence
+  m_Name: Edit BrickWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64107,7 +64107,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3232448973542917151, guid: cf6b8fe8f1d09734589b740347f42374, type: 3}
       propertyPath: m_Name
-      value: brick_wall_one_overhang
+      value: BrickWall_Panel_Overhang
       objectReference: {fileID: 0}
     - target: {fileID: 7118559665689624282, guid: cf6b8fe8f1d09734589b740347f42374, type: 3}
       propertyPath: m_LocalPosition.x
@@ -66123,7 +66123,7 @@ GameObject:
   - component: {fileID: 1448551429}
   - component: {fileID: 1448551428}
   m_Layer: 0
-  m_Name: 'plackard_open [Panel]'
+  m_Name: 'ConcreteSlabFence_Panel_Open01 [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66152,7 +66152,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1448551426}
-  m_Text: 'plackard_open [Panel]'
+  m_Text: 'ConcreteSlabFence_Panel_Open01 [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -67044,7 +67044,7 @@ GameObject:
   - component: {fileID: 1466575850}
   - component: {fileID: 1466575849}
   m_Layer: 0
-  m_Name: 'plackard_slab_single [Manual]'
+  m_Name: 'ConcreteSlabFence_Slab_Single [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67073,7 +67073,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1466575847}
-  m_Text: 'plackard_slab_single [Manual]'
+  m_Text: 'ConcreteSlabFence_Slab_Single [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -68019,7 +68019,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1519673632203412156, guid: 59d126fd1e0d713439fea88944b83d4b, type: 3}
       propertyPath: m_Name
-      value: wooden_fence_closed
+      value: WoodRailFence_Panel_Closed
       objectReference: {fileID: 0}
     - target: {fileID: 8097235196801681521, guid: 59d126fd1e0d713439fea88944b83d4b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -68152,7 +68152,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3570836640768926326, guid: e95e73dff4d5ef74e8ed8e8408b04d59, type: 3}
       propertyPath: m_Name
-      value: wooden_fence_open_alt
+      value: WoodRailFence_Panel_Open02
       objectReference: {fileID: 0}
     - target: {fileID: 9032306605780954436, guid: e95e73dff4d5ef74e8ed8e8408b04d59, type: 3}
       propertyPath: m_LocalPosition.x
@@ -69769,7 +69769,7 @@ GameObject:
   - component: {fileID: 1518677576}
   - component: {fileID: 1518677575}
   m_Layer: 0
-  m_Name: 'plackard_broken_alt [Panel]'
+  m_Name: 'ConcreteSlabFence_Panel_Broken02 [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69798,7 +69798,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1518677573}
-  m_Text: 'plackard_broken_alt [Panel]'
+  m_Text: 'ConcreteSlabFence_Panel_Broken02 [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -69963,7 +69963,7 @@ GameObject:
   - component: {fileID: 1522711264}
   - component: {fileID: 1522711263}
   m_Layer: 0
-  m_Name: 'plackard_closed_full [Panel]'
+  m_Name: 'ConcreteSlabFence_Panel_ClosedFull [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69992,7 +69992,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1522711261}
-  m_Text: 'plackard_closed_full [Panel]'
+  m_Text: 'ConcreteSlabFence_Panel_ClosedFull [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -70801,7 +70801,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4423808384880893447, guid: 2bc594c6836a13b478cb977190e6f0cf, type: 3}
       propertyPath: m_Name
-      value: plackard_broken_slanted
+      value: ConcreteSlabFence_Panel_BrokenSlanted
       objectReference: {fileID: 0}
     - target: {fileID: 7466106757150016269, guid: 2bc594c6836a13b478cb977190e6f0cf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -70868,7 +70868,7 @@ GameObject:
   - component: {fileID: 1545620358}
   - component: {fileID: 1545620357}
   m_Layer: 0
-  m_Name: 'plackard_slab_broken_alt [Manual]'
+  m_Name: 'ConcreteSlabFence_Slab_Broken02 [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70897,7 +70897,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1545620355}
-  m_Text: 'plackard_slab_broken_alt [Manual]'
+  m_Text: 'ConcreteSlabFence_Slab_Broken02 [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -71010,7 +71010,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9154816027590692592, guid: 8491cf29199d76d41973bcc7f33fe48c, type: 3}
       propertyPath: m_Name
-      value: drystone_wall_capped
+      value: StoneWall_Panel_Capped
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -71277,7 +71277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9033802842344959501, guid: b6e3f18c73974e44188205c92e6f87e1, type: 3}
       propertyPath: m_Name
-      value: white_picket_fence_open_left
+      value: WoodPicketFence_Panel_OpenLeft
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -71942,7 +71942,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8711865601671153553, guid: edd88e4cfca6c8448a4e41917695f6dc, type: 3}
       propertyPath: m_Name
-      value: drystone_column
+      value: StoneWall_Post
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -71967,7 +71967,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2456921414516288750, guid: 2186093ee77cd8c49bc64175461cd908, type: 3}
       propertyPath: m_Name
-      value: drystone_column_capped
+      value: StoneWall_Post_Capped
       objectReference: {fileID: 0}
     - target: {fileID: 4297783897970820993, guid: 2186093ee77cd8c49bc64175461cd908, type: 3}
       propertyPath: m_LocalPosition.x
@@ -72924,7 +72924,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9039832688580402660, guid: 70f30d62cf33adf458ecb0e67bbf46c5, type: 3}
       propertyPath: m_Name
-      value: wooden_fence_broken
+      value: WoodRailFence_Panel_Broken01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -73182,7 +73182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6987021535604999934, guid: 989cda2ee6a53d94eaa4e5f4ab9cb0e5, type: 3}
       propertyPath: m_Name
-      value: gate
+      value: MetalChainLinkFence_Gate
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -73299,7 +73299,7 @@ GameObject:
   - component: {fileID: 1611301436}
   - component: {fileID: 1611301435}
   m_Layer: 0
-  m_Name: 'plackard_corner_closed_alt [Post]'
+  m_Name: 'ConcreteSlabFence_Post_Closed02 [Post]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73328,7 +73328,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1611301433}
-  m_Text: 'plackard_corner_closed_alt [Post]'
+  m_Text: 'ConcreteSlabFence_Post_Closed02 [Post]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -73403,7 +73403,7 @@ GameObject:
   - component: {fileID: 1616585638}
   - component: {fileID: 1616585637}
   m_Layer: 0
-  m_Name: 'plackard_open_alt [Panel]'
+  m_Name: 'ConcreteSlabFence_Panel_Open02 [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73432,7 +73432,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1616585635}
-  m_Text: 'plackard_open_alt [Panel]'
+  m_Text: 'ConcreteSlabFence_Panel_Open02 [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -73556,7 +73556,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1618717949}
   m_Layer: 0
-  m_Name: Fence family plaster_wall
+  m_Name: Fence family PlasterWall_Panel_Full
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73741,7 +73741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8987272594355386789, guid: b30ef9624f9882049bff52cc87bda0e5, type: 3}
       propertyPath: m_Name
-      value: wooden_fence_pole_broken_small
+      value: WoodRailFence_Post_BrokenShort
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -75704,7 +75704,7 @@ GameObject:
   - component: {fileID: 1664450840}
   - component: {fileID: 1664450839}
   m_Layer: 0
-  m_Name: low_wooden_fence / editable native panels and authored posts
+  m_Name: WoodRailFence / editable native panels and authored posts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75733,7 +75733,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1664450837}
-  m_Text: low_wooden_fence / editable native panels and authored posts
+  m_Text: WoodRailFence / editable native panels and authored posts
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -76016,7 +76016,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5065495771209627592, guid: 80fc5c2401c3e17438262d1812f7315f, type: 3}
       propertyPath: m_Name
-      value: wooden_fence_beam_alt
+      value: WoodRailFence_Beam_02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -76043,7 +76043,7 @@ GameObject:
   - component: {fileID: 1677522870}
   - component: {fileID: 1677522869}
   m_Layer: 0
-  m_Name: 'brick_wall_pole [Post]'
+  m_Name: 'BrickWall_Post [Post]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76072,7 +76072,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1677522867}
-  m_Text: 'brick_wall_pole [Post]'
+  m_Text: 'BrickWall_Post [Post]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -77585,7 +77585,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6979468385407854615, guid: ee50398c3416ca7449dda540f857cb6d, type: 3}
       propertyPath: m_Name
-      value: brick_Wall_corner
+      value: BrickWall_Corner
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -77650,7 +77650,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7898137006424744161, guid: da5097e6cee6d4a42a47bce44de59cae, type: 3}
       propertyPath: m_Name
-      value: plaster_wall_half_fenced
+      value: PlasterWall_Panel_HalfMetalTop
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -77715,7 +77715,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7390498988592037296, guid: f0f66a0a10413a647a78416ca65388b0, type: 3}
       propertyPath: m_Name
-      value: plackard_open_patched
+      value: ConcreteSlabFence_Panel_WoodPatched
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -77857,7 +77857,7 @@ GameObject:
   - component: {fileID: 1720475305}
   - component: {fileID: 1720475304}
   m_Layer: 0
-  m_Name: 'wooden_fence_pole [Post]'
+  m_Name: 'WoodRailFence_Post_01 [Post]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77886,7 +77886,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1720475302}
-  m_Text: 'wooden_fence_pole [Post]'
+  m_Text: 'WoodRailFence_Post_01 [Post]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -78157,7 +78157,7 @@ GameObject:
   - component: {fileID: 1723895929}
   - component: {fileID: 1723895928}
   m_Layer: 0
-  m_Name: 'wooden_fence_beam [Manual]'
+  m_Name: 'WoodRailFence_Beam_01 [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78186,7 +78186,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1723895926}
-  m_Text: 'wooden_fence_beam [Manual]'
+  m_Text: 'WoodRailFence_Beam_01 [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -80197,7 +80197,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2632960028637015233, guid: e23d6c5f9fa88b244b95291762aec2ee, type: 3}
       propertyPath: m_Name
-      value: white_picket_fence_closed_left
+      value: WoodPicketFence_Panel_ClosedLeft
       objectReference: {fileID: 0}
     - target: {fileID: 4021200554660249243, guid: e23d6c5f9fa88b244b95291762aec2ee, type: 3}
       propertyPath: m_LocalPosition.x
@@ -80586,7 +80586,7 @@ GameObject:
   - component: {fileID: 1781811064}
   - component: {fileID: 1781811063}
   m_Layer: 0
-  m_Name: 'wooden_fence_open [Panel]'
+  m_Name: 'WoodRailFence_Panel_Open01 [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80615,7 +80615,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1781811061}
-  m_Text: 'wooden_fence_open [Panel]'
+  m_Text: 'WoodRailFence_Panel_Open01 [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -81307,7 +81307,7 @@ GameObject:
   - component: {fileID: 1797544260}
   - component: {fileID: 1797544259}
   m_Layer: 0
-  m_Name: 'drystone_wall_half [Panel]'
+  m_Name: 'StoneWall_Panel_Half [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81336,7 +81336,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1797544257}
-  m_Text: 'drystone_wall_half [Panel]'
+  m_Text: 'StoneWall_Panel_Half [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -82521,7 +82521,7 @@ GameObject:
   - component: {fileID: 1847810496}
   - component: {fileID: 1847810495}
   m_Layer: 0
-  m_Name: 'drystone_column_capped [Post]'
+  m_Name: 'StoneWall_Post_Capped [Post]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82550,7 +82550,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1847810493}
-  m_Text: 'drystone_column_capped [Post]'
+  m_Text: 'StoneWall_Post_Capped [Post]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -82863,7 +82863,7 @@ GameObject:
   - component: {fileID: 1850301950}
   - component: {fileID: 1850301949}
   m_Layer: 0
-  m_Name: 'wooden_fence_oen_crossed [Panel]'
+  m_Name: 'WoodRailFence_Panel_Crossed [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82892,7 +82892,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1850301947}
-  m_Text: 'wooden_fence_oen_crossed [Panel]'
+  m_Text: 'WoodRailFence_Panel_Crossed [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -82967,7 +82967,7 @@ GameObject:
   - component: {fileID: 1852694777}
   - component: {fileID: 1852694776}
   m_Layer: 0
-  m_Name: 'plackard_closed [Panel]'
+  m_Name: 'ConcreteSlabFence_Panel_Closed [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82996,7 +82996,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1852694774}
-  m_Text: 'plackard_closed [Panel]'
+  m_Text: 'ConcreteSlabFence_Panel_Closed [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -83267,7 +83267,7 @@ GameObject:
   - component: {fileID: 1854783995}
   - component: {fileID: 1854783994}
   m_Layer: 0
-  m_Name: 'wooden_fence_pole_alt_2 [Post]'
+  m_Name: 'WoodRailFence_Post_03 [Post]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83296,7 +83296,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1854783992}
-  m_Text: 'wooden_fence_pole_alt_2 [Post]'
+  m_Text: 'WoodRailFence_Post_03 [Post]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -85016,7 +85016,7 @@ GameObject:
   - component: {fileID: 1885479312}
   - component: {fileID: 1885479311}
   m_Layer: 0
-  m_Name: 'plackard_open_patched [Panel]'
+  m_Name: 'ConcreteSlabFence_Panel_WoodPatched [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85045,7 +85045,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1885479309}
-  m_Text: 'plackard_open_patched [Panel]'
+  m_Text: 'ConcreteSlabFence_Panel_WoodPatched [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -85315,7 +85315,7 @@ GameObject:
   - component: {fileID: 1891394455}
   - component: {fileID: 1891394454}
   m_Layer: 0
-  m_Name: 'drystone_wall_half_capped [Panel]'
+  m_Name: 'StoneWall_Panel_HalfCapped [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85344,7 +85344,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1891394452}
-  m_Text: 'drystone_wall_half_capped [Panel]'
+  m_Text: 'StoneWall_Panel_HalfCapped [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -85986,7 +85986,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3114032451208051450, guid: d07dd1b30e8988e4b9c992b305af83cb, type: 3}
       propertyPath: m_Name
-      value: drystone_wall_half
+      value: StoneWall_Panel_Half
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -86378,7 +86378,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 354087207487897855, guid: 4ef9bd8a196617b4aa2c018d4e1e8fc2, type: 3}
       propertyPath: m_Name
-      value: plackard_slab_half
+      value: ConcreteSlabFence_Slab_HalfStack
       objectReference: {fileID: 0}
     - target: {fileID: 6550831497506338732, guid: 4ef9bd8a196617b4aa2c018d4e1e8fc2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -86477,7 +86477,7 @@ GameObject:
   - component: {fileID: 1931525882}
   - component: {fileID: 1931525881}
   m_Layer: 0
-  m_Name: 'white_picket_fence_gate_poles [Manual]'
+  m_Name: 'WoodPicketFence_Gate_PostPair [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86506,7 +86506,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1931525879}
-  m_Text: 'white_picket_fence_gate_poles [Manual]'
+  m_Text: 'WoodPicketFence_Gate_PostPair [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -87458,7 +87458,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8319593430899126975, guid: 7d9d6512b6269ff42879a75a7e999249, type: 3}
       propertyPath: m_Name
-      value: metalfence_both_sides_topbar
+      value: MetalChainLinkFence_Panel_DoubleSidedTopRail
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -88074,7 +88074,7 @@ GameObject:
   - component: {fileID: 1967573950}
   - component: {fileID: 1967573949}
   m_Layer: 0
-  m_Name: 'metalfence_gate_only_sides [Manual]'
+  m_Name: 'MetalChainLinkFence_Gate_Frame [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88103,7 +88103,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1967573947}
-  m_Text: 'metalfence_gate_only_sides [Manual]'
+  m_Text: 'MetalChainLinkFence_Gate_Frame [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -88561,7 +88561,7 @@ GameObject:
   - component: {fileID: 1985536385}
   - component: {fileID: 1985536386}
   m_Layer: 0
-  m_Name: Edit white_picket_fence
+  m_Name: Edit WoodPicketFence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89276,7 +89276,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4197830999641559051, guid: 8f5546fa470d6874d8461863c2f63298, type: 3}
       propertyPath: m_Name
-      value: metalfence_both_sides_no_topbar
+      value: MetalChainLinkFence_Panel_DoubleSided
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -89588,7 +89588,7 @@ GameObject:
   - component: {fileID: 2006341083}
   - component: {fileID: 2006341082}
   m_Layer: 0
-  m_Name: 'plackard_corner_closed [Post]'
+  m_Name: 'ConcreteSlabFence_Post_Closed01 [Post]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89617,7 +89617,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2006341080}
-  m_Text: 'plackard_corner_closed [Post]'
+  m_Text: 'ConcreteSlabFence_Post_Closed01 [Post]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -89928,7 +89928,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3074344752680036419, guid: 51e84e44697cda74090b96c8b8330116, type: 3}
       propertyPath: m_Name
-      value: wooden_fence_oen_crossed
+      value: WoodRailFence_Panel_Crossed
       objectReference: {fileID: 0}
     - target: {fileID: 3628106417182729193, guid: 51e84e44697cda74090b96c8b8330116, type: 3}
       propertyPath: m_LocalPosition.x
@@ -89994,7 +89994,7 @@ GameObject:
   - component: {fileID: 2013743007}
   - component: {fileID: 2013743008}
   m_Layer: 0
-  m_Name: Edit drystone_wall
+  m_Name: Edit StoneWall_Panel_Full
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90214,7 +90214,7 @@ GameObject:
   - component: {fileID: 2020976028}
   - component: {fileID: 2020976027}
   m_Layer: 0
-  m_Name: 'plackard_corner_open_90 [Post]'
+  m_Name: 'ConcreteSlabFence_Post_OpenRightAngle01 [Post]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90243,7 +90243,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2020976025}
-  m_Text: 'plackard_corner_open_90 [Post]'
+  m_Text: 'ConcreteSlabFence_Post_OpenRightAngle01 [Post]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -90974,7 +90974,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4968205064374343237, guid: d25495785bb2a0f46ac2983f4d9f8fac, type: 3}
       propertyPath: m_Name
-      value: plackard_corner_open_90
+      value: ConcreteSlabFence_Post_OpenRightAngle01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -92398,7 +92398,7 @@ GameObject:
   - component: {fileID: 2063177671}
   - component: {fileID: 2063177670}
   m_Layer: 0
-  m_Name: 'wooden_fence_broken_alt2 [Panel]'
+  m_Name: 'WoodRailFence_Panel_Broken03 [Panel]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92427,7 +92427,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2063177668}
-  m_Text: 'wooden_fence_broken_alt2 [Panel]'
+  m_Text: 'WoodRailFence_Panel_Broken03 [Panel]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -92702,7 +92702,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2071728102}
   m_Layer: 0
-  m_Name: Fence family low_wooden_fence
+  m_Name: Fence family WoodRailFence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -93499,7 +93499,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2092447728}
   m_Layer: 0
-  m_Name: Fence family drystone_wall
+  m_Name: Fence family StoneWall_Panel_Full
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -93850,7 +93850,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5522805958098340309, guid: 0f1f1637c7266454e9932fa93379674c, type: 3}
       propertyPath: m_Name
-      value: plaster_wall
+      value: PlasterWall_Panel_Full
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -93877,7 +93877,7 @@ GameObject:
   - component: {fileID: 2101463016}
   - component: {fileID: 2101463015}
   m_Layer: 0
-  m_Name: 'plastic_gate_right [Manual]'
+  m_Name: 'PlasticGate_Right [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -93906,7 +93906,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2101463013}
-  m_Text: 'plastic_gate_right [Manual]'
+  m_Text: 'PlasticGate_Right [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -94237,7 +94237,7 @@ GameObject:
   - component: {fileID: 2115194283}
   - component: {fileID: 2115194284}
   m_Layer: 0
-  m_Name: Edit low_wooden_fence
+  m_Name: Edit WoodRailFence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94316,7 +94316,7 @@ GameObject:
   - component: {fileID: 2117162298}
   - component: {fileID: 2117162297}
   m_Layer: 0
-  m_Name: 'white_picket_fence_gate [Manual]'
+  m_Name: 'WoodPicketFence_Gate [Manual]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94345,7 +94345,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2117162295}
-  m_Text: 'white_picket_fence_gate [Manual]'
+  m_Text: 'WoodPicketFence_Gate [Manual]'
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1
@@ -94878,7 +94878,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 529240467053927192, guid: 4815c4b6b4e2aec4193dad2d4241d855, type: 3}
       propertyPath: m_Name
-      value: white_picket_fence_gate_poles
+      value: WoodPicketFence_Gate_PostPair
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -95192,7 +95192,7 @@ GameObject:
   - component: {fileID: 2135184545}
   - component: {fileID: 2135184544}
   m_Layer: 0
-  m_Name: drystone_wall / editable native panels and authored posts
+  m_Name: StoneWall_Panel_Full / editable native panels and authored posts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95221,7 +95221,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2135184542}
-  m_Text: drystone_wall / editable native panels and authored posts
+  m_Text: StoneWall_Panel_Full / editable native panels and authored posts
   m_OffsetZ: 0
   m_CharacterSize: 0.12
   m_LineSpacing: 1

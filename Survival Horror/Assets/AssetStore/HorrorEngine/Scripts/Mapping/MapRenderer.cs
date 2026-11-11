@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 using UnityEngine.Rendering.Universal;
 
@@ -97,7 +98,8 @@ namespace HorrorEngine
             if (unlit == null) return;
 
             Texture gridTexture = GridMaterial != null ? GridMaterial.mainTexture : null;
-            m_RuntimeGridMaterial = CreateMapMaterial(unlit, new Color(.42f, .42f, .42f, .8f), gridTexture, true);
+            // Keep the grid present but subdued; the room contour is the primary readable layer.
+            m_RuntimeGridMaterial = CreateMapMaterial(unlit, new Color(.52f, .54f, .58f, .28f), gridTexture, false);
             m_RuntimeMarkerMaterial = CreateMapMaterial(unlit, Color.white, m_MapPlayer.GetComponentInChildren<Renderer>(true).sharedMaterial.mainTexture, true);
             m_RuntimeContourMaterial = CreateMapMaterial(unlit, Color.white, Texture2D.whiteTexture, true);
 
@@ -129,6 +131,16 @@ namespace HorrorEngine
                 material.SetFloat("_Cutoff", .1f);
                 material.EnableKeyword("_ALPHATEST_ON");
                 material.renderQueue = 2450;
+            }
+            else
+            {
+                material.SetFloat("_Surface", 1);
+                material.SetFloat("_Blend", 0);
+                material.SetInt("_SrcBlend", (int)BlendMode.SrcAlpha);
+                material.SetInt("_DstBlend", (int)BlendMode.OneMinusSrcAlpha);
+                material.SetInt("_ZWrite", 0);
+                material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+                material.renderQueue = 3000;
             }
             return material;
         }
@@ -179,7 +191,13 @@ namespace HorrorEngine
             for (int i = 0; i < m_MapContent.childCount; ++i)
             {
                 if (Application.isPlaying)
+                {
+                    // Destroy is deferred until the end of the frame. Hiding the old
+                    // room immediately avoids one-frame white-outline flashes while
+                    // the new map is being generated.
+                    m_MapContent.GetChild(i).gameObject.SetActive(false);
                     Destroy(m_MapContent.GetChild(i).gameObject);
+                }
                 else
                     DestroyImmediate(m_MapContent.GetChild(i).gameObject);
             }
