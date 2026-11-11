@@ -1,0 +1,35 @@
+{
+  "materials": [
+    {
+      "name": "Checkout_Wood",
+      "texture": "Assets/Game/Environment/PSXShelvesProps/Textures/b_oak_dirty.png",
+      "roughness": 0.85
+    },
+    {
+      "name": "Checkout_Backing",
+      "texture": "Assets/Game/Environment/PSXShelvesProps/Textures/b_back_dirty.png",
+      "roughness": 0.9
+    },
+    {
+      "name": "Checkout_Metal",
+      "texture": "Assets/Game/Environment/PSXShelvesProps/Textures/b_steel_grey_dirty.png",
+      "roughness": 0.65
+    },
+    {
+      "name": "Checkout_Laminate",
+      "texture": "Assets/Game/Environment/NeighborhoodStore/Textures/CheckoutCounter_Laminate.png",
+      "roughness": 0.78
+    },
+    {
+      "name": "Checkout_Sign",
+      "texture": "Assets/Game/Environment/NeighborhoodStore/Textures/CheckoutCounter_Sign.png",
+      "roughness": 0.9
+    }
+  ],
+  "size": [
+    1.85,
+    0.95,
+    0.72
+  ],
+  "triangles": 568
+}

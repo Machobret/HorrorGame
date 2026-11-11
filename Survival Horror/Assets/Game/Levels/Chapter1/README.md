@@ -1,5 +1,13 @@
 # Chapter 1: District Power Puzzle
 
+## Dom scene third-person camera
+
+`Scenes/Electricity_Puzzle_Dom.unity` uses `District_ThirdPersonCamera`. Its `DistrictThirdPersonCamera` component binds to the native registered player and follows at chest height with smooth turning. `CinemachineThirdPersonFollow` controls distance (3.2 m), shoulder offset and obstacle avoidance; the lens uses a 65-degree field of view. Adjust these components on the scene object to tune the view.
+
+The scene's old fixed-camera object and standalone camera rendering/audio listener are disabled. HECore supplies the native camera output during Play Mode, so the Game view may say "No cameras rendering" outside Play Mode. Interaction closeups retain priority over the follow camera. Other scenes and shared camera prefabs are unchanged.
+
+To reapply the setup to this open scene, use **Horror Game > Chapter 1 > Use Third Person Camera in Dom Scene**. This command saves the scene and preserves the existing layout.
+
 Run **Horror Game > Chapter 1 > Rebuild District Puzzle Assets** in Unity to create or refresh the authored assets.
 
 The generated test scene is `Assets/Chapter1/Scenes/Puzzle_Test/PuzzleTest.unity`.
