@@ -20,6 +20,11 @@ RUNTIME = PROJECT / 'Assets' / 'Game' / 'Environment'
 SIZE = 1024
 PAD = 4
 
+# GGBot cars were imported at oversized review-world dimensions. Keep the pack's
+# relative proportions (including its loose wheel), with metre-sized geometry and
+# unit-scale Unity prefab roots. Classic64 vehicles use their separate recipe.
+CARS_SOURCE_SCALE = 0.7
+
 def clean(name):
     return re.sub(r'[^A-Za-z0-9]+', '_', name).strip('_')
 
@@ -148,7 +153,13 @@ def make_copy(entry, dest):
     lo=Vector(tuple(min(v[i] for v in coords) for i in range(3)));hi=Vector(tuple(max(v[i] for v in coords) for i in range(3)))
     center=Vector(((lo.x+hi.x)/2,(lo.y+hi.y)/2,lo.z))
     o.data.transform(Matrix.Translation(-center))
-    entry['dimensions_m']=list(hi-lo)
+    source_size = hi-lo
+    factor = CARS_SOURCE_SCALE if entry['category']=='Vehicles' and entry['name'].startswith('Cars_') else 1.0
+    if factor != 1.0:
+        o.data.transform(Matrix.Scale(factor, 4))
+        entry['source_dimensions_m'] = list(source_size)
+        entry['scale_correction'] = factor
+    entry['dimensions_m']=list(source_size * factor)
     entry['source_material_count']=len(o.data.materials)
     entry['vertices']=len(o.data.vertices);entry['triangles']=sum(len(p.vertices)-2 for p in o.data.polygons)
     return o
