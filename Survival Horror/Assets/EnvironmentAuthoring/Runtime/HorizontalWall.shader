@@ -9,7 +9,10 @@ Shader "Environment Authoring/Horizontal Wall (Prototype)"
         [Normal][NoScaleOffset] _BumpMap("Normal map", 2D) = "bump" {}
         [Enum(Authored UV,0,Wall projection,1,Box projection,2,Triplanar,3)] _Mapping("Mapping", Float) = 3
         _RepeatMetres("U repeat (metres)", Float) = 2
-        _RepeatHeightMetres("V repeat (metres)", Float) = 2.8
+        [ToggleUI] _AnchorToWallBottom("Start vertical tiling at wall bottom", Float) = 1
+        _RepeatHeightMetres("Vertical repeat (metres)", Float) = 2.8
+        [ToggleUI] _PointSampling("Crisp point sampling (no mip averaging)", Float) = 0
+        [HideInInspector] _WallProjectionYRange("Wall projection range", Vector) = (0,0,0,0)
         _BlendSharpness("Triplanar blend sharpness", Range(1,16)) = 4
         _NormalStrength("Normal strength", Range(0,1)) = 0
         // Height is reserved for future layer blending, not displacement.
@@ -25,11 +28,18 @@ Shader "Environment Authoring/Horizontal Wall (Prototype)"
             float4 _BaseMap_ST;
             half4 _BaseColor;
             float _Mapping, _RepeatMetres, _RepeatHeightMetres, _NormalStrength, _BlendSharpness;
-            float _UseNormalMap;
+            float _UseNormalMap, _AnchorToWallBottom, _PointSampling;
+            float4 _WallProjectionYRange, _BaseMap_TexelSize;
         CBUFFER_END
         TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
         TEXTURE2D(_SurfaceMap); SAMPLER(sampler_SurfaceMap);
         TEXTURE2D(_BumpMap); SAMPLER(sampler_BumpMap);
+        half4 SampleWallColor(float2 uv, bool vertical)
+        {
+            UNITY_BRANCH if (_PointSampling > .5)
+                return SAMPLE_TEXTURE2D_LOD(_BaseMap, sampler_PointRepeat, uv, 0);
+            return SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, uv);
+        }
         half4 SampleWallSurface(float2 uv)
         {
             half4 packed = SAMPLE_TEXTURE2D(_SurfaceMap, sampler_SurfaceMap, uv);
@@ -125,8 +135,9 @@ Shader "Environment Authoring/Horizontal Wall (Prototype)"
                     TriplanarSurface(input.positionWS, normalWS, color, roughness, mappedNormal);
                 else
                 {
-                    float2 uv = _Mapping > 1.5 ? BoxMappedUV(input.positionWS, normalWS) : input.uv;
-                    color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, uv) * _BaseColor;
+                    float2 uv = _Mapping > 1.5 ? BoxMappedUV(input.positionWS, normalWS)
+                        : _Mapping > .5 ? WorldWallUV(input.positionWS, normalWS) : input.uv;
+                    color = SampleWallColor(uv, _Mapping > .5 && abs(normalWS.y) < .999) * _BaseColor;
                     half4 packed = SampleWallSurface(uv);
                     roughness = packed.b;
                     mappedNormal = WallMappedNormal(input.positionWS, normalWS, uv, packed.rg);

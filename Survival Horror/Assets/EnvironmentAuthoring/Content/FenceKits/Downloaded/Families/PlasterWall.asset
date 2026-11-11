@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c7e5072cec44c929a48ade0a1729e33, type: 3}
+  m_Name: PlasterWall
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.FenceFamily
+  Panels:
+  - {fileID: 11400000, guid: b4d27047f239a5b4182d44fc71393fad, type: 2}
+  - {fileID: 11400000, guid: 653080bde0088de44a57cc6ad96d8ef8, type: 2}
+  - {fileID: 11400000, guid: fde2af69e338d3f4eb1514758b9f562c, type: 2}
+  - {fileID: 11400000, guid: a38aca85cb5ced145b47b69ac2db38b9, type: 2}
+  Posts:
+  - Mesh: {fileID: 2959467708922500008, guid: a42b1dbccf304d9496ea74b207365273, type: 3}
+    Materials:
+    - {fileID: 2100000, guid: bb26681c5b70f09428c436ab9bba95de, type: 2}
+    - {fileID: 2100000, guid: 9abae51281ffcd04898cddceaba8f2b2, type: 2}
+  - Mesh: {fileID: 2959467708922500008, guid: cab65d482a97469282438dbd4482c19f, type: 3}
+    Materials:
+    - {fileID: 2100000, guid: bb26681c5b70f09428c436ab9bba95de, type: 2}
+    - {fileID: 2100000, guid: 9abae51281ffcd04898cddceaba8f2b2, type: 2}

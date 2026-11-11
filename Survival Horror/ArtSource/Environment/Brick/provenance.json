@@ -1,0 +1,20 @@
+{
+  "provided_by": "Project owner",
+  "textures": [
+    {
+      "source": "C:\\Users\\manta\\Downloads\\New folder (2)\\BricksExport_base_color.png",
+      "runtime": "Assets/Game/Environment/Brick/Brick_Clean_Albedo.png",
+      "sha256": "30c8b4d4510dd2263b23811d51f9338e6115d61e2f47f1bd57688997b279fa91"
+    },
+    {
+      "source": "C:\\Users\\manta\\Downloads\\New folder (2)\\BricksExportGrunge_base_color.png",
+      "runtime": null,
+      "sha256": "7dd325cd7c0b8029a71d8d1adb5f734c4db89cf4a467842df1a204ce7e9180dc",
+      "status": "Source original retained; runtime blend retired at project owner request."
+    }
+  ],
+  "pixel_data_modified": false,
+  "normal_map_generated": false,
+  "runtime_material": "Standard wall shader, clean image only",
+  "material": "Assets/Game/Environment/Brick/Brick_Clean.mat"
+}

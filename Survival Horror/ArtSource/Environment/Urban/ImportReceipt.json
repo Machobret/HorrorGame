@@ -1,0 +1,226 @@
+{
+    "verified": true,
+    "batch": "Urban_ApartmentExteriors",
+    "unity_version": "6000.3.11f1",
+    "completed_utc": "2026-11-11T03:21:40.9117822Z",
+    "selection_sha256": "e338ce18da9680cc6790a64dffc5561e377e0607739cc2a0474b421de445f758",
+    "models": [
+        {
+            "name": "Urban_ApartmentLShapeMixed",
+            "source": "ArtSource/Environment/Urban/Original/Buildings/flat_Lshape.glb",
+            "source_sha256": "12e39c5d2013c98a2db835fff9787b5ef0223d11296aaebef79f77da14efccaa",
+            "model_path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentLShapeMixed_Model.fbx",
+            "prefab_path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentLShapeMixed_Exterior.prefab",
+            "pivot": "GroundCenter",
+            "model_sha256": "620470035acfff50ecbd08be292c426877175b47807da7bb15f161c61c59476e",
+            "bounds_m": [
+                14.700006484985352,
+                11.899999618530274,
+                18.899999618530275
+            ],
+            "parts": [],
+            "triangles": 1708,
+            "uv_corners": 5124,
+            "mesh_parts": 1,
+            "expected_triangles": 1708
+        },
+        {
+            "name": "Urban_ApartmentLShapeBrickLow",
+            "source": "ArtSource/Environment/Urban/Original/Buildings/flat_Lshape_brick.glb",
+            "source_sha256": "5ba1d4e5982732285b766fbcea322d6e57181837e239ff44aaf5419cd0295763",
+            "model_path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentLShapeBrickLow_Model.fbx",
+            "prefab_path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentLShapeBrickLow_Exterior.prefab",
+            "pivot": "GroundCenter",
+            "model_sha256": "e5255f7d44acd0cd009a6768a86a54881e7a520e3aaa82e44881f2227c1ae3ce",
+            "bounds_m": [
+                14.700006484985352,
+                9.099998474121094,
+                18.899999618530275
+            ],
+            "parts": [],
+            "triangles": 1328,
+            "uv_corners": 3984,
+            "mesh_parts": 1,
+            "expected_triangles": 1328
+        },
+        {
+            "name": "Urban_ApartmentLShapeBrickTall",
+            "source": "ArtSource/Environment/Urban/Original/Buildings/flat_Lshape_large_alt.glb",
+            "source_sha256": "ba6b8b5c4bc4ce285fe700ea8d7f830650c4be4f0c08212c896f520a6bdf4993",
+            "model_path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentLShapeBrickTall_Model.fbx",
+            "prefab_path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentLShapeBrickTall_Exterior.prefab",
+            "pivot": "GroundCenter",
+            "model_sha256": "a2436dfac1df4df189740e243e0e19157791d85ccfd7f4efff2fce0e150ab034",
+            "bounds_m": [
+                14.700005531311036,
+                20.299999237060548,
+                18.900020599365236
+            ],
+            "parts": [],
+            "triangles": 2848,
+            "uv_corners": 8544,
+            "mesh_parts": 1,
+            "expected_triangles": 2848
+        },
+        {
+            "name": "Urban_ApartmentLShapeStripedTall",
+            "source": "ArtSource/Environment/Urban/Original/Buildings/flat_Lshape_vertical_stripes.glb",
+            "source_sha256": "ba7b0664239d9b2ff1b21da51c02381202f1102d1a86413c47a6cb9acdb9b149",
+            "model_path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentLShapeStripedTall_Model.fbx",
+            "prefab_path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentLShapeStripedTall_Exterior.prefab",
+            "pivot": "GroundCenter",
+            "model_sha256": "0ea15c6ae79af58e08f6b36739720d0fabaf1011b85edfcf431f39d3d1aef76f",
+            "bounds_m": [
+                14.700005531311036,
+                20.299999237060548,
+                18.899999618530275
+            ],
+            "parts": [],
+            "triangles": 2848,
+            "uv_corners": 8544,
+            "mesh_parts": 1,
+            "expected_triangles": 2848
+        },
+        {
+            "name": "Urban_ApartmentSquareBrick",
+            "source": "ArtSource/Environment/Urban/Original/Buildings/flat_square_brick.glb",
+            "source_sha256": "5eed875b27ee5f39da71955deda8e23b5aef97f9f74f9d3e8ee9acc613801a25",
+            "model_path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentSquareBrick_Model.fbx",
+            "prefab_path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentSquareBrick_Exterior.prefab",
+            "pivot": "GroundCenter",
+            "model_sha256": "0f3ce65070b8d93620dbc5270f72e7461eee01367468e324e53a8c05f2550bda",
+            "bounds_m": [
+                11.900005340576172,
+                11.899999618530274,
+                11.900002479553223
+            ],
+            "parts": [],
+            "triangles": 1138,
+            "uv_corners": 3414,
+            "mesh_parts": 1,
+            "expected_triangles": 1138
+        },
+        {
+            "name": "Urban_ApartmentSquareConcrete",
+            "source": "ArtSource/Environment/Urban/Original/Buildings/flat_square_concrete.glb",
+            "source_sha256": "79e57cd50b2b747faf28fdd9a5ccbd759dcc6e20546ebfe1421027171d24fa1f",
+            "model_path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentSquareConcrete_Model.fbx",
+            "prefab_path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentSquareConcrete_Exterior.prefab",
+            "pivot": "GroundCenter",
+            "model_sha256": "aeb8ef07213b1707358d7b046d310915ec70469cd8f2952cc22c440659b4d8fc",
+            "bounds_m": [
+                11.900005340576172,
+                11.899999618530274,
+                11.900002479553223
+            ],
+            "parts": [],
+            "triangles": 1164,
+            "uv_corners": 3492,
+            "mesh_parts": 1,
+            "expected_triangles": 1164
+        }
+    ],
+    "files": [
+        {
+            "path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentLShapeBrickLow_Exterior.prefab",
+            "guid": "a44214c6d8b55f9428f6382035eb5100",
+            "sha256": "8b59c9cd159990db5e7bce2053ea719b09b56eed7e03cccf111a43afcbdc45b5",
+            "meta_sha256": "19b5ac7e0c32ebf8446b262c1b0e0c8b4ce74222e316b12cae2d1abbd9353981"
+        },
+        {
+            "path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentLShapeBrickLow_Model.fbx",
+            "guid": "bdfbc9e103a0e8e47aa31cc7d4b7fc41",
+            "sha256": "e5255f7d44acd0cd009a6768a86a54881e7a520e3aaa82e44881f2227c1ae3ce",
+            "meta_sha256": "dd5ab69d7034fdbc4ad65e8cd59077b25c9a315a5b77c8d05388aeada3b70916"
+        },
+        {
+            "path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentLShapeBrickTall_Exterior.prefab",
+            "guid": "dacef3773fe0f9d46bcdfe49933f78ed",
+            "sha256": "c1578fdade9927f51da56b0b94e6a3f382b1b2ba1016942bdb5ef3f638334f63",
+            "meta_sha256": "5e933bc025b8335b9d1cbe34524785cd163577f67a3872e5fbdbedca15953bde"
+        },
+        {
+            "path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentLShapeBrickTall_Model.fbx",
+            "guid": "fec23162688db9e4d8ba0d19a041003f",
+            "sha256": "a2436dfac1df4df189740e243e0e19157791d85ccfd7f4efff2fce0e150ab034",
+            "meta_sha256": "efa0c5656f922be22f4d4d9a6eaa724a0cd5b1d117e9a7a708abe803a5ae481b"
+        },
+        {
+            "path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentLShapeMixed_Exterior.prefab",
+            "guid": "403dc147a2cae0e48bd86a0be6bd3f8d",
+            "sha256": "ebc2e9dd0ffbcd42aaddf34037429960d4fd253262d474ddb7eb691139ae28c3",
+            "meta_sha256": "5e5ecc19618b62f225be0555b912fe8b5e7a314e532f0c1a01576bf2da42e8b5"
+        },
+        {
+            "path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentLShapeMixed_Model.fbx",
+            "guid": "120f2a8eb29c607428aae82a6c911dcb",
+            "sha256": "620470035acfff50ecbd08be292c426877175b47807da7bb15f161c61c59476e",
+            "meta_sha256": "29c510a7c84a850ff525196e534768e4270ad8942b23f870868847d41bdf1282"
+        },
+        {
+            "path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentLShapeStripedTall_Exterior.prefab",
+            "guid": "e130952f6996b314abf773f11b0c22f6",
+            "sha256": "e3b0f9b3ea267ef6e9b36443160793f84d08a88b4d5e83dcdfe698f44ee89578",
+            "meta_sha256": "2cee7a5af70f9085195abbdf74c6ae66d6720a03f9092178f3dee6e85971e82e"
+        },
+        {
+            "path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentLShapeStripedTall_Model.fbx",
+            "guid": "890ae9fcc0f396d4fb8fecf4ac171115",
+            "sha256": "0ea15c6ae79af58e08f6b36739720d0fabaf1011b85edfcf431f39d3d1aef76f",
+            "meta_sha256": "0184dd19a01602dd562b7533f80b56721c44cecb1f3ad857aaa1acd27a7f2a50"
+        },
+        {
+            "path": "Assets/Game/Environment/Buildings/Urban/Urban_Apartments_Albedo.png",
+            "guid": "8599fca62fc690f49b7757e41b9cf520",
+            "sha256": "3b409590c714145122d7383b4d7e13b709d5d2a5187c06b978e54bd3215b46ea",
+            "meta_sha256": "43b630fb1ec34291945177bef2e962a8082a4aa8dfdca4e99efad663431f3fc7"
+        },
+        {
+            "path": "Assets/Game/Environment/Buildings/Urban/Urban_Apartments_Surface.mat",
+            "guid": "e84bb2d5cc570f54eb12d48c655fec8e",
+            "sha256": "0c811e878016bbbc3095a761ae5e9ab393360877996f71be97a3a34b62548475",
+            "meta_sha256": "7369d9de0e8c3be62b63ef98db6d35cee4864a085ede814c478c49299a97f414"
+        },
+        {
+            "path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentSquareBrick_Exterior.prefab",
+            "guid": "995198b153eb3d04daac55e3b7cbfec1",
+            "sha256": "9914061a67fe139bfaf41e03f51cce8492d1bb7c6aa06e3f7433752528b0f376",
+            "meta_sha256": "db72ef08210b724d5ace6431be3829f328caeb9c6beca2cc75e5040deef90454"
+        },
+        {
+            "path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentSquareBrick_Model.fbx",
+            "guid": "cddf0225af7a2c64ab23277b4cb59ce9",
+            "sha256": "0f3ce65070b8d93620dbc5270f72e7461eee01367468e324e53a8c05f2550bda",
+            "meta_sha256": "bdfc11710b8c596ebf2ba53c35719b4ec951ed544143c77ddf56367995f33a74"
+        },
+        {
+            "path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentSquareConcrete_Exterior.prefab",
+            "guid": "ab03fd295ddbddf4f91b40944a77ac21",
+            "sha256": "c380995db18cb36c7785bb04fa4654050e8683a8d0dfe4801bd8d41b2be5dd35",
+            "meta_sha256": "e19f83f23c7c645d93b2cc372cb5b0143b8010555fc787b5d4518b9f2523b50a"
+        },
+        {
+            "path": "Assets/Game/Environment/Buildings/Urban/Urban_ApartmentSquareConcrete_Model.fbx",
+            "guid": "22dfebce807bc91438e104694cbfebe8",
+            "sha256": "aeb8ef07213b1707358d7b046d310915ec70469cd8f2952cc22c440659b4d8fc",
+            "meta_sha256": "1c43f13b0f0e7a897dd844c65492ea6d8d4cff30038a42f937be7cc822e8fc0c"
+        }
+    ],
+    "checks": [
+        "Six complete exterior prefabs with unit roots and ground-centred pivots",
+        "Source triangle counts, UV channels, normals, material slots and metre bounds verified",
+        "Byte-identical source atlases and double-sided opaque URP Lit materials",
+        "Static non-convex mesh colliders match the visual meshes",
+        "No runtime behaviours, interiors, missing dependencies or scene writes",
+        "Repeat build preserves all rendered asset GUIDs, bytes and metadata"
+    ],
+    "captures": [
+        "Exports/Reviews/Urban/Urban_ApartmentLShapeMixed.png",
+        "Exports/Reviews/Urban/Urban_ApartmentLShapeBrickLow.png",
+        "Exports/Reviews/Urban/Urban_ApartmentLShapeBrickTall.png",
+        "Exports/Reviews/Urban/Urban_ApartmentLShapeStripedTall.png",
+        "Exports/Reviews/Urban/Urban_ApartmentSquareBrick.png",
+        "Exports/Reviews/Urban/Urban_ApartmentSquareConcrete.png",
+        "Exports/Reviews/Urban/BuildingExteriors_Overview.png"
+    ]
+}

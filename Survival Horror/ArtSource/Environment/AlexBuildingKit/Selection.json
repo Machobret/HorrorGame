@@ -1,0 +1,229 @@
+{
+  "batch": "Alex_AssembledBuildings",
+  "stage_root": "C:\\Work\\Unity\\HorrorGame\\Survival Horror\\Exports\\Reviews\\Classic64\\UnityValidation",
+  "folder": "Assets/Game/Environment/Buildings/AlexBuildingKit",
+  "materials": [
+    {
+      "source_material": "brick_MAT",
+      "texture_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_brick_Albedo.png",
+      "path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_brick_Surface.mat",
+      "atlas_sha256": "5119dce825789d771ef6d5e53e27ed9abb6d2299da3c2b67ffd87fcad6ab9b93"
+    },
+    {
+      "source_material": "brick_white_MAT",
+      "texture_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_brick_white_Albedo.png",
+      "path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_brick_white_Surface.mat",
+      "atlas_sha256": "73239a0802625694cc1d9fe296b6c0801c51992c918ca8ccebf5534eb226d3f6"
+    },
+    {
+      "source_material": "plaster_MAT",
+      "texture_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_plaster_Albedo.png",
+      "path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_plaster_Surface.mat",
+      "atlas_sha256": "63ae5ab9341bd22877237b937a267b0eed52d4d676e3e555c6d364cd42d86e07"
+    },
+    {
+      "source_material": "plaster_red_MAT",
+      "texture_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_plaster_red_Albedo.png",
+      "path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_plaster_red_Surface.mat",
+      "atlas_sha256": "70a55f74b63a859c033d020c450e0541f8710e2ea8639d10dd31bc29165fe96a"
+    },
+    {
+      "source_material": "plaster_orange_MAT",
+      "texture_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_plaster_orange_Albedo.png",
+      "path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_plaster_orange_Surface.mat",
+      "atlas_sha256": "79e914494d108d4a66e3bcd799b3af7272a00837be3a24f36839862d0cf71933"
+    },
+    {
+      "source_material": "roof_MAT",
+      "texture_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_roof_Albedo.png",
+      "path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_roof_Surface.mat",
+      "atlas_sha256": "3b21a863fa5d6f1a61b9b9ceb396fa076d93612f6c200dac65aadd75a2da0a05"
+    }
+  ],
+  "models": [
+    {
+      "name": "Alex_RedBrickWalkup",
+      "source": "ArtSource/Environment/AlexBuildingKit/Original/modular_building_kit_by_ALEX.glb",
+      "source_sha256": "f2c89a40b634f851c2d64fd40da95aff95de4175665b15088b3093bbb29c1b18",
+      "model_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_RedBrickWalkup_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_RedBrickWalkup_Exterior.prefab",
+      "model_sha256": "64c13130a7eb83b411d0e56aba5348a5e8c52cc8c6f27385a6ed527883e89497",
+      "bounds_m": [
+        11.96968936920166,
+        12.179999351501465,
+        14.328689575195312
+      ],
+      "triangles": 556,
+      "expected_triangles": 556,
+      "uv_corners": 1668,
+      "mesh_parts": 1,
+      "parts": [
+        {
+          "name": "Alex_RedBrickWalkup_Part00",
+          "material_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_brick_Surface.mat",
+          "triangles": 556
+        }
+      ],
+      "pivot": "GroundCenter"
+    },
+    {
+      "name": "Alex_WhiteBrickCorner",
+      "source": "ArtSource/Environment/AlexBuildingKit/Original/modular_building_kit_by_ALEX.glb",
+      "source_sha256": "f2c89a40b634f851c2d64fd40da95aff95de4175665b15088b3093bbb29c1b18",
+      "model_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_WhiteBrickCorner_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_WhiteBrickCorner_Exterior.prefab",
+      "model_sha256": "8e7ef7288e7120a5fc8a1bd7ddc9ce74eb50fa08a2bae14f5e225fd5328bd793",
+      "bounds_m": [
+        14.769688606262207,
+        14.979999542236328,
+        14.328689575195312
+      ],
+      "triangles": 720,
+      "expected_triangles": 720,
+      "uv_corners": 2160,
+      "mesh_parts": 2,
+      "parts": [
+        {
+          "name": "Alex_WhiteBrickCorner_Part00",
+          "material_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_brick_Surface.mat",
+          "triangles": 320
+        },
+        {
+          "name": "Alex_WhiteBrickCorner_Part01",
+          "material_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_brick_white_Surface.mat",
+          "triangles": 400
+        }
+      ],
+      "pivot": "GroundCenter"
+    },
+    {
+      "name": "Alex_GreyCourtyard",
+      "source": "ArtSource/Environment/AlexBuildingKit/Original/modular_building_kit_by_ALEX.glb",
+      "source_sha256": "f2c89a40b634f851c2d64fd40da95aff95de4175665b15088b3093bbb29c1b18",
+      "model_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_GreyCourtyard_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_GreyCourtyard_Exterior.prefab",
+      "model_sha256": "67d1d726f1d812d8fc6c19ad4d22d1f3804693c6c34884f3e9fb18395f137dc7",
+      "bounds_m": [
+        20.369688034057617,
+        12.179999351501465,
+        14.280000686645508
+      ],
+      "triangles": 808,
+      "expected_triangles": 808,
+      "uv_corners": 2424,
+      "mesh_parts": 2,
+      "parts": [
+        {
+          "name": "Alex_GreyCourtyard_Part00",
+          "material_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_brick_Surface.mat",
+          "triangles": 268
+        },
+        {
+          "name": "Alex_GreyCourtyard_Part01",
+          "material_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_plaster_Surface.mat",
+          "triangles": 540
+        }
+      ],
+      "pivot": "GroundCenter"
+    },
+    {
+      "name": "Alex_OrangeTerrace",
+      "source": "ArtSource/Environment/AlexBuildingKit/Original/modular_building_kit_by_ALEX.glb",
+      "source_sha256": "f2c89a40b634f851c2d64fd40da95aff95de4175665b15088b3093bbb29c1b18",
+      "model_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_OrangeTerrace_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_OrangeTerrace_Exterior.prefab",
+      "model_sha256": "8b189503e8f3f7bf38be0afcf9a561fc9929168bc11c36627542b6d3da2b37f4",
+      "bounds_m": [
+        11.96968936920166,
+        9.800000190734863,
+        22.588687896728516
+      ],
+      "triangles": 320,
+      "expected_triangles": 320,
+      "uv_corners": 960,
+      "mesh_parts": 3,
+      "parts": [
+        {
+          "name": "Alex_OrangeTerrace_Part00",
+          "material_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_brick_Surface.mat",
+          "triangles": 144
+        },
+        {
+          "name": "Alex_OrangeTerrace_Part01",
+          "material_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_plaster_orange_Surface.mat",
+          "triangles": 144
+        },
+        {
+          "name": "Alex_OrangeTerrace_Part02",
+          "material_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_roof_Surface.mat",
+          "triangles": 32
+        }
+      ],
+      "pivot": "GroundCenter"
+    },
+    {
+      "name": "Alex_RedPlasterTower",
+      "source": "ArtSource/Environment/AlexBuildingKit/Original/modular_building_kit_by_ALEX.glb",
+      "source_sha256": "f2c89a40b634f851c2d64fd40da95aff95de4175665b15088b3093bbb29c1b18",
+      "model_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_RedPlasterTower_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_RedPlasterTower_Exterior.prefab",
+      "model_sha256": "31d46f50769469dbfbdfe3de5ee7e463d9dfe695018b3b9cb0557a48b12e5c60",
+      "bounds_m": [
+        11.96968936920166,
+        17.779998779296875,
+        11.52868938446045
+      ],
+      "triangles": 680,
+      "expected_triangles": 680,
+      "uv_corners": 2040,
+      "mesh_parts": 2,
+      "parts": [
+        {
+          "name": "Alex_RedPlasterTower_Part00",
+          "material_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_brick_Surface.mat",
+          "triangles": 284
+        },
+        {
+          "name": "Alex_RedPlasterTower_Part01",
+          "material_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_plaster_red_Surface.mat",
+          "triangles": 396
+        }
+      ],
+      "pivot": "GroundCenter"
+    },
+    {
+      "name": "Alex_LongBrickBlock",
+      "source": "ArtSource/Environment/AlexBuildingKit/Original/modular_building_kit_by_ALEX.glb",
+      "source_sha256": "f2c89a40b634f851c2d64fd40da95aff95de4175665b15088b3093bbb29c1b18",
+      "model_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_LongBrickBlock_Model.fbx",
+      "prefab_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_LongBrickBlock_Exterior.prefab",
+      "model_sha256": "1a58a37c52c756172f0f3c00f03791c9e28b5db5159c39a5f420a19a7b33afa0",
+      "bounds_m": [
+        11.96968936920166,
+        15.399999618530273,
+        28.188688278198242
+      ],
+      "triangles": 632,
+      "expected_triangles": 632,
+      "uv_corners": 1896,
+      "mesh_parts": 2,
+      "parts": [
+        {
+          "name": "Alex_LongBrickBlock_Part00",
+          "material_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_brick_Surface.mat",
+          "triangles": 592
+        },
+        {
+          "name": "Alex_LongBrickBlock_Part01",
+          "material_path": "Assets/Game/Environment/Buildings/AlexBuildingKit/Alex_roof_Surface.mat",
+          "triangles": 40
+        }
+      ],
+      "pivot": "GroundCenter"
+    }
+  ],
+  "source": "ArtSource/Environment/AlexBuildingKit/Original/modular_building_kit_by_ALEX.glb",
+  "source_sha256": "f2c89a40b634f851c2d64fd40da95aff95de4175665b15088b3093bbb29c1b18",
+  "uniform_source_scale": 1.4,
+  "storey_height_m": 2.8
+}

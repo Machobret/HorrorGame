@@ -1,0 +1,7513 @@
+[
+  {
+    "name": "Alex_RedBrickWalkup",
+    "theme": "RedBrick",
+    "roof": "flat",
+    "storeys": 4,
+    "seed": 0,
+    "window_pattern": "Deterministic by bay and storey; wide/narrow family retained; adjacent storeys use different window images",
+    "window_slots": [
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 1,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          1,
+          4
+        ],
+        "side": 1,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          2,
+          4
+        ],
+        "side": 1,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 0,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window08"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 0,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          2
+        ],
+        "side": 0,
+        "module": "RedBrick_window08"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 0,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 0,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 1,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "RedBrick_window08"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 1,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          1,
+          4
+        ],
+        "side": 1,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          2,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          2,
+          4
+        ],
+        "side": 1,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 0,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 0,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          2
+        ],
+        "side": 0,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 0,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 0,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 1,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 1,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          1,
+          4
+        ],
+        "side": 1,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          2,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          2,
+          4
+        ],
+        "side": 1,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 0,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window08"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 0,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          2
+        ],
+        "side": 0,
+        "module": "RedBrick_window08"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 0,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 0,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 1,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "RedBrick_window08"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 1,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          1,
+          4
+        ],
+        "side": 1,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          2,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          2,
+          4
+        ],
+        "side": 1,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 0,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 0,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          2
+        ],
+        "side": 0,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 0,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 0,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 1,
+        "module": "RedBrick_window06"
+      }
+    ],
+    "floor_cells": [
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ]
+      ]
+    ],
+    "source_modules": {
+      "RedBrick_window05": 8,
+      "gutter": 12,
+      "RedBrick_window04": 10,
+      "RedBrick_window03": 11,
+      "RedBrick_window07": 6,
+      "RedBrick_window06": 16,
+      "RedBrick_door01": 1,
+      "RedBrick_window08": 6,
+      "RedBrick_window01": 8,
+      "ac_unit": 4,
+      "RedBrick_window02": 6,
+      "roof_tile_large": 20,
+      "RedBrick_roof_long_norm": 18
+    },
+    "module_instances": 126
+  },
+  {
+    "name": "Alex_WhiteBrickCorner",
+    "theme": "GreyBrick",
+    "roof": "flat",
+    "storeys": 5,
+    "seed": 2,
+    "window_pattern": "Deterministic by bay and storey; wide/narrow family retained; adjacent storeys use different window images",
+    "window_slots": [
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "GreyBrick_window03"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window03"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "GreyBrick_window08"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "GreyBrick_window06"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "GreyBrick_window01"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 1,
+        "module": "GreyBrick_window01"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "GreyBrick_window05"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window07"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          1,
+          2
+        ],
+        "side": 0,
+        "module": "GreyBrick_window08"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          1,
+          3
+        ],
+        "side": 0,
+        "module": "GreyBrick_window01"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          1,
+          4
+        ],
+        "side": 0,
+        "module": "GreyBrick_window06"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          1,
+          4
+        ],
+        "side": 1,
+        "module": "GreyBrick_window06"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          2,
+          1
+        ],
+        "side": 1,
+        "module": "GreyBrick_window08"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window04"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 1,
+        "module": "GreyBrick_window04"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          4,
+          0
+        ],
+        "side": 0,
+        "module": "GreyBrick_window08"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          4,
+          1
+        ],
+        "side": 0,
+        "module": "GreyBrick_window06"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          4,
+          1
+        ],
+        "side": 1,
+        "module": "GreyBrick_window01"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "GreyBrick_window06"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window06"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "GreyBrick_window07"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "GreyBrick_window05"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "GreyBrick_window05"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 1,
+        "module": "GreyBrick_window04"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "GreyBrick_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window08"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          1,
+          2
+        ],
+        "side": 0,
+        "module": "GreyBrick_window07"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          1,
+          3
+        ],
+        "side": 0,
+        "module": "GreyBrick_window06"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          1,
+          4
+        ],
+        "side": 0,
+        "module": "GreyBrick_window04"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          1,
+          4
+        ],
+        "side": 1,
+        "module": "GreyBrick_window04"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          2,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window08"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          2,
+          1
+        ],
+        "side": 1,
+        "module": "GreyBrick_window07"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window06"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 1,
+        "module": "GreyBrick_window01"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          4,
+          0
+        ],
+        "side": 0,
+        "module": "GreyBrick_window07"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          4,
+          1
+        ],
+        "side": 0,
+        "module": "GreyBrick_window04"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          4,
+          1
+        ],
+        "side": 1,
+        "module": "GreyBrick_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "GreyBrick_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window01"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "GreyBrick_window08"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "GreyBrick_window02"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "GreyBrick_window02"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 1,
+        "module": "GreyBrick_window06"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "GreyBrick_window01"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window07"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          1,
+          2
+        ],
+        "side": 0,
+        "module": "GreyBrick_window08"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          1,
+          3
+        ],
+        "side": 0,
+        "module": "GreyBrick_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          1,
+          4
+        ],
+        "side": 0,
+        "module": "GreyBrick_window02"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          1,
+          4
+        ],
+        "side": 1,
+        "module": "GreyBrick_window06"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          2,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window07"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          2,
+          1
+        ],
+        "side": 1,
+        "module": "GreyBrick_window08"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window05"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 1,
+        "module": "GreyBrick_window04"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          4,
+          0
+        ],
+        "side": 0,
+        "module": "GreyBrick_window08"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          4,
+          1
+        ],
+        "side": 0,
+        "module": "GreyBrick_window05"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          4,
+          1
+        ],
+        "side": 1,
+        "module": "GreyBrick_window06"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "GreyBrick_window06"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window06"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "GreyBrick_window07"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "GreyBrick_window01"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "GreyBrick_window05"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 1,
+        "module": "GreyBrick_window05"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "GreyBrick_window06"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window08"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          1,
+          2
+        ],
+        "side": 0,
+        "module": "GreyBrick_window07"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          1,
+          3
+        ],
+        "side": 0,
+        "module": "GreyBrick_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          1,
+          4
+        ],
+        "side": 0,
+        "module": "GreyBrick_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          1,
+          4
+        ],
+        "side": 1,
+        "module": "GreyBrick_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          2,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window08"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          2,
+          1
+        ],
+        "side": 1,
+        "module": "GreyBrick_window07"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 1,
+        "module": "GreyBrick_window05"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          4,
+          0
+        ],
+        "side": 0,
+        "module": "GreyBrick_window07"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          4,
+          1
+        ],
+        "side": 0,
+        "module": "GreyBrick_window03"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          4,
+          1
+        ],
+        "side": 1,
+        "module": "GreyBrick_window05"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "GreyBrick_window03"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window04"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "GreyBrick_window08"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "GreyBrick_window06"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "GreyBrick_window06"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 1,
+        "module": "GreyBrick_window02"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "GreyBrick_window05"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window07"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          1,
+          2
+        ],
+        "side": 0,
+        "module": "GreyBrick_window08"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          1,
+          3
+        ],
+        "side": 0,
+        "module": "GreyBrick_window05"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          1,
+          4
+        ],
+        "side": 0,
+        "module": "GreyBrick_window06"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          1,
+          4
+        ],
+        "side": 1,
+        "module": "GreyBrick_window02"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          2,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window07"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          2,
+          1
+        ],
+        "side": 1,
+        "module": "GreyBrick_window08"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 3,
+        "module": "GreyBrick_window02"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 1,
+        "module": "GreyBrick_window02"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          4,
+          0
+        ],
+        "side": 0,
+        "module": "GreyBrick_window08"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          4,
+          1
+        ],
+        "side": 0,
+        "module": "GreyBrick_window01"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          4,
+          1
+        ],
+        "side": 1,
+        "module": "GreyBrick_window04"
+      }
+    ],
+    "floor_cells": [
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          1
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          1
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          1
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          1
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          1
+        ]
+      ]
+    ],
+    "source_modules": {
+      "GreyBrick_window03": 8,
+      "gutter": 20,
+      "GreyBrick_window08": 16,
+      "GreyBrick_window06": 17,
+      "GreyBrick_window01": 9,
+      "GreyBrick_window05": 11,
+      "GreyBrick_window07": 13,
+      "GreyBrick_door03": 1,
+      "GreyBrick_window04": 13,
+      "GreyBrick_wall": 5,
+      "ac_unit": 4,
+      "GreyBrick_window02": 7,
+      "roof_tile_large": 16,
+      "GreyBrick_roof_long_norm": 20
+    },
+    "module_instances": 160
+  },
+  {
+    "name": "Alex_GreyCourtyard",
+    "theme": "GreyPlaster",
+    "roof": "flat",
+    "storeys": 4,
+    "seed": 4,
+    "window_pattern": "Deterministic by bay and storey; wide/narrow family retained; adjacent storeys use different window images",
+    "window_slots": [
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window08"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window07"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window06"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window04"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window07"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window05"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window01"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          1,
+          1
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window08"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          1,
+          2
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window04"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          1,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window07"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          2,
+          3
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window08"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          2,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window08"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window01"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window04"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          4,
+          3
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window06"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          4,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window01"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          5,
+          0
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window01"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          5,
+          1
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window02"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          5,
+          2
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window07"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          5,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window03"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          6,
+          0
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window05"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          6,
+          0
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window02"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          6,
+          1
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window04"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          6,
+          2
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window07"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          6,
+          3
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window03"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          6,
+          4
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window01"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          6,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window07"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window08"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window01"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window02"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window08"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window06"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window02"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          1,
+          1
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window07"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          1,
+          2
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window06"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          1,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window08"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          2,
+          3
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window07"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          2,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window07"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window06"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window06"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          4,
+          3
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window05"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          4,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          5,
+          0
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window02"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          5,
+          0
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          5,
+          1
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          5,
+          2
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window08"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          5,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window06"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          6,
+          0
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          6,
+          0
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          6,
+          1
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window01"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          6,
+          2
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window08"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          6,
+          3
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window05"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          6,
+          4
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window04"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          6,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window02"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window08"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window07"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window04"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window05"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window07"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window06"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          1,
+          1
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window08"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          1,
+          2
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window01"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          1,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window07"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          2,
+          3
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window08"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          2,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window08"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          4,
+          3
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window02"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          4,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window01"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          5,
+          0
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window05"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          5,
+          0
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window05"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          5,
+          1
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window02"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          5,
+          2
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window07"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          5,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window05"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          6,
+          0
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window01"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          6,
+          0
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window04"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          6,
+          1
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window04"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          6,
+          2
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window07"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          6,
+          3
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window04"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          6,
+          4
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          6,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window06"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window07"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window08"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window05"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window08"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window05"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          1,
+          1
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window07"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          1,
+          2
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          1,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window08"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          2,
+          3
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window07"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          2,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window07"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window01"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window02"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          4,
+          3
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          4,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window03"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          5,
+          0
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window03"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          5,
+          0
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window02"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          5,
+          1
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window06"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          5,
+          2
+        ],
+        "side": 2,
+        "module": "GreyPlaster_window08"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          5,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window06"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          6,
+          0
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window06"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          6,
+          0
+        ],
+        "side": 3,
+        "module": "GreyPlaster_window02"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          6,
+          1
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window06"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          6,
+          2
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window08"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          6,
+          3
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window03"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          6,
+          4
+        ],
+        "side": 0,
+        "module": "GreyPlaster_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          6,
+          4
+        ],
+        "side": 1,
+        "module": "GreyPlaster_window02"
+      }
+    ],
+    "floor_cells": [
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          6,
+          2
+        ],
+        [
+          6,
+          3
+        ],
+        [
+          6,
+          4
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          6,
+          2
+        ],
+        [
+          6,
+          3
+        ],
+        [
+          6,
+          4
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          6,
+          2
+        ],
+        [
+          6,
+          3
+        ],
+        [
+          6,
+          4
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          6,
+          2
+        ],
+        [
+          6,
+          3
+        ],
+        [
+          6,
+          4
+        ]
+      ]
+    ],
+    "source_modules": {
+      "GreyPlaster_window08": 18,
+      "gutter": 12,
+      "GreyPlaster_window07": 18,
+      "GreyPlaster_window06": 13,
+      "GreyPlaster_window04": 14,
+      "GreyPlaster_wall": 8,
+      "GreyPlaster_window05": 10,
+      "GreyPlaster_window01": 11,
+      "GreyPlaster_door02": 1,
+      "GreyPlaster_window02": 12,
+      "GreyPlaster_window03": 15,
+      "ac_unit": 6,
+      "roof_tile_large": 26,
+      "GreyPlaster_roof_long_norm": 30
+    },
+    "module_instances": 194
+  },
+  {
+    "name": "Alex_OrangeTerrace",
+    "theme": "OrangePlaster",
+    "roof": "hip",
+    "storeys": 3,
+    "seed": 1,
+    "window_pattern": "Deterministic by bay and storey; wide/narrow family retained; adjacent storeys use different window images",
+    "window_slots": [
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window04"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "OrangePlaster_window05"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window02"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window07"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window02"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window01"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          5
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window02"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          7
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window06"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "OrangePlaster_window01"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          1,
+          7
+        ],
+        "side": 1,
+        "module": "OrangePlaster_window02"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          2,
+          7
+        ],
+        "side": 1,
+        "module": "OrangePlaster_window02"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window06"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 3,
+        "module": "OrangePlaster_window08"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window08"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          2
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window01"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window02"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window05"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          6
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window04"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          7
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window02"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          7
+        ],
+        "side": 1,
+        "module": "OrangePlaster_window01"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window02"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "OrangePlaster_window04"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window01"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window08"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window05"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window02"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          5
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          7
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window05"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "OrangePlaster_window06"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          1,
+          7
+        ],
+        "side": 1,
+        "module": "OrangePlaster_window05"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          2,
+          0
+        ],
+        "side": 3,
+        "module": "OrangePlaster_window08"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          2,
+          7
+        ],
+        "side": 1,
+        "module": "OrangePlaster_window04"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window02"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 3,
+        "module": "OrangePlaster_window07"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window07"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          2
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window02"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window06"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window04"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          6
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window05"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          7
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window01"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          7
+        ],
+        "side": 1,
+        "module": "OrangePlaster_window04"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window06"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "OrangePlaster_window01"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window05"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window07"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window02"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window06"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          5
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window06"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          7
+        ],
+        "side": 2,
+        "module": "OrangePlaster_window01"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "OrangePlaster_window04"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          1,
+          7
+        ],
+        "side": 1,
+        "module": "OrangePlaster_window04"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          2,
+          0
+        ],
+        "side": 3,
+        "module": "OrangePlaster_window07"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          2,
+          7
+        ],
+        "side": 1,
+        "module": "OrangePlaster_window01"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window04"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 3,
+        "module": "OrangePlaster_window08"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window08"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          2
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window05"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window06"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          6
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          7
+        ],
+        "side": 0,
+        "module": "OrangePlaster_window04"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          7
+        ],
+        "side": 1,
+        "module": "OrangePlaster_window03"
+      }
+    ],
+    "floor_cells": [
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          3,
+          7
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          3,
+          7
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          3,
+          7
+        ]
+      ]
+    ],
+    "source_modules": {
+      "OrangePlaster_window04": 10,
+      "gutter_rusty": 9,
+      "OrangePlaster_window05": 8,
+      "OrangePlaster_window02": 12,
+      "OrangePlaster_window07": 5,
+      "OrangePlaster_window01": 9,
+      "OrangePlaster_wall": 9,
+      "OrangePlaster_window06": 8,
+      "OrangePlaster_door02": 1,
+      "OrangePlaster_window08": 6,
+      "OrangePlaster_window03": 4,
+      "ac_unit": 3,
+      "roof_end": 2,
+      "roof_mid": 6
+    },
+    "module_instances": 92
+  },
+  {
+    "name": "Alex_RedPlasterTower",
+    "theme": "RedPlaster",
+    "roof": "flat",
+    "storeys": 6,
+    "seed": 3,
+    "window_pattern": "Deterministic by bay and storey; wide/narrow family retained; adjacent storeys use different window images",
+    "window_slots": [
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "RedPlaster_window03"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "RedPlaster_window08"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "RedPlaster_window07"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "RedPlaster_window02"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 1,
+        "module": "RedPlaster_window06"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "RedPlaster_window01"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "RedPlaster_window08"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          1,
+          3
+        ],
+        "side": 1,
+        "module": "RedPlaster_window06"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 0,
+        "module": "RedPlaster_window08"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 0,
+        "module": "RedPlaster_window05"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          2
+        ],
+        "side": 0,
+        "module": "RedPlaster_window06"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 1,
+        "module": "RedPlaster_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "RedPlaster_window01"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "RedPlaster_window07"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "RedPlaster_window08"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "RedPlaster_window05"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 1,
+        "module": "RedPlaster_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "RedPlaster_window05"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "RedPlaster_window07"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          1,
+          3
+        ],
+        "side": 1,
+        "module": "RedPlaster_window05"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          2,
+          0
+        ],
+        "side": 3,
+        "module": "RedPlaster_window05"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 0,
+        "module": "RedPlaster_window07"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 0,
+        "module": "RedPlaster_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          2
+        ],
+        "side": 0,
+        "module": "RedPlaster_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 1,
+        "module": "RedPlaster_window02"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "RedPlaster_window05"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "RedPlaster_window08"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "RedPlaster_window07"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "RedPlaster_window01"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 1,
+        "module": "RedPlaster_window04"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "RedPlaster_window02"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "RedPlaster_window08"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          1,
+          3
+        ],
+        "side": 1,
+        "module": "RedPlaster_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          2,
+          0
+        ],
+        "side": 3,
+        "module": "RedPlaster_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 0,
+        "module": "RedPlaster_window08"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 0,
+        "module": "RedPlaster_window01"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          2
+        ],
+        "side": 0,
+        "module": "RedPlaster_window04"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 1,
+        "module": "RedPlaster_window05"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "RedPlaster_window03"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "RedPlaster_window07"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "RedPlaster_window08"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          2
+        ],
+        "side": 2,
+        "module": "RedPlaster_window06"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 1,
+        "module": "RedPlaster_window01"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "RedPlaster_window03"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          1,
+          0
+        ],
+        "side": 3,
+        "module": "RedPlaster_window07"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          1,
+          3
+        ],
+        "side": 1,
+        "module": "RedPlaster_window01"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          2,
+          0
+        ],
+        "side": 3,
+        "module": "RedPlaster_window05"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 0,
+        "module": "RedPlaster_window07"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 0,
+        "module": "RedPlaster_window02"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          2
+        ],
+        "side": 0,
+        "module": "RedPlaster_window03"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 1,
+        "module": "RedPlaster_window04"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          1,
+          1
+        ],
+        "side": 2,
+        "module": "RedPlaster_window04"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          1,
+          1
+        ],
+        "side": 3,
+        "module": "RedPlaster_window06"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          1,
+          2
+        ],
+        "side": 2,
+        "module": "RedPlaster_window01"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          1,
+          3
+        ],
+        "side": 1,
+        "module": "RedPlaster_window03"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 0,
+        "module": "RedPlaster_window04"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 3,
+        "module": "RedPlaster_window04"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          3,
+          2
+        ],
+        "side": 0,
+        "module": "RedPlaster_window02"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 1,
+        "module": "RedPlaster_window05"
+      },
+      {
+        "storey": 6,
+        "cell": [
+          1,
+          1
+        ],
+        "side": 2,
+        "module": "RedPlaster_window05"
+      },
+      {
+        "storey": 6,
+        "cell": [
+          1,
+          1
+        ],
+        "side": 3,
+        "module": "RedPlaster_window02"
+      },
+      {
+        "storey": 6,
+        "cell": [
+          1,
+          2
+        ],
+        "side": 2,
+        "module": "RedPlaster_window02"
+      },
+      {
+        "storey": 6,
+        "cell": [
+          1,
+          3
+        ],
+        "side": 1,
+        "module": "RedPlaster_window05"
+      },
+      {
+        "storey": 6,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 0,
+        "module": "RedPlaster_window01"
+      },
+      {
+        "storey": 6,
+        "cell": [
+          3,
+          1
+        ],
+        "side": 3,
+        "module": "RedPlaster_window02"
+      },
+      {
+        "storey": 6,
+        "cell": [
+          3,
+          2
+        ],
+        "side": 0,
+        "module": "RedPlaster_window06"
+      },
+      {
+        "storey": 6,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 1,
+        "module": "RedPlaster_window01"
+      }
+    ],
+    "floor_cells": [
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ]
+    ],
+    "source_modules": {
+      "RedPlaster_window03": 11,
+      "gutter_rusty": 18,
+      "RedPlaster_window08": 8,
+      "RedPlaster_window07": 8,
+      "RedPlaster_window02": 8,
+      "RedPlaster_window06": 6,
+      "RedPlaster_window01": 9,
+      "RedPlaster_door01": 1,
+      "RedPlaster_wall": 20,
+      "RedPlaster_window05": 11,
+      "ac_unit": 3,
+      "RedPlaster_window04": 6,
+      "roof_tile_large": 16,
+      "RedPlaster_roof_long_norm": 22
+    },
+    "module_instances": 147
+  },
+  {
+    "name": "Alex_LongBrickBlock",
+    "theme": "RedBrick",
+    "roof": "hip_black",
+    "storeys": 5,
+    "seed": 5,
+    "window_pattern": "Deterministic by bay and storey; wide/narrow family retained; adjacent storeys use different window images",
+    "window_slots": [
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "RedBrick_window08"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "RedBrick_window08"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          5
+        ],
+        "side": 2,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          6
+        ],
+        "side": 2,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          7
+        ],
+        "side": 2,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          8
+        ],
+        "side": 2,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          9
+        ],
+        "side": 1,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          0,
+          9
+        ],
+        "side": 2,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          1,
+          9
+        ],
+        "side": 1,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          2,
+          9
+        ],
+        "side": 1,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 0,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          2
+        ],
+        "side": 0,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 0,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 0,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          5
+        ],
+        "side": 0,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          6
+        ],
+        "side": 0,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          7
+        ],
+        "side": 0,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          8
+        ],
+        "side": 0,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 1,
+        "cell": [
+          3,
+          9
+        ],
+        "side": 0,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          5
+        ],
+        "side": 2,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          6
+        ],
+        "side": 2,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          7
+        ],
+        "side": 2,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          8
+        ],
+        "side": 2,
+        "module": "RedBrick_window08"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          9
+        ],
+        "side": 1,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          0,
+          9
+        ],
+        "side": 2,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          1,
+          9
+        ],
+        "side": 1,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          2,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          2,
+          9
+        ],
+        "side": 1,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 0,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          2
+        ],
+        "side": 0,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 0,
+        "module": "RedBrick_window08"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 0,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          5
+        ],
+        "side": 0,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          6
+        ],
+        "side": 0,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          7
+        ],
+        "side": 0,
+        "module": "RedBrick_window08"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          8
+        ],
+        "side": 0,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 2,
+        "cell": [
+          3,
+          9
+        ],
+        "side": 0,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "RedBrick_window08"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "RedBrick_window08"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          5
+        ],
+        "side": 2,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          6
+        ],
+        "side": 2,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          7
+        ],
+        "side": 2,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          8
+        ],
+        "side": 2,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          9
+        ],
+        "side": 1,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          0,
+          9
+        ],
+        "side": 2,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          1,
+          9
+        ],
+        "side": 1,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          2,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          2,
+          9
+        ],
+        "side": 1,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 0,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          2
+        ],
+        "side": 0,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 0,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 0,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          5
+        ],
+        "side": 0,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          6
+        ],
+        "side": 0,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          7
+        ],
+        "side": 0,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          8
+        ],
+        "side": 0,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 3,
+        "cell": [
+          3,
+          9
+        ],
+        "side": 0,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          5
+        ],
+        "side": 2,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          6
+        ],
+        "side": 2,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          7
+        ],
+        "side": 2,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          8
+        ],
+        "side": 2,
+        "module": "RedBrick_window08"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          9
+        ],
+        "side": 1,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          0,
+          9
+        ],
+        "side": 2,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          1,
+          9
+        ],
+        "side": 1,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          2,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          2,
+          9
+        ],
+        "side": 1,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 0,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          2
+        ],
+        "side": 0,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 0,
+        "module": "RedBrick_window08"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 0,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          5
+        ],
+        "side": 0,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          6
+        ],
+        "side": 0,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          7
+        ],
+        "side": 0,
+        "module": "RedBrick_window08"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          8
+        ],
+        "side": 0,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 4,
+        "cell": [
+          3,
+          9
+        ],
+        "side": 0,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 2,
+        "module": "RedBrick_window08"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          0,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          0,
+          1
+        ],
+        "side": 2,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          0,
+          3
+        ],
+        "side": 2,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          0,
+          4
+        ],
+        "side": 2,
+        "module": "RedBrick_window08"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          0,
+          5
+        ],
+        "side": 2,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          0,
+          6
+        ],
+        "side": 2,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          0,
+          7
+        ],
+        "side": 2,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          0,
+          8
+        ],
+        "side": 2,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          0,
+          9
+        ],
+        "side": 1,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          0,
+          9
+        ],
+        "side": 2,
+        "module": "RedBrick_window01"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          1,
+          9
+        ],
+        "side": 1,
+        "module": "RedBrick_window05"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          2,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window02"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          2,
+          9
+        ],
+        "side": 1,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 0,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          3,
+          0
+        ],
+        "side": 3,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          3,
+          2
+        ],
+        "side": 0,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          3,
+          3
+        ],
+        "side": 0,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          3,
+          4
+        ],
+        "side": 0,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          3,
+          5
+        ],
+        "side": 0,
+        "module": "RedBrick_window06"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          3,
+          6
+        ],
+        "side": 0,
+        "module": "RedBrick_window04"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          3,
+          7
+        ],
+        "side": 0,
+        "module": "RedBrick_window07"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          3,
+          8
+        ],
+        "side": 0,
+        "module": "RedBrick_window03"
+      },
+      {
+        "storey": 5,
+        "cell": [
+          3,
+          9
+        ],
+        "side": 0,
+        "module": "RedBrick_window06"
+      }
+    ],
+    "floor_cells": [
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          3,
+          8
+        ],
+        [
+          3,
+          9
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          3,
+          8
+        ],
+        [
+          3,
+          9
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          3,
+          8
+        ],
+        [
+          3,
+          9
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          3,
+          8
+        ],
+        [
+          3,
+          9
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          3,
+          8
+        ],
+        [
+          3,
+          9
+        ]
+      ]
+    ],
+    "source_modules": {
+      "RedBrick_window08": 12,
+      "gutter_rusty": 20,
+      "RedBrick_window05": 14,
+      "RedBrick_window03": 22,
+      "RedBrick_wall": 20,
+      "RedBrick_window02": 16,
+      "RedBrick_window01": 15,
+      "RedBrick_window07": 13,
+      "RedBrick_window06": 12,
+      "RedBrick_window04": 15,
+      "RedBrick_door03": 1,
+      "ac_unit": 6,
+      "roof_black_end": 2,
+      "roof_black_mid": 8
+    },
+    "module_instances": 176
+  }
+]

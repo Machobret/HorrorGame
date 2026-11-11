@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f7844fe72ca4fd78135e1e448987cbc, type: 3}
+  m_Name: WoodPicketFence_Panel_ClosedLeft
+  m_EditorClassIdentifier: EnvironmentAuthoring::EnvironmentAuthoring.TownModule
+  Kind: 0
+  Mesh: {fileID: 2959467708922500008, guid: 440d35409a4b415f839c7c3e02e8610d, type: 3}
+  AllowStretch: 0
+  Materials:
+  - {fileID: 2100000, guid: 5c621bfa0a20f864b90d51b2b60c7132, type: 2}
+  Length: 2
+  Height: 1.3224096
+  Width: 0.0622313

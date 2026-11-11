@@ -4,7 +4,7 @@ namespace EnvironmentAuthoring
 {
     // Retained bindings for one generated closed body and its optional opening model.
     // Builders configure new output; enabling saved output never reapplies source meshes over paint.
-    [DisallowMultipleComponent]
+    [ExecuteAlways, DisallowMultipleComponent]
     public sealed class WallModule : MonoBehaviour
     {
         [SerializeField] private WallModuleDefinition definition;
@@ -13,6 +13,48 @@ namespace EnvironmentAuthoring
         [SerializeField] private string openingId;
         [SerializeField] private WallOpeningInsert selectedInsert;
         internal enum LengthFit { ScaleNative, Cropped }
+
+        [SerializeField] private Vector4 verticalProjectionRange;
+        private static readonly int VerticalProjectionId = Shader.PropertyToID("_WallProjectionYRange");
+        private void OnEnable() => ApplyVerticalProjection();
+        internal bool ConfigureVerticalProjection(float minimum, float maximum)
+        {
+            if (body == null) return false;
+            // Object-relative origins remain valid when a Boolean cut changes
+            // the renderer's bounds, and when the complete House moves vertically.
+            float origin = body.transform.position.y;
+            var next = new Vector4(minimum - origin, maximum - origin, 0, 2);
+            bool changed = verticalProjectionRange != next;
+            verticalProjectionRange = next;
+            ApplyVerticalProjection();
+            return changed;
+        }
+        private void ApplyVerticalProjection()
+        {
+            if (body == null || verticalProjectionRange.w < .5f) return;
+            var renderer = body.GetComponent<MeshRenderer>();
+            if (verticalProjectionRange.w < 1.5f)
+            {
+                // Migrate saved renderer-relative ranges using the uncut source
+                // where available. Do not anchor a garage header to its cut edge.
+                var cut = body.GetComponent<HouseBooleanMeshState>();
+                float previousMinimum = cut != null && cut.Source != null
+                    ? body.transform.TransformPoint(new Vector3(cut.Source.bounds.center.x, cut.Source.bounds.min.y, cut.Source.bounds.center.z)).y
+                    : renderer.bounds.min.y;
+                verticalProjectionRange.x += previousMinimum - body.transform.position.y;
+                verticalProjectionRange.y += previousMinimum - body.transform.position.y;
+                verticalProjectionRange.w = 2;
+            }
+            var materials = renderer.sharedMaterials;
+            var block = new MaterialPropertyBlock();
+            for (int slot = 0; slot < materials.Length; slot++)
+            {
+                if (materials[slot] == null || !materials[slot].HasProperty(VerticalProjectionId)) continue;
+                block.Clear(); renderer.GetPropertyBlock(block, slot);
+                block.SetVector(VerticalProjectionId, verticalProjectionRange);
+                renderer.SetPropertyBlock(block, slot);
+            }
+        }
 
         public WallModuleDefinition Definition => definition;
         public MeshFilter Body => body;

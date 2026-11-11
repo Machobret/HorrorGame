@@ -3,3 +3,11 @@
 /Assets/Game/Environment/**/Classic64* -text
 /Assets/Sandbox/Classic64/** -text
 /Assets/Sandbox/Classic64.meta -text
+
+# URBAN archival and import receipts also verify exact source/asset bytes.
+/ArtSource/Environment/Urban/** -text
+/Assets/Game/Environment/Buildings/Urban/** -text
+
+# Assembled ALEX buildings preserve source and receipt bytes across checkouts.
+/ArtSource/Environment/AlexBuildingKit/** -text
+/Assets/Game/Environment/Buildings/AlexBuildingKit/** -text
