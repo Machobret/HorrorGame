@@ -1,0 +1,7 @@
+# Nearby prop collision tools
+
+Select a prop in a room, then use **Horror Game > Environment > Audit Nearby Prop Collisions**, **Repair Nearby Prop Collisions**, or **Validate Nearby Prop Collisions**. The scope is mesh filters in the same loaded scene whose transforms are within 7 m of the selection. This includes nearby props across a wall, so choose the selection deliberately. Repair changes the source assets shared by all instances, not only the selected object.
+
+Repair covers owned Environment and Items prefabs and directly placed FBX model instances. It adds solid MeshColliders to missing prop geometry, enables generated model colliders where required, and also handles the separate Classic64 box Visual prefabs. Existing solid colliders and interaction triggers are preserved. The tiny cigarette pickup uses a fitted BoxCollider to avoid small local-mesh cooking problems. Dynamic rigidbodies use convex meshes. Generated House architecture and native door logic are outside the repair scope.
+
+Asset changes are saved; extra instance-only colliders, if required, support Undo and mark the scene dirty. The tool never saves the working scene. Reports go to ignored `Exports/Reviews/Collision`. Validation checks the loaded instances for solid collision and casts rays against their individual colliders from several directions. The small storage room repair passed 44 prop collider checks with zero failures on 12 November 2026. This verifies physical query geometry, not a complete player traversal test.

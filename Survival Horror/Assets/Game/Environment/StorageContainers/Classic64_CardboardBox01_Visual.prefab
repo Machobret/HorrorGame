@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 3071477400276812581}
   - component: {fileID: 7306197799355239386}
   - component: {fileID: 7198500341838641241}
+  - component: {fileID: 4161801054063942106}
   m_Layer: 0
   m_Name: Classic64_CardboardBox01_Part00
   m_TagString: Untagged
@@ -122,6 +123,28 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4161801054063942106
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7661621688393598162}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5108089012375014857, guid: 524ba5b5d51dd1648a03c2bca80ebeb4, type: 3}
 --- !u!1 &8500849146309315044
 GameObject:
   m_ObjectHideFlags: 0

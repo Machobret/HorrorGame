@@ -63,6 +63,10 @@ namespace HorrorEngine
         public Vector3 IntendedMovement { get; private set; }
         public Vector2 InputAxis => m_InputAxis;
 
+        // Local traversal helpers can resist an edge before CharacterController.Move.
+        public delegate void MovementFilter(ref Vector3 displacement);
+        public event MovementFilter FilterMovement;
+
         
         //Do not enable/disable the CharacterController here in OnEnable and OnDisable since this component
         //is disabled all the time (on all states where movement is not possible)
@@ -215,6 +219,7 @@ namespace HorrorEngine
             Debug.DrawLine(prevPos, prevPos + IntendedMovement * 10, Color.red);
 
             Vector3 finalMove = newPos - prevPos;
+            FilterMovement?.Invoke(ref finalMove);
             m_CharacterCtrl.Move(finalMove + m_Gravity * Time.deltaTime);
         }
 

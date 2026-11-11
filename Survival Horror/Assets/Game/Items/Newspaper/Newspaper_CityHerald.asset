@@ -1,0 +1,196 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a543205dd590b764295581a5ae2883d4, type: 3}
+  m_Name: Newspaper_CityHerald
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.DocumentData
+  UniqueId: b65a86b1-bbec-4377-8b39-9cd780caf5bf
+  Name:
+    IsLocalized: 0
+    Unlocalized: "The City Herald \u2014 Emergency Edition"
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Image:
+    IsLocalized: 0
+    Unlocalized: {fileID: 21300000, guid: 342d1edcae463dc4db8f5b76de21055a, type: 3}
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+  Name_DEPRECATED: 
+  Image_DEPRECATED: {fileID: 0}
+  ShowImageOnRead: 1
+  ShowPageCount: 1
+  Pages:
+  - Text:
+      IsLocalized: 0
+      Unlocalized: '<margin-left=16%><margin-right=2%><b>THE CITY HERALD</b>
+
+        EMERGENCY
+        EDITION
+
+
+        <b>1,998 DEAD</b>
+
+        Hero battle leaves district
+        in ruins
+
+
+        Authorities have confirmed 1,998 deaths following the
+        battle in the city centre. Rescue crews are still searching the apartment
+        blocks. The official toll is expected to rise.'
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+        m_LocalVariables: []
+    Image:
+      IsLocalized: 0
+      Unlocalized: {fileID: 0}
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+    Caption:
+      IsLocalized: 0
+      Unlocalized: 
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+        m_LocalVariables: []
+    Text_DEPRECATED: 
+    Image_DEPRECATED: {fileID: 0}
+    Caption_DEPRECATED: 
+    ChangeImageColor: 0
+    ImageColor: {r: 1, g: 1, b: 1, a: 1}
+  - Text:
+      IsLocalized: 0
+      Unlocalized: '<margin-left=16%><margin-right=2%><b>OFFICIALS PRAISE HERO RESPONSE</b>
+
+
+        A
+        spokesman credited the heroes with preventing further destruction. Residents
+        interviewed by the Herald described buildings collapsing before any evacuation
+        warning was given.
+
+
+        Families seeking missing relatives are directed
+        to the perimeter checkpoint.'
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+        m_LocalVariables: []
+    Image:
+      IsLocalized: 0
+      Unlocalized: {fileID: 0}
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+    Caption:
+      IsLocalized: 0
+      Unlocalized: 
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+        m_LocalVariables: []
+    Text_DEPRECATED: 
+    Image_DEPRECATED: {fileID: 0}
+    Caption_DEPRECATED: 
+    ChangeImageColor: 0
+    ImageColor: {r: 1, g: 1, b: 1, a: 1}
+  - Text:
+      IsLocalized: 0
+      Unlocalized: "<margin-left=16%><margin-right=2%><b>DISTRICT REMAINS SEALED</b>\n\nPharmacies
+        and local shops have been ordered to retain emergency supplies.\n\n<i>Written
+        in the margin:</i>\n\"Storage lock changed. Use the toll on the front page.
+        Digits only. \u2014 M.\""
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+        m_LocalVariables: []
+    Image:
+      IsLocalized: 0
+      Unlocalized: {fileID: 0}
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+    Caption:
+      IsLocalized: 0
+      Unlocalized: 
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+        m_LocalVariables: []
+    Text_DEPRECATED: 
+    Image_DEPRECATED: {fileID: 0}
+    Caption_DEPRECATED: 
+    ChangeImageColor: 0
+    ImageColor: {r: 1, g: 1, b: 1, a: 1}
+  ShowClip: {fileID: 8300000, guid: 064693e7a6127fa448408ad9424c5081, type: 3}
+  PageClip: {fileID: 8300000, guid: c3849fa0dcaf3cf40b74686dbf1766ee, type: 3}
+  CloseClip: {fileID: 8300000, guid: 757a425d6607890488ecd0baca7d3aad, type: 3}
+  references:
+    version: 2
+    RefIds: []

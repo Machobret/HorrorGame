@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf8a8827d4b6628418394bcc001154a3, type: 3}
   m_Name: DocumentDB
   m_EditorClassIdentifier: 
+  Prototype: {fileID: 0}
   Registers:
   - {fileID: 11400000, guid: 75b456d23dcf44045af4c34059cd2437, type: 2}
+  - {fileID: 11400000, guid: 612a35d065e3cb6418deb0d9daea0f86, type: 2}

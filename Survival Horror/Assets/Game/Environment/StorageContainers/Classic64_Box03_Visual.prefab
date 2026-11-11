@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 660751905805782523}
   - component: {fileID: 4814554253165354922}
   - component: {fileID: 8723328613009305448}
+  - component: {fileID: 2407108410467296292}
   m_Layer: 0
   m_Name: Classic64_Box03_Part000
   m_TagString: Untagged
@@ -90,6 +91,28 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2407108410467296292
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723602374818177508}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7776059341190912622, guid: b44285a64ac9ad248837ab1467af23b0, type: 3}
 --- !u!1 &3527358608623734446
 GameObject:
   m_ObjectHideFlags: 0

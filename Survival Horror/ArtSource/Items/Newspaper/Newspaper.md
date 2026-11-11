@@ -1,0 +1,7 @@
+# The City Herald front page
+
+Original fictional publication created for ExaltFall. Generated with the built-in image generation tool, then copied into the project as `Assets/Game/Items/Newspaper/Newspaper_FrontPage.png`. No third-party newspaper photograph or branding was used.
+
+Prompt: Create a flat straight-on rectangular newspaper front-page texture for a PSX survival-horror game, portrait 3:4 proportions, fills the entire image edge to edge, NO perspective, NO surrounding environment, NO mockup shadows. Aged dirty ivory newsprint, charcoal black ink, restrained burgundy line accents. Masthead 'THE CITY HERALD'. Small header 'EMERGENCY EDITION'. Huge very clearly legible headline '1,998 DEAD'. Secondary headline 'HERO BATTLE LEAVES DISTRICT IN RUINS'. Large coarse black and white halftone photo of ruined apartment towers, abandoned cars and smoke, NO recognizable people. Lower area has narrow newspaper text columns, print wear and faint fold creases; no other large numbers or dates so the only prominent number is 1,998. Grounded early 2000 newspaper graphic design, dark and grim, readable typography, authentic old print. This is the actual diffuse texture for a low-poly newspaper prop and readable document artwork. No logos from real publications.
+
+Editable article and deterministic mesh/material/import recipe: `Assets/Game/Items/Newspaper/Editor/NewspaperBuilder.cs`. Texture import keeps the art readable in the document UI; point filtering and the game's existing low-resolution renderer retain its PSX appearance in the world.

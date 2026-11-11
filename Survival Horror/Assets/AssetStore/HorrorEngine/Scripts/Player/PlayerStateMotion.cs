@@ -87,7 +87,9 @@ namespace HorrorEngine
         public override void StateExit(IActorState intoState)
         {
             m_Interaction.enabled = false;
-            m_Movement.enabled = false;
+            // Preserve push intent: toggling movement clears IntendedMovement.
+            if (!(intoState is PlayerStatePushing))
+                m_Movement.enabled = false;
             base.StateExit(intoState);
         }
 

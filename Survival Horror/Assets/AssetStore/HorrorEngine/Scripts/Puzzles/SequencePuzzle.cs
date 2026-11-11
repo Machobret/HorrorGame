@@ -30,6 +30,7 @@ namespace HorrorEngine
         public void Clear()
         {
             m_Entries.Clear();
+            m_EntriesCount = 0;
             OnCleared?.Invoke();
         }
 
