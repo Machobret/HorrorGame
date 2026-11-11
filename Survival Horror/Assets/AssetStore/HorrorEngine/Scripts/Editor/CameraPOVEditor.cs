@@ -8,6 +8,7 @@ namespace HorrorEngine
         private SerializedProperty m_Priority;
         private SerializedProperty m_PositionFollow;
         private SerializedProperty m_RotationFollow;
+        private SerializedProperty m_ThirdPersonFollow;
 
         // --------------------------------------------------------------------
 
@@ -16,6 +17,7 @@ namespace HorrorEngine
             m_Priority = serializedObject.FindProperty("Priority");
             m_PositionFollow = serializedObject.FindProperty("PositionFollow");
             m_RotationFollow = serializedObject.FindProperty("RotationFollow");
+            m_ThirdPersonFollow = serializedObject.FindProperty("ThirdPersonFollow");
         }
 
         // --------------------------------------------------------------------
@@ -27,6 +29,7 @@ namespace HorrorEngine
             EditorGUILayout.PropertyField(m_Priority);
             DrawFollowSettings("Player Follow (Position)", m_PositionFollow);
             DrawFollowSettings("Player Follow (Rotation)", m_RotationFollow);
+            DrawThirdPersonFollowSettings(m_ThirdPersonFollow);
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -48,6 +51,27 @@ namespace HorrorEngine
                 EditorGUILayout.PropertyField(settings.FindPropertyRelative("CenterFollowDistance"));
                 EditorGUILayout.PropertyField(settings.FindPropertyRelative("FollowHorizontal"));
                 EditorGUILayout.PropertyField(settings.FindPropertyRelative("FollowVertical"));
+                EditorGUI.indentLevel--;
+            }
+
+            EditorGUILayout.EndVertical();
+        }
+
+        // --------------------------------------------------------------------
+
+        private static void DrawThirdPersonFollowSettings(SerializedProperty settings)
+        {
+            SerializedProperty enabled = settings.FindPropertyRelative("Enabled");
+
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            enabled.boolValue = EditorGUILayout.ToggleLeft("Player Follow (Third Person)", enabled.boolValue, EditorStyles.boldLabel);
+
+            if (enabled.boolValue)
+            {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(settings.FindPropertyRelative("Distance"));
+                EditorGUILayout.PropertyField(settings.FindPropertyRelative("Rotation"));
+                EditorGUILayout.PropertyField(settings.FindPropertyRelative("Pitch"));
                 EditorGUI.indentLevel--;
             }
 

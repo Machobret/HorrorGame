@@ -9,12 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58e5e9a2ec5a7634ebab86edd9f5f4aa, type: 3}
+  m_Script: {fileID: 11500000, guid: a543205dd590b764295581a5ae2883d4, type: 3}
   m_Name: DistrictCircuitDiagram
-  m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.ItemData
-  UniqueId: 
-  Image: {fileID: 0}
-  ExamineModel: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.DocumentData
+  UniqueId: 364da761-3301-4bbd-9e7c-8d1764d4c6f2
   Name:
     IsLocalized: 0
     Unlocalized: District Circuit Diagram
@@ -22,21 +20,44 @@ MonoBehaviour:
       m_TableReference: {m_TableCollectionName: }
       m_TableEntryReference: {m_KeyId: 0, m_Key: , m_FallbackState: 0, m_WaitForCompletion: 0}
       m_LocalVariables: []
-  Description:
+  Image:
     IsLocalized: 0
-    Unlocalized: A marked district circuit diagram. It reveals circuit controls on the district map.
+    Unlocalized: {fileID: 0}
     Localized:
       m_TableReference: {m_TableCollectionName: }
       m_TableEntryReference: {m_KeyId: 0, m_Key: , m_FallbackState: 0, m_WaitForCompletion: 0}
       m_LocalVariables: []
-  InventoryAction: 0
-  Flags: 128
-  Tags: []
-  DropPrefab: {fileID: 0}
-  MaxStackSize: 0
-  m_OnUseAudioClip: {fileID: 0}
   Name_DEPRECATED: 
-  Description_DEPRECATED: 
+  Image_DEPRECATED: {fileID: 0}
+  ShowImageOnRead: 0
+  ShowPageCount: 0
+  Pages:
+  - Text:
+      IsLocalized: 0
+      Unlocalized: District power distribution diagram. Circuit control points are now available on the district map.
+      Localized:
+        m_TableReference: {m_TableCollectionName: }
+        m_TableEntryReference: {m_KeyId: 0, m_Key: , m_FallbackState: 0, m_WaitForCompletion: 0}
+        m_LocalVariables: []
+    Image:
+      IsLocalized: 0
+      Unlocalized: {fileID: 0}
+      Localized:
+        m_TableReference: {m_TableCollectionName: }
+        m_TableEntryReference: {m_KeyId: 0, m_Key: , m_FallbackState: 0, m_WaitForCompletion: 0}
+        m_LocalVariables: []
+    Caption:
+      IsLocalized: 0
+      Unlocalized: 
+      Localized:
+        m_TableReference: {m_TableCollectionName: }
+        m_TableEntryReference: {m_KeyId: 0, m_Key: , m_FallbackState: 0, m_WaitForCompletion: 0}
+        m_LocalVariables: []
+    Text_DEPRECATED: 
+    Image_DEPRECATED: {fileID: 0}
+    Caption_DEPRECATED: 
+    ChangeImageColor: 0
+    ImageColor: {r: 1, g: 1, b: 1, a: 1}
   references:
     version: 2
     RefIds: []

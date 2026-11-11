@@ -40,22 +40,51 @@ namespace HorrorEngine
 
         }
 
+        [Serializable]
+        public class ThirdPersonFollowSettings
+        {
+            [Tooltip("Enable a centred third-person camera that stays at a fixed distance and yaw offset from the player.")]
+            public bool Enabled;
+
+            [Tooltip("World-space distance from the player follow marker.")]
+            [Min(0.01f)]
+            public float Distance = 3f;
+
+            [Tooltip("Yaw offset around the player. 0 stays behind the player; 180 stays in front of them.")]
+            [Range(-180f, 180f)]
+            public float Rotation = 0f;
+
+            [Tooltip("Vertical orbit angle. Positive values place the camera above the player, looking downward; negative values place it below, looking upward.")]
+            [Range(-89f, 89f)]
+            public float Pitch = 0f;
+        }
+
         public int Priority;
 
         [Header("Player Follow")]
         public PlayerFollowSettings PositionFollow = new PlayerFollowSettings { Enabled = true };
         public PlayerFollowSettings RotationFollow = new PlayerFollowSettings();
+        public ThirdPersonFollowSettings ThirdPersonFollow = new ThirdPersonFollowSettings();
 
         private CinemachineVirtualCameraBase m_VirtualCam;
         private int m_TriggerEnterCount;
         private Dictionary<OnDisableNotifier, Collider> m_TargetTracked = new Dictionary<OnDisableNotifier, Collider>();
         private Action<OnDisableNotifier> m_TargetDisabledCallback;
         private Transform m_FollowTarget;
+        private Transform m_PlayerTransform;
         private Collider m_FollowCollider;
         private Renderer[] m_FollowRenderers = Array.Empty<Renderer>();
         private float m_FollowVisualRadius;
         private Quaternion m_BaseCameraLocalRotation;
         private FixedCameraRotationFollowExtension m_RotationFollowExtension;
+        private readonly RaycastHit[] m_ThirdPersonCollisionHits = new RaycastHit[32];
+        private readonly Collider[] m_ThirdPersonOverlapHits = new Collider[32];
+
+        // The camera must never collapse into the player.  This is deliberately
+        // internal so Third Person keeps its compact Distance/Rotation/Pitch UI.
+        private const float ThirdPersonMinimumDistance = 0.5f;
+        private const float ThirdPersonCollisionRadius = 0.2f;
+        private const float ThirdPersonCollisionSkin = 0.02f;
 
         internal Transform FollowTarget => m_FollowTarget;
         internal Collider FollowCollider => m_FollowCollider;
@@ -196,6 +225,7 @@ namespace HorrorEngine
             m_FollowTarget = followTarget;
             m_FollowCollider = m_FollowTarget ? m_FollowTarget.GetComponent<Collider>() : null;
             var player = m_FollowTarget ? m_FollowTarget.GetComponentInParent<PlayerActor>() : null;
+            m_PlayerTransform = player ? player.transform : m_FollowTarget;
             m_FollowRenderers = player
                 ? player.GetComponentsInChildren<Renderer>()
                 : Array.Empty<Renderer>();
@@ -219,6 +249,12 @@ namespace HorrorEngine
 
             if (!m_VirtualCam || !m_VirtualCam.gameObject.activeInHierarchy || !m_FollowTarget)
                 return;
+
+            if (ThirdPersonFollow.Enabled)
+            {
+                FollowThirdPerson();
+                return;
+            }
 
             FollowPlayer();
         }
@@ -249,6 +285,94 @@ namespace HorrorEngine
             }
 
             SynchronizeCameraState(cameraTransform, cameraChanged);
+        }
+
+        // --------------------------------------------------------------------
+
+        private void FollowThirdPerson()
+        {
+            Transform cameraTransform = m_VirtualCam.transform;
+            Transform playerTransform = m_PlayerTransform ? m_PlayerTransform : m_FollowTarget;
+
+            // Rotation 0 is directly behind the player.  At 180 degrees the
+            // position moves to the player's front, while still looking back at them.
+            Vector3 flatForward = Vector3.ProjectOnPlane(playerTransform.forward, Vector3.up);
+            if (flatForward.sqrMagnitude < 0.0001f)
+                flatForward = Vector3.forward;
+            flatForward.Normalize();
+
+            Quaternion yawRotation = Quaternion.AngleAxis(ThirdPersonFollow.Rotation, Vector3.up);
+            Vector3 orbitDirection = yawRotation * -flatForward;
+            Vector3 orbitRight = yawRotation * Vector3.Cross(Vector3.up, flatForward);
+            // Positive pitch places the camera above the player; negative pitch
+            // places it below them and makes the camera look upward.
+            orbitDirection = Quaternion.AngleAxis(ThirdPersonFollow.Pitch, orbitRight) * orbitDirection;
+            float desiredDistance = Mathf.Max(ThirdPersonMinimumDistance, ThirdPersonFollow.Distance);
+            float cameraDistance = GetThirdPersonCameraDistance(m_FollowTarget.position, orbitDirection, desiredDistance, playerTransform);
+            Vector3 cameraPosition = m_FollowTarget.position + orbitDirection * cameraDistance;
+            Vector3 lookDirection = m_FollowTarget.position - cameraPosition;
+            if (lookDirection.sqrMagnitude < 0.0001f)
+                lookDirection = flatForward;
+
+            cameraTransform.SetPositionAndRotation(cameraPosition, Quaternion.LookRotation(lookDirection, Vector3.up));
+            SynchronizeCameraState(cameraTransform, true);
+        }
+
+        // --------------------------------------------------------------------
+
+        private float GetThirdPersonCameraDistance(Vector3 targetPosition, Vector3 direction, float desiredDistance, Transform playerTransform)
+        {
+            int hitCount = Physics.SphereCastNonAlloc(
+                targetPosition,
+                ThirdPersonCollisionRadius,
+                direction,
+                m_ThirdPersonCollisionHits,
+                desiredDistance,
+                Physics.DefaultRaycastLayers,
+                QueryTriggerInteraction.Ignore);
+
+            float closestObstacle = float.PositiveInfinity;
+            for (int i = 0; i < hitCount; ++i)
+            {
+                Collider collider = m_ThirdPersonCollisionHits[i].collider;
+                if (!IsThirdPersonObstacle(collider, playerTransform))
+                    continue;
+
+                closestObstacle = Mathf.Min(closestObstacle, m_ThirdPersonCollisionHits[i].distance);
+            }
+
+            if (!float.IsPositiveInfinity(closestObstacle))
+            {
+                // If the wall is closer than the safe player radius, deliberately
+                // use the minimum-distance view. It is preferable to embedding the
+                // camera in the player or repeatedly bouncing against the wall.
+                return Mathf.Max(ThirdPersonMinimumDistance, closestObstacle - ThirdPersonCollisionSkin);
+            }
+
+            // A cast starting inside geometry can report no hit. Detect that case
+            // and apply the same safe fallback instead of leaving the camera buried.
+            Vector3 desiredPosition = targetPosition + direction * desiredDistance;
+            int overlapCount = Physics.OverlapSphereNonAlloc(
+                desiredPosition,
+                ThirdPersonCollisionRadius,
+                m_ThirdPersonOverlapHits,
+                Physics.DefaultRaycastLayers,
+                QueryTriggerInteraction.Ignore);
+            for (int i = 0; i < overlapCount; ++i)
+            {
+                if (IsThirdPersonObstacle(m_ThirdPersonOverlapHits[i], playerTransform))
+                    return ThirdPersonMinimumDistance;
+            }
+
+            return desiredDistance;
+        }
+
+        // --------------------------------------------------------------------
+
+        private static bool IsThirdPersonObstacle(Collider collider, Transform playerTransform)
+        {
+            return collider
+                && (!playerTransform || !collider.transform.IsChildOf(playerTransform));
         }
 
         // --------------------------------------------------------------------
@@ -445,6 +569,7 @@ namespace HorrorEngine
         {
             if (stage != CinemachineCore.Stage.Finalize
                 || Owner == null
+                || Owner.ThirdPersonFollow.Enabled
                 || !Owner.RotationFollow.Enabled
                 || Owner.FollowTarget == null)
                 return;
