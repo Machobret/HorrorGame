@@ -29,7 +29,9 @@ namespace HouseToolkit
                 result=SharedGeometry.Use(ref lease,key,Crop);
             }
             GetComponent<MeshFilter>().sharedMesh=result;
-            GetComponent<MeshCollider>().sharedMesh=result.vertexCount>0 ? result : null;
+            var collider = GetComponent<MeshCollider>();
+            var collisionMesh = result.vertexCount > 0 ? result : null;
+            if (collider.sharedMesh != collisionMesh) collider.sharedMesh = collisionMesh;
         }
         struct Vertex
         {

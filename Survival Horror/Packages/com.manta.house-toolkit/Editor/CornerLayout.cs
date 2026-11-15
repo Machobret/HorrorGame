@@ -19,11 +19,11 @@ namespace HouseToolkit.Editor
             internal float cut, clear;
             internal float paneDepth => family.panel ? glassDepth : depth;
 
-            internal End(WallFamily family, Vector2 delta, int other, IEnumerable<PlacedOpening> openings, bool start)
+            internal End(WallFamily family, Vector2 delta, int other, IEnumerable<PlacedOpening> openings, bool start,float? thickness=null)
             {
                 this.family=family; this.other=other;
                 length=delta.magnitude; axis=delta/length;
-                depth=family.thickness*.5f;
+                depth=(thickness??family.thickness)*.5f;
                 if (family.panel)
                 {
                     void Include(WallSegment segment)

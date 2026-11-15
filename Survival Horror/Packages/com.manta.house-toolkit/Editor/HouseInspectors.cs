@@ -115,8 +115,8 @@ namespace HouseToolkit.Editor
         public override void OnInspectorGUI()
         {
             var floor = (HouseFloor)target;
-            if (GUILayout.Button("Edit House")) HouseScene.Enter(floor);
-            if (floor.House) { if (GUILayout.Button("House Properties")) HouseProperties.Open(); return; }
+            if (GUILayout.Button(floor.EditLabel)) HouseScene.Enter(floor);
+            if (floor.House) { if (GUILayout.Button(HouseProperties.WindowTitle)) HouseProperties.Open(); return; }
             EditorGUI.BeginChangeCheck();
             float h = EditorGUILayout.DelayedFloatField("Floor height (m)", floor.height);
             if (EditorGUI.EndChangeCheck()) WallBuilder.SetHeight(floor, h, out issue);

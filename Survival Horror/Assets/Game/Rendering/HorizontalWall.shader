@@ -12,6 +12,9 @@ Shader "Horror Game/Environment/Surface Mapping"
         [ToggleUI] _AnchorToWallBottom("Start vertical tiling at wall bottom", Float) = 1
         _RepeatHeightMetres("Vertical repeat (metres)", Float) = 2.8
         [ToggleUI] _PointSampling("Crisp point sampling (no mip averaging)", Float) = 0
+        [HideInInspector] _HouseRight("House right", Vector) = (0,0,0,0)
+        [HideInInspector] _HouseUp("House up", Vector) = (0,0,0,0)
+        [HideInInspector] _HouseForward("House forward", Vector) = (0,0,0,0)
         [HideInInspector] _WallProjectionYRange("Wall projection range", Vector) = (0,0,0,0)
         _BlendSharpness("Triplanar blend sharpness", Range(1,16)) = 4
         _NormalStrength("Normal strength", Range(0,1)) = 0
@@ -52,6 +55,7 @@ Shader "Horror Game/Environment/Surface Mapping"
                 packed.rg = UnpackNormal(SAMPLE_TEXTURE2D(_BumpMap, sampler_BumpMap, uv)).xy * .5 + .5;
             return packed;
         }
+        #include "Packages/com.manta.house-toolkit/Runtime/HouseFinishUV.hlsl"
         #include "HorizontalWallMapping.hlsl"
         struct Attributes
         {
@@ -134,11 +138,15 @@ Shader "Horror Game/Environment/Surface Mapping"
                 half3 mappedNormal;
                 // Packed surfaces need two reads per projection. A separate
                 // standard normal map adds one read when normal strength is nonzero.
-                UNITY_BRANCH if (_Mapping > 2.5)
+                // Toolkit houses supply a local projection frame. Older scenes retain their saved mapping.
+                float3 houseRight = UNITY_ACCESS_INSTANCED_PROP(HouseProjection, _HouseRight).xyz;
+                bool onHouse = _Mapping > .5 && dot(houseRight, houseRight) > .5;
+                UNITY_BRANCH if (!onHouse && _Mapping > 2.5)
                     TriplanarSurface(input.positionWS, normalWS, color, roughness, mappedNormal);
                 else
                 {
-                    float2 uv = _Mapping > 1.5 ? BoxMappedUV(input.positionWS, normalWS)
+                    float2 uv = onHouse ? FinishUV(input.positionWS, normalWS)
+                        : _Mapping > 1.5 ? BoxMappedUV(input.positionWS, normalWS)
                         : _Mapping > .5 ? WorldWallUV(input.positionWS, normalWS) : input.uv;
                     color = SampleWallColor(uv, _Mapping > .5 && abs(normalWS.y) < .999) * _BaseColor;
                     half4 packed = SampleWallSurface(uv);

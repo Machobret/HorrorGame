@@ -5913,6 +5913,67 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7838401217822515773, guid: 9ab359374cb02954fa6dd8eb43cd1e2f, type: 3}
+--- !u!1001 &1958202261
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 15899562009819982, guid: 769df35933b74baa8190067fc759f063, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 15899562009819982, guid: 769df35933b74baa8190067fc759f063, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.024998425
+      objectReference: {fileID: 0}
+    - target: {fileID: 15899562009819982, guid: 769df35933b74baa8190067fc759f063, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6.7999997
+      objectReference: {fileID: 0}
+    - target: {fileID: 15899562009819982, guid: 769df35933b74baa8190067fc759f063, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 15899562009819982, guid: 769df35933b74baa8190067fc759f063, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000005960465
+      objectReference: {fileID: 0}
+    - target: {fileID: 15899562009819982, guid: 769df35933b74baa8190067fc759f063, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 15899562009819982, guid: 769df35933b74baa8190067fc759f063, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 15899562009819982, guid: 769df35933b74baa8190067fc759f063, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 15899562009819982, guid: 769df35933b74baa8190067fc759f063, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 15899562009819982, guid: 769df35933b74baa8190067fc759f063, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 15899562009819986, guid: 769df35933b74baa8190067fc759f063, type: 3}
+      propertyPath: m_Name
+      value: House - Native Runner Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703070634905263502, guid: 769df35933b74baa8190067fc759f063, type: 3}
+      propertyPath: m_Id
+      value: 31c30ff6-930e-48a7-9349-9b1ac2e7f85f
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 769df35933b74baa8190067fc759f063, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -5934,3 +5995,4 @@ SceneRoots:
   - {fileID: 539830536}
   - {fileID: 1615051618}
   - {fileID: 1072065561}
+  - {fileID: 1958202261}

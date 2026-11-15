@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47a209a7707edf54cb848e1e00980c9f, type: 3}
+  m_Name: Metal Fence
+  m_EditorClassIdentifier: HouseToolkit::HouseToolkit.WallFamily
+  plainThickness: 0.15
+  complex: 1
+  defaultPanelLayout: 1
+  surface: {fileID: 2100000, guid: 811285da4c6141cc8760e47cb416e421, type: 2}
+  glass: {fileID: 0}
+  surfaceFinishes: []
+  glassFinishes: []
+  panels:
+  - {fileID: 2477488548206508116, guid: 88e89b5331c04b4dac7ac79616c2f2f1, type: 3}
+  legacyPanel: {fileID: 0}
+  cornerPost: {fileID: 0}
+  surrounds:
+  - {fileID: 1141648589967488045, guid: a8893993781c48ac8b74d7e7c9d8378a, type: 3}
+  defaultInserts:
+  - {fileID: 11400000, guid: 4c778fdee6834501a90704b8ece449c5, type: 2}

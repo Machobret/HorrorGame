@@ -9,7 +9,7 @@ namespace HouseToolkit.Editor
     internal enum HouseTool { Select, Wall, Door, Window, Boolean }
 
     [InitializeOnLoad]
-    internal static class HouseScene
+    internal static partial class HouseScene
     {
         internal static HouseFloor Floor { get; private set; }
         internal static House House => Floor ? Floor.House : null;
@@ -36,7 +36,7 @@ namespace HouseToolkit.Editor
         {
             picker.Invalidate();
             selectedHighlight.Clear();hoverHighlight.Clear();
-            foreach (var entry in wallSelection.Values) entry.highlight.Clear();
+            foreach (var entry in extraHighlights) entry.Clear();
             EditorApplication.delayCall-=RefreshStationaryHover;
             if(keepPointer && picker.hoverView)EditorApplication.delayCall+=RefreshStationaryHover;
             else {picker.hover=default;picker.hoverView=null;}
@@ -47,30 +47,32 @@ namespace HouseToolkit.Editor
             if(picker.hoverView && Floor && Mode==HouseTool.Select)
                 picker.hoverView.SendEvent(EditorGUIUtility.CommandEvent(refreshHoverCommand));
         }
-        static readonly Dictionary<HouseWall, (HouseHighlight highlight, bool positive)> wallSelection = new();
-        internal static IEnumerable<HouseWall> SelectedWalls => wallSelection.Keys.Where(w => w && w.Floor == Floor);
-        internal static bool MultipleWalls => wallSelection.Count > 1;
+        internal static readonly SceneSelection<HousePick> Picks = new SceneSelection<HousePick>(
+            (a,b)=>a.OpeningId!=null ? a.wall==b.wall && a.OpeningId==b.OpeningId && (a.segmentId==null)==(b.segmentId==null) :
+                a.cutter!=null ? a.cutter==b.cutter : a.cut!=null ? a.cutOwner==b.cutOwner && a.cut.id==b.cut?.id :
+                a.room ? a.room==b.room && a.ceiling==b.ceiling : a.Same(b), p=>p.Kind);
+        static readonly List<HouseHighlight> extraHighlights = new();
+        internal static IEnumerable<HouseWall> SelectedWalls => Picks.Items.Where(p=>p.Kind=="Wall").Select(p=>p.wall);
+        internal static bool MultipleWalls => Picks.Items.Count>1 && !Picks.Mixed && Selected.Kind=="Wall";
 
-        internal static void ToggleWall(HouseWall wall, bool positiveFace = false)
+        internal static void ToggleWall(HouseWall wall,bool positiveFace=false) =>
+            Pick(new HousePick{wall=wall,positiveFace=positiveFace},true);
+        internal static void Select(HousePick pick) => Pick(pick,false);
+        internal static void Pick(HousePick pick,bool additive)
         {
-            if (!wall || wall.Floor != Floor) return;
-            if (!wallSelection.Remove(wall)) wallSelection.Add(wall, (new HouseHighlight(), positiveFace));
-            var active = wallSelection.ContainsKey(wall) ? wall : SelectedWalls.LastOrDefault();
-            SetActive(new HousePick { wall = active, positiveFace = active && wallSelection[active].positive });
+            if(pick.insert) pick.insertId=pick.insert.openingId;
+            Picks.Pick(pick,additive);
+            SyncPicks();
         }
-
-        internal static void Select(HousePick pick)
+        internal static void SyncPicks()
         {
-            wallSelection.Clear();
-            if (pick.wall && !pick.insert && pick.segmentId == null)
-                wallSelection.Add(pick.wall, (new HouseHighlight(), pick.positiveFace));
-            SetActive(pick);
-        }
-
-        static void SetActive(HousePick pick)
-        {
-            if (Mode == HouseTool.Select && BooleanTool.Current != null) BooleanTool.Reset();
-            Selected=pick;Room=pick.room;Wall=pick.wall;Opening=pick.insert?pick.insert.openingId:pick.segmentId;corner=pick.corner;
+            var pick=Picks.Active;
+            BooleanTool.SetActive(pick.cutter);
+            pick.insert=pick.ResolveInsert();
+            Selected=pick;Room=pick.room;Wall=pick.wall;Opening=pick.OpeningId;corner=pick.corner;
+            extraHighlights.Clear();
+            for(int i=1;i<Picks.Items.Count;i++) extraHighlights.Add(new HouseHighlight());
+            Repaint();
         }
         internal static void ClearArchitectureHover()
         {
@@ -92,17 +94,20 @@ namespace HouseToolkit.Editor
             if (!Floor) return false;
             if (DrawingOpening) return openingTool.TryFrameOutline(out bounds);
             var cutter = BooleanTool.DisplayedSelection;
-            if (cutter != null)
+            if (cutter != null && Picks.Items.Count<=1)
             {
                 bounds = HouseBooleanMesh.PrimitiveBounds(House.transform.localToWorldMatrix * cutter.Matrix);
                 return true;
             }
             if (Selected.cut != null && SelectedCutIndex() < 0) return false;
-            if (!MultipleWalls) return HouseSelection.TryFrame(Selected, Floor, out bounds);
+            if (Picks.Items.Count<=1) return HouseSelection.TryFrame(Selected, Floor, out bounds);
             bool found = false;
-            foreach (var wall in SelectedWalls)
+            foreach (var item in Picks.Items)
             {
-                if (!HouseSelection.TryFrame(new HousePick { wall = wall }, Floor, out var part)) continue;
+                Bounds part;
+                if(item.cutter!=null && House.booleanCuts.Find(c=>c.id==item.cutter) is BooleanCut cut)
+                    part=HouseBooleanMesh.PrimitiveBounds(House.transform.localToWorldMatrix*cut.Matrix);
+                else if(!HouseSelection.TryFrame(item,Floor,out part))continue;
                 if (found) bounds.Encapsulate(part);
                 else { bounds = part; found = true; }
             }
@@ -290,7 +295,7 @@ namespace HouseToolkit.Editor
         }
         internal static void ApplyCutaway()
         {
-            if(!Floor || !Cutaway){RestoreVisibility();return;}
+            if(!Floor || !Cutaway || Floor.WallsOnly){RestoreVisibility();return;}
             var above=new HashSet<GameObject>(HouseEditing.Floors(House).Where(f=>f.transform.localPosition.y>Floor.transform.localPosition.y)
                 .SelectMany(f=>f.GetComponentsInChildren<Transform>(true)).Select(t=>t.gameObject));
             foreach(var slab in Floor.GetComponentsInChildren<HouseSlab>(true))
@@ -305,14 +310,16 @@ namespace HouseToolkit.Editor
         internal static SlabOpeningTool OpeningTool => openingTool;
         internal static void ToggleOpening(bool ceiling=false,bool rectangle=false,int selected=-1)
         {
+            if (!Floor || Floor.WallsOnly) return;
             ResetSelection();Mode=HouseTool.Select;
             openingTool.Begin(Floor,ceiling,rectangle,selected);Repaint();
         }
         internal static void RefreshOpeningTarget(){if(DrawingOpening)openingTool.RefreshTarget();}
         internal static void EndOpening(){openingTool.Cancel();Message=null;Repaint();}
         static void ResetSelection(){BooleanTool.Reset();Select(default);InvalidatePicking();openingTool.Cancel();PaletteWall=null;Choice=null;Message=null;EndChain();CancelDrag();}
+        static readonly DrawingGuides wallGuides=new DrawingGuides();
         static readonly PointPlacement wallPress=new PointPlacement();
-        static void EndChain(){wallPress.Cancel();chain=null;chainSteps.Clear();chainCursor=0;lastUndo=null;}
+        static void EndChain(){wallGuides.Clear();wallPress.Cancel();chain=null;chainSteps.Clear();chainCursor=0;lastUndo=null;}
         static void CancelDrag()
         {
             if(directDrag && GUIUtility.hotControl==clickControl)GUIUtility.hotControl=0;
@@ -345,7 +352,10 @@ namespace HouseToolkit.Editor
             }
             CancelDrag();
             BooleanTool.CancelDrag();
-            foreach (var dead in wallSelection.Keys.Where(w => !w || w.Floor != Floor).ToArray()) wallSelection.Remove(dead);
+            Picks.RemoveWhere(p=>p.Kind==null || p.cutter!=null && !House.booleanCuts.Any(c=>c.id==p.cutter) ||
+                p.corner!=0 && !Floor.corners.Any(c=>c.id==p.corner) ||
+                p.cut!=null && (!p.cutOwner || !(p.roofCut?p.cutOwner.roofOpenings:p.cutOwner.floorOpenings).Any(c=>c.id==p.cut.id)));
+            SyncPicks();
             if(Mode==HouseTool.Wall && info.undoName==lastUndo && chainSteps.Count>0)
             {
                 chainCursor=Mathf.Clamp(chainCursor+(info.isRedo?1:-1),0,chainSteps.Count);
@@ -367,15 +377,21 @@ namespace HouseToolkit.Editor
         [MenuItem("GameObject/House Toolkit/Create House",false,10)]
         internal static void CreateHouse()
         {
-            var defaultFamily=AssetDatabase.FindAssets("t:WallFamily").Select(g=>AssetDatabase.LoadAssetAtPath<WallFamily>(AssetDatabase.GUIDToAssetPath(g))).FirstOrDefault(f=>f && !f.panel);
+            var pivot=SceneView.lastActiveSceneView ? SceneView.lastActiveSceneView.pivot : Vector3.zero;
+            CreateAt(new Vector3(pivot.x,0,pivot.z),false);
+        }
+        internal static void CreateAt(Vector3 position,bool startChain,bool wallsOnly = false)
+        {
+            var defaultFamily=AssetDatabase.FindAssets("t:WallFamily").Select(g=>AssetDatabase.LoadAssetAtPath<WallFamily>(AssetDatabase.GUIDToAssetPath(g))).FirstOrDefault(f=>f && !f.IsComplex);
             if(!defaultFamily)
             {
                 defaultFamily=ScriptableObject.CreateInstance<WallFamily>();defaultFamily.surface=UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline?.defaultMaterial;
                 AssetDatabase.CreateAsset(defaultFamily,AssetDatabase.GenerateUniqueAssetPath("Assets/Plain Wall.asset"));
             }
-            var pivot=SceneView.lastActiveSceneView ? SceneView.lastActiveSceneView.pivot : Vector3.zero;
-            var house=HouseEditing.Create(new Vector3(pivot.x,0,pivot.z),defaultFamily);
+            var house=HouseEditing.Create(position,defaultFamily,wallsOnly);
             Enter(HouseEditing.Floors(house)[0]);Mode=HouseTool.Wall;
+            DrawFamily=null;
+            if(startChain)chain=Vector2.zero;
         }
         internal static void SetMode(HouseTool mode)
         {
@@ -454,8 +470,12 @@ namespace HouseToolkit.Editor
             }
             var near=NearestWall(walls,raw,out var projected,out float wallPixels);
             bool constrained=Mode==HouseTool.Wall && chain.HasValue && e.shift && !e.alt;
-            var point=Snap(raw,e.alt,constrained?chain:null,walls,0);
-            if (Mode == HouseTool.Wall) CursorGrid.Draw(view, Floor, point);
+            var point=Snap(raw,e.alt,constrained?chain:null,walls,0,Mode==HouseTool.Wall ? chain : null);
+            if (Mode == HouseTool.Wall)
+            {
+                CursorGrid.Draw(view, Floor, point);
+                if(chain.HasValue)wallGuides.Draw(point,Floor.World);
+            }
             bool drawValid=true;string drawIssue=null;
             if(Mode==HouseTool.Wall && chain.HasValue && Vector2.Distance(chain.Value,point)>.001f)
             {
@@ -488,11 +508,11 @@ namespace HouseToolkit.Editor
                     var center=near.transform.TransformPoint(new Vector3(distance,fit.sill+insert.opening.y*.5f,0));
                     using(new Handles.DrawingScope(valid?Color.green:Color.red,Matrix4x4.TRS(center,near.transform.rotation,Vector3.one)))
                     {
-                        Handles.DrawWireCube(Vector3.zero,new Vector3(insert.opening.x,insert.opening.y,near.Family.thickness));
+                        Handles.DrawWireCube(Vector3.zero,new Vector3(insert.opening.x,insert.opening.y,near.Thickness));
                         if (Mode == HouseTool.Door && e.type == EventType.Repaint)
                         {
                             var facing = o.reversed ? Vector3.back : Vector3.forward;
-                            Handles.ArrowHandleCap(0, facing * near.Family.thickness * .5f,
+                            Handles.ArrowHandleCap(0, facing * near.Thickness * .5f,
                                 Quaternion.LookRotation(facing), Mathf.Min(insert.opening.x * .5f, .5f), EventType.Repaint);
                         }
                     }
@@ -536,6 +556,7 @@ namespace HouseToolkit.Editor
 
         static void PlaceWallPoint(Vector2 point,bool endOnWall)
         {
+            wallGuides.Clear();
             if(!chain.HasValue){chain=point;chainSteps.Clear();chainCursor=0;Message=null;}
             else if((chain.Value-point).sqrMagnitude<1e-6f)EndChain();
             else
@@ -559,13 +580,15 @@ namespace HouseToolkit.Editor
             {
                 if(Selected.cut!=null && SelectedCutIndex()<0)Select(default);
                 picker.DrawGuides(Floor);
-                foreach (var pair in wallSelection)
-                    if (pair.Key && pair.Key != Wall) pair.Value.highlight.Draw(new HousePick { wall = pair.Key }, Floor, new Color(1f,.67f,.12f));
+                for (int i=0;i<extraHighlights.Count;i++)
+                    extraHighlights[i].Draw(Picks.Items[i],Floor,new Color(1f,.67f,.12f));
                 selectedHighlight.Draw(Selected,Floor,new Color(1f,.67f,.12f));
                 if(picker.hoverView==view && !picker.hover.Same(Selected))
                     hoverHighlight.Draw(picker.hover,Floor,new Color(.24f,.85f,1f));
             }
-            if ((!e.shift && !MultipleWalls && (HandleDirectDrag(view,e,ray,control) || Gizmo(view,e))) || e.alt || Tools.viewToolActive) return;
+            bool showHandle=!e.shift || GUIUtility.hotControl!=0;
+            if (showHandle && !e.alt && !Tools.viewToolActive && Picks.Items.Count>1 && BatchHandle(view,e))return;
+            if ((Picks.Items.Count<=1 && (HandleDirectDrag(view,e,ray,control) || showHandle && Gizmo(view,e))) || e.alt || Tools.viewToolActive) return;
             // A selected short wall's move handle can cover one of its own endpoints.
             // Give the visible endpoint the click before the handle starts a wall drag.
             if (e.type == EventType.Layout && Wall && GUIUtility.hotControl == 0 && picker.hoverView == view)
@@ -606,10 +629,9 @@ namespace HouseToolkit.Editor
                 }
                 Selection.activeGameObject = House.gameObject;
                 Tools.hidden = true;
-                if (e.shift && hit.wall) ToggleWall(hit.wall, hit.positiveFace);
-                else if (!e.shift) Select(hit);
+                Pick(hit,e.shift);
                 picker.hover=hit;picker.hoverView=view;hoverMouse=e.mousePosition;Message=null;
-                if(pressedClicks>=2 && hit.cut!=null)EditSelectedCut();
+                if(!e.shift && pressedClicks>=2 && hit.cut!=null)EditSelectedCut();
                 else if(!e.shift && pressedClicks>=2 && hit.wall && !hit.insert && hit.segmentId==null)
                 {
                     var edit=new FloorEdit(Floor);edit.Split(hit.wall,hit.point);edit.Commit("Insert wall corner",out Message);
@@ -620,11 +642,12 @@ namespace HouseToolkit.Editor
             e.Use();
         }
 
+        static readonly List<HouseInsert> hoverInserts = new List<HouseInsert>();
         internal static HouseInsert PaletteChoice()
         {
             if(!PaletteWall)return null;
-            var items=OpeningPalette.Choices(PaletteWall,Mode==HouseTool.Door?OpeningKind.Door:OpeningKind.Window);
-            if(!items.Contains(Choice))Choice=items.FirstOrDefault();
+            OpeningPalette.Fill(PaletteWall,Mode==HouseTool.Door?OpeningKind.Door:OpeningKind.Window,hoverInserts);
+            if(!hoverInserts.Contains(Choice))Choice=hoverInserts.Count>0 ? hoverInserts[0] : null;
             return Choice;
         }
         static float ScreenDistance(Vector2 a,Vector2 b)=>Vector2.Distance(HandleUtility.WorldToGUIPoint(Floor.World(a)),HandleUtility.WorldToGUIPoint(Floor.World(b)));
@@ -639,10 +662,10 @@ namespace HouseToolkit.Editor
             foreach(var wall in walls){DistanceTo(wall,p,out var q);float d=ScreenDistance(p,q);if(d<pixels){pixels=d;at=q;best=wall;}}
             return best;
         }
-        static Vector2 Snap(Vector2 p,bool free,Vector2? axis,HouseWall[] walls,int ignore) =>
+        static Vector2 Snap(Vector2 p,bool free,Vector2? axis,HouseWall[] walls,int ignore,Vector2? from=null) =>
             PlanSnapping.Snap(p,free,axis,Grid,Floor.corners.Where(n=>n.id!=ignore).Select(n=>n.point),
                 walls.Where(w=>ignore==0 || w.startCorner!=ignore && w.endCorner!=ignore)
-                    .Select(w=>(Floor.Position(w.startCorner),Floor.Position(w.endCorner))),ScreenDistance);
+                    .Select(w=>(Floor.Position(w.startCorner),Floor.Position(w.endCorner))),ScreenDistance,from.HasValue ? wallGuides : null,from);
 
         static bool HandleDirectDrag(SceneView view,Event e,Ray ray,int control)
         {
@@ -669,7 +692,7 @@ namespace HouseToolkit.Editor
                         plane=new Plane(view.camera.transform.forward,Floor.World(dragOrigin.Value));
                     if(plane.Raycast(startRay,out var start) && plane.Raycast(ray,out var end))
                         dragPoint=Snap(dragOrigin.Value+Floor.Local(ray.GetPoint(end))-Floor.Local(startRay.GetPoint(start)),
-                            e.alt,null,Floor.GetComponentsInChildren<HouseWall>(),corner);
+                            e.alt,e.shift ? dragOrigin : null,Floor.GetComponentsInChildren<HouseWall>(),corner);
                 }
                 else
                 {
@@ -717,6 +740,73 @@ namespace HouseToolkit.Editor
             return surround?surround.aperture.y:opening.sill;
         }
 
+        static bool BatchHandle(SceneView view, Event e)
+        {
+            if(Picks.Mixed || dragView && dragView!=view)return false;
+            bool released=e.rawType==EventType.MouseUp && e.button==0;
+            bool openings=Selected.OpeningId!=null;
+            if(!openings && !MultipleWalls && Selected.corner==0)return false;
+            var items=Picks.Items;
+            var ids=openings ? Array.Empty<int>() : items.SelectMany(p=>p.corner!=0 ? new[]{p.corner} :
+                new[]{p.wall.startCorner,p.wall.endCorner}).Distinct().ToArray();
+            Vector3 OpeningCenter(HousePick p,float offset)
+            {
+                var o=p.wall.openings.Find(x=>x.id==p.OpeningId);
+                return p.wall.transform.TransformPoint(new Vector3(o.distance+offset,o.sill+o.insert.opening.y*.5f,0));
+            }
+            var pivot=openings ? items.Aggregate(Vector3.zero,(v,p)=>v+OpeningCenter(p,0))/items.Count :
+                Floor.World(ids.Aggregate(Vector2.zero,(v,id)=>v+Floor.Position(id))/ids.Length);
+            var origin=Floor.Local(pivot);
+            var delta=(dragPoint??origin)-origin;
+            var direction=openings ? (Floor.Position(Wall.endCorner)-Floor.Position(Wall.startCorner)).normalized : Vector2.zero;
+            var shown=pivot+Floor.World(delta)-Floor.World(Vector2.zero);
+            EditorGUI.BeginChangeCheck();
+            var moved=openings ? Handles.Slider(shown,Wall.transform.right,HandleUtility.GetHandleSize(shown)*.7f,Handles.ArrowHandleCap,0) :
+                Handles.PositionHandle(shown,Floor.transform.rotation);
+            if(EditorGUI.EndChangeCheck())
+            {
+                delta=Floor.Local(moved)-origin;
+                if(openings)
+                {
+                    float distance=Vector2.Dot(delta,direction);
+                    if(!e.alt && Grid>0)distance=Mathf.Round(distance/Grid)*Grid;
+                    delta=direction*distance;
+                }
+                else delta=PlanSnapping.FloorPoint(origin+delta,origin,e.shift,e.alt,Grid)-origin;
+                dragPoint=origin+delta;dragView=view;
+            }
+            if(!dragPoint.HasValue)return false;
+            float offset=Vector2.Dot(delta,direction);
+            if(e.type==EventType.Repaint)
+            {
+                using(new Handles.DrawingScope(Color.yellow))
+                {
+                    if(openings)
+                        foreach(var p in items)
+                        {
+                            var o=p.wall.openings.Find(x=>x.id==p.OpeningId);
+                            using(new Handles.DrawingScope(p.wall.transform.localToWorldMatrix))
+                                Handles.DrawWireCube(p.wall.transform.InverseTransformPoint(OpeningCenter(p,offset)),
+                                    new Vector3(o.insert.opening.x,o.insert.opening.y,p.wall.Thickness));
+                        }
+                    else foreach(var w in Floor.GetComponentsInChildren<HouseWall>())
+                        if(ids.Contains(w.startCorner)||ids.Contains(w.endCorner))
+                            Handles.DrawLine(Floor.World(Floor.Position(w.startCorner)+(ids.Contains(w.startCorner)?delta:Vector2.zero)),
+                                Floor.World(Floor.Position(w.endCorner)+(ids.Contains(w.endCorner)?delta:Vector2.zero)));
+                }
+            }
+            if(released)
+            {
+                if(delta.sqrMagnitude>1e-9f)
+                {
+                    if(openings)HouseProperties.EditOpenings(items.ToArray(),o=>o.distance+=offset);
+                    else {var edit=new FloorEdit(Floor);edit.Move(ids,delta);edit.Commit("Move selection",out Message);}
+                }
+                CancelDrag();Repaint();
+            }
+            return true;
+        }
+
         static bool Gizmo(SceneView view,Event e)
         {
             if(corner==0 && !Wall)return false;
@@ -733,15 +823,8 @@ namespace HouseToolkit.Editor
             float size=HandleUtility.GetHandleSize(world)*.72f;
             bool release=e.rawType==EventType.MouseUp && e.button==0;
             EditorGUI.BeginChangeCheck();
-            Handles.color=Handles.xAxisColor;
-            var updated=Handles.Slider(world,placement!=null ? Wall.transform.right : rot*Vector3.right,size,Handles.ArrowHandleCap,0);
-            if(placement==null)
-            {
-                Handles.color=Handles.zAxisColor;
-                updated+=Handles.Slider(world,rot*Vector3.forward,size,Handles.ArrowHandleCap,0)-world;
-                Handles.color=Color.yellow;
-                updated+=Handles.Slider2D(world,rot*Vector3.up,rot*Vector3.right,rot*Vector3.forward,size*.13f,Handles.RectangleHandleCap,Vector2.zero)-world;
-            }
+            var updated=placement==null ? PlanarMoveHandle.Draw(world,rot) :
+                Handles.Slider(world,Wall.transform.right,size,Handles.ArrowHandleCap,0);
             if(EditorGUI.EndChangeCheck())
             {
                 dragOrigin??=center;dragView=view;
@@ -753,8 +836,8 @@ namespace HouseToolkit.Editor
                     var direction=(Floor.Position(Wall.endCorner)-start).normalized;
                     p=start+direction*SnapInsertDistance(Wall,placement.insert,Vector2.Dot(p-start,direction),placement,e.alt);
                 }
-                else if(corner!=0)p=Snap(p,e.alt,null,Floor.GetComponentsInChildren<HouseWall>(),corner);
-                else if(!e.alt && Grid>0)p=new Vector2(Mathf.Round(p.x/Grid)*Grid,Mathf.Round(p.y/Grid)*Grid);
+                else if(corner!=0)p=Snap(p,e.alt,e.shift ? dragOrigin : null,Floor.GetComponentsInChildren<HouseWall>(),corner);
+                else p=PlanSnapping.FloorPoint(p,center,e.shift,e.alt,Grid);
                 dragPoint=p;
             }
             if(!dragOrigin.HasValue)return false;
@@ -791,7 +874,7 @@ namespace HouseToolkit.Editor
                         var at=new Vector3(distance,y,0);
                         using(new Handles.DrawingScope(Wall.transform.localToWorldMatrix))
                         {
-                            Handles.DrawWireCube(at,new Vector3(insert.opening.x,insert.opening.y,Wall.Family.thickness));
+                            Handles.DrawWireCube(at,new Vector3(insert.opening.x,insert.opening.y,Wall.Thickness));
                             Handles.DrawLine(new Vector3(placement.distance,y,0),at,2);
                         }
                         Handles.Label(Wall.transform.TransformPoint(at+Vector3.up*(insert.opening.y*.5f+.12f)),
@@ -824,7 +907,7 @@ namespace HouseToolkit.Editor
         {
             var copy=new PlacedOpening{id=o.id,insert=insert,distance=distance,sill=sill,reversed=o.reversed};
             var list=wall.openings.Select(x=>x==o?copy:x).ToList();
-            if(!HouseWall.Validate(wall.Family,wall.length,wall.Floor.height,list,new List<FittedOpening>(),out reason))return false;
+            if(!HouseWall.Validate(wall.Family,wall.length,wall.Floor.height,list,new List<FittedOpening>(),out reason,resolvedThickness:wall.Thickness))return false;
             if(!WallJunctions.CheckOpening(wall,list,out reason))return false;
             if(!commit)return true;
             Undo.RecordObject(wall,"Edit opening");wall.openings=list;
@@ -843,6 +926,7 @@ namespace HouseToolkit.Editor
         internal static void DeleteSelection()
         {
             if(!Floor)return;
+            if(Picks.Items.Count>1 && !MultipleWalls){ HouseProperties.DeleteHouseBatch();return; }
             if(Selected.cut!=null)
             {
                 int index=SelectedCutIndex();

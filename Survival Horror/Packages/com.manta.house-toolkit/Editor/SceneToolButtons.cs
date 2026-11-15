@@ -42,6 +42,8 @@ namespace HouseToolkit.Editor
                 case "Boolean cut": Line(1,4,8,1,15,4,8,7,1,4,1,12,8,15,8,7); Line(15,4,15,8,12,9,12,12,15,11,15,12,8,15); break;
                 case "Slab opening": Line(1,9,7,3,15,6,9,13,1,9); Line(5,8,8,5.5f,11,7,8,10,5,8); break;
                 case "Draw Road": Line(2,14,6,2); Line(10,14,14,2); Line(6,13,7,10); Line(8,7,9,4); break;
+                case "Draw Sidewalk": Line(1,12,6,3,14,3); Line(4,14,8,6,15,6); Line(4,7,7,9); Line(10,3,10,6); break;
+                case "Ground Area": Line(1,10,5,3,14,5,12,13,5,14,1,10); Line(5,10,7,6,10,7); break;
                 case "Cutaway": Line(1,5,8,2,15,5,8,8,1,5); Line(1,8,8,11,15,8); Line(1,11,8,14,15,11); break;
                 case nameof(HouseTool.Select): Line(3,2,13,8,8,9,6,14,3,2); break;
                 case nameof(HouseTool.Wall): Line(2,13,2,3,14,3,14,13,2,13); Line(2,8,14,8); Line(6,3,6,8); Line(10,8,10,13); break;

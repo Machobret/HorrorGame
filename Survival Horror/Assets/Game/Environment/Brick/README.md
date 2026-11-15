@@ -1,3 +1,3 @@
 # Clean brick
 
-Brick_Clean.mat retains its original wall mapping for existing scenes. For a new House choose Brick_Clean_Projected from the finish library. Both materials share Brick_Clean_Albedo.png. Source images and provenance are under ArtSource/Environment/Brick.
+The House Toolkit material is `ProjectedFinishes/Brick/Brick_Clean_Projected.mat`. Existing scenes use `ProjectedFinishes/Brick/SceneVariants/Brick_Clean.mat`. Both use Brick_Clean_Albedo.png from this folder. Paths are relative to `Assets/Game/Environment`.

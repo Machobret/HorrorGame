@@ -1,190 +1,151 @@
 using System;
 using System.Linq;
 using UnityEditor;
-using UnityEditor.Overlays;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace HouseToolkit.Editor
 {
-    [Overlay(typeof(SceneView),"house-toolkit-roads","Road Tools",true,
-        defaultDockZone=DockZone.LeftColumn,defaultDockPosition=DockPosition.Top)]
-    public sealed class RoadOverlay : Overlay,ITransientOverlay
+    [CustomEditor(typeof(ProceduralSurface),true)]
+    internal sealed partial class RoadInspector : UnityEditor.Editor
     {
-        public bool visible => !EditorApplication.isPlayingOrWillChangePlaymode &&
-            (RoadScene.Active || Selection.activeGameObject && Selection.activeGameObject.GetComponent<RoadNetwork>());
-        public override VisualElement CreatePanelContent()
-        {
-            var root=new VisualElement();root.style.width=168;
-            Button Add(string label,Action action)
-            {
-                var button=new Button(action){text=label};button.style.height=26;root.Add(button);return button;
-            }
-            var enter=Add("Edit Roads",()=>RoadScene.Enter(Selection.activeGameObject.GetComponent<RoadNetwork>()));
-            var select=SceneToolButtons.Add(root,"Select","Select a road, point, approach or sidewalk.",()=>RoadScene.SetDrawing(false));
-            var draw=SceneToolButtons.Add(root,"Draw Road","Draw roads. Shift constrains direction and Alt bypasses snapping.",()=>RoadScene.SetDrawing(true));
-            var done=Add("Done",RoadScene.Leave);
-            var message=new Label();message.style.whiteSpace=WhiteSpace.Normal;root.Add(message);
-            void Refresh()
-            {
-                bool editing=RoadScene.Active;
-                enter.style.display=editing?DisplayStyle.None:DisplayStyle.Flex;
-                select.style.display=draw.style.display=done.style.display=editing?DisplayStyle.Flex:DisplayStyle.None;
-                SceneToolButtons.Highlight(select,editing&&!RoadScene.Drawing);
-                SceneToolButtons.Highlight(draw,editing&&RoadScene.Drawing);
-                message.text=RoadScene.Message;
-            }
-            Refresh();root.schedule.Execute(Refresh).Every(120);return root;
-        }
-    }
-
-    [CustomEditor(typeof(RoadNetwork))]
-    internal sealed class RoadInspector : UnityEditor.Editor
-    {
-        static int tab;
-        static bool showFamilyDimensions;
+        enum Tab { Road, Selection, Tool }
+        static readonly string[] RoadTabs = { "Road", "Selection", "Tool Properties" };
+        static readonly string[] SidewalkTabs = { "Sidewalk", "Selection", "Tool Properties" };
+        static readonly string[] GroundTabs = { "Ground Area", "Selection", "Tool Properties" };
+        static Tab tab;
+        UnityEditor.Editor familyEditor;
+        int fillerScope;
         Bounds bounds;
         bool HasFrameBounds()=>RoadScene.Active==target && RoadScene.Frame(out bounds);
         Bounds OnGetFrameBounds()=>bounds;
-        internal static void ShowTool(bool tool)=>tab=tool?0:1;
+        internal static void ShowRoad() => tab = Tab.Road;
+        internal static void ShowTool(bool tool) => tab = tool ? Tab.Tool : Tab.Selection;
+        void OnDisable()
+        {
+            if (familyEditor) DestroyImmediate(familyEditor);
+        }
         static T Asset<T>(string label,T value) where T:UnityEngine.Object =>
             (T)EditorGUILayout.ObjectField(label,value,typeof(T),false);
 
         public override void OnInspectorGUI()
         {
-            var road=(RoadNetwork)target;
-            if(RoadScene.Active!=road)
+            var road = (ProceduralSurface)target;
+            if (GUILayout.Button(HouseProperties.WindowTitle))
             {
-                serializedObject.Update();EditorGUILayout.PropertyField(serializedObject.FindProperty("family"),new GUIContent("Road family"));
-                if(serializedObject.ApplyModifiedProperties())road.Rebuild();
-                if(GUILayout.Button("Edit Roads"))RoadScene.Enter(road);
-                return;
+                Selection.activeGameObject = road.gameObject;
+                HouseProperties.Open();
             }
-            tab=GUILayout.Toolbar(tab,new[]{"Tool Properties","Selection"});
-            if(tab==0)
+            DrawProperties();
+        }
+
+        internal void DrawProperties()
+        {
+            var road = (ProceduralSurface)target;
+            bool editing = RoadScene.Active == road;
+            if (!editing && GUILayout.Button(RoadScene.EditLabel(road))) RoadScene.Enter(road);
+            if(road is FillerBuilding building){DrawFiller(building,editing);return;}
+            if (editing) tab = (Tab)GUILayout.Toolbar((int)tab, road is RoadNetwork ? RoadTabs : road is ProceduralSidewalk ? SidewalkTabs : GroundTabs);
+            if (!editing || tab == Tab.Road)
             {
-                serializedObject.Update();EditorGUILayout.PropertyField(serializedObject.FindProperty("family"),new GUIContent("Network family"));
-                if(serializedObject.ApplyModifiedProperties())road.Rebuild();
-                if(RoadScene.Drawing)RoadScene.DrawFamily=Asset("Draw family override",RoadScene.DrawFamily);
-                var current=RoadScene.Drawing && RoadScene.DrawFamily ? RoadScene.DrawFamily : road.family;
-                if(current)
+                if (!(road is RoadNetwork network))
                 {
-                    showFamilyDimensions=EditorGUILayout.Foldout(showFamilyDimensions,"Family dimensions",true);
-                    if(showFamilyDimensions)
+                    PavementDefaults(road,road is ProceduralSidewalk);
+                    if (editing && road is GroundArea) DrawConnectedAreaMaterial(road);
+                    return;
+                }
+                serializedObject.Update();
+                var family = serializedObject.FindProperty("family");
+                EditorGUILayout.PropertyField(family, new GUIContent("Network family"));
+                if (serializedObject.ApplyModifiedProperties()) road.Rebuild();
+                if (network.family)
+                {
+                    DrawFamilySettings(network.family);
+                }
+                else if (GUILayout.Button("Create road family"))
+                {
+                    string path = EditorUtility.SaveFilePanelInProject("Create road family", "Road Family", "asset", "Choose where to save the family.");
+                    if (!string.IsNullOrEmpty(path))
                     {
-                        var settings=new SerializedObject(current);
-                        RoadFamilyInspector.Dimensions(settings);
-                        if(settings.ApplyModifiedProperties())RoadEditing.RebuildLoaded(current);
+                        var created = CreateInstance<RoadFamily>();
+                        AssetDatabase.CreateAsset(created, path);
+                        family.objectReferenceValue = created;
+                        serializedObject.ApplyModifiedProperties();
+                        road.Rebuild();
                     }
                 }
-                else if(GUILayout.Button("Create road family?"))
-                {
-                    string path=EditorUtility.SaveFilePanelInProject("Create road family","Road Family","asset","Choose where to save the family.");
-                    if(!string.IsNullOrEmpty(path))
-                    {
-                        var family=CreateInstance<RoadFamily>();
-                        AssetDatabase.CreateAsset(family,path);
-                        Undo.RecordObject(road,"Assign road family");
-                        road.family=family;EditorUtility.SetDirty(road);road.Rebuild();showFamilyDimensions=true;
-                    }
-                }
-                PlanSnapping.Grid=EditorGUILayout.DelayedFloatField("Grid spacing (m)",PlanSnapping.Grid);
+                if ((network.paths.spans.Count>0 || network.ground.edges.Count>0) && GUILayout.Button("Separate existing pavement"))
+                    RoadEditing.SeparatePavement(network);
+                if (editing && network.ground.faces.Count>0) DrawConnectedAreaMaterial(road);
                 return;
             }
-            var h=RoadScene.Selected;
-            var s=road.graph.Span(h.id);
-            var n=road.graph.Node(h.id);
-            if(h.part==RoadPart.Point && n!=null)
+            if (tab == Tab.Tool)
             {
-                EditorGUI.BeginChangeCheck();
-                var position=EditorGUILayout.Vector3Field("Location (m)",n.position);
-                if(EditorGUI.EndChangeCheck())RoadScene.Change("Move road point",g=>RoadEditing.Move(g,n.id,position));
-                var arms=RoadGeometry.Arms(road.graph,n,road.family);
-                if(arms.Count>=3)
+                PlanSnapping.Grid = EditorGUILayout.DelayedFloatField("Grid spacing (m)", PlanSnapping.Grid);
+                if (RoadScene.Mode == RoadScene.Brush.Ground || RoadScene.Mode == RoadScene.Brush.Sidewalk)
                 {
-                    var mat=Asset("Junction override",n.junctionMaterial);
-                    if(mat!=n.junctionMaterial)RoadScene.Change("Change junction material",g=>g.Node(n.id).junctionMaterial=mat);
-                    int first=RoadGeometry.Primary(arms);
-                    if(GUILayout.Button(arms.Count==3?"Cycle T branch":"Rotate X texture 90°"))
-                        RoadScene.Change("Orient junction",g=>g.Node(n.id).firstArm=arms[(first+1)%arms.Count].end.port);
+                    PavementDefaults(road, RoadScene.Mode == RoadScene.Brush.Sidewalk);
+                    if (RoadScene.Mode == RoadScene.Brush.Ground)
+                        EditorGUILayout.HelpBox("Click to draw edges. Close a perimeter to fill it, or connect two boundary points to divide it.",MessageType.Info);
                 }
-                else if(GUILayout.Button(arms.Count==2?"Dissolve point":"Delete endpoint"))RoadScene.Delete();
-            }
-            else if(h.part==RoadPart.Road && s!=null)
-            {
-                var ids=RoadScene.SelectedRoads;
-                var selected=road.graph.spans.Where(x=>ids.Contains(x.id)).ToList();
-                EditorGUILayout.LabelField(selected.Count==1?"Road":selected.Count+" roads",EditorStyles.boldLabel);
-                EditorGUI.BeginChangeCheck();
-                EditorGUI.showMixedValue=selected.Any(x=>x.family!=s.family);
-                var family=Asset("Family override",s.family);
-                EditorGUI.showMixedValue=false;
-                if(EditorGUI.EndChangeCheck())RoadScene.Change("Change road family",g=>{
-                    foreach(var span in g.spans.Where(x=>ids.Contains(x.id)))span.family=family;
-                });
-                foreach(bool left in new[]{true,false})
+                if (RoadScene.Mode == RoadScene.Brush.Road)
                 {
-                    RoadSide Side(RoadSpan span)=>left?span.left:span.right;
-                    EditorGUI.showMixedValue=selected.Any(x=>Side(x).sidewalk!=Side(s).sidewalk);
-                    EditorGUI.BeginChangeCheck();
-                    var walk=(RoadOverride)EditorGUILayout.EnumPopup(left?"Left sidewalk":"Right sidewalk",Side(s).sidewalk);
-                    EditorGUI.showMixedValue=false;
-                    if(EditorGUI.EndChangeCheck())RoadScene.Change("Change road sidewalk",g=>{
-                        foreach(var span in g.spans.Where(x=>ids.Contains(x.id)))Side(span).sidewalk=walk;
-                    });
+                    RoadScene.DrawFamily = Asset("Draw family override", RoadScene.DrawFamily);
+                    if (RoadScene.DrawFamily) DrawFamilySettings(RoadScene.DrawFamily);
                 }
+                return;
             }
-            else if(h.part==RoadPart.Approach && s!=null)
+            if (RoadScene.Picks.DrawFilter(RoadScene.SyncPicks)) return;
+            if (RoadScene.Picks.Items.Count>0) DrawRoadSelection(road);
+            else EditorGUILayout.LabelField(road is GroundArea ? "Select a face or boundary." : road is ProceduralSidewalk ? "Select a sidewalk segment or point." : "Select a road, sidewalk or point.");
+        }
+
+        static void DrawConnectedAreaMaterial(ProceduralSurface road)
+        {
+            var selectedFaces=RoadScene.Picks.Items.Where(hit=>hit.part==RoadPart.Ground).Select(hit=>hit.id).ToHashSet();
+            if (selectedFaces.Count==0) return;
+            var areas=road.Areas.faces.Where(face=>selectedFaces.Contains(face.id)).GroupBy(face=>face.areaId)
+                .Select(group=>group.First()).ToArray();
+            MultiField.Draw(areas,face=>face.areaMaterial,value=>Asset("Connected area material",value),
+                value=>RoadScene.ChangeGround("Change area materials",plan=>{
+                    var selectedAreas=areas.Select(face=>face.areaId).ToHashSet();
+                    foreach (var face in plan.faces)
+                        if (selectedAreas.Contains(face.areaId)) face.areaMaterial=value;
+                }));
+        }
+
+        void PavementDefaults(ProceduralSurface road, bool width)
+        {
+            serializedObject.Update();
+            if (!(road is RoadNetwork network))
             {
-                RoadEnd End(RoadSpan span)=>span.start.port==h.arm?span.start:span.end;
-                var e=End(s);EditorGUILayout.LabelField("Approach",EditorStyles.boldLabel);
-                EditorGUI.BeginChangeCheck();
-                bool crossing=EditorGUILayout.Toggle("Crosswalk",e.crosswalk);
-                bool stop=EditorGUILayout.Toggle("Stop line",e.stopLine);
-                var set = s.Style(road.family).markingSet;
-                string symbol=e.symbol, pattern=e.crosswalkStyle;
-                if (set && set.atlas)
-                {
-                    if (crossing) pattern=MarkingPicker("Crosswalk style",set,pattern,true);
-                    symbol=MarkingPicker("Lane marking",set,symbol,false);
-                }
-                if(EditorGUI.EndChangeCheck())RoadScene.Change("Change approach markings",g=>{
-                    var end=End(g.Span(s.id));end.crosswalk=crossing;end.stopLine=stop;
-                    end.symbol=symbol;end.crosswalkStyle=pattern;
-                });
-                if(GUILayout.Button("Select road"))RoadScene.Pick(new RoadHit(RoadPart.Road,s.id));
+                if (width) EditorGUILayout.PropertyField(serializedObject.FindProperty("width"),new GUIContent("Sidewalk width (m)"));
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("material"),new GUIContent("Default material"));
+                if (serializedObject.ApplyModifiedProperties()) road.Rebuild();
+                return;
             }
-            else if(h.part==RoadPart.Sidewalk && s!=null)
+            EditorGUILayout.LabelField("Network pavement defaults",EditorStyles.boldLabel);
+            if (width)
             {
-                var side=h.left?s.left:s.right;
-                var copy=JsonUtility.FromJson<RoadSide>(JsonUtility.ToJson(side));
-                EditorGUILayout.LabelField(h.left?"Left sidewalk":"Right sidewalk",EditorStyles.boldLabel);
-                EditorGUI.BeginChangeCheck();
-                copy.material=Asset("Sidewalk material",copy.material);
-                Curb(copy.curb,s.Style(road.family));
-                if(EditorGUI.EndChangeCheck())RoadScene.Change("Change sidewalk finish",g=>{
-                    if(h.left)g.Span(s.id).left=copy;else g.Span(s.id).right=copy;
-                });
+                var property=serializedObject.FindProperty("pavementWidth");
+                float fallback=(network.family ? network.family : RoadFamily.Default).sidewalkWidth;
+                property.floatValue=Width("Sidewalk width (m)",property.floatValue,fallback);
             }
-            else if(h.part==RoadPart.Corner && n!=null)
-            {
-                var arms=RoadGeometry.Arms(road.graph,n,road.family);
-                var a=arms.Find(x=>x.end.port==h.arm);var b=arms.Find(x=>x.end.port==h.next);
-                if(a==null || b==null)return;
-                var stored=RoadGeometry.Corner(n,a,b);
-                var copy=stored==null?new RoadCorner{arm=h.arm,nextArm=h.next}:JsonUtility.FromJson<RoadCorner>(JsonUtility.ToJson(stored));
-                EditorGUILayout.LabelField("Sidewalk corner",EditorStyles.boldLabel);
-                EditorGUI.BeginChangeCheck();
-                copy.sidewalk=EditorGUILayout.Toggle("Sidewalk",copy.sidewalk);
-                if(copy.sidewalk)
-                {
-                    copy.material=Asset("Sidewalk material",copy.material);
-                    Curb(copy.curb,a.family,a.Side(true).curb);
-                }
-                if(EditorGUI.EndChangeCheck())SetCorner(h,copy);
-            }
-            else EditorGUILayout.LabelField("Select a point, road, approach or sidewalk.");
-            if(!string.IsNullOrEmpty(RoadScene.Message))EditorGUILayout.HelpBox(RoadScene.Message,MessageType.Info);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("pavementMaterial"),
+                new GUIContent("Pavement material","Empty inherits the road family's sidewalk material."));
+            if (serializedObject.ApplyModifiedProperties()) road.Rebuild();
+        }
+
+        static float Width(string label, float value, float fallback,float minimum=.1f)
+        {
+            float edited=Inherited(label,value>0 ? value : -1,fallback);
+            return edited<0 ? 0 : Mathf.Max(minimum,edited);
+        }
+
+        void DrawFamilySettings(RoadFamily family)
+        {
+            EditorGUILayout.LabelField("Shared family settings", EditorStyles.boldLabel);
+            CreateCachedEditor(family, typeof(RoadFamilyInspector), ref familyEditor);
+            familyEditor.OnInspectorGUI();
         }
 
         static string MarkingPicker(string title,RoadMarkingSet set,string current,bool crossing)
@@ -210,16 +171,6 @@ namespace HouseToolkit.Editor
             corners.RemoveAll(c=>c.arm==hit.arm && c.nextArm==hit.next);corners.Add(copy);
         });
 
-        static void Curb(RoadCurb curb,RoadFamily family,RoadCurb parent=null)
-        {
-            curb.enabled=(RoadOverride)EditorGUILayout.EnumPopup("Curbs",curb.enabled);
-            bool inherited=parent!=null && parent.enabled!=RoadOverride.Inherit ? parent.enabled==RoadOverride.On : family.curbs;
-            if(curb.enabled==RoadOverride.Off || curb.enabled==RoadOverride.Inherit && !inherited)return;
-            float width=Inherited("Curb width (m)",curb.width>0?curb.width:-1,parent!=null && parent.width>0?parent.width:family.curbWidth);
-            curb.width=width<0?0:Mathf.Max(.01f,width);
-            curb.height=Inherited("Curb height (m)",curb.height,parent!=null && parent.height>=0?parent.height:family.curbHeight>=0?family.curbHeight:family.sidewalkHeight);
-            curb.material=Asset("Curb material",curb.material);
-        }
         internal static float Inherited(string label,float value,float fallback)
         {
             EditorGUILayout.BeginHorizontal();EditorGUI.BeginChangeCheck();
@@ -243,7 +194,9 @@ namespace HouseToolkit.Editor
     [CustomEditor(typeof(RoadFamily))]
     internal sealed class RoadFamilyInspector : UnityEditor.Editor
     {
-        internal static void Dimensions(SerializedObject settings)
+        bool surfaces, sidewalks, markings;
+
+        static void Dimensions(SerializedObject settings)
         {
             void Field(string key,string label)=>EditorGUILayout.PropertyField(settings.FindProperty(key),new GUIContent(label));
             Field("width","Road width (m)");
@@ -255,28 +208,40 @@ namespace HouseToolkit.Editor
         {
             serializedObject.Update();
             void Field(string name,string title)=>EditorGUILayout.PropertyField(serializedObject.FindProperty(name),new GUIContent(title));
-            Dimensions(serializedObject);Field("repeatLength","Texture repeat (m)");
-            Field("road","Road material");Field("bareAsphalt","Unmarked asphalt");
-            Field("tJunction","T-junction");Field("xJunction","X-junction");
-            Field("wheelPathTint","Wheel path tint");Field("paintWear","Paint wear");
-            EditorGUILayout.Space();Field("leftSidewalk","Left sidewalk");Field("rightSidewalk","Right sidewalk");
-            Field("sidewalkHeight","Sidewalk height (m)");
-            Field("sidewalk","Sidewalk material");
-            Field("curbs","Curbs");
-            if(serializedObject.FindProperty("curbs").boolValue)
+            Dimensions(serializedObject);
+            sidewalks = EditorGUILayout.Foldout(sidewalks, "Sidewalks and curbs", true);
+            if (sidewalks)
             {
-                Field("curbWidth","Curb width (m)");
-                var height=serializedObject.FindProperty("curbHeight");
-                height.floatValue=RoadInspector.Inherited("Curb height (m)",height.floatValue,serializedObject.FindProperty("sidewalkHeight").floatValue);
-                Field("curbMaterial","Curb material");
+                Field("leftSidewalk","Left sidewalk");Field("rightSidewalk","Right sidewalk");
+                Field("sidewalkHeight","Sidewalk height (m)");Field("sidewalk","Sidewalk material");
+                Field("curbs","Curbs");
+                if (serializedObject.FindProperty("curbs").boolValue)
+                {
+                    Field("curbWidth","Curb width (m)");
+                    var height = serializedObject.FindProperty("curbHeight");
+                    height.floatValue = RoadInspector.Inherited("Curb height (m)",height.floatValue,serializedObject.FindProperty("sidewalkHeight").floatValue);
+                    Field("curbMaterial","Curb material");
+                }
             }
-            EditorGUILayout.Space();Field("markingSet","Marking set");Field("crossingPaint","Crosswalk / stop line paint");Field("centerLine","Center line");
-            var line=(RoadLines)serializedObject.FindProperty("centerLine").enumValueIndex;
-            if(line!=RoadLines.None)
+            surfaces = EditorGUILayout.Foldout(surfaces, "Road surface and junctions", true);
+            if (surfaces)
             {
-                Field("paint","Center line paint");Field("lineWidth","Line width (m)");
+                Field("road","Road material");Field("bareAsphalt","Unmarked asphalt");
+                Field("tJunction","T-junction");Field("xJunction","X-junction");
+                Field("repeatLength","Texture repeat (m)");Field("wheelPathTint","Wheel path tint");
             }
-            if(line==RoadLines.Dashed){Field("dash","Dash (m)");Field("gap","Gap (m)");}
+            markings = EditorGUILayout.Foldout(markings, "Markings", true);
+            if (markings)
+            {
+                Field("markingSet","Marking set");Field("crossingPaint","Crosswalk / stop line paint");
+                Field("paintWear","Paint wear");Field("centerLine","Center line");
+                var line = (RoadLines)serializedObject.FindProperty("centerLine").enumValueIndex;
+                if (line != RoadLines.None)
+                {
+                    Field("paint","Center line paint");Field("lineWidth","Line width (m)");
+                }
+                if (line == RoadLines.Dashed) { Field("dash","Dash (m)");Field("gap","Gap (m)"); }
+            }
             if(serializedObject.ApplyModifiedProperties())RoadEditing.RebuildLoaded((RoadFamily)target);
         }
     }

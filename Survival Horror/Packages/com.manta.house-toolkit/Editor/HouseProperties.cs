@@ -32,16 +32,20 @@ namespace HouseToolkit.Editor
         }
     }
 
-    public sealed class HouseProperties : EditorWindow
+    public sealed partial class HouseProperties : EditorWindow
     {
+        internal const string WindowTitle = "Procedural Env Properties";
         static HouseProperties window;
+        UnityEditor.Editor roadEditor;
+        Vector2 roadScroll;
         Vector2 scroll;
         int tab;
         static readonly string[] Tabs = {"House","Floors","Selection","Tool Properties"};
+        static readonly string[] WallTabs = {"Wall","Selection","Tool Properties"};
         Vector2 floorsScroll;
         bool ceilingCuts,rectangleCuts;
-        [MenuItem("Window/House Toolkit/House Properties")]
-        public static void Open(){window=GetWindow<HouseProperties>("House Properties");}
+        [MenuItem("Window/House Toolkit/" + WindowTitle)]
+        public static void Open(){window=GetWindow<HouseProperties>(WindowTitle);}
         internal static void RepaintOpen(){if(window)window.Repaint();}
         public static void OpenFloors(){Open(); ShowFloor();}
         internal static void DrawOpening()
@@ -51,17 +55,57 @@ namespace HouseToolkit.Editor
                 HouseScene.ToggleOpening(window.ceilingCuts, window.rectangleCuts);
             ShowTool();
         }
-        void OnEnable(){window=this;}
+        void OnEnable()
+        {
+            window = this;
+            titleContent = new GUIContent(WindowTitle);
+        }
+
+        void OnDisable()
+        {
+            if (roadEditor) DestroyImmediate(roadEditor);
+            if (window == this) window = null;
+        }
+
+        void OnSelectionChange() => Repaint();
         void OnGUI()
         {
             var floor=HouseScene.Floor;
-            if(!floor){EditorGUILayout.HelpBox("Select a house in the Scene and choose Edit House.",MessageType.Info);return;}
-            tab=GUILayout.Toolbar(tab,Tabs);
+            var selected = Selection.activeGameObject;
+            var road = RoadScene.Active;
+            if (!road && selected && selected.scene.IsValid()) road = selected.GetComponent<ProceduralSurface>();
+            if (road)
+            {
+                UnityEditor.Editor.CreateCachedEditor(road, typeof(RoadInspector), ref roadEditor);
+                roadScroll = EditorGUILayout.BeginScrollView(roadScroll);
+                ((RoadInspector)roadEditor).DrawProperties();
+                EditorGUILayout.EndScrollView();
+                return;
+            }
+            if (roadEditor) DestroyImmediate(roadEditor);
+            if (!floor)
+            {
+                var selectedFloor = selected && selected.scene.IsValid() ? HouseScene.SelectedFloor() : null;
+                if (selectedFloor)
+                {
+                    if (GUILayout.Button(selectedFloor.EditLabel)) HouseScene.Enter(selectedFloor);
+                }
+                else EditorGUILayout.HelpBox("Select a procedural environment object in the Scene.", MessageType.Info);
+                return;
+            }
+            if (floor.WallsOnly)
+            {
+                int index = GUILayout.Toolbar(Mathf.Max(0, tab - 1), WallTabs);
+                tab = index == 0 ? 0 : index + 1;
+            }
+            else tab=GUILayout.Toolbar(tab,Tabs);
             scroll=EditorGUILayout.BeginScrollView(scroll);
             var wall=HouseScene.Wall;
-            if(tab==0)HouseFields(floor.House);
+            if(tab==0 && floor.WallsOnly) StandaloneFields(floor);
+            else if(tab==0)HouseFields(floor.House);
             else if(tab==1)DrawFloors(floor);
             else if(tab==3) DrawToolProperties();
+            else if(HouseScene.Picks.Items.Count>1) DrawHouseBatch();
             else if(BooleanTool.Current!=null) BooleanTool.SelectionProperties();
             else if(HouseScene.Mode==HouseTool.Boolean)
             {
@@ -85,6 +129,9 @@ namespace HouseToolkit.Editor
                 var room=HouseScene.Room;
                 bool ceiling=HouseScene.Selected.ceiling;
                 EditorGUILayout.LabelField(ceiling?"Room ceiling":"Room floor",EditorStyles.boldLabel);
+                EditorGUI.BeginChangeCheck();
+                var ceilingOverride=(RoomCeiling)EditorGUILayout.EnumPopup("Ceiling",room.ceilingOverride);
+                if(EditorGUI.EndChangeCheck()) Change(room,"Change room ceiling",()=>room.ceilingOverride=ceilingOverride,()=>{SlabBuilder.Rebuild(floor.House);return null;});
                 EditorGUI.BeginChangeCheck();
                 var finish=FinishPicker.Draw("Material override",ceiling?room.ceilingFinish:room.floorFinish);
                 if(EditorGUI.EndChangeCheck())SetRoomFinish(room,ceiling,finish);
@@ -141,7 +188,7 @@ namespace HouseToolkit.Editor
                     if(choices.Count>0)
                     {
                         int i=Mathf.Max(0,choices.IndexOf(HouseScene.Choice));
-                        HouseScene.Choice=choices[EditorGUILayout.Popup(host.Family.name,i,choices.Select(x=>x.name+(host.Family.defaultInserts.Contains(x)?" (default)":"")).ToArray())];
+                        HouseScene.Choice=choices[EditorGUILayout.Popup(host.Family.name,i,choices.Select(x=>x.name+(System.Array.IndexOf(host.Family.defaultInserts ?? System.Array.Empty<HouseInsert>(),x) >= 0?" (default)":"")).ToArray())];
                         if(kind==OpeningKind.Window && !host.Family.panel)HouseScene.Sill=EditorGUILayout.FloatField("Sill (m)",HouseScene.Sill);
                     }
                     else EditorGUILayout.HelpBox("No compatible inserts.",MessageType.Info);
@@ -178,6 +225,7 @@ namespace HouseToolkit.Editor
                 if (!HouseScene.MultipleWalls) return;
             }
             DrawFaceFinish(walls);
+            DrawCommonWalls(walls);
             var targets = walls.Where(w => !w.boundaryOnly && w.Family && w.Family.IsComplex).ToArray();
             if (targets.Length == 0) return;
             if (targets.Length != walls.Length) GUILayout.Label($"Panel layout applies to {targets.Length} Complex walls.");
@@ -309,25 +357,54 @@ namespace HouseToolkit.Editor
         {
             if (!glass) return FinishPicker.Draw(label, selected, family ? family.surfaceFinishes : null);
             if(!family)return Field(label,selected);
-            var extras=glass ? family.glassFinishes : family.surfaceFinishes;
+            var extras=family.glassFinishes;
             if(extras==null || extras.Length==0)return Field(label,selected);
-            var values=new[]{glass?family.glass:family.surface}.Concat(extras).Append(selected).Where(m=>m).Distinct().ToList();
+            var values=new[]{family.glass}.Concat(extras).Append(selected).Where(m=>m).Distinct().ToList();
             var names=new[]{"Inherit"}.Concat(values.Select(m=>m.name)).ToArray();
             int i=EditorGUILayout.Popup(label,selected?values.IndexOf(selected)+1:0,names);
             return i==0?null:values[i-1];
         }
+        static float ThicknessField(string label,float value)
+        {
+            var entry=EditorGUILayout.DelayedFloatField(new GUIContent(label+" (m)","0 inherits the next default. Applies to plain walls."),value);
+            return float.IsFinite(entry) && entry>0 ? Mathf.Max(.01f,entry) : 0;
+        }
+
+        static void StandaloneFields(HouseFloor floor)
+        {
+            var house = floor.House;
+            EditorGUI.BeginChangeCheck();
+            var family = Field("Wall family",house.exteriorFamily);
+            var thickness = family && family.IsComplex ? house.exteriorThickness : ThicknessField("Thickness",house.exteriorThickness);
+            var finish = FinishField("Surface",family,house.exteriorFinish);
+            var glass = family && family.HasGlass ? FinishField("Glass",family,house.exteriorGlass,true) : house.exteriorGlass;
+            if (EditorGUI.EndChangeCheck())
+                Change(house,"Change standalone wall",() => {
+                    house.exteriorFamily = family;
+                    house.exteriorThickness = thickness;
+                    house.exteriorFinish = finish;
+                    house.exteriorGlass = glass;
+                }, () => Refresh(house));
+            EditorGUI.BeginChangeCheck();
+            var height = EditorGUILayout.DelayedFloatField("Height (m)",floor.height);
+            if (EditorGUI.EndChangeCheck()) WallBuilder.SetHeight(floor,height,out HouseScene.Message);
+        }
+
         static void HouseFields(House house)
         {
             EditorGUI.BeginChangeCheck();
+            var exteriorDepth=ThicknessField("Plain exterior thickness",house.exteriorThickness);
+            var interiorDepth=ThicknessField("Plain interior thickness",house.interiorThickness);
             var exterior=Field("Exterior family",house.exteriorFamily);var interior=Field("Interior family",house.interiorFamily);
             var outside=FinishField("Exterior finish",exterior,house.exteriorFinish);var inside=FinishField("Interior finish",interior,house.interiorFinish);
             var exteriorGlass=house.exteriorGlass;var interiorGlass=house.interiorGlass;
-            if(exterior && exterior.panel)exteriorGlass=FinishField("Exterior glass",exterior,exteriorGlass,true);
-            if(interior && interior.panel)interiorGlass=FinishField("Interior glass",interior,interiorGlass,true);
+            if(exterior && exterior.HasGlass)exteriorGlass=FinishField("Exterior glass",exterior,exteriorGlass,true);
+            if(interior && interior.HasGlass)interiorGlass=FinishField("Interior glass",interior,interiorGlass,true);
             var floorMat=FinishPicker.Draw("Floor finish",house.floorFinish);
             var ceilingMat=FinishPicker.Draw("Ceiling finish",house.ceilingFinish);
             float thickness=EditorGUILayout.DelayedFloatField("Slab thickness (m)",house.slabThickness);var trim=Field("Trim",house.trim);
             if(EditorGUI.EndChangeCheck())Change(house,"Edit house defaults",()=>{
+                house.exteriorThickness=exteriorDepth;house.interiorThickness=interiorDepth;
                 house.exteriorFamily=exterior;house.interiorFamily=interior;house.exteriorFinish=outside;house.interiorFinish=inside;
                 house.floorFinish=floorMat;house.ceilingFinish=ceilingMat;house.trim=trim;house.exteriorGlass=exteriorGlass;house.interiorGlass=interiorGlass;},()=>{
                     if(!float.IsFinite(thickness)||thickness<.01f)return "Slab thickness must be at least 1 cm.";
@@ -444,15 +521,19 @@ namespace HouseToolkit.Editor
             EditorGUI.BeginChangeCheck();float height=EditorGUILayout.DelayedFloatField("Clear height (m)",floor.height);
             if(EditorGUI.EndChangeCheck()){WallBuilder.SetHeight(floor,height,out HouseScene.Message);HouseScene.Repaint();}
             EditorGUI.BeginChangeCheck();
+            bool hasCeiling=EditorGUILayout.Toggle("Generate ceiling",!floor.openCeiling);
+            var exteriorDepth=ThicknessField("Plain exterior thickness",floor.exteriorThickness);
+            var interiorDepth=ThicknessField("Plain interior thickness",floor.interiorThickness);
             var ext=Field("Exterior family override",floor.defaultFamily);var ins=Field("Interior family override",floor.interiorFamily);
             var outside=FinishField("Exterior finish override",floor.FamilyFor(false),floor.exteriorFinish);var inside=FinishField("Interior finish override",floor.FamilyFor(true),floor.interiorFinish);
             var exteriorGlass=floor.exteriorGlass;var interiorGlass=floor.interiorGlass;
-            if(floor.FamilyFor(false) && floor.FamilyFor(false).panel)exteriorGlass=FinishField("Exterior glass override",floor.FamilyFor(false),exteriorGlass,true);
-            if(floor.FamilyFor(true) && floor.FamilyFor(true).panel)interiorGlass=FinishField("Interior glass override",floor.FamilyFor(true),interiorGlass,true);
+            if(floor.FamilyFor(false) && floor.FamilyFor(false).HasGlass)exteriorGlass=FinishField("Exterior glass override",floor.FamilyFor(false),exteriorGlass,true);
+            if(floor.FamilyFor(true) && floor.FamilyFor(true).HasGlass)interiorGlass=FinishField("Interior glass override",floor.FamilyFor(true),interiorGlass,true);
             var mat=FinishPicker.Draw("Floor finish override",floor.floorFinish);
             var ceiling=FinishPicker.Draw("Ceiling finish override",floor.ceilingFinish);var trim=Field("Trim override",floor.trim);
             if(EditorGUI.EndChangeCheck())Change(floor,"Edit floor defaults",()=>{
-                floor.defaultFamily=ext;floor.interiorFamily=ins;floor.exteriorFinish=outside;floor.interiorFinish=inside;
+                floor.exteriorThickness=exteriorDepth;floor.interiorThickness=interiorDepth;
+                floor.openCeiling=!hasCeiling;floor.defaultFamily=ext;floor.interiorFamily=ins;floor.exteriorFinish=outside;floor.interiorFinish=inside;
                 floor.floorFinish=mat;floor.ceilingFinish=ceiling;floor.trim=trim;floor.exteriorGlass=exteriorGlass;floor.interiorGlass=interiorGlass;},()=>Refresh(floor.House));
 
         }
@@ -489,16 +570,18 @@ namespace HouseToolkit.Editor
             if (wall.Family && !wall.Family.IsComplex && !wall.boundaryOnly) DrawFaceFinish(new[]{wall});
             GUILayout.Label(wall.interior?"Interior wall":"Exterior wall",EditorStyles.boldLabel);
             EditorGUI.BeginChangeCheck();
-            var boundary=EditorGUILayout.Toggle("Boundary only",wall.boundaryOnly);
+            var boundary=wall.Floor.WallsOnly ? wall.boundaryOnly : EditorGUILayout.Toggle("Boundary only",wall.boundaryOnly);
             var family=Field("Family override",wall.familyOverride);
+            var effectiveFamily=family ? family : wall.Floor.FamilyFor(wall.interior);
+            float depth=effectiveFamily && !effectiveFamily.IsComplex && !boundary ? ThicknessField("Thickness override",wall.thicknessOverride) : wall.thicknessOverride;
             var layout = PanelLayoutField(wall, family, boundary);
             var surface=wall.Family && wall.Family.IsComplex ? FinishField("Frame override",wall.Family,wall.surfaceOverride) : wall.surfaceOverride;
             var glass=wall.glassOverride;
-            if(wall.Family && wall.Family.panel)glass=FinishField("Glass override",wall.Family,glass,true);
+            if(wall.Family && wall.Family.HasGlass)glass=FinishField("Glass override",wall.Family,glass,true);
             var suppress=EditorGUILayout.Toggle("Disable trim",wall.suppressTrim);
             var trim=suppress?wall.trimOverride:Field("Trim override",wall.trimOverride);
             if(EditorGUI.EndChangeCheck())Change(wall,"Edit wall properties",()=>{
-                wall.panelLayoutOverride=layout;wall.familyOverride=family;wall.surfaceOverride=surface;wall.glassOverride=glass;wall.boundaryOnly=boundary;
+                wall.thicknessOverride=depth;wall.panelLayoutOverride=layout;wall.familyOverride=family;wall.surfaceOverride=surface;wall.glassOverride=glass;wall.boundaryOnly=boundary;
                 wall.suppressTrim=suppress;wall.trimOverride=trim;},()=>{
                     if(!WallBuilder.Rebuild(wall,out var error))return error;
                     return WallJunctions.Refresh(wall.Floor,out error) ? null : error;
@@ -520,7 +603,7 @@ namespace HouseToolkit.Editor
         {
             var house=(House)target;
             var first=HouseEditing.Floors(house).FirstOrDefault();
-            if(GUILayout.Button(!first?"Add ground floor":HouseScene.House==house?"House Properties":"Edit House"))
+            if(GUILayout.Button(!first?"Add ground floor":HouseScene.House==house?HouseProperties.WindowTitle:first.EditLabel))
             {
                 var floor=first?first:HouseEditing.AddFloor(house);
                 if(HouseScene.House!=house)HouseScene.Enter(floor);else HouseProperties.Open();

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Town Street
   m_EditorClassIdentifier: HouseToolkit::HouseToolkit.RoadFamily
   width: 6
+  forwardLanes: 1
+  reverseLanes: 1
   repeatLength: 6
   road: {fileID: 2100000, guid: be88ac06cfe19bf4089524974bf5a88d, type: 2}
   bareAsphalt: {fileID: 2100000, guid: cdf2ddff2c328c64c90bff0022321bc5, type: 2}
@@ -22,7 +24,7 @@ MonoBehaviour:
   paintWear: 0.8
   leftSidewalk: 1
   rightSidewalk: 1
-  sidewalkWidth: 1.5
+  sidewalkWidth: 2.5
   sidewalkHeight: 0.15
   sidewalk: {fileID: 2100000, guid: 8ba080bf31f8bcc4183a34f760ff282a, type: 2}
   curbs: 1
@@ -30,6 +32,7 @@ MonoBehaviour:
   curbHeight: -1
   curbMaterial: {fileID: 2100000, guid: a733782880fe9864fa4e828b3e6827c0, type: 2}
   paint: {fileID: 2100000, guid: 7e8bdf103e53d7847bafa3373af94004, type: 2}
+  crossingPaint: {fileID: 0}
   markingSet: {fileID: 11400000, guid: 1529a8e520ce4e53a7e88164c0c9f602, type: 2}
   centerLine: 2
   lineWidth: 0.12

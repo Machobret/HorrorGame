@@ -8,19 +8,22 @@ namespace HouseToolkit.Editor
 {
     internal static class RoadEditing
     {
-        internal static bool Change(RoadNetwork network, string action, Action<RoadGraph> apply, out string issue)
+        internal static bool Change(ProceduralSurface network, string action, Action<RoadGraph> apply, out string issue, bool paths = false)
         {
+            if (!network || (paths ? !(network is ProceduralSidewalk || network is RoadNetwork) : !(network is RoadNetwork)))
+            { issue="Choose a compatible procedural object."; return false; }
             // Only publish a valid graph. A rejected drag, overlapping span or failed
             // dissolve leaves the scene and Undo stack untouched.
-            var graph=JsonUtility.FromJson<RoadGraph>(JsonUtility.ToJson(network.graph));
+            var graph=JsonUtility.FromJson<RoadGraph>(JsonUtility.ToJson(paths ? network.Paths : network.Streets));
             try
             {
                 apply(graph);
-                Normalize(graph,network.family);
+                Normalize(graph,network.StreetFamily);
+                if (paths) graph.runStyles.RemoveAll(style=>!graph.spans.Any(s=>s.run==style.run));
             }
             catch (InvalidOperationException error) { issue=error.Message; return false; }
             Undo.RegisterCompleteObjectUndo(network,action);
-            network.graph=graph;
+            if (paths) network.Paths=graph; else ((RoadNetwork)network).graph=graph;
             PrefabUtility.RecordPrefabInstancePropertyModifications(network);
             EditorUtility.SetDirty(network);
             network.Rebuild();
@@ -146,10 +149,57 @@ namespace HouseToolkit.Editor
             }
         }
 
+        internal static void SeparatePavement(RoadNetwork source)
+        {
+            if (source.paths.spans.Count==0 && source.ground.edges.Count==0) return;
+            Undo.IncrementCurrentGroup();
+            int group=Undo.GetCurrentGroup();
+            const string label="Separate existing pavement";
+            T Sibling<T>(string name) where T : ProceduralSurface
+            {
+                var go=new GameObject(name);
+                UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(go,source.gameObject.scene);
+                go.transform.SetParent(source.transform.parent,false);
+                go.transform.localPosition=source.transform.localPosition;
+                go.transform.localRotation=source.transform.localRotation;
+                go.transform.localScale=source.transform.localScale;
+                go.transform.position=source.transform.TransformPoint(Vector3.up*source.PavementElevation);
+                var result=go.AddComponent<T>();
+                Undo.RegisterCreatedObjectUndo(go,label);
+                Undo.RecordObject(result,label);
+                return result;
+            }
+            try
+            {
+                if(source.paths.spans.Count>0)
+                {
+                    var walk=Sibling<ProceduralSidewalk>("Sidewalk");
+                    walk.paths=source.paths;walk.width=source.PathWidth;walk.material=source.Pavement;
+                    walk.Rebuild();EditorUtility.SetDirty(walk);
+                    Undo.FlushUndoRecordObjects();
+                }
+                if(source.ground.edges.Count>0)
+                {
+                    var area=Sibling<GroundArea>("Ground Area");
+                    area.ground=source.ground;area.material=source.Pavement;
+                    area.Rebuild();EditorUtility.SetDirty(area);
+                    Undo.FlushUndoRecordObjects();
+                }
+                Undo.RecordObject(source,label);
+                source.paths=new RoadGraph();source.ground=new GroundPlan();
+                Undo.FlushUndoRecordObjects();
+                source.Rebuild();EditorUtility.SetDirty(source);
+                PrefabUtility.RecordPrefabInstancePropertyModifications(source);
+                if(RoadScene.Active==source)RoadScene.SetDrawing(false);
+                Undo.SetCurrentGroupName(label);Undo.CollapseUndoOperations(group);Undo.IncrementCurrentGroup();
+            }
+            catch { Undo.RevertAllDownToGroup(group);throw; }
+        }
+
         internal static void RebuildLoaded(RoadFamily family = null)
         {
-            foreach(var road in UnityEngine.Object.FindObjectsByType<RoadNetwork>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
-                if(!family || road.family==family || road.graph.spans.Any(s=>s.family==family)) road.Rebuild();
+            foreach(var road in UnityEngine.Object.FindObjectsByType<ProceduralSurface>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+                if(!family || road.StreetFamily==family || road.Streets.spans.Any(s=>s.family==family)) road.Rebuild();
         }
     }
 }

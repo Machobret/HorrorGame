@@ -12,7 +12,8 @@ namespace HouseToolkit
         readonly System.Collections.Generic.List<Renderer> projected = new System.Collections.Generic.List<Renderer>();
         readonly System.Collections.Generic.List<Material> slots = new System.Collections.Generic.List<Material>();
         MaterialPropertyBlock block;
-        Matrix4x4 lastFrame;
+        Vector3 lastPosition;
+        Quaternion lastRotation;
         bool refreshProjection = true;
 
         public void InvalidateProjection() => refreshProjection = true;
@@ -21,20 +22,25 @@ namespace HouseToolkit
 
         public void UpdateProjection()
         {
-            var frame = Matrix4x4.TRS(transform.position, transform.rotation, Vector3.one).inverse;
-            if (!refreshProjection && frame == lastFrame) return;
+            transform.GetPositionAndRotation(out var position, out var rotation);
+            if (!refreshProjection && position.Equals(lastPosition) && rotation.Equals(lastRotation)) return;
             if (refreshProjection)
             {
                 GetComponentsInChildren(true, projected);
-                for (int i = projected.Count - 1; i >= 0; i--)
+                int kept = 0;
+                for (int i = 0; i < projected.Count; i++)
                 {
                     projected[i].GetSharedMaterials(slots);
-                    if (!slots.Exists(IsProjected) || projected[i].GetComponentInParent<House>() != this)
-                        projected.RemoveAt(i);
+                    if (slots.Exists(IsProjected) && projected[i].GetComponentInParent<House>() == this)
+                        projected[kept++] = projected[i];
                 }
+                projected.RemoveRange(kept, projected.Count - kept);
                 refreshProjection = false;
             }
-            lastFrame = frame;
+            lastPosition = position;
+            lastRotation = rotation;
+            if (projected.Count == 0) return;
+            var frame = Matrix4x4.TRS(position, rotation, Vector3.one).inverse;
             block ??= new MaterialPropertyBlock();
             foreach (var renderer in projected)
             {
@@ -48,6 +54,8 @@ namespace HouseToolkit
         }
 
         static bool IsProjected(Material material) => material && material.HasProperty(rowX);
+        [Min(0)] public float exteriorThickness, interiorThickness;
+        [HideInInspector] public bool wallsOnly;
         public WallFamily exteriorFamily;
         public WallFamily interiorFamily;
         public Material exteriorFinish, interiorFinish, floorFinish, ceilingFinish;
@@ -56,6 +64,7 @@ namespace HouseToolkit
         [HideInInspector] public System.Collections.Generic.List<BooleanCut> booleanCuts = new System.Collections.Generic.List<BooleanCut>();
         [HideInInspector] public int booleanGeometryVersion;
         public Material cutMaterial;
-        [Min(0.01f)] public float slabThickness = 0.18f;
+        public const float DefaultSlabThickness = .18f;
+        [Min(0.01f)] public float slabThickness = DefaultSlabThickness;
     }
 }

@@ -39,6 +39,7 @@ namespace HouseToolkit
     public sealed class HouseWall : MonoBehaviour
     {
         [Min(0.01f)] public float length = 4;
+        [Min(0)] public float thicknessOverride;
         public WallFamily familyOverride;
         [UnityEngine.Serialization.FormerlySerializedAs("panelLayout")]
         public PanelLayoutOverride panelLayoutOverride = PanelLayoutOverride.Inherit;
@@ -57,7 +58,14 @@ namespace HouseToolkit
         public bool boundaryOnly;
         public TrimFamily trimOverride;
         public bool suppressTrim;
-        public TrimFamily Trim => suppressTrim ? null : trimOverride ? trimOverride : Floor && Floor.trim ? Floor.trim : Floor && Floor.House ? Floor.House.trim : null;
+        public TrimFamily Trim
+        {
+            get
+            {
+                var chosen = trimOverride ? trimOverride : Floor && Floor.trim ? Floor.trim : Floor && Floor.House ? Floor.House.trim : null;
+                return suppressTrim || (chosen && chosen.omitTrim) ? null : chosen;
+            }
+        }
         public Material surfaceOverride;
         public Material positiveFinish, negativeFinish;
         public Material glassOverride;
@@ -65,17 +73,39 @@ namespace HouseToolkit
         public HouseFloor Floor => GetComponentInParent<HouseFloor>();
         public WallFamily Family => familyOverride ? familyOverride : Floor ? Floor.FamilyFor(interior) : null;
 
+        public float Thickness => ResolveThickness(Family,Floor,interior,thicknessOverride);
+
+        internal static float ResolveThickness(WallFamily family,HouseFloor floor,bool interior,float local)
+        {
+            if(!family)return 0;
+            if(family.IsComplex)return family.thickness;
+            if(local>0)return local;
+            if(floor)
+            {
+                float value=interior ? floor.interiorThickness : floor.exteriorThickness;
+                if(value>0)return value;
+                var house=floor.House;
+                if(house)
+                {
+                    value=interior ? house.interiorThickness : house.exteriorThickness;
+                    if(value>0)return value;
+                }
+            }
+            return family.thickness;
+        }
+
         public bool TryLayout(float height, List<FittedOpening> result, out string reason, PlacedOpening candidate = null)
         {
-            return Validate(Family, length, height, openings, result, out reason, candidate);
+            return Validate(Family, length, height, openings, result, out reason, candidate, Thickness);
         }
 
         public static bool Validate(WallFamily family, float length, float height, List<PlacedOpening> openings,
-            List<FittedOpening> result, out string reason, PlacedOpening candidate = null)
+            List<FittedOpening> result, out string reason, PlacedOpening candidate = null, float? resolvedThickness = null)
         {
+            float depth=resolvedThickness ?? (family ? family.thickness : 0);
             result.Clear();
             if (!family || !float.IsFinite(length) || length <= 0 ||
-                !float.IsFinite(height) || height <= 0 || !float.IsFinite(family.thickness) || family.thickness <= 0)
+                !float.IsFinite(height) || height <= 0 || !float.IsFinite(depth) || depth <= 0)
                 return Fail("Choose a family and positive wall dimensions.", out reason);
             if (family.IsComplex && !family.panel) return Fail("Assign a repeating panel to the Complex family.", out reason);
             if (family.IsComplex)
@@ -96,9 +126,9 @@ namespace HouseToolkit
                 var insert = placement?.insert;
                 if (!insert || !insert.prefab || !Positive(insert.opening) || !float.IsFinite(placement.distance))
                     return Fail("The insert needs a prefab, a valid position and a rectangular opening.", out reason);
-                if (family.thickness < insert.minimumThickness ||
-                    (insert.maximumThickness > 0 && family.thickness > insert.maximumThickness))
-                    return Fail("The insert does not support this wall thickness.", out reason);
+                if (depth < insert.minimumThickness ||
+                    (insert.maximumThickness > 0 && depth > insert.maximumThickness))
+                    return Fail($"{insert.name} at {placement.distance:0.##} m does not support a wall thickness of {depth:0.###} m.", out reason);
                 var segment = family.panel ? family.FindSurround(insert) : null;
                 if (family.panel && !segment)
                     return Fail("This family has no surround with a matching opening kind and size.", out reason);

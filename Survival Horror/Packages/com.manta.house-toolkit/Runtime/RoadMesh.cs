@@ -14,6 +14,7 @@ namespace HouseToolkit
         readonly List<Vector4> traffic = new List<Vector4>();
         readonly List<Vector4> acrossRoads = new List<Vector4>();
         readonly List<Vector4> intoJunction = new List<Vector4>();
+        List<Vector4> facadeData;
         readonly List<Color32> styles = new List<Color32>();
         readonly List<Material> materials = new List<Material>();
         readonly List<List<int>> batches = new List<List<int>>();
@@ -21,12 +22,12 @@ namespace HouseToolkit
         readonly List<RoadHit> targets = new List<RoadHit>();
 
         public void Face(Material material, RoadHit hit, Vector3 normal, Vector3[] points, Vector2[] tex = null, bool paint = false,
-            int junctionArms = 0, RoadFamily style = null, RoadFamily styleB = null, RoadFamily styleC = null, bool atlasPaint = false, RoadGeometry.JunctionWear wear = null)
+            int junctionArms = 0, RoadFamily style = null, RoadFamily styleB = null, RoadFamily styleC = null, bool atlasPaint = false, RoadGeometry.JunctionWear wear = null, Vector4? facade = null, Color32? facadeStyle = null)
         {
             int batch = materials.IndexOf(material);
             if (batch < 0) { batch = materials.Count; materials.Add(material); batches.Add(new List<int>()); }
             int first = vertices.Count;
-            Color32 primary = style ? style.SurfaceStyle : (Color32)Color.white;
+            Color32 primary = facadeStyle ?? (style ? style.SurfaceStyle : (Color32)Color.white);
             if (atlasPaint)
             {
                 var materialColor = style.CrossingPaint.color;
@@ -37,9 +38,12 @@ namespace HouseToolkit
             var counts=wear?.lanes ?? new Vector4(style?style.LaneCount:0,0,0,0);
             if(wear!=null && acrossRoads.Count==0)
                 for(int i=0;i<first;i++){acrossRoads.Add(Vector4.zero);intoJunction.Add(Vector4.zero);}
+            if(facade.HasValue && facadeData==null)
+                facadeData=new List<Vector4>(new Vector4[first]);
             for (int i = 0; i < points.Length; i++)
             {
                 vertices.Add(points[i]);
+                facadeData?.Add(facade.GetValueOrDefault());
                 traffic.Add(counts);
                 if(wear!=null || acrossRoads.Count>0)
                 {
@@ -67,11 +71,26 @@ namespace HouseToolkit
             }
         }
 
+#if !UNITY_EDITOR
+        static Material defaultSurface;
+#endif
+        static Material DefaultSurface()
+        {
+            if(GraphicsSettings.currentRenderPipeline) return GraphicsSettings.currentRenderPipeline.defaultMaterial;
+#if UNITY_EDITOR
+            return UnityEditor.AssetDatabase.GetBuiltinExtraResource<Material>("Default-Material.mat");
+#else
+            if(!defaultSurface) defaultSurface=new Material(Shader.Find("Standard")) {name="Default pavement",hideFlags=HideFlags.HideAndDontSave};
+            return defaultSurface;
+#endif
+        }
+
         public void Apply(Mesh surface, Mesh collision, out RoadHit[] hits, out Material[] slots)
         {
             surface.Clear(); collision.Clear();
             surface.SetVertices(vertices); surface.SetUVs(0, uv); surface.SetColors(styles); surface.SetUVs(2, traffic);
             if(acrossRoads.Count>0){surface.SetUVs(3,acrossRoads);surface.SetUVs(4,intoJunction);}
+            if(facadeData!=null)surface.SetUVs(5,facadeData);
             surface.subMeshCount = batches.Count;
             for (int i = 0; i < batches.Count; i++) surface.SetTriangles(batches[i], i, false);
             surface.RecalculateNormals(); surface.RecalculateTangents(); surface.RecalculateBounds();
@@ -79,8 +98,7 @@ namespace HouseToolkit
             hits = targets.ToArray();
             slots = materials.ToArray();
             for (int i = 0; i < slots.Length; i++)
-                if (!slots[i]) slots[i] = GraphicsSettings.currentRenderPipeline ?
-                    GraphicsSettings.currentRenderPipeline.defaultMaterial : Resources.GetBuiltinResource<Material>("Default-Material.mat");
+                if (!slots[i]) slots[i] = DefaultSurface();
         }
     }
 }

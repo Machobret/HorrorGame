@@ -23,7 +23,10 @@ namespace HouseToolkit
 
     public sealed class HouseFloor : MonoBehaviour, ISerializationCallbackReceiver
     {
-        [Min(0.01f)] public float height = 2.8f;
+        public const float DefaultHeight = 2.8f;
+        [Min(0.01f)] public float height = DefaultHeight;
+        public bool openCeiling;
+        [Min(0)] public float exteriorThickness, interiorThickness;
         public WallFamily defaultFamily, interiorFamily;
         public Material exteriorFinish, interiorFinish, floorFinish, ceilingFinish;
         [SerializeField,HideInInspector,UnityEngine.Serialization.FormerlySerializedAs("stairOpenings")]
@@ -55,6 +58,8 @@ namespace HouseToolkit
         [HideInInspector] public List<FloorCorner> corners = new List<FloorCorner>();
         [HideInInspector] public int nextCorner = 1;
         public House House => GetComponentInParent<House>();
+        public bool WallsOnly => House && House.wallsOnly;
+        public string EditLabel => WallsOnly ? "Edit Wall" : "Edit House";
         public Vector2 Position(int id) => corners.Find(c => c.id == id).point;
         public Vector3 World(Vector2 p) => transform.TransformPoint(new Vector3(p.x, 0, p.y));
         public Vector2 Local(Vector3 p) { var v = transform.InverseTransformPoint(p); return new Vector2(v.x, v.z); }

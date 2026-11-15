@@ -27,6 +27,7 @@ namespace HouseToolkit.Editor
             root.transform.SetParent(wall.transform, false);
             var output = root.AddComponent<WallOutput>();
             var family = wall.Family;
+            float depth=wall.Thickness;
             output.builtPanelLayout = wall.panelLayout;
             bool even = family.panel && output.builtPanelLayout == PanelLayout.EvenSpacing;
             float targetWidth = even ? PanelFit.EvenTarget(wall.length, fits, family.panel.size.x) : 0;
@@ -81,7 +82,7 @@ namespace HouseToolkit.Editor
                     if(b.size.x<=0 || b.size.y<=0 || b.size.z<=0) continue;
                     var scale=new Vector3((right-left)/b.size.x,trim.height/b.size.y,trim.depth/b.size.z);
                     go.transform.localScale=scale;
-                    go.transform.localPosition=new Vector3((right+left)/2,trim.height/2,side*(family.thickness+trim.depth)/2)-Vector3.Scale(scale,b.center);
+                    go.transform.localPosition=new Vector3((right+left)/2,trim.height/2,side*(depth+trim.depth)/2)-Vector3.Scale(scale,b.center);
                     go.AddComponent<MeshFilter>().sharedMesh=mesh;
                     go.AddComponent<MeshRenderer>().sharedMaterial=trim.material ? trim.material : family.surface;
                 }
@@ -215,7 +216,7 @@ namespace HouseToolkit.Editor
                 float start = Mathf.Max(x,startInset);
                 float end = Mathf.Min(x+width,wall.length-endInset);
                 if (end > start + .00001f)
-                    Box(new Vector3((start+end)/2, y+h/2, 0), new Vector3(end-start,h,family.thickness), false);
+                    Box(new Vector3((start+end)/2, y+h/2, 0), new Vector3(end-start,h,depth), false);
             }
             void Box(Vector3 center, Vector3 size, bool glass)
             {
@@ -237,7 +238,7 @@ namespace HouseToolkit.Editor
         {
             var output = wall.GetComponentInChildren<WallOutput>(true);
             if (!output || !wall.Family) return;
-            var surface = wall.surfaceOverride ? wall.surfaceOverride : wall.Family.surface;
+            var surface = WallFaces.StructuralFinish(wall);
             var glazing = wall.glassOverride ? wall.glassOverride : wall.Floor.GlassFor(wall.interior) ? wall.Floor.GlassFor(wall.interior) : wall.Family.glass;
             if (wall.Family.IsComplex) Apply(output.surfaces,surface);
             else WallFaces.Apply(wall, output);
@@ -339,7 +340,7 @@ namespace HouseToolkit.Editor
 
         public static bool SetHeight(HouseFloor floor, float value, out string reason)
         {
-            var walls = floor.GetComponentsInChildren<HouseWall>();
+            var walls = floor.GetComponentsInChildren<HouseWall>(true);
             var fits = new List<FittedOpening>();
             if (!float.IsFinite(value) || value <= 0) { reason = "Floor height must be positive."; return false; }
             foreach (var wall in walls)

@@ -25,7 +25,7 @@ namespace HouseToolkit.Editor
         readonly List<int[]> rooms = new List<int[]>();
         readonly Dictionary<int,int> insertionHints = new Dictionary<int,int>();
         int next;
-        bool prepared;
+        List<Edge> preparedEdges;
         public FloorEdit(HouseFloor floor)
         {
             this.floor = floor;
@@ -52,18 +52,28 @@ namespace HouseToolkit.Editor
         }
         public void Draw(Vector2 start, Vector2 end) => Draw(start, end, null);
 
-        public void Draw(Vector2 start, Vector2 end, WallFamily familyOverride) =>
+        public void Draw(Vector2 start, Vector2 end, WallFamily familyOverride)
+        {
+            preparedEdges = null;
             edges.Add(new Edge { a = Corner(start), b = Corner(end), familyOverride = familyOverride });
+        }
         public void Split(HouseWall wall, Vector2 at)
         {
             var e=edges.Find(x=>x.source==wall);
+            if (e == null) return;
+            preparedEdges = null;
             Vector2 delta=points[e.b]-points[e.a];
             var p=points[e.a]+delta*Mathf.Clamp01(Vector2.Dot(at-points[e.a],delta)/delta.sqrMagnitude);
             insertionHints[Corner(p)]=edges.IndexOf(e);
         }
-        public void Remove(HouseWall wall) => edges.RemoveAll(e=>e.source==wall);
+        public void Remove(HouseWall wall)
+        {
+            preparedEdges = null;
+            edges.RemoveAll(e=>e.source==wall);
+        }
         public void Move(IEnumerable<int> ids, Vector2 offset)
         {
+            preparedEdges = null;
             var moved = new HashSet<int>(ids);
             var old = edges.Select(e=>Vector2.Distance(points[e.a],points[e.b])).ToArray();
             foreach (int id in moved) points[id]=PlanarNoding.AtPrecision(points[id]+offset);
@@ -123,6 +133,7 @@ namespace HouseToolkit.Editor
                     opening.reversed ^= backwards;
                 }
             }
+            preparedEdges = null;
             Remap(first, start, 0, firstLength);
             Remap(second, id, firstLength, secondLength);
 
@@ -134,23 +145,31 @@ namespace HouseToolkit.Editor
             reason = null;
             return true;
         }
+        List<Vector2Int> IndexedLines(List<int> ids, List<Edge> source)
+        {
+            var index = new Dictionary<int,int>(ids.Count);
+            for (int i = 0; i < ids.Count; i++) index.Add(ids[i],i);
+            return source.Select(e => new Vector2Int(index[e.a],index[e.b])).ToList();
+        }
         public bool Prepare(out string reason)
         {
-            if(prepared) {reason=null;return true;}
+            if(preparedEdges != null) {reason=null;return true;}
             reason="A wall must be at least 1 mm long.";
             if(edges.Any(e=>Vector2.Distance(points[e.a],points[e.b])<.001f))return false;
+            rooms.Clear();
             var ids=points.Keys.ToList();
             var vertices=ids.Select(i=>points[i]).ToList();
-            var lines=edges.Select(e=>new Vector2Int(ids.IndexOf(e.a),ids.IndexOf(e.b))).ToList();
+            var lines=IndexedLines(ids,edges);
             // A zero-length helper vertex alone is not an intersection. Split its chosen host explicitly.
             var graph=PlanarNoding.Split(vertices,lines,true);
+            var graphCorners=graph.Vertices.Select(Corner).ToArray();
             var pieces=new List<Edge>();
             var unique=new HashSet<(int,int)>();
             foreach(var group in graph.Pieces.GroupBy(p=>p.Source))
             {
                 var origin=edges[group.Key];
                 var axis=(points[origin.b]-points[origin.a]).normalized;
-                var cuts=group.SelectMany(p=>new[]{Corner(graph.Vertices[p.Start]),Corner(graph.Vertices[p.End])})
+                var cuts=group.SelectMany(p=>new[]{graphCorners[p.Start],graphCorners[p.End]})
                     .Concat(insertionHints.Where(h=>h.Value==group.Key).Select(h=>h.Key)).Distinct()
                     .OrderBy(id=>Vector2.Dot(points[id]-points[origin.a],axis)).ToList();
                 for(int i=1;i<cuts.Count;i++)
@@ -167,20 +186,23 @@ namespace HouseToolkit.Editor
                     pieces.Add(piece);
                 }
             }
-            ids=pieces.SelectMany(e=>new[]{e.a,e.b}).Distinct().ToList();
-            vertices=ids.Select(i=>points[i]).ToList();
-            lines=pieces.Select(e=>new Vector2Int(ids.IndexOf(e.a),ids.IndexOf(e.b))).ToList();
             int[] use=new int[pieces.Count];
-            foreach(var ring in PlanarFaceWalk.Trace(vertices,lines))
+            if (!floor.WallsOnly)
             {
-                var loop=ring.Select(k=>(k%2==0 ? pieces[k/2].a : pieces[k/2].b)).ToArray();
-                if(RoomGeometry.Area(loop.Select(id=>points[id]).ToArray())<=.000001f)continue;
-                if(loop.Distinct().Count()!=loop.Length){reason="This room boundary touches itself.";return false;}
-                var poly=loop.Select(id=>points[id]).ToArray();
-                if(RoomGeometry.Triangles(poly)==null){reason="This room cannot be triangulated.";return false;}
-                if(rooms.Any(other=>RoomGeometry.Nested(poly,other.Select(id=>points[id]).ToArray()))) {reason="Nested room loops need a connecting wall.";return false;}
-                rooms.Add(loop);
-                foreach(int k in ring)use[k/2]++;
+                ids=pieces.SelectMany(e=>new[]{e.a,e.b}).Distinct().ToList();
+                vertices=ids.Select(i=>points[i]).ToList();
+                lines=IndexedLines(ids,pieces);
+                foreach(var ring in PlanarFaceWalk.Trace(vertices,lines))
+                {
+                    var loop=ring.Select(k=>(k%2==0 ? pieces[k/2].a : pieces[k/2].b)).ToArray();
+                    if(RoomGeometry.Area(loop.Select(id=>points[id]).ToArray())<=.000001f)continue;
+                    if(loop.Distinct().Count()!=loop.Length){reason="This room boundary touches itself.";return false;}
+                    var poly=loop.Select(id=>points[id]).ToArray();
+                    if(RoomGeometry.Triangles(poly)==null){reason="This room cannot be triangulated.";return false;}
+                    if(rooms.Any(other=>RoomGeometry.Nested(poly,other.Select(id=>points[id]).ToArray()))) {reason="Nested room loops need a connecting wall.";return false;}
+                    rooms.Add(loop);
+                    foreach(int k in ring)use[k/2]++;
+                }
             }
             var ends=new List<(int id,CornerLayout.End arm)>();
             for(int i=0;i<pieces.Count;i++)
@@ -188,14 +210,15 @@ namespace HouseToolkit.Editor
                 var e=pieces[i]; e.interior=use[i]==2 || (use[i]==0 && rooms.Any(r=>RoomGeometry.Inside((points[e.a]+points[e.b])*.5f,r.Select(id=>points[id]).ToArray())));
                 if(e.source && e.source.boundaryOnly){if(e.openings.Count==0) continue;reason="Remove openings before hiding the wall.";return false;}
                 var family=e.familyOverride ? e.familyOverride : floor.FamilyFor(e.interior);
-                if(!HouseWall.Validate(family,Vector2.Distance(points[e.a],points[e.b]),floor.height,e.openings,new List<FittedOpening>(),out reason))return false;
+                float depth=HouseWall.ResolveThickness(family,floor,e.interior,e.source ? e.source.thicknessOverride : 0);
+                if(!HouseWall.Validate(family,Vector2.Distance(points[e.a],points[e.b]),floor.height,e.openings,new List<FittedOpening>(),out reason,resolvedThickness:depth))return false;
                 var delta=points[e.b]-points[e.a];
-                ends.Add((e.a,new CornerLayout.End(family,delta,e.b,e.openings,true)));
-                ends.Add((e.b,new CornerLayout.End(family,-delta,e.a,e.openings,false)));
+                ends.Add((e.a,new CornerLayout.End(family,delta,e.b,e.openings,true,depth)));
+                ends.Add((e.b,new CornerLayout.End(family,-delta,e.a,e.openings,false,depth)));
             }
             foreach(var junction in ends.GroupBy(end=>end.id))
                 if (!CornerLayout.Solve(junction.Select(end=>end.arm).ToArray(),out _,out _,out reason)) return false;
-            edges.Clear();edges.AddRange(pieces); prepared=true;reason=null;return true;
+            preparedEdges=pieces;reason=null;return true;
         }
         public bool Commit(string action,out string reason)
         {
@@ -204,12 +227,12 @@ namespace HouseToolkit.Editor
             try
             {
                 Undo.RecordObject(floor,action);
-                floor.corners=edges.SelectMany(e=>new[]{e.a,e.b}).Distinct().Select(i=>new FloorCorner(i,points[i])).ToList();
+                floor.corners=preparedEdges.SelectMany(e=>new[]{e.a,e.b}).Distinct().Select(i=>new FloorCorner(i,points[i])).ToList();
                 floor.nextCorner=next;
                 var kept=new HashSet<HouseWall>();
                 var outputs=new List<HouseWall>();
                 var bindings=originals.SelectMany(w=>w.GetComponentsInChildren<InsertAttachment>(true)).ToLookup(a=>a.openingId);
-                foreach(var e in edges)
+                foreach(var e in preparedEdges)
                 {
                     var w=e.source;
                     bool fresh=!w || kept.Contains(w);
@@ -219,7 +242,7 @@ namespace HouseToolkit.Editor
                         go.transform.SetParent(floor.transform,false);
                         w=go.AddComponent<HouseWall>();
                         w.familyOverride = e.familyOverride;
-                        if(e.source){w.panelLayoutOverride=e.source.panelLayoutOverride; w.positiveFinish=e.source.positiveFinish;w.negativeFinish=e.source.negativeFinish;w.surfaceOverride=e.source.surfaceOverride;w.glassOverride=e.source.glassOverride;
+                        if(e.source){w.thicknessOverride=e.source.thicknessOverride;w.panelLayoutOverride=e.source.panelLayoutOverride; w.positiveFinish=e.source.positiveFinish;w.negativeFinish=e.source.negativeFinish;w.surfaceOverride=e.source.surfaceOverride;w.glassOverride=e.source.glassOverride;
                             w.boundaryOnly=e.source.boundaryOnly;w.trimOverride=e.source.trimOverride;w.suppressTrim=e.source.suppressTrim;}
                         Undo.RegisterCreatedObjectUndo(go,action);
                     }
@@ -246,7 +269,7 @@ namespace HouseToolkit.Editor
                 foreach(var w in originals.Where(w=>!kept.Contains(w)))Undo.DestroyObjectImmediate(w.gameObject);
                 foreach(var w in outputs)if(!WallBuilder.Rebuild(w,out reason))throw new InvalidOperationException(reason);
                 if (!WallJunctions.Refresh(floor,out reason)) throw new InvalidOperationException(reason);
-                RoomGeometry.Publish(floor,rooms,points,action);
+                if (!floor.WallsOnly) RoomGeometry.Publish(floor,rooms,points,action);
                 foreach (var wall in kept) WallBuilder.ApplyMaterials(wall);
                 EditorUtility.SetDirty(floor);
                 Undo.FlushUndoRecordObjects();Undo.CollapseUndoOperations(group);

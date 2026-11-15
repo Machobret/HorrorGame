@@ -8,11 +8,23 @@ namespace HouseToolkit
         [SerializeField, UnityEngine.Serialization.FormerlySerializedAs("thickness"), Min(.01f)] float plainThickness = .15f;
         [HideInInspector] public bool complex;
         public bool IsComplex => complex || panel;
+        public bool HasGlass => HasGlassIn(panels) || HasGlassIn(surrounds);
+        static bool HasGlassIn(WallSegment[] segments)
+        {
+            if (segments == null) return false;
+            foreach (var segment in segments)
+            {
+                if (!segment) continue;
+                if (segment.mesh ? segment.mesh.subMeshCount > 1 :
+                    segment.parts != null && System.Array.Exists(segment.parts, part => part.glass)) return true;
+            }
+            return false;
+        }
         public float thickness { get => panel && panel.mesh ? panel.mesh.bounds.size.z : plainThickness; set => plainThickness = value; }
         public PanelLayout defaultPanelLayout = PanelLayout.EvenSpacing;
         public Material surface;
         public Material glass;
-        [Tooltip("Additional finishes offered in House Properties for this family.")]
+        [Tooltip("Additional finishes offered in Procedural Env Properties for this family.")]
         public Material[] surfaceFinishes = System.Array.Empty<Material>();
         public Material[] glassFinishes = System.Array.Empty<Material>();
         [Tooltip("Repeating wall panels, measured from their authored geometry. Even Spacing repeats the first panel.")]
@@ -40,6 +52,7 @@ namespace HouseToolkit
 
         public WallSegment FindSurround(HouseInsert insert)
         {
+            if (!insert || surrounds == null) return null;
             foreach (var segment in surrounds)
                 if (segment && segment.kind == insert.kind &&
                     Mathf.Abs(segment.aperture.width - insert.opening.x) < 0.0005f &&

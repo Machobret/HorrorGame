@@ -28,7 +28,20 @@ public sealed class GameHouseToolkitTests
         var library = Asset<FinishLibrary>("Assets/Game/Environment/ProjectedFinishes/WallFinishes.asset");
         Assert.Contains(house.interiorFinish, library.materials);
         Assert.Contains(house.exteriorFinish, library.materials);
-        Assert.IsTrue(library.materials.All(m => m && m.shader.name == "House Toolkit/Projected Finish" && m.mainTexture && (m.GetTexture("_SurfaceMap") || m.GetFloat("_NormalStrength")==0)));
+        var root = "Assets/Game/Environment/ProjectedFinishes/";
+        foreach (var material in library.materials)
+        {
+            Assert.IsNotNull(material);
+            StringAssert.StartsWith(root, AssetDatabase.GetAssetPath(material));
+            Assert.IsTrue(material.HasProperty("_HouseRight") && material.HasProperty("_HouseUp") &&
+                          material.HasProperty("_HouseForward"), material.name);
+            Assert.IsNotNull(material.mainTexture, material.name);
+            Assert.IsFalse(ShaderUtil.ShaderHasError(material.shader), material.shader.name);
+            if (material.GetFloat("_NormalStrength") > 0)
+                Assert.IsTrue(material.GetTexture("_SurfaceMap") ||
+                              (material.HasProperty("_BumpMap") && material.GetTexture("_BumpMap")), material.name);
+        }
+
         var storefront = Asset<WallFamily>(Families+"Storefront/Storefront.asset");
         Assert.AreEqual(PanelLayout.EvenSpacing, storefront.defaultPanelLayout);
         CollectionAssert.AreEqual(new[]{2f,1f,.5f},storefront.panels.Select(p => Mathf.Round(p.mesh.bounds.size.x*10)/10));
@@ -36,6 +49,7 @@ public sealed class GameHouseToolkitTests
 
     [TestCase(false, "Door_Placeholder")][TestCase(true, "Door_Placeholder")]
     [TestCase(false, "Door_Glass")][TestCase(true, "Door_Glass")]
+    [TestCase(false, "Door_MetalGate")][TestCase(true, "Door_MetalGate")]
     public void PlacedGameDoorKeepsInteractionAndCanBeSelected(bool storefront, string name)
     {
         EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
@@ -87,6 +101,98 @@ public sealed class GameHouseToolkitTests
         }
         Assert.IsTrue(WallBuilder.Rebuild(wall,out issue),issue);
         Assert.IsTrue(door && door.transform.parent==binding.transform);
+    }
+
+    [Test]
+    public void ClosedStandaloneFenceKeepsOpenGroundAndUsesSharedGate()
+    {
+        EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+        var family = Asset<WallFamily>(Families+"MetalFence/Metal Fence.asset");
+        var gate = Asset<HouseInsert>(Doors+"Door_MetalGate.asset");
+        var house = HouseEditing.Create(new Vector3(7,0,3),family,true);
+        house.transform.rotation = Quaternion.Euler(0,27,0);
+        var floor = HouseEditing.Floors(house).Single();
+        Assert.AreSame(floor,HouseEditing.AddFloor(house));
+        var plan = new FloorEdit(floor);
+        var corners = SlabOpening.Rectangle(new Rect(0,0,8,6));
+        for (int i=0;i<3;i++) plan.Draw(corners[i],corners[i+1]);
+        Assert.IsTrue(plan.Prepare(out var issue),issue);
+        plan.Draw(corners[3],corners[0]);
+        Assert.IsTrue(plan.Commit("Close fence",out issue),issue);
+        var walls = floor.GetComponentsInChildren<HouseWall>();
+        Assert.AreEqual(4,walls.Length);
+        Assert.IsFalse(walls.Any(w => w.interior));
+        Assert.IsEmpty(floor.GetComponentsInChildren<HouseRoom>());
+        Assert.IsEmpty(floor.GetComponentsInChildren<HouseSlab>());
+        var host = walls.First(w=>w.length>7);
+        Assert.AreSame(gate,OpeningPalette.Choices(host,OpeningKind.Door).First());
+        Assert.IsTrue(WallBuilder.Place(host,gate,4,0,out issue),issue);
+        var leaf = host.GetComponentInChildren<InsertAttachment>().GetComponentInChildren<MeshFilter>();
+        Assert.That(leaf.sharedMesh.bounds.size.x,Is.EqualTo(.9f).Within(.01f));
+        Assert.That(leaf.sharedMesh.bounds.size.y,Is.EqualTo(2.1f).Within(.01f));
+        Assert.That(leaf.transform.localPosition.x,Is.EqualTo(0).Within(.001f));
+        Assert.IsTrue(host.GetComponentsInChildren<AuthoredPanel>().Any(p=>p.source==family.FindSurround(gate).mesh));
+        Assert.IsTrue(walls.SelectMany(w=>w.GetComponentsInChildren<MeshFilter>()).Count(f=>f.sharedMesh==family.panel.mesh)>1);
+        Assert.IsFalse(WallBuilder.SetHeight(floor,2f,out issue));
+        Assert.AreEqual(HouseFloor.DefaultHeight,floor.height);
+        Assert.IsTrue(WallBuilder.SetHeight(floor,3f,out issue),issue);
+        Assert.IsEmpty(floor.GetComponentsInChildren<HouseSlab>());
+    }
+
+    [Test]
+    public void ProceduralEnvPropertiesFollowsRoadFamilyAndReturnsToHouse()
+    {
+        EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+        Assert.IsTrue(EditorApplication.ExecuteMenuItem("Window/House Toolkit/Procedural Env Properties"));
+        var window = Resources.FindObjectsOfTypeAll<HouseProperties>().Single();
+        var editorType = typeof(HouseEditing).Assembly;
+        var roadScene = editorType.GetType("HouseToolkit.Editor.RoadScene");
+        var houseScene = editorType.GetType("HouseToolkit.Editor.HouseScene");
+        const BindingFlags instance = BindingFlags.Instance | BindingFlags.NonPublic;
+        const BindingFlags shared = BindingFlags.Static | BindingFlags.NonPublic;
+        var roadEditor = typeof(HouseProperties).GetField("roadEditor", instance);
+
+        void Layout() => window.SendEvent(new Event { type = EventType.Layout });
+        void AssertRoad(RoadNetwork expected, RoadFamily drawOverride = null)
+        {
+            Layout();
+            var editor = (UnityEditor.Editor)roadEditor.GetValue(window);
+            Assert.AreEqual(expected, editor.target);
+            var familyEditor = (UnityEditor.Editor)editor.GetType().GetField("familyEditor", instance).GetValue(editor);
+            Assert.AreEqual(drawOverride ? drawOverride : expected.family, familyEditor.target);
+        }
+
+        try
+        {
+            Assert.AreEqual("Procedural Env Properties", window.titleContent.text);
+            var road = new GameObject("Road").AddComponent<RoadNetwork>();
+            road.family = Asset<RoadFamily>("Assets/Game/Environment/Roads/TownStreet/Town Street.asset");
+            Selection.activeGameObject = road.gameObject;
+            AssertRoad(road);
+
+            var other = new GameObject("Side road").AddComponent<RoadNetwork>();
+            other.family = Asset<RoadFamily>("Assets/Game/Environment/Roads/TownStreet/Side Street.asset");
+            roadScene.GetMethod("Enter", shared).Invoke(null, new object[] { other });
+            AssertRoad(other);
+            roadScene.GetMethod("SetDrawing", shared).Invoke(null, new object[] { true });
+            roadScene.GetField("DrawFamily", shared).SetValue(null, road.family);
+            AssertRoad(other, road.family);
+            roadScene.GetMethod("SetDrawing", shared).Invoke(null, new object[] { false });
+            Layout();
+
+            var house = HouseEditing.Create(Vector3.zero, Asset<WallFamily>(Families + "Plain/Plain.asset"));
+            houseScene.GetMethod("Enter", shared).Invoke(null, new object[] { HouseEditing.Floors(house).Single() });
+            HouseProperties.OpenFloors();
+            Layout();
+            Assert.IsFalse((UnityEditor.Editor)roadEditor.GetValue(window));
+            Assert.AreSame(window, Resources.FindObjectsOfTypeAll<HouseProperties>().Single());
+        }
+        finally
+        {
+            houseScene.GetMethod("Leave", shared).Invoke(null, null);
+            roadScene.GetMethod("Leave", shared).Invoke(null, null);
+            window.Close();
+        }
     }
 
     [TearDown]

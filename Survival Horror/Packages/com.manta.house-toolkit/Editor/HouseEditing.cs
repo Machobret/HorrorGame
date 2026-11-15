@@ -10,12 +10,27 @@ namespace HouseToolkit.Editor
         public static HouseFloor[] Floors(House house) => house.GetComponentsInChildren<HouseFloor>(true)
             .Where(f=>f.House==house).OrderBy(f=>f.transform.localPosition.y).ToArray();
 
-        public static House Create(Vector3 position,WallFamily family)
+        public static House Create(Vector3 position,WallFamily family, bool wallsOnly = false)
         {
-            var go=new GameObject("House");
+            Undo.IncrementCurrentGroup();
+            int group = Undo.GetCurrentGroup();
+            string action = wallsOnly ? "Create standalone wall" : "Create house";
+            var go=new GameObject(wallsOnly ? "Standalone Wall" : "House");
             go.transform.position=position;
             var house=go.AddComponent<House>();house.exteriorFamily=house.interiorFamily=family;
-            Undo.RegisterCreatedObjectUndo(go,"Create house");AddFloor(house);
+            house.wallsOnly = wallsOnly;
+            Undo.RegisterCreatedObjectUndo(go,action);
+            try
+            {
+                AddFloor(house);
+                Undo.SetCurrentGroupName(action);
+                Undo.CollapseUndoOperations(group);
+            }
+            catch
+            {
+                Undo.RevertAllDownToGroup(group);
+                throw;
+            }
             return house;
         }
 
@@ -26,6 +41,7 @@ namespace HouseToolkit.Editor
 
         internal static HouseFloor AddFloor(House house, HouseFloor source, bool copyLayout, bool below)
         {
+            if (house.wallsOnly && source) return source;
             Undo.IncrementCurrentGroup();
             int group = Undo.GetCurrentGroup();
             Undo.SetCurrentGroupName("Add floor");

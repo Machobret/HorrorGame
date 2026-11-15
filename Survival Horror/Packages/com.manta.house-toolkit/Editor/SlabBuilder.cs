@@ -17,6 +17,7 @@ namespace HouseToolkit.Editor
         {
             if(!house) return;
             house.InvalidateProjection();
+            if (house.wallsOnly) return;
             var floors=HouseEditing.Floors(house);
             for(int i=0;i<floors.Length;i++)
             {
@@ -46,7 +47,7 @@ namespace HouseToolkit.Editor
 
         static void JoinWalls(HouseFloor floor,HouseFloor upper)
         {
-            var loops=floor.GetComponentsInChildren<HouseRoom>(true).Select(r=>r.polygon).ToList();
+            var loops=floor.GetComponentsInChildren<HouseRoom>(true).Where(r=>r.HasCeiling(floor)).Select(r=>r.polygon).ToList();
             if(upper)loops.AddRange(upper.GetComponentsInChildren<HouseRoom>(true).Select(r=>r.polygon.Select(p=>floor.Local(upper.World(p))).ToArray()));
             var coveredCorners=new HashSet<int>();
             foreach(var w in floor.GetComponentsInChildren<HouseWall>(true))
@@ -107,7 +108,7 @@ namespace HouseToolkit.Editor
             Region[] Regions(HouseFloor f,bool top)
             {
                 if(!f)return new Region[0];
-                return f.GetComponentsInChildren<HouseRoom>(true).Where(r=>r.polygon!=null && r.polygon.Length>=3)
+                return f.GetComponentsInChildren<HouseRoom>(true).Where(r=>r.polygon!=null && r.polygon.Length>=3 && (top || r.HasCeiling(f)))
                     .Select(r=>new Region {loop=r.polygon.Select(p=>PlanarNoding.AtPrecision(owner.Local(f.World(p)))).ToArray(),
                         finish=(top?r.floorFinish:r.ceilingFinish) ? (top?r.floorFinish:r.ceilingFinish) : Default(f,top)}).ToArray();
             }

@@ -41,6 +41,11 @@ namespace HouseToolkit.Editor
             hovered = null;
             placeAnother = false;
         }
+        internal static void SetActive(string id)
+        {
+            CancelDrag();
+            selected=id;placeAnother=false;hovered=null;
+        }
         public static void CancelDrag()
         {
             if (bodyControl != 0 && GUIUtility.hotControl == bodyControl) GUIUtility.hotControl = 0;
@@ -51,6 +56,7 @@ namespace HouseToolkit.Editor
             if (BooleanOutput.Change(HouseScene.House, cut, remove, out HouseScene.Message))
             {
                 selected = cut?.id;
+                if (cut==null && HouseScene.Picks.Active.cutter==remove) HouseScene.Select(default);
                 placeAnother = false;
             }
             CancelDrag();
@@ -113,7 +119,8 @@ namespace HouseToolkit.Editor
         internal static void SelectCut(BooleanCut cut)
         {
             CancelDrag();
-            HouseScene.ClearSelectionForCutter();
+            HouseScene.ClearArchitectureHover();
+            HouseScene.Pick(new HousePick{cutter=cut.id},false);
             selected = cut.id;
             placeAnother = false;
             HouseProperties.ShowSelection();
@@ -162,6 +169,7 @@ namespace HouseToolkit.Editor
             if ((e.type == EventType.KeyDown && (e.keyCode == KeyCode.Delete || e.keyCode == KeyCode.Backspace)) ||
                 (deleteCommand && e.type == EventType.ExecuteCommand))
             {
+                if (HouseScene.Picks.Items.Count>1) return;
                 if (cut != null) { Commit(null, cut.id); e.Use(); }
                 return;
             }
@@ -184,8 +192,8 @@ namespace HouseToolkit.Editor
             foreach (var item in house.booleanCuts)
                 if (e.type == EventType.Repaint && (HouseScene.Mode == HouseTool.Select || showHelpers || item == cut))
                     Wire(house, item == cut && draft != null ? draft : item,
-                        item == cut ? Color.yellow : item == hovered ? Color.white : Color.cyan);
-            if (cut != null && !e.alt && bodyControl == 0)
+                        (item == cut || HouseScene.Picks.Has(new HousePick{cutter=item.id})) ? Color.yellow : item == hovered ? Color.white : Color.cyan);
+            if (cut != null && HouseScene.Picks.Items.Count<=1 && !e.shift && !e.alt && bodyControl == 0)
             {
                 bool release = e.rawType == EventType.MouseUp && e.button == 0;
                 var current = draft ?? cut;
@@ -247,8 +255,14 @@ namespace HouseToolkit.Editor
                 var picked = Pick(house, ray);
                 if (picked == null)
                 {
-                    if (cut != null) { Reset(); HouseScene.Repaint(); }
+                    if (cut != null && !e.shift) { Reset(); HouseScene.Repaint(); }
                     return;
+                }
+                if(e.shift)
+                {
+                    HouseScene.Pick(new HousePick{cutter=picked.id},true);
+                    HouseProperties.ShowSelection();
+                    e.Use();return;
                 }
                 SelectCut(picked);
                 dragPlane = new Plane(view.camera.transform.forward, house.transform.TransformPoint(picked.center));

@@ -44,8 +44,18 @@ namespace HouseToolkit
         public int id, run;
         public RoadEnd start, end;
         public RoadFamily family;
+        public float pathWidth;
+        public Material pathMaterial;
         public RoadSide left = new RoadSide(), right = new RoadSide();
         public RoadFamily Style(RoadFamily network) => family ? family : network ? network : RoadFamily.Default;
+    }
+
+    [Serializable]
+    public sealed class SidewalkRunStyle
+    {
+        public int run;
+        public float width;
+        public Material material;
     }
 
     [Serializable]
@@ -54,6 +64,9 @@ namespace HouseToolkit
         public int nextId = 1;
         public List<RoadNode> nodes = new List<RoadNode>();
         public List<RoadSpan> spans = new List<RoadSpan>();
+        public List<SidewalkRunStyle> runStyles = new List<SidewalkRunStyle>();
+        public SidewalkRunStyle RunStyle(int run) => runStyles.Find(s=>s.run==run);
+        public float RunWidth(int run, float fallback) => RunStyle(run) is SidewalkRunStyle s && s.width>0 ? s.width : fallback;
         public RoadNode Node(int id) => nodes.Find(n => n.id == id);
         public RoadSpan Span(int id) => spans.Find(s => s.id == id);
         public RoadNode AddNode(Vector3 point)
@@ -72,7 +85,7 @@ namespace HouseToolkit
         }
     }
 
-    public enum RoadPart { None, Point, Road, Approach, Corner, Sidewalk }
+    public enum RoadPart { None, Point, Road, Approach, Corner, Sidewalk, Path, PathPoint, Ground, Boundary, GroundPoint }
 
     public struct RoadHit
     {
@@ -83,42 +96,21 @@ namespace HouseToolkit
         { this.part = part; this.id = id; this.arm = arm; this.next = next; this.left = left; }
     }
 
-    [ExecuteAlways, SelectionBase, DisallowMultipleComponent]
-    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
-    public sealed class RoadNetwork : MonoBehaviour
+    public sealed class RoadNetwork : ProceduralSurface
     {
         public RoadFamily family;
         [HideInInspector] public RoadGraph graph = new RoadGraph();
-        [NonSerialized] public RoadHit[] faces = Array.Empty<RoadHit>();
-        Mesh surface, collision;
-        void OnEnable() => Rebuild();
-#if UNITY_EDITOR
-        bool dirty;
-        void OnValidate() => dirty = true;
-        void Update() { if (dirty) Rebuild(); }
-#endif
-        public void Rebuild()
-        {
-#if UNITY_EDITOR
-            dirty = false;
-#endif
-            if (!surface) surface = NewMesh("Road surface");
-            if (!collision) collision = NewMesh("Road collision");
-            var collider = GetComponent<MeshCollider>();
-            collider.sharedMesh = null;
-            var geometry = RoadGeometry.Build(graph, family);
-            geometry.Apply(surface, collision, out faces, out var materials);
-            GetComponent<MeshFilter>().sharedMesh = surface;
-            GetComponent<MeshRenderer>().sharedMaterials = materials;
-            if (faces.Length > 0) collider.sharedMesh = collision;
-        }
-        static Mesh NewMesh(string name) => new Mesh { name = name, hideFlags = HideFlags.DontSave,
-            indexFormat = UnityEngine.Rendering.IndexFormat.UInt32 };
-        void OnDestroy() { Release(surface); Release(collision); }
-        static void Release(Mesh mesh)
-        {
-            if (!mesh) return;
-            if (Application.isPlaying) Destroy(mesh); else DestroyImmediate(mesh);
-        }
+        [HideInInspector] public RoadGraph paths = new RoadGraph();
+        [HideInInspector] public GroundPlan ground = new GroundPlan();
+        public Material pavementMaterial;
+        [Min(0)] public float pavementWidth;
+        internal override RoadGraph Streets => graph;
+        internal override RoadFamily StreetFamily => family;
+        internal override RoadMesh CreateGeometry() => WithPavement(RoadGeometry.Build(graph,family));
+        internal override RoadGraph Paths { get => paths; set => paths=value; }
+        internal override GroundPlan Areas { get => ground; set => ground=value; }
+        public override float PathWidth => pavementWidth > 0 ? pavementWidth : (family ? family : RoadFamily.Default).sidewalkWidth;
+        public override Material Pavement => pavementMaterial ? pavementMaterial : (family ? family : RoadFamily.Default).sidewalk;
+        public override float PavementElevation => (family ? family : RoadFamily.Default).sidewalkHeight;
     }
 }

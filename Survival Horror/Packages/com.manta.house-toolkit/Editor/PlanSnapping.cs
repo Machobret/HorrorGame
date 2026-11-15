@@ -70,10 +70,16 @@ namespace HouseToolkit.Editor
             return grid>0 ? new Vector2(Mathf.Round(raw.x/grid)*grid,Mathf.Round(raw.y/grid)*grid) : raw;
         }
 
-        internal static Vector2 Snap(Vector2 p, bool free, Vector2? axis, float grid,
-            IEnumerable<Vector2> nodes, IEnumerable<(Vector2 a, Vector2 b)> segments, Func<Vector2,Vector2,float> screenDistance)
+        static IEnumerable<Vector2> Endpoints(IEnumerable<(Vector2 a,Vector2 b)> edges)
         {
-            if(free)return p;
+            foreach(var edge in edges){yield return edge.a;yield return edge.b;}
+        }
+
+        internal static Vector2 Snap(Vector2 p, bool free, Vector2? axis, float grid,
+            IEnumerable<Vector2> nodes, IEnumerable<(Vector2 a, Vector2 b)> segments, Func<Vector2,Vector2,float> screenDistance, DrawingGuides guides=null, Vector2? from=null,
+            IEnumerable<(Vector2 a,Vector2 b)> guideEdges=null)
+        {
+            if(free){guides?.Clear();return p;}
             var raw=p;
             var direction=axis.HasValue ? Direction(raw-axis.Value) : Vector2.zero;
             p=FloorPoint(raw,axis,axis.HasValue,false,0);
@@ -90,7 +96,7 @@ namespace HouseToolkit.Editor
                 return true;
             }
             foreach(var node in nodes) Consider(node);
-            if(snapped)return best;
+            if(snapped){guides?.Clear();return best;}
             (Vector2 a, Vector2 b)? gridEdge=null;
             foreach(var segment in segments)
             {
@@ -114,9 +120,12 @@ namespace HouseToolkit.Editor
             if(gridEdge.HasValue)
             {
                 var crossing=GridPointOnWall(best,gridEdge.Value.a,gridEdge.Value.b,grid);
-                if(OnRay(crossing))return crossing;
+                if(OnRay(crossing)){guides?.Clear();return crossing;}
             }
-            if(snapped)return best;
+            if(snapped){guides?.Clear();return best;}
+            if(guides!=null && from.HasValue)
+                return guides.Align(raw,from.Value,axis.HasValue ? direction : (Vector2?)null,grid,
+                    guideEdges==null ? nodes : Endpoints(guideEdges),guideEdges??segments,screenDistance);
             return FloorPoint(raw,axis,axis.HasValue,false,grid);
         }
     }

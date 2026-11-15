@@ -10,6 +10,7 @@
 | `Assets/Game/Weapons/Ammunition/Shared` | Shared cartridge materials, packaging and side-atlas content |
 | `Assets/Game/Weapons/Shared` | Cross-weapon scripts, editor builders and animation states |
 | `Assets/Game/Enemies/<Enemy>` | Enemy implementation and content |
+| `Assets/Game/Environment/ProjectedFinishes` | Shared building materials grouped by surface, with the House Toolkit finish library at the root |
 | `Assets/Game/Environment/Lighting` | Reusable lighting systems, presets, skyboxes and fixtures |
 | `Assets/Game/Rendering` | Presentation shaders, materials and scripts |
 | `Assets/Game/UI` | Menus, fonts, branding and UI scripts |

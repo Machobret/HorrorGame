@@ -27,6 +27,15 @@ namespace HouseToolkit.Editor
             return null;
         }
 
+        internal static Material StructuralFinish(HouseWall wall)
+        {
+            if (wall.surfaceOverride) return wall.surfaceOverride;
+            var family = wall.Family;
+            var floor = wall.Floor;
+            var finish = !family.IsComplex || floor.WallsOnly ? floor.FinishFor(wall.interior) : null;
+            return finish ? finish : family.surface;
+        }
+
         internal static Material Resolve(HouseWall wall, bool positive, HouseRoom[] rooms)
         {
             var local = positive ? wall.positiveFinish : wall.negativeFinish;

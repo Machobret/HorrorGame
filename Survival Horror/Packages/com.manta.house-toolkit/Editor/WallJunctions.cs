@@ -26,7 +26,7 @@ namespace HouseToolkit.Editor
         {
             bool start=w.startCorner==id;
             int other=start ? w.endCorner : w.startCorner;
-            return new CornerLayout.End(w.Family,w.Floor.Position(other)-w.Floor.Position(id),other,openings,start);
+            return new CornerLayout.End(w.Family,w.Floor.Position(other)-w.Floor.Position(id),other,openings,start,w.Thickness);
         }
 
         internal static bool Refresh(HouseFloor floor,out string issue)
@@ -78,7 +78,7 @@ namespace HouseToolkit.Editor
                     joint.post=mesh;joint.postWidth=item.width;joint.postDirection=item.axis;joint.height=height;
                     joint.profile=null;joint.transform.localPosition=position;joint.Refresh();
                 }
-                var material=host.surfaceOverride ? host.surfaceOverride : !host.Family.IsComplex && floor.FinishFor(host.interior) ? floor.FinishFor(host.interior) : host.Family.surface;
+                var material=WallFaces.StructuralFinish(host);
                 var renderer=joint.GetComponent<MeshRenderer>();
                 if(renderer.sharedMaterial!=material){Undo.RecordObject(renderer,"Finish wall joint");renderer.sharedMaterial=material;}
             }

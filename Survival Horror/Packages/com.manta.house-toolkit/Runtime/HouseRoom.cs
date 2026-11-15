@@ -2,6 +2,8 @@ using UnityEngine;
 
 namespace HouseToolkit
 {
+    public enum RoomCeiling { Inherit, On, Off }
+
     [ExecuteAlways]
     public sealed class HouseRoom : MonoBehaviour
     {
@@ -10,6 +12,8 @@ namespace HouseToolkit
         [HideInInspector] public Vector2[] polygon;
         [HideInInspector] public int[] topTriangles;
         [HideInInspector] public float thickness;
+        public RoomCeiling ceilingOverride;
+        public bool HasCeiling(HouseFloor floor) => ceilingOverride == RoomCeiling.On || ceilingOverride == RoomCeiling.Inherit && !floor.openCeiling;
         public Material floorFinish, ceilingFinish, wallFinish;
         Mesh mesh;
 

@@ -33,7 +33,7 @@ namespace HouseToolkit
         internal static Vector2 LeftOf(Vector2 v) => new Vector2(-v.y, v.x);
         static float Cross(Vector2 a, Vector2 b) => a.x*b.y-a.y*b.x;
 
-        internal static List<Arm> Arms(RoadGraph graph, RoadNode node, RoadFamily fallback)
+        internal static List<Arm> Arms(RoadGraph graph, RoadNode node, RoadFamily fallback, float pathWidth = 0)
         {
             var arms = new List<Arm>();
             foreach (var span in graph.spans)
@@ -43,7 +43,8 @@ namespace HouseToolkit
                 var other = graph.Node(start ? span.end.node : span.start.node);
                 var delta = Flat(other.position - node.position);
                 var family = span.Style(fallback);
-                float half = Mathf.Max(.1f, family.width * .5f);
+                float width = pathWidth > 0 ? (span.pathWidth > 0 ? span.pathWidth : graph.RunWidth(span.run,pathWidth)) : family.width;
+                float half = Mathf.Max(.05f, width * .5f);
                 arms.Add(new Arm { span=span, end=start?span.start:span.end, family=family, node=node, outgoing=start,
                     length=delta.magnitude, dir=delta.normalized, half=half, side=LeftOf(delta.normalized)*half });
             }
@@ -73,7 +74,7 @@ namespace HouseToolkit
                 var a=arms[i]; var b=arms[(i+1)%arms.Count];
                 var corner=Corner(node,a,b);
                 a.capLeft=b.capRight=corner?.sidewalk==false;
-                float border=Mathf.Max(.25f,a.family.sidewalkWidth,b.family.sidewalkWidth);
+                float border=pathWidth > 0 ? 0 : Mathf.Max(.25f,a.family.sidewalkWidth,b.family.sidewalkWidth);
                 var cross=Cross(a.dir,b.dir);
                 float ta=0,tb=0;
                 if (Mathf.Abs(cross)>.001f)
@@ -270,7 +271,7 @@ namespace HouseToolkit
             }
         }
 
-        static Vector2 CornerPoint(Arm a,Arm b)
+        internal static Vector2 CornerPoint(Arm a,Arm b)
         {
             float cross=Cross(a.dir,b.dir);
             var midpoint=(a.Left+b.Right)*.5f;

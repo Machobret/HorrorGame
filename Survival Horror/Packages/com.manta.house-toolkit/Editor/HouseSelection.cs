@@ -44,19 +44,19 @@ namespace HouseToolkit.Editor
                 else { bounds = renderer.bounds; found = true; }
             }
             if (found) return true;
-            if (pick.insert || pick.segmentId != null)
+            if (pick.OpeningId != null)
             {
-                string id = pick.insert ? pick.insert.openingId : pick.segmentId;
+                string id = pick.OpeningId;
                 var placement = pick.wall.openings.Find(o => o.id == id);
                 if (placement == null || !placement.insert || !pick.wall.Family) return false;
                 var fit = new FittedOpening(placement, pick.wall.Family.FindSurround(placement.insert));
-                bool surround = !pick.insert && fit.segment;
+                bool surround = pick.segmentId != null && fit.segment;
                 float width = surround ? fit.width : placement.insert.opening.x;
                 float height = surround ? Mathf.Min(floor.height, fit.segment.size.y) : placement.insert.opening.y;
                 var center = new Vector3(surround ? fit.left + width / 2 : placement.distance,
                     (surround ? 0 : fit.sill) + height / 2, 0);
                 bounds = HouseBooleanMesh.PrimitiveBounds(pick.wall.transform.localToWorldMatrix *
-                    Matrix4x4.TRS(center, Quaternion.identity, new Vector3(width, height, pick.wall.Family.thickness)));
+                    Matrix4x4.TRS(center, Quaternion.identity, new Vector3(width, height, pick.wall.Thickness)));
                 return true;
             }
             bounds = new Bounds(floor.World(floor.Position(pick.wall.startCorner)), Vector3.zero);

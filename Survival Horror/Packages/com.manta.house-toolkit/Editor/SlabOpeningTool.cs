@@ -214,7 +214,7 @@ namespace HouseToolkit.Editor
             if(armed && altering && selected>=0 && Vector2.Distance(downGui,e.mousePosition)>3)
             {
                 var original=Openings[selected].points;var anchor=original[vertex>=0?vertex:0];
-                var delta=Snap(anchor+raw-down)-anchor;
+                var delta=PlanSnapping.FloorPoint(anchor+raw-down,anchor,e.shift,e.alt,HouseScene.Grid)-anchor;
                 proposed=original.Select((p,i)=>vertex<0||i==vertex?p+delta:p).ToArray();
             }
             Vector2[] box=null;

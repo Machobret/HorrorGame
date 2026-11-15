@@ -14,7 +14,33 @@ namespace HouseToolkit.Editor
         internal HouseWall wall;
         internal InsertAttachment insert;
         internal HouseRoom room;
-        internal string segmentId;
+        internal string segmentId, insertId, cutter;
+        internal InsertAttachment ResolveInsert()
+        {
+            if(insert || !wall || insertId==null) return insert;
+            string id=insertId;
+            return Array.Find(wall.GetComponentsInChildren<InsertAttachment>(true),a=>a.openingId==id);
+        }
+        internal string OpeningId => insertId ?? (insert ? insert.openingId : segmentId);
+        internal string Kind
+        {
+            get
+            {
+                if(cutter!=null)return "Boolean cut";
+                if(OpeningId is string id && wall)
+                {
+                    var o=wall.openings.Find(item=>item.id==id);
+                    return o?.insert ? o.insert.kind+(segmentId==null ? "" : " segment") : null;
+                }
+                if(cut!=null)return "Slab opening";
+                if(room)return ceiling ? "Room ceiling" : "Room floor";
+                if(corner!=0)return "Wall endpoint";
+                if(wall)return "Wall";
+                if(storey)return "Storey";
+                if(prop)return "Prop";
+                return null;
+            }
+        }
         internal int corner;
         internal HouseSlab slab;
         internal SlabOpening cut;
@@ -24,8 +50,8 @@ namespace HouseToolkit.Editor
         internal bool positiveFace;
         internal Vector2 point;
 
-        internal bool Same(HousePick other) => storey==other.storey && prop==other.prop && wall==other.wall && insert==other.insert && room==other.room &&
-            corner==other.corner && slab==other.slab && cut==other.cut && ceiling==other.ceiling && underside==other.underside && segmentId==other.segmentId;
+        internal bool Same(HousePick other) => storey==other.storey && prop==other.prop && wall==other.wall && OpeningId==other.OpeningId && room==other.room &&
+            cutter==other.cutter && corner==other.corner && slab==other.slab && cut==other.cut && ceiling==other.ceiling && underside==other.underside && segmentId==other.segmentId;
     }
 
     internal sealed class HouseScenePicker
@@ -262,7 +288,11 @@ namespace HouseToolkit.Editor
 
         internal static Renderer[] SelectedRenderers(HousePick pick)
         {
-            if (pick.insert) return pick.insert.GetComponentsInChildren<Renderer>();
+            if (pick.insert || pick.insertId!=null)
+            {
+                var attachment=pick.ResolveInsert();
+                return attachment ? attachment.GetComponentsInChildren<Renderer>() : Array.Empty<Renderer>();
+            }
             var output = pick.wall ? pick.wall.GetComponentInChildren<WallOutput>() : null;
             if (!output) return Array.Empty<Renderer>();
             var renderers = output.GetComponentsInChildren<Renderer>();
