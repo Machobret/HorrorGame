@@ -157,13 +157,10 @@ public sealed class TwoSidedDoorTests
             child.transform.SetParent(root.transform);
             return child;
         };
-        var door = create("Door").AddComponent<TwoSidedDoor>();
-        door.ExitPoint = create("Side A").transform;
-        door.ExitPoint.position = Vector3.back * 2f;
-        door.OtherExitPoint = create("Side B").transform;
-        door.OtherExitPoint.position = Vector3.forward * 2f;
-        door.OnOpened = new UnityEvent();
-        door.OnLocked = new UnityEvent();
+        var prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Game/Doors/Prefabs/Door_Placeholder.prefab");
+        var instance = Object.Instantiate(prefab, root.transform);
+        var door = instance.GetComponent<TwoSidedDoor>();
+        var interaction = instance.GetComponent<Interactive>();
 
         var ui = create("UI");
         ui.SetActive(false);
@@ -222,8 +219,8 @@ public sealed class TwoSidedDoorTests
             yield return null; // Let the controller find UIFade in Start.
             for (int trip = 0; trip < 2; ++trip)
             {
-                door.Use(childUser);
-                door.Use(childUser);
+                interaction.OnInteract.Invoke(childUser);
+                interaction.OnInteract.Invoke(childUser);
                 float deadline = Time.realtimeSinceStartup + 5f;
                 while (ended <= trip && Time.realtimeSinceStartup < deadline)
                     yield return null;

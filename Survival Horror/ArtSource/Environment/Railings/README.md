@@ -17,13 +17,4 @@ Run from the project root:
 & 'C:/Portable Applications/Blender Portable/Blender 5.0.1/blender.exe' --background --factory-startup --disable-autoexec --python ArtSource/Environment/Railings/export_railing.py -- --project .
 ```
 
-Exports stage under ignored `Exports/Reviews/RailingFamily/Models`. Then run
-**Tools > Environment > Railings > Import railing wall family** in Unity. The importer moves
-previously exported FBXs through AssetDatabase if their height token changes, preserving their GUIDs.
-For an already open editor, write `import` to `Exports/Reviews/RailingFamily/import.request`
-before a script refresh. The explicit request is consumed once after reload; the result is written
-beside it. Source hashes and export geometry counts are recorded in `provenance.json`.
-Review renders/logs belong in ignored `Exports/Reviews/RailingFamily`.
-
-For a model-only update, add `--quick` to the exporter and use `import-only` as the request.
-This updates the existing modules and material bindings without validation, tests or a review render.
+Exports stage under ignored `Exports/Reviews/RailingFamily/Models`. The saved chapter scenes use baked railing geometry. Replace their model through Unity while retaining its GUID when refreshing an existing model.

@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6523766017431613862
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3752786505598308357, guid: cd334a1f3e26cc142908b021109baaf5, type: 3}
+      propertyPath: m_Name
+      value: Door_Placeholder
+      objectReference: {fileID: 0}
+    - target: {fileID: 4199532433093323657, guid: cd334a1f3e26cc142908b021109baaf5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4199532433093323657, guid: cd334a1f3e26cc142908b021109baaf5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4199532433093323657, guid: cd334a1f3e26cc142908b021109baaf5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4199532433093323657, guid: cd334a1f3e26cc142908b021109baaf5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4199532433093323657, guid: cd334a1f3e26cc142908b021109baaf5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4199532433093323657, guid: cd334a1f3e26cc142908b021109baaf5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4199532433093323657, guid: cd334a1f3e26cc142908b021109baaf5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4199532433093323657, guid: cd334a1f3e26cc142908b021109baaf5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4199532433093323657, guid: cd334a1f3e26cc142908b021109baaf5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4199532433093323657, guid: cd334a1f3e26cc142908b021109baaf5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7883170728488933862, guid: cd334a1f3e26cc142908b021109baaf5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 74e7b5210b5353a4f92711776dc47e4d, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3752786505598308357, guid: cd334a1f3e26cc142908b021109baaf5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 774103433940234561}
+  m_SourcePrefab: {fileID: 100100000, guid: cd334a1f3e26cc142908b021109baaf5, type: 3}
+--- !u!23 &4030638800967411776 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7883170728488933862, guid: cd334a1f3e26cc142908b021109baaf5, type: 3}
+  m_PrefabInstance: {fileID: 6523766017431613862}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7970669652224745891 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3752786505598308357, guid: cd334a1f3e26cc142908b021109baaf5, type: 3}
+  m_PrefabInstance: {fileID: 6523766017431613862}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &774103433940234561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7970669652224745891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2625f5043b556994c8784607c401390e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorGame.Doors.DoorAtlas
+  visual: {fileID: 4030638800967411776}
+  design: -1

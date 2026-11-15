@@ -23,7 +23,7 @@ namespace HorrorGame.Environment.Editor
             var material = AssetDatabase.LoadAssetAtPath<Material>(MaterialPath);
             if (material == null)
             {
-                var shader = AssetDatabase.LoadAssetAtPath<Shader>("Assets/EnvironmentAuthoring/Runtime/HorizontalWall.shader");
+                var shader = AssetDatabase.LoadAssetAtPath<Shader>("Assets/Game/Rendering/HorizontalWall.shader");
                 material = new Material(shader) { name = "GarageDoors_Atlas", enableInstancing = true };
                 material.SetTexture("_BaseMap", texture);
                 material.SetFloat("_Mapping", 0); // Exact atlas UVs, never world projection.

@@ -1,0 +1,22 @@
+# Storage boxes
+
+- Place `StorageBox.prefab` for solid boxes or `StorageBox_NoCollision.prefab` for decoration. The latter is a prefab variant with its BoxCollider removed.
+- Both use one 1 m cube mesh (bottom-centre pivot), one material, and the `StorageBoxAtlas` component. Scale the prefab to size. `StorageBox_Model.fbx` is the supplied `Box.fbx`, copied unchanged. The builder bakes its imported axis/unit transforms into `StorageBox_Mesh.asset` and normalizes the 2 m source cube to the existing 1 m prefab footprint. All authored primary UVs, including their existing small margins, are preserved exactly; no additional insets are applied.
+- `StorageBox_Albedo.png` is the supplied `Boxes_base_color.png`, copied unchanged and assigned to **Storage atlas (8 x 8, four tiles per box)** on `StorageBox_Atlas.mat`. No padding, UV inset, or texture import overrides are applied. Replace the material's texture to use another compatible atlas. **Horror Game > Environment > Assign Storage Box Atlas** reassigns this supplied texture.
+- The atlas contains 16 box designs: two groups of four adjacent cells per row, across eight rows. Each group is ordered **front, back, left/right, top/bottom** from left to right.
+- Unwrap custom models into the upper-left group: front U=0..0.125, back U=0.125..0.25, both sides U=0.25..0.375, both caps U=0.375..0.5. All faces use V=0.875..1. The shader uses these authored UVs directly; polygon order and material slots do not select the face texture. Use one material/submesh for instancing. On the supplied cube, front is local +Z and back is -Z.
+- The shader adds `float2((design % 2) * 0.5, -(design / 2) * 0.125)` to the authored UVs, with integer division for the row. There is no shader UV scaling. Design 0 is the upper-left group, 1 upper-right, 2 next row left, through 15 bottom-right. Random repeats are expected.
+- Editor placements receive a random design when their identity changes (including duplication). The selection persists with a saved placement; an unsaved scene receives a new identity when saved. The component context menu **Randomize Atlas Tile** rerolls it, or edit **Box Design** directly. The internal serialized `tileIndex` and instanced `_AtlasTile` names are retained for compatibility; they now identify a four-cell design.
+- Play Mode assigns a fresh random tile once per object lifetime, including scene objects and runtime clones. Disabling/re-enabling or moving a box keeps its tile. Editor preview tiles can differ from Play Mode.
+
+## Rendering
+
+The opaque shader uses URP Lit shading, including shadows, depth, depth normals, fog, light probes and additional lights. The atlas is albedo only; smoothness and metallic are uniform material values.
+
+The material enables conventional GPU instancing. `StorageBoxAtlas` supplies only the declared instanced `_AtlasTile` property through a MaterialPropertyBlock, opting these renderers out of SRP batching without changing project settings. Never access `renderer.material`, which would clone the shared material. This component owns the renderer property block. Keep these boxes out of static batching; the shader also disables geometry batching. GPU Resident Drawer is not used by these renderers.
+
+Matching mesh/material instances are eligible for Unity's automatic GPU instancing, subject to visibility, lights, probes, shadow passes and platform support. A single draw call for every box is not guaranteed. Check the Frame Debugger in your actual scene for instanced draws and measure performance. Instancing reduces rendering submission work, not physics costs.
+
+## Rebuild and verification
+
+Use **Horror Game > Environment > Build Storage Boxes** to regenerate the prefab pair from the supplied FBX. It preserves existing mesh/material asset GUIDs and the assigned atlas, but overwrites prefab customizations. **Update Storage Box From Model** refreshes the shared mesh asset from the FBX in place and runs validation, preserving prefab customizations and any assigned atlas. Rebuilds do not generate or overwrite primary UVs. **Validate Storage Boxes** checks the prefabs, collision bounds, exact source UV preservation, face-to-cell mapping, shared resources, instancing flag, shader import, duplicate identity and random property delivery. **Validate Storage Box Rendering** checks all 16 designs on all six faces (96 rendered samples covering all 64 cells) using a temporary colour atlas, without modifying the shared material or supplying a runtime texture. Review output goes to `Exports/Reviews/StorageBoxes`.

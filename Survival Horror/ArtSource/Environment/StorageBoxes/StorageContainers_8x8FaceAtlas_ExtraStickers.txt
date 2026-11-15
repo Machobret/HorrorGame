@@ -1,0 +1,9 @@
+Edited using built-in image_gen on 2026-11-15.
+Input: StorageContainers_8x8FaceAtlas.png
+Additional worn shipping stickers on selected front/back faces.
+Layout visually checked: 8x8, two four-face crate groups per row.
+Original preserved. Generative editing may alter fine surface details; model UVs and edge continuity untested.
+
+Final edit prompt:
+Edit this approved 8x8 crate face texture atlas. Change ONLY by adding extra small worn shipping stickers to SOME crate faces. Preserve the EXACT 8x8 layout, all tile boundaries, sixteen four-face groups, all existing materials, construction, colors, hardware, symbols, TOOLS stencil and wear. Do not rearrange or redesign any tiles. Each row remains two crates, each group front/back/side/top-bottom.
+Add approximately 20 additional small paper shipping labels distributed selectively: clustered two or three on a few cardboard front/back faces (row1 columns1-2, row3 columns5-6, row5 columns5-6, row7 columns5-6); one or two on selected wood front/back faces (row1 columns5-6, row6 columns1-2, row8 columns1-2); and a few single small labels on selected plastic/metal fronts or backs. Keep most top/bottom tiles and many side tiles untouched. Labels are realistic aged ivory/white/tan adhesive freight stickers: tiny barcode marks, fine indistinct shipping print, small inventory numbers, old torn corners, faded paper, occasional partially peeled remnants and subtly overlapping old stickers. Each label small relative to its tile, varied shape/placement and age. They sit flat on the surface, with negligible shadow. No large words or prominent new lettering, no brands, no oversized labels, no new warning graphics. Preserve overall original appearance and existing detail faithfully. Only the additional shipping stickers should visibly change. Output the full square atlas at the original proportions, without margins.

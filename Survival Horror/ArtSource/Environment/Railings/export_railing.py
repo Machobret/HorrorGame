@@ -121,10 +121,10 @@ def main():
         shader.inputs['Metallic'].default_value = .5
         shader.inputs['Roughness'].default_value = .4
         albedo = material.node_tree.nodes.new('ShaderNodeTexImage')
-        albedo.image = bpy.data.images.load(str(project / 'Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Metal/RustyMetal04/RustyMetal04_Albedo.jpg'), check_existing=True)
+        albedo.image = bpy.data.images.load(str(project / 'Assets/Game/Environment/Buildings/BakedGeometry/RustyMetal04/RustyMetal04_Albedo.jpg'), check_existing=True)
         material.node_tree.links.new(albedo.outputs['Color'], shader.inputs['Base Color'])
         normal_texture = material.node_tree.nodes.new('ShaderNodeTexImage')
-        normal_texture.image = bpy.data.images.load(str(project / 'Assets/EnvironmentAuthoring/Content/Materials/Surfaces/Metal/RustyMetal04/RustyMetal04_Normal.jpg'), check_existing=True)
+        normal_texture.image = bpy.data.images.load(str(project / 'Assets/Game/Environment/Buildings/BakedGeometry/RustyMetal04/RustyMetal04_Normal.jpg'), check_existing=True)
         normal_texture.image.colorspace_settings.name = 'Non-Color'
         normal = material.node_tree.nodes.new('ShaderNodeNormalMap')
         material.node_tree.links.new(normal_texture.outputs['Color'], normal.inputs['Color'])

@@ -1,8 +1,6 @@
 # Gravel glass windows
 
-Select **GravelGlass_WindowFamily → Clean** in the window insert selector for **Wall_01** or **Wall_02**, then choose either model. Their existing window choices remain available. The separate **GravelGlass_WallFamily** also retains this catalog and shares Wall_01 geometry; switching the wall family is not required. Explicit gravel glass reimport reconnects the catalog to all three families without replacing their other choices or editing existing levels.
-
-The two presets use the revised Models1.blend objects, each with one shared-vertex quad for glass. Shape 01 fits a 0.65 × 1.20 m opening; shape 02 fits a 0.50 × 0.90 m opening. Both use the 1 m segment datum and also fit the engine's compatible 2 m segments. Frame and pane remain submeshes 0 and 1 of one mesh. Frames reference the existing **M_Window_Clean_01** atlas material; their UVs are inset into the upper-left atlas tile. Pane UVs cover 0..1 separately. Existing FBX and preset GUIDs are retained.
+Choose **GravelWindowWide** (0.65 x 1.20 m) or **GravelWindowNarrow** (0.50 x 0.90 m) in the window palette on a plain wall. A complex family needs a surround with the matching aperture. The shared material also supplies the storefront and its glass door.
 
 Edit **GravelGlass.mat**:
 
@@ -14,6 +12,4 @@ Edit **GravelGlass.mat**:
 
 The material samples URP's opaque colour and depth textures. Depth must be available before transparents render; the current game renderer supplies it with Force Prepass. It cannot refract later transparent objects or off-screen content. Foreground depth rejection limits frame smearing. The single pane renders from both sides, with back-face normals reversed for coherent lighting/refraction. Glass does not write depth or cast shadows. Its effect is composited before the game's retro presentation; very fine patterns can disappear at that resolution. Lower alpha coverage blends warped and unwarped images.
 
-The windows are visual inserts. They do not add a pane collider, breakability or interaction.
-
-To rebuild: run the Blender recipe in `ArtSource/Environment/Windows/GravelGlass/export_windows.py` with Models1.blend as its source, then **Tools → Environment → Windows → Import gravel glass family**. Explicit reimport reconnects the two presets/catalog; it preserves existing material edits and asset GUIDs. Keep each FBX's two material names (`Frame_Painted`, `Glass_Clear`) and exact `OpeningMin`/`OpeningMax` markers. The source is read only; an editable normalized source snapshot and provenance are kept under ArtSource. Existing normal textures are not regenerated over artist edits. Review logs and render checks belong in `Exports/Reviews/GravelGlass`.
+The source FBXs and prefabs are kept here. Editable source and provenance are under ArtSource/Environment/Windows/GravelGlass.

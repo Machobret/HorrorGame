@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47a209a7707edf54cb848e1e00980c9f, type: 3}
+  m_Name: Plain
+  m_EditorClassIdentifier: HouseToolkit::HouseToolkit.WallFamily
+  plainThickness: 0.16
+  complex: 0
+  defaultPanelLayout: 1
+  surface: {fileID: 2100000, guid: 0a5815e670534c1387ce03935da2bd01, type: 2}
+  glass: {fileID: 0}
+  surfaceFinishes: []
+  glassFinishes: []
+  panels: []
+  legacyPanel: {fileID: 0}
+  cornerPost: {fileID: 0}
+  surrounds: []
+  defaultInserts:
+  - {fileID: 11400000, guid: be2398c4d0bff47429cfbbaa73b62e7f, type: 2}
+  - {fileID: 11400000, guid: a35c7fa0f7dd43a41972ffa9769d714b, type: 2}

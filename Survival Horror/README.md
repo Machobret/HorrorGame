@@ -7,6 +7,7 @@ Open this folder in Unity **6000.3.11f1**. See [asset organization](Docs/AssetOr
 - Main menu: `Assets/Game/UI/MainMenu/Scenes/MainMenu.unity`
 - Chapter 0: `Assets/Game/Levels/Chapter0/Scenes/Tutorial.unity` and `Checkpoint.unity`
 - Weapon playground: `Assets/Sandbox/WeaponTestRoom/Scenes/FlareGun_TestRoom.unity`
+- New starting level (authoring): `Assets/Game/Levels/Chapter0/Scenes/StartingLevel.unity`. Use **GameObject > House Toolkit** to create houses and roads. [Families and wall finishes](Docs/HouseToolkit.md)
 - House playground: `Assets/Sandbox/HouseDemo/Scenes/TemporaryHouseDemo.unity`
 - Lighting studies: `Assets/Sandbox/LightingStudies/Scenes`
 - Gameplay: `Assets/Game/Weapons`, `Enemies`, `Characters`, and `Doors`

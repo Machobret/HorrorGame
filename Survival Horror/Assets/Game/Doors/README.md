@@ -2,15 +2,13 @@
 
 ## Procedural building doors
 
+Door exit markers sit 0.65 m from the doorway centreline. The interior, exterior and glass variants inherit both markers from `Door_Base`. The project's vendor edits to `Assets/AssetStore/HorrorEngine/Prefabs/Door.prefab` and `CrossSceneDoor.prefab` set their single destination marker to the same distance. Check those two offsets after updating Horror Engine.
+
 `Prefabs/Door_Base.prefab` is the reusable starting point. It contains `TwoSidedDoor`, the shared Door interaction data, a bidirectional interaction trigger, a separate solid leaf collider, and two prewired child exits facing away from the doorway. `Interactive.OnInteract` calls this instance's `TwoSidedDoor.Use(IInteractor)`. No exit setup is needed when choosing another visual.
 
-The sixteen `Door_Interior_*` / `Door_Exterior_*` prefabs are native variants of this base. The existing Waterpixels door-family presets reference those variants and remain compatible with the supplied 1 m and 2 m doorway segments. Place or replace them through the normal wall-family selector, including bulk edits. Outside House edit mode, the placed door is independently selectable; edit its ordinary prefab overrides, events, exit transforms or optional lock components there. Wall rebuilds move its attachment without recreating the prefab. Explicitly changing its preset creates that preset's defaults; arbitrary overrides are not transferred to a different door.
+Choose **Door_Placeholder** in the House Toolkit door palette for the default plain-wall door. It is a variant of Door_Base with the original 4 x 2 interior atlas and its two-sided door mesh. Each toolkit opening has a stable automatic design. Select the placed prefab and set **Door Atlas > Design** to 0-7 to override it, or -1 for automatic. This changes the renderer property block and keeps the material shared.
 
-For a custom door, create a variant of `Door_Base`, replace its `Visual`, and assign that prefab to a compatible `WallOpeningInsert`. Keep the prefab root at doorway centre/floor height, with +Z facing the module front and unit scale. The base includes an unlocked transition door, not an animated swinging-leaf controller; assign the usual Door Animation or add custom gameplay in a variant if needed. The level still needs Horror Engine's normal shared `DoorTransitionController`, UI and pause setup. Existing scenes and game-wide settings are not modified by this integration.
-
-`Door_Glass` is the storefront variant, connected through `Glass_DoorFamily`. Its Visual has frame and glass slots. The storefront import creates it only if missing and preserves custom preset assignments. For presets with `UseWallMaterialRoles`, a two-slot `Visual` renderer inherits host finishes; explicit instance material overrides survive subsequent host finish changes. The `PrefabDoorMaterialTests` fixture checks inheritance, override preservation and serialization.
-
-`Tools > Game > Doors > Set up procedural door prefabs` creates missing base/variant assets and connects empty bundled preset assignments. It preserves existing prefabs and custom assignments on rerun. Run it again after replacing bundled presets with a toolkit update.
+**Inserts** also contains the eight interior and eight exterior designs and **Door_Glass**. Each uses its original gameplay prefab. Glass is the storefront default and also fits a plain wall. Both families use a 0.9 x 2.1 m door aperture. The prefab owns interaction, locks, and its exits. The house owns placement. Its Scene tool can select an insert or its surrounding wall.
 
 ## Custom door setup
 

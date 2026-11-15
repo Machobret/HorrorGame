@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HorrorEngine
 {
-    [DisallowMultipleComponent]
+    [SelectionBase, DisallowMultipleComponent]
     [AddComponentMenu("Horror Engine/Doors/Two Sided Door")]
     public sealed class TwoSidedDoor : DoorBase
     {

@@ -28,12 +28,13 @@ def main():
     door = bpy.data.objects.get('Insert_Door_01_W1000_H2800_Model01_Body')
     assert door is not None and door.type == 'MESH', 'Expected the selected storefront door.'
     sources.append(door)
-    target = args.project / 'Assets/Game/Environment/Storefront/Sources'
-    target.mkdir(parents=True, exist_ok=True)
     snapshot = bpy.data.scenes.new('Storefront T150')
     records = []
     for source in sources:
         is_insert = source == door
+        target = args.project / ("Assets/Game/Doors/Meshes" if is_insert
+                                 else "Assets/Game/Environment/Buildings/BakedGeometry/Storefront")
+        target.mkdir(parents=True, exist_ok=True)
         name = (source.name.removesuffix('_Body').replace('Model01', 'ModelStorefront') if is_insert
             else source.name.removesuffix('_Body').replace('Wall_02_', 'Wall_Storefront_').replace('_T300', '_T150'))
         width = int(re.search(r'_W(\d+)', name)[1]) / 1000

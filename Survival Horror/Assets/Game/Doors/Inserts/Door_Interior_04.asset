@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ded1387e76df504f97e1f13d24ac060, type: 3}
+  m_Name: Door_Interior_04
+  m_EditorClassIdentifier: HouseToolkit::HouseToolkit.HouseInsert
+  kind: 0
+  opening: {x: 0.9, y: 2.1}
+  prefab: {fileID: 8127472675082479163, guid: 9d61e1381bcd2c04bae09f65aed2ae70, type: 3}
+  finishRenderer: {fileID: 0}
+  minimumThickness: 0
+  maximumThickness: 0
