@@ -2,6 +2,14 @@ using UnityEngine;
 
 namespace HorrorEngine
 {
+    // Optional safety policy for authored traversal; ordinary template ladders are unchanged.
+    public interface IClimbSafety
+    {
+        bool CanStartClimb(Actor actor);
+        bool TryMoveClimbing(Actor actor,Vector3 current,Vector3 proposed,out Vector3 safePosition);
+        void FinishClimb(Actor actor);
+    }
+
     [RequireComponent(typeof(Interactive))]
     public class Climbable : MonoBehaviour
     {

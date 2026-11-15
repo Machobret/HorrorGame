@@ -6,7 +6,7 @@ namespace HorrorGame.Environment
     /// <summary>Moves the native climb markers to the approached crate edge and plants hands on that edge.</summary>
     [DefaultExecutionOrder(10000)]
     [RequireComponent(typeof(Climbable))]
-    public sealed class CrateClimbRig : MonoBehaviour
+    public sealed class CrateClimbRig : MonoBehaviour,IClimbSafety
     {
         public Rigidbody CrateBody;
         public Transform LeftHandContact;
@@ -21,6 +21,9 @@ namespace HorrorGame.Environment
         float started;
         Vector3 restPosition;
         Quaternion restRotation;
+        CharacterController capsule;
+        Vector3 lastClearPosition;
+        Vector3 entryPosition;
 
         void Awake()
         {
@@ -75,6 +78,50 @@ namespace HorrorGame.Environment
             started=Time.time; entered=false;
         }
 
+        public bool CanStartClimb(Actor player)
+        {
+            if(!actor)PrepareForActor(player,null);
+            if(actor!=player || !CrateBody)return false;
+            capsule=player.GetComponent<CharacterController>();
+            if(!capsule){Release();return false;}
+            Physics.SyncTransforms();
+            lastClearPosition=entryPosition=player.transform.position;
+            var climb=GetComponent<Climbable>();
+            Vector3[] path=dropping
+                ?new[]{lastClearPosition,climb.DropTop,climb.DropBottom,climb.ExitBottom.position}
+                :new[]{lastClearPosition,climb.ClimbBottom,climb.ClimbTop,climb.ExitTop.position};
+            bool clear=ClimbClearance.HasSupport(capsule,path[path.Length-1]);
+            for(int i=1;clear&&i<path.Length;i++)
+                clear=ClimbClearance.CanMove(capsule,path[i-1],path[i],CrateBody.transform);
+            if(!clear)Release();
+            return clear;
+        }
+
+        public bool TryMoveClimbing(Actor player,Vector3 current,Vector3 proposed,out Vector3 safePosition)
+        {
+            safePosition=entryPosition;
+            if(!capsule||!CrateBody)return false;
+            Physics.SyncTransforms();
+            if(!ClimbClearance.CanMove(capsule,current,proposed,CrateBody.transform))return false;
+            lastClearPosition=proposed;safePosition=proposed;return true;
+        }
+
+        public void FinishClimb(Actor player)
+        {
+            if(!capsule||!CrateBody)return;
+            // Restore a validated pose before the native state re-enables CharacterController.
+            if(!ClimbClearance.IsClear(capsule,player.transform.position,null) ||
+                !ClimbClearance.HasSupport(capsule,player.transform.position))
+            {
+                Vector3 restore=ClimbClearance.IsClear(capsule,entryPosition,null)?entryPosition:lastClearPosition;
+                var body=player.GetComponent<Rigidbody>();
+                if(body)body.position=restore;
+                player.transform.position=restore;
+                Physics.SyncTransforms();
+            }
+            Release();
+        }
+
         void LateUpdate()
         {
             if (!actor) return;
@@ -102,7 +149,7 @@ namespace HorrorGame.Environment
             if (CrateBody) { CrateBody.constraints=previousConstraints; CrateBody.isKinematic=previousKinematic; }
             transform.localPosition=restPosition; transform.localRotation=restRotation;
             var player=actor;
-            bool guardTop=entered && !dropping && isActiveAndEnabled && IsPlayerOnTop(player);
+            bool guardTop=isActiveAndEnabled && IsPlayerOnTop(player);
             actor=null;animator=null;entered=false;
             if (guardTop)
             {

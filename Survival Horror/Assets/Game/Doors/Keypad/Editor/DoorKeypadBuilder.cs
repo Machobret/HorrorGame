@@ -109,6 +109,7 @@ namespace HorrorGame.Doors.Editor
                 if(display)control.Display=display.GetComponent<TMP_Text>();
                 control.SuccessSound=AssetDatabase.LoadAssetAtPath<AudioClip>(AssetDatabase.GUIDToAssetPath("66993392d1259784dbc30fda3c533f5d"));
                 UnityEventTools.AddVoidPersistentListener(approach.OnInteract,control.Open);
+                approachObject.SetActive(false); // Interaction belongs to the locked door only.
                 AddBottomRow(root,puzzle,context);
                 ApplyPresentation(root,control);
                 var state=root.AddComponent<SavableObjectState>();

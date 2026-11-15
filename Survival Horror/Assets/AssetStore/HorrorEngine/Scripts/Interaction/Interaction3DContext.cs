@@ -22,6 +22,10 @@ namespace HorrorEngine
         private Interactive m_SelectedInteractive;
         private bool m_CanSelect;
         private bool m_HasBeenActivated;
+        private int m_ActivationVersion;
+        // Owned panels can supply direct keyboard input without a second Update processing it.
+        public bool ExternalInput { get; set; }
+        public Interactive Selected => m_SelectedInteractive;
 
         // --------------------------------------------------------------------
 
@@ -41,9 +45,11 @@ namespace HorrorEngine
         public void Activate()
         {
             m_HasBeenActivated = true;
+            int version = ++m_ActivationVersion;
             m_SelectedInteractive = null;
             this.InvokeActionNextFrame(() =>
             {
+                if (!enabled || version != m_ActivationVersion) return;
                 foreach (var interactive in m_Interactives)
                 {
                     interactive.enabled = true;
@@ -62,6 +68,7 @@ namespace HorrorEngine
 
         public void Deactivate()
         {
+            ++m_ActivationVersion;
             foreach(var interactive in m_Interactives)
             {
                 interactive.enabled = false;
@@ -76,6 +83,7 @@ namespace HorrorEngine
 
         void Update()
         {
+            if (ExternalInput) return;
             Vector2 axis = m_UIInput.GetPrimaryAxis();
             if (axis.magnitude > 0.5)
             {
@@ -140,6 +148,28 @@ namespace HorrorEngine
                 }
             }
             return canditate;
+        }
+
+        public void Navigate(Vector2 direction)
+        {
+            if (!enabled || !m_SelectedInteractive) return;
+            var target = FindTargetInteractive(direction);
+            if (target) Select(target);
+        }
+
+        public void Select(Interactive target)
+        {
+            if (!enabled || !target || !target.enabled) return;
+            m_SelectedInteractive = target;
+            m_Cursor.position = target.transform.position;
+            OnHover?.Invoke(target);
+        }
+
+        public void PressSelected()
+        {
+            if (!enabled || !m_SelectedInteractive) return;
+            OnSelected?.Invoke(m_SelectedInteractive);
+            m_SelectedInteractive.OnInteract?.Invoke(this);
         }
 
         // --------------------------------------------------------------------

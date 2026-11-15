@@ -37,6 +37,7 @@ namespace HorrorEngine
         private UnityAction<AnimationEvent> m_OnAnimatorEvent;
         private SurfaceDetector m_SurfaceDetector;
         private CharacterController m_CharacterCtrl;
+        private IClimbSafety m_Safety;
         
         // --------------------------------------------------------------------
 
@@ -157,7 +158,7 @@ namespace HorrorEngine
             if (m_ShowDebug)
                 DebugUtils.DrawBox(pos, Quaternion.identity, Vector3.one, Vector3.one * 0.1f, Color.yellow, 10f);
 
-            m_Rigidbody.MovePosition(pos);
+            if(!MoveClimbing(pos))return;
 
             if (m_Climbable.Setup.FaceEntryDirection)
             {
@@ -180,7 +181,7 @@ namespace HorrorEngine
             Vector3 pos = Vector3.Lerp(progressPos, exitPos, 1f - attachmentT);
             if (m_ShowDebug)
                 DebugUtils.DrawBox(pos, Quaternion.identity, Vector3.one, Vector3.one * 0.1f, Color.red, 10f);
-            m_Rigidbody.MovePosition(pos);
+            if(!MoveClimbing(pos))return;
 
             var endPosY = (m_EndPos.y + (m_TopToBottom ? m_ExitDistance : -m_ExitDistance));
             float distToExit = endPosY - m_Rigidbody.position.y;
@@ -208,7 +209,7 @@ namespace HorrorEngine
             if (m_ShowDebug)
                 DebugUtils.DrawBox(pos, Quaternion.identity, Vector3.one, Vector3.one * 0.1f, Color.blue, 10f);
 
-            m_Rigidbody.MovePosition(pos);
+            if(!MoveClimbing(pos))return;
 
             if (m_Climbable.Setup.FaceExitDirection)
             {
@@ -238,6 +239,8 @@ namespace HorrorEngine
 
         public override void StateExit(IActorState intoState)
         {
+            m_Safety?.FinishClimb(Actor);
+            m_Safety=null;
             base.StateExit(intoState);
 
             Actor.GetComponent<Health>().Invulnerable = false;
@@ -253,8 +256,23 @@ namespace HorrorEngine
 
         public void StartClimb(Climbable climbable)
         {
+            var safety=climbable.GetComponent<IClimbSafety>();
+            if(safety!=null&&!safety.CanStartClimb(Actor))return;
+            m_Safety=safety;
             m_Climbable = climbable;
             SetState(this);
+        }
+
+        private bool MoveClimbing(Vector3 position)
+        {
+            if(m_Safety!=null&&!m_Safety.TryMoveClimbing(Actor,m_Rigidbody.position,position,out position))
+            {
+                m_Rigidbody.position=position;
+                SetState(m_ExitState);
+                return false;
+            }
+            m_Rigidbody.MovePosition(position);
+            return true;
         }
     }
 
