@@ -59,11 +59,13 @@ namespace HorrorEngine
             if (isCurrent)
                 currentMapCtrl.UpdateContent();
             MapRenderer.Instance.GenerateAll(map);
-            // The player marker is part of the map HUD, not room discovery.
-            // Keep it visible on every owned map screen, including prototype
-            // areas whose player position is momentarily outside a MapRoom.
-            MapRenderer.Instance.SetPlayerVisible(true);
-            MapPlayerFocus.FocusOnPlayer(MapRenderer.Instance, map);
+            MapNavigationIndicator.HideMarkersOutside(map);
+            // A selected map can belong to another area/set. Do not project
+            // the player arrow onto that map; it must only appear on the map
+            // that currently contains the player.
+            MapRenderer.Instance.SetPlayerVisible(isCurrent);
+            if (isCurrent)
+                MapPlayerFocus.FocusOnPlayer(MapRenderer.Instance, map);
             
             m_MapList.gameObject.SetActive(false);
             m_MapName.text = map.Name;
@@ -167,6 +169,10 @@ namespace HorrorEngine
 
         private void ShowMapList()
         {
+            // Discovery can change while the map screen is open, so rebuild
+            // the I-key list every time it is opened.
+            if (!m_MapList.gameObject.activeSelf)
+                m_MapList.Fill(m_CurrentMap);
             m_MapList.gameObject.SetActive(!m_MapList.gameObject.activeSelf);
             CursorController.Instance.SetInUI(m_MapList.gameObject.activeSelf);
         }
@@ -264,18 +270,20 @@ namespace HorrorEngine
                 }
             }
 
-            bool playerOwnsMap = map != null && GameManager.Exists && GameManager.Instance.Inventory != null && GameManager.Instance.Inventory.Maps.Contains(map);
+            // A physical map and an explored area both unlock the map screen.
+            // Room rendering itself still hides every undiscovered room.
+            bool mapIsKnown = map != null && GameManager.Exists && GameManager.Instance.Inventory != null && map.IsKnownByPlayer();
 
             // Generate the selected map before exposing its render texture. This
             // prevents the previous map frame from briefly showing in the UI.
-            if (playerOwnsMap)
+            if (mapIsKnown)
                 OnMapSelected(map);
             else
                 m_CurrentMap = null;
 
             gameObject.SetActive(true);
 
-            if (MapRenderer.Exists && playerOwnsMap)
+            if (MapRenderer.Exists && mapIsKnown)
             {
                 RenderTexture renderTexture = MapRenderer.Instance.RenderTexture;
                 m_MapImage.texture = renderTexture;
@@ -303,7 +311,7 @@ namespace HorrorEngine
                 Debug.LogWarning("There isn't a MapRenderer in the scene. Map won't be visible in the map screen");
             }
 
-            m_MapList.Fill();
+            m_MapList.Fill(m_CurrentMap);
 
             m_UIContext.Activate();
         }
@@ -312,6 +320,7 @@ namespace HorrorEngine
 
         private void Hide()
         {
+            if (!Chapter1MapTutorial.CanCloseMap) return;
             PauseController.Instance.Resume(this);
             gameObject.SetActive(false);
 

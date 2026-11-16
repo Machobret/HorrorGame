@@ -304,10 +304,12 @@ namespace HorrorEngine
         private bool GenerateRoom(MapRoomSerializedData room, bool revealUnknownRooms)
         {
             MapRoomState state = room.GetState();
-            bool hasMap = GameManager.Instance.Inventory.Maps.Contains(m_Map);
             if (state == MapRoomState.Unknown)
             {
-                if (hasMap || revealUnknownRooms) // Tablet panels may show their authored service map before discovery.
+                // A physical map unlocks its UI, but room discovery remains
+                // local: only entered/revealed rooms are drawn. The tablet
+                // passes revealUnknownRooms explicitly for its service view.
+                if (revealUnknownRooms)
                     state = MapRoomState.NotVisited;
                 else
                     return false;

@@ -55,8 +55,8 @@ MonoBehaviour:
     Shapes:
     - Points:
       - {x: -3.4, y: 0, z: -5.100583}
-      - {x: -17.1, y: 0, z: -5.100583}
-      - {x: -17.1, y: 0, z: -15.053911}
+      - {x: -18.9, y: 0, z: -5.100583}
+      - {x: -18.9, y: 0, z: -15.053911}
       - {x: -23.478622, y: 0, z: -21.144794}
       - {x: -31.901852, y: 0, z: -29.817186}
       - {x: -36.197357, y: 0, z: -31.7}
@@ -100,49 +100,15 @@ MonoBehaviour:
         Rotation: 89.99983
       Shape:
         Points:
-        - {x: -5.0000005, y: 0, z: -3.7}
+        - {x: -5.0000005, y: 0, z: -5.7}
         - {x: -5, y: 0, z: 5.8}
         - {x: 3, y: 0, z: 5.8}
-        - {x: 3.0000062, y: 0, z: -3.7}
+        - {x: 3, y: 0, z: -5.7}
         Closed: 1
         Connections: []
       CreationProcess: {fileID: 11400000, guid: 9f084c23132ffd941a3672bd1097039a, type: 2}
       UniqueId: 
       DefaultState: 1
-    - Transform:
-        Offset: {x: -16.52, y: -13.24}
-        Scale: {x: 1, y: 1, z: 1}
-        ZOrder: 0
-        Rotation: 89.99983
-      Shape:
-        Points:
-        - {x: -0.8877409, y: 0, z: -0.26542407}
-        - {x: 3.6857185, y: 0, z: 8.595009}
-        - {x: 13.157363, y: 0, z: 1.6217813}
-        - {x: 7.525737, y: 0, z: -6.7995443}
-        Closed: 1
-        Connections: []
-      CreationProcess: {fileID: 11400000, guid: 9f084c23132ffd941a3672bd1097039a, type: 2}
-      UniqueId: 
-      DefaultState: 1
-    Images: []
-  - Name: 
-    UniqueId: 2c520d73-595d-4f15-b9d9-90e3230de9e6
-    Transform:
-      Offset: {x: 625, y: 625}
-      Scale: {x: 1, y: 1, z: 1}
-      ZOrder: 0
-      Rotation: 0
-    Shapes:
-    - Points:
-      - {x: -1, y: 0, z: -1}
-      - {x: -1, y: 0, z: 1}
-      - {x: 1, y: 0, z: 1}
-      - {x: 1, y: 0, z: -1}
-      Closed: 1
-      Connections: []
-    LinkedElements: []
-    Details: []
     Images: []
   Doors: []
   references:

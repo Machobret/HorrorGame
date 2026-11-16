@@ -11,6 +11,7 @@ namespace HorrorEngine
 
         private bool m_Visited;
         private MapRoom[] m_Rooms;
+        private MapRoom m_CurrentRoom;
         private SavableObjectState m_Savable;
 
         private static List<MapController> m_Controllers = new List<MapController>();
@@ -83,21 +84,30 @@ namespace HorrorEngine
             });
         }
 
+        // Walking between authored room volumes does not produce a door or
+        // scene-transition message. Track that change directly so discovery
+        // happens when the player actually enters the next area.
+        private void Update()
+        {
+            if (!GameManager.Exists || !GameManager.Instance.Player) return;
+            MapRoom room = GetContainingRoom(GameManager.Instance.Player.transform.position);
+            if (room == null || room == m_CurrentRoom) return;
+
+            m_CurrentRoom = room;
+            room.TryMarkAs(MapRoomState.Visited);
+            MarkVisited();
+        }
+
         // --------------------------------------------------------------------
 
         public void UpdateContent()
         {
-            bool hasMap = GameManager.Instance.Inventory.Maps.Contains(Data);
-
             MarkCurrentRoomVisited();
 
             foreach (var room in m_Rooms)
             {
                 if (room.CheckIfCompleted())
                     room.TryMarkAs(MapRoomState.Completed);
-
-                if (hasMap && room.State == MapRoomState.Unknown)
-                    room.TryMarkAs(MapRoomState.NotVisited);
             }
         }
 
@@ -135,6 +145,7 @@ namespace HorrorEngine
             MapRoom room = GetContainingRoom(GameManager.Instance.Player.transform.position);
             if (room)
             {
+                m_CurrentRoom = room;
                 room.TryMarkAs(MapRoomState.Visited);
                 MarkVisited();
             }
@@ -153,6 +164,13 @@ namespace HorrorEngine
             }
 
             return null;
+        }
+
+        /// <summary>Returns the authored room currently containing the player, if this map owns it.</summary>
+        public MapRoom GetCurrentRoom()
+        {
+            if (!GameManager.Exists || !GameManager.Instance.Player) return null;
+            return GetContainingRoom(GameManager.Instance.Player.transform.position);
         }
 
         // --------------------------------------------------------------------

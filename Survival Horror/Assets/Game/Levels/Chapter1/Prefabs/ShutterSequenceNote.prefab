@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100004
+GameObject:
+  m_ObjectHideFlags: 0
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 400004}
+  - component: {fileID: 11400004}
+  m_Layer: 0
+  m_Name: Shutter Sequence Solution Note
+  m_TagString: Untagged
+  m_IsActive: 1
+--- !u!4 &400004
+Transform:
+  m_GameObject: {fileID: 100004}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!114 &11400004
+MonoBehaviour:
+  m_GameObject: {fileID: 100004}
+  m_Enabled: 1
+  m_Script: {fileID: 11500000, guid: 3e6df4a5924a46d2ac3385bf75c9f6e3, type: 3}
+  Puzzle: {fileID: 0}

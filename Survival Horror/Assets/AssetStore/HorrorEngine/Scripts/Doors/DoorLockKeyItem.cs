@@ -110,5 +110,8 @@ namespace HorrorEngine
 
             return false;
         }
+
+        /// <summary>Allows a puzzle controller to assign its generated key before use.</summary>
+        public void ConfigureKey(ItemData key) => m_Key = key;
     }
 }

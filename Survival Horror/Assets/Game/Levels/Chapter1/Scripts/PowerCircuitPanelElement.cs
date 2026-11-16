@@ -16,6 +16,8 @@ namespace HorrorGame.Chapter1
         public MapData MapData;
         public MapRoom Room;
         public Vector2 RoomOffset;
+        [Min(0.1f), Tooltip("Maximum X/Z world distance from the player required to operate this circuit through the map.")]
+        public float ActivationRange = 8f;
         public List<CircuitDrivenObject> LinkedTargets = new List<CircuitDrivenObject>();
         public Vector2 Size = new Vector2(220, 65);
         public List<Vector2> BorderPoints = new List<Vector2>();
@@ -53,7 +55,8 @@ namespace HorrorGame.Chapter1
             }
             string roomId = string.Empty;
             if (Room && Room.TryGetComponent(out ObjectUniqueId uniqueId)) roomId = uniqueId.Id;
-            return new PowerPanelCircuitShape { CircuitId = CircuitId, Label = string.IsNullOrWhiteSpace(Label) ? CircuitId : Label, Bounds = bounds, BorderPoints = points, MapPosition = mapPosition, RoomName = Room ? Room.Name : string.Empty, MapUniqueId = map ? map.UniqueId : string.Empty, RoomUniqueId = roomId };
+            Vector3 worldPosition = Room ? Room.transform.TransformPoint(new Vector3(RoomOffset.x, 0f, RoomOffset.y)) : transform.position;
+            return new PowerPanelCircuitShape { CircuitId = CircuitId, Label = string.IsNullOrWhiteSpace(Label) ? CircuitId : Label, Bounds = bounds, BorderPoints = points, MapPosition = mapPosition, RoomName = Room ? Room.Name : string.Empty, MapUniqueId = map ? map.UniqueId : string.Empty, RoomUniqueId = roomId, WorldPosition = worldPosition, ActivationRange = Mathf.Max(.1f, ActivationRange) };
         }
     }
 }

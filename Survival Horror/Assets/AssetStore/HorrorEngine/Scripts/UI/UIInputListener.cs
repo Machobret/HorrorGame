@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using HorrorGame.Chapter1;
 
 namespace HorrorEngine
 {
@@ -41,7 +42,7 @@ namespace HorrorEngine
                         m_Inventory?.Show();
                 }
 
-                if (m_BlockingContext.Count == 0 && m_Input.IsToggleMapDown())
+                if (m_BlockingContext.Count == 0 && Chapter1MapTutorial.CanOpenMap && m_Input.IsToggleMapDown())
                 {
                     if (!m_Map)
                         m_Map = GetComponentInChildren<UIMap>(true);

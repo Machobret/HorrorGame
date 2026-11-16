@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6c740a1c8e4a09a365728f104d5b9a, type: 3}
+  m_Name: MapTablet
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorGame.Chapter1.MapTabletItemData
+  UniqueId: 440f5cc8-6b39-4333-877d-7a8c407db48e
+  Image: {fileID: 0}
+  ExamineModel: {fileID: 0}
+  Name:
+    IsLocalized: 0
+    Unlocalized: District Map Tablet
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Description:
+    IsLocalized: 0
+    Unlocalized: A maintenance tablet containing the district map and power controls.
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  InventoryAction: 0
+  Flags: 0
+  Tags: []
+  DropPrefab: {fileID: 0}
+  MaxStackSize: 0
+  m_OnUseAudioClip: {fileID: 0}
+  Name_DEPRECATED: 
+  Description_DEPRECATED: 
+  MapToUnlock: {fileID: 11400000, guid: 134e43fd5f4ae534a97d9cb203a6fceb, type: 2}
+  references:
+    version: 2
+    RefIds: []

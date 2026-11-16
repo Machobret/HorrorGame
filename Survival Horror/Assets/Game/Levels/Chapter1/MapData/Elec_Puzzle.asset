@@ -16,7 +16,7 @@ MonoBehaviour:
   ControllerUniqueId: eecae8d9-7ff5-40d4-a0de-355e733c853d
   Name:
     IsLocalized: 0
-    Unlocalized: 
+    Unlocalized: Test
     Localized:
       m_TableReference:
         m_TableCollectionName: 
@@ -28,7 +28,7 @@ MonoBehaviour:
       m_LocalVariables: []
   Abbreviation:
     IsLocalized: 0
-    Unlocalized: 
+    Unlocalized: T1
     Localized:
       m_TableReference:
         m_TableCollectionName: 
@@ -58,10 +58,10 @@ MonoBehaviour:
       - {x: -3.5, y: 0, z: 6.5}
       - {x: 1, y: 0, z: 6.5}
       - {x: 1, y: 0, z: -0.45897138}
-      - {x: 10.792879, y: 0, z: -0.45897257}
-      - {x: 10.942413, y: 0, z: -7.5083838}
-      - {x: -16, y: 0, z: -7.4683156}
-      - {x: -16, y: 0, z: 0.44677997}
+      - {x: 10.8, y: 0, z: -0.45897257}
+      - {x: 10.8, y: 0, z: -18.7}
+      - {x: -21.8, y: 0, z: -18.7}
+      - {x: -21.8, y: 0, z: 0.44677997}
       Closed: 1
       Connections: []
     LinkedElements: []

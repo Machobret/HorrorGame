@@ -31,6 +31,12 @@ namespace HorrorGame.Chapter1
         private void OnMouseDown() => Open();
         public void Open()
         {
+            Chapter1MapTutorial tutorial = Chapter1MapTutorial.Instance;
+            if (tutorial != null && !tutorial.MapUnlocked)
+            {
+                Debug.Log("The map tablet has not been collected yet.", this);
+                return;
+            }
             if (DistrictMapData != null && (GameManager.Instance == null || !GameManager.Instance.Inventory.Maps.Contains(DistrictMapData)))
             {
                 Debug.Log("The district map has not been found yet.", this);

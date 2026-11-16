@@ -18,12 +18,10 @@ namespace HorrorGame.Chapter1
 
             if (!GameManager.Exists || GameManager.Instance.Inventory == null) yield break;
             Inventory inventory = GameManager.Instance.Inventory;
-            inventory.Unequip(EquipmentSlot.Primary);
-            inventory.Unequip(EquipmentSlot.Secondary);
-            inventory.Clear();
-            // Saved games can restore the old eight-slot capacity.
-            inventory.ResetCapacity(6);
-            if (StartingMap) inventory.Maps.Add(StartingMap);
+            // This component only grants the Chapter 1 map. It must never
+            // alter the player's inventory, equipment, or slot capacity.
+            if (StartingMap && !inventory.Maps.Contains(StartingMap))
+                inventory.Maps.Add(StartingMap);
         }
     }
 }

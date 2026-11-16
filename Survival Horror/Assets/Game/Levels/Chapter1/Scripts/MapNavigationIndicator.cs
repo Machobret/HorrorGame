@@ -132,6 +132,34 @@ namespace HorrorGame.Chapter1
 
         public void SetEnabled(bool value) => IsEnabled = value;
 
+        /// <summary>Immediately clears marker instances that do not belong to a selected map.</summary>
+        public static void HideMarkersOutside(MapData selectedMap)
+        {
+            foreach (MapNavigationIndicator indicator in Resources.FindObjectsOfTypeAll<MapNavigationIndicator>())
+            {
+                if (!indicator || indicator.ResolveController()?.Data == selectedMap) continue;
+                indicator.HideMarker();
+            }
+        }
+
+        /// <summary>Used by the map-selection UI to mark the map containing the current objective.</summary>
+        public static bool HasActiveObjectiveFor(MapData map)
+        {
+            if (!map) return false;
+            foreach (MapNavigationIndicator indicator in FindObjectsByType<MapNavigationIndicator>(FindObjectsSortMode.None))
+            {
+                if (indicator && indicator.Type == MapNavigationIndicatorType.ObjectiveArrow && indicator.IsEnabled && indicator.ResolveController()?.Data == map)
+                    return true;
+            }
+            return false;
+        }
+
+        private void HideMarker()
+        {
+            if (marker) marker.SetActive(false);
+            if (labelObject) labelObject.SetActive(false);
+        }
+
         private bool TryGetMapPosition(MapController controller, Vector3 worldPosition, out Vector3 mapPosition)
         {
             if (!controller) { mapPosition = Vector3.zero; return false; }

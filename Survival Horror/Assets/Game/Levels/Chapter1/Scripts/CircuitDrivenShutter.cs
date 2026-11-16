@@ -25,11 +25,25 @@ namespace HorrorGame.Chapter1
         [Tooltip("Fires only when the player tries an Other Side Door while this shutter is lowered.")]
         public UnityEvent OnBlocked;
         private Coroutine move;
+        private bool forceOpen;
 
-        public bool IsOpen => Powered;
+        public bool IsOpen => Powered || forceOpen;
+
+        /// <summary>Used by solved puzzle controllers to keep a main shutter open.</summary>
+        public void SetForcedOpen(bool value) { forceOpen = value; Refresh(); }
 
         protected override void Start()
         {
+            if (!MovingPart && transform.childCount > 0) MovingPart = transform.GetChild(0);
+            // Preserve the authored placement of each shutter instance.  The
+            // two serialized positions are used as a travel delta rather than
+            // absolute local coordinates, avoiding a snap to ground level.
+            if (MovingPart)
+            {
+                Vector3 openOffset = OpenLocalPosition - ClosedLocalPosition;
+                ClosedLocalPosition = MovingPart.localPosition;
+                OpenLocalPosition = ClosedLocalPosition + openOffset;
+            }
             if ((BlockingColliders == null || BlockingColliders.Length == 0) && MovingPart)
                 BlockingColliders = MovingPart.GetComponentsInChildren<Collider>(true);
             base.Start();
@@ -37,7 +51,7 @@ namespace HorrorGame.Chapter1
 
         public override void Refresh()
         {
-            bool open = Powered;
+            bool open = IsOpen;
             if (BlockingColliders != null)
                 foreach (Collider collider in BlockingColliders) if (collider) collider.enabled = !open;
             if (LocalDoorInteractionsToDisable != null)
