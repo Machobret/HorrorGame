@@ -72,18 +72,22 @@ namespace HorrorGame.Chapter1
 
         private bool IsCircuitRoomRevealed(string roomId)
         {
+<<<<<<< Updated upstream
             if (MapData == null || string.IsNullOrWhiteSpace(roomId)) return false;
             bool hasDiagram = false;
             foreach (DocumentData document in GameManager.Instance.Inventory.Documents)
             {
                 if (!(document is CircuitDiagramData diagram)) continue;
                 if (diagram.Map == MapData && diagram.RoomUniqueId == roomId) { hasDiagram = true; break; }
+=======
+            if (MapData == null || string.IsNullOrWhiteSpace(shape.RoomUniqueId)) return false;
+            foreach (DocumentData document in GameManager.Instance.Inventory.Documents)
+            {
+                if (!(document is CircuitDiagramData diagram)) continue;
+                if (diagram.Map == MapData && diagram.RoomUniqueId == shape.RoomUniqueId) return true;
+>>>>>>> Stashed changes
             }
-            if (!hasDiagram) return false;
-            // The diagram itself is the discovery gate. A player can find a circuit
-            // diagram before fully exploring its room, so do not hide its dots behind
-            // the map fog/state a second time.
-            return true;
+            return false;
         }
 
         private bool PlayerOwnsMap()

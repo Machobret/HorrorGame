@@ -18,48 +18,33 @@ MonoBehaviour:
     Label: Fire Escape Ladder
     Bounds:
       serializedVersion: 2
-<<<<<<< Updated upstream
-      x: -107.37604
-      y: -28.50351
+      x: -167.76001
+      y: -38.399998
       width: 220
       height: 65
     BorderPoints:
-    - {x: -107.37604, y: -28.50351}
-    - {x: 112.62396, y: -28.50351}
-    - {x: 112.62396, y: 36.49649}
-    - {x: -107.37604, y: 36.49649}
-    MapPosition: {x: 2.62396, y: 3.99649}
-  - CircuitId: 
-    Label: 
-=======
-      x: -167.6
-      y: -39.54002
-      width: 220
-      height: 65
-    BorderPoints:
-    - {x: -167.6, y: -39.54002}
-    - {x: 52.399994, y: -39.54002}
-    - {x: 52.399994, y: 25.45998}
-    - {x: -167.6, y: 25.45998}
-    MapPosition: {x: 776.00006, y: 624.59985}
+    - {x: -167.76001, y: -38.399998}
+    - {x: 52.23999, y: -38.399998}
+    - {x: 52.23999, y: 26.600002}
+    - {x: -167.76001, y: 26.600002}
+    MapPosition: {x: 777.6001, y: 636.00006}
     RoomName: Distrcit 7 OutDoors
     MapUniqueId: 34f20cae-972a-4230-b095-9d1e88ce6b17
     RoomUniqueId: f4d1f147-4651-4c7d-baa4-6723b1f29629
   - CircuitId: street_lights
     Label: Street Lights
->>>>>>> Stashed changes
     Bounds:
       serializedVersion: 2
-      x: -149.92
-      y: -32.42002
+      x: -150.16
+      y: -33.599995
       width: 220
       height: 65
     BorderPoints:
-    - {x: -149.92, y: -32.42002}
-    - {x: 70.08, y: -32.42002}
-    - {x: 70.08, y: 32.57998}
-    - {x: -149.92, y: 32.57998}
-    MapPosition: {x: 599.19995, y: 695.79987}
+    - {x: -150.16, y: -33.599995}
+    - {x: 69.84, y: -33.599995}
+    - {x: 69.84, y: 31.400005}
+    - {x: -150.16, y: 31.400005}
+    MapPosition: {x: 601.60004, y: 684.00006}
     RoomName: Distrcit 7 OutDoors
     MapUniqueId: 34f20cae-972a-4230-b095-9d1e88ce6b17
     RoomUniqueId: f4d1f147-4651-4c7d-baa4-6723b1f29629
@@ -67,150 +52,16 @@ MonoBehaviour:
     Label: Store Shutters
     Bounds:
       serializedVersion: 2
-      x: -130.56
-      y: -31.44
+      x: -128.23999
+      y: -46.56001
       width: 220
       height: 65
     BorderPoints:
-<<<<<<< Updated upstream
-    - {x: -173.4976, y: 28.460361}
-    - {x: 46.502396, y: 28.460361}
-    - {x: 46.502396, y: 93.46036}
-    - {x: -173.4976, y: 93.46036}
-    MapPosition: {x: 2.62397, y: 3.9964828}
-  - CircuitId: new_circuit
-    Label: New circuit
-    Bounds:
-      serializedVersion: 2
-      x: -110
-      y: -32.5
-      width: 220
-      height: 65
-    BorderPoints:
-    - {x: -110, y: -32.5}
-    - {x: 110, y: -32.5}
-    - {x: 110, y: 32.5}
-    - {x: -110, y: 32.5}
-    MapPosition: {x: 637.6, y: 613.6001}
-  - CircuitId: s
-    Label: S
-    Bounds:
-      serializedVersion: 2
-      x: -110
-      y: -32.5
-      width: 220
-      height: 65
-    BorderPoints:
-    - {x: -110, y: -32.5}
-    - {x: 110, y: -32.5}
-    - {x: 110, y: 32.5}
-    - {x: -110, y: 32.5}
-    MapPosition: {x: 637.6, y: 613.6001}
-  - CircuitId: sh
-    Label: Sh
-    Bounds:
-      serializedVersion: 2
-      x: -110
-      y: -32.5
-      width: 220
-      height: 65
-    BorderPoints:
-    - {x: -110, y: -32.5}
-    - {x: 110, y: -32.5}
-    - {x: 110, y: 32.5}
-    - {x: -110, y: 32.5}
-    MapPosition: {x: 637.6, y: 613.6001}
-  - CircuitId: shu
-    Label: Shu
-    Bounds:
-      serializedVersion: 2
-      x: -110
-      y: -32.5
-      width: 220
-      height: 65
-    BorderPoints:
-    - {x: -110, y: -32.5}
-    - {x: 110, y: -32.5}
-    - {x: 110, y: 32.5}
-    - {x: -110, y: 32.5}
-    MapPosition: {x: 637.6, y: 613.6001}
-  - CircuitId: shut
-    Label: Shut
-    Bounds:
-      serializedVersion: 2
-      x: -110
-      y: -32.5
-      width: 220
-      height: 65
-    BorderPoints:
-    - {x: -110, y: -32.5}
-    - {x: 110, y: -32.5}
-    - {x: 110, y: 32.5}
-    - {x: -110, y: 32.5}
-    MapPosition: {x: 637.6, y: 613.6001}
-  - CircuitId: shutt
-    Label: Shutt
-    Bounds:
-      serializedVersion: 2
-      x: -110
-      y: -32.5
-      width: 220
-      height: 65
-    BorderPoints:
-    - {x: -110, y: -32.5}
-    - {x: 110, y: -32.5}
-    - {x: 110, y: 32.5}
-    - {x: -110, y: 32.5}
-    MapPosition: {x: 637.6, y: 613.6001}
-  - CircuitId: shutte
-    Label: Shutte
-    Bounds:
-      serializedVersion: 2
-      x: -110
-      y: -32.5
-      width: 220
-      height: 65
-    BorderPoints:
-    - {x: -110, y: -32.5}
-    - {x: 110, y: -32.5}
-    - {x: 110, y: 32.5}
-    - {x: -110, y: 32.5}
-    MapPosition: {x: 637.6, y: 613.6001}
-  - CircuitId: shutter
-    Label: Shutter
-    Bounds:
-      serializedVersion: 2
-      x: -110
-      y: -32.5
-      width: 220
-      height: 65
-    BorderPoints:
-    - {x: -110, y: -32.5}
-    - {x: 110, y: -32.5}
-    - {x: 110, y: 32.5}
-    - {x: -110, y: 32.5}
-    MapPosition: {x: 637.6, y: 613.6001}
-  - CircuitId: shutters
-    Label: Shutters
-    Bounds:
-      serializedVersion: 2
-      x: -107.37604
-      y: -28.50351
-      width: 220
-      height: 65
-    BorderPoints:
-    - {x: -107.37604, y: -28.50351}
-    - {x: 112.62396, y: -28.50351}
-    - {x: 112.62396, y: 36.49649}
-    - {x: -107.37604, y: 36.49649}
-    MapPosition: {x: 2.62396, y: 3.99649}
-=======
-    - {x: -130.56, y: -31.44}
-    - {x: 89.44, y: -31.44}
-    - {x: 89.44, y: 33.559998}
-    - {x: -130.56, y: 33.559998}
-    MapPosition: {x: 405.59995, y: 705.60004}
+    - {x: -128.23999, y: -46.56001}
+    - {x: 91.76001, y: -46.56001}
+    - {x: 91.76001, y: 18.439991}
+    - {x: -128.23999, y: 18.439991}
+    MapPosition: {x: 382.4, y: 554.3999}
     RoomName: Distrcit 7 OutDoors
     MapUniqueId: 34f20cae-972a-4230-b095-9d1e88ce6b17
     RoomUniqueId: f4d1f147-4651-4c7d-baa4-6723b1f29629
->>>>>>> Stashed changes

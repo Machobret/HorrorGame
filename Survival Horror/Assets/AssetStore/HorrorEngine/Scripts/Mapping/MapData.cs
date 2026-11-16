@@ -155,6 +155,8 @@ namespace HorrorEngine
 
         public bool GetVisited()
         {
+            if (string.IsNullOrEmpty(ControllerUniqueId) || ObjectStateManager.Instance == null)
+                return false;
             if (ObjectStateManager.Instance.GetState(ControllerUniqueId, out ObjectStateSaveDataEntry savedObjectState))
             {
                 string componentData = savedObjectState.GetComponentData<MapController>();

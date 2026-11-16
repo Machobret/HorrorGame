@@ -78,6 +78,11 @@ namespace HorrorEngine
 
         public bool GetState(string id, out ObjectStateSaveDataEntry data)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                data = new ObjectStateSaveDataEntry();
+                return false;
+            }
             if (!m_HashedStates.ContainsKey(id))
             {
                 data = new ObjectStateSaveDataEntry();

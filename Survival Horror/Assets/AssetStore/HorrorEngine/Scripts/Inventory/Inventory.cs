@@ -178,8 +178,8 @@ namespace HorrorEngine
             if (!IsInfinite())
             {
                 Items = new List<InventoryEntry>(m_MaxItems);
-                for (int i = 0; i < Items.Count; ++i)
-                    Items[i] = new InventoryEntry();
+                for (int i = 0; i < m_MaxItems; ++i)
+                    Items.Add(new InventoryEntry());
             }
             else
             {
@@ -189,6 +189,15 @@ namespace HorrorEngine
             m_Equipped.Clear();
             Documents.Clear();
             Maps.Clear();
+        }
+
+        /// <summary>Resets a finite inventory to exactly this many empty slots.</summary>
+        public void ResetCapacity(int capacity)
+        {
+            m_MaxItems = Mathf.Max(0, capacity);
+            Items = new List<InventoryEntry>(m_MaxItems);
+            for (int i = 0; i < m_MaxItems; ++i)
+                Items.Add(new InventoryEntry());
         }
 
         // --------------------------------------------------------------------

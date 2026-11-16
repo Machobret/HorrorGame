@@ -44,9 +44,6 @@ MonoBehaviour:
   CellSize: 50
   GlobalScale: 10
   MapSet: {fileID: 11400000, guid: 2a25645896c049042af84cd91dc2938b, type: 2}
-<<<<<<< Updated upstream
-  Rooms: []
-=======
   Rooms:
   - Name: Test area
     UniqueId: babc6e59-08fc-4bc5-a09b-4d62b4112185
@@ -70,7 +67,6 @@ MonoBehaviour:
     LinkedElements: []
     Details: []
     Images: []
->>>>>>> Stashed changes
   Doors: []
   references:
     version: 2

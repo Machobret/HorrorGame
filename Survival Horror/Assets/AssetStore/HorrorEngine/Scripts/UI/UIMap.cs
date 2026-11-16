@@ -95,16 +95,18 @@ namespace HorrorEngine
             {
                 child = m_FloorsParent.GetChild(i);
                 Image image = child.GetComponentInChildren<Image>();
-                MapData map = set ? set.Maps[i] : null;
+                MapData map = set && i < set.Maps.Length ? set.Maps[i] : null;
 
-                bool isActive = set && i < set.Maps.Length && map.IsKnownByPlayer();
+                // A map set can contain a deleted/missing map asset. Skip it
+                // rather than dereferencing a null entry while opening M.
+                bool isActive = map && map.IsKnownByPlayer();
                 child.gameObject.SetActive(isActive);
 
                 if (isActive)
                 {
                     image.color = (setIndex == i) ? m_CurrentFloorColor : m_NotCurrentFloorColor;
                     TMPro.TextMeshProUGUI text = child.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-                    text.text = set.Maps[i].Abbreviation;
+                    text.text = map.Abbreviation;
                     ++activeCount;
                 }
             }

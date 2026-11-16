@@ -40,7 +40,11 @@ namespace HorrorEngine
             MapController[] maps = Object.FindObjectsByType<MapController>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
             foreach(var map in maps)
             {
-                Debug.Assert(map.Data, "Map data couldn't be serialized. No data assigned on MapController");
+                if (!map || !map.Data)
+                {
+                    Debug.LogWarning("Skipping MapController serialization because no MapData is assigned.", map);
+                    continue;
+                }
                 SerializeAndSaveMap(map);
             }
         }
@@ -49,9 +53,16 @@ namespace HorrorEngine
 
         public static void SerializeAndSaveMap(MapController mapCtrl)
         {
+            if (!mapCtrl || !mapCtrl.Data) return;
             MapData data = mapCtrl.Data;
 
-            data.ControllerUniqueId = mapCtrl.GetComponent<ObjectUniqueId>().Id;
+            ObjectUniqueId controllerId = mapCtrl.GetComponent<ObjectUniqueId>();
+            if (!controllerId || string.IsNullOrEmpty(controllerId.Id))
+            {
+                Debug.LogWarning("Skipping MapController serialization because it has no valid ObjectUniqueId.", mapCtrl);
+                return;
+            }
+            data.ControllerUniqueId = controllerId.Id;
             data.Rooms.Clear();
             data.Doors.Clear();
 
@@ -86,7 +97,7 @@ namespace HorrorEngine
                     {
                         Points = shapes[i].Points.ToArray(),
                         Closed = shapes[i].CloseShape,
-                        Connections = shapes[i].Connections.ToArray()
+                        Connections = shapes[i].Connections?.ToArray() ?? System.Array.Empty<ShapeEdge>()
                     };
                 }
 
@@ -118,7 +129,7 @@ namespace HorrorEngine
                             {
                                 Points = shape.Points.ToArray(),
                                 Closed = shape.CloseShape,
-                                Connections = shape.Connections.ToArray()
+                                Connections = shape.Connections?.ToArray() ?? System.Array.Empty<ShapeEdge>()
                             },
                             DefaultState = details.isActiveAndEnabled,
                             CreationProcess = details.CreationProcess,

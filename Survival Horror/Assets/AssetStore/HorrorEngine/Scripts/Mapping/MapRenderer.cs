@@ -112,7 +112,7 @@ namespace HorrorEngine
             Texture gridTexture = GridMaterial != null ? GridMaterial.mainTexture : null;
             // Keep the grid faint; room contours remain the primary readable layer.
             m_RuntimeGridMaterial = CreateMapMaterial(unlit, new Color(.34f, .36f, .40f, .42f), gridTexture, false);
-            m_RuntimeMarkerMaterial = CreateMapMaterial(unlit, Color.white, m_MapPlayer.GetComponentInChildren<Renderer>(true).sharedMaterial.mainTexture, true);
+            m_RuntimeMarkerMaterial = CreateMapIconMaterial(Color.white, m_MapPlayer.GetComponentInChildren<Renderer>(true).sharedMaterial.mainTexture);
             m_RuntimeContourMaterial = CreateMapMaterial(unlit, Color.white, Texture2D.whiteTexture, true);
 
             GridMaterial = m_RuntimeGridMaterial;
@@ -154,6 +154,25 @@ namespace HorrorEngine
                 material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
                 material.renderQueue = 3000;
             }
+            return material;
+        }
+
+        private static Material CreateMapIconMaterial(Color color, Texture texture)
+        {
+            // Keep this material as an authored Resources asset. Runtime-only
+            // URP alpha keywords may be stripped from a player build, which
+            // turns map arrows and circuit bolts into opaque rectangles.
+            Material template = Resources.Load<Material>("MapTransparentIcon");
+            if (!template)
+            {
+                Debug.LogError("MapTransparentIcon material is missing from Resources.");
+                return CreateMapMaterial(Shader.Find("Universal Render Pipeline/Unlit"), color, texture, true);
+            }
+
+            Material material = new Material(template) { name = "Runtime Map Icon" };
+            material.SetTexture("_BaseMap", texture);
+            material.SetColor("_BaseColor", color);
+            material.renderQueue = 3000;
             return material;
         }
 

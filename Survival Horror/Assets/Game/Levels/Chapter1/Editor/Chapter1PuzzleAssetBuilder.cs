@@ -151,12 +151,14 @@ namespace HorrorGame.Chapter1.Editor
         private static void CreateLampPrefab()
         {
             GameObject root = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            root.name = "ActivatableLamp"; root.transform.localScale = new Vector3(.12f, 2f, .12f);
+            root.name = "ActivatableLamp"; root.transform.localScale = Vector3.one;
             root.GetComponent<Renderer>().sharedMaterial = CreateMaterial("LampPost", new Color(.08f, .08f, .09f));
+            root.GetComponent<Renderer>().enabled = false;
             GameObject bulb = GameObject.CreatePrimitive(PrimitiveType.Sphere); bulb.name = "Bulb"; bulb.transform.SetParent(root.transform); bulb.transform.localPosition = Vector3.up * .52f; bulb.transform.localScale = Vector3.one * 1.5f;
             bulb.GetComponent<Renderer>().sharedMaterial = CreateMaterial("LampBulb", new Color(.9f, .6f, .15f));
             Light light = bulb.AddComponent<Light>(); light.type = LightType.Point; light.range = 10; light.intensity = 2;
             CircuitDrivenLamp lamp = root.AddComponent<CircuitDrivenLamp>(); lamp.Lights = new[] { light }; lamp.EmissiveRenderers = new[] { bulb.GetComponent<Renderer>() };
+            root.AddComponent<StreetLampModel>();
             SavePrefab(root, PrefabPath + "/ActivatableLamp.prefab");
         }
 

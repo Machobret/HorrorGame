@@ -12,6 +12,8 @@ namespace HorrorGame.Chapter1
         public MapNavigationIndicatorType Type = MapNavigationIndicatorType.ObjectiveArrow;
         [Tooltip("Optional explicit controller. When empty, this component uses its parent MapController.")]
         public MapController Map;
+        [Tooltip("Optional exact room used to convert this marker into map coordinates. Assign this for map-only markers outside a room collider.")]
+        public MapRoom Room;
         [Tooltip("World destination for the arrow/cross. Empty means this object's position.")]
         public Transform Target;
         [Header("Map label")]
@@ -72,14 +74,14 @@ namespace HorrorGame.Chapter1
             Vector3 targetPosition;
             if (TriggerArea && TryGetAreaCenter(out Vector3 areaCenter))
             {
-                if (!TryGetMapPosition(controller, areaCenter, TriggerArea.transform, out targetPosition))
+                if (!TryGetMapPosition(controller, areaCenter, out targetPosition))
                 {
                     marker.SetActive(false);
                     if (labelObject) labelObject.SetActive(false);
                     return;
                 }
             }
-            else if (!TryGetMapPosition(controller, target.position, target, out targetPosition))
+            else if (!TryGetMapPosition(controller, target.position, out targetPosition))
             {
                 marker.SetActive(false);
                 if (labelObject) labelObject.SetActive(false);
@@ -105,18 +107,13 @@ namespace HorrorGame.Chapter1
             marker.SetActive(true);
             if (material.HasProperty("_BaseColor")) material.SetColor("_BaseColor", IndicatorColor);
             if (material.HasProperty("_Color")) material.SetColor("_Color", IndicatorColor);
-            Vector3 mapPosition = Type == MapNavigationIndicatorType.ObjectiveArrow ? playerPosition : targetPosition;
-            // MapController returns map-space X/Z already. Do not flip Z a
-            // second time here or the marker ends up mirrored off the drawing.
+            // Objectives mark their destination directly; they do not track or
+            // rotate around the player like a compass arrow.
+            Vector3 mapPosition = targetPosition;
+            // MapController's packed map coordinate is (X, Z) in a Vector2;
+            // MapRenderer uses that second value directly as its local Z.
             marker.transform.localPosition = new Vector3(mapPosition.x, 7f, mapPosition.y);
-            if (Type == MapNavigationIndicatorType.ObjectiveArrow)
-            {
-                Vector3 direction = targetPosition - playerPosition;
-                marker.transform.localRotation = direction.sqrMagnitude > .001f
-                    ? Quaternion.LookRotation(new Vector3(direction.x, 0, -direction.y), Vector3.up)
-                    : Quaternion.identity;
-            }
-            else marker.transform.localRotation = Quaternion.identity;
+            marker.transform.localRotation = Quaternion.identity;
 
             if (labelObject)
             {
@@ -135,19 +132,28 @@ namespace HorrorGame.Chapter1
 
         public void SetEnabled(bool value) => IsEnabled = value;
 
-        private static bool TryGetMapPosition(MapController controller, Vector3 worldPosition, Transform authoredTransform, out Vector3 mapPosition)
+        private bool TryGetMapPosition(MapController controller, Vector3 worldPosition, out Vector3 mapPosition)
         {
             if (!controller) { mapPosition = Vector3.zero; return false; }
-            // The Map Editor renders direct MapController children in canvas
-            // coordinates. Preserve that exact convention at runtime instead
-            // of applying a room transform to them a second time.
-            if (authoredTransform && authoredTransform.IsChildOf(controller.transform) && !authoredTransform.GetComponentInParent<MapRoom>())
+            if (Room)
             {
-                mapPosition = controller.transform.InverseTransformPoint(worldPosition);
+                Matrix4x4 roomTRS = controller.Data.GetTRS(Room.Offset, Room.Rotation, Room.Scale, Room.ZOrder);
+                // These markers are authored as children of the MapRoom, just
+                // like the room's shape points. Convert from that exact local
+                // space before applying the room's map transform.
+                Vector3 roomLocalPosition = Room.transform.InverseTransformPoint(worldPosition);
+                // MapController stores a map point as X/Z (a Vector2). Keep
+                // that convention here: Vector3.y in raw map space is only
+                // the map elevation/Z-order and must never drive the marker.
+                mapPosition = roomTRS.MultiplyPoint(roomLocalPosition).ToXZ();
                 return true;
             }
-            if (controller.TryGetWorldPositionInRoom(worldPosition, out mapPosition)) return true;
-            mapPosition = controller.transform.InverseTransformPoint(worldPosition);
+            if (controller.TryGetWorldPositionInRoom(worldPosition, out Vector3 mappedPosition))
+            {
+                mapPosition = mappedPosition.ToXZ();
+                return true;
+            }
+            mapPosition = controller.transform.InverseTransformPoint(worldPosition).ToXZ();
             return true;
         }
 
@@ -220,6 +226,14 @@ namespace HorrorGame.Chapter1
             if (material.HasProperty("_Cull")) material.SetFloat("_Cull", 0f);
             if (material.HasProperty("_CullMode")) material.SetFloat("_CullMode", 0f);
             markerRenderer.sharedMaterial = material;
+            if (Type == MapNavigationIndicatorType.BlockedPathCross)
+            {
+                // Line renderers are the same rendering primitive used by the
+                // map contours, which guarantees the blocked marker remains
+                // visible to the orthographic map camera.
+                CreateCrossLine(marker.transform, new Vector3(-Size * .5f, .05f, -Size * .5f), new Vector3(Size * .5f, .05f, Size * .5f));
+                CreateCrossLine(marker.transform, new Vector3(-Size * .5f, .05f, Size * .5f), new Vector3(Size * .5f, .05f, -Size * .5f));
+            }
 
             labelObject = new GameObject("Map Navigation Label");
             labelObject.layer = marker.layer;
@@ -232,14 +246,42 @@ namespace HorrorGame.Chapter1
             label.color = IndicatorColor;
         }
 
+        private void CreateCrossLine(Transform parent, Vector3 from, Vector3 to)
+        {
+            GameObject lineObject = new GameObject("Blocked Cross Stroke");
+            lineObject.layer = parent.gameObject.layer;
+            lineObject.transform.SetParent(parent, false);
+            LineRenderer line = lineObject.AddComponent<LineRenderer>();
+            line.useWorldSpace = false;
+            line.positionCount = 2;
+            line.SetPosition(0, from);
+            line.SetPosition(1, to);
+            line.widthMultiplier = Mathf.Max(1f, Size * .16f);
+            line.numCapVertices = 4;
+            line.sharedMaterial = material;
+        }
+
         private Mesh CreateMesh(MapNavigationIndicatorType type)
         {
             float half = Size * .5f;
             Mesh mesh = new Mesh { name = type == MapNavigationIndicatorType.ObjectiveArrow ? "Map objective arrow" : "Map blocked-path cross" };
             if (type == MapNavigationIndicatorType.ObjectiveArrow)
             {
-                mesh.vertices = new[] { new Vector3(0, 0, half), new Vector3(-half, 0, -half), new Vector3(-half * .38f, 0, -half * .25f), new Vector3(half, 0, -half), new Vector3(half * .38f, 0, -half * .25f) };
-                mesh.triangles = new[] { 0, 1, 2, 0, 2, 4, 0, 4, 3 };
+                const int segments = 32;
+                Vector3[] vertices = new Vector3[segments + 1];
+                int[] triangles = new int[segments * 3];
+                vertices[0] = Vector3.zero;
+                for (int i = 0; i < segments; i++)
+                {
+                    float angle = i * Mathf.PI * 2f / segments;
+                    vertices[i + 1] = new Vector3(Mathf.Cos(angle) * half, 0, Mathf.Sin(angle) * half);
+                    int next = i == segments - 1 ? 1 : i + 2;
+                    triangles[i * 3] = 0;
+                    triangles[i * 3 + 1] = i + 1;
+                    triangles[i * 3 + 2] = next;
+                }
+                mesh.vertices = vertices;
+                mesh.triangles = triangles;
             }
             else
             {
