@@ -51,8 +51,8 @@ namespace HouseToolkit.Editor
                 if (placement == null || !placement.insert || !pick.wall.Family) return false;
                 var fit = new FittedOpening(placement, pick.wall.Family.FindSurround(placement.insert));
                 bool surround = pick.segmentId != null && fit.segment;
-                float width = surround ? fit.width : placement.insert.opening.x;
-                float height = surround ? Mathf.Min(floor.height, fit.segment.size.y) : placement.insert.opening.y;
+                float width = surround ? fit.width : placement.Size.x;
+                float height = surround ? Mathf.Min(floor.height, fit.segment.size.y) : placement.Size.y;
                 var center = new Vector3(surround ? fit.left + width / 2 : placement.distance,
                     (surround ? 0 : fit.sill) + height / 2, 0);
                 bounds = HouseBooleanMesh.PrimitiveBounds(pick.wall.transform.localToWorldMatrix *

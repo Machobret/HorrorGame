@@ -155,6 +155,18 @@ namespace HouseToolkit.Editor
                     return index>=0 ? choices[index] : v;
                 },v=>EditOpenings(items,o=>o.insert=v));
             }
+            if(!segment && entries.All(e=>e.opening.insert is GarageDoorInsert))
+            {
+                Vector2 Clear(PlacedOpening o)=>((GarageDoorInsert)o.insert).ClearSize(o.clearSize);
+                MultiField.Draw(entries,e=>Clear(e.opening).x,v=>EditorGUILayout.DelayedFloatField("Clear width (m)",v),
+                    v=>EditOpenings(items,o=>o.clearSize=new Vector2(v,Clear(o).y)));
+                MultiField.Draw(entries,e=>Clear(e.opening).y,v=>EditorGUILayout.DelayedFloatField("Clear height (m)",v),
+                    v=>EditOpenings(items,o=>o.clearSize=new Vector2(Clear(o).x,v)));
+                var first=entries[0].opening;
+                int index=GarageDoorFields.Swatches((GarageDoorInsert)first.insert,entries.All(e=>e.opening.finishTile==first.finishTile)?first.finishTile:-1);
+                if(index>=0)EditOpenings(items,o=>o.finishTile=index);
+                if(GUILayout.Button("Randomize finishes"))EditOpenings(items,o=>o.finishTile=GarageDoorFields.RandomTile());
+            }
             MultiField.Draw(entries,e=>e.opening.distance,v=>EditorGUILayout.DelayedFloatField("Distance from start (m)",v),
                 v=>EditOpenings(items,o=>o.distance=v));
             float offset=EditorGUILayout.DelayedFloatField("Move along wall (m)",0);

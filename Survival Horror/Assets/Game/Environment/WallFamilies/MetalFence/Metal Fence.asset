@@ -16,7 +16,7 @@ MonoBehaviour:
   complex: 1
   defaultPanelLayout: 1
   surface: {fileID: 2100000, guid: 811285da4c6141cc8760e47cb416e421, type: 2}
-  glass: {fileID: 0}
+  glass: {fileID: 2100000, guid: 2e057b9a7f6d9c14b9d1cf519e44d723, type: 2}
   surfaceFinishes: []
   glassFinishes: []
   panels:
@@ -25,5 +25,8 @@ MonoBehaviour:
   cornerPost: {fileID: 0}
   surrounds:
   - {fileID: 1141648589967488045, guid: a8893993781c48ac8b74d7e7c9d8378a, type: 3}
+  - {fileID: 4886774525852068816, guid: 48f55c88660df8f46818f63b1e2dd81f, type: 3}
   defaultInserts:
   - {fileID: 11400000, guid: 4c778fdee6834501a90704b8ece449c5, type: 2}
+  - {fileID: 11400000, guid: 4c31ea46c0c31874ebf32dd5166c0f57, type: 2}
+  - {fileID: 11400000, guid: 6bff4b89f48e6ce47b671fd773e4ef2f, type: 2}

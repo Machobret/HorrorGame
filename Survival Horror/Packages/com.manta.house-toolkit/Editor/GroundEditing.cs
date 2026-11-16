@@ -8,7 +8,8 @@ namespace HouseToolkit.Editor
 {
     internal static class GroundEditing
     {
-        internal static bool Change(ProceduralSurface road, string label, Action<GroundPlan> edit, out string issue)
+        internal static bool Change(ProceduralSurface road, string label, Action<GroundPlan> edit, out string issue,
+            Action<FillerBuilding> updateFacade = null)
         {
             if (!road || road is ProceduralSidewalk) { issue="Select a ground area."; return false; }
             var plan = JsonUtility.FromJson<GroundPlan>(JsonUtility.ToJson(road.Areas));
@@ -28,6 +29,7 @@ namespace HouseToolkit.Editor
                 var ids=plan.edges.Select(e=>e.id).ToHashSet();
                 building.finishes.RemoveAll(f=>f.wall!=0 && !ids.Contains(f.wall));
                 building.entrances.RemoveAll(e=>!ids.Contains(e.wall));
+                updateFacade?.Invoke(building);
                 if(firstPerimeter)building.PlaceInitialEntrance();
             }
             PrefabUtility.RecordPrefabInstancePropertyModifications(road);
@@ -62,6 +64,42 @@ namespace HouseToolkit.Editor
         {
             if ((a-b).sqrMagnitude < 1e-8f) throw new InvalidOperationException("Choose a different endpoint.");
             plan.edges.Add(new GroundEdge { id = plan.nextId++, a = a, b = b });
+        }
+
+        internal static bool InsertPoint(ProceduralSurface surface, int id, Vector2 position, out Vector2 point, out string issue)
+        {
+            var edge=surface.Areas.edges.Find(e=>e.id==id);
+            point=edge==null ? position : PlanarNoding.AtPrecision(PlanSnapping.Project(position,edge.a,edge.b));
+            if(edge==null || point==edge.a || point==edge.b)
+            {
+                issue="Choose a point inside the boundary edge.";
+                return false;
+            }
+            var split=point;
+            int newId=surface.Areas.nextId;
+            var face=surface.Areas.faces.FirstOrDefault(f=>Borders(edge,f));
+            int index=face==null ? -1 : Array.IndexOf(face.polygon,edge.a);
+            bool forward=index>=0 && face.polygon[(index+1)%face.polygon.Length]==edge.b;
+            return Change(surface,"Insert boundary point",plan=>{
+                plan.edges.Find(e=>e.id==id).b=split;
+                Line(plan,split,edge.b);
+            },out issue,building=>{
+                foreach(var finish in building.finishes.Where(f=>f.wall==id).ToArray())
+                    building.SetFinish(newId,finish.floor,finish.material);
+                int bay=building.EntranceBay(id);
+                if(bay<0)return;
+                // The rendered bay order follows the face perimeter, including reversed edges.
+                int bays=building.Bays(edge);
+                float along=(Mathf.Min(bay,bays-1)+.5f)/bays;
+                if(!forward)along=1-along;
+                float cut=Vector2.Distance(edge.a,split)/Vector2.Distance(edge.a,edge.b);
+                bool first=along<cut;
+                var host=building.footprint.edges.Find(e=>e.id==(first?id:newId));
+                float fraction=first ? along/cut : (along-cut)/(1-cut);
+                int count=building.Bays(host);
+                building.SetEntrance(id,-1);
+                building.SetEntrance(host.id,Mathf.Clamp(Mathf.FloorToInt((forward?fraction:1-fraction)*count),0,count-1));
+            });
         }
 
         internal static void Move(GroundPlan plan, HashSet<Vector2> points, Vector2 delta)

@@ -452,7 +452,10 @@ namespace HouseToolkit.Editor
                     e.Use();view.Repaint();return;
                 }
             }
-            if(!Drawing && PavementHandles(view,e,ray))return;
+            bool insertBoundary=!Drawing && e.type==EventType.MouseDown && e.button==0 && e.clickCount==2 &&
+                !e.alt && GUIUtility.hotControl==0 && Active.Areas.edges.Count!=0;
+            // The first click selects the edge and can put a move handle under the second click.
+            if(!Drawing && !insertBoundary && PavementHandles(view,e,ray))return;
             float y=anchor?.y??(Paving ? Active.PavementElevation : 0);
             bool onPlane=new Plane(Active.transform.up,World(Vector3.up*y)).Raycast(ray,out var depth);
             if(!onPlane && (Drawing || !(Active is FillerBuilding)))return;
@@ -471,7 +474,20 @@ namespace HouseToolkit.Editor
                 float distance=Vector2.Distance(Pixel(n.position),e.mousePosition);
                 if(distance<nearest){nearest=distance;hit=new RoadHit(RoadPart.Point,n.id);}
             }
-            if (!Drawing) PickPavementOutline(ref hit,ref nearest,e.mousePosition);
+            if (!Drawing)
+            {
+                var surfaceHit=hit;
+                PickPavementOutline(ref hit,ref nearest,e.mousePosition);
+                if(insertBoundary && hit.part==RoadPart.Boundary)
+                {
+                    var at=position;
+                    if(!Same(surfaceHit,hit) && new Plane(Active.transform.up,PavementWorld(Vector2.zero)).Raycast(ray,out float t))
+                        at=Active.transform.InverseTransformPoint(ray.GetPoint(t));
+                    if(GroundEditing.InsertPoint(Active,hit.id,Flat(at),out var point,out Message))
+                        Pick(Corners[point]);
+                    e.Use();Repaint();return;
+                }
+            }
             if(!Drawing && Picks.Items.Count==1 && selected!=null && !e.shift)
             {
                 var arms=RoadGeometry.Arms(graph,selected,Active.StreetFamily);

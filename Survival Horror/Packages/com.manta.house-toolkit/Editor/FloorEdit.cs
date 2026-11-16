@@ -43,7 +43,7 @@ namespace HouseToolkit.Editor
                 edges.Add(new Edge {a=a,b=b,source=wall,familyOverride=wall.familyOverride,openings=wall.openings.Select(Clone).ToList()});
             }
         }
-        static PlacedOpening Clone(PlacedOpening o) => new PlacedOpening {id=o.id,insert=o.insert,distance=o.distance,sill=o.sill,reversed=o.reversed};
+        static PlacedOpening Clone(PlacedOpening o) => o.Copy();
         int Corner(Vector2 p)
         {
             p=PlanarNoding.AtPrecision(p);

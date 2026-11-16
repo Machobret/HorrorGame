@@ -1,0 +1,197 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3980056838324307756
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9019861378673285711}
+  - component: {fileID: 2340170785112965610}
+  - component: {fileID: 3616642462706259267}
+  - component: {fileID: 1874062110988495796}
+  m_Layer: 8
+  m_Name: Gate control
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9019861378673285711
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3980056838324307756}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.5, y: 1.05, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4536304080352235821}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2340170785112965610
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3980056838324307756}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.8, y: 2.1, z: 0.55}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3616642462706259267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3980056838324307756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a14bb951c71e59647b2868a3ad6c62f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.OnDisableNotifier
+--- !u!114 &1874062110988495796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3980056838324307756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc146b719d4cae3409b98e484b6b70d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.Interactive
+  Data: {fileID: 11400000, guid: ae3c70015dc01284ebe0ebd182e71263, type: 2}
+  ShowPrompt: 1
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 721602609944347709}
+        m_TargetAssemblyTypeName: HorrorGame.SlidingGate, Assembly-CSharp
+        m_MethodName: Toggle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnFinishInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDataChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!1001 &4129878607242102162
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 550695005135197375, guid: 8571411777a219e419023a9b7fb48396, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 550695005135197375, guid: 8571411777a219e419023a9b7fb48396, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 550695005135197375, guid: 8571411777a219e419023a9b7fb48396, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 550695005135197375, guid: 8571411777a219e419023a9b7fb48396, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 550695005135197375, guid: 8571411777a219e419023a9b7fb48396, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 550695005135197375, guid: 8571411777a219e419023a9b7fb48396, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 550695005135197375, guid: 8571411777a219e419023a9b7fb48396, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 550695005135197375, guid: 8571411777a219e419023a9b7fb48396, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 550695005135197375, guid: 8571411777a219e419023a9b7fb48396, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 550695005135197375, guid: 8571411777a219e419023a9b7fb48396, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9031840763331267949, guid: 8571411777a219e419023a9b7fb48396, type: 3}
+      propertyPath: m_Name
+      value: Large Gate Sliding
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 550695005135197375, guid: 8571411777a219e419023a9b7fb48396, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9019861378673285711}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9031840763331267949, guid: 8571411777a219e419023a9b7fb48396, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 721602609944347709}
+  m_SourcePrefab: {fileID: 100100000, guid: 8571411777a219e419023a9b7fb48396, type: 3}
+--- !u!4 &1469422900243011014 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3257288774784749652, guid: 8571411777a219e419023a9b7fb48396, type: 3}
+  m_PrefabInstance: {fileID: 4129878607242102162}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4536304080352235821 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 550695005135197375, guid: 8571411777a219e419023a9b7fb48396, type: 3}
+  m_PrefabInstance: {fileID: 4129878607242102162}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4902113098961668351 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9031840763331267949, guid: 8571411777a219e419023a9b7fb48396, type: 3}
+  m_PrefabInstance: {fileID: 4129878607242102162}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &721602609944347709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4902113098961668351}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e6f2d0751b64bc9b5640b51193812c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorGame.SlidingGate
+  leaf: {fileID: 1469422900243011014}
+  travel: 5.4
+  speed: 2.5

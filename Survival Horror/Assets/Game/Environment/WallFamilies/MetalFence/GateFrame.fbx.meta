@@ -3,9 +3,19 @@ guid: 990f0ebd053b4e149c9cfd64d0ca0d65
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fence
+    second: {fileID: 2100000, guid: 2e057b9a7f6d9c14b9d1cf519e44d723, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Galvanized Steel
+    second: {fileID: 2100000, guid: 811285da4c6141cc8760e47cb416e421, type: 2}
   materials:
-    materialImportMode: 0
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1

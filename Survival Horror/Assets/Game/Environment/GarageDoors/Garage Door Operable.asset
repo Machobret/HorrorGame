@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ce7a52c8681054094e9a1285345c5e, type: 3}
+  m_Name: Garage Door Operable
+  m_EditorClassIdentifier: HouseToolkit::HouseToolkit.GarageDoorInsert
+  kind: 0
+  opening: {x: 2.96, y: 2.5600002}
+  prefab: {fileID: 340433819089311774, guid: 5b0a2d344c29e464fbc90ac38db97548, type: 3}
+  finishRenderer: {fileID: 0}
+  minimumThickness: 0
+  maximumThickness: 0
+  operable: 1
+  atlas: {fileID: 2800000, guid: 0c1c2f6229c74600a4c73041aa8212ca, type: 3}

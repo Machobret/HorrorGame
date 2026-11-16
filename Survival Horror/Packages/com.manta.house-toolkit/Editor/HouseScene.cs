@@ -252,7 +252,8 @@ namespace HouseToolkit.Editor
             if(!recentFloors.TryGetValue(house.GetInstanceID(),out var saved))saved=EditorPrefs.GetString(Key(house));
             var selected=HouseEditing.Floors(house).FirstOrDefault(f=>f.floorId==saved)??requested;
             if (!WallJunctions.Refresh(selected,out Message)){Repaint();return;}
-            editingHouse=house; Floor=selected; Cutaway=true; SlabBuilder.Rebuild(house); FocusFloor();
+            editingHouse=house; Floor=selected; Cutaway=true; SlabBuilder.Rebuild(house);
+            focusedPlane=Floor.transform.position;
             refreshRenderStates=true;oldToolsHidden=Tools.hidden;Tools.hidden=true;editing=true;
             Selection.activeGameObject=house.gameObject;
             Mode=HouseTool.Select;ResetSelection();if(!Application.isBatchMode)HouseProperties.Open();Repaint();
@@ -491,7 +492,7 @@ namespace HouseToolkit.Editor
             HouseInsert insert=null;float distance=0;float sill=0;
             if(placing && near && wallPixels<28 && !near.boundaryOnly)
             {
-                if(PaletteWall!=near){PaletteWall=near;Choice=null;HouseProperties.RepaintOpen();}
+                if(PaletteWall!=near){PaletteWall=near;HouseProperties.RepaintOpen();}
                 insert=PaletteChoice();
                 distance=Vector2.Distance(Floor.Position(near.startCorner),projected);
                 distance=SnapInsertDistance(near,insert,distance,null,e.alt);
@@ -499,23 +500,25 @@ namespace HouseToolkit.Editor
                 sill=Mode==HouseTool.Window?Sill:0;
                 if(insert)
                 {
-                    var o=new PlacedOpening{distance=distance,sill=sill,insert=insert,reversed=Mode==HouseTool.Door && FlipDoor};
+                    var o=new PlacedOpening{distance=distance,sill=sill,insert=insert,clearSize=GarageDoorFields.BrushSize,finishTile=GarageDoorFields.BrushTile,reversed=Mode==HouseTool.Door && FlipDoor};
                     var fits=new List<FittedOpening>();
                     bool valid=near.TryLayout(Floor.height,fits,out var issue,o) &&
                         WallJunctions.CheckOpening(near,new List<PlacedOpening>(near.openings){o},out issue);
                     var surround=near.Family.panel?near.Family.FindSurround(insert):null;
                     var fit=new FittedOpening(o,surround);
-                    var center=near.transform.TransformPoint(new Vector3(distance,fit.sill+insert.opening.y*.5f,0));
+                    var center=near.transform.TransformPoint(new Vector3(distance,fit.sill+o.Size.y*.5f,0));
                     using(new Handles.DrawingScope(valid?Color.green:Color.red,Matrix4x4.TRS(center,near.transform.rotation,Vector3.one)))
                     {
-                        Handles.DrawWireCube(Vector3.zero,new Vector3(insert.opening.x,insert.opening.y,near.Thickness));
+                        Handles.DrawWireCube(Vector3.zero,new Vector3(o.Size.x,o.Size.y,near.Thickness));
                         if (Mode == HouseTool.Door && e.type == EventType.Repaint)
                         {
                             var facing = o.reversed ? Vector3.back : Vector3.forward;
                             Handles.ArrowHandleCap(0, facing * near.Thickness * .5f,
-                                Quaternion.LookRotation(facing), Mathf.Min(insert.opening.x * .5f, .5f), EventType.Repaint);
+                                Quaternion.LookRotation(facing), Mathf.Min(o.Size.x * .5f, .5f), EventType.Repaint);
                         }
                     }
+                    if(valid && insert is GarageDoorInsert garage && e.type==EventType.Repaint)
+                        GarageDoorFields.Preview(near,o,garage);
                     if(!valid)Handles.Label(center,issue);
                 }
             }
@@ -547,7 +550,10 @@ namespace HouseToolkit.Editor
                 clickControl=0;
                 if((owned || altPress) && Vector2.Distance(pressed,e.mousePosition)<4)
                 {
-                    if(placing && near && wallPixels<28 && insert)WallBuilder.Place(near,insert,distance,sill,out Message,Mode==HouseTool.Door && FlipDoor);
+                    if(placing && near && wallPixels<28 && insert &&
+                        WallBuilder.Place(near,insert,distance,sill,out Message,Mode==HouseTool.Door && FlipDoor,
+                            insert is GarageDoorInsert ? GarageDoorFields.BrushSize : default,insert is GarageDoorInsert ? GarageDoorFields.BrushTile : 0)
+                        && insert is GarageDoorInsert) GarageDoorFields.Advance();
                     if(owned && e.type!=EventType.Used)e.Use();Repaint();
                 }
             }
@@ -587,7 +593,7 @@ namespace HouseToolkit.Editor
                     hoverHighlight.Draw(picker.hover,Floor,new Color(.24f,.85f,1f));
             }
             bool showHandle=!e.shift || GUIUtility.hotControl!=0;
-            if (showHandle && !e.alt && !Tools.viewToolActive && Picks.Items.Count>1 && BatchHandle(view,e))return;
+            if (showHandle && (dragView==view || !e.alt && !Tools.viewToolActive) && Picks.Items.Count>1 && BatchHandle(view,e))return;
             if ((Picks.Items.Count<=1 && (HandleDirectDrag(view,e,ray,control) || showHandle && Gizmo(view,e))) || e.alt || Tools.viewToolActive) return;
             // A selected short wall's move handle can cover one of its own endpoints.
             // Give the visible endpoint the click before the handle starts a wall drag.
@@ -696,7 +702,7 @@ namespace HouseToolkit.Editor
                 }
                 else
                 {
-                    var anchor=Wall.transform.TransformPoint(new Vector3(placement.distance,OpeningSill(placement)+placement.insert.opening.y*.5f,0));
+                    var anchor=Wall.transform.TransformPoint(new Vector3(placement.distance,OpeningSill(placement)+placement.Size.y*.5f,0));
                     var distance=placement.distance+HandleUtility.CalcLineTranslation(pressed,e.mousePosition,anchor,Wall.transform.right)/Wall.transform.TransformVector(Vector3.right).magnitude;
                     distance=SnapInsertDistance(Wall,placement.insert,distance,placement,e.alt);
                     dragPoint=Floor.Local(Wall.transform.TransformPoint(Vector3.right*distance));
@@ -752,7 +758,7 @@ namespace HouseToolkit.Editor
             Vector3 OpeningCenter(HousePick p,float offset)
             {
                 var o=p.wall.openings.Find(x=>x.id==p.OpeningId);
-                return p.wall.transform.TransformPoint(new Vector3(o.distance+offset,o.sill+o.insert.opening.y*.5f,0));
+                return p.wall.transform.TransformPoint(new Vector3(o.distance+offset,o.sill+o.Size.y*.5f,0));
             }
             var pivot=openings ? items.Aggregate(Vector3.zero,(v,p)=>v+OpeningCenter(p,0))/items.Count :
                 Floor.World(ids.Aggregate(Vector2.zero,(v,id)=>v+Floor.Position(id))/ids.Length);
@@ -772,7 +778,7 @@ namespace HouseToolkit.Editor
                     if(!e.alt && Grid>0)distance=Mathf.Round(distance/Grid)*Grid;
                     delta=direction*distance;
                 }
-                else delta=PlanSnapping.FloorPoint(origin+delta,origin,e.shift,e.alt,Grid)-origin;
+                else delta=PlanSnapping.FloorPoint(delta,Vector2.zero,e.shift,e.alt,Grid);
                 dragPoint=origin+delta;dragView=view;
             }
             if(!dragPoint.HasValue)return false;
@@ -787,7 +793,7 @@ namespace HouseToolkit.Editor
                             var o=p.wall.openings.Find(x=>x.id==p.OpeningId);
                             using(new Handles.DrawingScope(p.wall.transform.localToWorldMatrix))
                                 Handles.DrawWireCube(p.wall.transform.InverseTransformPoint(OpeningCenter(p,offset)),
-                                    new Vector3(o.insert.opening.x,o.insert.opening.y,p.wall.Thickness));
+                                    new Vector3(o.Size.x,o.Size.y,p.wall.Thickness));
                         }
                     else foreach(var w in Floor.GetComponentsInChildren<HouseWall>())
                         if(ids.Contains(w.startCorner)||ids.Contains(w.endCorner))
@@ -818,7 +824,7 @@ namespace HouseToolkit.Editor
             var prior=dragPoint??center;
             var world=Floor.World(prior);
             if(placement!=null)
-                world+=Wall.transform.TransformVector(Vector3.up*(OpeningSill(placement)+placement.insert.opening.y*.5f));
+                world+=Wall.transform.TransformVector(Vector3.up*(OpeningSill(placement)+placement.Size.y*.5f));
             var rot=Floor.transform.rotation;
             float size=HandleUtility.GetHandleSize(world)*.72f;
             bool release=e.rawType==EventType.MouseUp && e.button==0;
@@ -837,7 +843,7 @@ namespace HouseToolkit.Editor
                     p=start+direction*SnapInsertDistance(Wall,placement.insert,Vector2.Dot(p-start,direction),placement,e.alt);
                 }
                 else if(corner!=0)p=Snap(p,e.alt,e.shift ? dragOrigin : null,Floor.GetComponentsInChildren<HouseWall>(),corner);
-                else p=PlanSnapping.FloorPoint(p,center,e.shift,e.alt,Grid);
+                else p=center+PlanSnapping.FloorPoint(p-center,Vector2.zero,e.shift,e.alt,Grid);
                 dragPoint=p;
             }
             if(!dragOrigin.HasValue)return false;
@@ -869,15 +875,14 @@ namespace HouseToolkit.Editor
                 {
                     if(placement!=null)
                     {
-                        var insert=placement.insert;
-                        float y=OpeningSill(placement)+insert.opening.y*.5f;
+                        float y=OpeningSill(placement)+placement.Size.y*.5f;
                         var at=new Vector3(distance,y,0);
                         using(new Handles.DrawingScope(Wall.transform.localToWorldMatrix))
                         {
-                            Handles.DrawWireCube(at,new Vector3(insert.opening.x,insert.opening.y,Wall.Thickness));
+                            Handles.DrawWireCube(at,new Vector3(placement.Size.x,placement.Size.y,Wall.Thickness));
                             Handles.DrawLine(new Vector3(placement.distance,y,0),at,2);
                         }
-                        Handles.Label(Wall.transform.TransformPoint(at+Vector3.up*(insert.opening.y*.5f+.12f)),
+                        Handles.Label(Wall.transform.TransformPoint(at+Vector3.up*(placement.Size.y*.5f+.12f)),
                             $"{distance-placement.distance:+0.00;-0.00;0.00} m   ({distance:0.00} m from start)"+
                             (validDrop?"":"\n"+dragIssue));
                     }
@@ -903,9 +908,12 @@ namespace HouseToolkit.Editor
             }
             else if(GUIUtility.hotControl==0)CancelDrag();
         }
-        internal static bool EditOpening(HouseWall wall,PlacedOpening o,HouseInsert insert,float distance,float sill,bool commit,out string reason)
+        internal static bool EditOpening(HouseWall wall,PlacedOpening o,HouseInsert insert,float distance,float sill,bool commit,out string reason,Vector2? clearSize=null,int? tile=null)
         {
-            var copy=new PlacedOpening{id=o.id,insert=insert,distance=distance,sill=sill,reversed=o.reversed};
+            var copy=o.Copy();
+            copy.insert=insert;copy.distance=distance;copy.sill=sill;
+            if(clearSize.HasValue)copy.clearSize=clearSize.Value;
+            if(tile.HasValue)copy.finishTile=tile.Value;
             var list=wall.openings.Select(x=>x==o?copy:x).ToList();
             if(!HouseWall.Validate(wall.Family,wall.length,wall.Floor.height,list,new List<FittedOpening>(),out reason,resolvedThickness:wall.Thickness))return false;
             if(!WallJunctions.CheckOpening(wall,list,out reason))return false;

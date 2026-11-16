@@ -49,14 +49,14 @@ namespace HorrorGame.Chapter1
         {
             ClearPoints();
             MapRenderer renderer = MapRenderer.Instance;
-            if (!renderer || Layout == null || grid == null) return;
+            if (!renderer || grid == null) return;
             Transform markerRoot = renderer.transform;
             int layer = LayerMask.NameToLayer("MapSystem");
             float width = MapData.Size.x * MapData.CellSize;
             float height = MapData.Size.y * MapData.CellSize;
-            foreach (PowerPanelCircuitShape shape in Layout.Circuits)
+            if(Layout) foreach (PowerPanelCircuitShape shape in Layout.Circuits)
             {
-                if (!IsCircuitRoomRevealed(shape)) continue;
+                if (!IsCircuitRoomRevealed(shape.RoomUniqueId)) continue;
                 // MapPosition is generated from the assigned MapRoom. Bounds belong to the
                 // obsolete standalone layout editor and may be nowhere near this map.
                 Vector2 mapPosition = shape.MapPosition == Vector2.zero
@@ -65,16 +65,19 @@ namespace HorrorGame.Chapter1
                 PowerCircuitMapMarker marker = PowerCircuitMapMarker.Create(markerRoot, layer, shape.CircuitId, new Vector3(mapPosition.x, 6f, -mapPosition.y));
                 points.Add(marker.gameObject);
             }
+            foreach(var gate in HorrorGame.Environment.GarageDoorCircuitLink.Active)
+                if(gate.TryMarker(grid,MapData,out var roomId,out var position) && IsCircuitRoomRevealed(roomId))
+                    points.Add(PowerCircuitMapMarker.Create(markerRoot,layer,gate.CircuitId,position).gameObject);
         }
 
-        private bool IsCircuitRoomRevealed(PowerPanelCircuitShape shape)
+        private bool IsCircuitRoomRevealed(string roomId)
         {
-            if (MapData == null || string.IsNullOrWhiteSpace(shape.RoomUniqueId)) return false;
+            if (MapData == null || string.IsNullOrWhiteSpace(roomId)) return false;
             bool hasDiagram = false;
             foreach (DocumentData document in GameManager.Instance.Inventory.Documents)
             {
                 if (!(document is CircuitDiagramData diagram)) continue;
-                if (diagram.Map == MapData && diagram.RoomUniqueId == shape.RoomUniqueId) { hasDiagram = true; break; }
+                if (diagram.Map == MapData && diagram.RoomUniqueId == roomId) { hasDiagram = true; break; }
             }
             if (!hasDiagram) return false;
             // The diagram itself is the discovery gate. A player can find a circuit

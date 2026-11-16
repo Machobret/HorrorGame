@@ -5,7 +5,7 @@ namespace HouseToolkit
     public enum OpeningKind { Door, Window }
 
     [CreateAssetMenu(menuName = "House Toolkit/Insert")]
-    public sealed class HouseInsert : ScriptableObject
+    public class HouseInsert : ScriptableObject
     {
         public OpeningKind kind;
         [Tooltip("Rough opening width and height in metres. Pivot at the bottom centre.")]

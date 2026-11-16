@@ -1,0 +1,19 @@
+Generated using built-in image_gen on 2026-11-16.
+Reference: user-supplied garage shutter screenshot, codex-clipboard-0ae7c3e1-a125-42fb-a583-0a7f98ec6b3a.png. Used as construction/style reference only.
+3x3 atlas: seven narrow-slat roller shutters, two broad sectional doors (center and bottom-center).
+Visually checked layout and pattern variety. Prefab UVs and mip bleed untested; groove shading is baked into generated color.
+
+Final generation prompt:
+Generate a NEW square photorealistic game base-color texture atlas, EXACT 3 columns by 3 rows of equal square door-surface tiles, nine variants total. The supplied image is a STYLE REFERENCE ONLY: take the narrow horizontal steel roll-up shutter construction and realistic subdued worn industrial material from the door in the photo. Do NOT include the reference's building, frame, ground, perspective, UI or lighting.
+MOST doors (SEVEN tiles) are dense narrow-slat roller shutters like the reference, but TWO are broader segmented garage doors. Every tile consists only of a closed door's front surface filling its square edge to edge. Straight orthographic front-on material texture, sharp square corners, boundaries exactly at thirds of canvas; no gutters, margins, scene or outer frames.
+Specific variants in reading order:
+Top left: dark charcoal gray steel roll-up shutter, about 36 very narrow horizontal interlocking slats like reference, slightly rounded slim profile, dusty scuffed paint.
+Top middle: desaturated blue steel roll-up shutter, about 28 narrow horizontal slats, shallower flatter profile, faded paint with small chips.
+Top right: aged galvanized gray steel roll-up shutter, about 40 very fine horizontal slats, subtle mottled zinc and restrained rust specks.
+Middle left: faded olive green roll-up shutter, about 24 narrow horizontal slats with lightly stepped edges, worn paint and faint grime streaks.
+Middle center: dirty ivory BROAD SEGMENTED sectional garage door, FIVE broad horizontal sections with simple recessed seams, scuffed lower panels.
+Middle right: muted burgundy roll-up shutter, about 32 narrow horizontal slats, fine paired ridge profile, restrained paint abrasion.
+Bottom left: faded ochre/mustard roll-up shutter, about 30 narrow horizontal slats, simple soft corrugation, sparse rust flecks and dusty worn paint.
+Bottom middle: dusty blue-gray BROAD SEGMENTED sectional garage door, FOUR broad horizontal sections with two subtle fine pressed ridges inside each section, chipped edges.
+Bottom right: weathered muted teal roll-up shutter, about 34 narrow horizontal interlocking slats, low subtle relief, uneven faded paint and light grime.
+Seven narrow slat shutters and two broad sectional doors, visibly different horizontal pitches and profiles. All slat lines perfectly straight horizontal and parallel, no bent or open slats, no holes. Different plausible wear on each door, not cloned scratches. Realistic restrained aging for a storage facility in a horror game, mostly intact metal. No handles, locks, windows, signs, labels, text, numbers, logos or graffiti. NO walls, vertical cladding, side tracks, jambs, top housing, pavement, border or background. Uniform neutral diffuse albedo lighting with only subtle local groove shading; no cast shadows, directional gradients, highlights, reflections or vignette. Texture-only surface scans, not a presentation of nine objects. Output full precise 3x3 atlas only.

@@ -49,7 +49,7 @@ namespace HouseToolkit.Editor
                 else
                 {
                     Plain(fit.left, 0, fit.width, fit.sill);
-                    float head = fit.sill + fit.placement.insert.opening.y;
+                    float head = fit.sill + fit.placement.Size.y;
                     Plain(fit.left, head, fit.width, height - head);
                 }
                 cursor = fit.Right;
@@ -319,6 +319,12 @@ namespace HouseToolkit.Editor
                     instance.transform.localPosition = Vector3.zero;
                     Undo.RegisterCreatedObjectUndo(root, "Place insert");
                 }
+                if (placement.insert is GarageDoorInsert garage)
+                {
+                    var door=attachment.GetComponentInChildren<GarageDoor>(true);
+                    if (door && door.Configure(garage.ClearSize(placement.clearSize),placement.finishTile,garage.operable))
+                        PrefabUtility.RecordPrefabInstancePropertyModifications(door);
+                }
                 var target = placement.insert.finishRenderer;
                 if (target && !attachment.finishRenderer)
                     foreach (var renderer in attachment.GetComponentsInChildren<Renderer>(true))
@@ -367,10 +373,10 @@ namespace HouseToolkit.Editor
         public static bool Place(HouseWall wall, HouseInsert insert, float distance, float sill, out string reason)
             => Place(wall, insert, distance, sill, out reason, false);
 
-        public static bool Place(HouseWall wall, HouseInsert insert, float distance, float sill, out string reason, bool reversed)
+        public static bool Place(HouseWall wall, HouseInsert insert, float distance, float sill, out string reason, bool reversed, Vector2 clearSize=default, int finishTile=0)
         {
             if (!wall || !wall.Floor || wall.boundaryOnly) { reason="Choose a physical wall."; return false; }
-            var candidate = new PlacedOpening { id = Guid.NewGuid().ToString("N"), insert = insert, distance = distance, sill = sill, reversed = reversed };
+            var candidate = new PlacedOpening { id = Guid.NewGuid().ToString("N"), insert = insert, distance = distance, sill = sill, reversed = reversed, clearSize=clearSize, finishTile=finishTile };
             if (!wall.TryLayout(wall.Floor.height, new List<FittedOpening>(), out reason, candidate)) return false;
             var proposed=new List<PlacedOpening>(wall.openings){candidate};
             if (!WallJunctions.CheckOpening(wall,proposed,out reason)) return false;

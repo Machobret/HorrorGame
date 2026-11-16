@@ -7,6 +7,8 @@ Shader "Horror Game/Doors/Door Atlas"
         _Smoothness("Smoothness", Range(0,1)) = 0.15
         _Metallic("Metallic", Range(0,1)) = 0
         [PerRendererData] _AtlasTile("Door design", Float) = 0
+        [HideInInspector] _AtlasLayout("Columns, rows, unit UVs", Vector) = (4,2,0,0)
+        [PerRendererData] _VisibleHeight("Visible leaf fraction", Float) = 1
         [HideInInspector] _Cull("Cull", Float) = 2
         [HideInInspector] _Surface("Surface", Float) = 0
         [HideInInspector] _Cutoff("Cutoff", Float) = 0.5
@@ -52,17 +54,27 @@ Shader "Horror Game/Doors/Door Atlas"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/LitForwardPass.hlsl"
 
+            float4 _AtlasLayout;
             UNITY_INSTANCING_BUFFER_START(DoorAtlas)
                 UNITY_DEFINE_INSTANCED_PROP(float, _AtlasTile)
+                UNITY_DEFINE_INSTANCED_PROP(float, _VisibleHeight)
             UNITY_INSTANCING_BUFFER_END(DoorAtlas)
 
             Varyings AtlasVertex(Attributes input)
             {
                 UNITY_SETUP_INSTANCE_ID(input);
                 Varyings output = LitPassVertex(input);
-                uint tile = (uint)clamp(round(UNITY_ACCESS_INSTANCED_PROP(DoorAtlas, _AtlasTile)), 0.0, 7.0);
-                // The shared door mesh already uses the inset upper-left atlas cell.
-                output.uv = input.texcoord + float2((tile % 4u) * .25, -(float)(tile / 4u) * .5);
+                uint2 grid = max(uint2(1,1), (uint2)_AtlasLayout.xy);
+                uint tile = (uint)clamp(round(UNITY_ACCESS_INSTANCED_PROP(DoorAtlas, _AtlasTile)), 0.0, (float)(grid.x * grid.y - 1));
+                float2 offset = float2(tile % grid.x, -(float)(tile / grid.x)) / grid;
+                output.uv = input.texcoord + offset; // Existing doors have first-cell UVs baked into the mesh.
+                if (_AtlasLayout.z > .5)
+                {
+                    float2 uv = saturate(input.texcoord);
+                    uv.y *= UNITY_ACCESS_INSTANCED_PROP(DoorAtlas, _VisibleHeight);
+                    float2 inset = .5 * _BaseMap_TexelSize.xy;
+                    output.uv = float2(0, 1 - 1.0/grid.y) + offset + lerp(inset, 1.0/grid-inset, uv);
+                }
                 return output;
             }
             ENDHLSL

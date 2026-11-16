@@ -1,5 +1,12 @@
 # Garage doors
 
+In the house editor, choose **Door**, point at a plain wall, then open **Tool Properties**. Select **Garage Door Decorative** or **Garage Door Operable**, set the clear width and height, and choose a swatch or enable **Random finish**. A successful placement saves the previewed finish. The opening reserves another 0.08 m on each side and 0.16 m overhead for the fixed guides and header. Edit the placed door in **Selection**.
+
+The two prefabs share a shutter mesh, one instanced material, and the supplied square 4 ? 4 atlas. The operable leaf accepts `GarageDoor.SetOpen(bool)`. It retracts into its header with matching collision. **Selection ? Select gameplay prefab** exposes the optional Garage Door Circuit Link. Assign a grid and circuit ID to follow circuit power. Enable **Show On Tablet** and assign the map room for a marker when the player has that map and room diagram. The marker uses the existing circuit action.
+
+## Earlier freestanding models
+
+
 Four closed door meshes/prefabs share GarageDoors_Atlas.mat and the original 2 x 2 atlas: GreyRoller, BlueSectional, WhiteSectional and GreenRoller. Each is 2.8 m wide, 2.8 m high and 0.05 m thick, with its origin at bottom centre. Scale the prefab for a different opening size. Both sides have outward-facing geometry and correctly oriented artwork; edge faces sample the frame border. Each mesh has 12 triangles and one material slot.
 
 The standard wall shader uses Authored UV mapping with crisp point sampling. The quadrant UVs have half-texel insets; the atlas is not projected or repeated across the door. There are no additional normal maps, shaders or per-door textures.

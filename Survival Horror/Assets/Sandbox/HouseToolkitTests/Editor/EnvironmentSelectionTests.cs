@@ -69,6 +69,93 @@ public sealed class EnvironmentSelectionTests
     }
 
     [UnityTest]
+    public IEnumerator StartingHouseAndStandaloneWallDrawingPreservesTheSceneView()
+    {
+        var view=ScriptableObject.CreateInstance<SceneView>();
+        try
+        {
+            view.Show();view.Focus();
+            yield return null;
+            foreach(bool standalone in new[]{false,true})
+            {
+                view.LookAtDirect(new Vector3(3,8,-2),Quaternion.Euler(40,27,0),9);
+                var pivot=view.pivot;
+                var rotation=view.rotation;
+                float size=view.size;
+                HouseScene.CreateAt(new Vector3(2,1,4),true,standalone);
+                yield return null;
+                HouseScene.RefocusIfMoved();
+                Assert.That(Vector3.Distance(view.pivot,pivot),Is.LessThan(.001f),"Starting a drawing moved the camera pivot.");
+                Assert.That(Quaternion.Angle(view.rotation,rotation),Is.LessThan(.01f));
+                Assert.That(view.size,Is.EqualTo(size).Within(.001f));
+                if(!standalone)
+                {
+                    var upstairs=HouseEditing.AddFloor(HouseScene.House);
+                    HouseScene.SwitchFloor(upstairs);
+                    Assert.That(view.pivot.y,Is.EqualTo(upstairs.transform.position.y).Within(.001f));
+                }
+                HouseScene.Leave();
+            }
+        }
+        finally {view.Close();}
+    }
+
+    [UnityTest]
+    public IEnumerator DraggingWallGizmoKeepsOffGridOffsets()
+    {
+        house.transform.SetPositionAndRotation(new Vector3(4,1,-3),Quaternion.Euler(0,27,0));
+        var edit=new FloorEdit(floor);
+        edit.Draw(new Vector2(.2f,.35f),new Vector2(4.2f,.35f));
+        edit.Draw(new Vector2(.2f,2.35f),new Vector2(4.2f,2.35f));
+        Assert.IsTrue(edit.Commit("Draw off-grid walls",out var error),error);
+        var walls=floor.GetComponentsInChildren<HouseWall>();
+        var view=ScriptableObject.CreateInstance<SceneView>();
+        var tool=Tools.current;
+        float grid=HouseScene.Grid;
+        try
+        {
+            view.Show();view.position=new Rect(80,80,960,720);view.Focus();
+            HouseScene.Enter(floor);HouseScene.Grid=1;Tools.current=Tool.Move;
+            view.orthographic=true;
+            view.LookAtDirect(floor.World(new Vector2(2,1)),Quaternion.LookRotation(-floor.transform.up,floor.transform.forward),6);
+            yield return null;yield return null;
+            HouseScene.SelectWall(walls[0]);
+            foreach(bool multiple in new[]{false,true})
+            {
+                if(multiple)HouseScene.ToggleWall(walls[1]);
+                var ids=HouseScene.SelectedWalls.SelectMany(w=>new[]{w.startCorner,w.endCorner}).Distinct().ToArray();
+                var before=ids.Select(floor.Position).ToArray();
+                var pivot=floor.World(before.Aggregate(Vector2.zero,(a,b)=>a+b)/before.Length);
+                Vector2 from=default,to=default;
+                void Locate(SceneView v)
+                {
+                    if(v!=view || Event.current.commandName!="LocateWallHandle")return;
+                    var grip=pivot+floor.transform.right*HandleUtility.GetHandleSize(pivot)*.48f;
+                    Vector2 Pixel(Vector3 p)=>GUIUtility.GUIToScreenPoint(HandleUtility.WorldToGUIPoint(p))-view.position.position;
+                    from=Pixel(grip);to=Pixel(grip+floor.transform.right);
+                }
+                SceneView.duringSceneGui+=Locate;
+                try {view.SendEvent(EditorGUIUtility.CommandEvent("LocateWallHandle"));}
+                finally {SceneView.duringSceneGui-=Locate;}
+                void Drag(Vector2 end)
+                {
+                    foreach(var type in new[]{EventType.MouseMove,EventType.Layout,EventType.MouseDown,EventType.MouseDrag,EventType.MouseUp})
+                        view.SendEvent(new Event{type=type,button=0,clickCount=1,
+                            mousePosition=type==EventType.MouseDrag || type==EventType.MouseUp ? end : from,
+                            delta=type==EventType.MouseDrag ? end-from : Vector2.zero});
+                }
+                Drag(Vector2.Lerp(from,to,.1f));
+                for(int i=0;i<ids.Length;i++)
+                    Assert.That(Vector2.Distance(before[i],floor.Position(ids[i])),Is.LessThan(.001f),"A sub-step drag moved the wall.");
+                Drag(to);
+                for(int i=0;i<ids.Length;i++)
+                    Assert.That(Vector2.Distance(before[i]+Vector2.right,floor.Position(ids[i])),Is.LessThan(.001f),"X drag must move exactly one local grid step.");
+            }
+        }
+        finally {HouseScene.Grid=grid;Tools.current=tool;HouseScene.Leave();view.Close();}
+    }
+
+    [UnityTest]
     public IEnumerator ShiftClickPicksTwoWindowsAndTwoDoorsAndFiltersWithoutChangingWalls()
     {
         var edit=new FloorEdit(floor);

@@ -24,6 +24,8 @@ The plain family generates rectangular openings. Storefront uses 2 m, 1 m and 0.
 
 Chapter 1’s APT and electricity puzzle scenes, and the recovery copy, retain their generated meshes, colliders and gameplay objects as static scene content. The material shader in `Assets/Game/Rendering/HorizontalWall.shader` still supplies authored UVs and projection for existing art. The baked wall component restores its saved vertical projection when a scene opens.
 
-Choose **Environment Tools → Wall** and click to start a freestanding wall. In **Procedural Env Properties → Wall**, set its family and height. Choose **Metal Fence** for 2 m wire panels with modeled barbs. The Door tool defaults to the matching 0.9 × 2.1 m gate. The gate also fits Plain and Storefront. The editable Blender source is in `ArtSource/Environment/MetalFence`. Closing a freestanding wall loop leaves the ground open.
+Choose **Environment Tools → Wall** and click to start a freestanding wall. In **Procedural Env Properties → Wall**, choose **Metal Fence** for chain-link panels with steel posts and modeled barbs. Closing a freestanding wall loop leaves the ground open.
+
+The **Door** palette starts with the 0.9 × 2.1 m pedestrian gate, which also fits Plain and Storefront. Its leaf pivots at the hinge while the prefab root centres the doorway. **Large Gate Closed** reserves a 5.36 m fence segment. **Large Gate Sliding** uses the same posts and leaf. Interact at the fixed post to open or close it, and leave 5.4 m clear along the track on its opening side. The surrounding fence panels adjust to the available length. The editable source is `ArtSource/Environment/MetalFence/MetalFence.blend`.
 
 The filler **Building type** dropdown includes Industrial Depot and Industrial Machine Shop. The shop has shorter loading bays and brick upper storeys. Both use the square depot texture for the loading floor.

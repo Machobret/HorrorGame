@@ -130,13 +130,98 @@ public sealed class GameHouseToolkitTests
         var leaf = host.GetComponentInChildren<InsertAttachment>().GetComponentInChildren<MeshFilter>();
         Assert.That(leaf.sharedMesh.bounds.size.x,Is.EqualTo(.9f).Within(.01f));
         Assert.That(leaf.sharedMesh.bounds.size.y,Is.EqualTo(2.1f).Within(.01f));
-        Assert.That(leaf.transform.localPosition.x,Is.EqualTo(0).Within(.001f));
+        var bounds=leaf.sharedMesh.bounds;
+        Assert.That(Mathf.Abs(leaf.transform.localPosition.x),Is.InRange(.40f,.46f),"The visual origin belongs on the hinge rail.");
+        Assert.That(leaf.transform.localPosition.x+bounds.center.x,Is.EqualTo(0).Within(.001f),"Closed leaf must stay centred in the doorway.");
+        var body=leaf.GetComponent<BoxCollider>();
+        Assert.That(body && body.enabled);
+        var hinge=leaf.transform.position;
+        var closedCentre=body.transform.TransformPoint(body.center);
+        leaf.transform.localRotation=Quaternion.Euler(0,90,0);
+        Assert.That(Vector3.Distance(hinge,leaf.transform.position),Is.LessThan(.0001f));
+        Assert.That(Vector3.Distance(closedCentre,body.transform.TransformPoint(body.center)),Is.GreaterThan(.5f));
+        leaf.transform.localRotation=Quaternion.identity;
         Assert.IsTrue(host.GetComponentsInChildren<AuthoredPanel>().Any(p=>p.source==family.FindSurround(gate).mesh));
         Assert.IsTrue(walls.SelectMany(w=>w.GetComponentsInChildren<MeshFilter>()).Count(f=>f.sharedMesh==family.panel.mesh)>1);
         Assert.IsFalse(WallBuilder.SetHeight(floor,2f,out issue));
         Assert.AreEqual(HouseFloor.DefaultHeight,floor.height);
         Assert.IsTrue(WallBuilder.SetHeight(floor,3f,out issue),issue);
         Assert.IsEmpty(floor.GetComponentsInChildren<HouseSlab>());
+    }
+
+    [Test]
+    public void LargeGateReservesItsAuthoredBayAndUsesClippedWire()
+    {
+        EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
+        var family=Asset<WallFamily>(Families+"MetalFence/Metal Fence.asset");
+        var house=HouseEditing.Create(new Vector3(8,1,3),family,true);
+        house.transform.rotation=Quaternion.Euler(0,31,0);
+        var floor=HouseEditing.Floors(house).Single();
+        var plan=new FloorEdit(floor);
+        plan.Draw(Vector2.zero,Vector2.right*9.3f);
+        Assert.IsTrue(plan.Commit("Draw fence",out var issue),issue);
+        var host=floor.GetComponentInChildren<HouseWall>();
+        var closed=Asset<HouseInsert>(Families+"MetalFence/Large Gate Closed.asset");
+        var sliding=Asset<HouseInsert>(Families+"MetalFence/Large Gate Sliding.asset");
+        var panel=family.FindSurround(closed);
+        Assert.AreSame(panel,family.FindSurround(sliding));
+        var palette=OpeningPalette.Choices(host,OpeningKind.Door);
+        Assert.That(palette.IndexOf(closed),Is.GreaterThanOrEqualTo(0));
+        Assert.That(palette.IndexOf(sliding),Is.GreaterThan(palette.IndexOf(closed)));
+        Assert.IsFalse(WallBuilder.Place(host,closed,1,0,out issue),"A gate must fit at its full width.");
+        Assert.IsTrue(WallBuilder.Place(host,closed,4,0,out issue),issue);
+        var assembly=host.GetComponentsInChildren<AuthoredPanel>().Single(p=>p.source==panel.mesh);
+        Assert.That(panel.size.x,Is.EqualTo(5.36f).Within(.01f));
+        Assert.That(assembly.transform.lossyScale.x,Is.EqualTo(1f).Within(.0001f));
+        var leaf=host.GetComponentInChildren<InsertAttachment>().GetComponentInChildren<MeshFilter>();
+        Assert.AreSame(leaf.sharedMesh,sliding.prefab.GetComponentInChildren<MeshFilter>().sharedMesh);
+        Assert.That(leaf.sharedMesh.bounds.size.x,Is.EqualTo(5.33f).Within(.01f));
+        foreach(var renderer in host.GetComponentsInChildren<MeshRenderer>().Where(r=>r.GetComponent<AuthoredPanel>() || r==leaf.GetComponent<MeshRenderer>()))
+            CollectionAssert.AreEqual(new[]{family.surface,family.glass},renderer.sharedMaterials);
+        Assert.That(family.glass.IsKeywordEnabled("_ALPHATEST_ON"));
+        Assert.That(family.glass.GetFloat("_Cull"),Is.Zero);
+        Assert.That(family.glass.GetTexture("_BaseMap"),Is.Not.Null);
+        Assert.That(family.surface.GetFloat("_AlphaClip"),Is.Zero);
+        Physics.SyncTransforms();
+        bool Blocked()=>Physics.Raycast(host.transform.TransformPoint(new Vector3(4,1,-1)),host.transform.forward,2,~0,QueryTriggerInteraction.Ignore);
+        Assert.That(Blocked(),"The closed leaf should block the passage.");
+        leaf.gameObject.SetActive(false);Physics.SyncTransforms();
+        Assert.IsFalse(Blocked(),"The frame or a repeating fence panel blocks the opening.");
+    }
+
+    [UnityEngine.TestTools.UnityTest]
+    public System.Collections.IEnumerator SlidingGateOpensAndClosesThroughItsGameInteraction()
+    {
+        EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
+        yield return new UnityEngine.TestTools.EnterPlayMode();
+        var prefab=Asset<HouseInsert>(Families+"MetalFence/Large Gate Sliding.asset").prefab;
+        var gate=Object.Instantiate(prefab,new Vector3(12,2,-7),Quaternion.Euler(0,37,0));
+        var leaf=gate.GetComponentInChildren<MeshFilter>().transform;
+        var trigger=gate.GetComponentsInChildren<BoxCollider>().Single(c=>c.isTrigger);
+        var interactive=trigger.GetComponent("Interactive");
+        Assert.IsNotNull(interactive);
+        var position=leaf.localPosition;
+        var triggerPosition=trigger.transform.position;
+        var origin=gate.transform.TransformPoint(new Vector3(0,1,-1));
+        bool Blocked()
+        {
+            Physics.SyncTransforms();
+            return Physics.Raycast(origin,gate.transform.forward,2,~0,QueryTriggerInteraction.Ignore);
+        }
+        Assert.IsTrue(Blocked());
+        void Use()=>interactive.GetType().GetMethod("Interact").Invoke(interactive,new object[]{null});
+        Use();
+        float until=Time.realtimeSinceStartup+7;
+        while(leaf.localPosition.x<position.x+5.39f && Time.realtimeSinceStartup<until)yield return null;
+        Assert.That(leaf.localPosition.x-position.x,Is.EqualTo(5.4f).Within(.015f));
+        Assert.IsFalse(Blocked());
+        Assert.AreEqual(triggerPosition,trigger.transform.position);
+        Use();
+        until=Time.realtimeSinceStartup+7;
+        while(leaf.localPosition!=position && Time.realtimeSinceStartup<until)yield return null;
+        Assert.AreEqual(position,leaf.localPosition);
+        Assert.IsTrue(Blocked());
+        yield return new UnityEngine.TestTools.ExitPlayMode();
     }
 
     [Test]

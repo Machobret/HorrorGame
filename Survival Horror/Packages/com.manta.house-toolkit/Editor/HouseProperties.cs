@@ -189,6 +189,7 @@ namespace HouseToolkit.Editor
                     {
                         int i=Mathf.Max(0,choices.IndexOf(HouseScene.Choice));
                         HouseScene.Choice=choices[EditorGUILayout.Popup(host.Family.name,i,choices.Select(x=>x.name+(System.Array.IndexOf(host.Family.defaultInserts ?? System.Array.Empty<HouseInsert>(),x) >= 0?" (default)":"")).ToArray())];
+                        if(HouseScene.Choice is GarageDoorInsert garage) GarageDoorFields.Brush(garage);
                         if(kind==OpeningKind.Window && !host.Family.panel)HouseScene.Sill=EditorGUILayout.FloatField("Sill (m)",HouseScene.Sill);
                     }
                     else EditorGUILayout.HelpBox("No compatible inserts.",MessageType.Info);
@@ -563,7 +564,14 @@ namespace HouseToolkit.Editor
                 float distance=EditorGUILayout.DelayedFloatField("Distance from start (m)",opening.distance);
                 float sill=opening.sill;
                 if(choice.kind==OpeningKind.Window && !wall.Family.panel)sill=EditorGUILayout.DelayedFloatField("Sill (m)",sill);
-                if(EditorGUI.EndChangeCheck())HouseScene.EditOpening(wall,opening,choice,distance,sill,true,out HouseScene.Message);
+                var size=opening.clearSize; int tile=opening.finishTile;
+                if(choice is GarageDoorInsert garage)GarageDoorFields.Selection(garage,ref size,ref tile);
+                if(EditorGUI.EndChangeCheck())HouseScene.EditOpening(wall,opening,choice,distance,sill,true,out HouseScene.Message,size,tile);
+                if(opening.insert is GarageDoorInsert selectedGarage && selectedGarage.operable && GUILayout.Button("Select gameplay prefab"))
+                {
+                    var attachment=wall.GetComponentsInChildren<InsertAttachment>().FirstOrDefault(a=>a.openingId==opening.id);
+                    if(attachment && attachment.GetComponentInChildren<GarageDoor>() is GarageDoor door)Selection.activeGameObject=door.gameObject;
+                }
                 if(GUILayout.Button("Remove opening"))HouseScene.DeleteSelection();
                 return;
             }

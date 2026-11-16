@@ -185,11 +185,16 @@ namespace HouseToolkit.Editor
                 index = EditorGUILayout.Popup("Insert", index, items.Select(i => i.name + (defaults.Contains(i) ? " (family default)" : "")).ToArray());
                 chosen = items[index];
                 float bottom = kind == OpeningKind.Door ? 0 : sill;
-                var candidate = new PlacedOpening {insert = chosen, distance = distance, sill = bottom};
+                var garage=chosen as GarageDoorInsert;
+                if(garage) GarageDoorFields.Brush(garage);
+                var candidate = new PlacedOpening {insert = chosen, distance = distance, sill = bottom,
+                    clearSize=garage ? GarageDoorFields.BrushSize : default, finishTile=garage ? GarageDoorFields.BrushTile : 0};
                 bool fits = wall.TryLayout(floor.height, new List<FittedOpening>(), out string fitIssue, candidate) &&
                     WallJunctions.CheckOpening(wall,new List<PlacedOpening>(wall.openings){candidate},out fitIssue);
                 using (new EditorGUI.DisabledScope(!fits))
-                    if (GUILayout.Button("Place " + kind.ToString().ToLowerInvariant())) WallBuilder.Place(wall, chosen, distance, bottom, out issue);
+                    if (GUILayout.Button("Place " + kind.ToString().ToLowerInvariant()) &&
+                        WallBuilder.Place(wall,chosen,distance,bottom,out issue,false,candidate.clearSize,candidate.finishTile) && garage)
+                        GarageDoorFields.Advance();
                 if (!fits) EditorGUILayout.HelpBox(fitIssue, MessageType.Info);
             }
             else EditorGUILayout.HelpBox("No matching insert for this wall family.", MessageType.Info);

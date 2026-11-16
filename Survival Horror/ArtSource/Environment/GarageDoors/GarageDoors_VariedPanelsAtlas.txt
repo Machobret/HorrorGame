@@ -1,0 +1,18 @@
+Edited using built-in image_gen on 2026-11-16.
+Input: GarageDoors_ColorAtlas.png
+3x3 atlas, same colors with varied horizontal panel/slat sizes and profiles.
+Visually checked broad/medium/narrow pattern variety and retained layout. Original preserved. Prefab UV mapping and mip bleed untested.
+
+Final edit prompt:
+Edit this garage door texture atlas. Preserve EXACT 3x3 layout of nine equal square tiles, existing color assignments and realistic worn painted steel style. CHANGE horizontal panel construction so these are nine different garage door designs rather than recolors of one design. Horizontal spacing must visibly differ strongly between tiles; do NOT continue the same horizontal seams across tile boundaries.
+Reading order:
+Top left burgundy: 4 very broad horizontal sections, simple shallow joins.
+Top middle dusty blue: 16 narrow evenly spaced rolling-shutter slats, fine simple single grooves.
+Top right olive: 8 medium horizontal sections, shallow paired ribs at section edges.
+Middle left cream: 3 extra broad horizontal sections, each with two very fine shallow pressed horizontal ridges near its center.
+Middle center mustard: 12 slim horizontal slats, stepped interlocking seams.
+Middle right blue-gray: 5 broad horizontal sections with simple wider recessed joins, otherwise plain panels.
+Bottom left terracotta: 20 very narrow roller shutter strips, fine rounded corrugation cross section represented subtly in texture, all perfectly straight front-on.
+Bottom middle teal: 7 medium horizontal panels with flat broad centers and paired narrow edge grooves.
+Bottom right charcoal: 10 horizontal sections with a fine raised horizontal rib in the middle of each section.
+The counts and pattern spacing are properties of each individual square tile, NOT the full canvas. Aim for clear narrow/medium/broad pattern variety at a glance, independent of color. All are plausible closed industrial storage garage doors fitting one flat rectangular mesh. Material fills each tile completely edge-to-edge, square corners, no surrounding walls, door frames, tracks, floors, margins, gutters, or perspective. No handles, windows, locks, logos, writing, numbers, stickers or extra objects. Keep restrained varied fine scratches, small chips and corrosion specks, light grime. Neutral even diffuse base-color lighting, minimal relief shading, no cast shadows, harsh highlights or vignette. Preserve exact thirds grid boundaries. Output ONLY full corrected 3x3 square texture atlas.

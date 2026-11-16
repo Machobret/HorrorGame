@@ -36,6 +36,12 @@ namespace HouseToolkit.Editor
                 foreach (var insert in items)
                 {
                     if (!insert || !insert.prefab || insert.kind != kind || result.Contains(insert)) continue;
+                    if (insert is GarageDoorInsert garage)
+                    {
+                        if (!family.IsComplex && wall.length > GarageDoorInsert.Jamb * 2 && floor.height > GarageDoorInsert.Header)
+                            result.Add(garage);
+                        continue;
+                    }
                     if (depth < insert.minimumThickness || insert.maximumThickness > 0 && depth > insert.maximumThickness) continue;
                     var surround = family.panel ? family.FindSurround(insert) : null;
                     if (family.panel && !surround) continue;

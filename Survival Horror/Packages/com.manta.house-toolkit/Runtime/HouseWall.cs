@@ -12,6 +12,10 @@ namespace HouseToolkit
         public float distance;
         public float sill;
         public bool reversed;
+        public Vector2 clearSize;
+        public int finishTile;
+        public Vector2 Size => insert is GarageDoorInsert garage ? garage.RoughSize(clearSize) : insert.opening;
+        public PlacedOpening Copy() => (PlacedOpening)MemberwiseClone();
     }
 
     public readonly struct FittedOpening
@@ -25,7 +29,7 @@ namespace HouseToolkit
         {
             this.placement = placement;
             this.segment = segment;
-            width = segment ? segment.size.x : placement.insert.opening.x;
+            width = segment ? segment.size.x : placement.Size.x;
             float center = segment ? segment.aperture.center.x : width * 0.5f;
             left = placement.distance - center;
             sill = segment ? segment.aperture.y : placement.sill;
@@ -126,6 +130,8 @@ namespace HouseToolkit
                 var insert = placement?.insert;
                 if (!insert || !insert.prefab || !Positive(insert.opening) || !float.IsFinite(placement.distance))
                     return Fail("The insert needs a prefab, a valid position and a rectangular opening.", out reason);
+                if (insert is GarageDoorInsert garage && (family.IsComplex || !garage.ValidSize(placement.clearSize) || placement.finishTile < 0 || placement.finishTile >= 16))
+                    return Fail("Garage doors require a plain wall, positive clear dimensions and a valid finish.", out reason);
                 if (depth < insert.minimumThickness ||
                     (insert.maximumThickness > 0 && depth > insert.maximumThickness))
                     return Fail($"{insert.name} at {placement.distance:0.##} m does not support a wall thickness of {depth:0.###} m.", out reason);
@@ -136,7 +142,7 @@ namespace HouseToolkit
                     segment.aperture.xMax > segment.size.x + 0.0005f || segment.aperture.yMax > segment.size.y + 0.0005f))
                     return Fail("The surround opening must be inside its segment.", out reason);
                 var fit = new FittedOpening(placement, segment);
-                if (!float.IsFinite(fit.sill) || fit.sill < 0 || fit.sill + insert.opening.y > height + 0.0005f)
+                if (!float.IsFinite(fit.sill) || fit.sill < 0 || fit.sill + placement.Size.y > height + 0.0005f)
                     return Fail("The opening exceeds the floor height at this sill.", out reason);
                 if (fit.left < -0.0005f || fit.Right > length + 0.0005f)
                     return Fail("The opening or its surround extends past the end of the wall.", out reason);

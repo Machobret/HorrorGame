@@ -239,11 +239,66 @@ public class PavementEditingTests
         return pixel;
     }
 
-    internal static void ClickScene(SceneView view,Vector3 world,bool shift=false,bool alt=false)
+    internal static void ClickScene(SceneView view,Vector3 world,bool shift=false,bool alt=false,int clicks=1)
     {
         var pixel=Pixel(view,world);
         foreach(var type in new[]{EventType.MouseMove,EventType.Layout,EventType.MouseDown,EventType.MouseUp})
-            view.SendEvent(new Event{type=type,button=0,clickCount=1,mousePosition=pixel,shift=shift,alt=alt});
+            view.SendEvent(new Event{type=type,button=0,clickCount=clicks,mousePosition=pixel,shift=shift,alt=alt});
+    }
+
+    [UnityTest]
+    public IEnumerator DoubleClickInsertsFillerFootprintPointFromOutlineAndFacade()
+    {
+        var building=new GameObject("Rotated filler").AddComponent<FillerBuilding>();
+        building.transform.SetPositionAndRotation(road.transform.position,road.transform.rotation);
+        RoadScene.Enter(building);
+        var loop=SlabOpening.Rectangle(new Rect(0,0,12,6));
+        Assert.IsTrue(RoadScene.ChangeGround("Draw footprint",plan=>{
+            for(int i=0;i<4;i++) GroundEditing.Line(plan,loop[i],loop[(i+1)%4]);
+        }),RoadScene.Message);
+        var host=building.footprint.edges.Single(e=>e.a.y==0 && e.b.y==0);
+        Vector2 DoorCenter(GroundEdge edge,int bay)
+        {
+            var polygon=building.footprint.faces.Single().polygon;
+            bool forward=polygon[(Array.IndexOf(polygon,edge.a)+1)%polygon.Length]==edge.b;
+            return Vector2.Lerp(forward?edge.a:edge.b,forward?edge.b:edge.a,(bay+.5f)/building.Bays(edge));
+        }
+        var originalDoor=DoorCenter(host,3);
+        building.SetEntrance(host.id,3);
+        building.SetFinish(host.id,-1,road.family.sidewalk);
+        var view=ScriptableObject.CreateInstance<SceneView>();
+        var oldTool=Tools.current;
+        try
+        {
+            view.Show();view.position=new Rect(80,80,960,720);view.Focus();view.orthographic=true;Tools.current=Tool.Move;
+            foreach(bool facade in new[]{false,true})
+            {
+                var at=building.transform.TransformPoint(new Vector3(6,facade?2:0,0));
+                view.LookAtDirect(at,facade ? building.transform.rotation :
+                    Quaternion.LookRotation(-building.transform.up,building.transform.forward),8);
+                view.Repaint();yield return null;yield return null;
+                ClickScene(view,at);
+                Assert.AreEqual(RoadPart.Boundary,RoadScene.Selected.part);
+                Undo.IncrementCurrentGroup();
+                ClickScene(view,at,clicks:2);
+                Assert.AreEqual(RoadPart.GroundPoint,RoadScene.Selected.part,RoadScene.Message);
+                Assert.AreEqual(5,building.footprint.edges.Count);
+                Assert.AreEqual(1,building.footprint.faces.Count);
+                var split=building.footprint.edges.Where(e=>e.a.y==0 && e.b.y==0).ToArray();
+                Assert.AreEqual(2,split.Length);
+                Assert.That(split.All(e=>Mathf.Abs((e.b-e.a).magnitude-6)<.05f && building.Override(e.id,-1)==road.family.sidewalk));
+                Assert.AreEqual(1,building.entrances.Count);
+                var door=building.entrances.Single();
+                var side=split.Single(e=>e.id==door.wall);
+                Assert.That(Vector2.Distance(DoorCenter(side,door.bay),originalDoor),Is.LessThan(.05f));
+                Undo.PerformUndo();
+                Assert.AreEqual(4,building.footprint.edges.Count);
+                Assert.AreEqual(3,building.EntranceBay(host.id));
+                Undo.PerformRedo();Assert.AreEqual(5,building.footprint.edges.Count);
+                Undo.PerformUndo();RoadScene.Pick(default);
+            }
+        }
+        finally {Tools.current=oldTool;view.Close();}
     }
 
     [Test]
