@@ -1,0 +1,458 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5c32024ea77fa447b1e7081a7c48467, type: 3}
+  m_Name: Inventory_IconProfile
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorGame.UI.InventoryIconProfile
+  Entries:
+  - Sprite: {fileID: 21300000, guid: 3ac7b7f245cdc664da0e817e5f7d26b8, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.16992188
+      y: 0.06542969
+      width: 0.69140625
+      height: 0.8144531
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: c7cd98953a6d57e40976ebebc8044b71, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.107421875
+      y: 0.171875
+      width: 0.7734375
+      height: 0.6582031
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: c6133451564f747ff8a029aca19e116a, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.2548828
+      y: 0.046875
+      width: 0.5722656
+      height: 0.86816406
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: 1485556bde7992f47a93cc22b53cc4ce, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.16210938
+      y: 0.25
+      width: 0.78515625
+      height: 0.5917969
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: 771733391077fb84fbd9385b82277f47, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.125
+      y: 0.1328125
+      width: 0.71972656
+      height: 0.734375
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: cb4b27e61632c694292a46842b9c1d08, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.068359375
+      y: 0.16601562
+      width: 0.8564453
+      height: 0.61328125
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: 7287f58a855a8f341be10ebb9a9abd4d, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.17578125
+      y: 0.15625
+      width: 0.6582031
+      height: 0.6669922
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: 29aca7b53dad54346b5da55cca794bad, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.1640625
+      y: 0.08300781
+      width: 0.6972656
+      height: 0.8222656
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: bc535e8d99ac2534e8d09032d0d56c5e, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.1640625
+      y: 0.08300781
+      width: 0.6972656
+      height: 0.8222656
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: 4596ebd6fcbd290429677ae5fa0413f3, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.09765625
+      y: 0.19042969
+      width: 0.81640625
+      height: 0.6044922
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: 9df0b74258e201a46a6e2cf37cb76d1f, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.09765625
+      y: 0.19042969
+      width: 0.81640625
+      height: 0.6044922
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: f1a742cdafdd70548a86bb2043f8d989, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.15234375
+      y: 0.08886719
+      width: 0.73046875
+      height: 0.8066406
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: 9a96e9283516f5d468f5a9f96459cb49, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.18164062
+      y: 0.13671875
+      width: 0.765625
+      height: 0.7792969
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: bfcb54eec5f869e42a3bdd6bc1a97b2d, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.07324219
+      y: 0.03515625
+      width: 0.8359375
+      height: 0.8984375
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: 2993982cb4a586340850dc154a694196, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.13378906
+      y: 0.12207031
+      width: 0.74902344
+      height: 0.74121094
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: e11eae54ed767974bba7c86b71112524, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.24902344
+      y: 0.18066406
+      width: 0.6230469
+      height: 0.65625
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: 44b621da40ed42b4e988ad39b0fe9f5a, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.06738281
+      y: 0.08300781
+      width: 0.85058594
+      height: 0.83691406
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: eeee8afd6f3190f4c97f9256406e9a0c, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.19042969
+      y: 0.13378906
+      width: 0.6904297
+      height: 0.7441406
+    Wide: 1
+    Rotation: 48.923203
+    WideBounds:
+      serializedVersion: 2
+      x: -493.81934
+      y: -27.790699
+      width: 984.3047
+      height: 136.64459
+  - Sprite: {fileID: 21300000, guid: 12ed8aadd3458ad4f853ba531f0c4975, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.26367188
+      y: 0.123046875
+      width: 0.47265625
+      height: 0.75390625
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: c5d5c610c1034cf43b80635808382794, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.24023438
+      y: 0.12695312
+      width: 0.5253906
+      height: 0.703125
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: 550e5ebdc9fe0cb4c9ff1f81e971a917, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.23828125
+      y: 0.078125
+      width: 0.5371094
+      height: 0.7910156
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: c32ff7c4c5494234ea03b3dc7dc3ecfa, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.14648438
+      y: 0.09765625
+      width: 0.79296875
+      height: 0.8496094
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: 69aa09f223e54b84a974a233db5a9c90, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.16015625
+      y: 0.25195312
+      width: 0.7871094
+      height: 0.5703125
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: 17a1c4fae77b0e7488f9803dfd9de664, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.16992188
+      y: 0.2578125
+      width: 0.77734375
+      height: 0.56640625
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: b0824ab928bf4ab4b82d69a49f507416, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.16210938
+      y: 0.25
+      width: 0.78515625
+      height: 0.5917969
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: 7c23d226c53834d419e827b1385a9299, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.25683594
+      y: 0.18359375
+      width: 0.50390625
+      height: 0.64746094
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  - Sprite: {fileID: 21300000, guid: a79381e910999fa40a4a6f8a9f78a257, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.17382812
+      y: 0.125
+      width: 0.69140625
+      height: 0.71484375
+    Wide: 1
+    Rotation: 47.647648
+    WideBounds:
+      serializedVersion: 2
+      x: -477.2775
+      y: -47.337677
+      width: 964.03125
+      height: 165.95554
+  - Sprite: {fileID: 21300000, guid: b1d92b4eaed159e4dbee895234c7764b, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.21972656
+      y: 0.19726562
+      width: 0.6582031
+      height: 0.6826172
+    Wide: 1
+    Rotation: 42.42905
+    WideBounds:
+      serializedVersion: 2
+      x: -443.80045
+      y: -193.47096
+      width: 872.35706
+      height: 365.94324
+  - Sprite: {fileID: 21300000, guid: 2cce0d26882f4cf43b6864d1ae58c642, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 0.22460938
+      y: 0.17871094
+      width: 0.5517578
+      height: 0.6435547
+    Wide: 0
+    Rotation: 0
+    WideBounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  AmmoItems:
+  - {fileID: 11400000, guid: a15ea9176b3911444be55a8e5ef30927, type: 2}
+  - {fileID: 11400000, guid: be47060051e3b9f409f698c455fb2110, type: 2}
+  - {fileID: 11400000, guid: a5398a73af1b8a143a2f4e30e2409b2f, type: 2}
+  - {fileID: 11400000, guid: 424071c53313e804abb19b5190d0af8b, type: 2}
+  - {fileID: 11400000, guid: ab1002d21c9c277409217d2a1e97fe8f, type: 2}
+  - {fileID: 11400000, guid: d3062c3f6650227408337c2515d9599c, type: 2}
+  - {fileID: 11400000, guid: 6cffcf9dd3c986843aaa1610650de627, type: 2}

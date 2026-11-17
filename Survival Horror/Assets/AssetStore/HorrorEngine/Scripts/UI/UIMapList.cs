@@ -111,7 +111,7 @@ namespace HorrorEngine
                 if (i >= m_MapListContent.childCount)
                 {
                     item = Instantiate(m_MapListItemPrefab).transform;
-                    item.SetParent(m_MapListContent);
+                    item.SetParent(m_MapListContent, false);
 
                     Button button = item.GetComponentInChildren<Button>();
                     button.onClick.AddListener(OnMapEntryClicked);

@@ -32,6 +32,7 @@ namespace HorrorEngine
     [CreateAssetMenu(menuName = "Horror Engine/Items/Item")]
     public class ItemData : Register
     {
+        [Min(1)] public int InventorySlots=1;
         public Sprite Image;
         public GameObject ExamineModel;
         public LocalizableText Name;

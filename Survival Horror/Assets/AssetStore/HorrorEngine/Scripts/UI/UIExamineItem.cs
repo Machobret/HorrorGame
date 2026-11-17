@@ -61,6 +61,7 @@ namespace HorrorEngine
 
             m_Renderer.gameObject.SetActive(true);
             m_Renderer.PreviewObject.localRotation = Quaternion.Euler(m_InitialRotation);
+            m_Renderer.FrameModel(newModel);
             m_Image.texture = m_Renderer.Texture; // Reset in case resolution changed
 
             PauseController.Instance.Pause(this);

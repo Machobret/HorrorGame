@@ -23,6 +23,9 @@ namespace HorrorEngine
 
         [Header("Visuals")]
         public Material GridMaterial;
+        [SerializeField] private Color m_GridColor = new Color(.34f, .36f, .40f, .42f);
+        [SerializeField] private Color m_ContourColor = Color.white;
+        [SerializeField] private Color m_PlayerColor = Color.white;
         [Tooltip("Shows the faint authoring grid behind the player map.")]
         [SerializeField] private bool m_ShowGridInRuntime = true;
         [Tooltip("Extra world-space room around the drawn map that the player may pan into.")]
@@ -39,6 +42,9 @@ namespace HorrorEngine
 
         public Material ImageMaterial;
 
+        public Camera RenderCamera => m_Cam;
+        public Vector3 MapPositionToWorld(Vector3 point)=>m_MapContent.TransformPoint(point);
+        public Vector3 WorldToMapPosition(Vector3 point)=>m_MapContent.InverseTransformPoint(point);
         private Camera m_Cam;
         private MapData m_Map;
         private RenderTexture m_RenderTexture;
@@ -111,9 +117,9 @@ namespace HorrorEngine
 
             Texture gridTexture = GridMaterial != null ? GridMaterial.mainTexture : null;
             // Keep the grid faint; room contours remain the primary readable layer.
-            m_RuntimeGridMaterial = CreateMapMaterial(unlit, new Color(.34f, .36f, .40f, .42f), gridTexture, false);
-            m_RuntimeMarkerMaterial = CreateMapIconMaterial(Color.white, m_MapPlayer.GetComponentInChildren<Renderer>(true).sharedMaterial.mainTexture);
-            m_RuntimeContourMaterial = CreateMapMaterial(unlit, Color.white, Texture2D.whiteTexture, true);
+            m_RuntimeGridMaterial = CreateMapMaterial(unlit, m_GridColor, gridTexture, false);
+            m_RuntimeMarkerMaterial = CreateMapIconMaterial(m_PlayerColor, m_MapPlayer.GetComponentInChildren<Renderer>(true).sharedMaterial.mainTexture);
+            m_RuntimeContourMaterial = CreateMapMaterial(unlit, m_ContourColor, Texture2D.whiteTexture, true);
 
             GridMaterial = m_RuntimeGridMaterial;
             foreach (var renderer in m_MapPlayer.GetComponentsInChildren<Renderer>(true))

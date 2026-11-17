@@ -12,10 +12,12 @@ namespace HorrorEngine
             m_AudioSource = GetComponent<AudioSource>();
         }
 
-        public void Play(AudioClip clip)
+        public void Play(AudioClip clip) => Play(clip,1f);
+
+        public void Play(AudioClip clip, float volume)
         {
             if (clip)
-                m_AudioSource.PlayOneShot(clip);
+                m_AudioSource.PlayOneShot(clip,Mathf.Clamp01(volume));
         }
     }
 }

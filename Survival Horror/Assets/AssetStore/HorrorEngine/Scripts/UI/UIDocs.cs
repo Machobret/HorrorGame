@@ -23,6 +23,8 @@ namespace HorrorEngine
         [SerializeField] private AudioClip m_NavigateClip;
         [SerializeField] private AudioClip m_CloseClip;
 
+        [SerializeField] private AudioClip m_ShowClip;
+        [SerializeField,Range(0,1)] private float m_MenuVolume=1f;
         private Transform[] m_Pages;
         private List<UIDocumentEntry> m_Entries = new List<UIDocumentEntry>();
         private int m_CurrentPageIndex;
@@ -86,7 +88,7 @@ namespace HorrorEngine
             m_SelectedEntry = go.GetComponent<UIDocumentEntry>();
             m_DocumentName.text = m_SelectedEntry && m_SelectedEntry.Data ? m_SelectedEntry.Data.Name : "";
             if (m_SelectedEntry && m_NavigateClip)
-                UIManager.Get<UIAudio>().Play(m_NavigateClip);
+                UIManager.Get<UIAudio>().Play(m_NavigateClip,m_MenuVolume);
         }
 
         // --------------------------------------------------------------------
@@ -110,6 +112,7 @@ namespace HorrorEngine
 
         public void Show()
         {
+            if(m_ShowClip)UIManager.Get<UIAudio>().Play(m_ShowClip,m_MenuVolume);
             PauseController.Instance.Pause(this);
             CursorController.Instance.SetInUI(true);
 
@@ -177,7 +180,7 @@ namespace HorrorEngine
         private void OnCancel()
         {
             if (m_CloseClip)
-                UIManager.Get<UIAudio>().Play(m_CloseClip);
+                UIManager.Get<UIAudio>().Play(m_CloseClip,m_MenuVolume);
 
             Hide();
         }

@@ -22,8 +22,8 @@ namespace HorrorGame.Chapter1
         public DistrictPowerGridData Data;
         [Min(1)] public int MaximumCapacity = 100;
         public List<PowerCircuit> Circuits = new List<PowerCircuit>();
-        public UnityEvent OnGridChanged;
-        public UnityEvent OnGridOverloaded;
+        public UnityEvent OnGridChanged=new UnityEvent();
+        public UnityEvent OnGridOverloaded=new UnityEvent();
 
         public bool IsShutdown { get; private set; }
         public int CurrentConsumption { get; private set; }

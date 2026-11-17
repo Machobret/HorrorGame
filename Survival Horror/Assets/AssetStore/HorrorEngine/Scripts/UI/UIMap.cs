@@ -2,6 +2,7 @@ using System;
 using HorrorGame.Chapter1;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 namespace HorrorEngine
 {
@@ -12,6 +13,11 @@ namespace HorrorEngine
         [SerializeField] private float m_MovementSpeed = 100;
         [SerializeField] private float m_InputSnapThreshold = 0.5f;
         [SerializeField] private UIMapList m_MapList;
+        [SerializeField] private bool m_SidebarDirectory;
+        [SerializeField] private float m_MapViewportLeft=.065f;
+        [SerializeField] private RectTransform m_PanFrame;
+        [SerializeField] private Color m_CrosshairColor = Color.white;
+        public UnityEvent OnShown = new UnityEvent();
         [SerializeField] private Transform m_FloorsParent;
         [SerializeField] private GameObject m_FloorsPrefab;
         [SerializeField] private GameObject m_FloorsLegend;
@@ -28,6 +34,9 @@ namespace HorrorEngine
         private UIContext m_UIContext;
         private Image m_CrosshairVertical;
         private Image m_CrosshairHorizontal;
+        private bool m_PersistentCursorAcquired;
+        public bool AllowMapNavigation { get; set; }=true;
+        public bool HasTabletWorkspace { get; set; }
         public MapData CurrentMap => m_CurrentMap;
 
         // --------------------------------------------------------------------
@@ -67,7 +76,8 @@ namespace HorrorEngine
             if (isCurrent)
                 MapPlayerFocus.FocusOnPlayer(MapRenderer.Instance, map);
             
-            m_MapList.gameObject.SetActive(false);
+            if (m_MapList.gameObject.activeSelf) ShowMapList();
+            UpdateMapViewport();
             m_MapName.text = map.Name;
 
             UpdateFloors();
@@ -123,7 +133,7 @@ namespace HorrorEngine
 
         private void Update()
         {
-            if (m_Input.IsToggleMapListDown())
+            if (AllowMapNavigation && m_Input.IsToggleMapListDown())
             {
                 ShowMapList();
             }
@@ -132,15 +142,15 @@ namespace HorrorEngine
             {
                 if (m_Input.IsCancelDown())
                 {
-                    m_MapList.gameObject.SetActive(false);
-                    CursorController.Instance.SetInUI(false);
+                    ShowMapList();
+                    return;
                 }
 
-                return;
+                if (!m_SidebarDirectory) return;
             }
             else
             {
-                if (m_CurrentMap && m_CurrentMap.MapSet)
+                if (AllowMapNavigation && m_CurrentMap && m_CurrentMap.MapSet)
                     UpdateFloorChange();
             }
 
@@ -149,6 +159,7 @@ namespace HorrorEngine
                 Hide();
             }
 
+            if(!AllowMapNavigation)return;
             Vector2 move = m_Input.GetPrimaryAxis();
             move.x = Mathf.Abs(move.x) > m_InputSnapThreshold ? move.x : 0f;
             move.y = Mathf.Abs(move.y) > m_InputSnapThreshold ? move.y : 0f;
@@ -174,7 +185,20 @@ namespace HorrorEngine
             if (!m_MapList.gameObject.activeSelf)
                 m_MapList.Fill(m_CurrentMap);
             m_MapList.gameObject.SetActive(!m_MapList.gameObject.activeSelf);
-            CursorController.Instance.SetInUI(m_MapList.gameObject.activeSelf);
+            if (!m_SidebarDirectory) CursorController.Instance.SetInUI(m_MapList.gameObject.activeSelf);
+            UpdateMapViewport();
+        }
+
+        public void ToggleMapDirectory() => ShowMapList();
+        public void CloseDirectory(){m_MapList.gameObject.SetActive(false);UpdateMapViewport();}
+
+        private void UpdateMapViewport()
+        {
+            if (!m_SidebarDirectory) return;
+            Vector2 min = m_MapImage.rectTransform.anchorMin;
+            min.x = m_MapViewportLeft;
+            m_MapImage.rectTransform.anchorMin = min;
+            if (m_PanFrame) m_PanFrame.anchorMin = min;
         }
 
         // --------------------------------------------------------------------
@@ -312,8 +336,15 @@ namespace HorrorEngine
             }
 
             m_MapList.Fill(m_CurrentMap);
+            UpdateMapViewport();
+            if (m_SidebarDirectory && !m_PersistentCursorAcquired)
+            {
+                CursorController.Instance.SetInUI(true);
+                m_PersistentCursorAcquired = true;
+            }
 
             m_UIContext.Activate();
+            OnShown.Invoke();
         }
 
         // --------------------------------------------------------------------
@@ -335,6 +366,13 @@ namespace HorrorEngine
             UIManager.PopAction();
         }
 
+        private void OnDisable()
+        {
+            if (!m_PersistentCursorAcquired) return;
+            if (CursorController.Exists) CursorController.Instance.SetInUI(false);
+            m_PersistentCursorAcquired = false;
+        }
+
         // --------------------------------------------------------------------
 
         private void CreateCrosshair()
@@ -349,7 +387,7 @@ namespace HorrorEngine
             var lineObject = new GameObject(name, typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
             lineObject.transform.SetParent(m_MapImage.transform, false);
             var line = lineObject.GetComponent<Image>();
-            line.color = Color.white;
+            line.color = m_CrosshairColor;
             line.raycastTarget = false;
             return line;
         }
@@ -379,6 +417,20 @@ namespace HorrorEngine
         public bool CanBeShown()
         {
             return !m_UIContext.IsBlocked();
+        }
+
+        public void OnItemsCategory()
+        {
+            if (!Chapter1MapTutorial.CanCloseMap) return;
+            Hide();
+            UIManager.Get<UIInventory>().Show();
+        }
+
+        public void OnFilesCategory()
+        {
+            if (!Chapter1MapTutorial.CanCloseMap) return;
+            Hide();
+            UIManager.Get<UIDocs>().Show();
         }
     }
 }

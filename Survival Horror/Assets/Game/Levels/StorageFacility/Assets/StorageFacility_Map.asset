@@ -1,0 +1,249 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4992fa4685309e447a9abb36b7fb16c1, type: 3}
+  m_Name: StorageFacility_Map
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.MapData
+  UniqueId: 1f6d3fee-7506-4c24-8e0b-6e4baf8e1102
+  ControllerUniqueId: 42671dce-8f04-440e-89ce-b69aefe463cb
+  Name:
+    IsLocalized: 0
+    Unlocalized: Northline Storage Facility
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Abbreviation:
+    IsLocalized: 0
+    Unlocalized: NSF
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Name_DEPRECATED: NoName
+  Abbreviation_DEPRECATED: 
+  Size: {x: 80, y: 150}
+  CellSize: 8
+  GlobalScale: 8
+  MapSet: {fileID: 0}
+  Rooms:
+  - Name: Arrival yard
+    UniqueId: 3a23145c-9e5f-471d-be86-2e874a3f2a96
+    Transform:
+      Offset: {x: 0, y: 0}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 0
+    Shapes:
+    - Points:
+      - {x: -16, y: 0, z: -20}
+      - {x: -16, y: 0, z: 0}
+      - {x: 16, y: 0, z: 0}
+      - {x: 16, y: 0, z: -20}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+  - Name: Reception lobby
+    UniqueId: b005207c-f4a4-47df-9e3b-35ba1a854f1b
+    Transform:
+      Offset: {x: 0, y: 0}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 0
+    Shapes:
+    - Points:
+      - {x: -3, y: 0, z: 0}
+      - {x: -3, y: 0, z: 9}
+      - {x: 5, y: 0, z: 9}
+      - {x: 5, y: 0, z: 0}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+  - Name: Office
+    UniqueId: edb87107-82c2-4f19-bcb9-199dd7129c91
+    Transform:
+      Offset: {x: 0, y: 0}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 0
+    Shapes:
+    - Points:
+      - {x: 5, y: 0, z: 0}
+      - {x: 5, y: 0, z: 7}
+      - {x: 13, y: 0, z: 7}
+      - {x: 13, y: 0, z: 0}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+  - Name: Electrical closet
+    UniqueId: 16b0097a-92ce-49d1-aae6-4d611d0cbbda
+    Transform:
+      Offset: {x: 0, y: 0}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 0
+    Shapes:
+    - Points:
+      - {x: -7, y: 0, z: 5}
+      - {x: -7, y: 0, z: 9}
+      - {x: -3, y: 0, z: 9}
+      - {x: -3, y: 0, z: 5}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+  - Name: Entrance dogleg
+    UniqueId: 0f2561ad-8710-4365-b5f0-d736eda69078
+    Transform:
+      Offset: {x: 0, y: 0}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 0
+    Shapes:
+    - Points:
+      - {x: -3, y: 0, z: 9}
+      - {x: -3, y: 0, z: 13}
+      - {x: 12, y: 0, z: 13}
+      - {x: 12, y: 0, z: 9}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+  - Name: Storage corridor
+    UniqueId: 50666a26-1cd6-4018-9ecc-350848025bc6
+    Transform:
+      Offset: {x: 0, y: 0}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 0
+    Shapes:
+    - Points:
+      - {x: 9, y: 0, z: 13}
+      - {x: 9, y: 0, z: 37}
+      - {x: 12, y: 0, z: 37}
+      - {x: 12, y: 0, z: 13}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+  - Name: Unit A102 - maintenance
+    UniqueId: d5b83465-1282-4648-87de-6977e21af725
+    Transform:
+      Offset: {x: 0, y: 0}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 0
+    Shapes:
+    - Points:
+      - {x: 3, y: 0, z: 20}
+      - {x: 3, y: 0, z: 24}
+      - {x: 9, y: 0, z: 24}
+      - {x: 9, y: 0, z: 20}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+  - Name: Unit B102 - feeder
+    UniqueId: 4077a714-3d85-4b45-b183-b050a7ea7fe7
+    Transform:
+      Offset: {x: 0, y: 0}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 0
+    Shapes:
+    - Points:
+      - {x: 12, y: 0, z: 20}
+      - {x: 12, y: 0, z: 24}
+      - {x: 18, y: 0, z: 24}
+      - {x: 18, y: 0, z: 20}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+  - Name: Service bay
+    UniqueId: 45589a82-7ed6-4f80-b4f5-ffcf69490c1c
+    Transform:
+      Offset: {x: 0, y: 0}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 0
+    Shapes:
+    - Points:
+      - {x: 7, y: 0, z: 37}
+      - {x: 7, y: 0, z: 46}
+      - {x: 16, y: 0, z: 46}
+      - {x: 16, y: 0, z: 37}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+  - Name: Warehouse vestibule
+    UniqueId: e999181a-1074-4631-accc-12749c6f48cf
+    Transform:
+      Offset: {x: 0, y: 0}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 0
+    Shapes:
+    - Points:
+      - {x: 7, y: 0, z: 46}
+      - {x: 7, y: 0, z: 51}
+      - {x: 16, y: 0, z: 51}
+      - {x: 16, y: 0, z: 46}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+  - Name: High-bay warehouse
+    UniqueId: 458de675-f72c-495a-8925-0e4194d5214b
+    Transform:
+      Offset: {x: 0, y: 0}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 0
+    Shapes:
+    - Points:
+      - {x: -20, y: 0, z: 44}
+      - {x: -20, y: 0, z: 67}
+      - {x: 7, y: 0, z: 67}
+      - {x: 7, y: 0, z: 44}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+  Doors: []
+  references:
+    version: 2
+    RefIds: []

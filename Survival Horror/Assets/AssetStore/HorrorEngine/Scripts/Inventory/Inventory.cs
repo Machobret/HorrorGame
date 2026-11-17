@@ -88,12 +88,19 @@ namespace HorrorEngine
     }
 
     [System.Serializable]
+    public struct TabletMapNote { public string MapId,Text; public Vector3 Position; }
+
+    [System.Serializable]
     public struct InventorySaveData
     {
         public List<InventoryEntrySaveData> Items;
         public List<InventoryEquippedEntrySaveData> EquippedItems;
         public int EquipedWeaponEntry;
         public List<string> Documents;
+        public List<string> ReadDocuments;
+        // Legacy save field: ignored since map-note placement was removed.
+        public List<TabletMapNote> MapNotes;
+        public List<string> TabletLog;
         public List<string> Maps;
         public int MaxItems;
     }
@@ -114,10 +121,14 @@ namespace HorrorEngine
 
         [HideInInspector] public List<InventoryEntry> Items;
         [HideInInspector] public HashSet<DocumentData> Documents = new HashSet<DocumentData>();
+        [HideInInspector] public HashSet<DocumentData> ReadDocuments = new HashSet<DocumentData>();
         [HideInInspector] public HashSet<MapData> Maps = new HashSet<MapData>();
 
         [SerializeField] private int m_MaxItems = 8;
         
+        [HideInInspector] public List<string> TabletLog=new List<string>();
+        public void AddTabletLog(string text){TabletLog.Add(text);if(TabletLog.Count>50)TabletLog.RemoveAt(0);}
+
         public EquipmentSlot WeaponSlot = EquipmentSlot.Primary;
 
         public bool Expanded { get; set; }
@@ -188,6 +199,8 @@ namespace HorrorEngine
 
             m_Equipped.Clear();
             Documents.Clear();
+            ReadDocuments.Clear();
+            TabletLog.Clear();
             Maps.Clear();
         }
 
@@ -213,7 +226,7 @@ namespace HorrorEngine
         public InventoryEntry Add(ItemData item, float amount = 1, float secondaryAmount = 0, float status = 0f)
         {
             Debug.Assert(amount > 0, "Amount of items to add to the inventory has to be greater than 0 (0 is allowed since reloadable weapons use Count for ammo)");
-            if (amount < 0) return null;
+            if (amount < 0 || !item || !CanAdd(item,amount)) return null;
 
             m_ItemAddedMsg.Item = item;
 
@@ -227,7 +240,7 @@ namespace HorrorEngine
                     return outEntry;
                 }
 
-                int index = IsInfinite() ? GetNewIndex() : GetNextAvailableIndex();
+                int index = IsInfinite() ? GetNewIndex() : GetNextAvailableIndex(Mathf.Max(1,item.InventorySlots));
                 Debug.Assert(index >= 0, "Trying to add an item to the inventory, but the inventory is full");
                 Items[index].Count = amount;
                 Items[index].Item = item;
@@ -242,7 +255,7 @@ namespace HorrorEngine
                 int lastIndex = 0;
                 for (int i = 0; i < amount; ++i)
                 {
-                    int index = IsInfinite() ? GetNewIndex() : GetNextAvailableIndex();
+                    int index = IsInfinite() ? GetNewIndex() : GetNextAvailableIndex(Mathf.Max(1,item.InventorySlots));
                     Debug.Assert(index >= 0, "Trying to add an non-stackable items to the inventory, but the inventory is full");
                     Items[index].Count = 1;
                     Items[index].Item = item;
@@ -268,10 +281,15 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
-        private int GetNextAvailableIndex()
+        public int UsedSlots { get {int used=0;if(Items!=null)foreach(var entry in Items)if(entry.Item)used+=Mathf.Max(1,entry.Item.InventorySlots);return used;} }
+        public int Capacity => m_MaxItems;
+        public int FreeSlots => IsInfinite()?int.MaxValue:Mathf.Max(0,m_MaxItems-UsedSlots);
+
+        private int GetNextAvailableIndex(int requiredSlots=1)
         {
             Debug.Assert(!IsInfinite(), "GetNextAvailableIndex should not be called for infinite inventories, use GetNewIndex instead");
 
+            if(FreeSlots<requiredSlots)return -1;
             for (int i = 0; i < Items.Count; ++i)
                 if (!Items[i].Item)
                     return i;
@@ -388,23 +406,27 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
-        public InventoryEntry Combine(InventoryEntry entry1, InventoryEntry entry2)
+        public InventoryEntry Combine(InventoryEntry entry1, InventoryEntry entry2) => Combine(entry1,entry2,out _);
+
+        public InventoryEntry Combine(InventoryEntry entry1, InventoryEntry entry2,out bool combined)
         {
+            combined=false;
             foreach (var combi in GameManager.Instance.InventorySetup.Combinations)
             {
                 if (combi.CanCombine(entry1, entry2))
                 {
-                    return combi.OnCombine(entry1, entry2);
+                    combined=true;return combi.OnCombine(entry1, entry2);
                 }
                 else if (combi.CanCombine(entry2, entry1))
                 {
-                    return combi.OnCombine(entry2, entry1);
+                    combined=true;return combi.OnCombine(entry2, entry1);
                 }
             }
 
             // Auto combine stackable items
             if (entry1.Item == entry2.Item && entry1.Item.Flags.HasFlag(ItemFlags.Stackable) && entry1 != entry2)
             {
+                float previous1=entry1.Count,previous2=entry2.Count;
                 float sum = entry1.Count + entry2.Count;
                 float diff = sum - entry1.Item.MaxStackSize;
                 if (diff > 0 && entry1.Item.MaxStackSize > 0)
@@ -418,6 +440,7 @@ namespace HorrorEngine
                     Remove(entry2, entry2.Count);
                 }
                 
+                combined=entry1.Count!=previous1 || entry2.Count!=previous2;
                 return entry1;
             }
 
@@ -432,6 +455,7 @@ namespace HorrorEngine
                 ReloadableWeaponData reloadable = reloadableEntry.Item as ReloadableWeaponData;
                 if (reloadable.AmmoItem == ammoEntry.Item)
                 {
+                    combined=CanRequestWeaponReload(reloadableEntry,ammoEntry);
                     return RequestWeaponReload(reloadableEntry, ammoEntry);
                 }
             }
@@ -662,7 +686,7 @@ namespace HorrorEngine
                 EquipableItemData equipable = entry.Item as EquipableItemData;
                 if (equipable && equipable.MoveOutOfInventoryOnEquip && !isDrop)
                 {
-                    if (IsFull())
+                    if (!CanAdd(entry.Item,entry.Count))
                     {
                         Debug.LogWarning("Couldn't return equipment to inventory. Inventory was full");
                         return;
@@ -732,12 +756,10 @@ namespace HorrorEngine
 
         public bool CanAdd(ItemData item, float amount)
         {
-            bool isFull = IsFull();
-            if (isFull && !CanStack(item, amount, out InventoryEntry outEntry))
-            {
-                return false;
-            }
-            return true;
+            if(!item || amount<0)return false;
+            if(IsInfinite() || CanStack(item,amount,out _))return true;
+            int entries=item.Flags.HasFlag(ItemFlags.Stackable)?1:Mathf.CeilToInt(amount);
+            return FreeSlots>=entries*Mathf.Max(1,item.InventorySlots);
         }
 
         // --------------------------------------------------------------------
@@ -908,6 +930,10 @@ namespace HorrorEngine
                 saveData.Documents.Add(doc.UniqueId);
             }
 
+            saveData.TabletLog=new List<string>(TabletLog);
+            saveData.ReadDocuments = new List<string>();
+            foreach(var doc in ReadDocuments)if(doc)saveData.ReadDocuments.Add(doc.UniqueId);
+
             // Save maps
             saveData.Maps = new List<string>();
             foreach (var map in Maps)
@@ -992,6 +1018,11 @@ namespace HorrorEngine
                 }
             }
 
+            if(docsDB && savedData.ReadDocuments!=null)
+                foreach(var id in savedData.ReadDocuments){var doc=docsDB.GetRegister(id);if(doc)ReadDocuments.Add(doc);}
+
+            if(savedData.TabletLog!=null)TabletLog.AddRange(savedData.TabletLog);
+
             // Load Maps
             var mapsDB = gameMgr.GetDatabase<MapDatabase>();
             if (mapsDB)
@@ -1006,6 +1037,8 @@ namespace HorrorEngine
             {
                 Equip(e);
             }
+            // Older saves may predate item footprints. Preserve every item by expanding only as needed.
+            if(!IsInfinite() && UsedSlots>m_MaxItems){m_MaxItems=UsedSlots;while(Items.Count<m_MaxItems)Items.Add(new InventoryEntry());}
         }
 
         public int IndexOf(InventoryEntry entry)

@@ -44,6 +44,7 @@ namespace HorrorEngine
         public void Show(DocumentData data)
         {
             m_CurrentData = data;
+            if(GameManager.Exists)GameManager.Instance.Inventory.ReadDocuments.Add(data);
             PauseController.Instance.Pause(this);
             
             m_Image.gameObject.SetActive(data.ShowImageOnRead);

@@ -20,6 +20,15 @@ namespace HorrorGame.Chapter1
         private PowerCircuitMapMarker hoveredPoint;
         private static Texture2D tutorialRing;
 
+        public DistrictPowerGrid SourceGrid => grid ? grid : Grid;
+        public bool CanAccessCircuit(string id)
+        {
+            if(!PlayerCanViewMap())return false;
+            if(Layout)foreach(var shape in Layout.Circuits)if(shape.CircuitId==id && IsCircuitRoomAvailable(shape.RoomUniqueId,id))return true;
+            foreach(var gate in HorrorGame.Environment.GarageDoorCircuitLink.Active)if(gate.TryMarker(SourceGrid,MapData,out var room,out var position) && gate.CircuitId==id && IsCircuitRoomAvailable(room,id))return true;
+            return false;
+        }
+
         public void Open(DistrictPowerGrid requestedGrid)
         {
             grid = requestedGrid;
@@ -32,6 +41,7 @@ namespace HorrorGame.Chapter1
                 return;
             }
             mapUi.Show(MapData);
+            var workspace=mapUi.GetComponent<HorrorGame.UI.TabletWorkspace>();if(workspace)workspace.ShowPower();
         }
 
         private void Update()
@@ -39,12 +49,12 @@ namespace HorrorGame.Chapter1
             if (grid == null) grid = Grid;
             if (mapUi == null) mapUi = UIManager.Get<UIMap>(true);
             bool tutorialAllowsTarget = Chapter1MapTutorial.Instance != null && Chapter1MapTutorial.Instance.TutorialActive && Chapter1MapTutorial.Instance.MapToUnlock == MapData;
-            bool showCircuits = DisplayInPlayerMap && mapUi && mapUi.gameObject.activeInHierarchy && mapUi.CurrentMap == MapData && PlayerCanViewMap() && (PlayerOwnsCircuitDiagram() || tutorialAllowsTarget);
+            bool showCircuits = DisplayInPlayerMap && mapUi && mapUi.gameObject.activeInHierarchy && mapUi.AllowMapNavigation && mapUi.CurrentMap == MapData && PlayerCanViewMap() && (PlayerOwnsCircuitDiagram() || tutorialAllowsTarget);
             if (!showCircuits) { hoveredPoint = null; ClearPoints(); return; }
             if (points.Count == 0) CreateCircuitPoints();
             hoveredPoint = GetCrosshairPoint();
             IUIInput input = UIManager.Instance.GetComponent<IUIInput>();
-            if (input != null && input.IsConfirmDown()) TryActivateCrosshairPoint();
+            if (!mapUi.HasTabletWorkspace && input != null && input.IsConfirmDown()) TryActivateCrosshairPoint();
         }
 
         private void CreateCircuitPoints()
@@ -109,8 +119,16 @@ namespace HorrorGame.Chapter1
         private void TryActivateCrosshairPoint()
         {
             PowerCircuitMapMarker point = GetCrosshairPoint();
-            if (point && !grid.IsShutdown && IsCircuitInRange(point.CircuitId, out _, out _))
-                grid.SetCircuit(point.CircuitId, !grid.IsCircuitPowered(point.CircuitId));
+            if (point) TryToggleCircuit(point.CircuitId);
+        }
+
+        public bool TryToggleCircuit(string circuitId)
+        {
+            DistrictPowerGrid source = SourceGrid;
+            if (!source || source.IsShutdown || !CanAccessCircuit(circuitId) ||
+                !IsCircuitInRange(circuitId, out _, out _)) return false;
+            source.SetCircuit(circuitId, !source.IsCircuitPowered(circuitId));
+            return true;
         }
 
         private PowerCircuitMapMarker GetCrosshairPoint()
@@ -134,6 +152,11 @@ namespace HorrorGame.Chapter1
         {
             bool tutorialAllowsTarget = Chapter1MapTutorial.Instance != null && Chapter1MapTutorial.Instance.TutorialActive && Chapter1MapTutorial.Instance.MapToUnlock == MapData;
             if (grid == null || !mapUi || !mapUi.gameObject.activeInHierarchy || mapUi.CurrentMap != MapData || !PlayerCanViewMap() || (!PlayerOwnsCircuitDiagram() && !tutorialAllowsTarget)) return;
+            if (mapUi.HasTabletWorkspace)
+            {
+                if (mapUi.AllowMapNavigation) DrawTutorialHighlight();
+                return;
+            }
             Rect energyBar = new Rect(16, 16, 260, 48);
             GUI.Box(energyBar, GUIContent.none);
             GUI.Label(new Rect(energyBar.x + 12, energyBar.y + 7, energyBar.width - 24, 20), "DISTRICT POWER");

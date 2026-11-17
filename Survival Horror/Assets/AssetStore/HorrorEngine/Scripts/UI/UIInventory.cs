@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace HorrorEngine
@@ -28,8 +29,14 @@ namespace HorrorEngine
         [Header("Advanced Customization")]
         [SerializeField] private bool m_SelectWithOneClick;
         [SerializeField] private bool m_AlwaysRebuild;
+        [SerializeField] private bool m_RebuildOnlyOnCapacityChange;
         [SerializeField] private Transform m_RebuildItemParent;
         [SerializeField] private GameObject m_RebuildItemPrefab;
+
+        public UnityEvent<string> OnFeedback=new UnityEvent<string>();
+        public InventoryEntry CombiningEntry => m_CombiningSlot ? m_CombiningSlot.InventoryEntry : null;
+        public InventoryEntry SelectedEntry => m_SelectedSlot ? m_SelectedSlot.InventoryEntry : null;
+        [SerializeField,Range(0,1)] private float m_MenuVolume=1f;
 
         private UIInventoryItem m_SelectedSlot;
         private UIInventoryItem m_CombiningSlot;
@@ -106,7 +113,7 @@ namespace HorrorEngine
             if (slot.InventoryEntry != null && slot.InventoryEntry.Item)
             {
                 m_ItemInfoFiller.Fill(slot.InventoryEntry);
-                UIManager.Get<UIAudio>().Play(m_NavigateClip);
+                UIManager.Get<UIAudio>().Play(m_NavigateClip,m_MenuVolume);
             }
             else
             {
@@ -146,7 +153,7 @@ namespace HorrorEngine
                 OnCancel();
             }
 
-            if (m_SelectedSlot && m_SelectedSlot.InventoryEntry != null)
+            if (m_SelectedSlot && m_SelectedSlot.InventoryEntry != null && (!EventSystem.current || EventSystem.current.currentSelectedGameObject==m_SelectedSlot.gameObject))
             {
                 if (m_Input.IsConfirmDown())
                 {
@@ -156,7 +163,8 @@ namespace HorrorEngine
 
             if (!m_SelectWithOneClick)
             {
-                GameObject defaultSelection = m_SelectedSlot ? m_SelectedSlot.gameObject : (m_ItemSlots.Length > 0 ? m_ItemSlots[0].gameObject : null);
+                var fallback=m_ItemSlots.FirstOrDefault(slot=>slot && slot.gameObject.activeInHierarchy && slot.GetComponent<UnityEngine.UI.Button>().IsInteractable());
+                GameObject defaultSelection = m_SelectedSlot && m_SelectedSlot.GetComponent<UnityEngine.UI.Button>().IsInteractable() ? m_SelectedSlot.gameObject : (fallback ? fallback.gameObject : null);
                 EventSystemUtils.SelectDefaultOnLostFocus(defaultSelection);
             }
         }
@@ -181,11 +189,11 @@ namespace HorrorEngine
             
             m_ContextMenu.gameObject.SetActive(false);
 
-            UIManager.Get<UIAudio>().Play(m_ShowClip);
+            UIManager.Get<UIAudio>().Play(m_ShowClip,m_MenuVolume);
 
             if (m_Expanding)
             {
-                UIManager.Get<UIAudio>().Play(m_ExpandClip);
+                UIManager.Get<UIAudio>().Play(m_ExpandClip,m_MenuVolume);
                 this.InvokeActionUnscaled(EndExpansion, m_ExpandingInteractionDelay);
             }
 
@@ -219,7 +227,7 @@ namespace HorrorEngine
 
         public void OnCancel()
         {
-            UIManager.Get<UIAudio>().Play(m_CloseClip);
+            UIManager.Get<UIAudio>().Play(m_CloseClip,m_MenuVolume);
             if (m_CombiningSlot)
             {
                 CancelCombine();
@@ -247,6 +255,7 @@ namespace HorrorEngine
 
         private void CancelCombine()
         {
+            OnFeedback.Invoke("Combination cancelled");
             m_CombiningSlot.SetSelectionLocked(false);
             m_CombiningSlot = null;
         }
@@ -305,7 +314,7 @@ namespace HorrorEngine
         {
             if (GameManager.Instance.Inventory.Use(m_SelectedSlot.InventoryEntry))
             {
-                UIManager.Get<UIAudio>().Play(m_UseClip);
+                UIManager.Get<UIAudio>().Play(m_UseClip,m_MenuVolume);
 
                 ItemData item = m_SelectedSlot.InventoryEntry.Item;
                 if (item && item.Flags.HasFlag(ItemFlags.UseOnInteractive))
@@ -320,7 +329,8 @@ namespace HorrorEngine
             }
             else
             {
-                UIManager.Get<UIAudio>().Play(m_CantUseClip);
+                UIManager.Get<UIAudio>().Play(m_CantUseClip,m_MenuVolume);
+                OnFeedback.Invoke("Cannot use this item here");
             }
 
             m_Input.Flush(); // Flush so an object is not immediately selected after this
@@ -332,8 +342,10 @@ namespace HorrorEngine
         {
             EquipableItemData equipableItem = m_SelectedSlot.Data as EquipableItemData;
             bool wasSomethingEquipped = GameManager.Instance.Inventory.GetEquipped(equipableItem.Slot) != null;
-            GameManager.Instance.Inventory.ToggleEquip(m_SelectedSlot.InventoryEntry);
-            UIManager.Get<UIAudio>().Play(m_UseClip);
+            var selectedEntry=m_SelectedSlot.InventoryEntry;
+            GameManager.Instance.Inventory.ToggleEquip(selectedEntry);
+            OnFeedback.Invoke(GameManager.Instance.Inventory.GetEquipped(equipableItem.Slot)==selectedEntry ? "Equipped" : "Unequipped");
+            UIManager.Get<UIAudio>().Play(m_UseClip,m_MenuVolume);
 
             if (equipableItem.MoveOutOfInventoryOnEquip || wasSomethingEquipped)
                 Fill();
@@ -359,6 +371,7 @@ namespace HorrorEngine
                 // First item of the combination picked
                 m_SelectedSlot.SetSelectionLocked(true);
                 m_CombiningSlot = m_SelectedSlot;
+                OnFeedback.Invoke("Select an item to combine");
                 
                 if (!m_SelectWithOneClick)
                     EventSystem.current.SetSelectedGameObject(m_SelectedSlot.gameObject);
@@ -424,7 +437,7 @@ namespace HorrorEngine
             var inventory = GameManager.Instance.Inventory;
             bool requestedReload = inventory.CanRequestWeaponReload(
                 m_SelectedSlot.InventoryEntry, m_CombiningSlot.InventoryEntry);
-            InventoryEntry highlightedEntry = inventory.Combine(m_SelectedSlot.InventoryEntry, m_CombiningSlot.InventoryEntry);
+            InventoryEntry highlightedEntry = inventory.Combine(m_SelectedSlot.InventoryEntry, m_CombiningSlot.InventoryEntry,out bool combined);
 
             // A reload must begin in gameplay, never underneath the paused
             // inventory. Close immediately after a valid ammo/weapon combine;
@@ -444,6 +457,7 @@ namespace HorrorEngine
             Fill();
             FillEquipped();
 
+            OnFeedback.Invoke(combined ? "Combined" : "Cannot combine these items");
             if (highlightedEntry != null)
             {
                 for (int i = 0; i < m_ItemSlots.Length; ++i)
@@ -469,7 +483,7 @@ namespace HorrorEngine
             m_Expanding = inventory.Expanded;
             inventory.Expanded = false;
 
-            if (m_AlwaysRebuild)
+            if (m_AlwaysRebuild && (!m_RebuildOnlyOnCapacityChange || m_ItemSlots.Length!=items.Count))
             {
                 RebuildItems();
             }
@@ -499,7 +513,8 @@ namespace HorrorEngine
             for (int i = m_ItemSlots.Length - 1; i >= 0; --i)
             {
                 UnregisterItemCallbacks(m_ItemSlots[i]);
-                Destroy(m_ItemSlots[i].gameObject);
+                var pooled=m_ItemSlots[i].GetComponent<PooledGameObject>();
+                if(pooled && pooled.Owner)pooled.ReturnToPool();else Destroy(m_ItemSlots[i].gameObject);
             }
         }
 
