@@ -36,7 +36,7 @@ def prepare(archive):
     baseline={p.relative_to(PROJECT).as_posix():sha(p) for scene in (PROJECT/'Assets').rglob('*.unity')
               for p in (scene,Path(str(scene)+'.meta')) if p.is_file()}
     write(REVIEW/'SceneBaseline.json',baseline)
-    user_paths=['Assets/Game/Environment/Brick/README.md','Assets/Game/Environment/ProjectedFinishes/Brick/SceneVariants/Brick_Clean.mat','Assets/Game/Environment/Brick/Brick_Clean_Albedo.png']
+    user_paths=['Assets/Game/Environment/Brick/README.md','Assets/Game/Environment/ProjectedFinishes/Brick/Red Brick with Pale Mortar.mat','Assets/Game/Environment/Brick/Brick_Clean_Albedo.png']
     write(REVIEW/'ExistingEditBaseline.json',{p:sha(PROJECT/p) for p in user_paths if (PROJECT/p).is_file()})
     records=[];archive=Path(archive)
     with ZipFile(archive) as z:
