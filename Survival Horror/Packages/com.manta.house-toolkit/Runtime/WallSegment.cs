@@ -22,6 +22,7 @@ namespace HouseToolkit
         public Mesh mesh;
         [SerializeField, UnityEngine.Serialization.FormerlySerializedAs("size")] Vector2 legacySize = new Vector2(2, 2.8f);
         public Vector2 size { get => mesh ? (Vector2)mesh.bounds.size : legacySize; set => legacySize = value; }
+        public bool HasGlass => mesh ? mesh.subMeshCount > 1 : parts != null && System.Array.Exists(parts, part => part.glass);
         public OpeningKind kind;
         public Rect aperture;
         public SegmentPart[] parts = System.Array.Empty<SegmentPart>();

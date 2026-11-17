@@ -140,6 +140,10 @@ public class FillerBuildingTests
             for(int i=0;i<buildings.Count;i++)
             {
                 var building=buildings[i];
+                int front=building.footprint.edges.Single(e=>e.a.y==0 && e.b.y==0).id;
+                if(i==0)building.SetGroundStyle(front,FillerBuilding.GroundStyle.Solid);
+                if(i==1)building.SetGroundStyle(front,FillerBuilding.GroundStyle.Normal);
+                if(i==2)building.SetGroundStyle(front,FillerBuilding.GroundStyle.Material,buildings[4].buildingType.storefronts[0]);
                 if(i==0)building.SetFinish(0,2,materials[i*3+2]);
                 building.Rebuild();
                 var renderer=building.GetComponent<MeshRenderer>();
@@ -166,7 +170,10 @@ public class FillerBuildingTests
                         Assert.That(white-black,Is.GreaterThan(.2f),"The diagnostic strips must render on "+families[i]);
                         int tile=0;
                         for(int bit=0;bit<6;bit++)if(Sample(bit)>(black+white)*.5f)tile|=1<<bit;
-                        if(floor==0 && bay==1)Assert.AreEqual(i*6+5,tile,"Door cell for "+families[i]);
+                        if(floor==0 && i==0)Assert.AreEqual(0,tile,"Solid includes the reserved entrance bay");
+                        else if(floor==0 && i==2)Assert.AreEqual(bay==1 ? 4*6+5 : 36+4,tile,"Chosen storefront family");
+                        else if(floor==0 && bay==1)Assert.AreEqual(i*6+5,tile,"Door cell for "+families[i]);
+                        else if(floor==0 && i==1)Assert.That(tile,Is.InRange(i*6,i*6+4),"Normal overrides the floor storefront");
                         else if(floor==0)Assert.AreEqual(36+i,tile,"Display window");
                         else if(floor==3)Assert.AreEqual(30+i,tile,"Roof coping");
                         else if(floor==2)
@@ -220,6 +227,66 @@ public class FillerBuildingTests
         b.SetFinish(1,1,depot.facade);
         Assert.AreSame(depot.facade,b.MaterialFor(1,1));
     }
+    [TestCase("Red Brick")]
+    [TestCase("Industrial Depot")]
+    public void GroundStyleFollowsWallAcrossSplitsAndRestoresItsEntrance(string typeName)
+    {
+        var types=AvailableTypes();
+        var type=types.Single(t=>t.name==typeName);
+        var plaster=types.Single(t=>t.name=="Ochre Plaster");
+        var shop=plaster.storefronts.Single();
+        var building=new GameObject("Ground-floor choices").AddComponent<FillerBuilding>();
+        building.SetType(type);
+        building.floors=2;
+        var loop=SlabOpening.Rectangle(new Rect(0,0,18,12));
+        Assert.IsTrue(GroundEditing.Change(building,"Draw footprint",plan=>{
+            for(int i=0;i<4;i++)GroundEditing.Line(plan,loop[i],loop[(i+1)%4]);
+        },out var issue),issue);
+        var wall=building.footprint.edges[0];
+        int other=building.footprint.edges[1].id;
+        building.SetFinish(0,0,shop);
+        building.SetEntrance(wall.id,1);
+        void Check(FillerBuilding.GroundStyle style,Material ground,int mode,bool entrance)
+        {
+            building.SetGroundStyle(wall.id,style,style==FillerBuilding.GroundStyle.Material ? shop : null);
+            building.Rebuild();
+            Assert.AreSame(ground,building.MaterialFor(wall.id,0));
+            Assert.AreSame(type.facade,building.MaterialFor(wall.id,1));
+            Assert.AreSame(shop,building.MaterialFor(other,0));
+            var mesh=building.GetComponent<MeshFilter>().sharedMesh;
+            var uv=new List<Vector4>();mesh.GetUVs(5,uv);
+            var colors=mesh.colors32;
+            var selected=Enumerable.Range(0,uv.Count).Where(i=>uv[i].x==wall.id && uv[i].y==0).ToArray();
+            Assert.IsNotEmpty(selected);
+            Assert.AreEqual(entrance,selected.Any(i=>uv[i].z<0));
+            Assert.IsTrue(selected.All(i=>(colors[i].r==255 ? ground.GetFloat("_BayType") : colors[i].g)==mode));
+            if(type.facade==plaster.facade)
+                CollectionAssert.DoesNotContain(building.GetComponent<MeshRenderer>().sharedMaterials,shop);
+        }
+        Check(FillerBuilding.GroundStyle.Solid,type.facade,1,false);
+        Check(FillerBuilding.GroundStyle.Normal,type.facade,0,true);
+        Check(FillerBuilding.GroundStyle.Material,shop,2,true);
+        Check(FillerBuilding.GroundStyle.Inherit,shop,2,true);
+        Undo.IncrementCurrentGroup();
+        RoadInspector.SetGroundStyle(building,new[]{wall.id,other},FillerBuilding.GroundStyle.Solid);
+        Undo.FlushUndoRecordObjects();
+        Assert.AreSame(type.facade,building.MaterialFor(other,0));
+        Undo.PerformUndo();
+        Assert.AreSame(shop,building.MaterialFor(wall.id,0));
+        Assert.AreSame(shop,building.MaterialFor(other,0));
+        Undo.PerformRedo();
+        Assert.AreEqual(FillerBuilding.GroundStyle.Solid,building.FinishAt(other,0).groundStyle);
+        int child=building.footprint.nextId;
+        Undo.IncrementCurrentGroup();
+        Assert.IsTrue(GroundEditing.InsertPoint(building,wall.id,(wall.a+wall.b)*.5f,out _,out issue),issue);
+        Assert.AreEqual(FillerBuilding.GroundStyle.Solid,building.FinishAt(child,0).groundStyle);
+        Undo.PerformUndo();
+        Assert.IsNull(building.FinishAt(child,0));
+        Assert.AreEqual(FillerBuilding.GroundStyle.Solid,building.FinishAt(wall.id,0).groundStyle);
+        Undo.PerformRedo();
+        Assert.AreEqual(FillerBuilding.GroundStyle.Solid,building.FinishAt(child,0).groundStyle);
+    }
+
     [UnityTest]
     public IEnumerator DrawFootprintPickWholeWallsAndOverrideOneFloor()
     {

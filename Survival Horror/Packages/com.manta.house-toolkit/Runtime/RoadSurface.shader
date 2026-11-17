@@ -4,11 +4,9 @@ Shader "House Toolkit/Road Surface"
     {
         [MainTexture] _BaseMap("Base color", 2D) = "white" {}
         [MainColor] _BaseColor("Tint", Color) = (1,1,1,1)
-        [NoScaleOffset] _WearMap("Paint scuffs (alpha)", 2D) = "white" {}
         _Smoothness("Smoothness", Range(0,1)) = .18
-        [Toggle] _MetricAsphalt("Tile asphalt RGB in road-local metres", Float) = 0
-        [Toggle] _EdgeMask("Base map alpha marks painted edges", Float) = 0
-        _EdgeColor("Edge paint", Color) = (.79,.76,.67,1)
+        _RepeatMetres("World XZ repeat (metres)", Float) = 2
+        [Toggle] _TrafficWear("Use generated road wheel paths", Float) = 1
     }
     SubShader
     {
@@ -19,11 +17,10 @@ Shader "House Toolkit/Road Surface"
         CBUFFER_START(UnityPerMaterial)
             float4 _BaseMap_ST;
             half4 _BaseColor;
-            half4 _EdgeColor;
-            half _Smoothness, _EdgeMask, _MetricAsphalt;
+            half _Smoothness, _TrafficWear;
+            float _RepeatMetres;
         CBUFFER_END
         TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
-        TEXTURE2D(_WearMap); SAMPLER(sampler_WearMap);
 
         float WheelBands(float across, float laneCount)
         {
@@ -62,7 +59,12 @@ Shader "House Toolkit/Road Surface"
 
         float Traffic(float4 uv, float4 lanes, float4 across, float4 inward, float2 metres)
         {
-            if (uv.z < 2) return WheelBands(uv.x, lanes.x);
+            if (uv.z > -.5 || lanes.x <= 0) return 0; // Only explicitly tagged generated roads carry traffic data.
+            if (uv.z > -2)
+            {
+                float fade = lanes.y > 0 ? smoothstep(0, lanes.y, min(lanes.z, lanes.w)) : 1;
+                return WheelBands(uv.x, lanes.x) * fade;
+            }
             float4 d = MouthDistances(across, inward);
             float mainDistance = min(d.x, d.y);
             float sideDistance = lanes.w > 0 ? min(d.z, d.w) : d.z;
@@ -105,14 +107,6 @@ Shader "House Toolkit/Road Surface"
             return lerp(wear, bands, smoothstep(.82,1,abs(balance)));
         }
 
-        half PaintCoverage(float2 wearUV, half wear)
-        {
-            half mask = SAMPLE_TEXTURE2D(_WearMap, sampler_WearMap, wearUV).a;
-            // Reserve a clean endpoint even for fully chipped texels.
-            half threshold = lerp(-.03, .97, wear);
-            return smoothstep(threshold, threshold + .025, mask);
-        }
-
         struct Attributes
         {
             float4 positionOS : POSITION;
@@ -132,7 +126,6 @@ Shader "House Toolkit/Road Surface"
             half3 normalWS : TEXCOORD1;
             DECLARE_LIGHTMAP_OR_SH(lightmapUV, vertexSH, 3);
             float4 uv : TEXCOORD4;
-            float2 wearUV : TEXCOORD5;
             half4 style : TEXCOORD6;
             float4 traffic : TEXCOORD7;
             float4 across : TEXCOORD8;
@@ -143,8 +136,7 @@ Shader "House Toolkit/Road Surface"
         struct DepthVaryings
         {
             float4 positionCS : SV_POSITION;
-            float4 wear : TEXCOORD0; // pattern UV, surface kind, family wear
-            float2 uv : TEXCOORD1;
+            half3 normalWS : TEXCOORD0;
             UNITY_VERTEX_OUTPUT_STEREO
         };
         DepthVaryings DepthVertex(Attributes input)
@@ -153,15 +145,11 @@ Shader "House Toolkit/Road Surface"
             DepthVaryings output = (DepthVaryings)0;
             UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
             output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
-            output.wear = float4(input.positionOS.xz * .5, input.uv.z, input.style.a);
-            output.uv = TRANSFORM_TEX(input.uv.xy, _BaseMap);
+            output.normalWS = TransformObjectToWorldNormal(input.normalOS);
             return output;
         }
         half4 DepthFragment(DepthVaryings input) : SV_Target
         {
-            if (input.wear.z > .5 && input.wear.z < 2.5)
-                clip(PaintCoverage(input.wear.xy, input.wear.w) *
-                    SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv).a - .5);
             return 0;
         }
         ENDHLSL
@@ -195,7 +183,6 @@ Shader "House Toolkit/Road Surface"
                 VertexPositionInputs position = GetVertexPositionInputs(input.positionOS.xyz);
                 output.positionCS = position.positionCS;
                 output.uv = input.uv;
-                output.wearUV = input.positionOS.xz * .5;
                 output.style = input.style;
                 output.traffic = input.traffic;
                 output.across = input.across;
@@ -211,24 +198,12 @@ Shader "House Toolkit/Road Surface"
                 UNITY_SETUP_INSTANCE_ID(input);
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
                 half3 normalWS = normalize(input.normalWS);
-                half4 texel = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, TRANSFORM_TEX(input.uv.xy, _BaseMap));
-                half3 albedo = texel.rgb * _BaseColor.rgb;
-                half coverage = PaintCoverage(input.wearUV, input.style.a);
-                if (input.uv.z > .5 && input.uv.z < 2.5)
-                {
-                    clip(coverage * texel.a - .5);
-                    if (input.uv.z > 1.5) albedo *= input.style.rgb;
-                    albedo *= lerp(1, .86, input.style.a);
-                }
-                else
-                {
-                    // The edge mask follows the junction UVs; asphalt grain tiles continuously
-                    // across roads, corner triangles and junctions at the same physical scale.
-                    if (_MetricAsphalt > .5)
-                        albedo = SAMPLE_TEXTURE2D(_BaseMap, sampler_LinearRepeat, input.wearUV).rgb * _BaseColor.rgb;
-                    albedo *= lerp(half3(1,1,1), input.style.rgb, Traffic(input.uv, input.traffic, input.across, input.inward, input.wearUV*2));
-                    albedo = lerp(albedo, _EdgeColor.rgb, texel.a * _EdgeMask * coverage);
-                }
+                float2 metres = GetAbsolutePositionWS(input.positionWS).xz;
+                float2 uv = metres / max(_RepeatMetres, .001) * _BaseMap_ST.xy + _BaseMap_ST.zw;
+                half3 albedo = SAMPLE_TEXTURE2D(_BaseMap, sampler_LinearRepeat, uv).rgb * _BaseColor.rgb;
+                if (_TrafficWear > .5 && input.uv.z < -.5)
+                    albedo *= lerp(half3(1,1,1), input.style.rgb,
+                        Traffic(input.uv, input.traffic, input.across, input.inward, metres));
                 InputData lighting = (InputData)0;
                 lighting.positionWS = input.positionWS;
                 lighting.normalWS = normalWS;
@@ -262,6 +237,30 @@ Shader "House Toolkit/Road Surface"
             #pragma vertex DepthVertex
             #pragma fragment DepthFragment
             #pragma multi_compile_instancing
+            ENDHLSL
+        }
+        Pass
+        {
+            Name "DepthNormals"
+            Tags { "LightMode"="DepthNormalsOnly" }
+            HLSLPROGRAM
+            #pragma target 3.5
+            #pragma vertex DepthVertex
+            #pragma fragment NormalFragment
+            #pragma multi_compile_instancing
+            #pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl"
+            half4 NormalFragment(DepthVaryings input) : SV_Target
+            {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
+                half3 normalWS = normalize(input.normalWS);
+                #if defined(_GBUFFER_NORMALS_OCT)
+                    float2 oct = PackNormalOctQuadEncode(normalWS) * .5 + .5;
+                    return half4(PackFloat2To888(saturate(oct)), 0);
+                #else
+                    return half4(normalWS, 0);
+                #endif
+            }
             ENDHLSL
         }
         Pass

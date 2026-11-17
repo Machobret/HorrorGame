@@ -103,7 +103,7 @@ Shader "Horror Game/Environment/Filler Facade Atlas"
                     // Texel bounds on the square depot sheet, measured from the top.
                     float2 rows=ground ? float2(0,427) : float2(427,683);
                     if (bay.x<0) rows=float2(683,715);
-                    else if (!ground && hash%5u==0u) rows=float2(715,1024);
+                    else if ((ground && mode==1) || (!ground && hash%5u==0u)) rows=float2(715,1024);
                     output.uv=float2((column+within.x)*.5,1-lerp(rows.y,rows.x,within.y)/1024.0);
                     return output;
                 }

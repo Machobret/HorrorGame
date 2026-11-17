@@ -8,16 +8,22 @@ namespace HouseToolkit
         [SerializeField, UnityEngine.Serialization.FormerlySerializedAs("thickness"), Min(.01f)] float plainThickness = .15f;
         [HideInInspector] public bool complex;
         public bool IsComplex => complex || panel;
-        public bool HasGlass => HasGlassIn(panels) || HasGlassIn(surrounds);
+        public bool HasGlass
+        {
+            get
+            {
+                if (HasGlassIn(panels) || HasGlassIn(surrounds)) return true;
+                if (defaultInserts != null)
+                    foreach (var insert in defaultInserts)
+                        if (insert && insert.PanelSegment && insert.PanelSegment.HasGlass) return true;
+                return false;
+            }
+        }
         static bool HasGlassIn(WallSegment[] segments)
         {
             if (segments == null) return false;
             foreach (var segment in segments)
-            {
-                if (!segment) continue;
-                if (segment.mesh ? segment.mesh.subMeshCount > 1 :
-                    segment.parts != null && System.Array.Exists(segment.parts, part => part.glass)) return true;
-            }
+                if (segment && segment.HasGlass) return true;
             return false;
         }
         public float thickness { get => panel && panel.mesh ? panel.mesh.bounds.size.z : plainThickness; set => plainThickness = value; }
@@ -50,9 +56,19 @@ namespace HouseToolkit
         public WallSegment[] surrounds = System.Array.Empty<WallSegment>();
         public HouseInsert[] defaultInserts = System.Array.Empty<HouseInsert>();
 
+        public bool SupportsInsertAsset(HouseInsert insert)
+        {
+            if (!insert) return false;
+            if (insert.kind != OpeningKind.Panel && insert.prefab) return true;
+            bool listed = defaultInserts != null && System.Array.IndexOf(defaultInserts, insert) >= 0;
+            return listed && (insert.kind != OpeningKind.Panel || insert.prefab || insert.PanelSegment);
+        }
+
         public WallSegment FindSurround(HouseInsert insert)
         {
-            if (!insert || surrounds == null) return null;
+            if (!insert) return null;
+            if (insert.kind == OpeningKind.Panel) return insert.PanelSegment;
+            if (!panel || surrounds == null) return null;
             foreach (var segment in surrounds)
                 if (segment && segment.kind == insert.kind &&
                     Mathf.Abs(segment.aperture.width - insert.opening.x) < 0.0005f &&

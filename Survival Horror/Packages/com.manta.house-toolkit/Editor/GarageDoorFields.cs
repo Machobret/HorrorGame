@@ -13,17 +13,19 @@ namespace HouseToolkit.Editor
         internal static int RandomTile()=>random.Next(16);
         internal static void Advance(){if(randomize)BrushTile=random.Next(16);}
 
-        internal static void Brush(GarageDoorInsert garage)
+        internal static void Brush(GarageDoorInsert garage,bool empty=false)
         {
             BrushSize=Dimensions(garage.ClearSize(BrushSize));
+            if(empty)return;
             randomize=EditorGUILayout.Toggle("Random finish",randomize);
             int chosen=Swatches(garage,randomize?-1:BrushTile);
             if(chosen>=0){BrushTile=chosen;randomize=false;}
         }
 
-        internal static void Selection(GarageDoorInsert garage,ref Vector2 size,ref int tile)
+        internal static void Selection(GarageDoorInsert garage,ref Vector2 size,ref int tile,bool empty=false)
         {
             size=Dimensions(garage.ClearSize(size));
+            if(empty)return;
             int chosen=Swatches(garage,tile);
             if(chosen>=0){tile=chosen;GUI.changed=true;}
             if(GUILayout.Button("Randomize finish")){tile=random.Next(16);GUI.changed=true;}

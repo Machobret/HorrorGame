@@ -29,10 +29,12 @@ namespace HouseToolkit
             if (LaneCount == 0) forwardLanes = 1;
         }
 
-        [Min(.1f)] public float repeatLength = 6;
+        [Min(.1f), Tooltip("Repeat length for UV-mapped custom materials. World-space asphalt uses its material's Repeat metres.")] public float repeatLength = 6;
         public Material road, bareAsphalt, tJunction, xJunction;
         [ColorUsage(false), Tooltip("White leaves the asphalt unchanged. Used by the Road Surface shader.")]
         public Color wheelPathTint = new Color(.82f, .83f, .85f);
+        [Min(0), Tooltip("Fade wheel paths to plain asphalt at open road ends over this distance. Zero disables the fade.")]
+        public float wheelPathEndFade = 2;
         [Range(0, 1), Tooltip("Zero is fresh paint. Higher values expose more asphalt.")]
         public float paintWear = .5f;
 
@@ -57,6 +59,12 @@ namespace HouseToolkit
         public Material curbMaterial, paint;
         [Tooltip("Material for crosswalks and stop lines. Empty uses white road paint.")]
         public Material crossingPaint;
+        public bool edgeLines;
+        [Min(.02f)] public float edgeLineWidth = .12f;
+        [Min(0), Tooltip("Distance from the road boundary to the outside of the edge line, in metres.")]
+        public float edgeLineInset = .3f;
+        [Tooltip("Material for edge lines. Empty uses crosswalk / stop line paint.")]
+        public Material edgePaint;
         public RoadMarkingSet markingSet;
         public RoadLines centerLine;
         [Min(.02f)] public float lineWidth = .12f;
@@ -67,6 +75,7 @@ namespace HouseToolkit
 
         internal Material CenterLinePaint => paint ? paint : DefaultMaterial(ref defaultYellow, "HouseToolkitRoadYellow");
         internal Material CrossingPaint => crossingPaint ? crossingPaint : DefaultMaterial(ref defaultWhite, "HouseToolkitRoadWhite");
+        internal Material EdgePaint => edgePaint ? edgePaint : CrossingPaint;
 
         static Material DefaultMaterial(ref Material cached, string resource)
         {

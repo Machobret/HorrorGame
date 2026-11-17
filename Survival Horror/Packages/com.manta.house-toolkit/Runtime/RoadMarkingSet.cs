@@ -19,7 +19,7 @@ namespace HouseToolkit
                 uv.width > 0 && uv.height > 0 && uv.xMin >= 0 && uv.yMin >= 0 && uv.xMax <= 1 && uv.yMax <= 1;
         }
 
-        [Tooltip("Road Surface material with the transparent atlas as its Base Map.")]
+        [Tooltip("Road Paint material with the transparent atlas as its Base Map.")]
         public Material atlas;
         public Marking[] markings = Array.Empty<Marking>();
 

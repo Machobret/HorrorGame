@@ -7,11 +7,14 @@ namespace HouseToolkit
     [AddComponentMenu("Procedural Environment/Filler Building")]
     public sealed class FillerBuilding : ProceduralSurface
     {
+        public enum GroundStyle { Inherit, Normal, Solid, Material }
+
         [Serializable]
         public sealed class Finish
         {
             public int wall, floor;
             public Material material;
+            public GroundStyle groundStyle;
         }
 
         [Serializable]
@@ -65,10 +68,19 @@ namespace HouseToolkit
         public override Material Pavement=>roof;
 
         // Wall 0 means the whole floor. Floor -1 means every storey of a wall.
-        public Material Override(int wall,int floor)=>finishes.Find(f=>f.wall==wall && f.floor==floor)?.material;
+        public Finish FinishAt(int wall,int floor)=>finishes.Find(f=>f.wall==wall && f.floor==floor);
+        public Material Override(int wall,int floor)=>FinishAt(wall,floor)?.material;
         public Material MaterialFor(int wall,int floor)
         {
-            var value=Override(wall,floor);
+            return MaterialFor(wall,floor,FinishAt(wall,floor));
+        }
+        Material MaterialFor(int wall,int floor,Finish finish)
+        {
+            if(floor==0 && finish?.groundStyle==GroundStyle.Solid && buildingType && buildingType.solidFacade)
+                return buildingType.solidFacade;
+            if(floor==0 && (finish?.groundStyle==GroundStyle.Normal || finish?.groundStyle==GroundStyle.Solid))
+                return DefaultFacade;
+            var value=finish?.material;
             if(!value)value=Override(0,floor);
             if(!value)value=Override(wall,-1);
             if (value) return value;
@@ -78,6 +90,12 @@ namespace HouseToolkit
         {
             finishes.RemoveAll(f=>f.wall==wall && f.floor==floor);
             if(value)finishes.Add(new Finish{wall=wall,floor=floor,material=value});
+        }
+        public void SetGroundStyle(int wall,GroundStyle style,Material material=null)
+        {
+            finishes.RemoveAll(f=>f.wall==wall && f.floor==0);
+            if(style!=GroundStyle.Inherit)
+                finishes.Add(new Finish{wall=wall,floor=0,groundStyle=style,material=style==GroundStyle.Material ? material : null});
         }
         public int Bays(GroundEdge edge)=>Mathf.Clamp(Mathf.RoundToInt(Vector2.Distance(edge.a,edge.b)/Mathf.Max(.1f,bayWidth)),1,512);
         public int EntranceBay(int wall)=>entrances.Find(e=>e.wall==wall)?.bay ?? -1;
@@ -89,10 +107,13 @@ namespace HouseToolkit
 
         static readonly Vector2[] cellUV={Vector2.zero,Vector2.right,Vector2.one,Vector2.up};
         static readonly int roofTrimHeight=Shader.PropertyToID("_RoofTrimHeight");
-        static Color32? AtlasStyle(Material source,int row)
+        static Color32? AtlasStyle(Material source,int? row,GroundStyle groundStyle)
         {
-            if(!source.HasProperty("_BayType"))return null;
-            return new Color32((byte)(1+Mathf.Clamp(row,0,4)),(byte)Mathf.RoundToInt(source.GetFloat("_BayType")),
+            bool explicitBay=groundStyle==GroundStyle.Normal || groundStyle==GroundStyle.Solid;
+            if((!row.HasValue && !explicitBay) || !source || !source.HasProperty("_BayType"))return null;
+            int atlasRow=row ?? Mathf.RoundToInt(source.GetFloat("_FamilyRow"));
+            int bay=explicitBay ? (groundStyle==GroundStyle.Solid ? 1 : 0) : Mathf.RoundToInt(source.GetFloat("_BayType"));
+            return new Color32((byte)(1+Mathf.Clamp(atlasRow,0,4)),(byte)bay,
                 (byte)Mathf.RoundToInt(source.GetFloat("_PlainMetalCoping")),255);
         }
 
@@ -135,26 +156,29 @@ namespace HouseToolkit
                 for(int floor=0;floor<levels;floor++)
                 {
                     float low=Elevation(floor),high=Elevation(floor+1);
-                    var material=MaterialFor(edge.id,floor);
+                    var finish=FinishAt(edge.id,floor);
+                    var groundStyle=floor==0 && finish!=null ? finish.groundStyle : GroundStyle.Inherit;
+                    var material=MaterialFor(edge.id,floor,finish);
                     float trim=floor==levels-1 && material && material.HasProperty(roofTrimHeight)
                         ? Mathf.Clamp(material.GetFloat(roofTrimHeight),0,(high-low)*.25f) : 0;
                     float wallTop=high-trim;
                     float vTop=1-trim/(high-low);
                     var renderMaterial=material;
-                    Color32? style=null;
+                    int? row=null;
                     if(buildingType && material && (material==buildingType.facade || material==buildingType.upperFacade))
-                        style=AtlasStyle(material,buildingType.atlasRow);
+                        row=buildingType.atlasRow;
                     else if(buildingType && CanShare(material,buildingType.facade))
                     {
                         renderMaterial=buildingType.facade;
-                        style=AtlasStyle(material,Mathf.RoundToInt(material.GetFloat("_FamilyRow")));
+                        row=Mathf.RoundToInt(material.GetFloat("_FamilyRow"));
                     }
+                    var style=AtlasStyle(material,row,groundStyle);
                     var wallUV=trim>0 ? new[]{Vector2.zero,Vector2.right,new Vector2(1,vTop),new Vector2(0,vTop)} : cellUV;
                     for(int bay=0;bay<count;bay++)
                     {
                         Vector2 start=Vector2.Lerp(a,b,(float)bay/count),end=Vector2.Lerp(a,b,(bay+1f)/count);
                         var quad=new[]{At(start,low),At(end,low),At(end,wallTop),At(start,wallTop)};
-                        bool entrance=floor==0 && bay==Mathf.Min(door,count-1);
+                        bool entrance=floor==0 && groundStyle!=GroundStyle.Solid && bay==Mathf.Min(door,count-1);
                         mesh.Face(renderMaterial,hit,normal,quad,wallUV,facade:new Vector4(edge.id,floor,entrance ? -1-bay : bay,seed),facadeStyle:style);
                         if(trim>0)
                         {

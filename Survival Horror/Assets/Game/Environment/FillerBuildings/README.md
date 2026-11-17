@@ -1,5 +1,9 @@
 # Filler buildings
 
+To change the street-facing level, select a façade in the Scene view and open **Procedural Env Properties → Selection → Ground floor**. Shift-click to apply one choice to several walls. **Normal** uses the building's regular bays. **Solid wall** uses blank cladding and hides the saved entrance until you switch back. Pick a named **Storefront** to use its shop-window artwork, or choose **Inherit** to follow the floor and wall defaults. This control is visible under **All floors** and **Ground floor**.
+
+To add a shop design to the dropdown, assign its material to **Storefronts** on a Filler Building Type asset. Every filler building can use it. For a type with a custom shader, assign **Solid Facade** to supply its blank cladding. The supplied town and industrial types already have blank cladding in their atlases.
+
 Open `Assets/Sandbox/FillerBuildingStreet.unity` to see the five town families at street scale. Each town family folder contains one editable prefab you can drag into a level. The brick corner apartments and ochre shop include ground-floor storefront overrides.
 
 Choose **GameObject â†’ Environment â†’ Filler Building** or use the Environment Tools palette. Click around a perimeter and click the starting point to close it. In Select, drag a point or an edge to reshape it. Shift constrains movement in local 45-degree increments.

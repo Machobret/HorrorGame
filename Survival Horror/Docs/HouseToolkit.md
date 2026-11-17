@@ -4,6 +4,7 @@ Open `Assets/Game/Levels/Chapter0/Scenes/StartingLevel.unity` to draw the new st
 
 | Asset | Where to edit it |
 | --- | --- |
+| Blender models for doors, windows and fence gates | `ArtSource/Environment/Storefront/House Family Templates.blend` — open the **Doors** or **Windows** collection. Interior and exterior designs share matching mesh data and have separate atlas materials. New objects record their source path in **Object Properties → Custom Properties**. |
 | Plain wall thickness and default inserts | `Assets/Game/Environment/WallFamilies/Plain` |
 | Storefront panels, meshes, door and window surrounds | `Assets/Game/Environment/WallFamilies/Storefront` |
 | House-projected materials for walls and trims | `Assets/Game/Environment/ProjectedFinishes` |
@@ -26,6 +27,8 @@ Chapter 1’s APT and electricity puzzle scenes, and the recovery copy, retain t
 
 Choose **Environment Tools → Wall** and click to start a freestanding wall. In **Procedural Env Properties → Wall**, choose **Metal Fence** for chain-link panels with steel posts and modeled barbs. Closing a freestanding wall loop leaves the ground open.
 
-The **Door** palette starts with the 0.9 × 2.1 m pedestrian gate, which also fits Plain and Storefront. Its leaf pivots at the hinge while the prefab root centres the doorway. **Large Gate Closed** reserves a 5.36 m fence segment. **Large Gate Sliding** uses the same posts and leaf. Interact at the fixed post to open or close it, and leave 5.4 m clear along the track on its opening side. The surrounding fence panels adjust to the available length. The editable source is `ArtSource/Environment/MetalFence/MetalFence.blend`.
+In **Door** or **Window**, enable **Empty opening** in **Tool Properties** to place the cutout with its authored surround. Click the empty space or frame and use **Selection ? Empty opening** to restore the insert. The opening keeps its dimensions and position while empty. Families can also list a door or window insert asset with just its opening dimensions for a permanently empty option.
+
+The **Door** palette starts with the 0.9 × 2.1 m pedestrian gate, which also fits Plain and Storefront. Its leaf pivots at the hinge while the prefab root centres the doorway. Use **Panel** for the bare **Large Gate Frame**, **Large Gate Closed**, or **Large Gate Sliding**. Each reserves a 5.36 m fence segment. **Large Gate Sliding** uses the same posts and leaf. Interact at the fixed post to open or close it, and leave 5.4 m clear along the track on its opening side. To offer a custom panel on a house or freestanding wall, create a **House Toolkit ? Insert** asset, choose **Panel**, and add it to the wall family's **Family inserts** list. A prefab alone uses its specified width and height. An assigned **Panel Segment** reserves the frame's authored width and positions an optional prefab at the opening. A solid segment can use a zero-size aperture. The surrounding fence panels adjust to the available length. The editable source is `ArtSource/Environment/MetalFence/MetalFence.blend`.
 
 The filler **Building type** dropdown includes Industrial Depot and Industrial Machine Shop. The shop has shorter loading bays and brick upper storeys. Both use the square depot texture for the loading floor.

@@ -4,6 +4,17 @@ namespace HouseToolkit.Editor
 {
     internal static class HouseSelection
     {
+        internal static Bounds OpeningBounds(HouseWall wall, PlacedOpening opening, bool wholeSegment)
+        {
+            var fit = new FittedOpening(opening, wall.Family.FindSurround(opening.insert));
+            bool frame = wholeSegment && fit.segment;
+            float width = frame ? fit.width : opening.Size.x;
+            float height = frame ? Mathf.Min(wall.Floor.height, fit.segment.size.y) : opening.Size.y;
+            var center = new Vector3(frame ? fit.left + width / 2 : opening.distance,
+                (frame ? 0 : fit.sill) + height / 2, 0);
+            return new Bounds(center, new Vector3(width, height, wall.Thickness));
+        }
+
         // Frame the same geometry the Scene view highlights. Some picks (holes, endpoints
         // and boundary-only walls) have no renderers of their own.
         internal static bool TryFrame(HousePick pick, HouseFloor floor, out Bounds bounds)
@@ -49,14 +60,9 @@ namespace HouseToolkit.Editor
                 string id = pick.OpeningId;
                 var placement = pick.wall.openings.Find(o => o.id == id);
                 if (placement == null || !placement.insert || !pick.wall.Family) return false;
-                var fit = new FittedOpening(placement, pick.wall.Family.FindSurround(placement.insert));
-                bool surround = pick.segmentId != null && fit.segment;
-                float width = surround ? fit.width : placement.Size.x;
-                float height = surround ? Mathf.Min(floor.height, fit.segment.size.y) : placement.Size.y;
-                var center = new Vector3(surround ? fit.left + width / 2 : placement.distance,
-                    (surround ? 0 : fit.sill) + height / 2, 0);
+                var local = OpeningBounds(pick.wall, placement, pick.segmentId != null);
                 bounds = HouseBooleanMesh.PrimitiveBounds(pick.wall.transform.localToWorldMatrix *
-                    Matrix4x4.TRS(center, Quaternion.identity, new Vector3(width, height, pick.wall.Thickness)));
+                    Matrix4x4.TRS(local.center, Quaternion.identity, local.size));
                 return true;
             }
             bounds = new Bounds(floor.World(floor.Position(pick.wall.startCorner)), Vector3.zero);

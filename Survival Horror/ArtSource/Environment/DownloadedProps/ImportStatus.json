@@ -5773,10 +5773,10 @@
     },
     {
       "id": "732bafd30f2b7e27",
-      "name": "Mine_Gravel",
+      "name": "Mine_Pebble",
       "category": "Nature",
       "source": "Sources\\Mine\\Minas\\Models\\Mines.fbx",
-      "prefab_path": "Assets/Game/Environment/Nature/Mine_Gravel.prefab",
+      "prefab_path": "Assets/Game/Environment/Nature/Mine_Pebble.prefab",
       "prefab_guid": "6619af25174b2894cbdd8219f83fa54c",
       "model_path": "Assets/Game/Environment/Nature/Nature_Models.fbx",
       "model_guid": "bce286ecb6ce5b04793c42104ddb6624",
@@ -5795,10 +5795,10 @@
     },
     {
       "id": "342a08fc25cfac72",
-      "name": "Mine_Gravel_01",
+      "name": "Mine_Pebble_01",
       "category": "Nature",
       "source": "Sources\\Mine\\Minas\\Models\\Mines.fbx",
-      "prefab_path": "Assets/Game/Environment/Nature/Mine_Gravel_01.prefab",
+      "prefab_path": "Assets/Game/Environment/Nature/Mine_Pebble_01.prefab",
       "prefab_guid": "3896b9592e9b580408dcc055083495c2",
       "model_path": "Assets/Game/Environment/Nature/Nature_Models.fbx",
       "model_guid": "bce286ecb6ce5b04793c42104ddb6624",
@@ -9473,12 +9473,12 @@
       "type": "Texture2D"
     },
     {
-      "path": "Assets/Game/Environment/Nature/Mine_Gravel.prefab",
+      "path": "Assets/Game/Environment/Nature/Mine_Pebble.prefab",
       "guid": "6619af25174b2894cbdd8219f83fa54c",
       "type": "GameObject"
     },
     {
-      "path": "Assets/Game/Environment/Nature/Mine_Gravel_01.prefab",
+      "path": "Assets/Game/Environment/Nature/Mine_Pebble_01.prefab",
       "guid": "3896b9592e9b580408dcc055083495c2",
       "type": "GameObject"
     },
@@ -13570,7 +13570,7 @@
     {
       "source": "Sources\\Mine\\Minas\\Models\\Mines.fbx",
       "objects": [
-        "Gravel_R"
+        "Pebble_R"
       ],
       "reason": "Construction/fence piece deferred"
     },

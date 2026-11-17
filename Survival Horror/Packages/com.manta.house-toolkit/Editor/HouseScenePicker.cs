@@ -66,6 +66,7 @@ namespace HouseToolkit.Editor
         readonly List<HouseSlab> slabs=new List<HouseSlab>();
         readonly List<Collider> colliders=new List<Collider>();
         readonly List<AuthoredPanel> panels=new List<AuthoredPanel>();
+        readonly List<HouseWall> emptyWalls=new List<HouseWall>();
         bool dirty=true;
         internal void Invalidate(){dirty=true;}
 
@@ -74,6 +75,9 @@ namespace HouseToolkit.Editor
             if(!dirty && floor==active)return;
             dirty=false;floor=active;
             floor.GetComponentsInChildren(false,walls);
+            emptyWalls.Clear();
+            foreach(var wall in walls)
+                if(wall.openings.Exists(o=>o.insert && !o.HasPrefab))emptyWalls.Add(wall);
             floor.GetComponentsInChildren(false,rooms);
             floor.GetComponentsInChildren(false,panels);
             floor.GetComponentsInChildren(false,slabs);
@@ -90,7 +94,7 @@ namespace HouseToolkit.Editor
         internal static string Surround(HouseWall wall, Renderer renderer, WallOutput output)
         {
             if (renderer && renderer.TryGetComponent<BooleanCutResult>(out _)) renderer = renderer.transform.parent.GetComponent<MeshRenderer>();
-            if(!renderer || !output || !wall.Family || !wall.Family.panel ||
+            if(!renderer || !output || !wall.Family || wall.openings.Count == 0 ||
                 !(renderer is MeshRenderer mesh) || (!output.surfaces.Contains(mesh) && !output.panes.Contains(mesh) && !output.authored.Contains(mesh)))return null;
             var center=wall.transform.InverseTransformPoint(renderer.transform.TransformPoint(renderer.localBounds.center));
             foreach(var opening in wall.openings)
@@ -102,6 +106,25 @@ namespace HouseToolkit.Editor
                     return opening.id;
             }
             return null;
+        }
+
+        internal static bool PickEmptyOpening(HouseWall wall, Ray ray, ref float depth, out HousePick pick)
+        {
+            pick=default;
+            if(!wall || !wall.Family || wall.boundaryOnly || SceneVisibilityManager.instance.IsHidden(wall.gameObject) ||
+                SceneVisibilityManager.instance.IsPickingDisabled(wall.gameObject)) return false;
+            if(!new Plane(wall.transform.forward,wall.transform.position).Raycast(ray,out float distance) || distance>=depth) return false;
+            var local=wall.transform.InverseTransformPoint(ray.GetPoint(distance));
+            foreach(var opening in wall.openings)
+            {
+                if(!opening.insert || opening.HasPrefab)continue;
+                var bounds=HouseSelection.OpeningBounds(wall,opening,false);
+                if(local.x<bounds.min.x || local.x>bounds.max.x || local.y<bounds.min.y || local.y>bounds.max.y)continue;
+                depth=distance;
+                pick=new HousePick{wall=wall,insertId=opening.id};
+                return true;
+            }
+            return false;
         }
 
         internal HousePick Pick(HouseFloor active,Vector2 mouse,Ray ray)
@@ -169,6 +192,14 @@ namespace HouseToolkit.Editor
                         }
                 }
             }
+
+            foreach(var wall in emptyWalls)
+                if(PickEmptyOpening(wall,ray,ref depth,out var openingHit))
+                {
+                    result=openingHit;
+                    hit=null;
+                    visibleSlab=null;
+                }
 
             if (hit && !hit.GetComponentInParent<HouseWall>() && !hit.GetComponentInParent<CornerJoint>() &&
                 !hit.GetComponentInParent<HouseSlab>() && !hit.GetComponent<HouseRoom>() &&
@@ -291,13 +322,20 @@ namespace HouseToolkit.Editor
             if (pick.insert || pick.insertId!=null)
             {
                 var attachment=pick.ResolveInsert();
-                return attachment ? attachment.GetComponentsInChildren<Renderer>() : Array.Empty<Renderer>();
+                if (attachment) return attachment.GetComponentsInChildren<Renderer>();
+                // A selected gate leaf can be swapped for its bare frame.
+                pick.segmentId = pick.insertId;
             }
             var output = pick.wall ? pick.wall.GetComponentInChildren<WallOutput>() : null;
             if (!output) return Array.Empty<Renderer>();
             var renderers = output.GetComponentsInChildren<Renderer>();
-            return pick.segmentId == null ? renderers :
-                Array.FindAll(renderers, r => HouseScenePicker.Surround(pick.wall, r, output) == pick.segmentId);
+            if (pick.segmentId == null) return renderers;
+            var segments = Array.FindAll(renderers, r => HouseScenePicker.Surround(pick.wall, r, output) == pick.segmentId);
+            if (segments.Length != 0) return segments;
+            // A frame can also be replaced with a self-contained prefab panel.
+            pick.insertId = pick.segmentId;
+            var leaf = pick.ResolveInsert();
+            return leaf ? leaf.GetComponentsInChildren<Renderer>() : Array.Empty<Renderer>();
         }
 
         internal void Draw(HousePick pick,HouseFloor floor,Color color)
@@ -334,6 +372,16 @@ namespace HouseToolkit.Editor
                         DrawLoop(floor,pick.room.polygon,faceOffset+pick.slab.transform.TransformVector(Vector3.up*lift));
                     }
                     finally{Handles.zTest=previousDepth;}
+                }
+                else if(pick.wall && pick.OpeningId is string id && meshes.Length==0)
+                {
+                    var opening=pick.wall.openings.Find(o=>o.id==id);
+                    if(opening!=null && opening.insert && pick.wall.Family)
+                    {
+                        var bounds=HouseSelection.OpeningBounds(pick.wall,opening,pick.segmentId!=null);
+                        using(new Handles.DrawingScope(color,pick.wall.transform.localToWorldMatrix))
+                            Handles.DrawWireCube(bounds.center,bounds.size);
+                    }
                 }
                 else if(pick.wall && pick.wall.boundaryOnly)
                     Handles.DrawLine(floor.World(floor.Position(pick.wall.startCorner)),floor.World(floor.Position(pick.wall.endCorner)),4);

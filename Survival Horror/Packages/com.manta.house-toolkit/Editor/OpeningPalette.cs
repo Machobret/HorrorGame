@@ -25,9 +25,10 @@ namespace HouseToolkit.Editor
             var family = wall.Family;
             if (!floor || !family || family.IsComplex && !family.panel) return;
             float depth = wall.Thickness;
+            Add(family.defaultInserts);
+            if (kind == OpeningKind.Panel) return;
             library ??= AssetDatabase.FindAssets("t:HouseInsert")
                 .Select(guid => AssetDatabase.LoadAssetAtPath<HouseInsert>(AssetDatabase.GUIDToAssetPath(guid))).ToArray();
-            Add(family.defaultInserts);
             Add(library);
 
             void Add(HouseInsert[] items)
@@ -35,7 +36,7 @@ namespace HouseToolkit.Editor
                 if (items == null) return;
                 foreach (var insert in items)
                 {
-                    if (!insert || !insert.prefab || insert.kind != kind || result.Contains(insert)) continue;
+                    if (!insert || insert.kind != kind || result.Contains(insert) || !family.SupportsInsertAsset(insert)) continue;
                     if (insert is GarageDoorInsert garage)
                     {
                         if (!family.IsComplex && wall.length > GarageDoorInsert.Jamb * 2 && floor.height > GarageDoorInsert.Header)
@@ -43,10 +44,10 @@ namespace HouseToolkit.Editor
                         continue;
                     }
                     if (depth < insert.minimumThickness || insert.maximumThickness > 0 && depth > insert.maximumThickness) continue;
-                    var surround = family.panel ? family.FindSurround(insert) : null;
-                    if (family.panel && !surround) continue;
-                    float width = surround ? surround.size.x : insert.opening.x;
-                    float head = insert.opening.y + (surround ? surround.aperture.y : 0);
+                    var surround = family.FindSurround(insert);
+                    if (family.panel && !surround && kind != OpeningKind.Panel) continue;
+                    float width = surround ? surround.size.x : insert.OpeningSize.x;
+                    float head = insert.OpeningSize.y + (surround ? surround.aperture.y : 0);
                     if (width <= wall.length + .0005f && head <= floor.height + .0005f) result.Add(insert);
                 }
             }

@@ -85,7 +85,9 @@ namespace HouseToolkit.Editor
                 Line(plan,split,edge.b);
             },out issue,building=>{
                 foreach(var finish in building.finishes.Where(f=>f.wall==id).ToArray())
-                    building.SetFinish(newId,finish.floor,finish.material);
+                    if(finish.floor==0 && finish.groundStyle!=FillerBuilding.GroundStyle.Inherit)
+                        building.SetGroundStyle(newId,finish.groundStyle,finish.material);
+                    else building.SetFinish(newId,finish.floor,finish.material);
                 int bay=building.EntranceBay(id);
                 if(bay<0)return;
                 // The rendered bay order follows the face perimeter, including reversed edges.

@@ -42,7 +42,7 @@ def category(name):
         ('StorageContainers', ('box','crate','barrel','locker','bin','trash','garbage','petrol','pallet','basket')),
         ('ToolsEquipment', ('shovel','beak','generator','ladder','broom','bucket','medical','flashlight','umbrella','hanger','cable')),
         ('MineEquipment', ('wagon','tnt','detonator','mining_helmet','tray')),
-        ('Nature', ('rock','plant','flower','gravel')),
+        ('Nature', ('rock','plant','flower','pebble')),
         ('FoodKitchenware', ('food','pizza','plate','clean_plate','dirty_plate','bowl','cereal_bowl','glass','empty_glass','empy_glass','tumbler','cup','pan','pot','knife','butter','fork','spoon','cutlery','chicken','meat','milk','cake','flan','ice_cream','fried','can','beer','soda','bottle','choco','chips','toast','apple','burger','egg','scotch','product','paperbag')),
         ('HouseholdDecor', ('book','painting','clock','alarm','mirror','tedd','globe','chess','basketball','pencil','vhs','gadgets','palette')),
     ]
@@ -53,6 +53,12 @@ def category(name):
 def bounds(objects):
     p = [o.matrix_world @ Vector(c) for o in objects for c in o.bound_box]
     return Vector(tuple(min(x[i] for x in p) for i in range(3))), Vector(tuple(max(x[i] for x in p) for i in range(3)))
+
+MINE_SOURCE_NAMES = {
+    '732bafd30f2b7e27': 'Pebble',
+    '342a08fc25cfac72': 'Pebble_01',
+    'b219c935794455e5': 'Pebble_R',
+}
 
 def selection(manifest):
     selected, deferred = [], []
@@ -79,6 +85,11 @@ def selection(manifest):
         for objects in units:
             if not objects: continue
             o=objects[0]; name=o.get('source_object_name',o.name) if cat in {'MineKit','VillageInteriors'} else a['name']
+            sourceid=hashlib.sha256((a['source']+'|'+','.join(x.get('source_object_name',x.name) for x in objects)).encode()).hexdigest()[:16]
+            # Keep the published names stable when the external mine pack uses its original object labels.
+            if cat == 'MineKit' and sourceid in MINE_SOURCE_NAMES:
+                name = MINE_SOURCE_NAMES[sourceid]
+                o.name = name
             original = re.sub(r'\.\d{3}$','',name)
             reason = None
             if cat == 'VillageInteriors':
@@ -90,7 +101,7 @@ def selection(manifest):
                 elif name.startswith('Cupboard') and name not in {'Cupboard_01.002','Cupboard_01.003'}: reason='Opening cupboard component'
                 elif name.startswith('Flower_Table'):reason='Foliage geometry deferred; texture/material reuse only'
             elif cat == 'MineKit':
-                if original.startswith(('Fence','Tb_','MetalRusted','Gravel_R')): reason='Construction/fence piece deferred'
+                if original.startswith(('Fence','Tb_','MetalRusted','Pebble_R')): reason='Construction/fence piece deferred'
                 elif name.startswith(('Locker_D','Locker_01','Detonator_M','Cables_Detonator','Farol_M')): reason='Separate opening/alternate assembly component; solid version retained'
                 elif name.startswith(('Barrel.','Barrel_01.')): reason='Repeated placed copy; named source model retained'
             elif cat == 'KitchenProps' and a['name']=='fridge_door': reason='Separate opening refrigerator assembly'
@@ -103,7 +114,6 @@ def selection(manifest):
             family = 'RoadFurniture' if cat=='RoadFurniture' else 'Vehicles' if cat=='Vehicles' else category(name)
             pack = {'VillageInteriors':'Village','KitchenProps':'Kitchen','ModularInteriors':'HouseProps','MineKit':'Mine','Vehicles':'Cars','RoadFurniture':'Road'}[cat]
             assetname=pack+'_'+clean(name)
-            sourceid=hashlib.sha256((a['source']+'|'+','.join(x.get('source_object_name',x.name) for x in objects)).encode()).hexdigest()[:16]
             selected.append({'id':sourceid,'name':assetname,'category':family,'source':a['source'],'source_asset':a['name'],'source_objects':[x.name for x in objects],'source_collection':a['collection'],'source_root':a['review_root']})
     return selected,deferred
 

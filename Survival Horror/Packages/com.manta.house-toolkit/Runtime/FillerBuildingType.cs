@@ -6,6 +6,10 @@ namespace HouseToolkit
     public sealed class FillerBuildingType : ScriptableObject
     {
         public Material facade;
+        [Tooltip("Optional solid ground-floor finish. The supplied facade atlas already contains a blank wall.")]
+        public Material solidFacade;
+        [Tooltip("Storefront materials offered in the wall selection dropdown. Any filler building can use them.")]
+        public Material[] storefronts=System.Array.Empty<Material>();
         [Tooltip("Optional material above the ground floor. Uses the same atlas row.")] public Material upperFacade;
         [Range(0,4)] public int atlasRow;
         [Min(.1f)] public float preferredBayWidth=3;

@@ -17,10 +17,11 @@ MonoBehaviour:
   reverseLanes: 1
   repeatLength: 6
   road: {fileID: 2100000, guid: be88ac06cfe19bf4089524974bf5a88d, type: 2}
-  bareAsphalt: {fileID: 2100000, guid: cdf2ddff2c328c64c90bff0022321bc5, type: 2}
-  tJunction: {fileID: 2100000, guid: 62241b3301f204d4e8955868dbd2e3af, type: 2}
-  xJunction: {fileID: 2100000, guid: 8f76a3ecc6517fd42a73192445697d49, type: 2}
+  bareAsphalt: {fileID: 2100000, guid: be88ac06cfe19bf4089524974bf5a88d, type: 2}
+  tJunction: {fileID: 2100000, guid: be88ac06cfe19bf4089524974bf5a88d, type: 2}
+  xJunction: {fileID: 2100000, guid: be88ac06cfe19bf4089524974bf5a88d, type: 2}
   wheelPathTint: {r: 0.72, g: 0.74, b: 0.77, a: 1}
+  wheelPathEndFade: 2
   paintWear: 0.8
   leftSidewalk: 1
   rightSidewalk: 1
@@ -33,6 +34,10 @@ MonoBehaviour:
   curbMaterial: {fileID: 2100000, guid: a733782880fe9864fa4e828b3e6827c0, type: 2}
   paint: {fileID: 2100000, guid: 7e8bdf103e53d7847bafa3373af94004, type: 2}
   crossingPaint: {fileID: 0}
+  edgeLines: 1
+  edgeLineWidth: 0.12
+  edgeLineInset: 0.3
+  edgePaint: {fileID: 2100000, guid: 517d176713764c9f98aa45909eebcf44, type: 2}
   markingSet: {fileID: 11400000, guid: 1529a8e520ce4e53a7e88164c0c9f602, type: 2}
   centerLine: 2
   lineWidth: 0.12

@@ -5,7 +5,6 @@ Run with Python: prepare_library.py --source <extracted pack directory>.
 import argparse
 import hashlib
 import json
-import shutil
 from collections import Counter
 from pathlib import Path
 
@@ -75,19 +74,38 @@ def main():
         if p.suffix.lower() in ('.png', '.jpg', '.jpeg'):
             existing_images.setdefault(digest(p), []).append(p.relative_to(PROJECT).as_posix())
     pilot_paths = {p[0] for p in PILOT} | {p[0] for p in SURFACES}
+    # Recover local surface filenames when re-importing the original download.
+    catalog_path = HERE / 'Catalog.json'
+    catalog = json.loads(catalog_path.read_text(encoding='utf-8')) if catalog_path.exists() else {}
+    pebble_paths = {entry['sha256']: Path(entry['source']) for entry in catalog.get('files', [])
+                    if 'pebble' in Path(entry['source']).name.lower()}
+    aliases = {}
+    for folder in ('Ground/Materials', 'Rocks/Materials'):
+        for image in (args.source / folder).glob('*'):
+            if image.is_file():
+                canonical = pebble_paths.get(digest(image))
+                if canonical and image.name != canonical.name:
+                    aliases[image.name] = canonical.name
+
     entries = []
     for source in sorted(args.source.rglob('*')):
         if not source.is_file():
             continue
         relative = source.relative_to(args.source)
+        if relative.parent.as_posix() in ('Ground/Materials', 'Rocks/Materials'):
+            relative = relative.with_name(aliases.get(relative.name, relative.name))
         dest = original / relative
-        sha = digest(source)
+        data = source.read_bytes()
+        if relative.as_posix() == 'Changelog v0.6.txt':
+            for external, local in aliases.items():
+                data = data.replace(external.encode(), local.encode())
+        sha = hashlib.sha256(data).hexdigest()
         if dest.exists() and digest(dest) != sha:
             raise ValueError(f'Archived original differs; refusing overwrite: {dest}')
         dest.parent.mkdir(parents=True, exist_ok=True)
         if not dest.exists():
-            shutil.copy2(source, dest)
-        entries.append(dict(source=relative.as_posix(), sha256=sha, bytes=source.stat().st_size,
+            dest.write_bytes(data)
+        entries.append(dict(source=relative.as_posix(), sha256=sha, bytes=len(data),
                             proposed_family=FAMILIES.get(relative.parts[0], ''),
                             status='PilotSelected' if relative.as_posix() in pilot_paths else 'SourceOnly',
                             exact_existing_matches=existing_images.get(sha, [])))

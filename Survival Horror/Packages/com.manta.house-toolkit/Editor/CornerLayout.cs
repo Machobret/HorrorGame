@@ -26,28 +26,6 @@ namespace HouseToolkit.Editor
                 depth=(thickness??family.thickness)*.5f;
                 if (family.panel)
                 {
-                    void Include(WallSegment segment)
-                    {
-                        if (!segment) return;
-                        if (segment.mesh)
-                        {
-                            var m=segment.mesh;
-                            depth=Mathf.Max(depth,m.bounds.extents.z);
-                            if (m.subMeshCount==2)
-                            {
-                                var b=m.GetSubMesh(1).bounds;
-                                glassDepth=Mathf.Max(glassDepth,Mathf.Abs(b.center.z-m.bounds.center.z)+b.extents.z);
-                            }
-                            return;
-                        }
-                        if (segment.parts==null) return;
-                        foreach (var p in segment.parts)
-                        {
-                            float reach=Mathf.Abs(p.bounds.center.z)+p.bounds.extents.z;
-                            depth=Mathf.Max(depth,reach);
-                            if(p.glass) glassDepth=Mathf.Max(glassDepth,reach);
-                        }
-                    }
                     foreach (var panel in family.panels) Include(panel);
                     if (family.surrounds!=null)
                         foreach (var surround in family.surrounds) Include(surround);
@@ -55,9 +33,33 @@ namespace HouseToolkit.Editor
                 opening=float.PositiveInfinity;
                 foreach (var o in openings)
                 {
-                    var surround=family.panel ? family.FindSurround(o.insert) : null;
+                    var surround=family.FindSurround(o.insert);
+                    if (o.insert && o.insert.PanelSegment) Include(surround);
                     var fit=new FittedOpening(o,surround);
                     opening=Mathf.Min(opening,start ? fit.left : length-fit.Right);
+                }
+            }
+
+            void Include(WallSegment segment)
+            {
+                if (!segment) return;
+                if (segment.mesh)
+                {
+                    var m=segment.mesh;
+                    depth=Mathf.Max(depth,m.bounds.extents.z);
+                    if (m.subMeshCount==2)
+                    {
+                        var b=m.GetSubMesh(1).bounds;
+                        glassDepth=Mathf.Max(glassDepth,Mathf.Abs(b.center.z-m.bounds.center.z)+b.extents.z);
+                    }
+                    return;
+                }
+                if (segment.parts==null) return;
+                foreach (var p in segment.parts)
+                {
+                    float reach=Mathf.Abs(p.bounds.center.z)+p.bounds.extents.z;
+                    depth=Mathf.Max(depth,reach);
+                    if(p.glass) glassDepth=Mathf.Max(glassDepth,reach);
                 }
             }
         }

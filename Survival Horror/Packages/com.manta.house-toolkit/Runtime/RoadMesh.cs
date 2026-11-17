@@ -9,7 +9,8 @@ namespace HouseToolkit
     internal sealed class RoadMesh
     {
         readonly List<Vector3> vertices = new List<Vector3>();
-        // UV0.xy is the material UV. UV0.z distinguishes strips, T/X junctions and markings.
+        // UV0.xy is the material UV. Negative Z explicitly tags road surfaces (-1 strip, -3/-4 junction).
+        // Positive Z tags paint (1 plain, 2 atlas); ordinary meshes and other builders use zero.
         readonly List<Vector4> uv = new List<Vector4>();
         readonly List<Vector4> traffic = new List<Vector4>();
         readonly List<Vector4> acrossRoads = new List<Vector4>();
@@ -22,7 +23,7 @@ namespace HouseToolkit
         readonly List<RoadHit> targets = new List<RoadHit>();
 
         public void Face(Material material, RoadHit hit, Vector3 normal, Vector3[] points, Vector2[] tex = null, bool paint = false,
-            int junctionArms = 0, RoadFamily style = null, RoadFamily styleB = null, RoadFamily styleC = null, bool atlasPaint = false, RoadGeometry.JunctionWear wear = null, Vector4? facade = null, Color32? facadeStyle = null)
+            int junctionArms = 0, RoadFamily style = null, RoadFamily styleB = null, RoadFamily styleC = null, bool atlasPaint = false, RoadGeometry.JunctionWear wear = null, Vector4? facade = null, Color32? facadeStyle = null, Vector4? stripFade = null)
         {
             int batch = materials.IndexOf(material);
             if (batch < 0) { batch = materials.Count; materials.Add(material); batches.Add(new List<int>()); }
@@ -44,7 +45,16 @@ namespace HouseToolkit
             {
                 vertices.Add(points[i]);
                 facadeData?.Add(facade.GetValueOrDefault());
-                traffic.Add(counts);
+                // On road strips, Y is the end-fade distance and ZW are distances to each open end.
+                // Junctions retain their four lane counts. Other surface builders leave this unset.
+                var laneData = counts;
+                if (stripFade.HasValue)
+                {
+                    var fade = stripFade.Value;
+                    laneData = new Vector4(counts.x, style.wheelPathEndFade,
+                        i < 2 ? fade.x : fade.z, i < 2 ? fade.y : fade.w);
+                }
+                traffic.Add(laneData);
                 if(wear!=null || acrossRoads.Count>0)
                 {
                     var across=Vector4.zero;var inward=Vector4.zero;
@@ -54,7 +64,7 @@ namespace HouseToolkit
                 Vector2 coords = tex != null ? tex[i] : Mathf.Abs(normal.y) > .5f
                     ? new Vector2(points[i].x, points[i].z)
                     : new Vector2(Vector3.Dot(points[i], Vector3.Cross(Vector3.up,normal).normalized), points[i].y);
-                uv.Add(new Vector4(coords.x, coords.y, atlasPaint ? 2 : paint ? 1 : junctionArms, wear?.turns ?? 0));
+                uv.Add(new Vector4(coords.x, coords.y, atlasPaint ? 2 : paint ? 1 : style ? -Mathf.Max(1, junctionArms) : 0, wear?.turns ?? 0));
                 styles.Add(i == 1 && styleB ? styleB.SurfaceStyle : i == 2 && styleC ? styleC.SurfaceStyle : primary);
             }
             for (int i = 2; i < points.Length; i++)

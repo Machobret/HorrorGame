@@ -84,8 +84,8 @@ namespace HouseToolkit.Editor
             var finish = FinishPicker.Draw(f.IsComplex ? "Frame material" : "Default finish", surface.objectReferenceValue as Material);
             if (EditorGUI.EndChangeCheck()) surface.objectReferenceValue = finish;
             Field("surfaceFinishes");
-            if(f.IsComplex){Field("glass");Field("glassFinishes");}
-            Field("defaultInserts");
+            if(f.IsComplex || f.HasGlass){Field("glass");Field("glassFinishes");}
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("defaultInserts"), new GUIContent("Family inserts", "Preferred doors and windows, and every custom panel offered by this family."), true);
             if(!serializedObject.ApplyModifiedProperties())return;
             var floors=Object.FindObjectsByType<HouseFloor>(FindObjectsInactive.Include,FindObjectsSortMode.None)
                 .Where(f=>f.House && f.GetComponentsInChildren<HouseWall>(true).Any(w=>w.Family==target)).ToArray();
@@ -105,6 +105,23 @@ namespace HouseToolkit.Editor
             foreach (var floor in floors) WallJunctions.Refresh(floor,out _);
             Undo.CollapseUndoOperations(group);
             FamilyMaterials.RefreshAll();
+        }
+    }
+
+    [CustomEditor(typeof(HouseInsert))]
+    class InsertInspector : UnityEditor.Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            serializedObject.Update();
+            var kind = serializedObject.FindProperty("kind");
+            EditorGUILayout.PropertyField(kind);
+            bool panel = kind.enumValueIndex == (int)OpeningKind.Panel;
+            if (panel) EditorGUILayout.PropertyField(serializedObject.FindProperty("panelSegment"));
+            if (!panel || !serializedObject.FindProperty("panelSegment").objectReferenceValue)
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("opening"));
+            DrawPropertiesExcluding(serializedObject, "m_Script", "kind", "opening", "panelSegment");
+            serializedObject.ApplyModifiedProperties();
         }
     }
 
@@ -139,6 +156,7 @@ namespace HouseToolkit.Editor
         OpeningKind kind;
         HouseInsert chosen;
         float distance, sill = 1;
+        bool emptyOpening;
         string issue;
         void OnEnable() { distance = ((HouseWall)target).length / 2; }
 
@@ -184,16 +202,18 @@ namespace HouseToolkit.Editor
                 int index = Mathf.Max(0, items.IndexOf(chosen));
                 index = EditorGUILayout.Popup("Insert", index, items.Select(i => i.name + (defaults.Contains(i) ? " (family default)" : "")).ToArray());
                 chosen = items[index];
-                float bottom = kind == OpeningKind.Door ? 0 : sill;
+                float bottom = kind == OpeningKind.Window ? sill : 0;
+                bool canOmit = kind != OpeningKind.Panel && chosen.prefab;
+                if (canOmit) emptyOpening = EditorGUILayout.Toggle("Empty opening", emptyOpening);
                 var garage=chosen as GarageDoorInsert;
-                if(garage) GarageDoorFields.Brush(garage);
+                if(garage) GarageDoorFields.Brush(garage,emptyOpening);
                 var candidate = new PlacedOpening {insert = chosen, distance = distance, sill = bottom,
                     clearSize=garage ? GarageDoorFields.BrushSize : default, finishTile=garage ? GarageDoorFields.BrushTile : 0};
                 bool fits = wall.TryLayout(floor.height, new List<FittedOpening>(), out string fitIssue, candidate) &&
                     WallJunctions.CheckOpening(wall,new List<PlacedOpening>(wall.openings){candidate},out fitIssue);
                 using (new EditorGUI.DisabledScope(!fits))
                     if (GUILayout.Button("Place " + kind.ToString().ToLowerInvariant()) &&
-                        WallBuilder.Place(wall,chosen,distance,bottom,out issue,false,candidate.clearSize,candidate.finishTile) && garage)
+                        WallBuilder.Place(wall,chosen,distance,bottom,out issue,false,candidate.clearSize,candidate.finishTile,canOmit && emptyOpening) && garage && !emptyOpening)
                         GarageDoorFields.Advance();
                 if (!fits) EditorGUILayout.HelpBox(fitIssue, MessageType.Info);
             }

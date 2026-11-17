@@ -95,23 +95,67 @@ namespace HouseToolkit.Editor
             for(int i=0;i<building.floors;i++)scopes.Add(FloorName(i));
             fillerScope=EditorGUILayout.Popup("Applies to",Mathf.Clamp(fillerScope,0,building.floors),scopes.ToArray());
             int floor=fillerScope-1;
-            MultiField.Draw(walls,id=>building.Override(id,floor),v=>Asset("Façade override",v),
-                v=>EditFiller(building,"Set wall façade",()=>{foreach(int id in walls)building.SetFinish(id,floor,v);}));
-            if(floor>=0)
+            if(floor!=0)
+                MultiField.Draw(walls,id=>building.Override(id,floor),v=>Asset("Façade override",v),
+                    v=>EditFiller(building,"Set wall façade",()=>{foreach(int id in walls)building.SetFinish(id,floor,v);}));
+            if(floor>0)
             {
                 var effective=walls.Select(id=>building.MaterialFor(id,floor)).Distinct().ToArray();
                 EditorGUILayout.LabelField("Effective façade",effective.Length>1 ? "Mixed" : effective[0] ? effective[0].name : "Default material");
             }
             if(floor<=0)
-                MultiField.Draw(walls,id=>building.EntranceBay(id)+1,
+            {
+                GroundStylePicker(building,walls);
+                var entranceWalls=walls.Where(id=>building.FinishAt(id,0)?.groundStyle!=FillerBuilding.GroundStyle.Solid).ToArray();
+                MultiField.Draw(entranceWalls,id=>building.EntranceBay(id)+1,
                     v=>EditorGUILayout.DelayedIntField(new GUIContent("Entrance bay","Ground floor, numbered from 1 along the outside face. 0 removes the entrance."),v),
                     v=>EditFiller(building,"Place façade entrance",()=>{
-                        foreach(int id in walls)
+                        foreach(int id in entranceWalls)
                         {
                             var edge=building.footprint.edges.Find(e=>e.id==id);
                             building.SetEntrance(id,Mathf.Clamp(v,0,building.Bays(edge))-1);
                         }
                     }));
+            }
+        }
+
+        void GroundStylePicker(FillerBuilding building,int[] walls)
+        {
+            var shops=BuildingTypes.SelectMany(t=>t.storefronts ?? Array.Empty<Material>()).Where(m=>m).Distinct()
+                .OrderBy(m=>m.name,StringComparer.Ordinal).ToList();
+            var labels=new List<string>{"Inherit","Normal","Solid wall"};
+            labels.AddRange(shops.Select(m=>"Storefront/"+ObjectNames.NicifyVariableName(m.name.Replace("_Storefront",""))));
+            int custom=labels.Count;
+            labels.Add("Custom material");
+            int Choice(int id)
+            {
+                var finish=building.FinishAt(id,0);
+                if(finish==null)return 0;
+                if(finish.groundStyle==FillerBuilding.GroundStyle.Normal)return 1;
+                if(finish.groundStyle==FillerBuilding.GroundStyle.Solid)return 2;
+                int preset=shops.IndexOf(finish.material);
+                return preset>=0 ? preset+3 : custom;
+            }
+            void Set(FillerBuilding.GroundStyle style,Material material=null)
+            {
+                SetGroundStyle(building,walls,style,material);
+            }
+            MultiField.Draw(walls,Choice,index=>EditorGUILayout.Popup("Ground floor",index,labels.ToArray()),index=>{
+                if(index==0)Set(FillerBuilding.GroundStyle.Inherit);
+                else if(index==1)Set(FillerBuilding.GroundStyle.Normal);
+                else if(index==2)Set(FillerBuilding.GroundStyle.Solid);
+                else Set(FillerBuilding.GroundStyle.Material,index==custom ? null : shops[index-3]);
+            });
+            if(walls.All(id=>Choice(id)==custom))
+                MultiField.Draw(walls,id=>building.Override(id,0),v=>Asset("Ground-floor material",v),
+                    v=>Set(FillerBuilding.GroundStyle.Material,v));
+        }
+
+        internal static void SetGroundStyle(FillerBuilding building,int[] walls,FillerBuilding.GroundStyle style,Material material=null)
+        {
+            EditFiller(building,"Set ground-floor wall",()=>{
+                foreach(int id in walls)building.SetGroundStyle(id,style,material);
+            });
         }
 
         static void EditFiller(FillerBuilding building,string label,Action change)

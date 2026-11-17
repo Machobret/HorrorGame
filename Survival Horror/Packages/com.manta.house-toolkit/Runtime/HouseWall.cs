@@ -12,9 +12,11 @@ namespace HouseToolkit
         public float distance;
         public float sill;
         public bool reversed;
+        public bool empty;
+        public bool HasPrefab => insert && insert.prefab && (insert.kind == OpeningKind.Panel || !empty);
         public Vector2 clearSize;
         public int finishTile;
-        public Vector2 Size => insert is GarageDoorInsert garage ? garage.RoughSize(clearSize) : insert.opening;
+        public Vector2 Size => insert is GarageDoorInsert garage ? garage.RoughSize(clearSize) : insert.OpeningSize;
         public PlacedOpening Copy() => (PlacedOpening)MemberwiseClone();
     }
 
@@ -30,9 +32,9 @@ namespace HouseToolkit
             this.placement = placement;
             this.segment = segment;
             width = segment ? segment.size.x : placement.Size.x;
-            float center = segment ? segment.aperture.center.x : width * 0.5f;
+            float center = segment && segment.aperture.size != Vector2.zero ? segment.aperture.center.x : width * 0.5f;
             left = placement.distance - center;
-            sill = segment ? segment.aperture.y : placement.sill;
+            sill = segment ? segment.aperture.y : placement.insert.kind == OpeningKind.Panel ? 0 : placement.sill;
         }
     }
 
@@ -128,15 +130,17 @@ namespace HouseToolkit
             {
                 var placement = i < openings.Count ? openings[i] : candidate;
                 var insert = placement?.insert;
-                if (!insert || !insert.prefab || !Positive(insert.opening) || !float.IsFinite(placement.distance))
-                    return Fail("The insert needs a prefab, a valid position and a rectangular opening.", out reason);
+                if (!insert || !Positive(insert.OpeningSize) || !float.IsFinite(placement.distance))
+                    return Fail("The insert needs a valid position and positive opening dimensions.", out reason);
+                if (!family.SupportsInsertAsset(insert))
+                    return Fail($"{family.name} does not offer {insert.name} as a placeable insert.", out reason);
                 if (insert is GarageDoorInsert garage && (family.IsComplex || !garage.ValidSize(placement.clearSize) || placement.finishTile < 0 || placement.finishTile >= 16))
                     return Fail("Garage doors require a plain wall, positive clear dimensions and a valid finish.", out reason);
                 if (depth < insert.minimumThickness ||
                     (insert.maximumThickness > 0 && depth > insert.maximumThickness))
                     return Fail($"{insert.name} at {placement.distance:0.##} m does not support a wall thickness of {depth:0.###} m.", out reason);
-                var segment = family.panel ? family.FindSurround(insert) : null;
-                if (family.panel && !segment)
+                var segment = family.FindSurround(insert);
+                if (family.panel && !segment && insert.kind != OpeningKind.Panel)
                     return Fail("This family has no surround with a matching opening kind and size.", out reason);
                 if (segment && (!ValidSegment(segment) || segment.aperture.xMin < 0 || segment.aperture.yMin < 0 ||
                     segment.aperture.xMax > segment.size.x + 0.0005f || segment.aperture.yMax > segment.size.y + 0.0005f))

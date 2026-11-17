@@ -29,6 +29,71 @@ public sealed class EnvironmentSelectionTests
     }
 
     [Test]
+    public void UndoAfterLeavingCutawayKeepsTheCeilingVisible()
+    {
+        var edit=new FloorEdit(floor);
+        var a=Vector2.zero;var b=new Vector2(5,0);var c=new Vector2(5,4);var d=new Vector2(0,4);
+        edit.Draw(a,b);edit.Draw(b,c);edit.Draw(c,d);edit.Draw(d,a);
+        Assert.IsTrue(edit.Commit("Draw room",out var issue),issue);
+        var roof=floor.GetComponentsInChildren<HouseSlab>().Single(s=>s.overhead).gameObject;
+        var other=new GameObject("Manually hidden prop");
+        var manager=SceneVisibilityManager.instance;
+        manager.Hide(other,false);
+        var marker=new GameObject("Before cutaway");
+        Undo.IncrementCurrentGroup();
+        Undo.RegisterCompleteObjectUndo(marker.transform,"Move marker");
+        marker.transform.position=Vector3.right;
+        Undo.FlushUndoRecordObjects();
+        Undo.IncrementCurrentGroup();
+        HouseScene.Enter(floor);
+        Assert.IsTrue(manager.IsHidden(roof));
+        Undo.FlushUndoRecordObjects();
+        Undo.IncrementCurrentGroup();
+        HouseScene.Leave();
+        Assert.IsFalse(manager.IsHidden(roof));
+        Undo.FlushUndoRecordObjects();
+        Undo.PerformUndo();
+        Assert.IsFalse(manager.IsHidden(roof),"Undo resurrected cutaway after Done");
+        Assert.IsTrue(manager.IsHidden(other));
+        Assert.IsNotNull(roof.GetComponent<MeshFilter>().sharedMesh);
+    }
+
+    [Test]
+    public void SavingInCutawayAndReopeningRestoresOnlyPreviewVisibility()
+    {
+        var edit=new FloorEdit(floor);
+        var a=Vector2.zero;var b=new Vector2(5,0);var c=new Vector2(5,4);var d=new Vector2(0,4);
+        edit.Draw(a,b);edit.Draw(b,c);edit.Draw(c,d);edit.Draw(d,a);
+        Assert.IsTrue(edit.Commit("Draw room",out var issue),issue);
+        var other=new GameObject("Manually hidden prop");
+        var manager=SceneVisibilityManager.instance;
+        var scene=floor.gameObject.scene;
+        var path=AssetDatabase.GenerateUniqueAssetPath("Assets/CutawayCheck.unity");
+        try
+        {
+            Assert.IsTrue(EditorSceneManager.SaveScene(scene,path));
+            manager.Hide(other,false);
+            HouseScene.Enter(floor);
+            var roof=floor.GetComponentsInChildren<HouseSlab>().Single(s=>s.overhead);
+            Assert.IsTrue(EditorSceneManager.SaveScene(scene));
+            Assert.IsTrue(manager.IsHidden(roof.gameObject),"Saving should keep the preview active");
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
+            var reopened=EditorSceneManager.OpenScene(path);
+            var roots=reopened.GetRootGameObjects();
+            roof=roots.SelectMany(go=>go.GetComponentsInChildren<HouseSlab>()).Single(s=>s.overhead);
+            Assert.IsFalse(manager.IsHidden(roof.gameObject),"The preview leaked into the reopened scene");
+            Assert.IsTrue(manager.IsHidden(roots.Single(go=>go.name=="Manually hidden prop")));
+            Assert.IsNotNull(roof.GetComponent<MeshFilter>().sharedMesh);
+        }
+        finally
+        {
+            HouseScene.Leave();
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
+            AssetDatabase.DeleteAsset(path);
+        }
+    }
+
+    [Test]
     public void RoofRespectsFloorAndRoomOverridesAndNoTrim()
     {
         var edit=new FloorEdit(floor);

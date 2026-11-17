@@ -61,6 +61,8 @@ namespace HouseToolkit.Editor
             AddTool(HouseTool.Door, "Place a compatible door on the active floor.");
             AddTool(HouseTool.Window, "Place a compatible window on the active floor.");
 
+            AddTool(HouseTool.Panel, "Place a custom panel offered by this wall family.");
+
             var opening = SceneToolButtons.Add(editing, "Slab opening", "Draw or edit a floor or ceiling opening", HouseProperties.DrawOpening);
             tools.Add(HouseTool.Boolean, SceneToolButtons.Add(editing, "Boolean cut", "Subtract a box or sphere from the house", () => HouseScene.SetMode(HouseTool.Boolean)));
             var cutaway = SceneToolButtons.Add(editing, "Cutaway", "Hide the active ceiling and upper floors", () =>

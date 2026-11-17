@@ -165,7 +165,8 @@ public sealed class GameHouseToolkitTests
         var sliding=Asset<HouseInsert>(Families+"MetalFence/Large Gate Sliding.asset");
         var panel=family.FindSurround(closed);
         Assert.AreSame(panel,family.FindSurround(sliding));
-        var palette=OpeningPalette.Choices(host,OpeningKind.Door);
+        var palette=OpeningPalette.Choices(host,OpeningKind.Panel);
+        Assert.IsFalse(OpeningPalette.Choices(host,OpeningKind.Door).Contains(closed));
         Assert.That(palette.IndexOf(closed),Is.GreaterThanOrEqualTo(0));
         Assert.That(palette.IndexOf(sliding),Is.GreaterThan(palette.IndexOf(closed)));
         Assert.IsFalse(WallBuilder.Place(host,closed,1,0,out issue),"A gate must fit at its full width.");
@@ -187,6 +188,109 @@ public sealed class GameHouseToolkitTests
         Assert.That(Blocked(),"The closed leaf should block the passage.");
         leaf.gameObject.SetActive(false);Physics.SyncTransforms();
         Assert.IsFalse(Blocked(),"The frame or a repeating fence panel blocks the opening.");
+    }
+
+    [TestCase(false,OpeningKind.Door)]
+    [TestCase(false,OpeningKind.Window)]
+    [TestCase(true,OpeningKind.Door)]
+    [TestCase(true,OpeningKind.Window)]
+    public void EmptyOpeningsRemainClearSelectableAndRefillable(bool complex,OpeningKind kind)
+    {
+        EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
+        var storefront=Asset<WallFamily>(Families+"Storefront/Storefront.asset");
+        var insert=storefront.defaultInserts.Single(i=>i.kind==kind);
+        var house=HouseEditing.Create(Vector3.zero,complex?storefront:Asset<WallFamily>(Families+"Plain/Plain.asset"));
+        house.transform.rotation=Quaternion.Euler(0,28,0);
+        var floor=HouseEditing.Floors(house).Single();
+        var plan=new FloorEdit(floor);
+        plan.Draw(Vector2.zero,Vector2.right*8);
+        Assert.IsTrue(plan.Commit("Draw wall",out var issue),issue);
+        var wall=floor.GetComponentInChildren<HouseWall>();
+        float sill=kind==OpeningKind.Window?.8f:0;
+        Assert.IsTrue(WallBuilder.Place(wall,insert,3,sill,out issue,false,empty:true),issue);
+        var opening=wall.openings.Single();
+        Assert.IsTrue(opening.Copy().empty);
+        var rect=HouseSelection.OpeningBounds(wall,opening,false);
+        var ray=new Ray(wall.transform.TransformPoint(rect.center-Vector3.forward),wall.transform.forward);
+        Physics.SyncTransforms();
+        Assert.IsFalse(Physics.Raycast(ray,2,~0,QueryTriggerInteraction.Ignore));
+        Assert.IsEmpty(wall.GetComponentsInChildren<InsertAttachment>());
+        float maxDepth=.5f;
+        Assert.IsFalse(HouseScenePicker.PickEmptyOpening(wall,ray,ref maxDepth,out _),"A closer surface should win.");
+        maxDepth=2;
+        Assert.IsTrue(HouseScenePicker.PickEmptyOpening(wall,ray,ref maxDepth,out var hit));
+        Assert.AreEqual(opening.id,hit.OpeningId);
+        if(complex)
+        {
+            var frame=storefront.FindSurround(insert);
+            Assert.IsTrue(wall.GetComponentsInChildren<AuthoredPanel>().Any(p=>p.source==frame.mesh));
+        }
+        Assert.IsFalse(WallBuilder.Place(wall,insert,3,sill,out issue),"The empty opening still reserves space.");
+        Assert.IsTrue(HouseProperties.EditOpenings(new[]{hit},o=>o.empty=false),HouseScene.Message);
+        Assert.AreEqual(opening.id,wall.GetComponentInChildren<InsertAttachment>().openingId);
+        Assert.IsTrue(HouseProperties.EditOpenings(new[]{hit},o=>o.empty=true),HouseScene.Message);
+        Assert.IsEmpty(wall.GetComponentsInChildren<InsertAttachment>());
+    }
+
+    [TestCase(false)]
+    [TestCase(true)]
+    public void FamilyPanelFrameCanBePlacedPickedAndSwapped(bool standalone)
+    {
+        EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
+        var fence=Asset<WallFamily>(Families+"MetalFence/Metal Fence.asset");
+        var frame=Asset<HouseInsert>(Families+"MetalFence/Large Gate Frame.asset");
+        var sliding=Asset<HouseInsert>(Families+"MetalFence/Large Gate Sliding.asset");
+        var house=HouseEditing.Create(Vector3.zero,fence,standalone);
+        house.transform.rotation=Quaternion.Euler(0,31,0);
+        var floor=HouseEditing.Floors(house).Single();
+        var plan=new FloorEdit(floor);
+        plan.Draw(Vector2.zero,Vector2.right*10);
+        Assert.IsTrue(plan.Commit("Draw test wall",out var issue),issue);
+        var wall=floor.GetComponentInChildren<HouseWall>();
+        Assert.AreSame(frame,OpeningPalette.Choices(wall,OpeningKind.Panel).First());
+        Assert.IsTrue(WallBuilder.Place(wall,frame,5,0,out issue),issue);
+        var placed=wall.openings.Single();
+        var panel=wall.GetComponentsInChildren<AuthoredPanel>().Single(p=>p.source==frame.panelSegment.mesh);
+        Assert.AreEqual(placed.id,HouseScenePicker.Surround(wall,panel.GetComponent<Renderer>(),panel.GetComponentInParent<WallOutput>()));
+        Assert.IsEmpty(wall.GetComponentsInChildren<InsertAttachment>());
+        Assert.IsFalse(WallBuilder.Place(wall,sliding,5.5f,0,out issue));
+        Assert.IsTrue(HouseScene.EditOpening(wall,placed,sliding,6,0,true,out issue),issue);
+        Assert.AreEqual(placed.id,wall.GetComponentInChildren<InsertAttachment>().openingId);
+        Assert.IsTrue(HouseScene.EditOpening(wall,wall.openings.Single(),frame,5,0,true,out issue),issue);
+        Assert.IsEmpty(wall.GetComponentsInChildren<InsertAttachment>());
+        var plain=Asset<WallFamily>(Families+"Plain/Plain.asset");
+        wall.familyOverride=plain;
+        Assert.IsEmpty(OpeningPalette.Choices(wall,OpeningKind.Panel));
+        Assert.IsFalse(WallBuilder.Rebuild(wall,out issue));
+        StringAssert.Contains("does not offer",issue);
+    }
+
+    [TestCase(false)]
+    [TestCase(true)]
+    public void PrefabPanelsFitOnlyWhenOfferedAndLeaveWallAbove(bool complex)
+    {
+        EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
+        var family=Object.Instantiate(Asset<WallFamily>(Families+(complex?"Storefront/Storefront.asset":"Plain/Plain.asset")));
+        var insert=Object.Instantiate(Asset<HouseInsert>(Doors+"Door_MetalGate.asset"));
+        try
+        {
+            insert.kind=OpeningKind.Panel;
+            var house=HouseEditing.Create(Vector3.zero,family);
+            var floor=HouseEditing.Floors(house).Single();
+            var plan=new FloorEdit(floor);
+            plan.Draw(Vector2.zero,Vector2.right*7);
+            Assert.IsTrue(plan.Commit("Draw wall",out var issue),issue);
+            var wall=floor.GetComponentInChildren<HouseWall>();
+            Assert.IsFalse(WallBuilder.Place(wall,insert,3,0,out issue));
+            family.defaultInserts=new[]{insert};
+            Assert.Contains(insert,OpeningPalette.Choices(wall,OpeningKind.Panel));
+            Assert.IsTrue(WallBuilder.Place(wall,insert,3,0,out issue),issue);
+            Assert.IsNotNull(wall.GetComponentInChildren<InsertAttachment>());
+            var output=wall.GetComponentInChildren<WallOutput>();
+            var above=wall.transform.TransformPoint(new Vector3(3,2.5f,0));
+            Assert.IsTrue(output.GetComponentsInChildren<Renderer>().Any(r=>r.bounds.Contains(above)));
+        }
+        finally { Object.DestroyImmediate(family);Object.DestroyImmediate(insert); }
     }
 
     [UnityEngine.TestTools.UnityTest]

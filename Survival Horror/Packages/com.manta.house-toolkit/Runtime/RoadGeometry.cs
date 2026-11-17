@@ -15,7 +15,7 @@ namespace HouseToolkit
             internal RoadNode node;
             internal Vector2 dir, side;
             internal float length, half, trim, maxTrim;
-            internal bool outgoing, capLeft, capRight;
+            internal bool outgoing, capLeft, capRight, openEnd;
             internal Vector2 Mouth => Flat(node.position) + dir * trim;
             internal Vector2 Left => Mouth + side;
             internal Vector2 Right => Mouth - side;
@@ -49,7 +49,7 @@ namespace HouseToolkit
                     length=delta.magnitude, dir=delta.normalized, half=half, side=LeftOf(delta.normalized)*half });
             }
             arms.Sort((a,b) => Mathf.Atan2(a.dir.y,a.dir.x).CompareTo(Mathf.Atan2(b.dir.y,b.dir.x)));
-            if (arms.Count == 1) arms[0].capLeft=arms[0].capRight=true;
+            if (arms.Count == 1) arms[0].openEnd=arms[0].capLeft=arms[0].capRight=true;
             if (arms.Count == 2)
             {
                 // Both spans share a cross-section through a bend. Subdividing a straight
@@ -232,6 +232,7 @@ namespace HouseToolkit
                     left+u*(Cross(other-left,v)/turnCross);
                 Fan(a.Left,turn,left,halfUV,a.family,family);
                 Fan(turn,b.Right,halfUV,other,family,b.family);
+                JunctionEdge(mesh, a, b, turn);
 
                 if(corner?.sidewalk==false)continue;
                 bool walkA=a.Walk(true), walkB=b.Walk(false);
@@ -269,6 +270,33 @@ namespace HouseToolkit
                     EndCap(mesh,target,vertex,cap,-arm.dir,section);
                 }
             }
+        }
+
+        // Follow only the closed boundary between mouths; never draw across a junction entrance.
+        static void JunctionEdge(RoadMesh mesh, Arm a, Arm b, Vector2 corner)
+        {
+            var normalA = LeftOf(a.dir);
+            var normalB = -LeftOf(b.dir);
+            var middleFamily = a.family.edgeLines ? a.family : b.family;
+            Vector2 AtCorner(float inset) => corner - OffsetIntersection(normalA, inset, normalB, inset);
+            void Half(Arm arm, bool first)
+            {
+                var f = arm.family;
+                if (!f.edgeLines) return;
+                float inset = Mathf.Clamp(f.edgeLineInset, 0, arm.half - .02f);
+                float width = Mathf.Min(Mathf.Max(.02f, f.edgeLineWidth), arm.half - inset);
+                float middleInset = Mathf.Clamp(middleFamily.edgeLineInset, 0, Mathf.Min(a.half, b.half) - .02f);
+                float middleWidth = Mathf.Min(Mathf.Max(.02f, middleFamily.edgeLineWidth), Mathf.Min(a.half, b.half) - middleInset);
+                var outer = first ? a.Left - a.Across * inset : b.Right + b.Across * inset;
+                var inner = first ? a.Left - a.Across * (inset + width) : b.Right + b.Across * (inset + width);
+                var midOuter = AtCorner(middleInset);
+                var midInner = AtCorner(middleInset + middleWidth);
+                var points = first ? new[] { outer, inner, midInner, midOuter } : new[] { midOuter, midInner, inner, outer };
+                mesh.Face(f.EdgePaint, default, Vector3.up,
+                    points.Select(p => At(p, a.node.position.y + .003f)).ToArray(), paint: true, style: f);
+            }
+            Half(a, true);
+            Half(b, false);
         }
 
         internal static Vector2 CornerPoint(Arm a,Arm b)
@@ -363,8 +391,14 @@ namespace HouseToolkit
             void Road(float s,float t,RoadHit hit)
             {
                 float v0=(station+Mathf.Lerp(from,to,s))/repeat, v1=(station+Mathf.Lerp(from,to,t))/repeat;
+                // Clamp the fade to this strip so even short terminal spans reach full wear at their join.
+                float fade = Mathf.Min(f.wheelPathEndFade, (to-from)*.45f);
+                Vector2 Distances(float at) => new Vector2(a.openEnd ? Mathf.Lerp(from,to,at)-from : fade,
+                    b.openEnd ? to-Mathf.Lerp(from,to,at) : fade) * (f.wheelPathEndFade / Mathf.Max(.001f,fade));
+                var near = Distances(s); var far = Distances(t);
                 mesh.Face(f.Asphalt,hit,Vector3.up,new[]{P(s,1),P(s,-1),P(t,-1),P(t,1)},
-                    new[]{new Vector2(0,v0),new Vector2(1,v0),new Vector2(1,v1),new Vector2(0,v1)},style:f);
+                    new[]{new Vector2(0,v0),new Vector2(1,v0),new Vector2(1,v1),new Vector2(0,v1)},style:f,
+                    stripFade: new Vector4(near.x,near.y,far.x,far.y));
             }
             int lanes=Mathf.Max(1,f.LaneCount);
             // Left is +1 in span space. All lanes share the family's total road width equally.
@@ -396,6 +430,14 @@ namespace HouseToolkit
                 float v0=station+Mathf.Lerp(from,to,t0), v1=station+Mathf.Lerp(from,to,t1);
                 mesh.Face(material,default,Vector3.up,new[]{P(t0,left)+lift,P(t0,right)+lift,P(t1,right)+lift,P(t1,left)+lift},
                     new[]{new Vector2(u0,v0),new Vector2(u1,v0),new Vector2(u1,v1),new Vector2(u0,v1)},paint:true,style:f);
+            }
+            if (f.edgeLines)
+            {
+                float inset = Mathf.Clamp(f.edgeLineInset, 0, a.half - .02f);
+                float width = Mathf.Min(Mathf.Max(.02f, f.edgeLineWidth), a.half - inset);
+                float outer = 1-inset/a.half, inner = 1-(inset+width)/a.half;
+                Paint(f.EdgePaint, from, to, inner, outer);
+                Paint(f.EdgePaint, from, to, -outer, -inner);
             }
             float EndMarkings(Arm arm,bool first)
             {

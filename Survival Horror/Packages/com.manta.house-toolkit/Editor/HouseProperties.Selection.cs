@@ -146,7 +146,7 @@ namespace HouseToolkit.Editor
             var entries=items.Select(p=>(pick:p,opening:p.wall.openings.Find(o=>o.id==p.OpeningId))).Where(e=>e.opening!=null).ToArray();
             if(entries.Length==0)return;
             bool segment=items[0].segmentId!=null;
-            if(!segment)
+            if(!segment || entries.All(e=>e.opening.insert.kind==OpeningKind.Panel))
             {
                 var choices=entries.Select(e=>OpeningPalette.Choices(e.pick.wall,e.opening.insert.kind).Append(e.opening.insert))
                     .Aggregate((common,next)=>common.Intersect(next)).Distinct().ToList();
@@ -155,6 +155,9 @@ namespace HouseToolkit.Editor
                     return index>=0 ? choices[index] : v;
                 },v=>EditOpenings(items,o=>o.insert=v));
             }
+            var withLeaf=entries.Where(e=>e.opening.insert.kind!=OpeningKind.Panel && e.opening.insert.prefab).ToArray();
+            MultiField.Draw(withLeaf,e=>e.opening.empty,v=>EditorGUILayout.Toggle("Empty opening",v),
+                v=>EditOpenings(withLeaf.Select(e=>e.pick).ToArray(),o=>o.empty=v));
             if(!segment && entries.All(e=>e.opening.insert is GarageDoorInsert))
             {
                 Vector2 Clear(PlacedOpening o)=>((GarageDoorInsert)o.insert).ClearSize(o.clearSize);
@@ -163,9 +166,12 @@ namespace HouseToolkit.Editor
                 MultiField.Draw(entries,e=>Clear(e.opening).y,v=>EditorGUILayout.DelayedFloatField("Clear height (m)",v),
                     v=>EditOpenings(items,o=>o.clearSize=new Vector2(Clear(o).x,v)));
                 var first=entries[0].opening;
-                int index=GarageDoorFields.Swatches((GarageDoorInsert)first.insert,entries.All(e=>e.opening.finishTile==first.finishTile)?first.finishTile:-1);
-                if(index>=0)EditOpenings(items,o=>o.finishTile=index);
-                if(GUILayout.Button("Randomize finishes"))EditOpenings(items,o=>o.finishTile=GarageDoorFields.RandomTile());
+                if(entries.Any(e=>e.opening.HasPrefab))
+                {
+                    int index=GarageDoorFields.Swatches((GarageDoorInsert)first.insert,entries.All(e=>e.opening.finishTile==first.finishTile)?first.finishTile:-1);
+                    if(index>=0)EditOpenings(items,o=>o.finishTile=index);
+                    if(GUILayout.Button("Randomize finishes"))EditOpenings(items,o=>o.finishTile=GarageDoorFields.RandomTile());
+                }
             }
             MultiField.Draw(entries,e=>e.opening.distance,v=>EditorGUILayout.DelayedFloatField("Distance from start (m)",v),
                 v=>EditOpenings(items,o=>o.distance=v));
@@ -174,7 +180,7 @@ namespace HouseToolkit.Editor
             var plain=entries.Where(e=>e.opening.insert.kind==OpeningKind.Window && !e.pick.wall.Family.panel).ToArray();
             if(!segment)MultiField.Draw(plain,e=>e.opening.sill,v=>EditorGUILayout.DelayedFloatField("Sill (m)",v),
                 v=>EditOpenings(plain.Select(e=>e.pick).ToArray(),o=>o.sill=v));
-            if(segment && GUILayout.Button("Select inserts"))
+            if(segment && entries.All(e=>e.opening.HasPrefab) && GUILayout.Button("Select inserts"))
                 ChooseRelated(items.Select(p=>new HousePick{wall=p.wall,insertId=p.OpeningId,
                     insert=p.wall.GetComponentsInChildren<InsertAttachment>(true).FirstOrDefault(a=>a.openingId==p.OpeningId)}));
             if(!segment && entries.Any(e=>e.pick.wall.Family.FindSurround(e.opening.insert)) && GUILayout.Button("Select opening segments"))

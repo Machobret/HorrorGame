@@ -228,13 +228,21 @@ namespace HouseToolkit.Editor
             {
                 Field("road","Road material");Field("bareAsphalt","Unmarked asphalt");
                 Field("tJunction","T-junction");Field("xJunction","X-junction");
-                Field("repeatLength","Texture repeat (m)");Field("wheelPathTint","Wheel path tint");
+                Field("repeatLength","UV material repeat (m)");Field("wheelPathTint","Wheel path tint");
+                Field("wheelPathEndFade","Open-end wear fade (m)");
+                EditorGUILayout.HelpBox("World-space asphalt repeat is set on the material. Use the same material on connecting asphalt meshes.", MessageType.Info);
             }
             markings = EditorGUILayout.Foldout(markings, "Markings", true);
             if (markings)
             {
                 Field("markingSet","Marking set");Field("crossingPaint","Crosswalk / stop line paint");
                 Field("paintWear","Paint wear");Field("centerLine","Center line");
+                Field("edgeLines","Edge lines");
+                if (serializedObject.FindProperty("edgeLines").boolValue)
+                {
+                    Field("edgePaint","Edge line paint");Field("edgeLineWidth","Edge line width (m)");
+                    Field("edgeLineInset","Edge line inset (m)");
+                }
                 var line = (RoadLines)serializedObject.FindProperty("centerLine").enumValueIndex;
                 if (line != RoadLines.None)
                 {

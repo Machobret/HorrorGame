@@ -42,9 +42,14 @@ namespace HouseToolkit.Editor
                     RenderSegment(fit.segment, fit.left, 0, fit.width, height);
                     if (height > fit.segment.size.y)
                     {
-                        if (!even && family.panels.Length == 1) Stack(family.panel, fit.left, fit.width, fit.segment.size.y);
+                        if (family.panel && !even && family.panels.Length == 1) Stack(family.panel, fit.left, fit.width, fit.segment.size.y);
                         else Fill(fit.left, fit.Right, fit.segment.size.y);
                     }
+                }
+                else if (family.panel)
+                {
+                    // A prefab-only custom panel occupies the entire bay from the wall base.
+                    Fill(fit.left, fit.Right, fit.placement.Size.y);
                 }
                 else
                 {
@@ -102,7 +107,7 @@ namespace HouseToolkit.Editor
             {
                 float width = end - start;
                 if (width <= 0.00001f) return;
-                if (!family.panel) { Plain(start, 0, width, height); return; }
+                if (!family.panel) { Plain(start, bottom, width, height - bottom); return; }
                 if (even)
                 {
                     var panel = family.panel;
@@ -301,6 +306,7 @@ namespace HouseToolkit.Editor
             foreach (var fit in fits)
             {
                 var placement = fit.placement;
+                if (!placement.HasPrefab) continue;
                 var prefab = placement.insert.prefab;
                 var attachment = previous.Find(item => item.openingId == placement.id && item.sourcePrefab == prefab);
                 if (attachment)
@@ -373,10 +379,10 @@ namespace HouseToolkit.Editor
         public static bool Place(HouseWall wall, HouseInsert insert, float distance, float sill, out string reason)
             => Place(wall, insert, distance, sill, out reason, false);
 
-        public static bool Place(HouseWall wall, HouseInsert insert, float distance, float sill, out string reason, bool reversed, Vector2 clearSize=default, int finishTile=0)
+        public static bool Place(HouseWall wall, HouseInsert insert, float distance, float sill, out string reason, bool reversed, Vector2 clearSize=default, int finishTile=0, bool empty=false)
         {
             if (!wall || !wall.Floor || wall.boundaryOnly) { reason="Choose a physical wall."; return false; }
-            var candidate = new PlacedOpening { id = Guid.NewGuid().ToString("N"), insert = insert, distance = distance, sill = sill, reversed = reversed, clearSize=clearSize, finishTile=finishTile };
+            var candidate = new PlacedOpening { id = Guid.NewGuid().ToString("N"), insert = insert, distance = distance, sill = sill, reversed = reversed, clearSize=clearSize, finishTile=finishTile, empty=empty };
             if (!wall.TryLayout(wall.Floor.height, new List<FittedOpening>(), out reason, candidate)) return false;
             var proposed=new List<PlacedOpening>(wall.openings){candidate};
             if (!WallJunctions.CheckOpening(wall,proposed,out reason)) return false;

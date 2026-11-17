@@ -61,6 +61,11 @@ namespace HouseToolkit.Editor
             {
                 if (!renderer) continue;
                 var filter = renderer.GetComponent<MeshFilter>();
+                if (filter.sharedMesh != cube && filter.sharedMesh != faceMesh && renderer.TryGetComponent<SegmentFrame>(out _))
+                {
+                    renderer.sharedMaterial = StructuralFinish(wall);
+                    continue;
+                }
                 var mesh = front == back ? cube : faceMesh;
                 if (filter.sharedMesh != mesh)
                 {

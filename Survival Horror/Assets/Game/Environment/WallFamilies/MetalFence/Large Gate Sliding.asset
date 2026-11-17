@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ded1387e76df504f97e1f13d24ac060, type: 3}
   m_Name: Large Gate Sliding
   m_EditorClassIdentifier: HouseToolkit::HouseToolkit.HouseInsert
-  kind: 0
+  kind: 2
+  panelSegment: {fileID: 4886774525852068816, guid: 48f55c88660df8f46818f63b1e2dd81f, type: 3}
   opening: {x: 4.64, y: 2.8}
   prefab: {fileID: 4902113098961668351, guid: 5e9fdd8e75a056f4a9a226951a8451d3, type: 3}
   finishRenderer: {fileID: 0}

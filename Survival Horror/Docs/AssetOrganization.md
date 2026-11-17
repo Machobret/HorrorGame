@@ -58,3 +58,5 @@ Sandbox folders remain imported by Unity. Referenced sandbox content or Resource
 5. Review Git changes for unrelated edits and unintended vendor changes.
 
 `Assets/HorrorEngineSettings.asset` is an intentional root exception: Horror Engine's settings provider hardcodes its path. Keep it there unless the vendor integration is deliberately changed.
+
+The local Classic64 pebble surfaces use matching names in the source archive, vendor changelog, Unity materials and import catalog. The source preparation script recognizes the original download by texture checksum.

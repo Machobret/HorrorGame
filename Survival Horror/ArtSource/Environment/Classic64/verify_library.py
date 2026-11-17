@@ -66,6 +66,9 @@ def main():
     # The cleanup checked every scene at execution time. Later verification owns
     # only this library's reviews; normal level edits and Git merges remain valid.
     scenes={p:value for p,value in scenes.items() if p.startswith('Assets/Sandbox/Classic64/')}
+    # The gallery's approved surface label changes are recorded in the current receipt.
+    gallery = receipt['review_scene']
+    scenes[gallery] = next(entry['sha256'] for entry in receipt['files'] if entry['path'] == gallery)
     assert all(sha(PROJECT/p)==value for p,value in scenes.items()), 'Scene file changed'
     manifest=json.loads((HERE/'LibraryManifest.json').read_text(encoding='utf-8'))
     assert all(not a.get('authored_unfinished') for a in manifest['assets'])

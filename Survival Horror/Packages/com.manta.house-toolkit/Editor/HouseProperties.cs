@@ -177,25 +177,27 @@ namespace HouseToolkit.Editor
                 BooleanTool.ToolProperties();
                 if (HouseScene.Mode == HouseTool.Boolean) return;
             }
-            else if (HouseScene.Mode == HouseTool.Door || HouseScene.Mode == HouseTool.Window)
+            else if (HouseScene.PlacingInsert)
             {
-                GUILayout.Label("Opening palette",EditorStyles.boldLabel);
+                GUILayout.Label(HouseScene.Mode == HouseTool.Panel ? "Family panels" : "Opening palette",EditorStyles.boldLabel);
                 var host=HouseScene.PaletteWall;
                 if(host)
                 {
-                    var kind=HouseScene.Mode==HouseTool.Door?OpeningKind.Door:OpeningKind.Window;
+                    var kind=HouseScene.BrushKind;
                     var choices=OpeningPalette.Choices(host,kind);
                     if(choices.Count>0)
                     {
                         int i=Mathf.Max(0,choices.IndexOf(HouseScene.Choice));
-                        HouseScene.Choice=choices[EditorGUILayout.Popup(host.Family.name,i,choices.Select(x=>x.name+(System.Array.IndexOf(host.Family.defaultInserts ?? System.Array.Empty<HouseInsert>(),x) >= 0?" (default)":"")).ToArray())];
-                        if(HouseScene.Choice is GarageDoorInsert garage) GarageDoorFields.Brush(garage);
+                        HouseScene.Choice=choices[EditorGUILayout.Popup(host.Family.name,i,choices.Select(x=>x.name+(kind!=OpeningKind.Panel && System.Array.IndexOf(host.Family.defaultInserts ?? System.Array.Empty<HouseInsert>(),x) >= 0?" (default)":"")).ToArray())];
+                        if(kind!=OpeningKind.Panel && HouseScene.Choice.prefab)
+                            HouseScene.EmptyOpening=EditorGUILayout.Toggle("Empty opening",HouseScene.EmptyOpening);
+                        if(HouseScene.Choice is GarageDoorInsert garage) GarageDoorFields.Brush(garage,HouseScene.EmptyOpening);
                         if(kind==OpeningKind.Window && !host.Family.panel)HouseScene.Sill=EditorGUILayout.FloatField("Sill (m)",HouseScene.Sill);
                     }
                     else EditorGUILayout.HelpBox("No compatible inserts.",MessageType.Info);
                 }
                 else GUILayout.Label("Point at a wall to choose an insert.");
-                if (HouseScene.Mode == HouseTool.Door)
+                if (HouseScene.Mode == HouseTool.Door && !HouseScene.EmptyOpening && HouseScene.Choice && HouseScene.Choice.prefab)
                     HouseScene.FlipDoor = EditorGUILayout.Toggle("Flip facing", HouseScene.FlipDoor);
             }
             HouseScene.Grid=EditorGUILayout.DelayedFloatField("Grid spacing (m)",HouseScene.Grid);
@@ -543,11 +545,13 @@ namespace HouseToolkit.Editor
             var opening=wall.openings.Find(o=>o.id==HouseScene.Opening);
             if(opening!=null)
             {
-                var surround=wall.Family && wall.Family.panel?wall.Family.FindSurround(opening.insert):null;
-                if(HouseScene.Selected.segmentId!=null)
+                var surround=wall.Family?wall.Family.FindSurround(opening.insert):null;
+                if(HouseScene.Selected.segmentId!=null && opening.insert.kind!=OpeningKind.Panel && opening.HasPrefab)
                 {
                     EditorGUILayout.LabelField(surround?surround.name:"Opening segment",EditorStyles.boldLabel);
-                    if(GUILayout.Button("Select "+opening.insert.kind.ToString().ToLowerInvariant()))HouseScene.SelectDoorOrWindow();
+                    if(EditorGUILayout.Toggle("Empty opening",false))
+                        HouseScene.EditOpening(wall,opening,opening.insert,opening.distance,opening.sill,true,out HouseScene.Message,empty:true);
+                    if(opening.insert.prefab && GUILayout.Button("Select "+opening.insert.kind.ToString().ToLowerInvariant()))HouseScene.SelectDoorOrWindow();
                     if(GUILayout.Button("Select whole wall"))HouseScene.SelectWall(wall);
                     float position=EditorGUILayout.DelayedFloatField("Distance from start (m)",opening.distance);
                     if(position!=opening.distance)HouseScene.EditOpening(wall,opening,opening.insert,position,opening.sill,true,out HouseScene.Message);
@@ -555,7 +559,8 @@ namespace HouseToolkit.Editor
                     return;
                 }
                 EditorGUILayout.LabelField(opening.insert.name,EditorStyles.boldLabel);
-                if(surround && GUILayout.Button("Select opening segment"))HouseScene.SelectSurround();
+                if(HouseScene.Selected.segmentId!=null && opening.HasPrefab && GUILayout.Button("Select insert prefab"))HouseScene.SelectDoorOrWindow();
+                if(HouseScene.Selected.segmentId==null && surround && GUILayout.Button("Select opening segment"))HouseScene.SelectSurround();
                 if(GUILayout.Button("Select whole wall"))HouseScene.SelectWall(wall);
                 var items=OpeningPalette.Choices(wall,opening.insert.kind);
                 if(!items.Contains(opening.insert))items.Add(opening.insert);
@@ -564,10 +569,12 @@ namespace HouseToolkit.Editor
                 float distance=EditorGUILayout.DelayedFloatField("Distance from start (m)",opening.distance);
                 float sill=opening.sill;
                 if(choice.kind==OpeningKind.Window && !wall.Family.panel)sill=EditorGUILayout.DelayedFloatField("Sill (m)",sill);
+                bool empty=opening.empty;
+                if(choice.kind!=OpeningKind.Panel && choice.prefab)empty=EditorGUILayout.Toggle("Empty opening",empty);
                 var size=opening.clearSize; int tile=opening.finishTile;
-                if(choice is GarageDoorInsert garage)GarageDoorFields.Selection(garage,ref size,ref tile);
-                if(EditorGUI.EndChangeCheck())HouseScene.EditOpening(wall,opening,choice,distance,sill,true,out HouseScene.Message,size,tile);
-                if(opening.insert is GarageDoorInsert selectedGarage && selectedGarage.operable && GUILayout.Button("Select gameplay prefab"))
+                if(choice is GarageDoorInsert garage)GarageDoorFields.Selection(garage,ref size,ref tile,empty);
+                if(EditorGUI.EndChangeCheck())HouseScene.EditOpening(wall,opening,choice,distance,sill,true,out HouseScene.Message,size,tile,empty);
+                if(opening.insert is GarageDoorInsert selectedGarage && selectedGarage.operable && opening.HasPrefab && GUILayout.Button("Select gameplay prefab"))
                 {
                     var attachment=wall.GetComponentsInChildren<InsertAttachment>().FirstOrDefault(a=>a.openingId==opening.id);
                     if(attachment && attachment.GetComponentInChildren<GarageDoor>() is GarageDoor door)Selection.activeGameObject=door.gameObject;
