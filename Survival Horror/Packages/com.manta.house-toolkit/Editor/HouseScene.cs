@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace HouseToolkit.Editor
 {
-    internal enum HouseTool { Select, Wall, Door, Window, Boolean, Panel }
+    internal enum HouseTool { Select, Wall, Door, Window, Boolean, Panel, Fixture }
 
     [InitializeOnLoad]
     internal static partial class HouseScene
@@ -239,6 +239,8 @@ namespace HouseToolkit.Editor
             {
                 if (!(item is GameObject go) || EditorUtility.IsPersistent(go)) return item;
                 // Unity can drill into a selected rack on subsequent clicks.
+                var fixture = go.GetComponentInParent<FixtureAttachment>();
+                if (fixture) return fixture.gameObject;
                 var shelf = go.GetComponentInParent<ProceduralShelf>();
                 if (shelf && shelf.IsGeneratedPart(go.transform)) return shelf.gameObject;
                 // Only generated architecture belongs to the house selection. Prefab inserts
@@ -279,6 +281,7 @@ namespace HouseToolkit.Editor
         internal static void SwitchFloor(HouseFloor f)
         {
             if(!f)return;
+            FixtureTool.Cancel();
             if(!WallJunctions.Refresh(f,out Message)){Repaint();return;}
             ResetSelection();Selection.activeGameObject=f.House.gameObject;Tools.hidden=true;Floor=f;Select(new HousePick { storey=f });FocusFloor();Remember();ApplyCutaway();HouseProperties.ShowFloor();Repaint();
         }
@@ -299,6 +302,7 @@ namespace HouseToolkit.Editor
         }
         internal static void Leave()
         {
+            FixtureTool.Cancel();
             RestoreNativeOutline();houseRenderers.Clear();renderStates.Clear();refreshRenderStates=true;
             Remember();
             if(editing)Tools.hidden=oldToolsHidden;
@@ -406,7 +410,7 @@ namespace HouseToolkit.Editor
         {
             var go=Selection.activeGameObject;
             if(!go || go.GetComponentInParent<InsertAttachment>())return null;
-            return go.GetComponentInParent<HouseFloor>() ?? go.GetComponentInChildren<HouseFloor>();
+            return go.GetComponentInParent<HouseFloor>() ?? (go.GetComponent<House>() ? go.GetComponentInChildren<HouseFloor>() : null);
         }
         [MenuItem("GameObject/House Toolkit/Create House",false,10)]
         internal static void CreateHouse()
@@ -433,8 +437,9 @@ namespace HouseToolkit.Editor
             ResetSelection();
             Selection.activeGameObject = House.gameObject;
             Tools.hidden = true;
+            FixtureTool.Cancel();
             Mode = mode;
-            if (mode == HouseTool.Boolean) HouseProperties.Open();
+            if (mode == HouseTool.Boolean || mode == HouseTool.Fixture) HouseProperties.Open();
             HouseProperties.ShowTool();
             Repaint();
         }
@@ -478,10 +483,11 @@ namespace HouseToolkit.Editor
                 picker.hover=default;picker.hoverView=null;view.Repaint();
             }
             if(navigating || e.button==1 && e.isMouse || e.type==EventType.ScrollWheel || Tools.current==Tool.View)return;
-            if(e.type==EventType.KeyDown && e.keyCode==KeyCode.Escape){BooleanTool.CancelDrag();openingTool.Cancel();EndChain();CancelDrag();Message=null;e.Use();Repaint();return;}
+            if(e.type==EventType.KeyDown && e.keyCode==KeyCode.Escape){if(Mode==HouseTool.Fixture)SetMode(HouseTool.Select);BooleanTool.CancelDrag();openingTool.Cancel();EndChain();CancelDrag();Message=null;e.Use();Repaint();return;}
             int control=GUIUtility.GetControlID(FocusType.Passive);
             if(e.type==EventType.Layout && !e.alt && !Tools.viewToolActive)HandleUtility.AddDefaultControl(control);
             Ray ray=HandleUtility.GUIPointToWorldRay(e.mousePosition);
+            if (Mode == HouseTool.Fixture) { FixtureTool.Scene(view,e,ray,control); return; }
             if (Mode == HouseTool.Boolean || Mode == HouseTool.Select && BooleanTool.SelectBooleans)
             {
                 BooleanTool.Scene(view, e, ray, control);
@@ -661,6 +667,7 @@ namespace HouseToolkit.Editor
                 {
                     Select(default);
                     Selection.activeGameObject = hit.prop;
+                    if (hit.prop.GetComponent<FixtureAttachment>()) HouseProperties.ShowSelection();
                     Tools.hidden = oldToolsHidden;
                     picker.hover=default; picker.hoverView=null; Message=null;
                     Repaint(); e.Use(); return;

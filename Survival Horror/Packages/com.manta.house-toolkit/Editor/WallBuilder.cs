@@ -95,6 +95,7 @@ namespace HouseToolkit.Editor
 
             Undo.RegisterCreatedObjectUndo(root, "Build wall");
             SyncInserts(wall, fits);
+            FixtureTool.Refresh(wall.transform);
             ApplyMaterials(wall);
             if (wall.Floor.House && wall.Floor.House.booleanCuts.Count > 0)
             {

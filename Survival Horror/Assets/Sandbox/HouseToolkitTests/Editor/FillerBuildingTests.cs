@@ -338,7 +338,7 @@ public class FillerBuildingTests
             try
             {
                 EditorSceneManager.SaveScene(building.gameObject.scene,path);
-                var restored=EditorSceneManager.OpenScene(path).GetRootGameObjects().Select(g=>g.GetComponent<FillerBuilding>()).Single(b=>b);
+                var restored=EditorSceneManager.OpenScene(path).GetRootGameObjects().SelectMany(g=>g.GetComponentsInChildren<FillerBuilding>()).Single();
                 Assert.AreSame(placedType,restored.buildingType);
                 Assert.AreSame(glass,restored.MaterialFor(front.id,0));Assert.AreEqual(1,restored.EntranceBay(front.id));
                 var data=new List<Vector4>();restored.GetComponent<MeshFilter>().sharedMesh.GetUVs(5,data);

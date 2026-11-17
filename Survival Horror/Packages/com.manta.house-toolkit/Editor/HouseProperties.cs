@@ -105,6 +105,12 @@ namespace HouseToolkit.Editor
             else if(tab==0)HouseFields(floor.House);
             else if(tab==1)DrawFloors(floor);
             else if(tab==3) DrawToolProperties();
+            else if(selected && selected.TryGetComponent<FixtureAttachment>(out var fixture))
+            {
+                GUILayout.Label(fixture.name, EditorStyles.boldLabel);
+                GUILayout.Label("Attached to " + fixture.mount.ToString().ToLowerInvariant());
+                if(GUILayout.Button("Move fixture")) FixtureTool.BeginMove(fixture);
+            }
             else if(HouseScene.Picks.Items.Count>1) DrawHouseBatch();
             else if(BooleanTool.Current!=null) BooleanTool.SelectionProperties();
             else if(HouseScene.Mode==HouseTool.Boolean)
@@ -166,6 +172,7 @@ namespace HouseToolkit.Editor
                     }
                 }
             }
+            else if (HouseScene.Mode == HouseTool.Fixture) FixtureTool.Palette();
             else if (HouseScene.Mode == HouseTool.Wall)
             {
                 HouseScene.DrawFamily = (WallFamily)EditorGUILayout.ObjectField(

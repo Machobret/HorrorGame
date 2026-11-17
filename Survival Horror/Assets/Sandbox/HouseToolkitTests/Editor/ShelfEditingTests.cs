@@ -159,7 +159,9 @@ public sealed class ShelfEditingTests
             yield return null;
             Assert.AreEqual(shelf.gameObject, Selection.activeGameObject, "Clicking a stocked box should select its shelf.");
             PavementEditingTests.ClickScene(view, target);
-            yield return null; yield return null;
+            // Native selection is delivered on the editor update after SceneView picking.
+            double deadline = EditorApplication.timeSinceStartup + 2;
+            do { yield return null; } while (Selection.activeGameObject != shelf.gameObject && EditorApplication.timeSinceStartup < deadline);
             Assert.AreEqual(shelf.gameObject, Selection.activeGameObject, "Clicking again should keep the shelf editable.");
             RoadScene.Enter(Selection.activeGameObject.GetComponent<ProceduralShelf>());
             Assert.AreEqual(shelf, RoadScene.Active);
@@ -193,11 +195,12 @@ public sealed class ShelfEditingTests
             Assert.That(Line(Vector3.zero, Vector3.right * 4.04f, out var issue), Is.True, issue);
             int parts = shelf.GetComponentsInChildren<MeshRenderer>().Length;
             var scene = shelf.gameObject.scene;
+            EnvironmentHierarchy.Group(shelf.gameObject);
             int sceneRoots = scene.rootCount;
             Assert.IsTrue(EditorSceneManager.SaveScene(scene, path, true));
             var reopened = EditorSceneManager.OpenScene(path);
             Assert.AreEqual(sceneRoots, reopened.rootCount, "Generated parts should never reload as orphaned scene roots.");
-            var root = reopened.GetRootGameObjects().Single(go => go.name == "Test rack");
+            var root = reopened.GetRootGameObjects().Single(go => go.name == "Shelves").transform.Find("Test rack").gameObject;
             Assert.AreEqual(1, root.transform.childCount);
             Assert.AreEqual(parts, root.GetComponentsInChildren<MeshRenderer>().Length);
         }

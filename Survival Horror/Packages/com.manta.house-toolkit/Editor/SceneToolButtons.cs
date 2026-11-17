@@ -50,6 +50,7 @@ namespace HouseToolkit.Editor
                 case nameof(HouseTool.Wall): Line(2,13,2,3,14,3,14,13,2,13); Line(2,8,14,8); Line(6,3,6,8); Line(10,8,10,13); break;
                 case nameof(HouseTool.Panel): Line(1,3,15,3,15,13,1,13,1,3); Line(4,3,4,13); Line(12,3,12,13); Line(4,11,12,5); break;
                 case nameof(HouseTool.Door): Line(3,14,3,2,12,2,12,14); Line(6,14,6,4,12,2); Line(8,9,9,9); break;
+                case nameof(HouseTool.Fixture): Line(5,11,3,7,4,4,8,2,12,4,13,7,10,11,5,11); Line(6,14,9,14); break;
                 case nameof(HouseTool.Window): Line(2,3,14,3,14,13,2,13,2,3); Line(8,3,8,13); Line(2,8,14,8); break;
             }
         }

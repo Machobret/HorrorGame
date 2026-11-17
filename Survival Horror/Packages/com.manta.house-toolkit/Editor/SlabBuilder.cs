@@ -22,6 +22,7 @@ namespace HouseToolkit.Editor
             for(int i=0;i<floors.Length;i++)
             {
                 var floor=floors[i];
+                FixtureTool.Refresh(floor.transform);
                 foreach(var room in floor.GetComponentsInChildren<HouseRoom>(true))
                 {
                     // Earlier scenes stored generated floor geometry on the room itself.

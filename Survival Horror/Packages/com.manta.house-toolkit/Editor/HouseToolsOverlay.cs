@@ -63,6 +63,7 @@ namespace HouseToolkit.Editor
             AddTool(HouseTool.Door, "Place a compatible door on the active floor.");
             AddTool(HouseTool.Window, "Place a compatible window on the active floor.");
 
+            AddTool(HouseTool.Fixture, "Attach lights and other fixtures to the active floor, ceiling or wall.");
             AddTool(HouseTool.Panel, "Place a custom panel offered by this wall family.");
 
             var opening = SceneToolButtons.Add(editing, "Slab opening", "Draw or edit a floor or ceiling opening", HouseProperties.DrawOpening);

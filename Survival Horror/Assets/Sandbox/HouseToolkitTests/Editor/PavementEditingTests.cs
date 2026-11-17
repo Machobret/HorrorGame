@@ -412,13 +412,13 @@ public class PavementEditingTests
             Click(1,4);Click(5,4);Click(5,7);Click(1,7);Click(1,4);
             var area=Selection.activeGameObject.GetComponent<GroundArea>();
             Assert.IsNotNull(area);Assert.AreSame(defaultPavement,area.material);Assert.AreEqual(1,area.ground.faces.Count);
-            Assert.IsNull(area.transform.parent);Assert.IsNull(walk.transform.parent);
+            Assert.AreEqual("Ground Areas",area.transform.parent.name);Assert.AreEqual("Sidewalks",walk.transform.parent.name);
             Assert.IsEmpty(UnityEngine.Object.FindObjectsByType<RoadNetwork>(FindObjectsSortMode.None));
             RoadScene.Leave();
             Assert.IsTrue(EditorSceneManager.SaveScene(area.gameObject.scene,path));
             var saved=EditorSceneManager.OpenScene(path);
-            area=saved.GetRootGameObjects().Select(o=>o.GetComponent<GroundArea>()).Single(o=>o);
-            walk=saved.GetRootGameObjects().Select(o=>o.GetComponent<ProceduralSidewalk>()).Single(o=>o);
+            area=saved.GetRootGameObjects().SelectMany(o=>o.GetComponentsInChildren<GroundArea>()).Single();
+            walk=saved.GetRootGameObjects().SelectMany(o=>o.GetComponentsInChildren<ProceduralSidewalk>()).Single();
             Assert.AreEqual(1,area.ground.faces.Count);Assert.AreEqual(3,walk.width);
             RoadScene.Enter(walk); Assert.IsTrue(RoadScene.Active==walk);
             Assert.IsTrue(walk.GetComponent<MeshCollider>().sharedMesh);

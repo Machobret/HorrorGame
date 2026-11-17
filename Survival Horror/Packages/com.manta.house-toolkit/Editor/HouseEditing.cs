@@ -22,6 +22,7 @@ namespace HouseToolkit.Editor
             Undo.RegisterCreatedObjectUndo(go,action);
             try
             {
+                EnvironmentHierarchy.Group(go);
                 AddFloor(house);
                 Undo.SetCurrentGroupName(action);
                 Undo.CollapseUndoOperations(group);

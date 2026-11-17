@@ -136,6 +136,8 @@ namespace HouseToolkit.Editor
             HouseSlab visibleSlab=null;
             if(hit)
             {
+                var fixture = hit.GetComponentInParent<FixtureAttachment>();
+                if (fixture) return new HousePick { prop = fixture.gameObject };
                 var renderer=hit.GetComponent<Renderer>();
                 if(renderer && renderer.bounds.IntersectRay(ray,out float entry))depth=entry;
                 hit.GetComponents(colliders);

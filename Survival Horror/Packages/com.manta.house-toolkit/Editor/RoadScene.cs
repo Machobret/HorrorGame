@@ -89,6 +89,7 @@ namespace HouseToolkit.Editor
         static void StartDrawing(ProceduralSurface source,Brush brush,bool startChain)
         {
             Undo.RegisterCreatedObjectUndo(source.gameObject,"Create "+source.name);
+            EnvironmentHierarchy.Group(source.gameObject);
             Enter(source); SetBrush(brush);
             if(startChain)anchor=Vector3.zero;
             if(brush==Brush.Road)RoadInspector.ShowRoad();

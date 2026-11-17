@@ -9,7 +9,7 @@ namespace HouseToolkit.Editor
     internal static class BooleanOutput
     {
         const string Action = "Edit Boolean cut";
-        const int GeometryVersion = 2;
+        const int GeometryVersion = 3;
 
         internal static bool Change(House house, BooleanCut value, string remove, out string issue)
         {

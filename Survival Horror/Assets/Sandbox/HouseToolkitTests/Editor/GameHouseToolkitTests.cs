@@ -22,7 +22,7 @@ public sealed class GameHouseToolkitTests
     public void StartingLevelHasOneEditableFloorAndIndependentProjectedFinishes()
     {
         var scene = EditorSceneManager.OpenScene("Assets/Game/Levels/Chapter0/Scenes/StartingLevel.unity");
-        var house = scene.GetRootGameObjects().Select(go => go.GetComponent<House>()).Single(h => h);
+        var house = scene.GetRootGameObjects().SelectMany(go => go.GetComponentsInChildren<House>()).Single();
         Assert.AreEqual(1, HouseEditing.Floors(house).Length);
         Assert.AreNotSame(house.interiorFinish, house.exteriorFinish);
         var library = Asset<FinishLibrary>("Assets/Game/Environment/ProjectedFinishes/WallFinishes.asset");

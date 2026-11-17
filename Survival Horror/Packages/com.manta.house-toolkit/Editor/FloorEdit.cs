@@ -15,6 +15,7 @@ namespace HouseToolkit.Editor
             public WallFamily familyOverride;
             public int a,b;
             public List<PlacedOpening> openings = new List<PlacedOpening>();
+            public List<(FixtureAttachment fixture, float distance, int side)> fixtures = new();
             public bool interior;
         }
 
@@ -40,7 +41,9 @@ namespace HouseToolkit.Editor
                     a = Corner(floor.Local(wall.transform.position));
                     b = Corner(floor.Local(wall.transform.TransformPoint(Vector3.right * wall.length)));
                 }
-                edges.Add(new Edge {a=a,b=b,source=wall,familyOverride=wall.familyOverride,openings=wall.openings.Select(Clone).ToList()});
+                edges.Add(new Edge {a=a,b=b,source=wall,familyOverride=wall.familyOverride,openings=wall.openings.Select(Clone).ToList(),
+                    fixtures=wall.GetComponentsInChildren<FixtureAttachment>(true).Where(f=>f.transform.parent==wall.transform)
+                        .Select(f=>(f,f.transform.localPosition.x,f.wallSide)).ToList()});
             }
         }
         static PlacedOpening Clone(PlacedOpening o) => o.Copy();
@@ -81,7 +84,14 @@ namespace HouseToolkit.Editor
             {
                 var e=edges[i];
                 if (moved.Contains(e.a) && !moved.Contains(e.b))
-                    foreach(var o in e.openings) o.distance += Vector2.Distance(points[e.a],points[e.b])-old[i];
+                {
+                    float change = Vector2.Distance(points[e.a],points[e.b])-old[i];
+                    foreach(var o in e.openings) o.distance += change;
+                    for(int k=0;k<e.fixtures.Count;k++)
+                    {
+                        var f=e.fixtures[k]; e.fixtures[k]=(f.fixture,f.distance+change,f.side);
+                    }
+                }
             }
         }
         const string JunctionRequired = "Dissolve requires exactly two walls at the endpoint.";
@@ -126,6 +136,11 @@ namespace HouseToolkit.Editor
             void Remap(Edge leg, int from, float offset, float legLength)
             {
                 bool backwards = leg.a != from;
+                for (int i=0;i<leg.fixtures.Count;i++)
+                {
+                    var f=leg.fixtures[i];
+                    leg.fixtures[i]=(f.fixture,(offset+(backwards?legLength-f.distance:f.distance))*scale, backwards?-f.side:f.side);
+                }
                 foreach (var opening in leg.openings)
                 {
                     float distance = backwards ? legLength - opening.distance : opening.distance;
@@ -140,6 +155,7 @@ namespace HouseToolkit.Editor
             keep.a = start;
             keep.b = end;
             keep.openings.AddRange(remove.openings);
+            keep.fixtures.AddRange(remove.fixtures);
             edges.Remove(remove);
             merged = keep.source;
             reason = null;
@@ -183,6 +199,9 @@ namespace HouseToolkit.Editor
                     {
                         var o=Clone(opening); o.distance-=from;piece.openings.Add(o);
                     }
+                    foreach(var f in origin.fixtures)
+                        if ((i==1 || f.distance>from) && (i==cuts.Count-1 || f.distance<=to))
+                            piece.fixtures.Add((f.fixture,f.distance-from,f.side));
                     pieces.Add(piece);
                 }
             }
@@ -264,6 +283,12 @@ namespace HouseToolkit.Editor
                     foreach(var o in w.openings)
                         foreach(var attachment in bindings[o.id])
                             if(attachment.transform.parent!=w.transform) Undo.SetTransformParent(attachment.transform,w.transform,action);
+                    foreach(var f in e.fixtures)
+                    {
+                        var local=new Vector3(f.distance,f.fixture.transform.localPosition.y,
+                            f.side*w.Thickness*.5f + f.fixture.surfaceOffset*(f.side*f.fixture.wallSide));
+                        FixtureTool.Mount(f.fixture,w.transform,w.transform.TransformPoint(local),f.side);
+                    }
                     outputs.Add(w);
                 }
                 foreach(var w in originals.Where(w=>!kept.Contains(w)))Undo.DestroyObjectImmediate(w.gameObject);

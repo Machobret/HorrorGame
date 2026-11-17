@@ -23,6 +23,7 @@ namespace HouseToolkit.Editor
         static bool Protected(Transform root) =>
             root.GetComponentInParent<ExcludeFromRoomAssignment>(true) ||
             root.GetComponentInChildren<ExcludeFromRoomAssignment>(true) ||
+            root.GetComponentInChildren<FixtureAttachment>(true) || root.GetComponentInChildren<ProceduralSurface>(true) ||
             root.GetComponentInChildren<House>(true) ||
             root.GetComponentInChildren<HouseWall>(true) || root.GetComponentInChildren<HouseSlab>(true) ||
             root.GetComponentInChildren<CornerJoint>(true) || root.GetComponentInChildren<InsertAttachment>(true) ||
