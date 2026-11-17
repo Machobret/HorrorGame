@@ -11,7 +11,7 @@ namespace HouseToolkit.Editor
         internal static bool Change(ProceduralSurface road, string label, Action<GroundPlan> edit, out string issue,
             Action<FillerBuilding> updateFacade = null)
         {
-            if (!road || road is ProceduralSidewalk) { issue="Select a ground area."; return false; }
+            if (!road || road is ProceduralPath) { issue="Select a ground area."; return false; }
             var plan = JsonUtility.FromJson<GroundPlan>(JsonUtility.ToJson(road.Areas));
             try
             {

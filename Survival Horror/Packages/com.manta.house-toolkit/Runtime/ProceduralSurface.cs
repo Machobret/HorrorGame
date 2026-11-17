@@ -4,7 +4,6 @@ using UnityEngine;
 namespace HouseToolkit
 {
     [ExecuteAlways, SelectionBase, DisallowMultipleComponent]
-    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
     public abstract class ProceduralSurface : MonoBehaviour
     {
         // Scene picking reads all three layers. Only an object's supported layers are serialized.
@@ -41,6 +40,10 @@ namespace HouseToolkit
 #if UNITY_EDITOR
             dirty = false;
 #endif
+            BuildSurface();
+        }
+        protected virtual void BuildSurface()
+        {
             if (!surface) surface = NewMesh(gameObject.name+" surface");
             if (!collision) collision = NewMesh(gameObject.name+" collision");
             var collider = GetComponent<MeshCollider>();

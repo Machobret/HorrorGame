@@ -12,6 +12,7 @@ namespace HouseToolkit.Editor
         static readonly string[] RoadTabs = { "Road", "Selection", "Tool Properties" };
         static readonly string[] SidewalkTabs = { "Sidewalk", "Selection", "Tool Properties" };
         static readonly string[] GroundTabs = { "Ground Area", "Selection", "Tool Properties" };
+        static readonly string[] ShelfTabs = { "Shelf", "Selection", "Tool Properties" };
         static Tab tab;
         UnityEditor.Editor familyEditor;
         int fillerScope;
@@ -44,7 +45,36 @@ namespace HouseToolkit.Editor
             bool editing = RoadScene.Active == road;
             if (!editing && GUILayout.Button(RoadScene.EditLabel(road))) RoadScene.Enter(road);
             if(road is FillerBuilding building){DrawFiller(building,editing);return;}
-            if (editing) tab = (Tab)GUILayout.Toolbar((int)tab, road is RoadNetwork ? RoadTabs : road is ProceduralSidewalk ? SidewalkTabs : GroundTabs);
+            if (editing) tab = (Tab)GUILayout.Toolbar((int)tab, road is RoadNetwork ? RoadTabs : road is ProceduralShelf ? ShelfTabs : road is ProceduralSidewalk ? SidewalkTabs : GroundTabs);
+            if (road is ProceduralShelf shelf && (!editing || tab != Tab.Selection))
+            {
+                if (editing && tab == Tab.Tool)
+                    PlanSnapping.Grid = EditorGUILayout.DelayedFloatField("Grid spacing (m)", PlanSnapping.Grid);
+                serializedObject.Update();
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("family"));
+                var height = serializedObject.FindProperty("height");
+                var depth = serializedObject.FindProperty("depth");
+                height.floatValue = Width("Height (m)", height.floatValue, shelf.family ? shelf.family.Height : 2, .25f);
+                depth.floatValue = Width("Depth (m)", depth.floatValue, shelf.family ? shelf.family.Depth : .6f, .15f);
+                var decks = serializedObject.FindProperty("decks");
+                EditorGUILayout.BeginHorizontal();
+                EditorGUI.BeginChangeCheck();
+                int count = EditorGUILayout.IntSlider("Decks", shelf.DeckCount, 1, shelf.DeckLimit);
+                if (EditorGUI.EndChangeCheck()) decks.intValue = count;
+                using (new EditorGUI.DisabledScope(decks.intValue == 0))
+                    if (GUILayout.Button(new GUIContent("↺", "Use the family's deck count"), GUILayout.Width(25))) decks.intValue = 0;
+                EditorGUILayout.EndHorizontal();
+                var fill = serializedObject.FindProperty("fill");
+                EditorGUI.BeginChangeCheck();
+                int percent = EditorGUILayout.IntSlider(new GUIContent("Fill (%)", "Percentage of usable box positions filled along each run."), Mathf.RoundToInt(fill.floatValue * 100), 0, 100);
+                if (EditorGUI.EndChangeCheck()) fill.floatValue = percent / 100f;
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("seed"));
+                if (serializedObject.ApplyModifiedProperties()) road.Rebuild();
+                var family = ((ProceduralShelf)road).family;
+                if (!family || !family.frame || !family.deck || !family.steel || !family.timber)
+                    EditorGUILayout.HelpBox("Choose a shelf family with both part meshes and their materials.", MessageType.Info);
+                return;
+            }
             if (!editing || tab == Tab.Road)
             {
                 if (!(road is RoadNetwork network))
@@ -96,7 +126,7 @@ namespace HouseToolkit.Editor
             }
             if (RoadScene.Picks.DrawFilter(RoadScene.SyncPicks)) return;
             if (RoadScene.Picks.Items.Count>0) DrawRoadSelection(road);
-            else EditorGUILayout.LabelField(road is GroundArea ? "Select a face or boundary." : road is ProceduralSidewalk ? "Select a sidewalk segment or point." : "Select a road, sidewalk or point.");
+            else EditorGUILayout.LabelField(road is GroundArea ? "Select a face or boundary." : road is ProceduralPath ? "Select a segment or point." : "Select a road, sidewalk or point.");
         }
 
         static void DrawConnectedAreaMaterial(ProceduralSurface road)
@@ -179,6 +209,17 @@ namespace HouseToolkit.Editor
             using(new EditorGUI.DisabledScope(value<0))
                 if(GUILayout.Button(new GUIContent("↺","Restore inheritance"),GUILayout.Width(25))){value=-1;GUI.changed=true;}
             EditorGUILayout.EndHorizontal();return value;
+        }
+    }
+
+    [CustomEditor(typeof(ShelfFamily))]
+    internal sealed class ShelfFamilyInspector : UnityEditor.Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            if (!DrawDefaultInspector()) return;
+            foreach (var shelf in UnityEngine.Object.FindObjectsByType<ProceduralShelf>(FindObjectsSortMode.None))
+                if (shelf.family == target) shelf.Rebuild();
         }
     }
 

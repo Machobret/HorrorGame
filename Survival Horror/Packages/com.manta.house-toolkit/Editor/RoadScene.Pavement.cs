@@ -69,11 +69,76 @@ namespace HouseToolkit.Editor
 
         static void PreviewSidewalk(Vector3 start, Vector3 end)
         {
+            if (Active is ProceduralShelf shelf && shelf.family && shelf.family.deck && shelf.family.frame)
+            {
+                PreviewShelf(shelf, start, end);
+                return;
+            }
             var width=Active.Paths.RunWidth(run,Active.PathWidth);
             var offset = RoadGeometry.LeftOf(Flat(end-start).normalized) * (width * .5f);
             var a=Flat(start); var b=Flat(end);
             Handles.DrawAAPolyLine(2,PavementWorld(a+offset),PavementWorld(b+offset),PavementWorld(b-offset),
                 PavementWorld(a-offset),PavementWorld(a+offset));
+        }
+
+        static RoadGraph previewSource;
+        static ShelfFamily previewFamily;
+        static float previewDepth;
+        static Vector3 previewStart, previewEnd;
+        static ProceduralShelf.Run previewRack;
+
+        static void PreviewShelf(ProceduralShelf shelf, Vector3 start, Vector3 end)
+        {
+            if ((end - start).sqrMagnitude < .000001f) return;
+            if (previewSource != shelf.paths || start != previewStart || end != previewEnd || previewFamily != shelf.family || previewDepth != shelf.PathWidth)
+            {
+                previewSource = shelf.paths; previewStart = start; previewEnd = end; previewFamily = shelf.family;
+                previewDepth = shelf.PathWidth;
+                var graph = new RoadGraph { nextId = shelf.paths.nextId };
+                graph.nodes.AddRange(shelf.paths.nodes);
+                graph.spans.AddRange(shelf.paths.spans);
+                var a = RoadEditing.Point(graph, start);
+                var b = RoadEditing.Point(graph, end);
+                var span = graph.Connect(a.id, b.id, 0, null);
+                // A collinear continuation can be absorbed by a previously drawn run.
+                previewRack = ProceduralShelf.Runs(graph, shelf.PathWidth).FirstOrDefault(r =>
+                    r.id == span.id || Vector3.Cross(r.Direction, (end-start).normalized).sqrMagnitude < .000001f
+                    && (PlanSnapping.Project(Flat((start+end)*.5f), Flat(r.a), Flat(r.b)) - Flat((start+end)*.5f)).sqrMagnitude < .000001f);
+            }
+            if (previewRack == null) return;
+            int count = shelf.FitRun(previewRack, out var first, out var pitch);
+            if (count == 0) { Handles.Label(World((start+end)*.5f), "Too short for a shelf bay"); return; }
+            var half = Vector3.Cross(previewRack.Direction,Vector3.up) * (shelf.PathWidth * .5f);
+            var last = first + previewRack.Direction * (count * pitch);
+            Handles.DrawLine(World(first-half), World(last-half));
+            Handles.DrawLine(World(first+half), World(last+half));
+            for (int i=0; i<=count; i++)
+            {
+                var at = first + previewRack.Direction * (pitch*i);
+                Handles.DrawLine(World(at-half), World(at+half));
+            }
+        }
+
+        static void PickShelf(ProceduralShelf shelf, Ray worldRay, ref RoadHit hit, ref Vector3 point)
+        {
+            var localRay = new Ray(shelf.transform.InverseTransformPoint(worldRay.origin),
+                shelf.transform.InverseTransformVector(worldRay.direction));
+            float nearest = float.PositiveInfinity;
+            float height = shelf.Height;
+            foreach (var span in shelf.paths.spans)
+            {
+                var a = shelf.paths.Node(span.start.node).position;
+                var delta = shelf.paths.Node(span.end.node).position - a;
+                if (delta.sqrMagnitude < 1e-6f) continue;
+                var inverse = Quaternion.Inverse(Quaternion.LookRotation(delta.normalized));
+                var ray = new Ray(inverse * (localRay.origin - a), inverse * localRay.direction);
+                var size = new Vector3(shelf.PathWidth, height, delta.magnitude);
+                var bounds = new Bounds(new Vector3(0, size.y, size.z) * .5f, size);
+                if (!bounds.IntersectRay(ray, out float distance) || distance >= nearest) continue;
+                nearest = distance;
+                hit = new RoadHit(RoadPart.Path, span.id);
+                point = localRay.GetPoint(distance);
+            }
         }
 
         static void PickPavementOutline(ref RoadHit hit, ref float nearest, Vector2 mouse)

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22605a86d46e07341af598574fa3dc9e, type: 3}
+  m_Name: SteelRack
+  m_EditorClassIdentifier: HouseToolkit::HouseToolkit.ShelfFamily
+  frame: {fileID: -2432090755550338912, guid: 87fe54e5cadb4be8a5715c12a1f49c5c, type: 3}
+  steel: {fileID: 2100000, guid: 6f72eb49f8184e3db0331bc9cc8adb9a, type: 2}
+  deck: {fileID: -2432090755550338912, guid: 46466717325a4605976329bb004503a8, type: 3}
+  timber: {fileID: 2100000, guid: 19cb2cae6e6344e080703d369adebe84, type: 2}
+  stock: {fileID: 5218816277277819383, guid: 13923e6bae3d62a4998405ddbfe533d4, type: 3}
+  levels: 4
+  firstDeckHeight: 0.18
+  topInset: 0.15

@@ -8,7 +8,7 @@ namespace HouseToolkit.Editor
     [EditorTool("Place environment object")]
     public sealed class EnvironmentPlacementTool : EditorTool
     {
-        internal enum Kind { House, Road, Sidewalk, GroundArea, FillerBuilding, Wall }
+        internal enum Kind { House, Road, Sidewalk, GroundArea, FillerBuilding, Wall, Shelf }
         internal static EnvironmentPlacementTool Pending => ToolManager.activeToolType == typeof(EnvironmentPlacementTool)
             ? Resources.FindObjectsOfTypeAll<EnvironmentPlacementTool>().FirstOrDefault(ToolManager.IsActiveTool) : null;
         internal Kind choice;
@@ -25,6 +25,7 @@ namespace HouseToolkit.Editor
         [MenuItem("GameObject/Environment/Filler Building",false,14)] static void Filler() => Arm(Kind.FillerBuilding);
 
         [MenuItem("GameObject/Environment/Standalone Wall",false,15)] static void Wall() => Arm(Kind.Wall);
+        [MenuItem("GameObject/Environment/Shelf",false,16)] static void Shelf() => Arm(Kind.Shelf);
 
         internal static void Arm(Kind kind,SceneView view=null)
         {
@@ -80,6 +81,7 @@ namespace HouseToolkit.Editor
             if(Tools.current==Tool.View)Tools.current=Tool.Move;
             if(kind==Kind.House || kind==Kind.Wall)HouseScene.CreateAt(position,true,kind==Kind.Wall);
             else if(kind==Kind.FillerBuilding)RoadScene.CreateFillerAt(position);
+            else if(kind==Kind.Shelf)RoadScene.CreateShelfAt(position);
             else RoadScene.CreateAt(kind==Kind.Sidewalk ? RoadScene.Brush.Sidewalk :
                 kind==Kind.GroundArea ? RoadScene.Brush.Ground : RoadScene.Brush.Road,position,true);
             if(view)view.Focus();

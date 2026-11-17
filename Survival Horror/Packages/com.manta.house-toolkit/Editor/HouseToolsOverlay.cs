@@ -35,6 +35,7 @@ namespace HouseToolkit.Editor
             Pair(EnvironmentPlacementTool.Kind.House,EnvironmentPlacementTool.Kind.Road);
             Pair(EnvironmentPlacementTool.Kind.Sidewalk,EnvironmentPlacementTool.Kind.GroundArea);
             Pair(EnvironmentPlacementTool.Kind.FillerBuilding,EnvironmentPlacementTool.Kind.Wall);
+            Pair(EnvironmentPlacementTool.Kind.Shelf);
             var cancel=new Button(EnvironmentPlacementTool.Cancel){text="Cancel placement"};
             creation.Add(cancel);
             var enter=new Button(()=>{
@@ -48,6 +49,7 @@ namespace HouseToolkit.Editor
             var select=SceneToolButtons.Add(surfaceTools,"Select","Select a segment, point, face or boundary.",()=>RoadScene.SetDrawing(false));
             var road=SceneToolButtons.Add(surfaceTools,"Draw Road","Draw a road centreline.",()=>RoadScene.SetBrush(RoadScene.Brush.Road));
             var walk=SceneToolButtons.Add(surfaceTools,"Draw Sidewalk","Draw a sidewalk centreline.",()=>RoadScene.SetBrush(RoadScene.Brush.Sidewalk));
+            var shelf=SceneToolButtons.Add(surfaceTools,"Draw Shelf","Draw a shelf centreline.",()=>RoadScene.SetBrush(RoadScene.Brush.Sidewalk));
             var ground=SceneToolButtons.Add(surfaceTools,"Ground Area","Close a perimeter to fill it or draw between boundaries to divide it.",()=>RoadScene.SetBrush(RoadScene.Brush.Ground));
             var groundLabel=ground.Q<Label>();
             surfaceTools.Add(new Button(HouseProperties.Open){text=HouseProperties.WindowTitle});
@@ -97,6 +99,8 @@ namespace HouseToolkit.Editor
                 surfaceTools.style.display=active ? DisplayStyle.Flex : DisplayStyle.None;
                 road.style.display=active is RoadNetwork ? DisplayStyle.Flex : DisplayStyle.None;
                 walk.style.display=active is ProceduralSidewalk ? DisplayStyle.Flex : DisplayStyle.None;
+                shelf.style.display=active is ProceduralShelf ? DisplayStyle.Flex : DisplayStyle.None;
+                SceneToolButtons.Highlight(shelf,RoadScene.Mode==RoadScene.Brush.Sidewalk);
                 groundLabel.text=active is FillerBuilding ? "Draw footprint" : "Ground Area";
                 ground.style.display=active is GroundArea || active is FillerBuilding ? DisplayStyle.Flex : DisplayStyle.None;
                 SceneToolButtons.Highlight(select,RoadScene.Mode==RoadScene.Brush.Select);

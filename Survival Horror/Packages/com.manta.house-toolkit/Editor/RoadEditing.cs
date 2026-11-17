@@ -10,7 +10,7 @@ namespace HouseToolkit.Editor
     {
         internal static bool Change(ProceduralSurface network, string action, Action<RoadGraph> apply, out string issue, bool paths = false)
         {
-            if (!network || (paths ? !(network is ProceduralSidewalk || network is RoadNetwork) : !(network is RoadNetwork)))
+            if (!network || (paths ? !(network is ProceduralPath || network is RoadNetwork) : !(network is RoadNetwork)))
             { issue="Choose a compatible procedural object."; return false; }
             // Only publish a valid graph. A rejected drag, overlapping span or failed
             // dissolve leaves the scene and Undo stack untouched.
@@ -19,6 +19,9 @@ namespace HouseToolkit.Editor
             {
                 apply(graph);
                 Normalize(graph,network.StreetFamily);
+                if (network is ProceduralShelf && graph.spans.SelectMany(s => new[] { s.start.node, s.end.node })
+                    .GroupBy(id => id).Any(group => group.Count() > 2))
+                    throw new InvalidOperationException("Continue from a shelf endpoint or start a separate rack.");
                 if (paths) graph.runStyles.RemoveAll(style=>!graph.spans.Any(s=>s.run==style.run));
             }
             catch (InvalidOperationException error) { issue=error.Message; return false; }

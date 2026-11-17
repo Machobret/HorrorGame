@@ -5,6 +5,7 @@ using UnityEngine;
 namespace HouseToolkit
 {
     [AddComponentMenu("Procedural Environment/Filler Building")]
+    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
     public sealed class FillerBuilding : ProceduralSurface
     {
         public enum GroundStyle { Inherit, Normal, Solid, Material }

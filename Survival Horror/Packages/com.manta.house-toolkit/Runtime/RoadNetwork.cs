@@ -96,6 +96,7 @@ namespace HouseToolkit
         { this.part = part; this.id = id; this.arm = arm; this.next = next; this.left = left; }
     }
 
+    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
     public sealed class RoadNetwork : ProceduralSurface
     {
         public RoadFamily family;

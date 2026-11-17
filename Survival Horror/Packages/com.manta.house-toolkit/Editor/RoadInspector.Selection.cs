@@ -11,8 +11,8 @@ namespace HouseToolkit.Editor
         {
             var hits=RoadScene.Picks.Items.ToArray();
             var part=hits[0].part;
-            string name=part==RoadPart.Ground ? "Ground face" : part==RoadPart.Path ? "Sidewalk segment" : part==RoadPart.Boundary ? "Ground boundary" :
-                part==RoadPart.GroundPoint ? "Ground point" : part==RoadPart.Corner ? "Sidewalk corner" : part==RoadPart.PathPoint ? "Sidewalk point" : part.ToString();
+            string name=part==RoadPart.Ground ? "Ground face" : part==RoadPart.Path ? RoadScene.PathName+" segment" : part==RoadPart.Boundary ? "Ground boundary" :
+                part==RoadPart.GroundPoint ? "Ground point" : part==RoadPart.Corner ? "Sidewalk corner" : part==RoadPart.PathPoint ? RoadScene.PathName+" point" : part.ToString();
             EditorGUILayout.LabelField(hits.Length==1 ? name : name+" ("+hits.Length+")",EditorStyles.boldLabel);
             if(part==RoadPart.Ground)
             {
@@ -43,7 +43,7 @@ namespace HouseToolkit.Editor
                         v=>(RoadOverride)EditorGUILayout.EnumPopup(left?"Left sidewalk":"Right sidewalk",v),(g,h,v)=>Side(g,h).sidewalk=v);
                 }
             }
-            if(part==RoadPart.Path)
+            if(part==RoadPart.Path && !(road is ProceduralShelf))
             {
                 PavementDefaults(road,true);
                 SidewalkRunStyle Run(RoadGraph g,RoadHit h)=>g.RunStyle(g.Span(h.id).run);

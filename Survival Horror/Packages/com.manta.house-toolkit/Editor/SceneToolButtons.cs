@@ -39,6 +39,7 @@ namespace HouseToolkit.Editor
             }
             switch (tool)
             {
+                case "Draw Shelf": Line(2,15,2,1); Line(14,15,14,1); Line(2,3,14,3); Line(2,8,14,8); Line(2,13,14,13); break;
                 case "Boolean cut": Line(1,4,8,1,15,4,8,7,1,4,1,12,8,15,8,7); Line(15,4,15,8,12,9,12,12,15,11,15,12,8,15); break;
                 case "Slab opening": Line(1,9,7,3,15,6,9,13,1,9); Line(5,8,8,5.5f,11,7,8,10,5,8); break;
                 case "Draw Road": Line(2,14,6,2); Line(10,14,14,2); Line(6,13,7,10); Line(8,7,9,4); break;

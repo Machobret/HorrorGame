@@ -5,7 +5,7 @@ namespace HorrorGame.Environment
 {
     /// <summary>Owns the renderer's property block; never creates a material instance.</summary>
     [ExecuteAlways, DisallowMultipleComponent, RequireComponent(typeof(MeshRenderer))]
-    public sealed class StorageBoxAtlas : MonoBehaviour
+    public sealed class StorageBoxAtlas : MonoBehaviour, HouseToolkit.ISeededStock
     {
         static readonly int TileProperty = Shader.PropertyToID("_AtlasTile");
         [SerializeField, Range(0, 15), InspectorName("Box Design")]
@@ -15,6 +15,14 @@ namespace HorrorGame.Environment
         MeshRenderer boxRenderer;
         MaterialPropertyBlock properties;
         bool runtimeInitialized;
+        bool generated;
+
+        public void SetStockSeed(int seed)
+        {
+            generated = runtimeInitialized = true;
+            tileIndex = (int)((uint)seed % 16);
+            Apply();
+        }
 
         public int TileIndex => tileIndex;
 
@@ -85,7 +93,7 @@ namespace HorrorGame.Environment
 
         void RefreshEditorPlacement()
         {
-            if (!this || !isActiveAndEnabled) return;
+            if (!this || !isActiveAndEnabled || generated) return;
             if (Application.IsPlaying(gameObject)) { Apply(); return; }
             if (!UnityEditor.EditorUtility.IsPersistent(this)
                 && UnityEditor.SceneManagement.PrefabStageUtility.GetPrefabStage(gameObject) == null)

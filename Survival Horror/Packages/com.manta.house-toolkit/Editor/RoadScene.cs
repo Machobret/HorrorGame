@@ -12,9 +12,10 @@ namespace HouseToolkit.Editor
         internal static ProceduralSurface Active { get; private set; }
         internal static readonly SceneSelection<RoadHit> Picks = new SceneSelection<RoadHit>(Same, TypeName);
         internal static RoadHit Selected => Picks.Active;
+        internal static string PathName => Active is ProceduralShelf ? "Shelf" : "Sidewalk";
         static string TypeName(RoadHit hit) => hit.part switch
         {
-            RoadPart.None => null, RoadPart.Path => "Sidewalk segment", RoadPart.PathPoint => "Sidewalk point",
+            RoadPart.None => null, RoadPart.Path => PathName+" segment", RoadPart.PathPoint => PathName+" point",
             RoadPart.GroundPoint => "Ground point", RoadPart.Ground => "Ground area", RoadPart.Sidewalk => "Roadside sidewalk", RoadPart.Boundary => Active is FillerBuilding ? "Facade wall" : "Ground boundary",
             _ => hit.part.ToString()
         };
@@ -66,6 +67,14 @@ namespace HouseToolkit.Editor
             StartDrawing(source,brush,startChain);
         }
 
+        internal static void CreateShelfAt(Vector3 position)
+        {
+            var go = new GameObject("Shelf");
+            go.transform.position = position;
+            var shelf = go.AddComponent<ProceduralShelf>();
+            StartDrawing(shelf, Brush.Sidewalk, true);
+        }
+
         internal static void CreateFillerAt(Vector3 position)
         {
             var go=new GameObject("Filler Building");
@@ -85,7 +94,7 @@ namespace HouseToolkit.Editor
             if(brush==Brush.Road)RoadInspector.ShowRoad();
         }
         internal static string EditLabel(ProceduralSurface source) => source is FillerBuilding ? "Edit Filler Building" : source is GroundArea ? "Edit Ground Area" :
-            source is ProceduralSidewalk ? "Edit Sidewalk" : "Edit Roads";
+            source is ProceduralShelf ? "Edit Shelf" : source is ProceduralSidewalk ? "Edit Sidewalk" : "Edit Roads";
 
         internal static void Enter(ProceduralSurface road)
         {
@@ -102,6 +111,7 @@ namespace HouseToolkit.Editor
         {
             if(Active)Tools.hidden=hidden;
             indexedPlan=null;corners.Clear();CancelPavementMove();
+            previewSource=null;previewRack=null;previewFamily=null;
             Active=null;Mode=Brush.Select;DrawFamily=null;Picks.Pick(default,false);SelectedRoads.Clear();EndChain();
             if(selectionControl!=0 && GUIUtility.hotControl==selectionControl)GUIUtility.hotControl=0;
             selectionControl=0;pressedHit=default;pointerView=null;roadDelta=null;movePreview=null;movingPoint=0;Message=null;SceneView.RepaintAll();
@@ -110,7 +120,7 @@ namespace HouseToolkit.Editor
         internal static void SetBrush(Brush brush)
         {
             if (brush!=Brush.Select && ((Active is GroundArea || Active is FillerBuilding) && brush!=Brush.Ground ||
-                Active is ProceduralSidewalk && brush!=Brush.Sidewalk)) return;
+                Active is ProceduralPath && brush!=Brush.Sidewalk)) return;
             CancelPavementMove();Mode=brush;EndChain();Picks.Pick(default,false);SelectedRoads.Clear();hover=default;Message=null;
             RoadInspector.ShowTool(Drawing); Repaint();
         }
@@ -203,7 +213,7 @@ namespace HouseToolkit.Editor
             if (Mode == Brush.Sidewalk)
             {
                 int endId=0, pathRun=0;
-                if (ChangePaths("Draw sidewalk",g=>{
+                if (ChangePaths("Draw "+PathName,g=>{
                     var start=RoadEditing.Point(g,Local(Flat(a),0));
                     var end=RoadEditing.Point(g,Local(point,0));
                     endId=end.id;
@@ -340,7 +350,21 @@ namespace HouseToolkit.Editor
                     if(a.trim>0){bounds.Encapsulate(World(Local(a.Left,node.position.y)));bounds.Encapsulate(World(Local(a.Right,node.position.y)));}
                 return true;
             }
-            var mesh=Active.GetComponent<MeshCollider>().sharedMesh;
+            if (selected.part == RoadPart.Path && Active is ProceduralShelf shelf && shelf.paths.Span(selected.id) is RoadSpan span)
+            {
+                var a = shelf.paths.Node(span.start.node).position;
+                var b = shelf.paths.Node(span.end.node).position;
+                bounds = new Bounds(World(a),Vector3.zero);
+                var halfDepth = Vector3.Cross((b - a).normalized, Vector3.up) * (shelf.PathWidth * .5f);
+                foreach (var end in new[] { a, b })
+                    foreach (var side in new[] { end - halfDepth, end + halfDepth })
+                    {
+                        bounds.Encapsulate(World(side));
+                        bounds.Encapsulate(World(side + Vector3.up * shelf.Height));
+                    }
+                return true;
+            }
+            var mesh=Active.GetComponent<MeshCollider>()?.sharedMesh;
             if(!mesh)return false;
             var vertices=mesh.vertices;var indices=mesh.triangles;bool found=false;
             for(int i=0;i<Active.faces.Length;i++)
@@ -458,16 +482,18 @@ namespace HouseToolkit.Editor
             if(!Drawing && !insertBoundary && PavementHandles(view,e,ray))return;
             float y=anchor?.y??(Paving ? Active.PavementElevation : 0);
             bool onPlane=new Plane(Active.transform.up,World(Vector3.up*y)).Raycast(ray,out var depth);
-            if(!onPlane && (Drawing || !(Active is FillerBuilding)))return;
+            if(!onPlane && (Drawing || !(Active is FillerBuilding || Active is ProceduralShelf)))return;
             var position=Active.transform.InverseTransformPoint(ray.GetPoint(depth));
             var collider=Active.GetComponent<MeshCollider>();
             var hit=default(RoadHit);
-            if(collider.sharedMesh && collider.Raycast(ray,out var info,float.PositiveInfinity) &&
+            if(collider && collider.sharedMesh && collider.Raycast(ray,out var info,float.PositiveInfinity) &&
                 info.triangleIndex>=0 && info.triangleIndex<Active.faces.Length)
             {
                 hit=Active.faces[info.triangleIndex];
                 if(!Drawing)position=Active.transform.InverseTransformPoint(info.point);
             }
+            if (!Drawing && Active is ProceduralShelf shelf)
+                PickShelf(shelf, ray, ref hit, ref position);
             float nearest=10;
             foreach(var n in graph.nodes)
             {

@@ -238,6 +238,9 @@ namespace HouseToolkit.Editor
             var roots = selected.Select(item =>
             {
                 if (!(item is GameObject go) || EditorUtility.IsPersistent(go)) return item;
+                // Unity can drill into a selected rack on subsequent clicks.
+                var shelf = go.GetComponentInParent<ProceduralShelf>();
+                if (shelf && shelf.IsGeneratedPart(go.transform)) return shelf.gameObject;
                 // Only generated architecture belongs to the house selection. Prefab inserts
                 // and hand-placed room contents retain their own editable selection.
                 if (go.GetComponentInParent<InsertAttachment>() is InsertAttachment attachment)

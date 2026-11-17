@@ -3,6 +3,7 @@ using UnityEngine;
 namespace HouseToolkit
 {
     [AddComponentMenu("Procedural Environment/Ground Area")]
+    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
     public sealed class GroundArea : ProceduralSurface
     {
         [HideInInspector] public GroundPlan ground = new GroundPlan();
