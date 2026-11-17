@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1448955998788336758}
   - component: {fileID: 6424003508588129274}
   - component: {fileID: 8385201464926382655}
+  - component: {fileID: 2543361028202123601}
   m_Layer: 0
   m_Name: HouseProps_trashBin_Visual
   m_TagString: Untagged
@@ -122,3 +123,25 @@ Transform:
   - {fileID: 1448955998788336758}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &2543361028202123601
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 662114712173929980}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 6110661548209917592, guid: 4cf58d8dc942a9741b0d290117afa148, type: 3}

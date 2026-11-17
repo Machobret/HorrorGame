@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 810995523775576190}
   - component: {fileID: 6007628048037817872}
   - component: {fileID: 4851839402945618663}
+  - component: {fileID: 1520477758239918374}
   m_Layer: 0
   m_Name: Village_Armchair_Visual
   m_TagString: Untagged
@@ -122,3 +123,25 @@ Transform:
   - {fileID: 810995523775576190}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &1520477758239918374
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2416157763387611109}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4778301216145275596, guid: 82593f5670b3b7349a8a054aac3d38a0, type: 3}

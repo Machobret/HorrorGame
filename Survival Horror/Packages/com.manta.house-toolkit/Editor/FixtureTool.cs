@@ -13,6 +13,11 @@ namespace HouseToolkit.Editor
         internal static void Cancel() => moving = null;
         static FixtureTool() => EditorApplication.projectChanged += () => { choices = null; brush = null; };
 
+        static FixtureChoice[] Choices => choices ??= AssetDatabase.FindAssets("t:FixturePalette")
+            .Select(id => AssetDatabase.LoadAssetAtPath<FixturePalette>(AssetDatabase.GUIDToAssetPath(id)))
+            .Where(p => p && p.fixtures != null).SelectMany(p => p.fixtures)
+            .Where(c => c != null && c.prefab).ToArray();
+
         internal static void Palette()
         {
             if (moving)
@@ -21,11 +26,7 @@ namespace HouseToolkit.Editor
                 if (GUILayout.Button("Cancel move")) Finish(moving);
                 return;
             }
-            choices ??= AssetDatabase.FindAssets("t:FixturePalette")
-                .Select(id => AssetDatabase.LoadAssetAtPath<FixturePalette>(AssetDatabase.GUIDToAssetPath(id)))
-                .Where(p => p && p.fixtures != null).SelectMany(p => p.fixtures)
-                .Where(c => c != null && c.prefab).ToArray();
-            brush ??= choices.FirstOrDefault();
+            brush ??= Choices.FirstOrDefault();
             if (brush == null) { EditorGUILayout.HelpBox("Add prefabs to a Fixture Palette asset.", MessageType.Info); return; }
             for (int i = 0; i < choices.Length; i += 3)
             {
@@ -138,7 +139,31 @@ namespace HouseToolkit.Editor
             Mount(fixture, host, point, side);
             var model = (GameObject)PrefabUtility.InstantiatePrefab(choice.prefab, root.transform);
             Undo.RegisterCreatedObjectUndo(model, "Place fixture");
+            ApplyPreset(choice, fixture, model);
+            return fixture;
+        }
+
+        internal static bool Refit(FixtureAttachment fixture)
+        {
+            foreach (Transform child in fixture.transform)
+            {
+                var source = PrefabUtility.GetCorrespondingObjectFromOriginalSource(child.gameObject);
+                var direct = PrefabUtility.GetCorrespondingObjectFromSource(child.gameObject);
+                var matches = Choices.Where(c => c.mount == fixture.mount && (c.prefab == direct || c.prefab == source)).ToArray();
+                var choice = matches.FirstOrDefault(c => c.label == fixture.name);
+                if (choice == null && matches.Length == 1) choice = matches[0];
+                if (choice == null) continue;
+                ApplyPreset(choice, fixture, child.gameObject);
+                return true;
+            }
+            return false;
+        }
+
+        static void ApplyPreset(FixtureChoice choice, FixtureAttachment fixture, GameObject model)
+        {
+            var root = fixture.transform;
             var t = model.transform;
+            Undo.RecordObject(t, "Fit fixture model");
             t.localRotation = Quaternion.Euler(choice.modelRotation);
             t.localPosition = Vector3.zero;
             var bounds = new Bounds();
@@ -150,7 +175,7 @@ namespace HouseToolkit.Editor
                 {
                     var p = r.transform.TransformPoint(new Vector3((i&1)==0?b.min.x:b.max.x,
                         (i&2)==0?b.min.y:b.max.y, (i&4)==0?b.min.z:b.max.z));
-                    p = root.transform.InverseTransformPoint(p);
+                    p = root.InverseTransformPoint(p);
                     if (initialized) bounds.Encapsulate(p); else { bounds = new Bounds(p, Vector3.zero); initialized = true; }
                 }
             }
@@ -161,15 +186,25 @@ namespace HouseToolkit.Editor
             PrefabUtility.RecordPrefabInstancePropertyModifications(t);
             if (choice.lightRange > 0 && !model.GetComponentInChildren<Light>(true))
             {
-                var emitter = new GameObject("Light");
-                emitter.transform.SetParent(root.transform, false);
-                emitter.transform.localPosition = choice.mount == FixtureMount.Wall ? Vector3.forward * (bounds.size.z + .04f)
+                var child = root.Find("Light");
+                var light = child && child != t ? child.GetComponent<Light>() : null;
+                if (!light)
+                {
+                    var emitter = new GameObject("Light");
+                    emitter.transform.SetParent(root, false);
+                    light = emitter.AddComponent<Light>();
+                    light.type = LightType.Point;
+                    light.shadows = LightShadows.None;
+                    Undo.RegisterCreatedObjectUndo(emitter, "Add fixture light");
+                }
+                Undo.RecordObjects(new Object[] {light, light.transform}, "Fit fixture light");
+                light.transform.localPosition = choice.mount == FixtureMount.Wall ? Vector3.forward * (bounds.size.z + .04f)
                     : Vector3.up * ((choice.mount == FixtureMount.Floor ? 1 : -1) * (bounds.size.y + .04f));
-                var light = emitter.AddComponent<Light>();
-                light.type = LightType.Point; light.range = choice.lightRange;
-                Undo.RegisterCreatedObjectUndo(emitter, "Place fixture");
+                light.range = choice.lightRange;
+                light.intensity = choice.lightIntensity;
+                PrefabUtility.RecordPrefabInstancePropertyModifications(light.transform);
+                PrefabUtility.RecordPrefabInstancePropertyModifications(light);
             }
-            return fixture;
         }
 
         internal static void Mount(FixtureAttachment fixture, Transform host, Vector3 point, int side)
@@ -210,6 +245,8 @@ namespace HouseToolkit.Editor
             var fixture = (FixtureAttachment)target;
             EditorGUILayout.LabelField("Mount",fixture.mount.ToString());
             if (GUILayout.Button("Move fixture")) FixtureTool.BeginMove(fixture);
+            if (GUILayout.Button(new GUIContent("Reapply fixture preset", "Refit the model and restore the generated light's position, range and intensity.")) && !FixtureTool.Refit(fixture))
+                EditorWindow.focusedWindow?.ShowNotification(new GUIContent("Matching fixture preset not found."));
         }
 
         void OnSceneGUI()

@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 1993233689397400709}
   - component: {fileID: 7173972871291781512}
   - component: {fileID: 9025431310836764004}
+  - component: {fileID: 8606445983144090682}
   m_Layer: 0
   m_Name: Road_Type_3_barrier_broken_planks_Visual
   m_TagString: Untagged
@@ -122,3 +123,25 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8606445983144090682
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7496853440640257156}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 6793869431710184997, guid: 0f4d5b9aaa8639e4cb01751e0e8561ac, type: 3}

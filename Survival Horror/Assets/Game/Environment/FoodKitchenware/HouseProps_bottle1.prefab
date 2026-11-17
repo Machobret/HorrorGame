@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3832341456591240940}
   - component: {fileID: 9041457670748307178}
   - component: {fileID: 4647525741177629236}
+  - component: {fileID: 3560898141186092206}
   m_Layer: 0
   m_Name: HouseProps_bottle1_Visual
   m_TagString: Untagged
@@ -122,3 +123,25 @@ Transform:
   - {fileID: 3832341456591240940}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &3560898141186092206
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2633043847784239742}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5839505650424185942, guid: 9d7d3406854e11b42b975f51a53f42c1, type: 3}

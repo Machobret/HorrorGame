@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 7355908048767827001}
   - component: {fileID: 4784622511941917899}
   - component: {fileID: 6161406963013425024}
+  - component: {fileID: 6836078295251237719}
   m_Layer: 0
   m_Name: HouseProps_plate2_Visual
   m_TagString: Untagged
@@ -122,3 +123,25 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6836078295251237719
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8444832025964166714}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4841050518757351194, guid: 9d7d3406854e11b42b975f51a53f42c1, type: 3}

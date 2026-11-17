@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 9149428859474705786}
   - component: {fileID: 6944652379611811130}
   - component: {fileID: 5471889076553577398}
+  - component: {fileID: 4397473689620340458}
   m_Layer: 0
   m_Name: Classic64_PropaneStorage_Part000
   m_TagString: Untagged
@@ -154,3 +155,25 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4397473689620340458
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6465599321669003146}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1484001294144410203, guid: 56dabbb596d48834989308b783cba683, type: 3}

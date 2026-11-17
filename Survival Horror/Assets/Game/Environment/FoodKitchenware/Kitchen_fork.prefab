@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 1380456961805961714}
   - component: {fileID: 6769619693336980720}
   - component: {fileID: 3196771846431706158}
+  - component: {fileID: 8032996352383790721}
   m_Layer: 0
   m_Name: Kitchen_fork_Visual
   m_TagString: Untagged
@@ -122,3 +123,25 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8032996352383790721
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5691672416287245958}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3348275541570771949, guid: 9d7d3406854e11b42b975f51a53f42c1, type: 3}

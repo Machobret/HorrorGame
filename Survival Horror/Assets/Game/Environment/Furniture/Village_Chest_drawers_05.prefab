@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3380702711972299020}
   - component: {fileID: 407067380994492948}
   - component: {fileID: 2926205412884269871}
+  - component: {fileID: 1147263212792804876}
   m_Layer: 0
   m_Name: Village_Chest_drawers_05_Visual
   m_TagString: Untagged
@@ -122,3 +123,25 @@ Transform:
   - {fileID: 3380702711972299020}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &1147263212792804876
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647515430052796504}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4531327230441470394, guid: 82593f5670b3b7349a8a054aac3d38a0, type: 3}

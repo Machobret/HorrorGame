@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5432933449579937717}
   - component: {fileID: 2900186258998309089}
   - component: {fileID: 59330592784301668}
+  - component: {fileID: 1272851081343974417}
   m_Layer: 0
   m_Name: Village_Plate_food_01_Visual
   m_TagString: Untagged
@@ -122,3 +123,25 @@ Transform:
   - {fileID: 5432933449579937717}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &1272851081343974417
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3750457390806352947}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5782823112097975805, guid: 9d7d3406854e11b42b975f51a53f42c1, type: 3}

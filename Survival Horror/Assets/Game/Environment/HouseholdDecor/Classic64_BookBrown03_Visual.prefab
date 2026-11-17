@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 4115929672600279060}
   - component: {fileID: 159742835778243190}
   - component: {fileID: 678484003732035674}
+  - component: {fileID: 7828462627015759119}
   m_Layer: 0
   m_Name: Classic64_BookBrown03_Part000
   m_TagString: Untagged
@@ -154,3 +155,25 @@ Transform:
   - {fileID: 2806715760834974574}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &7828462627015759119
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3258662099252444709}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1807684225549737690, guid: ac216ce3d584b5e4d914f272d241613f, type: 3}

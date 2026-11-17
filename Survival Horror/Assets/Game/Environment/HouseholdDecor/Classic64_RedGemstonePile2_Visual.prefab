@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 2335791668871771016}
   - component: {fileID: 3876648552474071031}
   - component: {fileID: 4762500235287941122}
+  - component: {fileID: 4587329749431183469}
   m_Layer: 0
   m_Name: Classic64_RedGemstonePile2_Part000
   m_TagString: Untagged
@@ -154,3 +155,25 @@ Transform:
   - {fileID: 2763669803258799204}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &4587329749431183469
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2541257557590852014}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1920950786688655189, guid: 0d492688e2235fc43912e80317cb6fdd, type: 3}

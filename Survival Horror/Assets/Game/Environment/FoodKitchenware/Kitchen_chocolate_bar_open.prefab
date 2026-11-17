@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8115858030010940446}
   - component: {fileID: 6005328524833685898}
   - component: {fileID: 3526291556032118835}
+  - component: {fileID: 9070441016067537218}
   m_Layer: 0
   m_Name: Kitchen_chocolate_bar_open_Visual
   m_TagString: Untagged
@@ -122,3 +123,25 @@ Transform:
   - {fileID: 8115858030010940446}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &9070441016067537218
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2568107997502095569}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4877604527446308197, guid: 9d7d3406854e11b42b975f51a53f42c1, type: 3}

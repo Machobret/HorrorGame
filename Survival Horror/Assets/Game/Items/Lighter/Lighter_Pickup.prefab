@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8847420350030653782}
   - component: {fileID: 2736529782876069717}
   - component: {fileID: 82725751007712970}
+  - component: {fileID: 2956984774353867668}
   m_Layer: 0
   m_Name: Lighter_Visual
   m_TagString: Untagged
@@ -309,3 +310,24 @@ MonoBehaviour:
   Data_OBSOLETE: {fileID: 0}
   Amount_OBSOLETE: 1
   m_UseOnPickup: 0
+--- !u!65 &2956984774353867668
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2501802731901566080}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0005595031, y: 0.00014451153, z: 0.0007706948}
+  m_Center: {x: 0, y: 0, z: 0}

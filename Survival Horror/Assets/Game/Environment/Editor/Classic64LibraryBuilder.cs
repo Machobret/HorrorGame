@@ -90,7 +90,7 @@ namespace HorrorGame.Environment.Editor
                     files = paths.Select(p => new ImportedFile { path = p, guid = AssetDatabase.AssetPathToGUID(p) }).ToArray(),
                     checks = new[] { "Imported bounds match exported dimensions", "All authored mesh parts and UV channels present",
                         "Material slots resolve to textured URP materials", "Original texture sizes preserved; point filtering and mipmaps",
-                        "Cutout alpha and coverage mipmaps enabled where required", "Visual prefabs contain no gameplay scripts or colliders",
+                        "Cutout alpha and coverage mipmaps enabled where required", "Visual prefabs have static mesh collision and no gameplay scripts",
                         "No runtime dependency on Blender sources", "Existing receipt GUIDs preserved", "Review scene is excluded from enabled build scenes" }
                 };
                 if (receipt.files.Any(f => string.IsNullOrEmpty(f.guid))) throw new InvalidOperationException("Missing GUID");
@@ -195,12 +195,16 @@ namespace HorrorGame.Environment.Editor
                             throw new InvalidOperationException("Missing mesh or UV channel: " + part.name);
                         if (!renderer || renderer.sharedMaterials.Length != mesh.subMeshCount || renderer.sharedMaterials.Any(m => !m || !materials.Values.Contains(m)))
                             throw new InvalidOperationException("Unresolved material slots: " + part.name);
+                        var collision = part.GetComponent<MeshCollider>();
+                        if (!collision) collision = part.gameObject.AddComponent<MeshCollider>();
+                        collision.sharedMesh = mesh;
+                        collision.convex = false;
                     }
                     var bounds = BoundsOf(go);
                     var expected = new Vector3(asset.bounds_m[0], asset.bounds_m[1], asset.bounds_m[2]);
                     if ((bounds.size - expected).magnitude > Mathf.Max(.002f, expected.magnitude * .002f) || Mathf.Abs(bounds.min.y) > .002f)
                         throw new InvalidOperationException("Scale/pivot mismatch: " + asset.name + " got " + bounds + " expected size " + expected);
-                    if (go.GetComponentsInChildren<MonoBehaviour>().Length != 0 || go.GetComponentsInChildren<Collider>().Length != 0)
+                    if (go.GetComponentsInChildren<MonoBehaviour>().Length != 0)
                         throw new InvalidOperationException("Art import added behavior");
                     if (!PrefabUtility.SaveAsPrefabAsset(go, asset.prefab_path)) throw new InvalidOperationException("Prefab save failed");
                     var prefabImporter = AssetImporter.GetAtPath(asset.prefab_path);

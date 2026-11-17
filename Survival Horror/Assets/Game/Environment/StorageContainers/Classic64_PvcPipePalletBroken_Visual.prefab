@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1741599079662715232}
   - component: {fileID: 9004670198076776881}
   - component: {fileID: 6357050337743480703}
+  - component: {fileID: 764167338676287100}
   m_Layer: 0
   m_Name: Classic64_PvcPipePalletBroken_Part001
   m_TagString: Untagged
@@ -133,6 +134,7 @@ GameObject:
   - component: {fileID: 888466648319723004}
   - component: {fileID: 39954540362967903}
   - component: {fileID: 8519005210329785284}
+  - component: {fileID: 193977790238404823}
   m_Layer: 0
   m_Name: Classic64_PvcPipePalletBroken_Part000
   m_TagString: Untagged
@@ -245,3 +247,47 @@ Transform:
   - {fileID: 1741599079662715232}
   m_Father: {fileID: 3955347201828810867}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &764167338676287100
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439605513384672301}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3371857862050790472, guid: 1bfa0a5fa5c0ae24b99152b10f5a632c, type: 3}
+--- !u!64 &193977790238404823
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6109245524500388557}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3007744674154524355, guid: 1bfa0a5fa5c0ae24b99152b10f5a632c, type: 3}

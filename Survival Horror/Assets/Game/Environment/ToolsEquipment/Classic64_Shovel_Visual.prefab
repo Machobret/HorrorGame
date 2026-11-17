@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2156428735587135072}
   - component: {fileID: 4039886793544365619}
   - component: {fileID: 1908767913846676940}
+  - component: {fileID: 1411429405807816222}
   m_Layer: 0
   m_Name: Classic64_Shovel_Part01
   m_TagString: Untagged
@@ -101,6 +102,7 @@ GameObject:
   - component: {fileID: 7832699913532825781}
   - component: {fileID: 4060108419961335876}
   - component: {fileID: 5702660739404948515}
+  - component: {fileID: 498500453748172461}
   m_Layer: 0
   m_Name: Classic64_Shovel_Part00
   m_TagString: Untagged
@@ -245,3 +247,47 @@ Transform:
   - {fileID: 2156428735587135072}
   m_Father: {fileID: 4771910741744245871}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &1411429405807816222
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420994503831412907}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 465384364309432590, guid: 62e56c55ebf48794d92f70aae985b420, type: 3}
+--- !u!64 &498500453748172461
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389416826412189456}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -9052810454380504072, guid: 62e56c55ebf48794d92f70aae985b420, type: 3}

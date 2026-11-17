@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5147499586807344555}
   - component: {fileID: 3013274760185205620}
   - component: {fileID: 5806787839175673610}
+  - component: {fileID: 4714004763090628064}
   m_Layer: 0
   m_Name: Road_Construction_cone_thin_rubber_Visual
   m_TagString: Untagged
@@ -122,3 +123,25 @@ Transform:
   - {fileID: 5147499586807344555}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &4714004763090628064
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294315502531298646}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2633740406949258406, guid: 0f4d5b9aaa8639e4cb01751e0e8561ac, type: 3}

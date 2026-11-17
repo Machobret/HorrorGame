@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2077909961493997569}
   - component: {fileID: 8620096738411850179}
   - component: {fileID: 6607152270345794284}
+  - component: {fileID: 4407844399181335340}
   m_Layer: 0
   m_Name: Chapter 1 Visual
   m_TagString: Untagged
@@ -163,3 +164,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2027679269891604227, guid: 5c73ef28b5f95b14b92bec958713307d, type: 3}
   m_PrefabInstance: {fileID: 2902754956573277889}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &4407844399181335340
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470450536863883352}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

@@ -228,7 +228,10 @@ namespace HorrorGame.Environment.Editor
                     renderer.sharedMaterials = asset.material_names.Select(n => materials[n]).ToArray();
                     if (renderer.sharedMaterials.Length != source.sharedMesh.subMeshCount)
                         throw new InvalidOperationException("Material/submesh mismatch: " + asset.name);
-                    // No gameplay scripts, colliders or interaction behavior are inferred by an art import.
+                    var collision = visual.AddComponent<MeshCollider>();
+                    collision.sharedMesh = source.sharedMesh;
+                    collision.convex = false;
+                    // Static placement collision is part of the art prefab; gameplay behavior is assigned by consumers.
                     var prefab = PrefabUtility.SaveAsPrefabAsset(go, asset.prefab_path);
                     if (!prefab) throw new InvalidOperationException("Could not save prefab: " + asset.prefab_path);
                     var prefabImporter = AssetImporter.GetAtPath(asset.prefab_path);

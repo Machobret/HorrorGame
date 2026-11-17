@@ -1,0 +1,27 @@
+Generated using built-in image_gen on 2026-11-17.
+Style reference: user-provided ChatGPT Image Nov 16, 2026, 06_45_15 AM.png.
+Four rows: keycard reader, push button, control terminal, generic utility controller.
+Columns left to right: front, shared side, rear. Visually inspect boundaries when mapping: generated widths approximate requested 50/20/30 layout.
+Visually checked device grouping and face roles. Controls contain generated relief/shading; not a calibrated shadow-free PBR set. Model mapping/edge continuity untested. No runtime import configured.
+
+Final prompt:
+Create ONE SQUARE photorealistic game UV TEXTURE ATLAS for FOUR electrical wall-mounted devices, matching the supplied reference's aged dirty ivory painted steel, restrained edge rust, fine scratches and industrial hardware. Reference is material/style only: do not reproduce its large breaker cabinet, concrete or original layout.
+EXACT layout: FOUR equal-height horizontal ROWS, each containing THREE rectangular UV face regions. Columns occupy 50%, 20%, 30% of canvas width: FRONT from x0-50%, SHARED SIDE from x50-70%, BACK from x70-100%. Row boundaries y25%,50%,75%. Every region is a flat orthographic face texture filling its rectangle completely edge to edge. No perspective, visible adjacent faces or detached 3D objects. These are surface maps for simple box models, not a catalog of whole devices. Sharp square outer corners. No background, gutters, margins, captions, numbers identifying tiles, or grid overlay. One coherent device per row; sides and rear logically match front's casing, seam placement, paint and age.
+ROW1 KEYCARD READER:
+FRONT dirty ivory steel faceplate, four small corner fasteners, a centered tall narrow dark charcoal reader insert with subtle embossed contactless-card pictogram, one tiny green status indicator and a narrow card-swipe slot. Simple plausible older industrial access reader; NO keypad or large text.
+SIDE matching shallow ivory case wall, straight closure seam, two tiny assembly screws, otherwise mostly plain.
+BACK matching gray-ivory mounting plate with four small mounting screw holes and one SMALL central dark rectangular cable pass-through, no exposed circuitry.
+ROW2 ELECTRICAL PUSH BUTTON:
+FRONT aged ivory square control plate, four small corner screws, one large red circular pushbutton centered within a dull brushed metal ring, tiny adjacent inactive green indicator. Button face flush frontal texture only, no perspective or long cast shadow. No words or lettering.
+SIDE matching shallow ivory housing, fine joint seam and restrained wear, no extra button.
+BACK matching plain mounting plate, screw holes and one small central cable entry.
+ROW3 ELECTRONIC CONTROL TERMINAL:
+FRONT weathered ivory steel console plate, dark rectangular inactive black-green display in upper half, small simple rows of square gray keypad keys beneath display and three tiny subdued status lenses. NO readable UI, no large text or branding, no garbled letters; blank keycaps, screen nearly off. Subtle screws and restrained lower ventilation.
+SIDE matching ivory case panel, several narrow straight vent slots and fine casing seam, no screen or keypad.
+BACK matching gray-ivory screwed service plate with SMALL square access hatch and two small cable knockout circles; closed exterior, no open interiors.
+ROW4 NONSPECIFIC UTILITY CONTROL DEVICE:
+FRONT a distinct aged ivory industrial junction/sensor unit, small dark smoked rectangular inspection window upper left, one black rotary selector lower right with subtle simple tick marks, small perforated speaker/sensor grille, a tiny amber lens; no labels or lettering.
+SIDE matching ivory case panel with subtle small vent grille and assembly seam.
+BACK matching plain screwed mounting plate with a small circular capped cable knockout; mostly intact painted surface.
+Within every row do not repeat front controls on side or back. Tiny screw holes/cable entries subordinate to mostly plain casing surfaces. No door hinges or oversized electrical hazard signs. All faces consistent with shallow rectangular wall boxes, all closed exterior surfaces. Fine believable paint chips and grime around screws, occasional small rust flecks, no severe rust, no blood. Muted realistic abandoned building aesthetic.
+Neutral even diffuse albedo lighting, no dramatic highlights, directional shadows, vignette, glowing light spill or black silhouette borders. Fine high-resolution photographic material, not illustration or pixel art. Color accents only small indicators and red button. No complete wall scene, pipes, cables protruding outside cells, floors or furniture. Output ONLY the full square FOUR-ROW THREE-REGION device surface atlas.

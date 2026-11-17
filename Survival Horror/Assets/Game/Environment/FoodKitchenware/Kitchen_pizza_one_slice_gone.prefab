@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8568234119323526343}
   - component: {fileID: 4673849477454097472}
   - component: {fileID: 1786493477164836504}
+  - component: {fileID: 1945997917543696348}
   m_Layer: 0
   m_Name: Kitchen_pizza_one_slice_gone_Visual
   m_TagString: Untagged
@@ -122,3 +123,25 @@ Transform:
   - {fileID: 8568234119323526343}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &1945997917543696348
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4170445307576096714}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3667589753803326958, guid: 9d7d3406854e11b42b975f51a53f42c1, type: 3}

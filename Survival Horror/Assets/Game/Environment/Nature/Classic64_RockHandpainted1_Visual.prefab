@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 734480089195024494}
   - component: {fileID: 3396915676883240112}
   - component: {fileID: 9045842690922035135}
+  - component: {fileID: 7122228191781135103}
   m_Layer: 0
   m_Name: Classic64_RockHandpainted1_Part000
   m_TagString: Untagged
@@ -154,3 +155,25 @@ Transform:
   - {fileID: 6626138229952001458}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &7122228191781135103
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6337233711214661373}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1133837698264602655, guid: d86b1903aca54d44c8ed3794250908a8, type: 3}

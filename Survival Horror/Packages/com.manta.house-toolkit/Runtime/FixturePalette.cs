@@ -13,6 +13,7 @@ namespace HouseToolkit
         public FixtureMount mount;
         [Tooltip("Rotate the authored model into its installed orientation.")] public Vector3 modelRotation;
         [Tooltip("Add a point light to a visual-only prefab. Zero keeps its authored lighting.")] [Min(0)] public float lightRange;
+        [Tooltip("Intensity of the point light added by the toolkit.")] [Min(0)] public float lightIntensity = 1f;
     }
 
     [CreateAssetMenu(menuName = "House Toolkit/Fixture Palette")]

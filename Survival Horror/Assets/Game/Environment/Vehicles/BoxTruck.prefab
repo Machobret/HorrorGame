@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7459026766796046904}
   - component: {fileID: 3663687674328111789}
   - component: {fileID: 11400000}
+  - component: {fileID: 6126214443226412256}
   m_Layer: 0
   m_Name: BoxTruck
   m_TagString: Untagged
@@ -106,3 +107,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 0
   placementIdentity: 
+--- !u!64 &6126214443226412256
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5069979655208287455}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 05d21ef02f3118b46876f69f9cb8578f, type: 2}

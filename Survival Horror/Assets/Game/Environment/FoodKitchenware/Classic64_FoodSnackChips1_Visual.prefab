@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 1360101722999291797}
   - component: {fileID: 3528635559772686720}
   - component: {fileID: 614994203357649707}
+  - component: {fileID: 4646822667828471560}
   m_Layer: 0
   m_Name: Classic64_FoodSnackChips1_Part000
   m_TagString: Untagged
@@ -154,3 +155,25 @@ Transform:
   - {fileID: 8655894195884627929}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &4646822667828471560
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3332939388504506033}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7400441363078866246, guid: 6338a0c9ed98c3f4c9ad0481f729aa6b, type: 3}

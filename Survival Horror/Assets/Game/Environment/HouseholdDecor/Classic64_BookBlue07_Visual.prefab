@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7571347866574181360}
   - component: {fileID: 2236880361907896629}
   - component: {fileID: 1142233281254246982}
+  - component: {fileID: 1068097413059123471}
   m_Layer: 0
   m_Name: Classic64_BookBlue07_Part000
   m_TagString: Untagged
@@ -154,3 +155,25 @@ Transform:
   - {fileID: 7571347866574181360}
   m_Father: {fileID: 5338552479869806297}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &1068097413059123471
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3014484119690549322}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8707174970839026573, guid: 1dcf21f8085de8f46922af7def135aa5, type: 3}

@@ -16,25 +16,28 @@ MonoBehaviour:
   - label: Wall light
     prefab: {fileID: 4352859168878914077, guid: 70c56214f00d8f84bad940957e404277, type: 3}
     mount: 0
-    modelRotation: {x: 0, y: 0, z: 0}
-    lightRange: 6
+    modelRotation: {x: 0, y: -90, z: 0}
+    lightRange: 6.5
+    lightIntensity: 0.75
   - label: Ceiling light
     prefab: {fileID: 1616010202186468042, guid: 60db14e8aa2f8204fbc09cd64c7502c2, type: 3}
     mount: 2
     modelRotation: {x: 0, y: 0, z: 0}
     lightRange: 8
+    lightIntensity: 0.75
   - label: Bollard light
     prefab: {fileID: 2597850291939527455, guid: 12178f7f198f732499f810b1e2281788, type: 3}
     mount: 1
     modelRotation: {x: 0, y: 0, z: 0}
     lightRange: 5
+    lightIntensity: 0.75
   - label: Power socket
     prefab: {fileID: 622919538952406093, guid: 39d27f667437de64e8300826833f3604, type: 3}
     mount: 0
-    modelRotation: {x: 0, y: 0, z: 0}
+    modelRotation: {x: 0, y: -90, z: 0}
     lightRange: 0
   - label: Vent cover
     prefab: {fileID: 6966549269211079946, guid: 4c1421869782afd408c033c404ba1152, type: 3}
     mount: 0
-    modelRotation: {x: 0, y: 0, z: 0}
+    modelRotation: {x: 0, y: 90, z: 0}
     lightRange: 0

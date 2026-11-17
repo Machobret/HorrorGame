@@ -95,8 +95,63 @@ public sealed class BuildingFixtureTests
                 }
             }
             Assert.AreEqual(0,nearest,.001f,choice.label);
-            if(choice.lightRange>0) Assert.IsNotNull(fixture.GetComponentInChildren<Light>(),choice.label);
+            if (choice.lightRange > 0)
+            {
+                var light = fixture.GetComponentInChildren<Light>();
+                Assert.AreEqual(choice.lightIntensity, light.intensity, .001f, choice.label);
+                Assert.AreEqual(choice.lightRange, light.range, .001f, choice.label);
+                Assert.AreEqual(LightShadows.None, light.shadows, choice.label);
+            }
         }
+    }
+
+    [TestCase("Wall light", 1, .15f)]
+    [TestCase("Power socket", 1, .035f)]
+    [TestCase("Vent cover", -1, .068f)]
+    public void AuthoredWallFixturesFaceOutwardOnEitherSide(string label, int frontX, float depth)
+    {
+        var wall = floor.GetComponentsInChildren<HouseWall>().First();
+        var choice = palette.fixtures.Single(c => c.label == label);
+        foreach (var side in new[] { 1, -1 })
+        {
+            var normal = wall.transform.forward * side;
+            var point = wall.transform.TransformPoint(new Vector3(1, 1, side * wall.Thickness * .5f));
+            var fixture = FixtureTool.Place(choice, wall.transform, point, side);
+            var model = fixture.transform.GetChild(0);
+            Assert.That(Vector3.Dot(model.right * frontX, normal), Is.GreaterThan(.999f));
+            foreach (var renderer in model.GetComponentsInChildren<Renderer>())
+                foreach (var vertex in renderer.GetComponent<MeshFilter>().sharedMesh.vertices)
+                {
+                    float distance = Vector3.Dot(renderer.transform.TransformPoint(vertex) - point, normal);
+                    Assert.That(distance, Is.InRange(-.001f, depth + .001f), label);
+                }
+        }
+    }
+
+    [Test] public void RefitUpdatesExistingModelAndEmitterInPlaceAndUndoesTogether()
+    {
+        var wall = floor.GetComponentsInChildren<HouseWall>().First();
+        var choice = palette.fixtures.Single(c => c.label == "Wall light");
+        var fixture = FixtureTool.Place(choice, wall.transform, wall.transform.position, -1);
+        var model = fixture.transform.GetChild(0);
+        model.localRotation = Quaternion.identity;
+        model.localPosition = Vector3.zero;
+        var light = fixture.GetComponentInChildren<Light>();
+        light.range = 6;
+        light.intensity = 1;
+        Undo.IncrementCurrentGroup();
+        Assert.IsTrue(FixtureTool.Refit(fixture));
+        Assert.Less(Quaternion.Angle(model.localRotation, Quaternion.Euler(choice.modelRotation)), .001f);
+        Assert.AreEqual(choice.lightIntensity, light.intensity);
+        Assert.AreEqual(choice.lightRange, light.range);
+        Assert.AreSame(light, fixture.GetComponentsInChildren<Light>().Single());
+        Assert.AreSame(choice.prefab, PrefabUtility.GetCorrespondingObjectFromSource(model.gameObject));
+        Undo.FlushUndoRecordObjects();
+        Undo.PerformUndo();
+        Assert.Less(Quaternion.Angle(model.localRotation, Quaternion.identity), .001f);
+        Assert.AreEqual(Vector3.zero, model.localPosition);
+        Assert.AreEqual(1, light.intensity);
+        Assert.AreEqual(6, light.range);
     }
 
     [Test] public void MountsFollowWallSplitMoveAndStoreyHeight()

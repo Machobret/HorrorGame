@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5226454471838854418}
   - component: {fileID: 8742022430315948311}
   - component: {fileID: 4701693922864295166}
+  - component: {fileID: 5802245445168780746}
   m_Layer: 0
   m_Name: Classic64_FoodCereal2_Part000
   m_TagString: Untagged
@@ -154,3 +155,25 @@ Transform:
   - {fileID: 4625155310131410073}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &5802245445168780746
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723864846608681586}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -768759456930559126, guid: 34eb0f689bd12824d83e1d90a80a3e7e, type: 3}

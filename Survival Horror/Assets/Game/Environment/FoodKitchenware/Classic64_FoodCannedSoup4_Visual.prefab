@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 5732494159219381866}
   - component: {fileID: 693160391977201790}
   - component: {fileID: 1787466170081945847}
+  - component: {fileID: 7940808933035879388}
   m_Layer: 0
   m_Name: Classic64_FoodCannedSoup4_Part000
   m_TagString: Untagged
@@ -154,3 +155,25 @@ Transform:
   - {fileID: 6368233544903630063}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &7940808933035879388
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8040739683990520853}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8533687940652460959, guid: f7490f659d1a5be4ab5fa26b2fb3cb54, type: 3}

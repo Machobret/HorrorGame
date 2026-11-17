@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 6785737007059131007}
   - component: {fileID: 6201528355247279417}
   - component: {fileID: 1662907009200377122}
+  - component: {fileID: 4033354368519273663}
   m_Layer: 0
   m_Name: Classic64_PanelAmpControls_Part000
   m_TagString: Untagged
@@ -154,3 +155,25 @@ Transform:
   - {fileID: 394110687676855421}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &4033354368519273663
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336294891746980228}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6352928383285739142, guid: a1e9d4973b0a5ee40b885df9eeafcce0, type: 3}

@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 2782887352123377332}
   - component: {fileID: 8216542169690822375}
   - component: {fileID: 3086118312868537289}
+  - component: {fileID: 2025541098917295576}
   m_Layer: 0
   m_Name: Kitchen_fridge_close_Visual
   m_TagString: Untagged
@@ -123,3 +124,25 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2025541098917295576
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8006986642993382036}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2167091702008177669, guid: 328e9b681fecf1e45ab0b8611e0f4f12, type: 3}

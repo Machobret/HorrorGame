@@ -10,7 +10,7 @@ The finished library lives in the existing functional families under `Assets/Gam
 
 All 732 supplied PNG/JPEG files are represented by runtime textures/materials. Exact-byte matches reuse authoritative pilot or library paths. Embedded Blender images can differ from loose pack images, so both versions are retained where needed. The manifest contains 733 runtime texture records and 739 textured materials, including preserved pilot materials.
 
-Original pixel dimensions, point filtering, mipmaps and uncompressed texture settings match the pilot. Source alpha uses clipping and coverage-preserving mipmaps. No atlas or new unwrap is introduced. Thin prop materials render double-sided. These are art-only prefabs; consumers assign collision, pickups, doors and navigation behavior. Existing downloaded-prop assets and their import ledger are unchanged. Retained pilot models, materials and metadata are preserved. The pilot door was explicitly removed and its review scenes updated under the later geometry scope.
+Original pixel dimensions, point filtering, mipmaps and uncompressed texture settings match the pilot. Source alpha uses clipping and coverage-preserving mipmaps. No atlas or new unwrap is introduced. Thin prop materials render double-sided. Placeable visual prefabs now include static collision; consumers assign pickups, doors and navigation behavior. `Tools/Environment/prefab_collision.py` records the project-wide collision maintenance separately from the historical import receipts. Retained pilot models, materials and metadata are preserved. The pilot door was explicitly removed and its review scenes updated under the later geometry scope.
 
 ## Source conversion and limitations
 

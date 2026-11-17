@@ -76,6 +76,7 @@ GameObject:
   - component: {fileID: 1793604323663514098}
   - component: {fileID: 5632591531819376306}
   - component: {fileID: 8351660994213627643}
+  - component: {fileID: 217767211026997424}
   m_Layer: 0
   m_Name: Classic64_SignReservedParking_Part001
   m_TagString: Untagged
@@ -166,6 +167,7 @@ GameObject:
   - component: {fileID: 3374939686721985628}
   - component: {fileID: 6038595965380030224}
   - component: {fileID: 9066329514839633202}
+  - component: {fileID: 2226644532962874520}
   m_Layer: 0
   m_Name: Classic64_SignReservedParking_Part000
   m_TagString: Untagged
@@ -245,3 +247,47 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &217767211026997424
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4353335422484361970}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4715400649496263165, guid: 99de70aa883d16b4ca30b93e2a76e4b4, type: 3}
+--- !u!64 &2226644532962874520
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7567999486965920523}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1402833751253156473, guid: 99de70aa883d16b4ca30b93e2a76e4b4, type: 3}

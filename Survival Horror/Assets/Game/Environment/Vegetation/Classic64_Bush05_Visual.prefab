@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5702495101864521845}
   - component: {fileID: 8163922356609574738}
   - component: {fileID: 5929852335358675692}
+  - component: {fileID: 239535425020814382}
   m_Layer: 0
   m_Name: Classic64_Bush05_Part000
   m_TagString: Untagged
@@ -154,3 +155,25 @@ Transform:
   - {fileID: 5702495101864521845}
   m_Father: {fileID: 8693118345809920996}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &239535425020814382
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4371204984310563352}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2075111979387108414, guid: aa3aae5bcfc495d44af1e3bc8ca65ebd, type: 3}

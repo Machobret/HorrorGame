@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 3459309584454877578}
   - component: {fileID: 1549291831826220423}
   - component: {fileID: 6208760812421885326}
+  - component: {fileID: 5731054732317818849}
   m_Layer: 0
   m_Name: Classic64_DrinkCanSoda2_Part000
   m_TagString: Untagged
@@ -154,3 +155,25 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5731054732317818849
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6385264798872842544}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1052219840340295166, guid: 66b285b1696b9ca4ab1922d8cbb4d1c7, type: 3}
