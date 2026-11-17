@@ -37,7 +37,7 @@ namespace HouseToolkit.Editor
             if (node.TryGetComponent<House>(out var owner) && owner != house) yield break;
             if (node.TryGetComponent<HouseFloor>(out var level) && level.House != house) yield break;
             if (node == house.transform || node.GetComponent<HouseFloor>() || node.GetComponent<HouseRoom>() ||
-                node.GetComponent<RoomContents>() || house.transform.IsChildOf(node))
+                node.GetComponent<RoomContents>() || house.transform.IsChildOf(node) || EnvironmentHierarchy.IsCategoryGroup(node))
             {
                 foreach (var child in Children(node))
                     foreach (var item in Candidates(child, house)) yield return item;

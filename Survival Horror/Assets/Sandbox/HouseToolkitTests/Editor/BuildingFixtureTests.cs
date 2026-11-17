@@ -49,6 +49,25 @@ public sealed class BuildingFixtureTests
         Assert.AreSame(keep,other.transform.parent);
     }
 
+    [Test] public void LooseSceneryKeepsItsPrefabAndCanStillBeAssignedToARoom()
+    {
+        var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Game/Environment/StorageBoxes/StorageBox_NoCollision.prefab");
+        var inside = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+        var outside = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+        var pos = inside.transform.position = floor.World(new Vector2(2, 2)) + floor.transform.up * .2f;
+        outside.transform.position = Vector3.one * 100;
+        EnvironmentHierarchy.Organize(house.gameObject.scene);
+        Assert.AreEqual("Props", inside.transform.parent.name);
+        Assert.AreSame(inside.transform.parent, outside.transform.parent);
+        Assert.That(Vector3.Distance(pos, inside.transform.position), Is.LessThan(.0001f));
+        Assert.AreSame(prefab, PrefabUtility.GetCorrespondingObjectFromSource(inside));
+        RoomAssignment.Assign(house);
+        Assert.IsNotNull(inside.GetComponentInParent<HouseRoom>());
+        Assert.AreEqual("Props", outside.transform.parent.name);
+        EnvironmentHierarchy.Organize(house.gameObject.scene);
+        Assert.IsNotNull(inside.GetComponentInParent<HouseRoom>());
+    }
+
     [Test] public void SwatchesPlaceTheirLinkedModelsFlushWithTheMount()
     {
         var wall=floor.GetComponentsInChildren<HouseWall>().First();
