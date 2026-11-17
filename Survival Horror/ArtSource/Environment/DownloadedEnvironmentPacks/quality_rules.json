@@ -141,7 +141,7 @@
     "P0981": "Source layout fragments across 47.7 metres"
   },
   "notes": {
-    "scale": "Models Pack PSX has uncalibrated source scale. Examples: a bed is 4.86 m long, a door 4.36 m tall, and the sedan 7.36 m long. Hold this pack for per-family calibration; no blanket scale correction is inferred.",
+    "scale": "Scale has not been checked for this entry. Calibrated entries are recorded separately in ArtSource/Environment/ScaleCalibration/ScaleReceipt.json.",
     "background": "Low-detail shop displays with baked product imagery are suitable only for distant/background dressing, not close first-person inspection or interactable shelving.",
     "exclusion": "Exclude these source sample/layout assemblies from the placement shortlist; split/rebuild them if needed. This is not a deletion instruction."
   },

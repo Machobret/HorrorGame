@@ -241,6 +241,8 @@ namespace HouseToolkit.Editor
                 // Unity can drill into a selected rack on subsequent clicks.
                 var fixture = go.GetComponentInParent<FixtureAttachment>();
                 if (fixture) return fixture.gameObject;
+                var marking = go.GetComponentInParent<ProceduralMarking>();
+                if (marking && marking.IsGeneratedPart(go.transform)) return marking.gameObject;
                 var shelf = go.GetComponentInParent<ProceduralShelf>();
                 if (shelf && shelf.IsGeneratedPart(go.transform)) return shelf.gameObject;
                 // Only generated architecture belongs to the house selection. Prefab inserts

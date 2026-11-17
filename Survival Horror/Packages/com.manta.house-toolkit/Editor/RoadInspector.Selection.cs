@@ -43,7 +43,7 @@ namespace HouseToolkit.Editor
                         v=>(RoadOverride)EditorGUILayout.EnumPopup(left?"Left sidewalk":"Right sidewalk",v),(g,h,v)=>Side(g,h).sidewalk=v);
                 }
             }
-            if(part==RoadPart.Path && !(road is ProceduralShelf))
+            if(part==RoadPart.Path && !(road is ProceduralShelf || road is ProceduralMarking))
             {
                 PavementDefaults(road,true);
                 SidewalkRunStyle Run(RoadGraph g,RoadHit h)=>g.RunStyle(g.Span(h.id).run);
@@ -65,7 +65,7 @@ namespace HouseToolkit.Editor
                 var pivot=hits.Aggregate(Vector3.zero,(v,h)=>v+graph.Node(h.id).position)/hits.Length;
                 EditorGUI.BeginChangeCheck();
                 var location=EditorGUILayout.Vector3Field(hits.Length==1?"Location (m)":"Selection location (m)",pivot);
-                if(paths)location.y=pivot.y;
+                if(paths && !(road is ProceduralPath elevated && elevated.Elevated))location.y=pivot.y;
                 if(EditorGUI.EndChangeCheck()) Edit("Move points",(g,h)=>{
                     if(hits.Length==1) RoadEditing.Move(g,h.id,location);
                     else g.Node(h.id).position+=location-pivot;

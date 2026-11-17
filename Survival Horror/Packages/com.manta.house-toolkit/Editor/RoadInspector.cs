@@ -12,6 +12,7 @@ namespace HouseToolkit.Editor
         static readonly string[] RoadTabs = { "Road", "Selection", "Tool Properties" };
         static readonly string[] SidewalkTabs = { "Sidewalk", "Selection", "Tool Properties" };
         static readonly string[] GroundTabs = { "Ground Area", "Selection", "Tool Properties" };
+        static readonly string[] MarkingTabs = { "Marking", "Selection", "Tool Properties" };
         static readonly string[] ShelfTabs = { "Shelf", "Selection", "Tool Properties" };
         static Tab tab;
         UnityEditor.Editor familyEditor;
@@ -45,7 +46,31 @@ namespace HouseToolkit.Editor
             bool editing = RoadScene.Active == road;
             if (!editing && GUILayout.Button(RoadScene.EditLabel(road))) RoadScene.Enter(road);
             if(road is FillerBuilding building){DrawFiller(building,editing);return;}
-            if (editing) tab = (Tab)GUILayout.Toolbar((int)tab, road is RoadNetwork ? RoadTabs : road is ProceduralShelf ? ShelfTabs : road is ProceduralSidewalk ? SidewalkTabs : GroundTabs);
+            if (editing) tab = (Tab)GUILayout.Toolbar((int)tab, road is RoadNetwork ? RoadTabs : road is ProceduralMarking ? MarkingTabs : road is ProceduralShelf ? ShelfTabs : road is ProceduralSidewalk ? SidewalkTabs : GroundTabs);
+            if(road is ProceduralMarking marking && (!editing || tab!=Tab.Selection))
+            {
+                serializedObject.Update();
+                if(editing && tab==Tab.Tool)
+                {
+                    PlanSnapping.Grid=EditorGUILayout.DelayedFloatField("Grid spacing (m)",PlanSnapping.Grid);
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("attachToSurface"),new GUIContent("Attach to surface"));
+                    EditorGUILayout.HelpBox("Draw on floors and ramps; gaps omit only unsupported paint. Add a point at each slope change. The Y gizmo always allows manual height adjustment.",MessageType.Info);
+                }
+                else
+                {
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("width"),new GUIContent("Width (m)"));
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("color"));
+                    var wear=serializedObject.FindProperty("wear");
+                    wear.floatValue=EditorGUILayout.Slider(new GUIContent("Wear","0: fresh. 1: heavily chipped. 2: completely worn away. Values above 1 erode the remaining paint into smaller patches."),wear.floatValue,0,2);
+                    var scale=serializedObject.FindProperty("wearScale");
+                    scale.floatValue=EditorGUILayout.Slider(new GUIContent("Wear scale","Size of the worn patches. 1 keeps the original pattern; higher values make larger chips."),scale.floatValue,.1f,8);
+                    if(GUILayout.Button("Reseed wear"))serializedObject.FindProperty("seed").intValue=Guid.NewGuid().GetHashCode();
+                    if(GUILayout.Button("Refit to surface"))MarkingPlacement.Refit(marking);
+                }
+                if(serializedObject.ApplyModifiedProperties())marking.Rebuild();
+                if(!string.IsNullOrEmpty(RoadScene.Message))EditorGUILayout.HelpBox(RoadScene.Message,MessageType.Info);
+                return;
+            }
             if (road is ProceduralShelf shelf && (!editing || tab != Tab.Selection))
             {
                 if (editing && tab == Tab.Tool)

@@ -179,6 +179,27 @@ def main():
     maintained = {a['id']: a for a in maintenance['assets']} if maintenance else {}
     removed = set(maintenance['removed_prefabs']) if maintenance else set()
     assets = [classify(a, metrics[a['id']], rules, maintained.get(a['id']), a['prefab'] in removed) for a in original['assets']]
+    scale_path = PROJECT / 'ArtSource/Environment/ScaleCalibration/ScaleReceipt.json'
+    if scale_path.exists():
+        scale = read(scale_path)
+        assert scale['verified']
+        calibrated = {a['path']: a for a in scale['assets']}
+        for a in assets:
+            correction = calibrated.get(a['prefab'])
+            if correction is None or a['status'] == 'Removed':
+                continue
+            a['source_bounds_m'] = list(a['bounds_m'])
+            a['bounds_m'] = correction['size_m']
+            a['scale_correction'] = correction['factor']
+            a['scale_reference'] = correction['reference']
+            a['flags'] = [f for f in a['flags'] if f != 'ScaleReview']
+            a['reasons'] = [r for r in a['reasons'] if r != rules['notes']['scale'] and not r.startswith('Models Pack PSX has uncalibrated')]
+            a['reasons'].append('Metre scale calibrated: ' + correction['role'] + '; ' + correction['reference'])
+            a['status'] = 'BackgroundOnly' if 'ProxyGeometry' in a['flags'] else 'Review' if a['flags'] else 'Keep'
+            a['labels'] = ['DownloadedPack', 'Downloaded' + a['status']] + ['Downloaded' + f for f in a['flags']] + ['ScaleCalibrated']
+            if a['pack'] == 'ModelsPackPSX':
+                a['labels'].append('DownloadedScaleCalibrated')
+            a['metrics']['surface_area_m2'] *= correction['factor'] ** 2
     counts = dict(collections.Counter(a["status"] for a in assets))
     catalog = {"scope": rules["scope"], "review_method": "All 1,141 prefabs rendered from two opposing angles, all front contact sheets visually screened, ambiguous proxies/parts checked from the reverse angle; source materials, dimensions and mesh metrics audited.",
                "keep_meaning": "A visual placement candidate in the chosen scope; not a full in-game, collision traversal or interaction certification.",

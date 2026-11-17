@@ -8,7 +8,7 @@ namespace HouseToolkit.Editor
     [EditorTool("Place environment object")]
     public sealed class EnvironmentPlacementTool : EditorTool
     {
-        internal enum Kind { House, Road, Sidewalk, GroundArea, FillerBuilding, Wall, Shelf }
+        internal enum Kind { House, Road, Sidewalk, GroundArea, FillerBuilding, Wall, Shelf, Marking }
         internal static EnvironmentPlacementTool Pending => ToolManager.activeToolType == typeof(EnvironmentPlacementTool)
             ? Resources.FindObjectsOfTypeAll<EnvironmentPlacementTool>().FirstOrDefault(ToolManager.IsActiveTool) : null;
         internal Kind choice;
@@ -26,6 +26,8 @@ namespace HouseToolkit.Editor
 
         [MenuItem("GameObject/Environment/Standalone Wall",false,15)] static void Wall() => Arm(Kind.Wall);
         [MenuItem("GameObject/Environment/Shelf",false,16)] static void Shelf() => Arm(Kind.Shelf);
+
+        [MenuItem("GameObject/Environment/Marking",false,17)] static void Marking() => Arm(Kind.Marking);
 
         internal static void Arm(Kind kind,SceneView view=null)
         {
@@ -58,6 +60,7 @@ namespace HouseToolkit.Editor
                     if(!new Plane(Vector3.up,Vector3.zero).Raycast(ray,out float distance)){cursor=null;return;}
                     point=ray.GetPoint(distance);
                 }
+                if(choice==Kind.Marking && MarkingPlacement.Cursor(ray,Vector3.up,out var groundPoint))point=groundPoint;
                 var plan=PlanSnapping.FloorPoint(new Vector2(point.x,point.z),null,false,e.alt,PlanSnapping.Grid);
                 cursor=new Vector3(plan.x,point.y,plan.y);
                 if(e.type==EventType.Repaint)
@@ -81,6 +84,7 @@ namespace HouseToolkit.Editor
             if(Tools.current==Tool.View)Tools.current=Tool.Move;
             if(kind==Kind.House || kind==Kind.Wall)HouseScene.CreateAt(position,true,kind==Kind.Wall);
             else if(kind==Kind.FillerBuilding)RoadScene.CreateFillerAt(position);
+            else if(kind==Kind.Marking)RoadScene.CreateMarkingAt(position);
             else if(kind==Kind.Shelf)RoadScene.CreateShelfAt(position);
             else RoadScene.CreateAt(kind==Kind.Sidewalk ? RoadScene.Brush.Sidewalk :
                 kind==Kind.GroundArea ? RoadScene.Brush.Ground : RoadScene.Brush.Road,position,true);

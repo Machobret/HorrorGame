@@ -35,6 +35,7 @@ namespace HouseToolkit.Editor
             return item.TryGetComponent<House>(out var house) ? (house.wallsOnly ? "Standalone Walls" : "Buildings")
                 : item.GetComponent<FillerBuilding>() ? "Buildings"
                 : item.GetComponent<RoadNetwork>() ? "Roads"
+                : item.GetComponent<ProceduralMarking>() ? "Markings"
                 : item.GetComponent<ProceduralShelf>() ? "Shelves"
                 : item.GetComponent<GroundArea>() ? "Ground Areas"
                 : item.GetComponent<ProceduralSidewalk>() ? "Sidewalks"

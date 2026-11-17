@@ -1,4 +1,13 @@
-﻿# House Toolkit
+# House Toolkit
+
+## Warehouse markings
+
+Choose **Environment Tools → Marking** (also **GameObject → Environment → Marking**), then draw a path on the floor. In **Procedural Env Properties → Marking**, set **Width (m)**, **Color**, **Wear**, and **Wear scale**. Wear runs from 0 (fresh) through 1 (heavily chipped) to 2 (fully worn away); above 1, connected scuffs erode the remaining paint into smaller patches. Wear scale defaults to 1; larger values make larger worn patches and smaller values make finer chips. Both use per-instance shader data and retain the shared material. **Reseed wear** changes the chips without making a new material. **Selection** edits point locations, including Y. Points and whole segments have XYZ gizmos; Shift constrains horizontal movement, Alt disables snapping, double-click inserts a point, Delete dissolves a two-segment point, and F frames the selection. Vertical gizmo movement preserves the point's off-grid X/Z position.
+
+**Tool Properties → Attach to surface** fits drawing to supporting floor/ramp colliders. Toolkit walls, doors, frames and fixtures do not divert the paint. Paint can continue beneath walls even when adjacent room slabs stop at the wall boundary. Across genuine gaps, supported stretches are kept and only unsupported portions are omitted, together in one Undo; the drawing chain continues. The preview shows supported stretches in green and gaps in red. Add points at slope changes. Explicit Y movement remains manual. **Refit to surface** refits existing points and clips unsupported stretches while preserving supported paint. Surface fitting samples every 5 cm with refined transition boundaries; smaller holes are outside its resolution.
+
+Markings automatically live under **Markings**. Every strip and bounded corner uses the same quad mesh and shared instanced paint material, with tint, wear, seed and corner positions passed per instance. They create no gameplay colliders and perform no runtime surface queries. The warehouse review scene is `Assets/Sandbox/Markings/WarehouseMarkings.unity`; recreate it with **Tools → Procedural Environment → Create Marking Example**. It demonstrates fresh/default/heavily worn paint, angular corners, and a ramp transitioning onto a landing.
+
 
 Open `Assets/Game/Levels/Chapter0/Scenes/StartingLevel.unity` to draw the new starting level. Select **House → Edit House**. The ground floor starts empty, with Mottled Grey Concrete inside and overhead, Red Brick with Pale Mortar outside, and Honey Strip Flooring underfoot. This is an authoring scene. The main menu still starts the existing game.
 

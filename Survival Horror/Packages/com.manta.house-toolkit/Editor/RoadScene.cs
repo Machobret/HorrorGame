@@ -12,7 +12,7 @@ namespace HouseToolkit.Editor
         internal static ProceduralSurface Active { get; private set; }
         internal static readonly SceneSelection<RoadHit> Picks = new SceneSelection<RoadHit>(Same, TypeName);
         internal static RoadHit Selected => Picks.Active;
-        internal static string PathName => Active is ProceduralShelf ? "Shelf" : "Sidewalk";
+        internal static string PathName => Active is ProceduralMarking ? "Marking" : Active is ProceduralShelf ? "Shelf" : "Sidewalk";
         static string TypeName(RoadHit hit) => hit.part switch
         {
             RoadPart.None => null, RoadPart.Path => PathName+" segment", RoadPart.PathPoint => PathName+" point",
@@ -67,6 +67,14 @@ namespace HouseToolkit.Editor
             StartDrawing(source,brush,startChain);
         }
 
+        internal static void CreateMarkingAt(Vector3 position)
+        {
+            var go=new GameObject("Marking"); go.transform.position=position;
+            var marking=go.AddComponent<ProceduralMarking>();
+            marking.seed=Guid.NewGuid().GetHashCode();
+            StartDrawing(marking,Brush.Sidewalk,true);
+        }
+
         internal static void CreateShelfAt(Vector3 position)
         {
             var go = new GameObject("Shelf");
@@ -95,7 +103,7 @@ namespace HouseToolkit.Editor
             if(brush==Brush.Road)RoadInspector.ShowRoad();
         }
         internal static string EditLabel(ProceduralSurface source) => source is FillerBuilding ? "Edit Filler Building" : source is GroundArea ? "Edit Ground Area" :
-            source is ProceduralShelf ? "Edit Shelf" : source is ProceduralSidewalk ? "Edit Sidewalk" : "Edit Roads";
+            source is ProceduralMarking ? "Edit Marking" : source is ProceduralShelf ? "Edit Shelf" : source is ProceduralSidewalk ? "Edit Sidewalk" : "Edit Roads";
 
         internal static void Enter(ProceduralSurface road)
         {
@@ -113,6 +121,7 @@ namespace HouseToolkit.Editor
             if(Active)Tools.hidden=hidden;
             indexedPlan=null;corners.Clear();CancelPavementMove();
             previewSource=null;previewRack=null;previewFamily=null;
+            paintPreview=null;paintStretches=null;
             Active=null;Mode=Brush.Select;DrawFamily=null;Picks.Pick(default,false);SelectedRoads.Clear();EndChain();
             if(selectionControl!=0 && GUIUtility.hotControl==selectionControl)GUIUtility.hotControl=0;
             selectionControl=0;pressedHit=default;pointerView=null;roadDelta=null;movePreview=null;movingPoint=0;Message=null;SceneView.RepaintAll();
@@ -182,7 +191,7 @@ namespace HouseToolkit.Editor
                     Active.Paths.spans.Select(s=>(Flat(Active.Paths.Node(s.start.node).position),Flat(Active.Paths.Node(s.end.node).position)));
             var plan = PlanSnapping.Snap(Flat(point),free,axis,PlanSnapping.Grid,endpoints,segments,
                 (a,b)=>Vector2.Distance(Pixel(Local(a,point.y)),Pixel(Local(b,point.y))),from.HasValue ? drawGuides : null,from,guideEdges);
-            if (pavement) return Local(plan,Active.PavementElevation);
+            if (pavement) return Local(plan,ElevatedPath ? point.y : Active.PavementElevation);
             if(!free)
             {
                 foreach(var n in nodes)if((plan-Flat(n.position)).sqrMagnitude<1e-8f)return n.position;
@@ -213,15 +222,27 @@ namespace HouseToolkit.Editor
             }
             if (Mode == Brush.Sidewalk)
             {
+                var stretches=Active is ProceduralMarking marking && marking.attachToSurface ? MarkingPlacement.Stretches(marking,a,p) :
+                    new List<(Vector3 a,Vector3 b)>{(a,p)};
+                if(stretches.Count==0)
+                {
+                    if(finishes)EndChain();else {anchor=p;anchorId=0;}
+                    Message="No paint over this gap. Continue drawing on a supported surface.";Repaint();return;
+                }
                 int endId=0, pathRun=0;
                 if (ChangePaths("Draw "+PathName,g=>{
-                    var start=RoadEditing.Point(g,Local(Flat(a),0));
-                    var end=RoadEditing.Point(g,Local(point,0));
-                    endId=end.id;
-                    pathRun=RoadEditing.Extend(g,start.id,end.id,run,null).run;
+                    foreach(var stretch in stretches)
+                    {
+                        var start=RoadEditing.Point(g,ElevatedPath ? stretch.a : Local(Flat(stretch.a),0));
+                        var end=RoadEditing.Point(g,ElevatedPath ? stretch.b : Local(Flat(stretch.b),0));
+                        endId=(stretch.b-p).sqrMagnitude<1e-8f ? end.id : 0;
+                        pathRun=RoadEditing.Extend(g,start.id,end.id,pathRun!=0 ? pathRun : run,null).run;
+                    }
                 }))
                 {
                     if (finishes) EndChain(); else { anchor=p; anchorId=endId; run=pathRun; }
+                    if(stretches.Count!=1 || (stretches[0].a-a).sqrMagnitude>1e-8f || (stretches[0].b-p).sqrMagnitude>1e-8f)
+                        Message="Unsupported portions omitted; supported paint kept.";
                 }
                 return;
             }
@@ -325,7 +346,7 @@ namespace HouseToolkit.Editor
             bounds=default;
             if (selected.part == RoadPart.PathPoint && Active.Paths.Node(selected.id) is RoadNode point)
             {
-                bounds = new Bounds(World(Local(Flat(point.position),Active.PavementElevation)),Vector3.one);
+                bounds = new Bounds(World(PathPoint(point)),Vector3.one);
                 return true;
             }
             if(selected.part==RoadPart.GroundPoint && Active.Areas.edges.Find(e=>e.id==selected.id) is GroundEdge line)
@@ -364,6 +385,12 @@ namespace HouseToolkit.Editor
                         bounds.Encapsulate(World(side + Vector3.up * shelf.Height));
                     }
                 return true;
+            }
+            if(selected.part==RoadPart.Path && ElevatedPath && Active.Paths.Span(selected.id) is RoadSpan pathSpan)
+            {
+                bounds=new Bounds(World(PathPoint(Active.Paths.Node(pathSpan.start.node))),Vector3.zero);
+                bounds.Encapsulate(World(PathPoint(Active.Paths.Node(pathSpan.end.node))));
+                bounds.Expand(Active.PathWidth);return true;
             }
             var mesh=Active.GetComponent<MeshCollider>()?.sharedMesh;
             if(!mesh)return false;
@@ -478,13 +505,15 @@ namespace HouseToolkit.Editor
                 }
             }
             bool insertBoundary=!Drawing && e.type==EventType.MouseDown && e.button==0 && e.clickCount==2 &&
-                !e.alt && GUIUtility.hotControl==0 && Active.Areas.edges.Count!=0;
+                !e.alt && GUIUtility.hotControl==0 && (Active.Areas.edges.Count!=0 || ElevatedPath);
             // The first click selects the edge and can put a move handle under the second click.
             if(!Drawing && !insertBoundary && PavementHandles(view,e,ray))return;
             float y=anchor?.y??(Paving ? Active.PavementElevation : 0);
             bool onPlane=new Plane(Active.transform.up,World(Vector3.up*y)).Raycast(ray,out var depth);
             if(!onPlane && (Drawing || !(Active is FillerBuilding || Active is ProceduralShelf)))return;
             var position=Active.transform.InverseTransformPoint(ray.GetPoint(depth));
+            if(Drawing && Active is ProceduralMarking paint && paint.attachToSurface &&
+                MarkingPlacement.Cursor(paint,ray,out var surfacePoint))position=surfacePoint;
             var collider=Active.GetComponent<MeshCollider>();
             var hit=default(RoadHit);
             if(collider && collider.sharedMesh && collider.Raycast(ray,out var info,float.PositiveInfinity) &&
@@ -495,6 +524,8 @@ namespace HouseToolkit.Editor
             }
             if (!Drawing && Active is ProceduralShelf shelf)
                 PickShelf(shelf, ray, ref hit, ref position);
+            if(!Drawing && Active is ProceduralMarking pickedMarking && MarkingPlacement.Pick(pickedMarking,ray,out var paintHit,out var paintPoint,out _))
+            {hit=paintHit;position=paintPoint;}
             float nearest=10;
             foreach(var n in graph.nodes)
             {
@@ -530,11 +561,17 @@ namespace HouseToolkit.Editor
             if(Drawing)
             {
                 var point=Snap(position,e.shift && anchor.HasValue?Flat(anchor.Value):(Vector2?)null,e.alt,pavement:Paving,from:anchor.HasValue ? Flat(anchor.Value) : (Vector2?)null);
+                bool supported=true;
+                if(Active is ProceduralMarking marking && marking.attachToSurface)
+                {
+                    supported=MarkingPlacement.Surface(marking,point,out var fitted);
+                    if(supported)point=fitted;
+                }
                 CursorGrid.Draw(view,Active.transform,Flat(point),point.y);
                 if(anchor.HasValue)drawGuides.Draw(Flat(point),p=>World(Local(p,point.y)));
                 if(e.type==EventType.Repaint)
                 {
-                    Handles.color=Color.green;
+                    Handles.color=supported ? Color.green : Color.red;
                     Handles.DotHandleCap(0,World(point),Quaternion.identity,HandleUtility.GetHandleSize(World(point))*.07f,EventType.Repaint);
                     if(anchor.HasValue)
                     {
@@ -544,6 +581,7 @@ namespace HouseToolkit.Editor
                 }
                 if(e.rawType==EventType.MouseDown && e.button==0)
                 {
+                    if(!supported && !anchor.HasValue){Message="Start on a supporting surface.";e.Use();Repaint();return;}
                     pointElevation=point.y;
                     bool finish=Paving ? OnPavement(Flat(point)) : graph.spans.Any(s=>(Flat(point)-PlanSnapping.Project(Flat(point),
                         Flat(graph.Node(s.start.node).position),Flat(graph.Node(s.end.node).position))).sqrMagnitude<1e-8f);

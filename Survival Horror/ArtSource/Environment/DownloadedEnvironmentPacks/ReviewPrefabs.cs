@@ -182,7 +182,7 @@ public static class DownloadedPrefabReview
             var input = JsonUtility.FromJson<Input>(File.ReadAllText("QualityCatalog.json"));
             var owned = new HashSet<string>(new[] { "DownloadedPack", "DownloadedKeep", "DownloadedReview", "DownloadedRepair", "DownloadedBackgroundOnly", "DownloadedExclude",
                 "DownloadedMissingTextures", "DownloadedFallbackMaterial", "DownloadedScaleReview", "DownloadedArchitectureReview", "DownloadedComponents", "DownloadedVegetationReview",
-                "DownloadedSettingReview", "DownloadedGeometryCleanup", "DownloadedProxyGeometry", "DownloadedSampleLayout", "DownloadedInvalidGeometry", "DownloadedVisualQualityReview" });
+                "DownloadedSettingReview", "DownloadedGeometryCleanup", "DownloadedProxyGeometry", "DownloadedSampleLayout", "DownloadedInvalidGeometry", "DownloadedVisualQualityReview", "DownloadedScaleCalibrated" });
             foreach (var entry in input.assets)
             {
                 if (AssetDatabase.AssetPathToGUID(entry.prefab) != entry.guid) throw new InvalidOperationException("GUID mismatch: " + entry.prefab);

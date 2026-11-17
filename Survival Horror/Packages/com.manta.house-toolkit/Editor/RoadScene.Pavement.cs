@@ -14,6 +14,11 @@ namespace HouseToolkit.Editor
         static HashSet<Vector2> movingPavement;
         static Vector2 pavementOrigin, pavementDelta;
         static SceneView pavementView;
+        static ProceduralMarking paintPreview;
+        static Vector3 paintStart,paintEnd;
+        static float paintWidth;
+        static Matrix4x4 paintTransform;
+        static List<(Vector3 a,Vector3 b)> paintStretches;
 
         static Dictionary<Vector2,RoadHit> Corners
         {
@@ -69,6 +74,28 @@ namespace HouseToolkit.Editor
 
         static void PreviewSidewalk(Vector3 start, Vector3 end)
         {
+            if(ElevatedPath)
+            {
+                var half=Vector3.Cross(Vector3.up,end-start).normalized*(Active.PathWidth*.5f);
+                if(Active is ProceduralMarking paint && paint.attachToSurface)
+                {
+                    if(paintPreview!=paint || paintStart!=start || paintEnd!=end || paintWidth!=paint.width || paintTransform!=paint.transform.localToWorldMatrix)
+                    {
+                        paintPreview=paint;paintStart=start;paintEnd=end;paintWidth=paint.width;paintTransform=paint.transform.localToWorldMatrix;
+                        paintStretches=MarkingPlacement.Stretches(paint,start,end);
+                    }
+                    var oldColor=Handles.color;
+                    Handles.color=new Color(1,.35f,.25f);Handles.DrawAAPolyLine(2,World(start),World(end));
+                    Handles.color=Color.green;
+                    foreach(var piece in paintStretches)
+                    {
+                        Handles.DrawAAPolyLine(3,World(piece.a),World(piece.b));
+                        Handles.DrawAAPolyLine(2,World(piece.a-half),World(piece.a+half),World(piece.b+half),World(piece.b-half),World(piece.a-half));
+                    }
+                    Handles.color=oldColor;return;
+                }
+                Handles.DrawAAPolyLine(2,World(start-half),World(start+half),World(end+half),World(end-half),World(start-half));return;
+            }
             if (Active is ProceduralShelf shelf && shelf.family && shelf.family.deck && shelf.family.frame)
             {
                 PreviewShelf(shelf, start, end);
@@ -151,7 +178,7 @@ namespace HouseToolkit.Editor
             }
             foreach (var n in Active.Paths.nodes)
             {
-                var pixel=HandleUtility.WorldToGUIPoint(PavementWorld(Flat(n.position)));
+                var pixel=HandleUtility.WorldToGUIPoint(World(PathPoint(n)));
                 float d=Vector2.Distance(pixel,mouse);
                 if (d >= nearest) continue;
                 nearest=d; hit=new RoadHit(RoadPart.PathPoint,n.id);
@@ -203,13 +230,14 @@ namespace HouseToolkit.Editor
             foreach (var span in Active.Paths.spans)
             {
                 var hit=new RoadHit(RoadPart.Path,span.id);
-                if (Mode!=Brush.Sidewalk && !Picks.Has(hit) && !Same(hit,hover) && !(movingPavement!=null && Selected.part==RoadPart.PathPoint)) continue;
+                if (!ElevatedPath && Mode!=Brush.Sidewalk && !Picks.Has(hit) && !Same(hit,hover) && !(movingPavement!=null && Selected.part==RoadPart.PathPoint)) continue;
                 Handles.color=Picks.Has(hit) ? Color.yellow : blue;
-                Line(Preview(Flat(Active.Paths.Node(span.start.node).position),true),Preview(Flat(Active.Paths.Node(span.end.node).position),true));
+                if(ElevatedPath)Handles.DrawAAPolyLine(2,World(PathPoint(Active.Paths.Node(span.start.node))),World(PathPoint(Active.Paths.Node(span.end.node))));
+                else Line(Preview(Flat(Active.Paths.Node(span.start.node).position),true),Preview(Flat(Active.Paths.Node(span.end.node).position),true));
             }
             foreach (var n in Active.Paths.nodes)
             {
-                var point=PavementWorld(Preview(Flat(n.position),true));
+                var point=ElevatedPath ? World(PathPoint(n)) : PavementWorld(Preview(Flat(n.position),true));
                 Handles.color=Picks.Has(new RoadHit(RoadPart.PathPoint,n.id)) ? Color.yellow : blue;
                 Handles.DotHandleCap(0,point,Quaternion.identity,HandleUtility.GetHandleSize(point)*.05f,EventType.Repaint);
             }
@@ -221,7 +249,9 @@ namespace HouseToolkit.Editor
             if(ChangePaths("Insert sidewalk point",g=>{
                 var span=g.Span(id);
                 var plan=PlanSnapping.Project(position,Flat(g.Node(span.start.node).position),Flat(g.Node(span.end.node).position));
-                var node=RoadEditing.Point(g,Local(plan,0));
+                var a=g.Node(span.start.node).position;var b=g.Node(span.end.node).position;
+                float t=Vector2.Dot(plan-Flat(a),Flat(b-a))/Flat(b-a).sqrMagnitude;
+                var node=RoadEditing.Point(g,ElevatedPath ? Vector3.Lerp(a,b,t) : Local(plan,0));
                 RoadEditing.Split(g,span,node);
                 inserted=node.id;
             })) Pick(new RoadHit(RoadPart.PathPoint,inserted));
@@ -251,6 +281,7 @@ namespace HouseToolkit.Editor
 
         static void CancelPavementMove()
         {
+            CancelElevatedMove();
             movingPavement=null;
             pavementView=null;
             pavementDelta=Vector2.zero;
@@ -258,6 +289,7 @@ namespace HouseToolkit.Editor
 
         static bool PavementHandles(SceneView view, Event e, Ray ray)
         {
+            if(ElevatedPath)return ElevatedHandles(view,e,ray);
             bool released=e.rawType==EventType.MouseUp && e.button==0;
             if(pavementView && pavementView!=view)return false;
             bool direct=pointerView && MovablePavement(pressedHit.part);

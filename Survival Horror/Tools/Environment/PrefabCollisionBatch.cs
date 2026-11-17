@@ -102,6 +102,7 @@ public static class PrefabCollisionBatch
         finally{Object.DestroyImmediate(clone);}
         return failures.ToArray();
     }
+    public static string[] VerifyPrefabPhysics(GameObject root,out int count)=>CheckPhysics(root,out count);
     static int Depth(string path,HashSet<string> visiting=null)
     {
         visiting=visiting??new HashSet<string>();if(!visiting.Add(path))return 0;

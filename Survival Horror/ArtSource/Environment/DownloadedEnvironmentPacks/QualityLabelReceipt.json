@@ -5,8 +5,8 @@
   "prefab_data_changes": 69,
   "counts": {
     "Removed": 161,
-    "Keep": 642,
-    "Review": 291,
+    "Keep": 925,
+    "Review": 8,
     "BackgroundOnly": 47
   },
   "originals_preserved": true,
@@ -14,5 +14,7 @@
     "t:Prefab l:DownloadedKeep",
     "t:Prefab l:DownloadedReview",
     "t:Prefab l:DownloadedBackgroundOnly"
-  ]
+  ],
+  "scale_calibration_receipt": "ArtSource/Environment/ScaleCalibration/ScaleReceipt.json",
+  "scale_calibrated_prefabs": 351
 }

@@ -21,13 +21,7 @@ Shader "House Toolkit/Road Paint"
         TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
         TEXTURE2D(_WearMap); SAMPLER(sampler_WearMap);
 
-        half PaintCoverage(float2 wearUV, half wear)
-        {
-            half mask = SAMPLE_TEXTURE2D(_WearMap, sampler_WearMap, wearUV).a;
-            // Reserve a clean endpoint even for fully chipped texels.
-            half threshold = lerp(-.03, .97, wear);
-            return smoothstep(threshold, threshold + .025, mask);
-        }
+        #include "PaintWear.hlsl"
 
         struct Attributes
         {

@@ -19,9 +19,9 @@ namespace HouseToolkit.Editor
             {
                 apply(graph);
                 Normalize(graph,network.StreetFamily);
-                if (network is ProceduralShelf && graph.spans.SelectMany(s => new[] { s.start.node, s.end.node })
+                if ((network is ProceduralShelf || network is ProceduralMarking) && graph.spans.SelectMany(s => new[] { s.start.node, s.end.node })
                     .GroupBy(id => id).Any(group => group.Count() > 2))
-                    throw new InvalidOperationException("Continue from a shelf endpoint or start a separate rack.");
+                    throw new InvalidOperationException(network is ProceduralMarking ? "Continue from an endpoint or create a separate marking." : "Continue from a shelf endpoint or start a separate rack.");
                 if (paths) graph.runStyles.RemoveAll(style=>!graph.spans.Any(s=>s.run==style.run));
             }
             catch (InvalidOperationException error) { issue=error.Message; return false; }

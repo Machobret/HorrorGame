@@ -115,6 +115,7 @@ public static class DownloadedPrefabMaintenance
                 triangles=prefab.GetComponentsInChildren<MeshFilter>(true).Sum(f => f.sharedMesh.triangles.Length / 3),
                 material_paths=prefab.GetComponentsInChildren<Renderer>(true).SelectMany(r => r.sharedMaterials).Select(AssetDatabase.GetAssetPath).Distinct().ToArray() });
         }
+        PrefabScaleCalibration.ApplyAvailable(plan.assets.Select(a=>a.prefab.Substring(0,a.prefab.IndexOf("/Prefabs/",StringComparison.Ordinal))).Distinct().ToArray());
         AssetDatabase.SaveAssets();
         var receipt = new Receipt { verified=true, completed_utc=DateTime.UtcNow.ToString("o"), retained_count=results.Count,
             removed_count=removedCount, repaired_count=results.Count(r => r.repaired), assets=results.ToArray(), removed_prefabs=removed.ToArray(),
@@ -214,7 +215,7 @@ public static class DownloadedPrefabMaintenance
         {
             var renderers=prefab.GetComponentsInChildren<Renderer>(true);var bounds=renderers[0].bounds;
             foreach(var renderer in renderers.Skip(1))bounds.Encapsulate(renderer.bounds);
-            if((bounds.size-new Vector3(a.bounds_m[0],a.bounds_m[1],a.bounds_m[2])).magnitude>.01f)
+            if((bounds.size-new Vector3(a.bounds_m[0],a.bounds_m[1],a.bounds_m[2])).magnitude>.01f && !PrefabScaleCalibration.MatchesCalibratedSize(a.prefab,bounds.size))
                 throw new InvalidOperationException("Bounds changed "+a.prefab);
         }
         foreach(var dep in AssetDatabase.GetDependencies(a.prefab,true))

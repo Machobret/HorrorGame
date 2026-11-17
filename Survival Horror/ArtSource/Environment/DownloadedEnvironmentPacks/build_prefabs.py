@@ -73,6 +73,11 @@ def stage():
     if (SOURCE / 'MaintenancePlan.json').exists():
         copy(SOURCE / 'MaintenancePlan.json', STAGE / 'MaintenancePlan.json')
         copy(SOURCE / 'MaintainPrefabs.cs', STAGE / 'Assets/Editor/MaintainPrefabs.cs')
+    scale_plan = PROJECT / 'ArtSource/Environment/ScaleCalibration/ScalePlan.json'
+    if scale_plan.exists():
+        copy(scale_plan, STAGE / 'PrefabScalePlan.json')
+        for recipe in ['PrefabScaleCalibration.cs', 'PrefabCollisionBatch.cs']:
+            copy(PROJECT / 'Tools/Environment' / recipe, STAGE / 'Assets/Editor' / recipe)
     copy(PROJECT / "ProjectSettings/ProjectVersion.txt", STAGE / "ProjectSettings/ProjectVersion.txt")
     # Resolve URP and its dependencies from the existing local package cache.
     packages = STAGE / "Packages/manifest.json"
