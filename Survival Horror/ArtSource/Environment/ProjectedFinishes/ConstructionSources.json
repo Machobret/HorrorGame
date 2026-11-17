@@ -17,218 +17,22 @@
         1
       ],
       "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Brick/M_Brick_Red_01.mat",
-      "materialName": "M_Brick_Red_01",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Brick/Pale Grey Brick.mat",
+      "materialName": "Pale Grey Brick",
       "surface": "Brick",
       "curated": true,
-      "review": "Curated repeat surface"
+      "review": "Approved contact-sheet selection",
+      "swatch": 2
     },
     {
-      "name": "Wall_Marble",
-      "category": "Wall",
-      "source": "PSX modular house interior pack (1)/geometry/wallMarble.glb",
-      "sourceSha256": "aa16d497f54517e21e40a094e25044aab0195cee55b36ac307c05853f7d2ad6b",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/d06e17cacf0e441d961b.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Wall_Marble_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2.8,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Marble/M_Marble_Grey_01.mat",
-      "materialName": "M_Marble_Grey_01",
-      "surface": "Marble",
+      "name": "Red Brick with Pale Mortar",
+      "baseTexture": "Assets/Game/Environment/Buildings/BakedGeometry/Textures/Outside_BaseColor.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Brick/Red Brick with Pale Mortar.mat",
+      "materialName": "Red Brick with Pale Mortar",
+      "surface": "Brick",
       "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Wall_Plaster",
-      "category": "Wall",
-      "source": "PSX modular house interior pack (1)/geometry/wallPlaster.glb",
-      "sourceSha256": "eee43f500689cb44c85ff3e5d016f17b3d3a1cdb3a2bfd929593697272e9feae",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/d81ef90d3a9a282b63a6.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Wall_Plaster_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2.8,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Plaster/M_Plaster_Cream_01.mat",
-      "materialName": "M_Plaster_Cream_01",
-      "surface": "Plaster",
-      "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Wall_Plaster2",
-      "category": "Wall",
-      "source": "PSX modular house interior pack (1)/geometry/wallPlaster2.glb",
-      "sourceSha256": "06ddbce8fbb1cde193c43ebf70e90433116a9583a27fa3cfec23ea385f37e8f5",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/09f2f4ac7e4d43c03c49.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Wall_Plaster2_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2.8,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Plaster/M_Plaster_Grey_01.mat",
-      "materialName": "M_Plaster_Grey_01",
-      "surface": "Plaster",
-      "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Wall_Plaster3",
-      "category": "Wall",
-      "source": "PSX modular house interior pack (1)/geometry/wallPlaster3.glb",
-      "sourceSha256": "c83f9578b301cb477ec0fcca36454d0b0e56b5d6cf35df0390571666095fb4ec",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/30bdd9e41455b1ac04ba.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Wall_Plaster3_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2.8,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Plaster/M_Plaster_Blue_01.mat",
-      "materialName": "M_Plaster_Blue_01",
-      "surface": "Plaster",
-      "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Wall_Tiles",
-      "category": "Wall",
-      "source": "PSX modular house interior pack (1)/geometry/wallTiles.glb",
-      "sourceSha256": "aa5b763d846c9c358c7aa8e648f5c690690d4e45b59843fece66db8def45857e",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/09160d06f1f574db9dbf.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Wall_Tiles_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2.8,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Tiles/M_Tiles_WhiteGrid_01.mat",
-      "materialName": "M_Tiles_WhiteGrid_01",
-      "surface": "Tiles",
-      "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Wall_Wallpaper",
-      "category": "Wall",
-      "source": "PSX modular house interior pack (1)/geometry/wallWallpaper.glb",
-      "sourceSha256": "a5e1c387e18f829ca9ce9eed4ae62ac969acab54a850e4a69032c952f4319abb",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/9390b32c8c5dcca3d9b5.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Wall_Wallpaper_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2.8,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Wallpaper/M_Wallpaper_StripedCream_01.mat",
-      "materialName": "M_Wallpaper_StripedCream_01",
-      "surface": "Wallpaper",
-      "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Wall_Wallpaper2",
-      "category": "Wall",
-      "source": "PSX modular house interior pack (1)/geometry/wallWallpaper2.glb",
-      "sourceSha256": "913352f0aada6454d0108fa3a2c3e2c09c3c19a1b1ca1b5b1c817598dd62fc07",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/5f432f23e21fbb8d28f6.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Wall_Wallpaper2_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2.8,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Wallpaper/M_Wallpaper_StripedGrey_01.mat",
-      "materialName": "M_Wallpaper_StripedGrey_01",
-      "surface": "Wallpaper",
-      "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Wall_Wood",
-      "category": "Wall",
-      "source": "PSX modular house interior pack (1)/geometry/wallWood.glb",
-      "sourceSha256": "bc00a9fd3c27e432b0c0a84c6c2a46bd7262d5d6efa7934b139b609c6b5b674e",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/58a1b05b24613b75a6f2.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Wall_Wood_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2.8,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Wood/M_Wood_BrownPanels_01.mat",
-      "materialName": "M_Wood_BrownPanels_01",
-      "surface": "Wood",
-      "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Floor_Carpet",
-      "category": "Floor",
-      "source": "PSX modular house interior pack (1)/geometry/floorCarpet.glb",
-      "sourceSha256": "b7a9d770da1231219c19a54f5221e70ee955cca1c9ec35eaacc72dd6ce0a5da5",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/f74ec93545edbc38f818.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Floor_Carpet_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Carpet/M_Carpet_Blue_01.mat",
-      "materialName": "M_Carpet_Blue_01",
-      "surface": "Carpet",
-      "curated": true,
-      "review": "Curated repeat surface"
+      "review": "Approved contact-sheet selection",
+      "swatch": 4
     },
     {
       "name": "Floor_Carpet2",
@@ -247,126 +51,12 @@
         1
       ],
       "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Carpet/M_Carpet_Red_01.mat",
-      "materialName": "M_Carpet_Red_01",
-      "surface": "Carpet",
-      "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Floor_Marble",
-      "category": "Floor",
-      "source": "PSX modular house interior pack (1)/geometry/floorMarble.glb",
-      "sourceSha256": "bce5ef3b8f2384ad4b5b66878ce4490e11a0572fafa33461f15d38e4e6fca1af",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/ae46d6a225e34acf615b.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Floor_Marble_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Marble/M_Marble_White_01.mat",
-      "materialName": "M_Marble_White_01",
-      "surface": "Marble",
-      "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Floor_Stone",
-      "category": "Floor",
-      "source": "PSX modular house interior pack (1)/geometry/floorStone.glb",
-      "sourceSha256": "522b78892cd8bd11f66397218feef5852db891619c6120ff40d57224601fa34b",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/0e12aaab2e3feface0e2.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Floor_Stone_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Stone/M_Stone_Grey_01.mat",
-      "materialName": "M_Stone_Grey_01",
-      "surface": "Stone",
-      "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Floor_Tiles",
-      "category": "Floor",
-      "source": "PSX modular house interior pack (1)/geometry/floorTiles.glb",
-      "sourceSha256": "4c9038e04303ff92105b7cf3db5618e243be8e41794ea76ac98d9e0e2e5d57af",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/92c314123786f1e186d8.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Floor_Tiles_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Tiles/M_Tiles_Checker_01.mat",
-      "materialName": "M_Tiles_Checker_01",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Tiles/Speckled Grey Tile.mat",
+      "materialName": "Speckled Grey Tile",
       "surface": "Tiles",
       "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Floor_Wood",
-      "category": "Floor",
-      "source": "PSX modular house interior pack (1)/geometry/floorWood.glb",
-      "sourceSha256": "71b8139a3fe0d844a9fcbe7e6f98eec104c4f6ef5980e25e64a3195611a53867",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/928ed18619b8ebc1a48b.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Floor_Wood_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Wood/M_Wood_LightPlanks_01.mat",
-      "materialName": "M_Wood_LightPlanks_01",
-      "surface": "Wood",
-      "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Floor_Wood2",
-      "category": "Floor",
-      "source": "PSX modular house interior pack (1)/geometry/floorWood2.glb",
-      "sourceSha256": "eccd9234274924a5ecb38be836bbf3faa347da9b0278972996d86a2285b7805e",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/2a74ff93424e3d100937.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Floor_Wood2_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Wood/M_Wood_DarkPlanks_01.mat",
-      "materialName": "M_Wood_DarkPlanks_01",
-      "surface": "Wood",
-      "curated": true,
-      "review": "Curated repeat surface"
+      "review": "Approved contact-sheet selection",
+      "swatch": 8
     },
     {
       "name": "Ceiling_Concrete",
@@ -385,195 +75,12 @@
         1
       ],
       "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Concrete/M_Concrete_Grey_01.mat",
-      "materialName": "M_Concrete_Grey_01",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Concrete/Mottled Grey Concrete.mat",
+      "materialName": "Mottled Grey Concrete",
       "surface": "Concrete",
       "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Ceiling_Plaster",
-      "category": "Ceiling",
-      "source": "PSX modular house interior pack (1)/geometry/ceilingPlaster.glb",
-      "sourceSha256": "b0de563dc9ad83f08449c0cf00310851b62dff22d5729b1e81aa0f2e9a3ed4bf",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/73906c40e716de366f4d.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Ceiling_Plaster_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Plaster/M_Plaster_White_01.mat",
-      "materialName": "M_Plaster_White_01",
-      "surface": "Plaster",
-      "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Ceiling_Plaster2",
-      "category": "Ceiling",
-      "source": "PSX modular house interior pack (1)/geometry/ceilingPlaster2.glb",
-      "sourceSha256": "993311739c0ce1a1f9d2c26a2900105db76b24a65bebf0d59ee0a6221a796c4c",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/09f2f4ac7e4d43c03c49.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Ceiling_Plaster2_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Plaster/M_Plaster_White_02.mat",
-      "materialName": "M_Plaster_White_02",
-      "surface": "Plaster",
-      "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Ceiling_Plaster3",
-      "category": "Ceiling",
-      "source": "PSX modular house interior pack (1)/geometry/ceilingPlaster3.glb",
-      "sourceSha256": "f18e23286b78a1b75a5d047b98bf7c7ad3150a07e2a428a8334973853e89dab5",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/ecbf2a460b99edeca7fe.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Ceiling_Plaster3_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Plaster/M_Plaster_White_03.mat",
-      "materialName": "M_Plaster_White_03",
-      "surface": "Plaster",
-      "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Ceiling_Tiles",
-      "category": "Ceiling",
-      "source": "PSX modular house interior pack (1)/geometry/ceilingTiles.glb",
-      "sourceSha256": "5414c00031ca8d20c2137dbe65a592ed07ec29522a2850149f01d225e7df3de5",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/0fa38215e60d5b6e027d.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Ceiling_Tiles_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Tiles/M_Tiles_PanelGrid_01.mat",
-      "materialName": "M_Tiles_PanelGrid_01",
-      "surface": "Tiles",
-      "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Ceiling_Wood",
-      "category": "Ceiling",
-      "source": "PSX modular house interior pack (1)/geometry/ceilingWood.glb",
-      "sourceSha256": "451591fa5d188913ee909a59d2f21d748af688011156e7dd02ce77d2dec788f0",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/98fbd261a7a5b66cf25b.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Ceiling_Wood_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Wood/M_Wood_PanelGrid_01.mat",
-      "materialName": "M_Wood_PanelGrid_01",
-      "surface": "Wood",
-      "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Roof_Concrete",
-      "category": "Roof",
-      "source": "PSX modular house interior pack (1)/geometry/capRoofConcrete.glb",
-      "sourceSha256": "680f5e1209c6fac5c7a66fe03794059299b2a762468747fe64681697a72dc645",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/da92034e88b7f1ed233a.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Roof_Concrete_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Concrete/M_Concrete_Rough_01.mat",
-      "materialName": "M_Concrete_Rough_01",
-      "surface": "Concrete",
-      "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Roof_Metal",
-      "category": "Roof",
-      "source": "PSX modular house interior pack (1)/geometry/capRoofMetal.glb",
-      "sourceSha256": "c64ea5665cef62d29ee355ba550749d0d679680da3b6df569c450ba45458c76b",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/0c7c79717d96bb439042.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Roof_Metal_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Metal/M_Metal_Sheet_01.mat",
-      "materialName": "M_Metal_Sheet_01",
-      "surface": "Metal",
-      "curated": true,
-      "review": "Curated repeat surface"
-    },
-    {
-      "name": "Roof_Wood",
-      "category": "Roof",
-      "source": "PSX modular house interior pack (1)/geometry/capRoofWood.glb",
-      "sourceSha256": "86da68e18c0160201c1e1e5f94115cdf1377aee9e1dc8817b9e121226e08bc01",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/30c3d8bb49287adced68.png",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Roof_Wood_Surface.png",
-      "normalStrength": 0,
-      "repeatU": 2,
-      "repeatV": 2,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Wood/M_Wood_Shingles_01.mat",
-      "materialName": "M_Wood_Shingles_01",
-      "surface": "Wood",
-      "curated": true,
-      "review": "Curated repeat surface"
+      "review": "Approved contact-sheet selection",
+      "swatch": 9
     },
     {
       "name": "Asphalt",
@@ -592,11 +99,22 @@
         1
       ],
       "tileability": "Existing tileable paving set; compare path UV and triplanar orientation",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Paving/M_Asphalt_Rough_01.mat",
-      "materialName": "M_Asphalt_Rough_01",
-      "surface": "Asphalt",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Paving/Worn Asphalt.mat",
+      "materialName": "Worn Asphalt",
+      "surface": "Paving",
       "curated": true,
-      "review": "Curated repeat surface"
+      "review": "Approved contact-sheet selection",
+      "swatch": 15
+    },
+    {
+      "name": "Coarse Sand Render",
+      "baseTexture": "Assets/Game/Environment/Buildings/BakedGeometry/Textures/Inside_BaseColor.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Plaster/Coarse Sand Render.mat",
+      "materialName": "Coarse Sand Render",
+      "surface": "Plaster",
+      "curated": true,
+      "review": "Approved contact-sheet selection",
+      "swatch": 24
     },
     {
       "name": "Cobblestone",
@@ -615,90 +133,22 @@
         1
       ],
       "tileability": "Existing tileable paving set; compare path UV and triplanar orientation",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Stone/M_Stone_Cobblestone_01.mat",
-      "materialName": "M_Stone_Cobblestone_01",
-      "surface": "Stone",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Paving/Brown Stone Setts.mat",
+      "materialName": "Brown Stone Setts",
+      "surface": "Paving",
       "curated": true,
-      "review": "Curated repeat surface"
+      "review": "Approved contact-sheet selection",
+      "swatch": 26
     },
     {
-      "name": "Photo_Brick",
-      "category": "Wall",
-      "source": "all_fences/textures/brick_wall.jpg",
-      "sourceSha256": "9c438611b1c223587313107d9e7918cec0c09637c10737cd83f1be367fb32f81",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Brick/PhotoStudies/Textures/BrickWall_Albedo.jpg",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Photo_NeutralSurface.png",
+      "name": "Floor_Tiles",
+      "category": "Floor",
+      "source": "PSX modular house interior pack (1)/geometry/floorTiles.glb",
+      "sourceSha256": "4c9038e04303ff92105b7cf3db5618e243be8e41794ea76ac98d9e0e2e5d57af",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/92c314123786f1e186d8.png",
+      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Floor_Tiles_Surface.png",
       "normalStrength": 0,
-      "repeatU": 2.0,
-      "repeatV": 2.8,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Repeated photo-surface candidate; inspect visible joins, particularly roof direction",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Brick/PhotoStudies/M_Brick_WeatheredPhoto_01.mat",
-      "materialName": "M_Brick_WeatheredPhoto_01",
-      "surface": "Brick",
-      "curated": false,
-      "review": "Example/diagnostic finish"
-    },
-    {
-      "name": "Photo_Stucco",
-      "category": "Wall",
-      "source": "all_fences/textures/sctucco.jpg",
-      "sourceSha256": "6b40bc105ff840933c135fa56d15d21c8aa5139ad4ddc2827e8433369bad18b2",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Plaster/PhotoStudies/Textures/PlasterWallStucco_Albedo.jpg",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Photo_NeutralSurface.png",
-      "normalStrength": 0,
-      "repeatU": 2.0,
-      "repeatV": 2.8,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Repeated photo-surface candidate; inspect visible joins, particularly roof direction",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Plaster/PhotoStudies/M_Plaster_StuccoPhoto_01.mat",
-      "materialName": "M_Plaster_StuccoPhoto_01",
-      "surface": "Plaster",
-      "curated": false,
-      "review": "Example/diagnostic finish"
-    },
-    {
-      "name": "Photo_Stone",
-      "category": "Wall",
-      "source": "all_fences/textures/stonewall.jpg",
-      "sourceSha256": "e9f39d57517edcbe3bcba44a0574876b7a9cb2419e42391a4bd57265796f13f5",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Stone/PhotoStudies/Textures/StoneWallRubble_Albedo.jpg",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Photo_NeutralSurface.png",
-      "normalStrength": 0,
-      "repeatU": 2.0,
-      "repeatV": 2.8,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "tileability": "Repeated photo-surface candidate; inspect visible joins, particularly roof direction",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Stone/PhotoStudies/M_Stone_RubblePhoto_01.mat",
-      "materialName": "M_Stone_RubblePhoto_01",
-      "surface": "Stone",
-      "curated": false,
-      "review": "Example/diagnostic finish"
-    },
-    {
-      "name": "Photo_RoofTilesA",
-      "category": "Roof",
-      "source": "all_fences/textures/rooftiles.jpg",
-      "sourceSha256": "17a2b17a212519b07f9d6eb6b6a59a398ab5a0bde10fa964de4780f1c44892cb",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/17a2b17a212519b07f9d.jpg",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Photo_NeutralSurface.png",
-      "normalStrength": 0,
-      "repeatU": 4.40625,
+      "repeatU": 2,
       "repeatV": 2,
       "color": [
         1,
@@ -706,22 +156,23 @@
         1,
         1
       ],
-      "tileability": "Repeated photo-surface candidate; inspect visible joins, particularly roof direction",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Tiles/PhotoStudies/M_Tiles_RoofPhoto_01.mat",
-      "materialName": "M_Tiles_RoofPhoto_01",
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Tiles/Black and Ivory Checker Tile.mat",
+      "materialName": "Black and Ivory Checker Tile",
       "surface": "Tiles",
-      "curated": false,
-      "review": "Example/diagnostic finish"
+      "curated": true,
+      "review": "Approved contact-sheet selection",
+      "swatch": 30
     },
     {
-      "name": "Photo_RoofTilesB",
-      "category": "Roof",
-      "source": "all_fences/textures/rooftiles2.jpg",
-      "sourceSha256": "ad3d6b46de009b107dd5368d717eae17af282d0b1f1f748273058567a7083cbb",
-      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Tiles/PhotoStudies/Textures/TileWallCoping_Albedo.jpg",
-      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Photo_NeutralSurface.png",
+      "name": "Ceiling_Tiles",
+      "category": "Ceiling",
+      "source": "PSX modular house interior pack (1)/geometry/ceilingTiles.glb",
+      "sourceSha256": "5414c00031ca8d20c2137dbe65a592ed07ec29522a2850149f01d225e7df3de5",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/0fa38215e60d5b6e027d.png",
+      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Ceiling_Tiles_Surface.png",
       "normalStrength": 0,
-      "repeatU": 2.0,
+      "repeatU": 2,
       "repeatV": 2,
       "color": [
         1,
@@ -729,12 +180,37 @@
         1,
         1
       ],
-      "tileability": "Repeated photo-surface candidate; inspect visible joins, particularly roof direction",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Tiles/PhotoStudies/M_Tiles_RoofPhoto_02.mat",
-      "materialName": "M_Tiles_RoofPhoto_02",
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Tiles/Speckled Ivory Tile.mat",
+      "materialName": "Speckled Ivory Tile",
       "surface": "Tiles",
-      "curated": false,
-      "review": "Example/diagnostic finish"
+      "curated": true,
+      "review": "Approved contact-sheet selection",
+      "swatch": 31
+    },
+    {
+      "name": "Wall_Tiles",
+      "category": "Wall",
+      "source": "PSX modular house interior pack (1)/geometry/wallTiles.glb",
+      "sourceSha256": "aa5b763d846c9c358c7aa8e648f5c690690d4e45b59843fece66db8def45857e",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/09160d06f1f574db9dbf.png",
+      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Wall_Tiles_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2.8,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Tiles/Blue Mosaic Half Wall.mat",
+      "materialName": "Blue Mosaic Half Wall",
+      "surface": "Tiles",
+      "curated": true,
+      "review": "Approved contact-sheet selection",
+      "swatch": 32
     },
     {
       "name": "Photo_SidewalkTiles",
@@ -753,11 +229,356 @@
         1
       ],
       "tileability": "Repeated photo-surface candidate; inspect visible joins, particularly roof direction",
-      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Tiles/PhotoStudies/M_Tiles_PavingPhoto_01.mat",
-      "materialName": "M_Tiles_PavingPhoto_01",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Paving/Scored Concrete Pavers.mat",
+      "materialName": "Scored Concrete Pavers",
+      "surface": "Paving",
+      "curated": true,
+      "review": "Approved contact-sheet selection",
+      "swatch": 33
+    },
+    {
+      "name": "Speckled Ivory Tile (Triplanar)",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/0fa38215e60d5b6e027d.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Tiles/Speckled Ivory Tile (Triplanar).mat",
+      "materialName": "Speckled Ivory Tile (Triplanar)",
       "surface": "Tiles",
-      "curated": false,
-      "review": "Example/diagnostic finish"
+      "curated": true,
+      "review": "Approved contact-sheet selection",
+      "swatch": 36
+    },
+    {
+      "name": "Wall_Wood",
+      "category": "Wall",
+      "source": "PSX modular house interior pack (1)/geometry/wallWood.glb",
+      "sourceSha256": "bc00a9fd3c27e432b0c0a84c6c2a46bd7262d5d6efa7934b139b609c6b5b674e",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/58a1b05b24613b75a6f2.png",
+      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Wall_Wood_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2.8,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Wood/Brown Timber Wainscot.mat",
+      "materialName": "Brown Timber Wainscot",
+      "surface": "Wood",
+      "curated": true,
+      "review": "Approved contact-sheet selection",
+      "swatch": 42
+    },
+    {
+      "name": "Floor_Wood2",
+      "category": "Floor",
+      "source": "PSX modular house interior pack (1)/geometry/floorWood2.glb",
+      "sourceSha256": "eccd9234274924a5ecb38be836bbf3faa347da9b0278972996d86a2285b7805e",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/2a74ff93424e3d100937.png",
+      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Floor_Wood2_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Wood/Dark Staggered Boards.mat",
+      "materialName": "Dark Staggered Boards",
+      "surface": "Wood",
+      "curated": true,
+      "review": "Approved contact-sheet selection",
+      "swatch": 43
+    },
+    {
+      "name": "Floor_Wood",
+      "category": "Floor",
+      "source": "PSX modular house interior pack (1)/geometry/floorWood.glb",
+      "sourceSha256": "71b8139a3fe0d844a9fcbe7e6f98eec104c4f6ef5980e25e64a3195611a53867",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/928ed18619b8ebc1a48b.png",
+      "surfaceTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/Floor_Wood_Surface.png",
+      "normalStrength": 0,
+      "repeatU": 2,
+      "repeatV": 2,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "tileability": "Candidate: inspect repeated swatches and actual reference geometry",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Wood/Honey Strip Flooring.mat",
+      "materialName": "Honey Strip Flooring",
+      "surface": "Wood",
+      "curated": true,
+      "review": "Approved contact-sheet selection",
+      "swatch": 44
+    },
+    {
+      "name": "Knotty Pine Boards",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Wood/Samples/Textures/Planks_BaseColor.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Wood/Knotty Pine Boards.mat",
+      "materialName": "Knotty Pine Boards",
+      "surface": "Wood",
+      "curated": true,
+      "review": "Approved contact-sheet selection",
+      "swatch": 47
+    },
+    {
+      "name": "Ceramic_Sage",
+      "source": "IndustrialWallTextures/256/Ceramic/Ceramic_Sage.png",
+      "sourceSha256": "3f41a013e4a72be5a0e47551bb21fb4c49ce3fa17dfbbe29ad69e12bfc0da475",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Tiles/Textures/Ceramic_Sage_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Tiles/Sage Square Ceramic Tile.mat",
+      "materialName": "Sage Square Ceramic Tile",
+      "surface": "Tiles",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "Ceramic_Subway",
+      "source": "IndustrialWallTextures/256/Ceramic/Ceramic_Subway.png",
+      "sourceSha256": "20b7b438df18be3afa04514eec17b30c3326a5bd40d6730d54daf5d23644a01e",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Tiles/Textures/Ceramic_Subway_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Tiles/Ivory Subway Tile.mat",
+      "materialName": "Ivory Subway Tile",
+      "surface": "Tiles",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "Ceramic_White",
+      "source": "IndustrialWallTextures/256/Ceramic/Ceramic_White.png",
+      "sourceSha256": "f7d313219bf52682c9535976ef7041bedad0f9ce6268e44db5113bda7dab6df4",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Tiles/Textures/Ceramic_White_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Tiles/Off-White Square Ceramic Tile.mat",
+      "materialName": "Off-White Square Ceramic Tile",
+      "surface": "Tiles",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "ConcreteBlock_Cream",
+      "source": "IndustrialWallTextures/256/ConcreteBlock/ConcreteBlock_Cream.png",
+      "sourceSha256": "6d967a2b3266b894cd60f69bfc07486150a25af5896aa0e7069ee2f0c84a73d7",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Concrete/Textures/ConcreteBlock_Cream_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Concrete/Cream Concrete Block.mat",
+      "materialName": "Cream Concrete Block",
+      "surface": "Concrete",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "ConcreteBlock_Gray",
+      "source": "IndustrialWallTextures/256/ConcreteBlock/ConcreteBlock_Gray.png",
+      "sourceSha256": "b333ed081bb470b6acc0212bdb983a44743b7bf5a43bfe11dbe7185c142582df",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Concrete/Textures/ConcreteBlock_Gray_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Concrete/Grey Concrete Block.mat",
+      "materialName": "Grey Concrete Block",
+      "surface": "Concrete",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "ConcreteBlock_Sage",
+      "source": "IndustrialWallTextures/256/ConcreteBlock/ConcreteBlock_Sage.png",
+      "sourceSha256": "1f2f02e0b9bb1537555dc433f8533cef5d8ad8b63ba3c3065657ab0d3207c043",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Concrete/Textures/ConcreteBlock_Sage_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Concrete/Sage Concrete Block.mat",
+      "materialName": "Sage Concrete Block",
+      "surface": "Concrete",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "Metal_Blue",
+      "source": "IndustrialWallTextures/256/Metal/Metal_Blue.png",
+      "sourceSha256": "e74920025c395e007d32f632cf35fd3ab0e9138f5bd5b6e0b3ad5856ef68169c",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Metal/Textures/Metal_Blue_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Metal/Faded Blue Corrugated Steel.mat",
+      "materialName": "Faded Blue Corrugated Steel",
+      "surface": "Metal",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "Metal_Galvanized",
+      "source": "IndustrialWallTextures/256/Metal/Metal_Galvanized.png",
+      "sourceSha256": "a71916db8d7331e9f1ad5644a8d8a82430ccc01347508439bf6e815a9caca267",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Metal/Textures/Metal_Galvanized_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Metal/Galvanized Corrugated Steel.mat",
+      "materialName": "Galvanized Corrugated Steel",
+      "surface": "Metal",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "Metal_Olive",
+      "source": "IndustrialWallTextures/256/Metal/Metal_Olive.png",
+      "sourceSha256": "3919018c8017433ca39beca9da04d33e8ed7d26d9c480695167fb01579af06fd",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Metal/Textures/Metal_Olive_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Metal/Olive Corrugated Steel.mat",
+      "materialName": "Olive Corrugated Steel",
+      "surface": "Metal",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "PaintedConcrete_BlueGray",
+      "source": "IndustrialWallTextures/256/PaintedConcrete/PaintedConcrete_BlueGray.png",
+      "sourceSha256": "df91fa642a687975c3445a5e2ad5b562cf51d42e0655b8f6ee7109d3fe2e9c46",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Concrete/Textures/PaintedConcrete_BlueGray_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Concrete/Blue-Grey Painted Concrete.mat",
+      "materialName": "Blue-Grey Painted Concrete",
+      "surface": "Concrete",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "PaintedConcrete_Cream",
+      "source": "IndustrialWallTextures/256/PaintedConcrete/PaintedConcrete_Cream.png",
+      "sourceSha256": "cb6cf6f2b988ea8ed00e0ccabbeb348fa2b882b391154920eb4464f960935abe",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Concrete/Textures/PaintedConcrete_Cream_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Concrete/Cream Painted Concrete.mat",
+      "materialName": "Cream Painted Concrete",
+      "surface": "Concrete",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "PaintedConcrete_Sage",
+      "source": "IndustrialWallTextures/256/PaintedConcrete/PaintedConcrete_Sage.png",
+      "sourceSha256": "777fc40dd78524473c9da7cfb419179648c14898584cf50da61efeeeefc5cf2a",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Concrete/Textures/PaintedConcrete_Sage_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Concrete/Sage Painted Concrete.mat",
+      "materialName": "Sage Painted Concrete",
+      "surface": "Concrete",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "Plaster_BlueGray",
+      "source": "IndustrialWallTextures/256/Plaster/Plaster_BlueGray.png",
+      "sourceSha256": "46d73821153466586c81baec35e28defbb1944092931a061d373cb675d7a24e6",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Plaster/Textures/Plaster_BlueGray_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Plaster/Blue-Grey Plaster.mat",
+      "materialName": "Blue-Grey Plaster",
+      "surface": "Plaster",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "Plaster_DirtyIvory",
+      "source": "IndustrialWallTextures/256/Plaster/Plaster_DirtyIvory.png",
+      "sourceSha256": "6a204a8547904a5dc6134a5684abbfd8843b7ebb37b306a1f273e548e91eb70e",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Plaster/Textures/Plaster_DirtyIvory_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Plaster/Weathered Ivory Plaster.mat",
+      "materialName": "Weathered Ivory Plaster",
+      "surface": "Plaster",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "Plaster_WarmGray",
+      "source": "IndustrialWallTextures/256/Plaster/Plaster_WarmGray.png",
+      "sourceSha256": "cca46aee622eea2cf5a1143e0a6eeef39e8c3118ffb42372e18da1d9e4ed74ca",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Plaster/Textures/Plaster_WarmGray_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Plaster/Warm Grey Plaster.mat",
+      "materialName": "Warm Grey Plaster",
+      "surface": "Plaster",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "TwoTone_BlueGray",
+      "source": "IndustrialWallTextures/256/TwoTone/TwoTone_BlueGray.png",
+      "sourceSha256": "a304b00ba32dddf4f1b4c03798b0a94ec66618e041e2d37b37b0268b8b28124d",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Plaster/Textures/TwoTone_BlueGray_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Plaster/Plaster with Blue-Grey Dado.mat",
+      "materialName": "Plaster with Blue-Grey Dado",
+      "surface": "Plaster",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "TwoTone_Charcoal",
+      "source": "IndustrialWallTextures/256/TwoTone/TwoTone_Charcoal.png",
+      "sourceSha256": "0cfe0f967578ca7e759473d998679754d6d2eeef841c1cff6bff601623146cc6",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Plaster/Textures/TwoTone_Charcoal_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Plaster/Plaster with Charcoal Dado.mat",
+      "materialName": "Plaster with Charcoal Dado",
+      "surface": "Plaster",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "TwoTone_Green",
+      "source": "IndustrialWallTextures/256/TwoTone/TwoTone_Green.png",
+      "sourceSha256": "1af593f2eb314b043cf522407ff62ec5e9fc1c5b8c464eae9418931995128aaf",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Plaster/Textures/TwoTone_Green_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Plaster/Plaster with Green Dado.mat",
+      "materialName": "Plaster with Green Dado",
+      "surface": "Plaster",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "Worn_PatchedGray",
+      "source": "IndustrialWallTextures/256/Worn/Worn_PatchedGray.png",
+      "sourceSha256": "95c5c47894d9f0f635b149d07dc3147fedd7e7d2660806eead0599f30d4a44c7",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Concrete/Textures/Worn_PatchedGray_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Concrete/Patched Grey Cement.mat",
+      "materialName": "Patched Grey Cement",
+      "surface": "Concrete",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "Worn_PeelingCream",
+      "source": "IndustrialWallTextures/256/Worn/Worn_PeelingCream.png",
+      "sourceSha256": "c525ead56ad744655bedd8784c5014579320bbebb2ee64491e734e5c668f9599",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Concrete/Textures/Worn_PeelingCream_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Concrete/Peeling Cream Concrete.mat",
+      "materialName": "Peeling Cream Concrete",
+      "surface": "Concrete",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
+    },
+    {
+      "name": "Worn_PeelingSage",
+      "source": "IndustrialWallTextures/256/Worn/Worn_PeelingSage.png",
+      "sourceSha256": "fc0a50641d732c584802acfd765df785d51533d593e044af3cc445b4bf947cc6",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Plaster/Textures/Worn_PeelingSage_Albedo.png",
+      "materialPath": "Assets/Game/Environment/ProjectedFinishes/Plaster/Peeling Sage Plaster.mat",
+      "materialName": "Peeling Sage Plaster",
+      "surface": "Plaster",
+      "repeatU": 3,
+      "repeatV": 3,
+      "curated": true
     }
   ],
   "excludedFenceTextures": [
@@ -872,6 +693,134 @@
     {
       "source": "all_fences/textures/wood_painted_3662_4638_Small.jpg",
       "reason": "Directional edge wear/stains; whole-image vertical repetition is unsuitable for the universal trial"
+    }
+  ],
+  "retiredSources": [
+    {
+      "name": "Wall_Marble",
+      "source": "PSX modular house interior pack (1)/geometry/wallMarble.glb",
+      "sourceSha256": "aa16d497f54517e21e40a094e25044aab0195cee55b36ac307c05853f7d2ad6b",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/d06e17cacf0e441d961b.png"
+    },
+    {
+      "name": "Wall_Plaster",
+      "source": "PSX modular house interior pack (1)/geometry/wallPlaster.glb",
+      "sourceSha256": "eee43f500689cb44c85ff3e5d016f17b3d3a1cdb3a2bfd929593697272e9feae",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/d81ef90d3a9a282b63a6.png"
+    },
+    {
+      "name": "Wall_Plaster2",
+      "source": "PSX modular house interior pack (1)/geometry/wallPlaster2.glb",
+      "sourceSha256": "06ddbce8fbb1cde193c43ebf70e90433116a9583a27fa3cfec23ea385f37e8f5",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/09f2f4ac7e4d43c03c49.png"
+    },
+    {
+      "name": "Wall_Plaster3",
+      "source": "PSX modular house interior pack (1)/geometry/wallPlaster3.glb",
+      "sourceSha256": "c83f9578b301cb477ec0fcca36454d0b0e56b5d6cf35df0390571666095fb4ec",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/30bdd9e41455b1ac04ba.png"
+    },
+    {
+      "name": "Wall_Wallpaper",
+      "source": "PSX modular house interior pack (1)/geometry/wallWallpaper.glb",
+      "sourceSha256": "a5e1c387e18f829ca9ce9eed4ae62ac969acab54a850e4a69032c952f4319abb",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/9390b32c8c5dcca3d9b5.png"
+    },
+    {
+      "name": "Wall_Wallpaper2",
+      "source": "PSX modular house interior pack (1)/geometry/wallWallpaper2.glb",
+      "sourceSha256": "913352f0aada6454d0108fa3a2c3e2c09c3c19a1b1ca1b5b1c817598dd62fc07",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/5f432f23e21fbb8d28f6.png"
+    },
+    {
+      "name": "Floor_Carpet",
+      "source": "PSX modular house interior pack (1)/geometry/floorCarpet.glb",
+      "sourceSha256": "b7a9d770da1231219c19a54f5221e70ee955cca1c9ec35eaacc72dd6ce0a5da5",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/f74ec93545edbc38f818.png"
+    },
+    {
+      "name": "Floor_Marble",
+      "source": "PSX modular house interior pack (1)/geometry/floorMarble.glb",
+      "sourceSha256": "bce5ef3b8f2384ad4b5b66878ce4490e11a0572fafa33461f15d38e4e6fca1af",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/ae46d6a225e34acf615b.png"
+    },
+    {
+      "name": "Floor_Stone",
+      "source": "PSX modular house interior pack (1)/geometry/floorStone.glb",
+      "sourceSha256": "522b78892cd8bd11f66397218feef5852db891619c6120ff40d57224601fa34b",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/0e12aaab2e3feface0e2.png"
+    },
+    {
+      "name": "Ceiling_Plaster",
+      "source": "PSX modular house interior pack (1)/geometry/ceilingPlaster.glb",
+      "sourceSha256": "b0de563dc9ad83f08449c0cf00310851b62dff22d5729b1e81aa0f2e9a3ed4bf",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/73906c40e716de366f4d.png"
+    },
+    {
+      "name": "Ceiling_Plaster2",
+      "source": "PSX modular house interior pack (1)/geometry/ceilingPlaster2.glb",
+      "sourceSha256": "993311739c0ce1a1f9d2c26a2900105db76b24a65bebf0d59ee0a6221a796c4c",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/09f2f4ac7e4d43c03c49.png"
+    },
+    {
+      "name": "Ceiling_Plaster3",
+      "source": "PSX modular house interior pack (1)/geometry/ceilingPlaster3.glb",
+      "sourceSha256": "f18e23286b78a1b75a5d047b98bf7c7ad3150a07e2a428a8334973853e89dab5",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/ecbf2a460b99edeca7fe.png"
+    },
+    {
+      "name": "Ceiling_Wood",
+      "source": "PSX modular house interior pack (1)/geometry/ceilingWood.glb",
+      "sourceSha256": "451591fa5d188913ee909a59d2f21d748af688011156e7dd02ce77d2dec788f0",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/98fbd261a7a5b66cf25b.png"
+    },
+    {
+      "name": "Roof_Concrete",
+      "source": "PSX modular house interior pack (1)/geometry/capRoofConcrete.glb",
+      "sourceSha256": "680f5e1209c6fac5c7a66fe03794059299b2a762468747fe64681697a72dc645",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/da92034e88b7f1ed233a.png"
+    },
+    {
+      "name": "Roof_Metal",
+      "source": "PSX modular house interior pack (1)/geometry/capRoofMetal.glb",
+      "sourceSha256": "c64ea5665cef62d29ee355ba550749d0d679680da3b6df569c450ba45458c76b",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/0c7c79717d96bb439042.png"
+    },
+    {
+      "name": "Roof_Wood",
+      "source": "PSX modular house interior pack (1)/geometry/capRoofWood.glb",
+      "sourceSha256": "86da68e18c0160201c1e1e5f94115cdf1377aee9e1dc8817b9e121226e08bc01",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/30c3d8bb49287adced68.png"
+    },
+    {
+      "name": "Photo_Brick",
+      "source": "all_fences/textures/brick_wall.jpg",
+      "sourceSha256": "9c438611b1c223587313107d9e7918cec0c09637c10737cd83f1be367fb32f81",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Brick/PhotoStudies/Textures/BrickWall_Albedo.jpg"
+    },
+    {
+      "name": "Photo_Stucco",
+      "source": "all_fences/textures/sctucco.jpg",
+      "sourceSha256": "6b40bc105ff840933c135fa56d15d21c8aa5139ad4ddc2827e8433369bad18b2",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Plaster/PhotoStudies/Textures/PlasterWallStucco_Albedo.jpg"
+    },
+    {
+      "name": "Photo_Stone",
+      "source": "all_fences/textures/stonewall.jpg",
+      "sourceSha256": "e9f39d57517edcbe3bcba44a0574876b7a9cb2419e42391a4bd57265796f13f5",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Stone/PhotoStudies/Textures/StoneWallRubble_Albedo.jpg"
+    },
+    {
+      "name": "Photo_RoofTilesA",
+      "source": "all_fences/textures/rooftiles.jpg",
+      "sourceSha256": "17a2b17a212519b07f9d6eb6b6a59a398ab5a0bde10fa964de4780f1c44892cb",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Textures/17a2b17a212519b07f9d.jpg"
+    },
+    {
+      "name": "Photo_RoofTilesB",
+      "source": "all_fences/textures/rooftiles2.jpg",
+      "sourceSha256": "ad3d6b46de009b107dd5368d717eae17af282d0b1f1f748273058567a7083cbb",
+      "baseTexture": "Assets/Game/Environment/ProjectedFinishes/Tiles/PhotoStudies/Textures/TileWallCoping_Albedo.jpg"
     }
   ]
 }

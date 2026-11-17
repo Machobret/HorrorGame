@@ -1,3 +1,3 @@
 # Clean brick
 
-The House Toolkit material is `ProjectedFinishes/Brick/Brick_Clean_Projected.mat`. Existing scenes use `ProjectedFinishes/Brick/SceneVariants/Brick_Clean.mat`. Both use Brick_Clean_Albedo.png from this folder. Paths are relative to `Assets/Game/Environment`.
+`Brick_Clean_Albedo.png` is the source texture for the retired clean-brick study. The APT scene now uses the approved brick finishes under `Assets/Game/Environment/ProjectedFinishes/Brick`.

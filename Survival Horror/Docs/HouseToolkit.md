@@ -1,6 +1,6 @@
 ﻿# House Toolkit
 
-Open `Assets/Game/Levels/Chapter0/Scenes/StartingLevel.unity` to draw the new starting level. Select **House → Edit House**. The ground floor starts empty, with cream plaster inside, red brick outside, a wood floor and a white plaster ceiling. This is an authoring scene. The main menu still starts the existing game.
+Open `Assets/Game/Levels/Chapter0/Scenes/StartingLevel.unity` to draw the new starting level. Select **House → Edit House**. The ground floor starts empty, with Mottled Grey Concrete inside and overhead, Red Brick with Pale Mortar outside, and Honey Strip Flooring underfoot. This is an authoring scene. The main menu still starts the existing game.
 
 | Asset | Where to edit it |
 | --- | --- |
@@ -26,7 +26,7 @@ In either editor, Shift-click adds or removes the actual surface, insert, or poi
 
 In **Floors**, turn off **Generate ceiling** for an open rooftop. Select a room floor and set **Ceiling** to **Inherit**, **On**, or **Off**. An occupied storey above still owns its structural floor. Choose **NoTrim** in the floor or wall trim override to suppress an inherited baseboard. Clearing the override restores inheritance.
 
-The plain family generates rectangular openings. Storefront uses 2 m, 1 m and 0.5 m panels, a 0.9 × 2.1 m door surround and a 1 × 1 m window surround. Even Spacing is its default. Assign the glass door or another compatible insert in either family. In the house properties, choose interior and exterior finishes independently. Find building finishes in `Assets/Game/Environment/ProjectedFinishes`. The finish picker follows the surface folders, including Brick, Concrete, Carpet, Plaster, Tiles, Wallpaper and Wood. **Samples** contains the original material examples and **PhotoStudies** contains photographic textures whose repeating edges may be visible. **SceneVariants** retains earlier bindings and **PathVariants** holds paving used by existing roads. To offer a new finish in the picker, put a material using **House Toolkit/Projected Finish** in its surface folder and add it to **WallFinishes.asset**.
+The plain family generates rectangular openings. Storefront uses 2 m, 1 m and 0.5 m panels, a 0.9 × 2.1 m door surround and a 1 × 1 m window surround. Even Spacing is its default. Assign the glass door or another compatible insert in either family. In the house properties, choose interior and exterior finishes independently. Find building finishes in `Assets/Game/Environment/ProjectedFinishes`. Click **Swatches** beside a finish field to browse finishes grouped by surface. Open **All surfaces** to filter by Brick, Concrete, Metal, Paving, Plaster, Tiles or Wood. Select a texture to apply it or **Inherit** to clear the override. Speckled Ivory Tile and its Triplanar variant share one texture and use different mapping shaders. To offer a new finish in the picker, put a material using **House Toolkit/Projected Finish** in its surface folder and add it to **WallFinishes.asset**.
 
 Chapter 1’s APT and electricity puzzle scenes, and the recovery copy, retain their generated meshes, colliders and gameplay objects as static scene content. The material shader in `Assets/Game/Rendering/HorizontalWall.shader` still supplies authored UVs and projection for existing art. The baked wall component restores its saved vertical projection when a scene opens.
 
