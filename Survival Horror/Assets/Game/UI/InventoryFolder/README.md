@@ -26,6 +26,8 @@ Paper detail pass: clipped-corner index tabs replace rectangular navigation. Not
 
 ## Footprints and readability
 
+The equipped pocket flashlight uses one grid slot. Loading a legacy save moves its equipment-only entry into the grid and retains its battery charge. A full legacy inventory gains the space required for that item.
+
 Shotgun, hunting rifle and MP5 now cost two actual inventory places, using ItemData.InventorySlots (other items default to one). The native inventory still stores normal InventoryEntry records. Weighted capacity checks govern pickup/addition and equipment return; InventoryFootprintLayout presents wide items across adjacent cells without fake inventory items. The owned UI uses the existing pooled item-slot rebuild path when capacity changes. Old saves are expanded only when necessary to preserve all existing items after footprint costs increase.
 
 Wide item icons are rotated to their alpha-mask principal direction for legibility, using bounds stored in Inventory_IconProfile; source item images are unchanged. The combine source has a persistent COMBINE stamp and instruction until selection ends. Settings > Game provides Inventory Text Size. Large is the default, and the saved size applies to the inventory, files and tablet. The Game settings set registers the owned Inventory_TextSizeSetting asset. The option reads the previous local preference until a new size is saved. With a folder tab focused, D or Right highlights the next tab and A or Left highlights the previous one. Tablet service history uses an optional inventory save field. Removed map-note data from older saves is accepted and ignored.

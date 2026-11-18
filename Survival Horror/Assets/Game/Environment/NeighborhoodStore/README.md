@@ -1,5 +1,7 @@
 # Neighborhood store: checkout counter
 
+Building01 in `1stLevel_Dom` is Corner Market. The `ShopInterior/ColdCases` group contains the original water cooler, three stocked upright cases (`SodaCooler`, `JuiceCooler`, and `DairyCooler`), and the sliding glass-top `IceCreamFreezer`. Each has a bottom-center pivot and static collision. Each upright opens toward local +Z. See `ArtSource/Environment/NeighborhoodStore/ColdCases.md` for the models and rebuild workflow.
+
 `Prefabs/DrinksFridge.prefab` adds one stocked glass-door drinks fridge with four wire shelves, cream/green pixel textures and static collision. Place its bottom-centre pivot on the floor. It is approximately 0.82 x 2.05 x 0.78 m including the handle. Build through **Horror Game > Environment > Build Drinks Fridge**. The glass is transparent; the door/stock are scenery without interaction. Source details: `ArtSource/Environment/NeighborhoodStore/DrinksFridge.md`.
 
 The next prop, `Prefabs/CashRegister.prefab`, is available separately for placement on the counter. It has a worn cream casing, numbered keys, receipt and green numeric display. Its bottom-centre pivot sits on the countertop; it is static scenery with collision. Build through **Horror Game > Environment > Build Cash Register**. Source/provenance: `ArtSource/Environment/NeighborhoodStore/CashRegister.md`.
@@ -11,3 +13,9 @@ The worn older counter has green laminate, wooden recessed front panels, metal e
 The original low-resolution wood, backing and metal textures are shared with `PSXShelvesProps`; keep that pack installed. Laminate wear and sign art were authored for this prop. All surfaces use point filtering and URP Lit materials.
 
 Use **Horror Game > Environment > Build Checkout Counter** to rebuild, or **Validate Checkout Counter** to check references, UVs, collision and scale. Neither command places anything in existing scenes. Editable Blender source and recipes are in `ArtSource/Environment/NeighborhoodStore`; reproducible previews/validation are kept outside Assets in `Exports/Reviews/NeighborhoodStore`.
+
+## Reuse the Corner Market layout
+
+Drag `Prefabs/CornerMarket_StoreSet.prefab` into your target scene. Its pivot sits at floor level near the center of the saved Building01 shop in `1stLevel_Dom`. The prefab carries the arranged `ShopInterior`, `ShopLighting` and `Storefront` groups, including the stocked shelves, checkout, cold cases, small props, light placements, window stickers, fascia and hanging hours sign. Individual props keep their prefab links.
+
+On a different shop shell, align the Storefront group with the new glass. Parent `Ad - Store hours` to the new door's moving visual when it should travel with the door. Use the House Toolkit advertisement palette to mount new decals on their target panes.

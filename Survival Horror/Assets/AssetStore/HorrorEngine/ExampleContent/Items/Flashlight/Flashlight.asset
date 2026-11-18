@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Flashlight
   m_EditorClassIdentifier: 
   UniqueId: 883840ac-cbae-475c-bb72-d6f37ad86737
+  InventorySlots: 1
   Image: {fileID: 21300000, guid: c6133451564f747ff8a029aca19e116a, type: 3}
   ExamineModel: {fileID: 8867094641348559919, guid: ccfa51d8d2e7d44f2a7351c61f52ad9b, type: 3}
   Name:
@@ -54,7 +55,7 @@ MonoBehaviour:
     Scale: {x: 0.001, y: 0.001, z: 0.001}
     ApplyScale: 1
   AttachOnEquipped: 1
-  MoveOutOfInventoryOnEquip: 1
+  MoveOutOfInventoryOnEquip: 0
   AnimatorOverride:
     m_Value: {fileID: 0}
   AnimatorLayerOverrides: []

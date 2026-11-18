@@ -3500,6 +3500,9 @@ PrefabInstance:
       addedObject: {fileID: 1794427602430042090}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3f27c77ae52e1074cbbe47acddea4495, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 2877200616219072249}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3f27c77ae52e1074cbbe47acddea4495, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 5890336003785751646}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3f27c77ae52e1074cbbe47acddea4495, type: 3}
       insertIndex: -1
@@ -3700,6 +3703,20 @@ MonoBehaviour:
   OptionalForwardReference: {fileID: 0}
   m_TeleportationThreshold: 1
   m_IdleSpeedThreshold: 0.05
+--- !u!114 &2877200616219072249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5654891971577553243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b60c8d3c35a4f99bd6bba74353ab34e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorGame.Characters.PlayerAimStance
+  minimumHipHeight: 0.83
+  stanceDepth: 0.76
 --- !u!114 &5890336003785751646
 MonoBehaviour:
   m_ObjectHideFlags: 0

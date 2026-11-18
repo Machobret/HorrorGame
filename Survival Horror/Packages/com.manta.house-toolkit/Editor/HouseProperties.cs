@@ -73,6 +73,7 @@ namespace HouseToolkit.Editor
         {
             GUILayout.Label(fixture.name, EditorStyles.boldLabel);
             GUILayout.Label("Attached to " + fixture.mount.ToString().ToLowerInvariant());
+            FixtureTool.SelectionFields(fixture);
             FixtureTool.DrawLighting(fixture);
             if (GUILayout.Button("Move fixture")) FixtureTool.BeginMove(fixture);
         }

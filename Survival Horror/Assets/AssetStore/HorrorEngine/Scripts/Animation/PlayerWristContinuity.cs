@@ -2,8 +2,7 @@ using UnityEngine;
 
 namespace HorrorEngine
 {
-    // Runs after the weapon arm solvers. Only wrist rotations are corrected;
-    // elbow/hand positions, animation events and weapon timings stay authored.
+    // Runs after the weapon arm solvers to carry wrist and elbow continuity across pose handoffs.
     // Actor-relative rotations preserve body turns while catching parent-arm
     // handoffs; local wrist angles alone can jump as the elbow moves beneath it.
     [DefaultExecutionOrder(400), DisallowMultipleComponent]
@@ -79,7 +78,8 @@ namespace HorrorEngine
                     // recoil and loading motion keep their original timing.
                     bool discontinuity = Quaternion.Angle(wrist.PreviousTarget, target) > 1200 * Time.deltaTime;
                     discontinuity |= Vector3.Distance(wrist.PreviousPositionTarget, position) > 3.6f * Time.deltaTime;
-                    if (transition || discontinuity)
+                    bool continuousPose = state is PlayerStateMotion || state is PlayerStateAiming;
+                    if (transition || (!continuousPose && wrist.Elapsed >= duration && discontinuity))
                     {
                         wrist.Offset = wrist.PreviousOutput * Quaternion.Inverse(target);
                         wrist.PositionOffset = wrist.PreviousPositionOutput - position;

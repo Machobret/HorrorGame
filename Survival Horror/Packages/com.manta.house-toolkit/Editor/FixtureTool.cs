@@ -101,7 +101,7 @@ namespace HouseToolkit.Editor
             HouseProperties.ShowSelection();
         }
 
-        internal static bool Target(HouseFloor floor, FixtureMount mount, Ray ray, out Transform host, out Vector3 point, out int side)
+        internal static bool Target(HouseFloor floor, FixtureMount mount, Ray ray, out Transform host, out Vector3 point, out int side, bool allowOpeningSurface = false)
         {
             host = null; point = default; side = 1;
             if (mount != FixtureMount.Wall)
@@ -134,7 +134,10 @@ namespace HouseToolkit.Editor
                     SceneVisibilityManager.instance.IsHidden(hit.collider.gameObject) ||
                     hit.collider.GetComponentInParent<FixtureAttachment>()) continue;
                 var wall = hit.collider.GetComponentInParent<HouseWall>();
-                if (!wall || wall.Floor != floor || wall.boundaryOnly || hit.collider.GetComponentInParent<InsertAttachment>())
+                var insert = hit.collider.GetComponentInParent<InsertAttachment>();
+                if (!wall && allowOpeningSurface && insert && !string.IsNullOrEmpty(insert.openingId))
+                    wall = floor.GetComponentsInChildren<HouseWall>().FirstOrDefault(w => w.openings.Any(o => o.id == insert.openingId));
+                if (!wall || wall.Floor != floor || wall.boundaryOnly || (insert && !allowOpeningSurface))
                 {
                     blocker = Mathf.Min(blocker, hit.distance);
                     continue;
@@ -154,7 +157,8 @@ namespace HouseToolkit.Editor
             if (e.type != EventType.MouseDown && e.type != EventType.MouseMove && e.type != EventType.Repaint) return;
             var choice = moving ? moving.LightPreset : brush;
             var mount = moving ? moving.mount : brush.mount;
-            if (!TargetSurface(HouseScene.Floor, choice, mount, ray, out var host, out var point, out int side)) return;
+            if (!TargetSurface(HouseScene.Floor, choice, mount, ray, out var host, out var point, out int side,
+                moving && moving.allowOpeningSurface)) return;
             if (choice != null && choice.wallAndCeiling) mount = host == HouseScene.Floor.transform ? FixtureMount.Ceiling : FixtureMount.Wall;
             if (e.type == EventType.MouseMove) view.Repaint();
             if (e.type == EventType.Repaint)
@@ -170,10 +174,12 @@ namespace HouseToolkit.Editor
         }
 
         internal static bool TargetSurface(HouseFloor floor, FixtureChoice choice, FixtureMount mount, Ray ray,
-            out Transform host, out Vector3 point, out int side)
+            out Transform host, out Vector3 point, out int side, bool allowOpeningSurface = false)
         {
-            if (choice == null || !choice.wallAndCeiling) return Target(floor, mount, ray, out host, out point, out side);
-            bool wall = Target(floor, FixtureMount.Wall, ray, out host, out point, out side);
+            bool allowOpenings = allowOpeningSurface || choice?.allowOpeningSurface == true;
+            if (choice == null || !choice.wallAndCeiling)
+                return Target(floor, mount, ray, out host, out point, out side, allowOpenings);
+            bool wall = Target(floor, FixtureMount.Wall, ray, out host, out point, out side, allowOpenings);
             if (Target(floor, FixtureMount.Ceiling, ray, out var ceiling, out var hit, out _) &&
                 (!wall || (Vector3.Dot(ray.direction, floor.transform.up) > 0 &&
                 (hit - ray.origin).sqrMagnitude < (point - ray.origin).sqrMagnitude)))
@@ -296,6 +302,8 @@ namespace HouseToolkit.Editor
 
         static void ApplyPreset(FixtureChoice choice, FixtureAttachment fixture, GameObject model)
         {
+            Undo.RecordObject(fixture, "Fit fixture model");
+            fixture.allowOpeningSurface = choice.allowOpeningSurface;
             var root = fixture.transform;
             var t = model.transform;
             Undo.RecordObject(t, "Fit fixture model");
@@ -307,7 +315,8 @@ namespace HouseToolkit.Editor
             var center = bounds.center;
             if (fixture.mount == FixtureMount.Wall) center.z = bounds.min.z;
             else center.y = fixture.mount == FixtureMount.Floor ? bounds.min.y : bounds.max.y;
-            t.localPosition = -center;
+            var clearance = fixture.mount == FixtureMount.Wall ? Vector3.forward * choice.surfaceClearance : Vector3.zero;
+            t.localPosition = -center + clearance;
             PrefabUtility.RecordPrefabInstancePropertyModifications(t);
             if (choice.lightRange > 0 && !model.GetComponentInChildren<Light>(true))
             {
@@ -516,6 +525,36 @@ namespace HouseToolkit.Editor
             Undo.RecordObject(t,"Keep fixture on surface");
             t.localPosition = pos;
         }
+
+        internal static void SelectionFields(FixtureAttachment fixture)
+        {
+            if (!fixture.allowOpeningSurface) return;
+            var available = Choices.Where(c => c.mount == fixture.mount && c.allowOpeningSurface).ToArray();
+            var model = fixture.transform.Cast<Transform>().FirstOrDefault(t => PrefabUtility.GetCorrespondingObjectFromSource(t.gameObject));
+            var source = model ? PrefabUtility.GetCorrespondingObjectFromSource(model.gameObject) : null;
+            int current = System.Array.FindIndex(available, c => c.prefab == source);
+            EditorGUI.BeginChangeCheck();
+            int chosen = EditorGUILayout.Popup("Advertisement", current, available.Select(c => c.label).ToArray());
+            if (EditorGUI.EndChangeCheck() && chosen >= 0 && chosen < available.Length)
+                ReplacePreset(fixture, available[chosen]);
+        }
+
+        internal static void ReplacePreset(FixtureAttachment fixture, FixtureChoice choice)
+        {
+            if (choice.mount != fixture.mount || !choice.allowOpeningSurface)
+                throw new System.ArgumentException("Choose a compatible surface decoration.");
+            Undo.IncrementCurrentGroup();
+            int group = Undo.GetCurrentGroup();
+            Undo.SetCurrentGroupName("Change advertisement");
+            foreach (Transform child in fixture.transform.Cast<Transform>().ToArray())
+                Undo.DestroyObjectImmediate(child.gameObject);
+            var model = (GameObject)PrefabUtility.InstantiatePrefab(choice.prefab, fixture.transform);
+            Undo.RegisterCreatedObjectUndo(model, "Change advertisement");
+            Undo.RecordObject(fixture.gameObject, "Change advertisement");
+            fixture.name = choice.label;
+            ApplyPreset(choice, fixture, model);
+            Undo.CollapseUndoOperations(group);
+        }
     }
 
     [CustomEditor(typeof(FixturePalette))]
@@ -550,6 +589,7 @@ namespace HouseToolkit.Editor
         {
             var fixture = (FixtureAttachment)target;
             EditorGUILayout.LabelField("Mount",fixture.mount.ToString());
+            FixtureTool.SelectionFields(fixture);
             FixtureTool.DrawLighting(fixture);
             if (GUILayout.Button("Move fixture")) FixtureTool.BeginMove(fixture);
             if (GUILayout.Button(new GUIContent("Reapply fixture preset", "Refit the model and restore the generated light's position, range and intensity.")) && !FixtureTool.Refit(fixture))
@@ -581,7 +621,8 @@ namespace HouseToolkit.Editor
                 EditorGUI.BeginChangeCheck();
                 Handles.FreeMoveHandle(point, HandleUtility.GetHandleSize(point)*.075f, Vector3.zero, Handles.SphereHandleCap);
                 if (EditorGUI.EndChangeCheck() && FixtureTool.TargetSurface(floor, fixture.LightPreset, fixture.mount,
-                    HandleUtility.GUIPointToWorldRay(Event.current.mousePosition), out var host, out var hit, out int side))
+                    HandleUtility.GUIPointToWorldRay(Event.current.mousePosition), out var host, out var hit, out int side,
+                    fixture.allowOpeningSurface))
                     FixtureTool.Mount(fixture, host, hit, side);
             }
         }

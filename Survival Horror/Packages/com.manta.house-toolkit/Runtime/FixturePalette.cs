@@ -11,6 +11,8 @@ namespace HouseToolkit
         public string label;
         public GameObject prefab;
         public FixtureMount mount;
+        [Tooltip("Allow this surface decoration to mount on window and door insert faces.")] public bool allowOpeningSurface;
+        [Tooltip("Small gap between the mounting surface and the model, in metres.")] [Min(0)] public float surfaceClearance;
         [Tooltip("Allow this wall fixture to be placed on a ceiling as well.")] public bool wallAndCeiling;
         [Tooltip("Rotate the authored model into its installed orientation.")] public Vector3 modelRotation;
         [Tooltip("Add a light suited to the mounting surface. Zero keeps its authored lighting.")] [Min(0)] public float lightRange;

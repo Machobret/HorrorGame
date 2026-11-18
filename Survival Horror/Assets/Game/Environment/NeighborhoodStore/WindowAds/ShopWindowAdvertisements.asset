@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f3259b5d93342f6b9d606cf804908d0, type: 3}
+  m_Name: ShopWindowAdvertisements
+  m_EditorClassIdentifier: HouseToolkit::HouseToolkit.FixturePalette
+  fixtures:
+  - label: Ad - Hero HQ protection
+    prefab: {fileID: 4054266517445069333, guid: 641f347e8a0289749b2a92adacb66fcf, type: 3}
+    mount: 0
+    allowOpeningSurface: 1
+    surfaceClearance: 0.012
+    modelRotation: {x: 0, y: 180, z: 0}
+    lightRange: 0
+    lightIntensity: 1
+  - label: Ad - Stay calm notice
+    prefab: {fileID: 253703368418982704, guid: a987e4b089f995f4da6907a6c8b7d9ac, type: 3}
+    mount: 0
+    allowOpeningSurface: 1
+    surfaceClearance: 0.012
+    modelRotation: {x: 0, y: 180, z: 0}
+    lightRange: 0
+    lightIntensity: 1
+  - label: Ad - Everyday essentials
+    prefab: {fileID: 7302810301711114812, guid: c1776c140e3733b4a8beb4c9e38b5f9e, type: 3}
+    mount: 0
+    allowOpeningSurface: 1
+    surfaceClearance: 0.012
+    modelRotation: {x: 0, y: 180, z: 0}
+    lightRange: 0
+    lightIntensity: 1
+  - label: Ad - Drinks and snacks
+    prefab: {fileID: 622530672217214692, guid: 0fbbbd1f72e92c4478d13eabbe74976f, type: 3}
+    mount: 0
+    allowOpeningSurface: 1
+    surfaceClearance: 0.012
+    modelRotation: {x: 0, y: 180, z: 0}
+    lightRange: 0
+    lightIntensity: 1
+  - label: Ad - Ice cold drinks
+    prefab: {fileID: 5634663958674094028, guid: 29ab75b75abd95b45bed3510dd6c2424, type: 3}
+    mount: 0
+    allowOpeningSurface: 1
+    surfaceClearance: 0.012
+    modelRotation: {x: 0, y: 180, z: 0}
+    lightRange: 0
+    lightIntensity: 1
+  - label: Ad - Hot coffee
+    prefab: {fileID: 2227389683305216359, guid: 23ddd2b3600ef6b49b73858291e26fd3, type: 3}
+    mount: 0
+    allowOpeningSurface: 1
+    surfaceClearance: 0.012
+    modelRotation: {x: 0, y: 180, z: 0}
+    lightRange: 0
+    lightIntensity: 1
+  - label: Ad - Store hours
+    prefab: {fileID: 4514058008440069098, guid: fdce428709ee8a64894cd0cc9d2256b0, type: 3}
+    mount: 0
+    allowOpeningSurface: 1
+    surfaceClearance: 0.012
+    modelRotation: {x: 0, y: 180, z: 0}
+    lightRange: 0
+    lightIntensity: 1
