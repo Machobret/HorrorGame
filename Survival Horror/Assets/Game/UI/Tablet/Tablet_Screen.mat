@@ -30,10 +30,11 @@ Material:
     m_Ints: []
     m_Floats:
     - _ColorDepth: 64
-    - _DitherStrength: 0.1
-    - _Scanlines: 0.035
+    - _Curvature: 0.022
+    - _DitherStrength: 0.12
+    - _Scanlines: 0.045
     - _ScreenTime: 0
-    - _Vignette: 0.12
+    - _Vignette: 0.08
     m_Colors:
     - _VirtualResolution: {r: 1280, g: 720, b: 0, a: 0}
   m_BuildTextureStacks: []

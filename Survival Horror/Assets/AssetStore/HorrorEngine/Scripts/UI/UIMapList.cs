@@ -15,6 +15,7 @@ namespace HorrorEngine
 
         public UnityEvent<MapData> OnMapSelected;
         private readonly List<MapData> m_DisplayedMaps = new List<MapData>();
+        private MapData m_CurrentMap;
         private int m_KeyboardIndex;
         private bool m_KeyboardMode;
 
@@ -45,7 +46,11 @@ namespace HorrorEngine
             if (move != 0)
             {
                 m_KeyboardMode = true;
-                m_KeyboardIndex = Mathf.Clamp(m_KeyboardIndex + move, 0, m_DisplayedMaps.Count - 1);
+                int index = m_KeyboardIndex < 0 && move < 0 ? m_DisplayedMaps.Count - 1 : m_KeyboardIndex + move;
+                while (index >= 0 && index < m_DisplayedMaps.Count && m_DisplayedMaps[index] == m_CurrentMap)
+                    index += move;
+                if (index >= 0 && index < m_DisplayedMaps.Count)
+                    m_KeyboardIndex = index;
                 SelectKeyboardItem();
             }
 
@@ -58,7 +63,7 @@ namespace HorrorEngine
         private void SelectDefault()
         {
             m_KeyboardMode = false;
-            m_KeyboardIndex = 0;
+            m_KeyboardIndex = -1;
             if (EventSystem.current) EventSystem.current.SetSelectedGameObject(null);
         }
 
@@ -77,6 +82,7 @@ namespace HorrorEngine
         /// </summary>
         public void Fill(MapData currentMap = null)
         {
+            m_CurrentMap = currentMap;
             var gameData = GameManager.Instance;
             var mapDB = GameManager.Instance.GetDatabase<MapDatabase>();
             m_DisplayedMaps.Clear();
@@ -122,7 +128,7 @@ namespace HorrorEngine
                 var tmPro = item.GetComponentInChildren<TMPro.TextMeshProUGUI>();
                 MapData map = m_DisplayedMaps[i];
                 tmPro.text = MapNavigationIndicator.HasActiveObjectiveFor(map) ? "★ " + map.Name : map.Name;
-                item.GetComponentInChildren<Button>().interactable = true;
+                item.GetComponentInChildren<Button>().interactable = map != m_CurrentMap;
             }
 
             for (int i = m_DisplayedMaps.Count; i < m_MapListContent.childCount; ++i)
@@ -146,6 +152,7 @@ namespace HorrorEngine
         private void SelectMap(int index)
         {
             if (index < 0 || index >= m_DisplayedMaps.Count) return;
+            if (m_DisplayedMaps[index] == m_CurrentMap) return;
             m_KeyboardIndex = index;
             OnMapSelected?.Invoke(m_DisplayedMaps[index]);
         }

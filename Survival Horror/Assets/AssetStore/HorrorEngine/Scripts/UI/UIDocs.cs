@@ -112,6 +112,7 @@ namespace HorrorEngine
 
         public void Show()
         {
+            UIInventory.RefreshMapTabVisibility(transform);
             if(m_ShowClip)UIManager.Get<UIAudio>().Play(m_ShowClip,m_MenuVolume);
             PauseController.Instance.Pause(this);
             CursorController.Instance.SetInUI(true);
@@ -266,6 +267,7 @@ namespace HorrorEngine
 
         public void OnMapCategory()
         {
+            if (!HorrorGame.Chapter1.Chapter1MapTutorial.CanOpenMap) return;
             Hide();
             m_Input.Flush();
             UIManager.Get<UIMap>().Show();

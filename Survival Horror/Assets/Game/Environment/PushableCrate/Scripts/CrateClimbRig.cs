@@ -18,6 +18,7 @@ namespace HorrorGame.Environment
         Animator animator;
         RigidbodyConstraints previousConstraints;
         bool previousKinematic, entered, dropping;
+        bool lockedInPlace;
         float started;
         Vector3 restPosition;
         Quaternion restRotation;
@@ -90,7 +91,9 @@ namespace HorrorGame.Environment
             Vector3[] path=dropping
                 ?new[]{lastClearPosition,climb.DropTop,climb.DropBottom,climb.ExitBottom.position}
                 :new[]{lastClearPosition,climb.ClimbBottom,climb.ClimbTop,climb.ExitTop.position};
-            bool clear=ClimbClearance.HasSupport(capsule,path[path.Length-1]);
+            Vector3 landing=path[path.Length-1];
+            bool clear=ClimbClearance.IsClear(capsule,landing,null) &&
+                ClimbClearance.HasSupport(capsule,landing,dropping ? CrateBody.transform : null,dropping);
             for(int i=1;clear&&i<path.Length;i++)
                 clear=ClimbClearance.CanMove(capsule,path[i-1],path[i],CrateBody.transform);
             if(!clear)Release();
@@ -111,7 +114,8 @@ namespace HorrorGame.Environment
             if(!capsule||!CrateBody)return;
             // Restore a validated pose before the native state re-enables CharacterController.
             if(!ClimbClearance.IsClear(capsule,player.transform.position,null) ||
-                !ClimbClearance.HasSupport(capsule,player.transform.position))
+                !ClimbClearance.HasSupport(capsule,player.transform.position,
+                    dropping ? CrateBody.transform : null,dropping))
             {
                 Vector3 restore=ClimbClearance.IsClear(capsule,entryPosition,null)?entryPosition:lastClearPosition;
                 var body=player.GetComponent<Rigidbody>();
@@ -146,7 +150,7 @@ namespace HorrorGame.Environment
         void Release()
         {
             if (!actor) return;
-            if (CrateBody) { CrateBody.constraints=previousConstraints; CrateBody.isKinematic=previousKinematic; }
+            if (CrateBody && !lockedInPlace) { CrateBody.constraints=previousConstraints; CrateBody.isKinematic=previousKinematic; }
             transform.localPosition=restPosition; transform.localRotation=restRotation;
             var player=actor;
             bool guardTop=isActiveAndEnabled && IsPlayerOnTop(player);
@@ -158,6 +162,23 @@ namespace HorrorGame.Environment
                 guard.Bind(this);
             }
         }
+        public void LockInPlace()
+        {
+            if (!CrateBody) return;
+            if (lockedInPlace) return;
+            lockedInPlace=true;
+            if (TryGetComponent(out Interactive interaction)) interaction.enabled=false;
+            if (TryGetComponent(out Collider interactionTrigger) && interactionTrigger.isTrigger)
+                interactionTrigger.enabled=false;
+            if (!CrateBody.isKinematic)
+            {
+                CrateBody.linearVelocity=Vector3.zero;
+                CrateBody.angularVelocity=Vector3.zero;
+            }
+            CrateBody.constraints=RigidbodyConstraints.FreezeAll;
+            CrateBody.isKinematic=true;
+        }
+
         void OnDisable() { Release(); }
     }
 }

@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEngine;
 
 namespace HorrorEngine
 {
@@ -27,8 +28,8 @@ namespace HorrorEngine
             serializedObject.Update();
 
             EditorGUILayout.PropertyField(m_Priority);
-            DrawFollowSettings("Player Follow (Position)", m_PositionFollow);
-            DrawFollowSettings("Player Follow (Rotation)", m_RotationFollow);
+            DrawFollowSettings("Player Follow (Position)", m_PositionFollow, true);
+            DrawFollowSettings("Player Follow (Rotation)", m_RotationFollow, false);
             DrawThirdPersonFollowSettings(m_ThirdPersonFollow);
 
             serializedObject.ApplyModifiedProperties();
@@ -36,7 +37,7 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
-        private static void DrawFollowSettings(string title, SerializedProperty settings)
+        private static void DrawFollowSettings(string title, SerializedProperty settings, bool allowMaintainDistance)
         {
             SerializedProperty enabled = settings.FindPropertyRelative("Enabled");
 
@@ -46,11 +47,32 @@ namespace HorrorEngine
             if (enabled.boolValue)
             {
                 EditorGUI.indentLevel++;
-                EditorGUILayout.PropertyField(settings.FindPropertyRelative("FollowMode"));
-                EditorGUILayout.PropertyField(settings.FindPropertyRelative("BorderOffset"));
-                EditorGUILayout.PropertyField(settings.FindPropertyRelative("CenterFollowDistance"));
-                EditorGUILayout.PropertyField(settings.FindPropertyRelative("FollowHorizontal"));
-                EditorGUILayout.PropertyField(settings.FindPropertyRelative("FollowVertical"));
+                SerializedProperty followMode = settings.FindPropertyRelative("FollowMode");
+                if (allowMaintainDistance)
+                    EditorGUILayout.PropertyField(followMode);
+                else
+                    followMode.enumValueIndex = EditorGUILayout.IntPopup(
+                        "Follow Mode",
+                        Mathf.Min(followMode.enumValueIndex, 1),
+                        new[] { "Keep Player Centered", "Keep Player Inside Border" },
+                        new[] { 0, 1 });
+
+                if (followMode.enumValueIndex == (int)CameraPOV.PlayerFollowMode.MaintainDistance)
+                {
+                    EditorGUILayout.PropertyField(settings.FindPropertyRelative("MaintainDistance"));
+                    EditorGUILayout.PropertyField(
+                        settings.FindPropertyRelative("KeepOriginalPositionMax"),
+                        new GUIContent("Original Max"));
+                    EditorGUILayout.PropertyField(settings.FindPropertyRelative("FollowHorizontal"));
+                    EditorGUILayout.PropertyField(settings.FindPropertyRelative("FollowVertical"));
+                }
+                else
+                {
+                    EditorGUILayout.PropertyField(settings.FindPropertyRelative("BorderOffset"));
+                    EditorGUILayout.PropertyField(settings.FindPropertyRelative("CenterFollowDistance"));
+                    EditorGUILayout.PropertyField(settings.FindPropertyRelative("FollowHorizontal"));
+                    EditorGUILayout.PropertyField(settings.FindPropertyRelative("FollowVertical"));
+                }
                 EditorGUI.indentLevel--;
             }
 

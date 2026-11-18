@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_6000_0_OR_NEWER
+using Unity.Cinemachine;
+#endif
+
 namespace HorrorEngine
 {
     public class DoorTransitionMidWayMessage : BaseMessage
@@ -90,27 +94,46 @@ namespace HorrorEngine
                 // Door animation
                 DoorAnimation doorAnim = GetDoorAnimInstance(door);
                 doorAnim.gameObject.SetActive(true);
-                Coroutine doorAnimRoutine = StartCoroutine(doorAnim.Play());
-                
-                if (doorAnim.Sound)
-                    m_AudioSource.PlayOneShot(doorAnim.Sound);
+#if UNITY_6000_0_OR_NEWER
+                var cutsceneCamera = doorAnim.GetComponentInChildren<CinemachineVirtualCameraBase>();
+                var cameraSystem = CameraSystem.Instance;
+                var outputCamera = cameraSystem ? cameraSystem.MainCamera : Camera.main;
+                var brain = outputCamera ? outputCamera.GetComponent<CinemachineBrain>() : null;
+                // The cutscene is staged far from the level. Cut to it while the screen is black.
+                int cameraOverride = brain && cutsceneCamera
+                    ? brain.SetCameraOverride(-1, 0, null, cutsceneCamera, 1f, -1f)
+                    : -1;
+#endif
+                try
+                {
+                    Coroutine doorAnimRoutine = StartCoroutine(doorAnim.Play());
 
-                // Fade In (for door animation)
-                yield return m_UIFade.Fade(1f, 0f, 0.25f);
+                    if (doorAnim.Sound)
+                        m_AudioSource.PlayOneShot(doorAnim.Sound);
 
-                // Wait for anim
-                yield return doorAnimRoutine;
+                    // Fade In (for door animation)
+                    yield return m_UIFade.Fade(1f, 0f, 0.25f);
 
-                // Needs to happen before the transitionRoutine since ObjStates are captured here
-                MessageBuffer<DoorTransitionMidWayMessage>.Dispatch(m_TransitionMidWayMsg); 
+                    // Wait for anim
+                    yield return doorAnimRoutine;
 
-                yield return StartCoroutine(transitionRoutine?.Invoke());
+                    // Needs to happen before the transitionRoutine since ObjStates are captured here
+                    MessageBuffer<DoorTransitionMidWayMessage>.Dispatch(m_TransitionMidWayMsg);
 
-                // Fade Out (from door animation)
-                yield return m_UIFade.Fade(0f, 1f, 0.25f);
+                    yield return StartCoroutine(transitionRoutine?.Invoke());
 
-                doorAnim.gameObject.SetActive(false);
-
+                    // Fade Out (from door animation)
+                    yield return m_UIFade.Fade(0f, 1f, 0.25f);
+                }
+                finally
+                {
+#if UNITY_6000_0_OR_NEWER
+                    if (brain && cameraOverride >= 0)
+                        brain.ReleaseCameraOverride(cameraOverride);
+#endif
+                    if (doorAnim)
+                        doorAnim.gameObject.SetActive(false);
+                }
             }
             else
             {

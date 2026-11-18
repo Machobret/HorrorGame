@@ -57,7 +57,7 @@ namespace HorrorEngine
         [Header("Contour readability")]
         [Tooltip("Renders room borders as high-contrast white lines in the player map.")]
         [SerializeField] private bool m_UseBoldWhiteContours = true;
-        [SerializeField, Min(1f)] private float m_ContourThicknessMultiplier = 2.25f;
+        [SerializeField, Min(1f)] private float m_ContourThicknessMultiplier = 1.6875f;
         
         public RenderTexture RenderTexture => m_RenderTexture;
         public MapData CurrentMap => m_Map;
@@ -516,6 +516,11 @@ namespace HorrorEngine
             foreach (var renderer in m_MapPlayer.GetComponentsInChildren<Renderer>(true))
                 renderer.enabled = visible;
         }
+
+        public Transform VisiblePlayerMarker => m_MapPlayer && m_MapPlayer.gameObject.activeInHierarchy ? m_MapPlayer : null;
+        public float MapEffectScale => m_Cam && m_DefaultZoom > 0f
+            ? Mathf.Clamp(m_DefaultZoom / m_Cam.orthographicSize, .45f, 2f)
+            : 1f;
 
         // --------------------------------------------------------------------
 

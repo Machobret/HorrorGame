@@ -120,6 +120,12 @@ namespace HorrorEngine
 
             // Default spawn point in case no matching is found
             PlayerSpawnPoint defaultSpawnPoint = spawnPoints.Length > 0 ? spawnPoints[0] : null;
+            foreach (var spawnPoint in spawnPoints)
+            {
+                if (!spawnPoint.IsDefault) continue;
+                defaultSpawnPoint = spawnPoint;
+                break;
+            }
 
             // Get the last selected character ID, if it exists
             string startCharacterId = PlayerPrefs.GetString(k_StartCharacterPlayerPrefs, "");
@@ -146,7 +152,12 @@ namespace HorrorEngine
             }
 
 
-            if (spawningCharacter)
+            if (string.IsNullOrEmpty(startCharacterId) && defaultSpawnPoint.Character &&
+                Characters.Contains(defaultSpawnPoint.Character))
+            {
+                SpawnCharacter(defaultSpawnPoint.Character, defaultSpawnPoint.transform, true);
+            }
+            else if (spawningCharacter)
             {
                 bool spawned = false;
 

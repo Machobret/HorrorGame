@@ -1,3 +1,4 @@
+using HorrorGame.Chapter1;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,9 +11,28 @@ namespace HorrorGame.UI
     public sealed class TabletMapSymbol : MaskableGraphic
     {
         public TabletSymbolKind Kind;
+        public override Texture mainTexture => Kind == TabletSymbolKind.PowerPoint
+            ? PowerCircuitMapMarker.GetTexture() : base.mainTexture;
+
         protected override void OnPopulateMesh(VertexHelper mesh)
         {
-            mesh.Clear();Draw(mesh,Kind,rectTransform.rect.center,Mathf.Min(rectTransform.rect.width,rectTransform.rect.height)*.34f);
+            mesh.Clear();
+            Rect rect = rectTransform.rect;
+            if (Kind == TabletSymbolKind.PowerPoint)
+            {
+                Vector2 halfSize = Vector2.one * Mathf.Min(rect.width, rect.height) * .5f;
+                Vector2 min = rect.center - halfSize;
+                Vector2 max = rect.center + halfSize;
+                var tint = new Color(.72f, .94f, 1f);
+                mesh.AddVert(min, tint, Vector2.zero);
+                mesh.AddVert(new Vector2(min.x, max.y), tint, Vector2.up);
+                mesh.AddVert(max, tint, Vector2.one);
+                mesh.AddVert(new Vector2(max.x, min.y), tint, Vector2.right);
+                mesh.AddTriangle(0, 1, 2);
+                mesh.AddTriangle(0, 2, 3);
+                return;
+            }
+            Draw(mesh,Kind,rect.center,Mathf.Min(rect.width,rect.height)*.34f);
         }
         public static Color SymbolColor(TabletSymbolKind kind)=>kind==TabletSymbolKind.LockedDoor?new Color(.95f,.66f,.43f):kind==TabletSymbolKind.Player?new Color(.90f,.97f,1):new Color(.65f,.84f,.88f);
         public static void Draw(VertexHelper mesh,TabletSymbolKind kind,Vector2 p,float size)

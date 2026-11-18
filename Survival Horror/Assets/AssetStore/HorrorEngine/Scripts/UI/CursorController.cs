@@ -17,6 +17,13 @@ namespace HorrorEngine
         [SerializeField] CursorState m_OutOfUIState;
 
         private int m_InUICount;
+        private bool m_UseSoftwareCursor;
+
+        public void SetSoftwareCursorActive(bool active)
+        {
+            m_UseSoftwareCursor = active;
+            Cursor.visible = !active && (m_InUICount > 0 ? m_InUIState.Visible : m_OutOfUIState.Visible);
+        }
 
         protected override void Awake()
         {
@@ -48,13 +55,13 @@ namespace HorrorEngine
         private void SetNonUICursor()
         {
             Cursor.lockState = m_OutOfUIState.Mode;
-            Cursor.visible = m_OutOfUIState.Visible;
+            Cursor.visible = !m_UseSoftwareCursor && m_OutOfUIState.Visible;
         }
 
         private void SetUICursor()
         {
             Cursor.lockState = m_InUIState.Mode;
-            Cursor.visible = m_InUIState.Visible;
+            Cursor.visible = !m_UseSoftwareCursor && m_InUIState.Visible;
         }
 
     }

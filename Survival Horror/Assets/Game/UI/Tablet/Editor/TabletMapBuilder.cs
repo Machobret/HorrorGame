@@ -76,21 +76,8 @@ namespace HorrorGame.UI.Editor
                 listData.ApplyModifiedPropertiesWithoutUndo();
                 var mapName=(TMP_Text)ui.FindProperty("m_MapName").objectReferenceValue;
                 Rect(mapName.rectTransform,new Vector2(.275f,.83f),new Vector2(.93f,.875f));mapName.alignment=TextAlignmentOptions.MidlineLeft;mapName.fontSize=26;
-                var trim=Panel("Tablet housing",map.transform,new Vector2(.035f,.045f),new Vector2(.965f,.955f),new Color(.07f,.085f,.095f));trim.transform.SetSiblingIndex(1);
+                var trim=Panel("Tablet housing",map.transform,new Vector2(.05f,.05f),new Vector2(.95f,.989f),new Color(.07f,.085f,.095f));trim.transform.SetSiblingIndex(1);
                 var screen=Panel("Blue display",map.transform,new Vector2(.055f,.12f),new Vector2(.945f,.89f),new Color(.018f,.055f,.08f));screen.transform.SetSiblingIndex(2);
-                // Thin screen-printed grid; geometry is kept behind the map and its controls.
-                for(int i=1;i<24;i++)
-                {
-                    float x=.055f+.89f*i/24;
-                    var line=Panel("Schematic grid",map.transform,new Vector2(x,.12f),new Vector2(x,.89f),new Color(.23f,.4f,.48f,.08f));
-                    ((RectTransform)line.transform).sizeDelta=new Vector2(1,0);line.transform.SetSiblingIndex(3);
-                }
-                for(int i=1;i<16;i++)
-                {
-                    float y=.12f+.77f*i/16;
-                    var line=Panel("Schematic grid",map.transform,new Vector2(.055f,y),new Vector2(.945f,y),new Color(.23f,.4f,.48f,.08f));
-                    ((RectTransform)line.transform).sizeDelta=new Vector2(0,1);line.transform.SetSiblingIndex(3);
-                }
                 Border(map.transform,.055f,.12f,.945f,.89f);
                 Label("Device identification","HERO HQ  /  FIELD SERVICE TERMINAL",map.transform,new Vector2(.065f,.9f),new Vector2(.85f,.94f),22);
                 Label("Map controls","WASD PAN  /  WHEEL ZOOM  /  UP-DOWN FLOOR  /  M-ESC CLOSE",map.transform,new Vector2(.28f,.065f),new Vector2(.935f,.105f),14);
@@ -116,7 +103,7 @@ namespace HorrorGame.UI.Editor
             try
             {
                 var data=renderer.GetComponent<MapRenderer>();var serialized=new SerializedObject(data);
-                serialized.FindProperty("m_GridColor").colorValue=new Color(.18f,.36f,.44f,.13f);
+                serialized.FindProperty("m_GridColor").colorValue=new Color(.18f,.36f,.44f,.27f);
                 serialized.FindProperty("m_ContourColor").colorValue=new Color(.42f,.7f,.79f);
                 serialized.FindProperty("m_PlayerColor").colorValue=new Color(.85f,.96f,1);
                 serialized.ApplyModifiedPropertiesWithoutUndo();

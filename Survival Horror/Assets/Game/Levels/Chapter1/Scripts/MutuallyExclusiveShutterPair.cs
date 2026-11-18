@@ -8,8 +8,8 @@ namespace HorrorGame.Chapter1
     /// </summary>
     public sealed class MutuallyExclusiveShutterPair : MonoBehaviour
     {
-        public SimplePuzzleShutter LeftShutter;
-        public SimplePuzzleShutter RightShutter;
+        public CircuitDrivenObject LeftShutter;
+        public CircuitDrivenObject RightShutter;
         public bool LeftStartsOpen = true;
         private DistrictPowerGrid grid;
 
@@ -17,7 +17,15 @@ namespace HorrorGame.Chapter1
         {
             grid = LeftShutter ? LeftShutter.Grid : RightShutter ? RightShutter.Grid : null;
             if (grid != null)
+            {
                 grid.CircuitChanged += OnCircuitChanged;
+                if (LeftShutter && RightShutter &&
+                    grid.IsCircuitPowered(LeftShutter.CircuitId) && grid.IsCircuitPowered(RightShutter.CircuitId))
+                {
+                    if (LeftStartsOpen) OpenLeft();
+                    else OpenRight();
+                }
+            }
             else if (LeftStartsOpen) OpenLeft();
             else OpenRight();
         }
@@ -44,8 +52,8 @@ namespace HorrorGame.Chapter1
                 if (LeftShutter) grid.SetCircuit(LeftShutter.CircuitId, true);
                 return;
             }
-            if (LeftShutter) LeftShutter.SetOpen(true);
-            if (RightShutter) RightShutter.SetOpen(false);
+            if (LeftShutter is SimplePuzzleShutter left) left.SetOpen(true);
+            if (RightShutter is SimplePuzzleShutter right) right.SetOpen(false);
         }
 
         public void OpenRight()
@@ -56,21 +64,21 @@ namespace HorrorGame.Chapter1
                 if (RightShutter) grid.SetCircuit(RightShutter.CircuitId, true);
                 return;
             }
-            if (LeftShutter) LeftShutter.SetOpen(false);
-            if (RightShutter) RightShutter.SetOpen(true);
+            if (LeftShutter is SimplePuzzleShutter left) left.SetOpen(false);
+            if (RightShutter is SimplePuzzleShutter right) right.SetOpen(true);
         }
 
         public void ToggleLeft()
         {
             if (grid != null && LeftShutter != null) { if (grid.IsCircuitPowered(LeftShutter.CircuitId)) grid.SetCircuit(LeftShutter.CircuitId, false); else OpenLeft(); return; }
-            if (LeftShutter != null && LeftShutter.IsOpen) OpenRight();
+            if (LeftShutter is SimplePuzzleShutter left && left.IsOpen) OpenRight();
             else OpenLeft();
         }
 
         public void ToggleRight()
         {
             if (grid != null && RightShutter != null) { if (grid.IsCircuitPowered(RightShutter.CircuitId)) grid.SetCircuit(RightShutter.CircuitId, false); else OpenRight(); return; }
-            if (RightShutter != null && RightShutter.IsOpen) OpenLeft();
+            if (RightShutter is SimplePuzzleShutter right && right.IsOpen) OpenLeft();
             else OpenRight();
         }
     }

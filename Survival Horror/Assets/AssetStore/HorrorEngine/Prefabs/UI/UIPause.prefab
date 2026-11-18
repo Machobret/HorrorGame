@@ -2433,7 +2433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MainContent: {fileID: 8258808933185817152}
-  m_PauseHint: {fileID: 8472774183229473381}
+  m_PauseHint: {fileID: 0}
   m_ShowClip: {fileID: 8300000, guid: e7a5ec70ce6ba5d4a96e971b41ff6f0d, type: 3}
   m_QuitScene: {fileID: 11400000, guid: 25d8ef1feb96072459050f585e43c2c0, type: 2}
   m_DefaultSelection: {fileID: 180889355442974110}
@@ -2620,7 +2620,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6289887745511327042
 RectTransform:
   m_ObjectHideFlags: 0

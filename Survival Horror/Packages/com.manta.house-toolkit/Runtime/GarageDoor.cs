@@ -15,7 +15,7 @@ namespace HouseToolkit
         public bool Operable => operable;
         public int FinishTile => tile;
         public bool IsOpen => heightRaised >= clearSize.y;
-        static readonly int tileId = Shader.PropertyToID("_AtlasTile"), visibleId = Shader.PropertyToID("_VisibleHeight");
+        static readonly int tileId = Shader.PropertyToID("_AtlasTile");
         MaterialPropertyBlock block;
         float heightRaised;
         bool requestedOpen;
@@ -54,8 +54,14 @@ namespace HouseToolkit
             leftGuide.localScale=rightGuide.localScale=new Vector3(j,h,.13f);
             header.localPosition=new Vector3(0,h+top*.5f,0);
             header.localScale=new Vector3(w+2*j,top,.18f);
+            leaf.gameObject.SetActive(true);
+            leaf.transform.localScale=new Vector3(w,h,.05f);
             heightRaised=operable ? Mathf.Clamp(heightRaised,0,h) : 0;
-            Pose();
+            leaf.transform.localPosition=Vector3.up*heightRaised;
+            block??=new MaterialPropertyBlock();
+            leaf.GetPropertyBlock(block);
+            block.SetFloat(tileId,tile);
+            leaf.SetPropertyBlock(block);
             if(Application.IsPlaying(gameObject) && operable && travel==null && heightRaised!=(requestedOpen?h:0))SetOpen(requestedOpen);
         }
         public void SetOpen(bool open)
@@ -72,22 +78,10 @@ namespace HouseToolkit
             while(heightRaised!=(requestedOpen?clearSize.y:0))
             {
                 heightRaised=Mathf.MoveTowards(heightRaised,requestedOpen?clearSize.y:0,Mathf.Max(.01f,speed)*Time.deltaTime);
-                Pose();
+                leaf.transform.localPosition=Vector3.up*heightRaised;
                 yield return null;
             }
             travel=null;
-        }
-        void Pose()
-        {
-            float remaining=clearSize.y-heightRaised;
-            leaf.gameObject.SetActive(remaining>0);
-            leaf.transform.localPosition=Vector3.up*heightRaised;
-            leaf.transform.localScale=new Vector3(clearSize.x,Mathf.Max(.00001f,remaining),.05f);
-            block??=new MaterialPropertyBlock();
-            leaf.GetPropertyBlock(block);
-            block.SetFloat(tileId,tile);
-            block.SetFloat(visibleId,remaining/clearSize.y);
-            leaf.SetPropertyBlock(block);
         }
     }
 }

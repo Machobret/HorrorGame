@@ -46,7 +46,44 @@ namespace HorrorEngine
             MappingEditorWindow window = (MappingEditorWindow)EditorWindow.GetWindow(typeof(MappingEditorWindow));
             window.Show();
             window.rootVisualElement.focusable = true;
+            if (window.m_SelectedMap != selected) window.m_CircuitRoomContext = null;
             window.m_SelectedMap = selected;
+        }
+
+        internal static void AddCircuitFromInspector(MapController map)
+        {
+            var controller = MapControllerEditor.EnsureCircuitController(map);
+            if (!controller) return;
+            Init(map);
+            var window = GetWindow<MappingEditorWindow>();
+            var rooms = map.GetComponentsInChildren<MapRoom>(true);
+            var room = window.m_CircuitRoomContext;
+            if (!room && rooms.Length == 1) room = rooms[0];
+            if (!room)
+            {
+                EditorUtility.DisplayDialog("Add Power Circuit", "Select a room in the Map Editor, then click + Add Circuit.", "OK");
+                return;
+            }
+            window.m_CircuitRoomContext = room;
+            AddCircuit(map, controller, room);
+        }
+
+        private static void AddCircuit(MapController map, PowerPanelController powerController, MapRoom room)
+        {
+            var dot = new GameObject("Circuit Dot — New circuit");
+            dot.transform.SetParent(powerController.transform, false);
+            PowerCircuitPanelElement circuit = dot.AddComponent<PowerCircuitPanelElement>();
+            circuit.Label = "New circuit";
+            circuit.MapData = map.Data;
+            circuit.Room = room;
+            circuit.RoomOffset = Vector2.zero;
+            Undo.RegisterCreatedObjectUndo(dot, "Add Power Circuit");
+            powerController.RefreshAutomaticCircuitId(circuit);
+            powerController.SerializeToData();
+            Selection.activeObject = dot;
+            EditorUtility.SetDirty(powerController);
+            EditorSceneManager.MarkSceneDirty(dot.scene);
+            AssetDatabase.SaveAssets();
         }
 
 
@@ -635,15 +672,17 @@ namespace HorrorEngine
             GUILayout.Space(20);
 
             // ----------- Chapter 1 power-circuit dots
-            PowerPanelController powerController = FindFirstObjectByType<PowerPanelController>();
+            PowerPanelController powerController = MapControllerEditor.FindCircuitController(m_SelectedMap);
             // The map selector can briefly clear its selection while changing maps.
             // Do not begin a circuit layout group until there is a valid map to
             // scope it to; otherwise the null exception leaves IMGUI's stack open.
-            if (powerController && m_SelectedMap && m_SelectedMap.Data)
+            if (m_SelectedMap && m_SelectedMap.Data)
             {
                 GUILayout.BeginVertical();
                 GUILayout.Label("Power Circuits", EditorStyles.boldLabel);
-                foreach (PowerCircuitPanelElement circuit in powerController.GetComponentsInChildren<PowerCircuitPanelElement>(true))
+                foreach (PowerCircuitPanelElement circuit in powerController
+                    ? powerController.GetComponentsInChildren<PowerCircuitPanelElement>(true)
+                    : System.Array.Empty<PowerCircuitPanelElement>())
                 {
                     // Circuits are permanently scoped to the MapData they were created on.
                     // A shared PowerPanelController must never make dots leak to another map.
@@ -654,27 +693,12 @@ namespace HorrorEngine
                 }
                 if (GUILayout.Button("+ Add Circuit"))
                 {
-                    MapRoom room = m_CircuitRoomContext;
-                    if (!room)
-                    {
+                    if (!m_CircuitRoomContext)
                         EditorUtility.DisplayDialog("Add Power Circuit", "Select a room first. Circuit dots are anchored to map rooms.", "OK");
-                    }
                     else
                     {
-                        GameObject dot = new GameObject("Circuit Dot — New circuit");
-                        dot.transform.SetParent(powerController.transform);
-                        PowerCircuitPanelElement circuit = dot.AddComponent<PowerCircuitPanelElement>();
-                        circuit.Label = "New circuit";
-                        circuit.MapData = m_SelectedMap.Data;
-                        circuit.Room = room;
-                        circuit.RoomOffset = Vector2.zero;
-                        Undo.RegisterCreatedObjectUndo(dot, "Add Power Circuit");
-                        powerController.RefreshAutomaticCircuitId(circuit);
-                        powerController.SerializeToData();
-                        Selection.activeObject = dot;
-                        EditorUtility.SetDirty(powerController);
-                        EditorSceneManager.MarkSceneDirty(dot.scene);
-                        AssetDatabase.SaveAssets();
+                        var controller = MapControllerEditor.EnsureCircuitController(m_SelectedMap);
+                        if (controller) AddCircuit(m_SelectedMap, controller, m_CircuitRoomContext);
                     }
                 }
                 if (m_CircuitRoomContext && GUILayout.Button("+ Create Circuit Diagram For Room"))
@@ -800,7 +824,7 @@ namespace HorrorEngine
 
         private void DrawPowerCircuits()
         {
-            PowerPanelController controller = FindFirstObjectByType<PowerPanelController>();
+            PowerPanelController controller = MapControllerEditor.FindCircuitController(m_SelectedMap);
             if (!controller) return;
             GL.PushMatrix(); GL.LoadPixelMatrix(); GL.Begin(GL.QUADS);
             foreach (PowerCircuitPanelElement circuit in controller.GetComponentsInChildren<PowerCircuitPanelElement>(true))

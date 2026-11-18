@@ -12,7 +12,8 @@ namespace HorrorEngine
         public enum PlayerFollowMode
         {
             KeepPlayerCentered,
-            KeepPlayerInsideBorder
+            KeepPlayerInsideBorder,
+            MaintainDistance
         }
 
         [Serializable]
@@ -31,6 +32,13 @@ namespace HorrorEngine
             [Tooltip("In Center mode, the player may move this many metres from screen centre before the camera follows. Set to 0 to keep the player centred.")]
             [Min(0f)]
             public float CenterFollowDistance = 0f;
+
+            [Tooltip("In Maintain Distance mode, the world-space distance kept between the camera and player.")]
+            [Min(0f)]
+            public float MaintainDistance = 5f;
+
+            [Tooltip("Original Max: in Maintain Distance mode, prevents the camera from moving behind the position it had when this camera became active.")]
+            public bool KeepOriginalPositionMax = true;
 
             [Tooltip("Allow the camera to follow the player across the screen horizontally.")]
             public bool FollowHorizontal = true;
@@ -76,9 +84,14 @@ namespace HorrorEngine
         private Renderer[] m_FollowRenderers = Array.Empty<Renderer>();
         private float m_FollowVisualRadius;
         private Quaternion m_BaseCameraLocalRotation;
+        private bool m_HasMaintainDistanceOrigin;
+        private Vector3 m_MaintainDistanceOrigin;
+        private Vector3 m_MaintainDistanceForward;
+        private Vector3 m_MaintainDistanceRight;
+        private Vector3 m_MaintainDistanceUp;
         private FixedCameraRotationFollowExtension m_RotationFollowExtension;
-        private readonly RaycastHit[] m_ThirdPersonCollisionHits = new RaycastHit[32];
-        private readonly Collider[] m_ThirdPersonOverlapHits = new Collider[32];
+        private readonly RaycastHit[] m_CameraCollisionHits = new RaycastHit[32];
+        private readonly Collider[] m_CameraOverlapHits = new Collider[32];
 
         // The camera must never collapse into the player.  This is deliberately
         // internal so Third Person keeps its compact Distance/Rotation/Pitch UI.
@@ -267,6 +280,25 @@ namespace HorrorEngine
             cameraTransform.localRotation = m_BaseCameraLocalRotation;
             bool cameraChanged = false;
 
+            if (PositionFollow.Enabled && PositionFollow.FollowMode == PlayerFollowMode.MaintainDistance)
+            {
+                if (!m_HasMaintainDistanceOrigin)
+                {
+                    m_MaintainDistanceOrigin = cameraTransform.position;
+                    m_MaintainDistanceForward = cameraTransform.forward;
+                    m_MaintainDistanceRight = cameraTransform.right;
+                    m_MaintainDistanceUp = cameraTransform.up;
+                    m_HasMaintainDistanceOrigin = true;
+                }
+
+                Vector3 desiredPosition = GetMaintainDistancePosition();
+                Vector3 originalPosition = cameraTransform.position;
+                cameraTransform.position = GetUnobstructedCameraPosition(originalPosition, desiredPosition, m_PlayerTransform);
+                cameraChanged = (cameraTransform.position - originalPosition).sqrMagnitude > 0.000001f;
+                SynchronizeCameraState(cameraTransform, cameraChanged);
+                return;
+            }
+
             // Position follow only slides the camera across its screen plane.
             Quaternion cameraRotation = cameraTransform.rotation;
             Vector3 localPlayerPosition = Quaternion.Inverse(cameraRotation) * (m_FollowTarget.position - cameraTransform.position);
@@ -280,11 +312,53 @@ namespace HorrorEngine
             Vector2 correction = GetFollowCorrection(localPlayerPosition, PositionFollow);
             if (correction.sqrMagnitude > 0f)
             {
-                cameraTransform.position += cameraTransform.right * correction.x + cameraTransform.up * correction.y;
-                cameraChanged = true;
+                Vector3 originalPosition = cameraTransform.position;
+                Vector3 desiredPosition = originalPosition + cameraTransform.right * correction.x + cameraTransform.up * correction.y;
+                cameraTransform.position = GetUnobstructedCameraPosition(originalPosition, desiredPosition, m_PlayerTransform);
+                cameraChanged = (cameraTransform.position - originalPosition).sqrMagnitude > 0.000001f;
             }
 
             SynchronizeCameraState(cameraTransform, cameraChanged);
+        }
+
+        // --------------------------------------------------------------------
+
+        private Vector3 GetMaintainDistancePosition()
+        {
+            Vector3 originalToPlayer = m_FollowTarget.position - m_MaintainDistanceOrigin;
+            float originalToPlayerDistance = originalToPlayer.magnitude;
+            if (originalToPlayerDistance <= 0.0001f)
+                return m_MaintainDistanceOrigin;
+
+            Vector3 desiredPosition = m_FollowTarget.position
+                - originalToPlayer / originalToPlayerDistance * PositionFollow.MaintainDistance;
+
+            // Maintain Distance always permits travel forward, while the standard
+            // horizontal/vertical options independently control screen-right and
+            // screen-up movement from the captured camera orientation.
+            Vector3 desiredOffset = desiredPosition - m_MaintainDistanceOrigin;
+            float forwardOffset = Vector3.Dot(desiredOffset, m_MaintainDistanceForward);
+            float horizontalOffset = PositionFollow.FollowHorizontal
+                ? Vector3.Dot(desiredOffset, m_MaintainDistanceRight)
+                : 0f;
+            float verticalOffset = PositionFollow.FollowVertical
+                ? Vector3.Dot(desiredOffset, m_MaintainDistanceUp)
+                : 0f;
+            desiredPosition = m_MaintainDistanceOrigin
+                + m_MaintainDistanceForward * forwardOffset
+                + m_MaintainDistanceRight * horizontalOffset
+                + m_MaintainDistanceUp * verticalOffset;
+
+            if (!PositionFollow.KeepOriginalPositionMax)
+                return desiredPosition;
+
+            // The authored camera position is a fixed one-way boundary.  Maintain
+            // Distance may advance the camera in its original viewing direction,
+            // but any result behind that plane returns to the exact origin.
+            Vector3 originalToDesired = desiredPosition - m_MaintainDistanceOrigin;
+            return Vector3.Dot(originalToDesired, m_MaintainDistanceForward) < 0f
+                ? m_MaintainDistanceOrigin
+                : desiredPosition;
         }
 
         // --------------------------------------------------------------------
@@ -326,7 +400,7 @@ namespace HorrorEngine
                 targetPosition,
                 ThirdPersonCollisionRadius,
                 direction,
-                m_ThirdPersonCollisionHits,
+                m_CameraCollisionHits,
                 desiredDistance,
                 Physics.DefaultRaycastLayers,
                 QueryTriggerInteraction.Ignore);
@@ -334,11 +408,11 @@ namespace HorrorEngine
             float closestObstacle = float.PositiveInfinity;
             for (int i = 0; i < hitCount; ++i)
             {
-                Collider collider = m_ThirdPersonCollisionHits[i].collider;
-                if (!IsThirdPersonObstacle(collider, playerTransform))
+                Collider collider = m_CameraCollisionHits[i].collider;
+                if (!IsCameraObstacle(collider, playerTransform))
                     continue;
 
-                closestObstacle = Mathf.Min(closestObstacle, m_ThirdPersonCollisionHits[i].distance);
+                closestObstacle = Mathf.Min(closestObstacle, m_CameraCollisionHits[i].distance);
             }
 
             if (!float.IsPositiveInfinity(closestObstacle))
@@ -355,12 +429,12 @@ namespace HorrorEngine
             int overlapCount = Physics.OverlapSphereNonAlloc(
                 desiredPosition,
                 ThirdPersonCollisionRadius,
-                m_ThirdPersonOverlapHits,
+                m_CameraOverlapHits,
                 Physics.DefaultRaycastLayers,
                 QueryTriggerInteraction.Ignore);
             for (int i = 0; i < overlapCount; ++i)
             {
-                if (IsThirdPersonObstacle(m_ThirdPersonOverlapHits[i], playerTransform))
+                if (IsCameraObstacle(m_CameraOverlapHits[i], playerTransform))
                     return ThirdPersonMinimumDistance;
             }
 
@@ -369,7 +443,41 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
-        private static bool IsThirdPersonObstacle(Collider collider, Transform playerTransform)
+        private Vector3 GetUnobstructedCameraPosition(Vector3 currentPosition, Vector3 desiredPosition, Transform playerTransform)
+        {
+            Vector3 movement = desiredPosition - currentPosition;
+            float movementDistance = movement.magnitude;
+            if (movementDistance <= 0.0001f)
+                return desiredPosition;
+
+            int hitCount = Physics.RaycastNonAlloc(
+                currentPosition,
+                movement / movementDistance,
+                m_CameraCollisionHits,
+                movementDistance,
+                Physics.DefaultRaycastLayers,
+                QueryTriggerInteraction.Ignore);
+
+            float closestObstacle = float.PositiveInfinity;
+            for (int i = 0; i < hitCount; ++i)
+            {
+                RaycastHit hit = m_CameraCollisionHits[i];
+                if (IsCameraObstacle(hit.collider, playerTransform))
+                    closestObstacle = Mathf.Min(closestObstacle, hit.distance);
+            }
+
+            if (float.IsPositiveInfinity(closestObstacle))
+                return desiredPosition;
+
+            // Stop just before the hit surface so following against a wall never
+            // places the virtual camera inside its collider.
+            float safeDistance = Mathf.Max(0f, closestObstacle - ThirdPersonCollisionSkin);
+            return currentPosition + movement / movementDistance * safeDistance;
+        }
+
+        // --------------------------------------------------------------------
+
+        private static bool IsCameraObstacle(Collider collider, Transform playerTransform)
         {
             return collider
                 && (!playerTransform || !collider.transform.IsChildOf(playerTransform));
@@ -529,6 +637,7 @@ namespace HorrorEngine
         public void ResetPlayerFollowState()
         {
             m_RotationFollowExtension?.ResetFollowState();
+            m_HasMaintainDistanceOrigin = false;
         }
 
         // --------------------------------------------------------------------

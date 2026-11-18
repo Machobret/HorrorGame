@@ -3,6 +3,7 @@ using HorrorGame.Chapter1;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 namespace HorrorEngine
 {
@@ -18,6 +19,7 @@ namespace HorrorEngine
         [SerializeField] private RectTransform m_PanFrame;
         [SerializeField] private Color m_CrosshairColor = Color.white;
         public UnityEvent OnShown = new UnityEvent();
+        public event Action Closed;
         [SerializeField] private Transform m_FloorsParent;
         [SerializeField] private GameObject m_FloorsPrefab;
         [SerializeField] private GameObject m_FloorsLegend;
@@ -35,6 +37,11 @@ namespace HorrorEngine
         private Image m_CrosshairVertical;
         private Image m_CrosshairHorizontal;
         private bool m_PersistentCursorAcquired;
+        private bool m_MouseMapMode;
+        private Vector2 m_MapPointer;
+        private HorrorGame.UI.TabletStartupScreen m_Startup;
+        private HorrorGame.UI.TabletDisplayFilter m_DisplayFilter;
+        public bool IsTabletLoading => m_Startup && m_Startup.Screen && m_Startup.Screen.gameObject.activeInHierarchy;
         public bool AllowMapNavigation { get; set; }=true;
         public bool HasTabletWorkspace { get; set; }
         public MapData CurrentMap => m_CurrentMap;
@@ -45,6 +52,8 @@ namespace HorrorEngine
         {
             m_UIContext = GetComponent<UIContext>();
             m_Input = GetComponentInParent<IUIInput>();
+            m_Startup = GetComponent<HorrorGame.UI.TabletStartupScreen>();
+            m_DisplayFilter = GetComponent<HorrorGame.UI.TabletDisplayFilter>();
         }
 
         // --------------------------------------------------------------------
@@ -133,6 +142,11 @@ namespace HorrorEngine
 
         private void Update()
         {
+            if (IsTabletLoading)
+            {
+                m_Input.ConsumeScrollDelta();
+                return;
+            }
             if (AllowMapNavigation && m_Input.IsToggleMapListDown())
             {
                 ShowMapList();
@@ -163,11 +177,23 @@ namespace HorrorEngine
             Vector2 move = m_Input.GetPrimaryAxis();
             move.x = Mathf.Abs(move.x) > m_InputSnapThreshold ? move.x : 0f;
             move.y = Mathf.Abs(move.y) > m_InputSnapThreshold ? move.y : 0f;
+            var mouse = Mouse.current;
+            bool mouseInside = HasTabletWorkspace && TryGetMapPointer(out m_MapPointer, true);
+            bool mouseMoved = mouse != null && mouse.delta.ReadValue().sqrMagnitude > .25f;
+            if (mouseInside && mouse.leftButton.wasPressedThisFrame)
+                m_MouseMapMode = true;
+            else if (move != Vector2.zero)
+                m_MouseMapMode = false;
+            else if (mouseInside && mouseMoved)
+                m_MouseMapMode = true;
 
             if (MapRenderer.Exists && m_CurrentMap)
             {
                 float panSpeed = m_MovementSpeed * MapRenderer.Instance.GetPanSpeedMultiplier();
-                MapRenderer.Instance.MoveTarget(move * Time.unscaledDeltaTime * panSpeed);
+                if (m_MouseMapMode)
+                    move = mouseInside ? new Vector2(EdgePan(m_MapPointer.x), EdgePan(m_MapPointer.y)) : Vector2.zero;
+                if (move != Vector2.zero)
+                    MapRenderer.Instance.MoveTarget(move * Time.unscaledDeltaTime * panSpeed);
                 float scroll = m_Input.ConsumeScrollDelta();
                 if (Mathf.Abs(scroll) > 0.001f)
                     MapRenderer.Instance.Zoom(Mathf.Sign(scroll));
@@ -266,6 +292,7 @@ namespace HorrorEngine
 
         public void Show(MapData map = null)
         {
+            m_MouseMapMode = false;
             PauseController.Instance.Pause(this);
 
             if (MapController.Exists)
@@ -275,7 +302,12 @@ namespace HorrorEngine
                 {
                     // A controller can exist while the player is outside every
                     // authored map room. In that case M must not open a blank UI.
-                    map = mapCtrl ? mapCtrl.Data : null;
+                    if (mapCtrl && mapCtrl.Data)
+                    {
+                        mapCtrl.UpdateContent();
+                        if (GameManager.Exists && GameManager.Instance.Inventory != null && mapCtrl.Data.IsKnownByPlayer())
+                            map = mapCtrl.Data;
+                    }
                 }
             }
             else
@@ -289,6 +321,7 @@ namespace HorrorEngine
             {
                 foreach (MapData ownedMap in GameManager.Instance.Inventory.Maps)
                 {
+                    if (!ownedMap) continue;
                     map = ownedMap;
                     break;
                 }
@@ -363,6 +396,7 @@ namespace HorrorEngine
 
             m_UIContext.Deactivate();
 
+            Closed?.Invoke();
             UIManager.PopAction();
         }
 
@@ -392,10 +426,67 @@ namespace HorrorEngine
             return line;
         }
 
+        public bool IsMapDirectoryOpen => m_MapList && m_MapList.gameObject.activeInHierarchy;
+
+        private static float EdgePan(float coordinate)
+        {
+            const float edge = .13f;
+            return Mathf.Clamp01((coordinate - (1f - edge)) / edge) - Mathf.Clamp01((edge - coordinate) / edge);
+        }
+
+        public bool TryGetMapPointer(out Vector2 position, bool clampToEdge = false)
+        {
+            position = default;
+            if (Mouse.current == null || !m_MapImage || !m_MapImage.isActiveAndEnabled ||
+                IsTabletLoading || IsMapDirectoryOpen || !AllowMapNavigation) return false;
+            Vector2 screen = Mouse.current.position.ReadValue();
+            if (m_DisplayFilter && m_DisplayFilter.isActiveAndEnabled) screen = m_DisplayFilter.GlassToScreen(screen);
+            var image = m_MapImage.rectTransform;
+            var canvas = m_MapImage.canvas.rootCanvas;
+            var camera = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(image, screen, camera, out Vector2 local))
+                return false;
+            Rect bounds = image.rect;
+            if (!clampToEdge && !bounds.Contains(local)) return false;
+            position = new Vector2(Mathf.InverseLerp(bounds.xMin, bounds.xMax, local.x),
+                Mathf.InverseLerp(bounds.yMin, bounds.yMax, local.y));
+            return true;
+        }
+
+        public bool TryGetCrosshairViewport(out Vector2 position)
+        {
+            if (m_MouseMapMode) return TryGetMapPointer(out position, true);
+            position = MapRenderer.Exists ? MapRenderer.Instance.TargetViewportPosition : Vector2.one * .5f;
+            position = new Vector2(Mathf.Clamp01(position.x), Mathf.Clamp01(position.y));
+            return !IsTabletLoading;
+        }
+
+        public bool TryProjectMapViewport(Vector2 viewport, bool sampleTexture, out Vector2 screen, bool allowOutside = false)
+        {
+            screen = default;
+            if (!m_MapImage || !m_MapImage.gameObject.activeInHierarchy) return false;
+            if (sampleTexture)
+            {
+                Rect uv = m_MapImage.uvRect;
+                viewport = new Vector2((viewport.x - uv.x) / uv.width, (viewport.y - uv.y) / uv.height);
+            }
+            if (!allowOutside && (viewport.x < 0 || viewport.x > 1 || viewport.y < 0 || viewport.y > 1)) return false;
+            RectTransform image = m_MapImage.rectTransform;
+            Rect rect = image.rect;
+            Canvas canvas = m_MapImage.canvas.rootCanvas;
+            screen = RectTransformUtility.WorldToScreenPoint(
+                canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera,
+                image.TransformPoint(rect.min + Vector2.Scale(rect.size, viewport)));
+            return true;
+        }
+
         private void UpdateCrosshairPosition()
         {
             if (m_CrosshairVertical == null || m_CrosshairHorizontal == null || !MapRenderer.Exists) return;
-            Vector2 position = MapRenderer.Instance.TargetViewportPosition;
+            bool visible = TryGetCrosshairViewport(out Vector2 position);
+            m_CrosshairVertical.enabled = visible;
+            m_CrosshairHorizontal.enabled = visible;
+            if (!visible) return;
             position.x = Mathf.Clamp01(position.x);
             position.y = Mathf.Clamp01(position.y);
 

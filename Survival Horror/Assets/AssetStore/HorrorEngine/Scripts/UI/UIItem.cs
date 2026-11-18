@@ -20,6 +20,8 @@ namespace HorrorEngine
         [SerializeField] private AudioClip m_CloseClip;
 
         private IUIInput m_Input;
+        private System.Action m_OnDismissed;
+        private int m_ShownFrame;
         
 
         // --------------------------------------------------------------------
@@ -46,19 +48,20 @@ namespace HorrorEngine
                 return;
 
             var itemData = msg.Data;
+            var onDismissed = msg.OnSplashDismissed;
 
             if (gameObject.activeInHierarchy)
             {
                 UIManager.PushAction(new UIStackedAction()
                 {
-                    Action = () => { Show(itemData); },
+                    Action = () => { Show(itemData, onDismissed); },
                     StopProcessingActions = true,
                     Name = "UIItem.OnItemPickeUp (Show)"
                 });
             }
             else
             {
-                Show(itemData);
+                Show(itemData, onDismissed);
             }
         }
 
@@ -66,6 +69,13 @@ namespace HorrorEngine
 
         public void Show(ItemData item)
         {
+            Show(item, null);
+        }
+
+        private void Show(ItemData item, System.Action onDismissed)
+        {
+            m_OnDismissed = onDismissed;
+            m_ShownFrame = Time.frameCount;
             PauseController.Instance.Pause(this);
 
             m_Image.gameObject.SetActive(!OpenExamination);
@@ -93,6 +103,7 @@ namespace HorrorEngine
 
         private void Update()
         {
+            if (m_OnDismissed != null && m_ShownFrame == Time.frameCount) return;
             bool isDismissed = m_Input.IsConfirmDown() || m_Input.IsCancelDown();
             if (isDismissed)
             {
@@ -104,6 +115,8 @@ namespace HorrorEngine
 
         private void Hide()
         {
+            var onDismissed = m_OnDismissed;
+            m_OnDismissed = null;
             if (OpenExamination)
             {
                 UIManager.Get<UIExamineItem>().Hide();
@@ -114,6 +127,9 @@ namespace HorrorEngine
 
             if (!UIManager.PopAction())
                 UIManager.Get<UIAudio>().Play(m_CloseClip);
+
+            if (onDismissed != null)
+                UIManager.Instance.InvokeActionNextFrame(onDismissed);
         }
     }
 }

@@ -3,24 +3,62 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db786b94e250b3e46bee4e406c307bce, type: 3}
   m_Name: Chapter1PlayerStart
   m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.CharacterData
   UniqueId: 6d7915a1-460c-4d19-9b81-b4625b03e22b
-  Name: {IsLocalized: 0, Unlocalized: Maverick Thompson, Localized: {m_TableReference: {m_TableCollectionName: }, m_TableEntryReference: {m_KeyId: 0, m_Key: , m_FallbackState: 0, m_WaitForCompletion: 0}, m_LocalVariables: []}}
-  CodeName: {IsLocalized: 0, Unlocalized: MAVERICK, Localized: {m_TableReference: {m_TableCollectionName: }, m_TableEntryReference: {m_KeyId: 0, m_Key: , m_FallbackState: 0, m_WaitForCompletion: 0}, m_LocalVariables: []}}
+  Name:
+    IsLocalized: 0
+    Unlocalized: Maverick Thompson
+    Localized:
+      m_TableReference:
+        m_TableCollectionName:
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key:
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  CodeName:
+    IsLocalized: 0
+    Unlocalized: MAVERICK
+    Localized:
+      m_TableReference:
+        m_TableCollectionName:
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key:
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
   Prefab: {fileID: 1669957101240307755, guid: f156a01a70726f04c863c37bb9fc458c, type: 3}
   Portrait: {fileID: 0}
   InitialInventorySize: 6
   InitialInventory: []
   InitialStorageBox:
-    Label: {IsLocalized: 0, Unlocalized: Storage Box, Localized: {m_TableReference: {m_TableCollectionName: }, m_TableEntryReference: {m_KeyId: 0, m_Key: , m_FallbackState: 0, m_WaitForCompletion: 0}, m_LocalVariables: []}}
+    Label:
+      IsLocalized: 0
+      Unlocalized: Storage Box
+      Localized:
+        m_TableReference:
+          m_TableCollectionName:
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key:
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+        m_LocalVariables: []
     Name_DEPRECATED: 
     Capacity: 80
     Items: []
   InitialDocuments: []
-  InitialMaps:
-  - {fileID: 11400000, guid: 2bb102fa142654a49b1425aa75f617b1, type: 2}
+  InitialMaps: []
   InitialEquipment: []
   InitialAttributes: []
   Name_DEPRECATED: 

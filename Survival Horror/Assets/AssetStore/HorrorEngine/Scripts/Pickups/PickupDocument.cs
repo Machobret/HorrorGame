@@ -16,7 +16,11 @@ namespace HorrorEngine
 
         public override void Take()
         {
-            GameManager.Instance.Inventory.Documents.Add(m_Data);
+            var documents = GameManager.Instance.Inventory.Documents;
+            bool firstPickup = !documents.Contains(m_Data);
+            documents.Add(m_Data);
+            if (firstPickup)
+                HorrorGame.UI.GameplayNotifications.DocumentReceived(m_Data);
 
             if (m_ReadOnPickup)
                 Read();
