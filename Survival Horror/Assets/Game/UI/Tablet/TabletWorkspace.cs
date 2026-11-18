@@ -17,7 +17,7 @@ namespace HorrorGame.UI
         public TMP_Text NetworkStatus,PowerHelp,LogText,Footer;
         public Transform PowerRows;
         public Button PowerRowTemplate;
-        public Button[] PageButtons;
+        public Button BackToMap;
         public TabletMapAnnotations Annotations;
         public int Page { get; private set; }
         public PowerMapCircuitPanel Network { get; private set; }
@@ -47,11 +47,11 @@ namespace HorrorGame.UI
         public void ToggleLegend(){bool open=!Legend.activeSelf;if(open)Map.CloseDirectory();Legend.SetActive(open);}
         public void SetPage(int page)
         {
-            Page=Mathf.Clamp(page,0,2);if(Footer)Footer.text=Page==0?"PAN WASD / ZOOM WHEEL / FLOOR UP-DOWN / CLOSE ESC":Page==1?"SELECT A CIRCUIT / REVIEW LOAD BEFORE ENABLING / CLOSE ESC":"SCROLL TO READ / OPEN FILES FOR DOCUMENTS / CLOSE ESC";Map.CloseDirectory();Map.AllowMapNavigation=Page==0;
+            Page=Mathf.Clamp(page,0,2);if(Footer)Footer.text=Page==0?"PAN WASD / ZOOM WHEEL / FLOOR UP-DOWN / CLOSE ESC":Page==1?"SELECT A CIRCUIT / REVIEW LOAD BEFORE ENABLING / CLOSE ESC":"SCROLL TO READ / CLOSE ESC";Map.CloseDirectory();Map.AllowMapNavigation=Page==0;
             bool hasMap=Map.CurrentMap && GameManager.Exists && GameManager.Instance.Inventory.Maps.Contains(Map.CurrentMap);
             MapImage.gameObject.SetActive(Page==0 && hasMap);MapFrame.SetActive(Page==0);Floors.SetActive(Page==0);MapTools.SetActive(Page==0);
             Annotations.gameObject.SetActive(Page==0 && hasMap);PowerPage.SetActive(Page==1);LogPage.SetActive(Page==2);Legend.SetActive(false);
-            for(int i=0;i<PageButtons.Length;i++){PageButtons[i].GetComponent<Image>().color=i==Page?selected:normal;PageButtons[i].interactable=i!=Page;}
+            if(BackToMap)BackToMap.gameObject.SetActive(Page!=0);
             if(Page==1)BindNetwork();
             if(Page==2)RefreshLog();
         }

@@ -95,7 +95,7 @@ namespace HorrorGame.UI.Editor
                 var categories=Find(root,"UIInventoryCategories");categories.SetParent(folder.transform,false);Rect((RectTransform)categories,new Vector2(.07f,.8f),new Vector2(.93f,.885f));
                 foreach(var button in categories.GetComponentsInChildren<Button>(true)){ButtonStyle(button);foreach(var image in button.GetComponentsInChildren<Image>(true)){image.sprite=null;image.color=new Color(.18f,.17f,.15f,.12f);}foreach(var text in button.GetComponentsInChildren<TMP_Text>(true))Style(text,paperFont,Ink,21);}
                 categories.gameObject.SetActive(false);
-                BuildTabs(root.transform,0,()=>{},root.GetComponent<UIInventory>().OnFilesCategory,root.GetComponent<UIInventory>().OnMapCategory);
+                BuildTabs(root.transform,layoutHost.transform,0,()=>{},root.GetComponent<UIInventory>().OnFilesCategory,root.GetComponent<UIInventory>().OnMapCategory);
                 presentation.CapacityText=Label("Capacity","",folder.transform,new Vector2(.55f,.79f),new Vector2(.93f,.84f),15,Ink,terminalFont);presentation.CapacityText.alignment=TextAlignmentOptions.MidlineRight;
                 var status=Find(root,"UIStatus");status.gameObject.SetActive(false);
                 string fluidPath=Root+"Inventory_ConditionFluid.mat";
@@ -110,13 +110,12 @@ namespace HorrorGame.UI.Editor
                 foreach(var itemFiller in root.GetComponentsInChildren<UIItemFiller>(true)){var data=new SerializedObject(itemFiller);data.FindProperty("m_NormalAmountColor").colorValue=Ink;data.FindProperty("m_EmptyAmountColor").colorValue=new Color(.6f,.12f,.08f);data.FindProperty("m_MaxStackAmountColor").colorValue=Ink;data.ApplyModifiedPropertiesWithoutUndo();}
                 foreach(var t in root.GetComponentsInChildren<Transform>(true))t.gameObject.layer=5;
                 foreach(var button in root.GetComponentsInChildren<Button>(true))if(button.targetGraphic)button.targetGraphic.raycastTarget=true;
-                AddReadability(root,new Vector2(.78f,.035f),new Vector2(.96f,.075f));
+                AddReadability(root);
                 var prefab=PrefabUtility.SaveAsPrefabAsset(root,Root+"Inventory_Folder.prefab");
                 var core=new SerializedObject(AssetDatabase.LoadAssetAtPath<HECorePrefabs>("Assets/AssetStore/HorrorEngine/Prefabs/HECorePrefabs.asset"));core.FindProperty("m_Inventory").objectReferenceValue=prefab;core.ApplyModifiedPropertiesWithoutUndo();AssetDatabase.SaveAssets();Debug.Log("FOLDER_INVENTORY_BUILD_OK");
             }
             finally{Object.DestroyImmediate(root);}
             BuildDocuments();
-            BuildMapTabs();
         }
         public static void BuildBatch(){try{Build();EditorApplication.Exit(0);}catch(Exception e){Debug.LogException(e);EditorApplication.Exit(1);}}
         static Transform Find(GameObject root,string name)=>root.GetComponentsInChildren<Transform>(true).First(t=>t.name==name);

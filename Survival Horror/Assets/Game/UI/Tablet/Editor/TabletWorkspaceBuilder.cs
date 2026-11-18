@@ -33,11 +33,9 @@ namespace HorrorGame.UI.Editor
             var controls=surface.Find("Map controls");if(controls){workspace.Footer=controls.GetComponent<TMP_Text>();Rect((RectTransform)controls,new Vector2(.075f,.045f),new Vector2(.77f,.085f));controls.GetComponent<TMP_Text>().text="PAN WASD / ZOOM WHEEL / FLOOR UP-DOWN / CLOSE ESC";controls.GetComponent<TMP_Text>().fontSize=13;}
             var background=surface.Find("Bg");if(background){Rect((RectTransform)background,new Vector2(.045f,.035f),new Vector2(.96f,.987f));background.GetComponent<Image>().color=new Color(.012f,.026f,.035f);}
             Casing(owner.transform);
-            workspace.PageButtons=new Button[3];string[] names={"MAP","POWER","LOG"};UnityAction[] actions={workspace.ShowMap,workspace.ShowPower,workspace.ShowLog};
-            for(int i=0;i<3;i++)workspace.PageButtons[i]=Button(names[i]+" page",names[i],owner.transform,new Vector2(.075f+i*.15f,.78f),new Vector2(.215f+i*.15f,.825f),actions[i]);
             workspace.MapTools=Container("Map tools",owner.transform,Vector2.zero,Vector2.one);
-            Button("Map directory","DIRECTORY [I]",workspace.MapTools.transform,new Vector2(.54f,.78f),new Vector2(.72f,.825f),workspace.Map.ToggleMapDirectory);
-            Button("Legend toggle","LEGEND",workspace.MapTools.transform,new Vector2(.73f,.78f),new Vector2(.93f,.825f),workspace.ToggleLegend);
+            Button("Map directory","DIRECTORY [I]",workspace.MapTools.transform,new Vector2(.54f,.835f),new Vector2(.72f,.88f),workspace.Map.ToggleMapDirectory);
+            Button("Legend toggle","LEGEND",workspace.MapTools.transform,new Vector2(.73f,.835f),new Vector2(.93f,.88f),workspace.ToggleLegend);
             var annotation=Container("Map symbols",owner.transform,new Vector2(.075f,.095f),new Vector2(.93f,.77f));workspace.Annotations=annotation.AddComponent<TabletMapAnnotations>();workspace.Annotations.Workspace=workspace;workspace.Annotations.color=Ink;
             workspace.Legend=Container("Map legend",owner.transform,new Vector2(.655f,.20f),new Vector2(.925f,.745f));Panel("Legend backing",workspace.Legend.transform,Vector2.zero,Vector2.one,new Color(.018f,.05f,.065f,.98f)).raycastTarget=true;
             Label("Legend heading","MAP LEGEND",workspace.Legend.transform,new Vector2(.07f,.88f),new Vector2(.80f,.98f),21);
@@ -63,13 +61,32 @@ namespace HorrorGame.UI.Editor
             workspace.LogPage=Container("Log page",owner.transform,new Vector2(.075f,.095f),new Vector2(.93f,.77f));Panel("Log background",workspace.LogPage.transform,Vector2.zero,Vector2.one,PanelColor);
             var logScroll=Scroll("Field record",workspace.LogPage.transform,new Vector2(.04f,.17f),new Vector2(.96f,.96f));workspace.LogText=Label("Service log","",logScroll.content,Vector2.zero,Vector2.one,18);workspace.LogText.alignment=TextAlignmentOptions.TopLeft;workspace.LogText.enableWordWrapping=true;workspace.LogText.richText=false;
             var logRect=workspace.LogText.rectTransform;logRect.anchorMin=new Vector2(0,1);logRect.anchorMax=Vector2.one;logRect.pivot=new Vector2(.5f,1);logRect.offsetMin=logRect.offsetMax=Vector2.zero;workspace.LogText.gameObject.AddComponent<ContentSizeFitter>().verticalFit=ContentSizeFitter.FitMode.PreferredSize;logScroll.content=logRect;
-            Button("Open collected files","OPEN COLLECTED FILES",workspace.LogPage.transform,new Vector2(.04f,.03f),new Vector2(.55f,.13f),workspace.Map.OnFilesCategory);
+            BuildMapActions(workspace, owner.transform, surface);
             directory.transform.SetAsLastSibling();
             var startup=root.GetComponent<TabletStartupScreen>();if(startup && startup.Screen)startup.Screen.transform.SetAsLastSibling();
             foreach(var t in owner.GetComponentsInChildren<Transform>(true))t.gameObject.layer=5;
-            InventoryFolderBuilder.AddReadability(root,new Vector2(.79f,.045f),new Vector2(.93f,.085f));
+            InventoryFolderBuilder.AddReadability(root);
             var screen=AssetDatabase.LoadAssetAtPath<Material>(TabletMapBuilder.Root+"Tablet_Screen.mat");if(screen){screen.SetVector("_VirtualResolution",new Vector4(1280,720,0,0));screen.SetFloat("_ColorDepth",64);screen.SetFloat("_DitherStrength",.1f);screen.SetFloat("_Scanlines",.035f);EditorUtility.SetDirty(screen);}
         }
+        internal static void BuildMapActions(TabletWorkspace workspace, Transform owner, Transform surface)
+        {
+            font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(TabletMapBuilder.Root + "Tablet_3270Font.asset");
+            Button("Open power controls", "POWER CONTROLS", workspace.MapTools.transform,
+                new Vector2(.075f, .835f), new Vector2(.275f, .88f), workspace.ShowPower);
+            Button("Open service log", "SERVICE LOG", workspace.MapTools.transform,
+                new Vector2(.285f, .835f), new Vector2(.485f, .88f), workspace.ShowLog);
+            workspace.BackToMap = Button("Back to map", "BACK TO MAP", owner,
+                new Vector2(.075f, .835f), new Vector2(.275f, .88f), workspace.ShowMap);
+            workspace.BackToMap.gameObject.SetActive(false);
+            foreach (var view in new[] { workspace.MapImage.gameObject, workspace.MapFrame, workspace.Directory,
+                         workspace.Annotations.gameObject, workspace.PowerPage, workspace.LogPage })
+            {
+                var rect = (RectTransform)view.transform;
+                rect.anchorMax = new Vector2(rect.anchorMax.x, .82f);
+            }
+            InventoryFolderBuilder.MarkTextSizes(surface);
+        }
+
         static void Casing(Transform parent)
         {
             var metal=new Color(.10f,.105f,.105f);

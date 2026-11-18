@@ -72,13 +72,13 @@ namespace HorrorGame.UI.Editor
                 var categories=root.GetComponentsInChildren<Transform>(true).FirstOrDefault(t=>t.name=="UIInventoryCategories");
                 if(categories){categories.SetParent(folder.transform,false);Rect((RectTransform)categories,new Vector2(.07f,.8f),new Vector2(.93f,.885f));foreach(var button in categories.GetComponentsInChildren<Button>(true)){ButtonStyle(button);foreach(var image in button.GetComponentsInChildren<Image>(true)){image.sprite=null;image.color=new Color(.18f,.17f,.15f,.12f);}}}
                 if(categories)categories.gameObject.SetActive(false);
-                BuildTabs(root.transform,1,root.GetComponent<UIDocs>().OnItemsCategory,()=>{},root.GetComponent<UIDocs>().OnMapCategory);
+                BuildTabs(root.transform,parent,1,root.GetComponent<UIDocs>().OnItemsCategory,()=>{},root.GetComponent<UIDocs>().OnMapCategory);
                 Find(root,"ButtonLegend").gameObject.SetActive(false);
                 var oldInfo=Find(root,"DocumentInfo");foreach(var image in oldInfo.GetComponentsInChildren<Image>(true))image.enabled=false;
                 Label("Files controls","SELECT FILE   /   E OR CLICK READ   /   ESC BACK",content,new Vector2(.08f,.035f),new Vector2(.76f,.075f),15,Cream,terminalFont);
                 data.FindProperty("m_AnimationTime").floatValue=.18f;data.ApplyModifiedPropertiesWithoutUndo();
                 DocumentAtmosphere(root,content,note.rectTransform);
-                AddReadability(root,new Vector2(.78f,.035f),new Vector2(.96f,.075f));
+                AddReadability(root);
                 var prefab=PrefabUtility.SaveAsPrefabAsset(root,Root+"Inventory_Files.prefab");
                 var core=new SerializedObject(AssetDatabase.LoadAssetAtPath<HECorePrefabs>("Assets/AssetStore/HorrorEngine/Prefabs/HECorePrefabs.asset"));core.FindProperty("m_DocumentList").objectReferenceValue=prefab;core.ApplyModifiedPropertiesWithoutUndo();
             }
