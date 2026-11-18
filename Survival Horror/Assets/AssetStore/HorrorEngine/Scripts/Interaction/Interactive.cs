@@ -37,6 +37,9 @@ namespace HorrorEngine
             if (!isActiveAndEnabled)
                 return;
 
+            if (interactor is PlayerInteractor)
+                HorrorGame.UI.GameplayNotifications.DismissAll();
+
             OnInteract?.Invoke(interactor);
             MessageBuffer<InteractionStartMessage>.Dispatch();
         }

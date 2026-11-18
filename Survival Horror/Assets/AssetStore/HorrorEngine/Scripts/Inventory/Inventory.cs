@@ -646,7 +646,9 @@ namespace HorrorEngine
 
             m_Equipped.TryGetValue(equipable.Slot, out InventoryEntry prevEquippedEntry);
             
-            if (equipable.MoveOutOfInventoryOnEquip)
+            // Secondary equipment is a tool selection, not a second storage
+            // area. It always keeps its own inventory entry and position.
+            if (equipable.MoveOutOfInventoryOnEquip && equipable.Slot != EquipmentSlot.Secondary)
             {
                 // We create a new entry that will be stored in m_Equipped
                 entry = new InventoryEntry()
@@ -684,7 +686,7 @@ namespace HorrorEngine
             if (entry != null)
             {
                 EquipableItemData equipable = entry.Item as EquipableItemData;
-                if (equipable && equipable.MoveOutOfInventoryOnEquip && !isDrop)
+                if (equipable && equipable.MoveOutOfInventoryOnEquip && equipable.Slot != EquipmentSlot.Secondary && !isDrop)
                 {
                     if (!CanAdd(entry.Item,entry.Count))
                     {

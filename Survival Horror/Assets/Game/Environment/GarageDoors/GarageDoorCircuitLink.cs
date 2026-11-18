@@ -24,11 +24,13 @@ namespace HorrorGame.Environment
         void OnDisable() => Active.Remove(this);
         public override void Refresh()
         {
+            if (GetComponent<CircuitShutterTeleport>()) return;
             if(isActiveAndEnabled && Grid && !string.IsNullOrEmpty(CircuitId))door.SetOpen(Powered);
         }
         internal bool TryMarker(DistrictPowerGrid grid,MapData map,out string roomId,out Vector3 position)
         {
             roomId=null;position=default;
+            if (GetComponent<CircuitShutterTeleport>()) return false;
             if(!ShowOnTablet || !door.Operable || Grid!=grid || !Room || !Room.TryGetComponent(out ObjectUniqueId id) ||
                 string.IsNullOrEmpty(id.Id) || !grid.Circuits.Exists(c=>c.Id==CircuitId) || map.Rooms==null || !map.Rooms.Exists(r=>r.UniqueId==id.Id))return false;
             roomId=id.Id;

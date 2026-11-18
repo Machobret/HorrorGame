@@ -7,6 +7,7 @@ namespace HorrorEngine
     {
         private Vector3 m_OriginalPosition;
         private Quaternion m_OriginalRotation;
+        private bool m_Pinned;
 
         // --------------------------------------------------------------------
 
@@ -45,8 +46,15 @@ namespace HorrorEngine
 
         public void ResetTransform()
         {
+            if (m_Pinned) return;
             transform.position = m_OriginalPosition;
             transform.rotation = m_OriginalRotation;   
+        }
+
+        public void KeepPinnedTransform()
+        {
+            m_Pinned = true;
+            enabled = false;
         }
 
 
@@ -61,7 +69,7 @@ namespace HorrorEngine
 
         public void SetFromSavedData(string savedData)
         {
-            enabled = Convert.ToBoolean(savedData);
+            enabled = !m_Pinned && Convert.ToBoolean(savedData);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HorrorEngine
     [CustomPropertyDrawer(typeof(LocalizableText))]
     public class LocalizableTextDrawer : PropertyDrawer
     {
+        internal const string DocumentPageTextControl = "DocumentPageText";
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             // Begin the property field
@@ -28,7 +30,15 @@ namespace HorrorEngine
                     EditorGUI.LabelField(textFieldRect, label);
                     position.y += EditorGUIUtility.singleLineHeight+5; // Move to the next line
                     position.height -= EditorGUIUtility.singleLineHeight+10; // Adjust height
-                    unlocalizedProperty.stringValue = EditorGUI.TextArea(position, unlocalizedProperty.stringValue, EditorStyles.textArea);
+                    if (fieldInfo.DeclaringType == typeof(DocumentPage) && fieldInfo.Name == nameof(DocumentPage.Text))
+                    {
+                        GUI.SetNextControlName(DocumentPageTextControl);
+                        unlocalizedProperty.stringValue = GUI.TextArea(position, unlocalizedProperty.stringValue, EditorStyles.textArea);
+                    }
+                    else
+                    {
+                        unlocalizedProperty.stringValue = EditorGUI.TextArea(position, unlocalizedProperty.stringValue, EditorStyles.textArea);
+                    }
                 }
                 else
                 {

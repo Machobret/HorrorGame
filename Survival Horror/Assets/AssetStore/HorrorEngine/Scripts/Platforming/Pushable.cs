@@ -84,7 +84,8 @@ namespace HorrorEngine
 
         public void PushTo(Vector3 m_ExpectedPosition)
         {
-            if (m_Pushing)
+            // A puzzle can lock the crate before the player's push state has exited.
+            if (m_Pushing && CanBePushed)
                 m_Rigidbody.MovePosition(m_ExpectedPosition);
         }
 

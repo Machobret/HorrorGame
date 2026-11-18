@@ -30,6 +30,7 @@ namespace HorrorGame.Chapter1
         public int RemainingCapacity => Mathf.Max(0, MaximumCapacity - CurrentConsumption);
 
         public event Action<string, bool> CircuitChanged;
+        public event Func<string, bool> CanEnableCircuit;
 
         private void Awake()
         {
@@ -79,6 +80,9 @@ namespace HorrorGame.Chapter1
             if (IsShutdown) return;
             PowerCircuit circuit = Circuits.Find(value => value.Id == id);
             if (circuit == null || circuit.Enabled == enabled) return;
+            if (enabled && CanEnableCircuit != null)
+                foreach (Func<string, bool> check in CanEnableCircuit.GetInvocationList())
+                    if (!check(id)) return;
             circuit.Enabled = enabled;
             CircuitChanged?.Invoke(id, enabled);
             Recalculate();

@@ -10,6 +10,9 @@ namespace HorrorEngine
     [CustomEditor(typeof(DocumentData), true)]
     public class DocumentDataEditor : Editor
     {
+        private const string HighlightStart = "<color=#FFD84A>";
+        private const string HighlightEnd = "</color>";
+
         public Texture NoIconImage;
         private int m_CurrentPageIndex;
         private Editor m_PageEditor;
@@ -186,7 +189,7 @@ namespace HorrorEngine
                 GUILayout.Space(10);
             }
             
-            EditorGUILayout.PropertyField(pageElement.FindPropertyRelative(nameof(DocumentPage.Text)));
+            DrawPageTextField(pageElement.FindPropertyRelative(nameof(DocumentPage.Text)));
 
             GUILayout.EndVertical();
 
@@ -245,6 +248,46 @@ namespace HorrorEngine
 
 
             EditorGUILayout.EndVertical();
+        }
+
+        private static void DrawPageTextField(SerializedProperty textProperty)
+        {
+            EditorGUILayout.PropertyField(textProperty);
+
+            if (textProperty.FindPropertyRelative(nameof(LocalizableText.IsLocalized)).boolValue)
+            {
+                EditorGUILayout.LabelField($"Highlight translated text with {HighlightStart}words{HighlightEnd}.");
+                return;
+            }
+
+            var text = textProperty.FindPropertyRelative(nameof(LocalizableText.Unlocalized));
+            int start = 0;
+            int end = 0;
+            if (GUI.GetNameOfFocusedControl() == LocalizableTextDrawer.DocumentPageTextControl)
+            {
+                var editor = (TextEditor)GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.keyboardControl);
+                start = Mathf.Clamp(Mathf.Min(editor.cursorIndex, editor.selectIndex), 0, text.stringValue.Length);
+                end = Mathf.Clamp(Mathf.Max(editor.cursorIndex, editor.selectIndex), 0, text.stringValue.Length);
+            }
+
+            using (new EditorGUI.DisabledScope(start == end))
+            {
+                if (!GUILayout.Button(new GUIContent("Highlight", "Make the selected text yellow in the document reader."), EditorStyles.miniButton))
+                    return;
+            }
+
+            string value = text.stringValue;
+            if (start >= HighlightStart.Length && end + HighlightEnd.Length <= value.Length &&
+                string.CompareOrdinal(value, start - HighlightStart.Length, HighlightStart, 0, HighlightStart.Length) == 0 &&
+                string.CompareOrdinal(value, end, HighlightEnd, 0, HighlightEnd.Length) == 0)
+            {
+                text.stringValue = value.Remove(end, HighlightEnd.Length).Remove(start - HighlightStart.Length, HighlightStart.Length);
+            }
+            else
+            {
+                text.stringValue = value.Insert(end, HighlightEnd).Insert(start, HighlightStart);
+            }
+            GUI.FocusControl(null);
         }
 
     }

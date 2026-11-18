@@ -1,74 +1,233 @@
 using System.Collections;
+using System.Globalization;
 using HorrorEngine;
+using HorrorGame.Environment;
 using UnityEngine;
 
 namespace HorrorGame.Chapter1
 {
-    /// <summary>Standalone broken shutter that repeatedly slams until a pushed crate jams it.</summary>
-    [RequireComponent(typeof(Collider))]
-    public sealed class BrokenCircuitShutter : MonoBehaviour
+    [DefaultExecutionOrder(30)]
+    public sealed class BrokenCircuitShutter : CircuitShutterTeleport, ISavableObjectStateExtra
     {
-        public Transform MovingPart;
-        public Vector3 RaisedLocalPosition = new Vector3(0, 2.5f, 0);
-        public Vector3 SlammedLocalPosition;
-        public Collider[] HazardWallColliders;
-        [Tooltip("Only this crate can jam the shutter. Leave empty to accept any Pushable.")]
         public Pushable RequiredCrate;
-        [Min(.05f)] public float RaiseSeconds = .45f;
-        [Min(.05f)] public float SlamSeconds = .12f;
-        [Min(.05f)] public float HoldRaisedSeconds = .6f;
+        [Min(.05f)] public float RaiseSeconds = 1.15f;
+        [Min(.05f)] public float HoldRaisedSeconds = .35f;
         public AudioSource SlamSound;
-        public bool StartsActive = true;
-        public bool Jammed { get; private set; }
-        private Coroutine routine;
-        private Pushable crateInGap;
 
-        private void Start()
+        public bool Jammed => jammedLift >= 0f;
+        protected override bool PassageAvailable => Jammed;
+        protected override float PromptDepth => 2.6f;
+        protected override bool KeepPromptAtThreshold => true;
+
+        private BoxCollider leafCollider;
+        private BoxCollider passageWall;
+        private Collider[] crateColliders;
+        private Vector3 closedPosition;
+        private Vector3 closedScale;
+        private float fullLift;
+        private float lift;
+        private float jammedLift = -1f;
+        private Vector3? jammedCratePosition;
+        private Coroutine cycle;
+
+        // Tablet input controls the shutter even while the map freezes physics and actors.
+        private static float CycleDeltaTime => PauseController.Exists && PauseController.Instance.Context is UIMap
+            ? Time.unscaledDeltaTime
+            : Time.deltaTime;
+
+        protected override void Start()
         {
-            GetComponent<Collider>().isTrigger = true;
-            if (StartsActive) Activate();
-        }
-        public void Activate()
-        {
-            if (routine != null) StopCoroutine(routine);
-            if (Jammed)
+            Transform leaf = PassageLeaf;
+            if (!leaf || !leaf.TryGetComponent(out leafCollider))
             {
-                SetWall(false);
-                if (MovingPart) MovingPart.localPosition = SlammedLocalPosition;
+                Debug.LogError("Broken shutter needs a Leaf with a BoxCollider.", this);
                 return;
             }
-            routine = StartCoroutine(SlamLoop());
+
+            closedPosition = leaf.localPosition;
+            closedScale = leaf.localScale;
+            fullLift = closedScale.y * leafCollider.size.y;
+
+            var wall = new GameObject("Shutter passage blocker", typeof(BoxCollider));
+            wall.layer = leaf.gameObject.layer;
+            wall.transform.SetParent(leaf.parent, false);
+            wall.transform.SetLocalPositionAndRotation(closedPosition, leaf.localRotation);
+            wall.transform.localScale = closedScale;
+            passageWall = wall.GetComponent<BoxCollider>();
+            passageWall.center = leafCollider.center;
+            passageWall.size = leafCollider.size;
+
+            crateColliders = RequiredCrate ? RequiredCrate.GetComponentsInChildren<Collider>() : System.Array.Empty<Collider>();
+            // The threshold always blocks walking. Only the crate can enter as the leaf clears it.
+            foreach (var collider in crateColliders)
+                if (!collider.isTrigger) Physics.IgnoreCollision(passageWall, collider);
+
+            base.Start();
         }
-        public void Deactivate()
+
+        public override void Refresh()
         {
-            if (routine != null) StopCoroutine(routine);
-            routine = null;
-            SetWall(true);
-            if (MovingPart) MovingPart.localPosition = SlammedLocalPosition;
+            base.Refresh();
+            if (!leafCollider) return;
+            if (cycle != null) StopCoroutine(cycle);
+            cycle = null;
+
+            if (Jammed)
+            {
+                PinCrate();
+                SetLift(jammedLift, false);
+            }
+            else if (Powered && isActiveAndEnabled)
+                cycle = StartCoroutine(SlamLoop());
+            else
+                CloseWithoutJamming();
         }
+
+        private void Update()
+        {
+            if (leafCollider && !Jammed && !Powered && lift > 0f)
+                CloseWithoutJamming();
+        }
+
+        private void OnDisable()
+        {
+            if (cycle != null) StopCoroutine(cycle);
+            cycle = null;
+        }
+
+        private void OnEnable()
+        {
+            if (leafCollider) Refresh();
+        }
+
         private IEnumerator SlamLoop()
         {
-            while (!Jammed)
+            float peak = fullLift * .75f;
+            while (true)
             {
-                yield return Move(RaisedLocalPosition, RaiseSeconds);
-                yield return new WaitForSeconds(HoldRaisedSeconds);
-                bool jamNow = crateInGap && (!RequiredCrate || crateInGap == RequiredCrate);
-                yield return Move(SlammedLocalPosition, SlamSeconds);
+                float start = lift;
+                for (float time = 0f; time < RaiseSeconds; time += CycleDeltaTime)
+                {
+                    SetLift(Mathf.SmoothStep(start, peak, time / RaiseSeconds), true);
+                    yield return null;
+                }
+                for (float time = 0f; time < HoldRaisedSeconds; time += CycleDeltaTime)
+                {
+                    float progress = time / HoldRaisedSeconds;
+                    float twitch = Mathf.Sin(progress * 4f * Mathf.PI) * (1f - progress);
+                    SetLift(peak + fullLift * .035f * twitch, true);
+                    yield return null;
+                }
+
+                float releasedHeight = lift;
+                float metersPerUnit = leafCollider.transform.parent.TransformVector(Vector3.up).magnitude;
+                float fallAcceleration = Physics.gravity.magnitude / Mathf.Max(.001f, metersPerUnit);
+                for (float time = 0f; ; time += CycleDeltaTime)
+                {
+                    float next = Mathf.Max(0f, releasedHeight - .5f * fallAcceleration * time * time);
+                    float contact = GetCrateLift();
+                    if (contact > 0f && next <= contact)
+                    {
+                        jammedLift = contact;
+                        jammedCratePosition = RequiredCrate.transform.localPosition;
+                        cycle = null;
+                        Refresh();
+                        if (SlamSound) SlamSound.Play();
+                        GetComponent<SavableObjectState>()?.SaveState();
+                        RequiredCrate.GetComponent<SavableObjectState>()?.SaveState();
+                        yield break;
+                    }
+                    SetLift(next, next <= 0f);
+                    if (next <= 0f) break;
+                    yield return null;
+                }
+
                 if (SlamSound) SlamSound.Play();
-                if (jamNow) { Jammed = true; SetWall(false); yield break; }
-                SetWall(true);
-                yield return new WaitForSeconds(.2f);
+                yield return Hold(.2f);
             }
         }
-        private IEnumerator Move(Vector3 target, float seconds)
+
+        private static IEnumerator Hold(float seconds)
         {
-            if (!MovingPart) yield break;
-            Vector3 start = MovingPart.localPosition;
-            for (float t = 0; t < 1f; t += Time.deltaTime / seconds) { MovingPart.localPosition = Vector3.Lerp(start, target, t); yield return null; }
-            MovingPart.localPosition = target;
+            for (float elapsed = 0f; elapsed < seconds; elapsed += CycleDeltaTime)
+                yield return null;
         }
-        private void SetWall(bool value) { foreach (Collider wall in HazardWallColliders) if (wall) wall.enabled = value; }
-        private void OnTriggerEnter(Collider other) { Pushable pushable = other.GetComponentInParent<Pushable>(); if (pushable && (!RequiredCrate || pushable == RequiredCrate)) crateInGap = pushable; }
-        private void OnTriggerExit(Collider other) { if (other.GetComponentInParent<Pushable>() == crateInGap) crateInGap = null; }
+
+        private void CloseWithoutJamming()
+        {
+            float clearance = GetCrateLift();
+            SetLift(clearance, clearance <= 0f);
+        }
+
+        private float GetCrateLift()
+        {
+            float clearance = 0f;
+            Transform wall = passageWall.transform;
+            foreach (var collider in crateColliders)
+            {
+                if (!collider || !collider.enabled || collider.isTrigger ||
+                    !Physics.ComputePenetration(passageWall, wall.position, wall.rotation,
+                        collider, collider.transform.position, collider.transform.rotation, out _, out _)) continue;
+
+                Vector3 top = collider.bounds.center;
+                top.y = collider.bounds.max.y;
+                float bottom = passageWall.center.y - passageWall.size.y * .5f;
+                clearance = Mathf.Max(clearance, (wall.InverseTransformPoint(top).y - bottom) * closedScale.y);
+            }
+            return Mathf.Clamp(clearance, 0f, fullLift);
+        }
+
+        private void SetLift(float value, bool solid)
+        {
+            lift = Mathf.Clamp(value, 0f, fullLift);
+            leafCollider.transform.localPosition = closedPosition + Vector3.up * lift;
+            leafCollider.enabled = solid;
+        }
+
+        private void PinCrate()
+        {
+            if (!RequiredCrate) return;
+            if (RequiredCrate.TryGetComponent(out ResetTransformOnDoorTransition doorReset))
+                doorReset.KeepPinnedTransform();
+            if (jammedCratePosition.HasValue && RequiredCrate.transform.localPosition != jammedCratePosition.Value)
+            {
+                RequiredCrate.transform.localPosition = jammedCratePosition.Value;
+                if (RequiredCrate.TryGetComponent(out Rigidbody crateBody))
+                    crateBody.position = RequiredCrate.transform.position;
+            }
+            RequiredCrate.enabled = false;
+            var rig = RequiredCrate.GetComponentInChildren<CrateClimbRig>();
+            if (rig) rig.LockInPlace();
+            else if (RequiredCrate.TryGetComponent(out Rigidbody body))
+            {
+                body.constraints = RigidbodyConstraints.FreezeAll;
+                body.isKinematic = true;
+            }
+        }
+
+        [System.Serializable]
+        private struct JamState
+        {
+            public float Lift;
+            public Vector3 CratePosition;
+        }
+
+        public string GetSavableData() => jammedCratePosition.HasValue
+            ? JsonUtility.ToJson(new JamState { Lift = jammedLift, CratePosition = jammedCratePosition.Value })
+            : jammedLift.ToString(CultureInfo.InvariantCulture);
+
+        public void SetFromSavedData(string savedData)
+        {
+            jammedCratePosition = null;
+            if (!string.IsNullOrEmpty(savedData) && savedData.StartsWith("{"))
+            {
+                var state = JsonUtility.FromJson<JamState>(savedData);
+                jammedLift = state.Lift;
+                jammedCratePosition = state.CratePosition;
+            }
+            else if (!float.TryParse(savedData, NumberStyles.Float, CultureInfo.InvariantCulture, out jammedLift))
+                jammedLift = -1f;
+            if (leafCollider) Refresh();
+        }
     }
 }

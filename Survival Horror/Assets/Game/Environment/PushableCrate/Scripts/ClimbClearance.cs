@@ -40,12 +40,24 @@ namespace HorrorGame.Environment
                 if(Blocks(controller,hit.collider,ignored))return false;
             return true;
         }
-        public static bool HasSupport(CharacterController controller,Vector3 position)
+        public static bool HasSupport(CharacterController controller,Vector3 position,Transform ignored=null,
+            bool checkFootprint=false)
         {
             Capsule(controller,position,out _,out var bottom,out float radius);
             var foot=bottom-Vector3.up*radius;
+            if(!HasGround(controller,foot,ignored))return false;
+            float inset=radius*.65f;
+            return !checkFootprint ||
+                (HasGround(controller,foot+Vector3.right*inset,ignored) &&
+                 HasGround(controller,foot-Vector3.right*inset,ignored) &&
+                 HasGround(controller,foot+Vector3.forward*inset,ignored) &&
+                 HasGround(controller,foot-Vector3.forward*inset,ignored));
+        }
+
+        static bool HasGround(CharacterController controller,Vector3 foot,Transform ignored)
+        {
             foreach(var hit in Physics.RaycastAll(foot+Vector3.up*.15f,Vector3.down,.4f,~0,QueryTriggerInteraction.Ignore))
-                if(Blocks(controller,hit.collider,null)&&Vector3.Angle(hit.normal,Vector3.up)<=controller.slopeLimit)return true;
+                if(Blocks(controller,hit.collider,ignored)&&Vector3.Angle(hit.normal,Vector3.up)<=controller.slopeLimit)return true;
             return false;
         }
     }

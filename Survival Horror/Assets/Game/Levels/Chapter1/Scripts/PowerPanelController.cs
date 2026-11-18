@@ -120,13 +120,25 @@ namespace HorrorGame.Chapter1
 #endif
             }
 
-            foreach (CircuitDrivenObject target in element.LinkedTargets)
+            for (int i = 0; i < element.LinkedTargets.Count; i++)
             {
+                CircuitDrivenObject target = element.LinkedTargets[i];
                 if (!target) continue;
+                if (target is HorrorGame.Environment.GarageDoorCircuitLink &&
+                    target.TryGetComponent(out CircuitShutterTeleport passage))
+                {
+                    target = passage;
+                    element.LinkedTargets[i] = passage;
+                }
+#if UNITY_EDITOR
+                if (!Application.isPlaying) UnityEditor.Undo.RecordObject(target, "Link power circuit target");
+#endif
                 target.Grid = resolvedGrid;
                 target.CircuitId = element.CircuitId;
 #if UNITY_EDITOR
                 UnityEditor.EditorUtility.SetDirty(target);
+                if (!Application.isPlaying)
+                    UnityEditor.PrefabUtility.RecordPrefabInstancePropertyModifications(target);
 #endif
             }
             element.LastSyncedCircuitId = element.CircuitId;

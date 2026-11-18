@@ -11,6 +11,7 @@ namespace HorrorEngine
     {
         public ItemData Data;
         public bool ShowItemSplash = true;
+        public System.Action OnSplashDismissed;
     }
 
     public class PickupItem : Pickup, ISavableObjectStateExtra
@@ -60,19 +61,27 @@ namespace HorrorEngine
 
         public override void Take()
         {
-            InventoryEntry entry = GameManager.Instance.Inventory.TryAddAndShowFullMessage(Entry);
+            // The map tablet unlocks a saved feature and has no inventory entry.
+            bool isMapTablet = Entry.Item is HorrorGame.Chapter1.MapTabletItemData;
+            bool useOnPickup = m_UseOnPickup || isMapTablet;
+            InventoryEntry entry = isMapTablet ? null : GameManager.Instance.Inventory.TryAddAndShowFullMessage(Entry);
             
             bool isInventoryExpansion = Entry.Item is InventoryExpansionItemData;
-            if (entry == null && !isInventoryExpansion && !m_UseOnPickup)
+            if (entry == null && !isInventoryExpansion && !useOnPickup)
                 return;
             
             m_PickMsg.Data = Entry.Item;
             m_PickMsg.ShowItemSplash = ShowItemSplash;
+            bool deferTabletUse = isMapTablet && ShowItemSplash;
+            ItemData item = Entry.Item;
+            m_PickMsg.OnSplashDismissed = deferTabletUse
+                ? () => item.OnUse(entry, GameManager.Instance.Player)
+                : null;
             MessageBuffer<ItemPickedUpMessage>.Dispatch(m_PickMsg);
             gameObject.SetActive(false);
 
             // Some items might need to be used on pickup even if they're not added to the inventory (e.g. Hip Pouch)
-            if (m_UseOnPickup)
+            if (useOnPickup && !deferTabletUse)
             {
                 Entry.Item.OnUse(entry, GameManager.Instance.Player);
             }

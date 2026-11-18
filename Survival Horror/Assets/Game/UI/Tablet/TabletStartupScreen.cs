@@ -22,6 +22,13 @@ namespace HorrorGame.UI
             if (!Screen) return;
             Screen.gameObject.SetActive(!OncePerSession || !shown);
             if (OncePerSession && shown) return;
+            Screen.transform.SetAsLastSibling();
+            if (Screen.transform is RectTransform cover)
+            {
+                cover.anchorMin = new Vector2(.05f, .05f);
+                cover.anchorMax = new Vector2(.95f, .989f);
+                cover.offsetMin = cover.offsetMax = Vector2.zero;
+            }
             StartCoroutine(Boot());
         }
         void OnDisable() => StopAllCoroutines();

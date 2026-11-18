@@ -24,13 +24,13 @@ namespace HorrorGame.UI.Editor
             var data=new SerializedObject(workspace.Map);data.FindProperty("m_MapViewportLeft").floatValue=.075f;data.ApplyModifiedPropertiesWithoutUndo();workspace.MapImage=(RawImage)data.FindProperty("m_MapImage").objectReferenceValue;
             workspace.MapFrame=((RectTransform)data.FindProperty("m_PanFrame").objectReferenceValue).gameObject;
             workspace.Floors=((Transform)data.FindProperty("m_FloorsParent").objectReferenceValue).gameObject;
-            Rect(workspace.MapImage.rectTransform,new Vector2(.075f,.095f),new Vector2(.93f,.77f));Rect((RectTransform)workspace.MapFrame.transform,new Vector2(.075f,.095f),new Vector2(.93f,.77f));
+            Rect(workspace.MapImage.rectTransform,new Vector2(.075f,.12f),new Vector2(.93f,.77f));Rect((RectTransform)workspace.MapFrame.transform,new Vector2(.075f,.12f),new Vector2(.93f,.77f));
             var directory=(UIMapList)data.FindProperty("m_MapList").objectReferenceValue;workspace.Directory=directory.gameObject;Rect((RectTransform)directory.transform,new Vector2(.075f,.095f),new Vector2(.35f,.77f));
             var mapName=(TMP_Text)data.FindProperty("m_MapName").objectReferenceValue;Rect(mapName.rectTransform,new Vector2(.075f,.885f),new Vector2(.93f,.925f));mapName.fontSize=21;
             var nameScale=mapName.GetComponent<MenuTextScale>();if(nameScale)nameScale.BaseSize=21;
             var header=surface.Find("Device identification");if(header){Rect((RectTransform)header,new Vector2(.075f,.935f),new Vector2(.93f,.972f));header.GetComponent<TMP_Text>().text="HERO HQ / FIELD TERMINAL";}
             foreach(var t in surface.GetComponentsInChildren<Transform>(true))if(t.name=="Map scale label" || t.name=="Directory toggle" || t.name=="Display frame")t.gameObject.SetActive(false);
-            var controls=surface.Find("Map controls");if(controls){workspace.Footer=controls.GetComponent<TMP_Text>();Rect((RectTransform)controls,new Vector2(.075f,.045f),new Vector2(.77f,.085f));controls.GetComponent<TMP_Text>().text="PAN WASD / ZOOM WHEEL / FLOOR UP-DOWN / CLOSE ESC";controls.GetComponent<TMP_Text>().fontSize=13;}
+            var controls=surface.Find("Map controls");if(controls){workspace.Footer=controls.GetComponent<TMP_Text>();Rect((RectTransform)controls,new Vector2(.075f,.071f),new Vector2(.93f,.108f));workspace.Footer.text="PAN WASD / ZOOM WHEEL / FLOOR UP-DOWN / CLOSE ESC";workspace.Footer.fontSize=15;}
             var background=surface.Find("Bg");if(background){Rect((RectTransform)background,new Vector2(.045f,.035f),new Vector2(.96f,.987f));background.GetComponent<Image>().color=new Color(.012f,.026f,.035f);}
             Casing(owner.transform);
             workspace.MapTools=Container("Map tools",owner.transform,Vector2.zero,Vector2.one);
@@ -41,8 +41,8 @@ namespace HorrorGame.UI.Editor
             Label("Legend heading","MAP LEGEND",workspace.Legend.transform,new Vector2(.07f,.88f),new Vector2(.80f,.98f),21);
             Button("Close legend","X",workspace.Legend.transform,new Vector2(.85f,.90f),new Vector2(.97f,.98f),workspace.ToggleLegend);
             Panel("Legend divider",workspace.Legend.transform,new Vector2(.07f,.865f),new Vector2(.93f,.868f),Edge);
-            string[] legendTitles={"Your position","Locked door","Unlocked door","Unexplored area","Power point"};
-            string[] legendDescriptions={"Filled direction arrow","Access is locked","Access is available","Known, not yet visited","Circuit diagram revealed"};
+            string[] legendTitles={"Your position","Locked door","Unlocked door","Unexplored area","Circuit"};
+            string[] legendDescriptions={"Filled direction arrow","Access is locked","Access is available","Known, not yet visited","Revealed by a room visit or diagram"};
             for(int i=0;i<5;i++)
             {
                 float y=.705f-i*.14f;
@@ -66,7 +66,15 @@ namespace HorrorGame.UI.Editor
             var startup=root.GetComponent<TabletStartupScreen>();if(startup && startup.Screen)startup.Screen.transform.SetAsLastSibling();
             foreach(var t in owner.GetComponentsInChildren<Transform>(true))t.gameObject.layer=5;
             InventoryFolderBuilder.AddReadability(root);
-            var screen=AssetDatabase.LoadAssetAtPath<Material>(TabletMapBuilder.Root+"Tablet_Screen.mat");if(screen){screen.SetVector("_VirtualResolution",new Vector4(1280,720,0,0));screen.SetFloat("_ColorDepth",64);screen.SetFloat("_DitherStrength",.1f);screen.SetFloat("_Scanlines",.035f);EditorUtility.SetDirty(screen);}
+            var screen = AssetDatabase.LoadAssetAtPath<Material>(TabletMapBuilder.Root + "Tablet_Screen.mat");
+            if (screen)
+            {
+                screen.SetFloat("_Curvature", .022f);
+                screen.SetFloat("_DitherStrength", .12f);
+                screen.SetFloat("_Scanlines", .045f);
+                screen.SetFloat("_Vignette", .08f);
+                EditorUtility.SetDirty(screen);
+            }
         }
         internal static void BuildMapActions(TabletWorkspace workspace, Transform owner, Transform surface)
         {
@@ -89,8 +97,11 @@ namespace HorrorGame.UI.Editor
 
         static void Casing(Transform parent)
         {
-            var metal=new Color(.10f,.105f,.105f);
-            Panel("Left bezel",parent,new Vector2(.015f,.015f),new Vector2(.055f,.995f),metal);Panel("Right bezel",parent,new Vector2(.95f,.015f),new Vector2(.985f,.995f),metal);Panel("Upper bezel",parent,new Vector2(.015f,.975f),new Vector2(.985f,.995f),metal);Panel("Lower bezel",parent,new Vector2(.015f,.015f),new Vector2(.985f,.04f),metal);
+            var metal = new Color(.027f, .039f, .045f);
+            Panel("Left bezel", parent, new Vector2(.05f, .05f), new Vector2(.064f, .989f), metal);
+            Panel("Right bezel", parent, new Vector2(.936f, .05f), new Vector2(.95f, .989f), metal);
+            Panel("Upper bezel", parent, new Vector2(.05f, .974f), new Vector2(.95f, .989f), metal);
+            Panel("Lower bezel", parent, new Vector2(.05f, .05f), new Vector2(.95f, .066f), metal);
             foreach(float x in new[]{.035f,.965f})foreach(float y in new[]{.027f,.985f}){Panel("Recessed screw",parent,new Vector2(x-.004f,y-.004f),new Vector2(x+.004f,y+.004f),new Color(.025f,.028f,.028f));Panel("Screw slot",parent,new Vector2(x-.0025f,y-.0006f),new Vector2(x+.0025f,y+.0006f),new Color(.23f,.24f,.23f));}
             for(int i=0;i<8;i++){float x=.06f+i*.115f;Panel("Bezel wear",parent,new Vector2(x,.983f),new Vector2(x+.011f,.984f),new Color(.25f,.255f,.24f,.32f));}
         }

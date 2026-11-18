@@ -57,7 +57,12 @@ namespace HorrorEngine
                 RegisterItemCallbacks(slot);
             }
 
-            RegisterItemCallbacks(m_EquippedSecondary);
+            // Equipment cells are status displays, not inventory cells.  The
+            // actual item remains selectable from its original inventory
+            // position; this mirrors the weapon slot and keeps the tool slot
+            // out of mouse/keyboard navigation.
+            SetEquipmentSlotDisplayOnly(m_Equipped);
+            SetEquipmentSlotDisplayOnly(m_EquippedSecondary);
 
             m_ContextMenu.UseButton.onClick.AddListener(OnUse);
             m_ContextMenu.EquipButton.onClick.AddListener(OnEquip);
@@ -88,6 +93,17 @@ namespace HorrorEngine
             UIPointerClickEvents pointerEvents = slot.GetComponent<UIPointerClickEvents>();
             if (!m_SelectWithOneClick)
                 pointerEvents.OnDoubleClick.RemoveListener(OnSubmit);
+        }
+
+        private static void SetEquipmentSlotDisplayOnly(UIInventoryItem slot)
+        {
+            if (!slot) return;
+            var button = slot.GetComponent<UnityEngine.UI.Button>();
+            if (!button) return;
+            button.interactable = false;
+            var navigation = button.navigation;
+            navigation.mode = UnityEngine.UI.Navigation.Mode.None;
+            button.navigation = navigation;
         }
 
 
@@ -173,6 +189,8 @@ namespace HorrorEngine
 
         public void Show()
         {
+            HorrorGame.UI.GameplayNotifications.DismissAll();
+            RefreshMapTabVisibility(transform);
             if (m_PauseGame)
                 PauseController.Instance.Pause(this);
 
@@ -425,12 +443,23 @@ namespace HorrorEngine
 
         public void OnMapCategory()
         {
+            if (!HorrorGame.Chapter1.Chapter1MapTutorial.CanOpenMap) return;
             Hide();
             UIManager.Get<UIMap>().Show();
         }
 
 
         // --------------------------------------------------------------------
+
+        internal static void RefreshMapTabVisibility(Transform menu)
+        {
+            bool unlocked = HorrorGame.Chapter1.Chapter1MapTutorial.CanOpenMap;
+            foreach (var button in menu.GetComponentsInChildren<UnityEngine.UI.Button>(true))
+            {
+                if (button.name == "MAP tab" || button.name == "MapButton")
+                    button.gameObject.SetActive(unlocked);
+            }
+        }
 
         private void Combine()
         {
@@ -478,17 +507,21 @@ namespace HorrorEngine
         {
             var inventory = GameManager.Instance.Inventory;
             var items = inventory.Items;
-            int itemsCount = items.Count;
+            // Fixed inventories display exactly their capacity.  The prefab's
+            // authoring-time slot count is irrelevant (the folder prefab has
+            // extra template cells), so a six-slot character gets six cells.
+            int slotCount = inventory.IsInfinite() ? items.Count : inventory.Capacity;
+            int itemsCount = Mathf.Min(items.Count, slotCount);
 
             m_Expanding = inventory.Expanded;
             inventory.Expanded = false;
 
-            if (m_AlwaysRebuild && (!m_RebuildOnlyOnCapacityChange || m_ItemSlots.Length!=items.Count))
+            if (m_AlwaysRebuild && (!m_RebuildOnlyOnCapacityChange || m_ItemSlots.Length != slotCount))
             {
-                RebuildItems();
+                RebuildItems(slotCount);
             }
 
-            for (int i = 0; i < items.Count; ++i)
+            for (int i = 0; i < itemsCount; ++i)
             {
                 m_ItemSlots[i].gameObject.SetActive(i < itemsCount);
 
@@ -500,7 +533,7 @@ namespace HorrorEngine
                 m_ItemSlots[i].Fill(items[i]);
             }
 
-            for (int i = items.Count; i < m_ItemSlots.Length; ++i)
+            for (int i = itemsCount; i < m_ItemSlots.Length; ++i)
             {
                 m_ItemSlots[i].gameObject.SetActive(false);
             }
@@ -520,11 +553,10 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
-        private void RebuildItems()
+        private void RebuildItems(int itemCount)
         {
             DestroyItems();
 
-            int itemCount = GameManager.Instance.Inventory.Items.Count;
             Array.Resize(ref m_ItemSlots, itemCount);
             for (int i = 0; i < itemCount; ++i)
             {

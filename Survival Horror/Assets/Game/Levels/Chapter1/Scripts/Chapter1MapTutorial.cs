@@ -1,5 +1,7 @@
 using HorrorEngine;
+using HorrorGame.UI;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace HorrorGame.Chapter1
@@ -17,7 +19,7 @@ namespace HorrorGame.Chapter1
         [Tooltip("Drag the circuit-dot GameObject from PowerPanelController here. Its map and ID drive the tutorial automatically.")]
         public PowerCircuitPanelElement TutorialCircuit;
         public string TargetCircuitId = "store_shutters";
-        [TextArea] public string QuestText = "ACTIVATE THE GATE CIRCUIT";
+        [TextArea] public string QuestText = "Activate circuit";
 
         public bool MapUnlocked { get; private set; }
         public bool TutorialActive { get; private set; }
@@ -25,6 +27,40 @@ namespace HorrorGame.Chapter1
         public string CurrentQuest { get; private set; }
 
         public static bool CanOpenMap => Instance == null || Instance.MapUnlocked;
+        private float nextCircuitScan;
+        private readonly HashSet<string> discoveredCircuits = new HashSet<string>();
+
+        private void Update()
+        {
+            if (!MapUnlocked || !GameManager.Exists || !GameManager.Instance.Player || !UIManager.Exists) return;
+            var mapView = UIManager.Get<UIMap>(true);
+            if ((mapView && mapView.isActiveAndEnabled) ||
+                (PauseController.Exists && PauseController.Instance.IsPaused)) return;
+
+            float now = Time.unscaledTime;
+            if (now < nextCircuitScan) return;
+            nextCircuitScan = now + .2f;
+            var controller = MapController.GetCurrent();
+            if (!controller || !controller.Data) return;
+            var room = controller.GetCurrentRoom();
+            if (!room) return;
+
+            int discovered = 0;
+            Vector3 player = GameManager.Instance.Player.transform.position;
+            foreach (var dot in FindObjectsByType<PowerCircuitPanelElement>(FindObjectsSortMode.None))
+            {
+                if (dot.Room != room || dot.GetMapData() != controller.Data || string.IsNullOrWhiteSpace(dot.CircuitId))
+                    continue;
+                Vector3 offset = room.transform.TransformPoint(new Vector3(dot.RoomOffset.x, 0f, dot.RoomOffset.y)) - player;
+                offset.y = 0f;
+                if (offset.sqrMagnitude <= dot.ActivationRange * dot.ActivationRange &&
+                    discoveredCircuits.Add(controller.Data.UniqueId + ":" + dot.CircuitId))
+                    discovered++;
+            }
+            if (discovered == 0) return;
+            GameplayNotifications.CircuitsDiscovered(discovered);
+            GetComponent<SavableObjectState>()?.SaveState();
+        }
         public static bool CanCloseMap => Instance == null || !Instance.TutorialActive;
         public static bool IsTargetCircuit(MapData map, string circuitId)
         {
@@ -60,6 +96,7 @@ namespace HorrorGame.Chapter1
             yield return null;
             if (MapUnlocked && MapToUnlock && GameManager.Exists && GameManager.Instance.Inventory != null && !GameManager.Instance.Inventory.Maps.Contains(MapToUnlock))
                 GameManager.Instance.Inventory.Maps.Add(MapToUnlock);
+            if (TutorialActive || TutorialCircuitUnlocked) EnsureTutorialOverlay();
             if (TutorialActive) SubscribeGrid();
         }
 
@@ -78,8 +115,35 @@ namespace HorrorGame.Chapter1
 
             TutorialActive = true;
             CurrentQuest = QuestText;
+            EnsureTutorialOverlay();
             SubscribeGrid();
             GetComponent<SavableObjectState>()?.SaveState();
+        }
+
+        private void EnsureTutorialOverlay()
+        {
+            if (!TutorialCircuit || !MapToUnlock) return;
+            var controller = TutorialCircuit.GetComponentInParent<PowerPanelController>();
+            if (!Grid && controller) Grid = controller.ResolveGrid();
+            if (!Grid) return;
+            Grid.SyncDefinitionsFromData();
+            if (!Grid.Circuits.Exists(c => c.Id == TutorialCircuit.CircuitId) &&
+                !string.IsNullOrWhiteSpace(TutorialCircuit.CircuitId))
+                Grid.Circuits.Add(new PowerCircuit
+                {
+                    Id = TutorialCircuit.CircuitId,
+                    DisplayName = TutorialCircuit.Label,
+                    Consumption = TutorialCircuit.Consumption
+                });
+
+            foreach (var panel in FindObjectsByType<PowerMapCircuitPanel>(FindObjectsSortMode.None))
+                if (panel.MapData == MapToUnlock && panel.SourceGrid) return;
+
+            var overlay = new GameObject("Tutorial Circuit Overlay").AddComponent<PowerMapCircuitPanel>();
+            overlay.transform.SetParent(transform, false);
+            overlay.MapData = MapToUnlock;
+            overlay.Grid = Grid;
+            if (controller) overlay.Layout = controller.Data;
         }
 
         private void SubscribeGrid()
@@ -109,7 +173,8 @@ namespace HorrorGame.Chapter1
                 MapUnlocked = MapUnlocked,
                 TutorialActive = TutorialActive,
                 TutorialCircuitUnlocked = TutorialCircuitUnlocked,
-                CurrentQuest = CurrentQuest
+                CurrentQuest = CurrentQuest,
+                DiscoveredCircuits = new List<string>(discoveredCircuits)
             });
         }
 
@@ -120,6 +185,8 @@ namespace HorrorGame.Chapter1
             TutorialActive = state.TutorialActive;
             TutorialCircuitUnlocked = state.TutorialCircuitUnlocked;
             CurrentQuest = state.CurrentQuest;
+            discoveredCircuits.Clear();
+            if (state.DiscoveredCircuits != null) discoveredCircuits.UnionWith(state.DiscoveredCircuits);
             if (TutorialActive) SubscribeGrid();
         }
 
@@ -130,16 +197,8 @@ namespace HorrorGame.Chapter1
             public bool TutorialActive;
             public bool TutorialCircuitUnlocked;
             public string CurrentQuest;
+            public List<string> DiscoveredCircuits;
         }
 
-        private void OnGUI()
-        {
-            if (string.IsNullOrWhiteSpace(CurrentQuest)) return;
-            const float width = 330f;
-            Rect panel = new Rect(Screen.width - width - 24f, 24f, width, 54f);
-            GUI.Box(panel, GUIContent.none);
-            GUI.Label(new Rect(panel.x + 14f, panel.y + 8f, panel.width - 28f, 18f), "CURRENT OBJECTIVE");
-            GUI.Label(new Rect(panel.x + 14f, panel.y + 27f, panel.width - 28f, 22f), CurrentQuest);
-        }
     }
 }
