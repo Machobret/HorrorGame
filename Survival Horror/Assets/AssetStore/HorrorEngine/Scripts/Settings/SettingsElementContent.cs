@@ -29,10 +29,10 @@ namespace HorrorEngine
             PlayerPrefs.SetString(k_PlayerPrefSettingsPrefix + SettingsKey, savedVal);
         }
 
-        public string GetPlayerPrefsValue()
-        {
-            return PlayerPrefs.GetString(k_PlayerPrefSettingsPrefix + SettingsKey);
-        }
+        public virtual string GetPlayerPrefsValue() => ReadPlayerPrefsValue(SettingsKey);
+
+        protected static string ReadPlayerPrefsValue(string key) =>
+            PlayerPrefs.GetString(k_PlayerPrefSettingsPrefix + key);
 
         public abstract string GetDefaultValue();
 

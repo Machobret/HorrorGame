@@ -107,7 +107,7 @@ namespace HorrorGame.UI.Editor
                 foreach(var text in map.GetComponentsInChildren<TMP_Text>(true))text.fontSize*=1.25f;
                 Filter(map);
                 foreach(var component in map.GetComponentsInChildren<Component>(true)) if(component) PrefabUtility.RecordPrefabInstancePropertyModifications(component);
-                InventoryFolderBuilder.ApplyMapTabs(map);
+                TabletWorkspaceBuilder.Apply(map);
                 mapPrefab=PrefabUtility.SaveAsPrefabAsset(map,Root+"Tablet_Map.prefab");
             }
             finally { Object.DestroyImmediate(map); }

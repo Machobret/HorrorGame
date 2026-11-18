@@ -19,7 +19,9 @@ namespace HorrorGame.Tests
         static TabletWorkspace workspace;
         static DistrictPowerGrid grid;
         static int stage;
-        static int oldText=-1;
+        const string TextPreference = "Settings.Game.InventoryTextSize";
+        static string oldText;
+        static bool capturedPreferences;
         static void Check(bool value,string text){if(!value)throw new Exception(text);Debug.Log("TABLET PASS: "+text);}
         public static void Begin()
         {
@@ -35,7 +37,7 @@ namespace HorrorGame.Tests
             var layout=ScriptableObject.CreateInstance<PowerPanelLayout>();layout.Circuits=new List<PowerPanelCircuitShape>{new PowerPanelCircuitShape{CircuitId="wash",RoomUniqueId=roomId,WorldPosition=GameManager.Instance.Player.transform.position,ActivationRange=8,MapPosition=new Vector2(100,100)},new PowerPanelCircuitShape{CircuitId="fridge",RoomUniqueId=roomId,WorldPosition=GameManager.Instance.Player.transform.position,ActivationRange=8,MapPosition=new Vector2(200,100)},new PowerPanelCircuitShape{CircuitId="secret",RoomUniqueId="unknown",MapPosition=new Vector2(300,100)}};
             var diagram=ScriptableObject.CreateInstance<CircuitDiagramData>();diagram.Map=map;diagram.RoomUniqueId=roomId;GameManager.Instance.Inventory.Documents.Add(diagram);
             var network=owner.AddComponent<PowerMapCircuitPanel>();network.Grid=grid;network.MapData=map;network.Layout=layout;owner.SetActive(true);
-            var ui=UIManager.Get<UIMap>();ui.Show(map);workspace=ui.GetComponent<TabletWorkspace>();Check(workspace,"tablet workspace registered on native map");oldText=PlayerPrefs.GetInt("HorrorGame.LargeMenuText",0);
+            var ui=UIManager.Get<UIMap>();ui.Show(map);workspace=ui.GetComponent<TabletWorkspace>();Check(workspace,"tablet workspace registered on native map");oldText=PlayerPrefs.HasKey(TextPreference)?PlayerPrefs.GetString(TextPreference):null;capturedPreferences=true;
         }
         public static bool Tick()
         {
@@ -64,9 +66,16 @@ namespace HorrorGame.Tests
             if(stage==4)
             {
                 Check(!workspace.LogText.text.Contains("MAP NOTES") && workspace.LogText.text.Contains("TRIPPED"),"log retains power history without note section");Capture("Tablet_Log.png");
-                var readability=workspace.GetComponent<MenuReadability>();if(!MenuReadability.LargeText)readability.Toggle();Check(MenuReadability.LargeText,"larger-text setting can be enabled");
+                var readability = workspace.GetComponent<MenuReadability>();
+                var textSize = Resources.Load<SettingsSet>("GameSettingsSet").Elements.OfType<MenuTextSizeSetting>().Single();
+                Check(textSize.GetDefaultValue() == "Large", "large text is the Settings default");
+                Check(!workspace.GetComponentsInChildren<Button>(true).Any(b => b.name == "Text size toggle"), "tablet has no local text-size control");
+                SettingsManager.Instance.Set(textSize, "Large");
+                textSize.SaveInPlayerPrefs();
+                readability.Refresh();
+                Check(MenuReadability.LargeText, "the tablet reads the saved text size from Settings");
                 var header=workspace.GetComponentsInChildren<TMP_Text>(true).First(t=>t.name=="Device identification");Check(header.fontSize>header.GetComponent<MenuTextScale>().BaseSize,"larger-text option scales labels");
-                PlayerPrefs.SetInt("HorrorGame.LargeMenuText",oldText);PlayerPrefs.Save();readability.Refresh();
+                RestorePreferences();readability.Refresh();
                 var snapshot=GameManager.Instance.Inventory.GetSavableData();snapshot.Items=new List<InventoryEntrySaveData>();snapshot.EquippedItems=new List<InventoryEquippedEntrySaveData>();snapshot.Documents=new List<string>();snapshot.ReadDocuments=new List<string>();snapshot.Maps=new List<string>();var restored=new Inventory();restored.SetFromSavedData(JsonUtility.FromJson<InventorySaveData>(JsonUtility.ToJson(snapshot)));Check(restored.TabletLog.Any(s=>s.Contains("TRIPPED")),"service history survives save/load");
                 var shotgun=AssetDatabase.LoadAssetAtPath<ItemData>("Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Shotgun/Shotgun.asset");var pistol=AssetDatabase.LoadAssetAtPath<ItemData>("Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Gun/Gun.asset");snapshot.MaxItems=8;snapshot.Items=new List<InventoryEntrySaveData>();for(int i=0;i<8;i++)snapshot.Items.Add(new InventoryEntrySaveData{ItemId=(i<3?shotgun:pistol).UniqueId,Count=1});restored.SetFromSavedData(snapshot);Check(restored.UsedSlots==11 && restored.Capacity==11 && restored.Items.Count(e=>e.Item)==8,"legacy saves preserve all items when footprints grow");
                 snapshot.MapNotes=new List<TabletMapNote>{new TabletMapNote{MapId=workspace.Map.CurrentMap.UniqueId,Text="Legacy note"}};restored.SetFromSavedData(snapshot);Check(restored.GetSavableData().MapNotes==null,"legacy note data loads safely and is no longer saved");
@@ -74,7 +83,19 @@ namespace HorrorGame.Tests
             }
             return false;
         }
-        public static void RestorePreferences(){if(oldText>=0){PlayerPrefs.SetInt("HorrorGame.LargeMenuText",oldText);PlayerPrefs.Save();}}
+        public static void RestorePreferences()
+        {
+            if (!capturedPreferences)
+                return;
+
+            if (oldText == null)
+                PlayerPrefs.DeleteKey(TextPreference);
+            else
+                PlayerPrefs.SetString(TextPreference, oldText);
+            PlayerPrefs.Save();
+            SettingsManager.Instance?.Discard();
+            capturedPreferences = false;
+        }
         static void Capture(string filename)
         {
             var filter=workspace.GetComponent<TabletDisplayFilter>();var camera=filter.DisplayCamera;var old=camera.targetTexture;var target=new RenderTexture(1600,900,24);var filtered=new RenderTexture(1600,900,0);var previous=RenderTexture.active;var image=new Texture2D(1600,900,TextureFormat.RGB24,false);
