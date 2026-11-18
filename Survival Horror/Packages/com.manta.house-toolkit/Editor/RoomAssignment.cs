@@ -36,7 +36,7 @@ namespace HouseToolkit.Editor
             if (node.GetComponent<ExcludeFromRoomAssignment>()) yield break;
             if (node.TryGetComponent<House>(out var owner) && owner != house) yield break;
             if (node.TryGetComponent<HouseFloor>(out var level) && level.House != house) yield break;
-            if (node == house.transform || node.GetComponent<HouseFloor>() || node.GetComponent<HouseRoom>() ||
+            if (HouseOwnership.IsArchitecture(node.gameObject) || HouseOwnership.IsAttachmentPart(node.gameObject) ||
                 node.GetComponent<RoomContents>() || house.transform.IsChildOf(node) || EnvironmentHierarchy.IsCategoryGroup(node))
             {
                 foreach (var child in Children(node))
@@ -85,15 +85,6 @@ namespace HouseToolkit.Editor
             return result;
         }
 
-        // Called inside the wall edit's existing Undo group, after the new room polygons are published.
-        internal static void Recheck(HouseFloor floor, Transform[] items, string action)
-        {
-            if (items.Length == 0) return;
-            var rooms = floor.GetComponentsInChildren<HouseRoom>(true).Select(r => new RoomVolume(r)).ToArray();
-            foreach (var item in items)
-                if (item && !Protected(item)) AssignOne(item, floor.House, rooms, null, action);
-        }
-
         static Transform Container(Transform owner, string name, string action)
         {
             var existing = Children(owner).FirstOrDefault(t => t.GetComponent<RoomContents>());
@@ -105,44 +96,62 @@ namespace HouseToolkit.Editor
             return group.transform;
         }
 
-        static void AssignOne(Transform item, House house, RoomVolume[] rooms, Result result, string action)
+        // Assignment and editor warnings use the same bounds, emitters and trigger shapes.
+        sealed class ItemGeometry
         {
-            var renderers = item.GetComponentsInChildren<Renderer>(true);
-            var shapes = new List<RoomTriggerShape>();
-            bool global = false;
-            foreach (var light in item.GetComponentsInChildren<Light>(true))
+            readonly Renderer[] renderers;
+            readonly List<RoomTriggerShape> shapes = new List<RoomTriggerShape>();
+            internal readonly bool global;
+            internal bool Measurable => renderers.Length > 0 || shapes.Count > 0;
+
+            HouseFloor projectedFloor;
+            Bounds box;
+            RoomTriggerShape.Projection[] projected;
+
+            internal ItemGeometry(Transform item)
             {
-                if (light.type == LightType.Directional) global = true;
-                else shapes.Add(RoomTriggerShape.Emitter(light.transform.position));
+                renderers = item.GetComponentsInChildren<Renderer>(true);
+                foreach (var light in item.GetComponentsInChildren<Light>(true))
+                {
+                    if (light.type == LightType.Directional) global = true;
+                    else shapes.Add(RoomTriggerShape.Emitter(light.transform.position));
+                }
+                foreach (var audio in item.GetComponentsInChildren<AudioSource>(true))
+                {
+                    if (audio.spatialBlend <= 0) global = true;
+                    else shapes.Add(RoomTriggerShape.Emitter(audio.transform.position));
+                }
+                foreach (var trigger in item.GetComponentsInChildren<Collider>(true))
+                {
+                    if (!trigger.isTrigger) continue;
+                    var shape = RoomTriggerShape.From(trigger);
+                    if (shape != null) shapes.Add(shape);
+                    else global = true; // A group containing an unclassifiable trigger needs manual ownership.
+                }
             }
-            foreach (var audio in item.GetComponentsInChildren<AudioSource>(true))
+
+            internal Bounds WorldBounds()
             {
-                if (audio.spatialBlend <= 0) global = true;
-                else shapes.Add(RoomTriggerShape.Emitter(audio.transform.position));
+                var result = renderers.Length > 0 ? renderers[0].bounds : shapes[0].WorldBounds();
+                foreach (var renderer in renderers) result.Encapsulate(renderer.bounds);
+                foreach (var shape in shapes) result.Encapsulate(shape.WorldBounds());
+                return result;
             }
-            foreach (var trigger in item.GetComponentsInChildren<Collider>(true))
+
+            internal void Compare(RoomVolume volume, out bool touches, out bool fits)
             {
-                if (!trigger.isTrigger) continue;
-                var shape = RoomTriggerShape.From(trigger);
-                if (shape != null) shapes.Add(shape);
-                else global = true; // A group containing an unclassifiable trigger needs manual ownership.
-            }
-            if (renderers.Length == 0 && shapes.Count == 0) return;
-            var projections = new Dictionary<HouseFloor, RoomTriggerShape.Projection[]>();
-            var bounds = new Dictionary<HouseFloor, Bounds>();
-            var owners = new List<HouseRoom>();
-            bool touchesHouse = false;
-            bool touchesOther = false;
-            foreach (var volume in rooms)
-            {
-                if (volume.footprintMetres == null) continue;
                 var room = volume.room;
                 var floor = volume.floor;
-                bool touches = false, fits = !global;
+                touches = false;
+                fits = true;
+                if (projectedFloor != floor)
+                {
+                    projectedFloor = floor;
+                    if (renderers.Length > 0) box = FloorBounds(floor, renderers);
+                    if (shapes.Count > 0) projected = shapes.Select(s => s.Project(floor)).ToArray();
+                }
                 if (renderers.Length > 0)
                 {
-                    if (!bounds.TryGetValue(floor, out var box))
-                        bounds[floor] = box = FloorBounds(floor, renderers);
                     var min = box.min;
                     var max = box.max;
                     var rect = Rect.MinMaxRect(min.x, min.z, max.x, max.z);
@@ -151,8 +160,6 @@ namespace HouseToolkit.Editor
                 }
                 if (shapes.Count > 0)
                 {
-                    if (!projections.TryGetValue(floor,out var projected))
-                        projections[floor] = projected = shapes.Select(s=>s.Project(floor)).ToArray();
                     foreach (var shape in projected)
                     {
                         RoomTriggerShape.Compare(shape,volume.footprintMetres,volume.heightMetres,out bool overlap,out bool contained);
@@ -160,10 +167,39 @@ namespace HouseToolkit.Editor
                         fits &= contained;
                     }
                 }
+            }
+        }
+
+        internal static void FindOutsideContents(HouseRoom room, List<(GameObject item, Bounds bounds)> warnings)
+        {
+            if (room.transform.childCount == 0) return;
+            var volume = new RoomVolume(room);
+            if (volume.footprintMetres == null || !volume.floor.House) return;
+            foreach (Transform child in room.transform)
+                foreach (var item in Candidates(child, volume.floor.House))
+                {
+                    if (item.GetComponentInParent<HouseRoom>(true) != room) continue;
+                    var geometry = new ItemGeometry(item);
+                    if (!geometry.Measurable) continue;
+                    geometry.Compare(volume, out _, out bool fits);
+                    if (!fits) warnings.Add((item.gameObject, geometry.WorldBounds()));
+                }
+        }
+
+        static void AssignOne(Transform item, House house, RoomVolume[] rooms, Result result, string action)
+        {
+            var geometry = new ItemGeometry(item);
+            if (!geometry.Measurable) return;
+            var owners = new List<HouseRoom>();
+            bool touchesHouse = false, touchesOther = false;
+            foreach (var volume in rooms)
+            {
+                if (volume.footprintMetres == null) continue;
+                geometry.Compare(volume, out bool touches, out bool fits);
                 if (!touches) continue;
-                if (floor.House != house) { touchesOther = true; continue; }
+                if (volume.floor.House != house) { touchesOther = true; continue; }
                 touchesHouse = true;
-                if (fits) owners.Add(room);
+                if (fits && !geometry.global) owners.Add(volume.room);
             }
             var current = item.parent ? item.parent.GetComponentInParent<HouseFloor>() : null;
             if (owners.Count == 1 && !touchesOther)
@@ -173,17 +209,17 @@ namespace HouseToolkit.Editor
                 if (item.parent != container)
                 {
                     Undo.SetTransformParent(item, container, action);
-                    if (result != null) result.moved++;
+                    result.moved++;
                 }
             }
             else
             {
-                if (!global && current && (result == null || item.GetComponentInParent<HouseRoom>()))
+                if (!geometry.global && current && item.GetComponentInParent<HouseRoom>())
                 {
                     var shared = Container(current.transform, "Shared contents", action);
                     if (item.parent != shared) Undo.SetTransformParent(item, shared, action);
                 }
-                if (touchesHouse || current) result?.review.Add(item.gameObject);
+                if (touchesHouse || current) result.review.Add(item.gameObject);
             }
         }
 

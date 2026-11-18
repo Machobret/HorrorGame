@@ -58,6 +58,17 @@ namespace HouseToolkit.Editor
             Vector2 scroll;
             internal readonly int control;
             internal Material choice;
+            Material pending;
+            double commitAt;
+
+            public override void OnClose() => EditorApplication.update -= CommitPending;
+
+            void CommitPending()
+            {
+                if (EditorApplication.timeSinceStartup < commitAt) return;
+                EditorApplication.update -= CommitPending;
+                if (pending && editorWindow) Choose(pending);
+            }
 
             internal SwatchPopup(int control, EditorWindow owner, Material[] materials, Material selected)
             {
@@ -105,7 +116,13 @@ namespace HouseToolkit.Editor
                         if (picked) break;
                     }
                 }
-                if (picked) Choose(picked);
+                if (picked)
+                {
+                    pending = picked;
+                    commitAt = EditorApplication.timeSinceStartup + .5;
+                    EditorApplication.update -= CommitPending;
+                    EditorApplication.update += CommitPending;
+                }
             }
 
             Material DrawGroup(Material[] materials)
@@ -118,7 +135,21 @@ namespace HouseToolkit.Editor
                         var material = materials[i + j];
                         if (!material) continue;
                         Rect tile = new Rect(row.x + j * TileWidth, row.y, TileWidth - 2, TileHeight - 2);
-                        if (GUI.Toggle(tile, material == selected, GUIContent.none, GUI.skin.button) != (material == selected))
+                        if (ProjectAssetNavigation.IsDoubleClick(tile) && pending == material)
+                        {
+                            pending = null;
+                            Event.current.Use();
+                            EditorApplication.update -= CommitPending;
+                            var popup = editorWindow;
+                            EditorApplication.delayCall += () =>
+                            {
+                                if (popup) popup.Close();
+                                ProjectAssetNavigation.Reveal(material);
+                            };
+                            return null;
+                        }
+                        bool active = material == (pending ? pending : selected);
+                        if (GUI.Toggle(tile, active, new GUIContent("", "Double-click to reveal material."), GUI.skin.button) != active)
                             return material;
                         Rect image = new Rect(tile.x + 4, tile.y + 4, tile.width - 8, 43);
                         var tint = material.HasProperty("_BaseColor") ? material.GetColor("_BaseColor") : Color.white;

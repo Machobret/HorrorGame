@@ -12,6 +12,7 @@
 | `Assets/Game/Enemies/<Enemy>` | Enemy implementation and content |
 | `Assets/Game/Environment/ProjectedFinishes` | Shared building materials grouped by surface, with the House Toolkit finish library at the root |
 | `Assets/Game/Environment/Lighting` | Reusable lighting systems, presets, skyboxes and fixtures |
+| `Assets/Game/Environment/Editor/AssetLibrary` | Editor-only cross-pack prefab catalogue and browser; Window > Game > Asset Library |
 | `Assets/Game/Rendering` | Presentation shaders, materials and scripts |
 | `Assets/Game/UI` | Menus, fonts, branding and UI scripts |
 | `Assets/Game/Levels/Chapter0` | Chapter-owned scenes, maps, scripts and prefabs |

@@ -36,7 +36,7 @@ namespace HouseToolkit.Editor
                 Build(floor,i>0?floors[i-1]:null,floor,false);
                 var roof=floor.GetComponentsInChildren<HouseSlab>(true).FirstOrDefault(s=>s.overhead);
                 if(i==floors.Length-1) Build(floor,floor,null,true);
-                else if(roof) Undo.DestroyObjectImmediate(roof.gameObject);
+                else if(roof) HouseOwnership.DestroyGeometry(roof, floor.transform, "Rebuild roof");
             }
             if (house.booleanCuts.Count > 0)
             {
@@ -125,7 +125,7 @@ namespace HouseToolkit.Editor
             var slab=owner.GetComponentsInChildren<HouseSlab>(true).FirstOrDefault(s=>s.overhead==roof);
             if(upper.Length+lower.Length==0)
             {
-                if(slab) Undo.DestroyObjectImmediate(slab.gameObject);
+                if(slab) HouseOwnership.DestroyGeometry(slab, owner.transform, "Rebuild slab");
                 return;
             }
             var graph=PlanarNoding.Split(points,lines);

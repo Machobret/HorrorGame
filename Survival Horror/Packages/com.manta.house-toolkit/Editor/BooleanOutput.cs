@@ -83,7 +83,10 @@ namespace HouseToolkit.Editor
             var owners = root.GetComponentsInChildren<MeshFilter>(true).Select(f => f.transform)
                 .Concat(root.GetComponentsInChildren<Collider>(true).Where(Supported).Select(c => c.transform))
                 .Distinct().Where(t => !t.GetComponentInParent<BooleanCutResult>(true)).ToArray();
-            foreach (var owner in owners) ApplySource(house, root, owner);
+            foreach (var owner in owners)
+                if (HouseOwnership.IsArchitecture(owner.gameObject) ||
+                    (root is InsertAttachment insert && HouseOwnership.InsertModel(owner.gameObject, insert)))
+                    ApplySource(house, root, owner);
         }
 
         static bool Supported(Collider c) => !c.isTrigger && (c is BoxCollider || c is MeshCollider);
@@ -226,7 +229,7 @@ namespace HouseToolkit.Editor
                 if (c) { Undo.RecordObject(c, Action); c.enabled = true; PrefabUtility.RecordPrefabInstancePropertyModifications(c); }
             var originals = state.originalColliders.OfType<MeshCollider>().Select(c => c.sharedMesh).ToArray();
             var generated = state.GetComponents<MeshCollider>().Select(c => c.sharedMesh).Append(result).Except(originals).ToArray();
-            Undo.DestroyObjectImmediate(state.gameObject);
+            HouseOwnership.DestroyGeometry(state, state.transform.parent, Action);
             foreach (var mesh in generated)
                 if (mesh && !EditorUtility.IsPersistent(mesh)) Undo.DestroyObjectImmediate(mesh);
         }

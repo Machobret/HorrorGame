@@ -18,13 +18,19 @@ MonoBehaviour:
     mount: 0
     modelRotation: {x: 0, y: -90, z: 0}
     lightRange: 6.5
-    lightIntensity: 0.75
+    previousLightIntensity: 0.75
+    lightIntensity: 2
+    originalRange: 6.5
+    originalIntensity: 2
   - label: Ceiling light
     prefab: {fileID: 1616010202186468042, guid: 60db14e8aa2f8204fbc09cd64c7502c2, type: 3}
     mount: 2
     modelRotation: {x: 0, y: 0, z: 0}
     lightRange: 8
-    lightIntensity: 0.75
+    previousLightIntensity: 0.75
+    lightIntensity: 1.6
+    originalRange: 8
+    originalIntensity: 1.6
   - label: Bollard light
     prefab: {fileID: 2597850291939527455, guid: 12178f7f198f732499f810b1e2281788, type: 3}
     mount: 1
@@ -41,3 +47,19 @@ MonoBehaviour:
     mount: 0
     modelRotation: {x: 0, y: 90, z: 0}
     lightRange: 0
+  - label: Pancake light
+    prefab: {fileID: 6531299125685625040, guid: f17eb91418ea289478fbf4bb282288f7, type: 3}
+    mount: 0
+    wallAndCeiling: 1
+    modelRotation: {x: 90, y: 0, z: 0}
+    lightRange: 5.5
+    lightIntensity: 1.1
+    beamAngle: 145
+  - label: Bar light
+    prefab: {fileID: 1853418466214196067, guid: 4c48096793f3c8140a8dcc8d69d6d04a, type: 3}
+    mount: 0
+    wallAndCeiling: 1
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 7
+    lightIntensity: 1.5
+    beamAngle: 145

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System;
 using System.Linq;
 using UnityEditor;
@@ -68,6 +69,14 @@ namespace HouseToolkit.Editor
         }
 
         void OnSelectionChange() => Repaint();
+        static void DrawFixtureSelection(FixtureAttachment fixture)
+        {
+            GUILayout.Label(fixture.name, EditorStyles.boldLabel);
+            GUILayout.Label("Attached to " + fixture.mount.ToString().ToLowerInvariant());
+            FixtureTool.DrawLighting(fixture);
+            if (GUILayout.Button("Move fixture")) FixtureTool.BeginMove(fixture);
+        }
+
         void OnGUI()
         {
             var floor=HouseScene.Floor;
@@ -83,8 +92,14 @@ namespace HouseToolkit.Editor
                 return;
             }
             if (roadEditor) DestroyImmediate(roadEditor);
+            var fixture = selected && selected.scene.IsValid() ? selected.GetComponent<FixtureAttachment>() : null;
             if (!floor)
             {
+                if (fixture)
+                {
+                    DrawFixtureSelection(fixture);
+                    return;
+                }
                 var selectedFloor = selected && selected.scene.IsValid() ? HouseScene.SelectedFloor() : null;
                 if (selectedFloor)
                 {
@@ -105,12 +120,7 @@ namespace HouseToolkit.Editor
             else if(tab==0)HouseFields(floor.House);
             else if(tab==1)DrawFloors(floor);
             else if(tab==3) DrawToolProperties();
-            else if(selected && selected.TryGetComponent<FixtureAttachment>(out var fixture))
-            {
-                GUILayout.Label(fixture.name, EditorStyles.boldLabel);
-                GUILayout.Label("Attached to " + fixture.mount.ToString().ToLowerInvariant());
-                if(GUILayout.Button("Move fixture")) FixtureTool.BeginMove(fixture);
-            }
+            else if(fixture) DrawFixtureSelection(fixture);
             else if(HouseScene.Picks.Items.Count>1) DrawHouseBatch();
             else if(BooleanTool.Current!=null) BooleanTool.SelectionProperties();
             else if(HouseScene.Mode==HouseTool.Boolean)
@@ -195,7 +205,7 @@ namespace HouseToolkit.Editor
                     if(choices.Count>0)
                     {
                         int i=Mathf.Max(0,choices.IndexOf(HouseScene.Choice));
-                        HouseScene.Choice=choices[EditorGUILayout.Popup(host.Family.name,i,choices.Select(x=>x.name+(kind!=OpeningKind.Panel && System.Array.IndexOf(host.Family.defaultInserts ?? System.Array.Empty<HouseInsert>(),x) >= 0?" (default)":"")).ToArray())];
+                        HouseScene.Choice=choices[ProjectAssetNavigation.Popup(host.Family.name,choices[i],i,choices.Select(x=>x.name+(kind!=OpeningKind.Panel && System.Array.IndexOf(host.Family.defaultInserts ?? System.Array.Empty<HouseInsert>(),x) >= 0?" (default)":"")).ToArray())];
                         if(kind!=OpeningKind.Panel && HouseScene.Choice.prefab)
                             HouseScene.EmptyOpening=EditorGUILayout.Toggle("Empty opening",HouseScene.EmptyOpening);
                         if(HouseScene.Choice is GarageDoorInsert garage) GarageDoorFields.Brush(garage,HouseScene.EmptyOpening);
@@ -371,7 +381,7 @@ namespace HouseToolkit.Editor
             if(extras==null || extras.Length==0)return Field(label,selected);
             var values=new[]{family.glass}.Concat(extras).Append(selected).Where(m=>m).Distinct().ToList();
             var names=new[]{"Inherit"}.Concat(values.Select(m=>m.name)).ToArray();
-            int i=EditorGUILayout.Popup(label,selected?values.IndexOf(selected)+1:0,names);
+            int i=ProjectAssetNavigation.Popup(label,selected,selected?values.IndexOf(selected)+1:0,names);
             return i==0?null:values[i-1];
         }
         static float ThicknessField(string label,float value)
@@ -435,7 +445,28 @@ namespace HouseToolkit.Editor
         }
         RoomAssignment.Result assignment;
         House assignmentHouse;
-        bool showUnassigned;
+        bool showUnassigned, showOutside;
+        readonly List<GameObject> outsideContents = new();
+
+        void DrawOutsideContents(HouseFloor floor)
+        {
+            outsideContents.Clear();
+            foreach (var room in floor.GetComponentsInChildren<HouseRoom>(true))
+                foreach (var warning in RoomContentsWarnings.ForRoom(room))
+                    if (warning.item) outsideContents.Add(warning.item);
+            if (outsideContents.Count == 0) return;
+            var icon = EditorGUIUtility.IconContent("console.warnicon.sml").image;
+            var label = new GUIContent($"{outsideContents.Count} outside assigned room", icon,
+                "Move these objects inside their room or use Assign Room Contents.");
+            showOutside = EditorGUILayout.Foldout(showOutside, label, true);
+            if (!showOutside) return;
+            foreach (var item in outsideContents)
+                if (GUILayout.Button(item.name, EditorStyles.linkLabel))
+                {
+                    Selection.activeGameObject = item;
+                    EditorGUIUtility.PingObject(item);
+                }
+        }
 
         void DrawFloors(HouseFloor active)
         {
@@ -479,6 +510,7 @@ namespace HouseToolkit.Editor
                     catch(InvalidOperationException error){HouseScene.Message=error.Message;}
                 });
             }
+            DrawOutsideContents(active);
             if (GUILayout.Button("Assign Room Contents"))
             {
                 assignmentHouse = active.House;
@@ -572,7 +604,7 @@ namespace HouseToolkit.Editor
                 var items=OpeningPalette.Choices(wall,opening.insert.kind);
                 if(!items.Contains(opening.insert))items.Add(opening.insert);
                 EditorGUI.BeginChangeCheck();
-                var choice=items[EditorGUILayout.Popup("Insert",items.IndexOf(opening.insert),items.Select(x=>x.name).ToArray())];
+                var choice=items[ProjectAssetNavigation.Popup("Insert",opening.insert,items.IndexOf(opening.insert),items.Select(x=>x.name).ToArray())];
                 float distance=EditorGUILayout.DelayedFloatField("Distance from start (m)",opening.distance);
                 float sill=opening.sill;
                 if(choice.kind==OpeningKind.Window && !wall.Family.panel)sill=EditorGUILayout.DelayedFloatField("Sill (m)",sill);

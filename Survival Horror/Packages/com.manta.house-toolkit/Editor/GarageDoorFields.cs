@@ -45,7 +45,8 @@ namespace HouseToolkit.Editor
             for(int i=0;i<16;i++)
             {
                 var cell=new Rect(rect.x+(i%4)*side,rect.y+(i/4)*side,side,side);
-                if(GUI.Button(cell,new GUIContent("", "Finish "+(i+1)),GUIStyle.none))return i;
+                if (ProjectAssetNavigation.HandleDoubleClick(cell, garage.atlas)) return -1;
+                if(GUI.Button(cell,new GUIContent("", "Finish "+(i+1)+". Double-click to reveal atlas."),GUIStyle.none))return i;
                 if(Event.current.type!=EventType.Repaint)continue;
                 EditorGUI.DrawRect(cell,i==selected?Color.cyan:Color.black);
                 var inset=new Rect(cell.x+2,cell.y+2,side-4,side-4);

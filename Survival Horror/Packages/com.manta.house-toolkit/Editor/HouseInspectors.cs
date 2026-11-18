@@ -14,7 +14,25 @@ namespace HouseToolkit.Editor
         {
             EditorSceneManager.sceneOpened += (scene, mode) => Refresh(scene, checkLayout: true);
             Undo.undoRedoPerformed += RefreshAll;
+            EditorApplication.delayCall += () =>
+            {
+                if (EditorApplication.isPlayingOrWillChangePlaymode) return;
+                for (int i = 0; i < SceneManager.sceneCount; i++) UpgradeLights(SceneManager.GetSceneAt(i));
+            };
         }
+        static void UpgradeLights(Scene scene)
+        {
+            if (!scene.isLoaded || EditorApplication.isPlayingOrWillChangePlaymode || EditorSceneManager.IsPreviewScene(scene)) return;
+            bool changed = false;
+            foreach (var root in scene.GetRootGameObjects())
+                foreach (var fixture in root.GetComponentsInChildren<FixtureAttachment>(true))
+                {
+                    changed |= FixtureTool.UpgradeEmitter(fixture);
+                    changed |= FixtureTool.SyncLighting(fixture);
+                }
+            if (changed) EditorSceneManager.MarkSceneDirty(scene);
+        }
+
         public static void RefreshAll()
         {
             for (int i = 0; i < SceneManager.sceneCount; i++) Refresh(SceneManager.GetSceneAt(i));
@@ -22,6 +40,7 @@ namespace HouseToolkit.Editor
         static void Refresh(Scene scene, bool checkLayout = false)
         {
             if (!scene.isLoaded) return;
+            if (checkLayout) UpgradeLights(scene);
             foreach (var root in scene.GetRootGameObjects())
                 {
                     foreach (var wall in root.GetComponentsInChildren<HouseWall>(true))
@@ -200,7 +219,7 @@ namespace HouseToolkit.Editor
             if (items.Count > 0)
             {
                 int index = Mathf.Max(0, items.IndexOf(chosen));
-                index = EditorGUILayout.Popup("Insert", index, items.Select(i => i.name + (defaults.Contains(i) ? " (family default)" : "")).ToArray());
+                index = ProjectAssetNavigation.Popup("Insert", items[index], index, items.Select(i => i.name + (defaults.Contains(i) ? " (family default)" : "")).ToArray());
                 chosen = items[index];
                 float bottom = kind == OpeningKind.Window ? sill : 0;
                 bool canOmit = kind != OpeningKind.Panel && chosen.prefab;

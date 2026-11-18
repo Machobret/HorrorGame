@@ -291,7 +291,7 @@ namespace HouseToolkit.Editor
                     }
                     outputs.Add(w);
                 }
-                foreach(var w in originals.Where(w=>!kept.Contains(w)))Undo.DestroyObjectImmediate(w.gameObject);
+                foreach(var w in originals.Where(w=>!kept.Contains(w)))HouseOwnership.DestroyGeometry(w,floor.transform,action);
                 foreach(var w in outputs)if(!WallBuilder.Rebuild(w,out reason))throw new InvalidOperationException(reason);
                 if (!WallJunctions.Refresh(floor,out reason)) throw new InvalidOperationException(reason);
                 if (!floor.WallsOnly) RoomGeometry.Publish(floor,rooms,points,action);

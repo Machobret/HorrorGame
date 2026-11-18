@@ -222,6 +222,7 @@ namespace HouseToolkit.Editor
                 if (Mode == HouseTool.Select && !DrawingOpening && Selection.activeGameObject != House.gameObject)
                 {
                     Select(default);
+                    RestoreNativeOutline();
                     Tools.hidden = oldToolsHidden;
                 }
                 return;
@@ -231,30 +232,61 @@ namespace HouseToolkit.Editor
             EditorApplication.delayCall += SelectHouseRoots;
         }
 
+        static SceneView nativeClickView;
+        static Vector2 nativePress;
+        static GameObject clickedPrefabProp;
+
+        static void TrackNativeClick(SceneView view, Event e)
+        {
+            if (e.button != 0) return;
+            if (e.rawType == EventType.MouseDown)
+            {
+                clickedPrefabProp = null;
+                nativeClickView = !e.alt && !Tools.viewToolActive ? view : null;
+                nativePress = e.mousePosition;
+            }
+            if (nativeClickView != view) return;
+            if (e.alt || e.rawType == EventType.MouseLeaveWindow ||
+                (e.mousePosition - nativePress).sqrMagnitude > 16f)
+            {
+                nativeClickView = null;
+                return;
+            }
+            if (e.rawType != EventType.MouseUp) return;
+            nativeClickView = null;
+            // Unity may select an entire prefab building before the native selection
+            // callback. Keep the visible hit for this click, without claiming the gizmo.
+            var hit = HandleUtility.PickGameObject(e.mousePosition, false);
+            if (hit && hit.GetComponentInParent<House>())
+                clickedPrefabProp = hit;
+            EditorApplication.delayCall -= SelectHouseRoots;
+            EditorApplication.delayCall += SelectHouseRoots;
+        }
+
         static void SelectHouseRoots()
         {
+            var clicked = clickedPrefabProp;
+            clickedPrefabProp = null;
             if (Floor || (EditorWindow.focusedWindow && !(EditorWindow.focusedWindow is SceneView)) || EditorApplication.isPlayingOrWillChangePlaymode) return;
             var selected = Selection.objects;
             var roots = selected.Select(item =>
             {
                 if (!(item is GameObject go) || EditorUtility.IsPersistent(go)) return item;
+                if (clicked && clicked != go && clicked.transform.IsChildOf(go.transform) &&
+                    !HouseOwnership.IsArchitecture(clicked)) go = clicked;
                 // Unity can drill into a selected rack on subsequent clicks.
                 var fixture = go.GetComponentInParent<FixtureAttachment>();
-                if (fixture) return fixture.gameObject;
+                if (HouseOwnership.IsFixturePart(go, fixture)) return fixture.gameObject;
                 var marking = go.GetComponentInParent<ProceduralMarking>();
                 if (marking && marking.IsGeneratedPart(go.transform)) return marking.gameObject;
                 var shelf = go.GetComponentInParent<ProceduralShelf>();
                 if (shelf && shelf.IsGeneratedPart(go.transform)) return shelf.gameObject;
                 // Only generated architecture belongs to the house selection. Prefab inserts
                 // and hand-placed room contents retain their own editable selection.
-                if (go.GetComponentInParent<InsertAttachment>() is InsertAttachment attachment)
-                {
-                    var root = go.transform;
-                    while (root != attachment.transform && root.parent != attachment.transform) root = root.parent;
-                    return root.gameObject;
-                }
-                if (!(go.GetComponent<HouseWall>() || go.GetComponent<HouseFloor>() || go.GetComponent<HouseRoom>() ||
-                    go.GetComponent<BooleanCutResult>() || go.GetComponent<HouseSlab>() || go.GetComponent<CornerJoint>() || go.GetComponentInParent<WallOutput>())) return item;
+                var model = HouseOwnership.InsertModel(go, go.GetComponentInParent<InsertAttachment>());
+                if (model) return model;
+                if (!HouseOwnership.IsArchitecture(go))
+                    return go.GetComponentInParent<House>() ? HouseOwnership.PropRoot(go) : item;
                 var house = go.GetComponentInParent<House>();
                 return house ? house.gameObject : item;
             }).Distinct().ToArray();
@@ -340,7 +372,11 @@ namespace HouseToolkit.Editor
                 .SelectMany(f=>f.GetComponentsInChildren<Transform>(true)).Select(t=>t.gameObject));
             foreach(var slab in Floor.GetComponentsInChildren<HouseSlab>(true))
                 if (slab.overhead)
-                    foreach (var child in slab.GetComponentsInChildren<Transform>(true)) above.Add(child.gameObject);
+                {
+                    above.Add(slab.gameObject);
+                    foreach (Transform child in slab.transform)
+                        if (child.TryGetComponent<BooleanCutResult>(out _)) above.Add(child.gameObject);
+                }
             var manager=SceneVisibilityManager.instance;
             foreach(var go in hidden.ToArray())if(!go || !above.Contains(go)){if(go)setPreviewHidden(go,false,false);hidden.Remove(go);}
             foreach(var go in above)if(!manager.IsHidden(go)){setPreviewHidden(go,true,false);hidden.Add(go);}
@@ -411,7 +447,7 @@ namespace HouseToolkit.Editor
         internal static HouseFloor SelectedFloor()
         {
             var go=Selection.activeGameObject;
-            if(!go || go.GetComponentInParent<InsertAttachment>())return null;
+            if(!go || !HouseOwnership.IsArchitecture(go) || go.GetComponentInParent<InsertAttachment>())return null;
             return go.GetComponentInParent<HouseFloor>() ?? (go.GetComponent<House>() ? go.GetComponentInChildren<HouseFloor>() : null);
         }
         [MenuItem("GameObject/House Toolkit/Create House",false,10)]
@@ -465,11 +501,7 @@ namespace HouseToolkit.Editor
             if(!Floor)
             {
                 if(editing)Leave();
-                if (Event.current.rawType == EventType.MouseUp && Event.current.button == 0)
-                {
-                    EditorApplication.delayCall -= SelectHouseRoots;
-                    EditorApplication.delayCall += SelectHouseRoots;
-                }
+                TrackNativeClick(view, Event.current);
                 return;
             }
             var e=Event.current;
@@ -665,10 +697,16 @@ namespace HouseToolkit.Editor
             if(Vector2.Distance(pressed,e.mousePosition)<4)
             {
                 var hit=picker.Pick(Floor,e.mousePosition,ray);
-                if (hit.prop && !e.shift)
+                if (hit.prop)
                 {
                     Select(default);
-                    Selection.activeGameObject = hit.prop;
+                    if ((e.shift || EditorGUI.actionKey) && Selection.activeGameObject != House.gameObject)
+                    {
+                        var selected = Selection.objects.ToList();
+                        if (!selected.Remove(hit.prop)) selected.Add(hit.prop);
+                        Selection.objects = selected.ToArray();
+                    }
+                    else Selection.activeGameObject = hit.prop;
                     if (hit.prop.GetComponent<FixtureAttachment>()) HouseProperties.ShowSelection();
                     Tools.hidden = oldToolsHidden;
                     picker.hover=default; picker.hoverView=null; Message=null;

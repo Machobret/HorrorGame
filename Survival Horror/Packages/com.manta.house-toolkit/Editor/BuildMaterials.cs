@@ -1,4 +1,4 @@
-﻿using UnityEditor.Build;
+using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +10,14 @@ namespace HouseToolkit.Editor
         public void OnProcessScene(Scene scene, BuildReport report)
         {
             foreach (var root in scene.GetRootGameObjects())
+            {
                 foreach (var wall in root.GetComponentsInChildren<HouseWall>(true)) WallBuilder.ApplyMaterials(wall);
+                foreach (var fixture in root.GetComponentsInChildren<FixtureAttachment>(true))
+                {
+                    FixtureTool.UpgradeEmitter(fixture);
+                    FixtureTool.SyncLighting(fixture);
+                }
+            }
         }
     }
 }

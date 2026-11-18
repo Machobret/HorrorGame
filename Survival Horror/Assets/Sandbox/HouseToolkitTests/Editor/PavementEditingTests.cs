@@ -215,14 +215,14 @@ public class PavementEditingTests
         finally {HouseScene.Leave();view.Close();Tools.current=oldTool;PlanSnapping.Grid=oldGrid;}
     }
 
-    static void Drag(SceneView view,Vector3 start,Vector3 end,bool shiftOnPress=false)
+    internal static void Drag(SceneView view,Vector3 start,Vector3 end,bool shiftOnPress=false,bool shiftOnDrag=true)
     {
         var a=Pixel(view,start);var b=Pixel(view,end);
         foreach(var type in new[]{EventType.MouseMove,EventType.Layout,EventType.MouseDown})
             view.SendEvent(new Event{type=type,button=0,clickCount=1,mousePosition=a,shift=shiftOnPress});
         for(int i=1;i<=4;i++)
-            view.SendEvent(new Event{type=EventType.MouseDrag,button=0,mousePosition=Vector2.Lerp(a,b,i/4f),delta=(b-a)/4,shift=true});
-        view.SendEvent(new Event{type=EventType.MouseUp,button=0,mousePosition=b,shift=true});
+            view.SendEvent(new Event{type=EventType.MouseDrag,button=0,mousePosition=Vector2.Lerp(a,b,i/4f),delta=(b-a)/4,shift=shiftOnDrag});
+        view.SendEvent(new Event{type=EventType.MouseUp,button=0,mousePosition=b,shift=shiftOnDrag});
     }
 
     static Vector2 Pixel(SceneView view,Vector3 world)

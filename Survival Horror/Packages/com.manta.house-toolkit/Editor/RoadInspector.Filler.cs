@@ -28,7 +28,7 @@ namespace HouseToolkit.Editor
             string[] names=new[]{"Custom"}.Concat(choices.Select(t=>t.name)).ToArray();
             int index=Array.IndexOf(choices,building.buildingType)+1;
             EditorGUI.BeginChangeCheck();
-            int next=EditorGUILayout.Popup("Building type",index,names);
+            int next=ProjectAssetNavigation.Popup("Building type",building.buildingType,index,names);
             if(EditorGUI.EndChangeCheck())
                 EditFiller(building,"Change building type",()=>building.SetType(next==0 ? null : choices[next-1]));
         }
@@ -140,7 +140,7 @@ namespace HouseToolkit.Editor
             {
                 SetGroundStyle(building,walls,style,material);
             }
-            MultiField.Draw(walls,Choice,index=>EditorGUILayout.Popup("Ground floor",index,labels.ToArray()),index=>{
+            MultiField.Draw(walls,Choice,index=>ProjectAssetNavigation.Popup("Ground floor",index >= 3 && index < custom ? shops[index-3] : null,index,labels.ToArray()),index=>{
                 if(index==0)Set(FillerBuilding.GroundStyle.Inherit);
                 else if(index==1)Set(FillerBuilding.GroundStyle.Normal);
                 else if(index==2)Set(FillerBuilding.GroundStyle.Solid);

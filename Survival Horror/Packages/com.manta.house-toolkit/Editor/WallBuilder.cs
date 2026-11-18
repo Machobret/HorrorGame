@@ -16,16 +16,17 @@ namespace HouseToolkit.Editor
                 reason = "Remove the openings before making a wall-less boundary.";
                 if (wall.openings.Count > 0) return false;
                 var geometry = wall.GetComponentInChildren<WallOutput>(true);
-                if (geometry) Undo.DestroyObjectImmediate(geometry.gameObject);
+                if (geometry) HouseOwnership.DestroyGeometry(geometry, wall.transform, "Rebuild wall");
                 reason = null;
                 return true;
             }
             if (!wall.TryLayout(wall.Floor.height, fits, out reason)) return false;
             var old = wall.GetComponentInChildren<WallOutput>(true);
-            if (old) Undo.DestroyObjectImmediate(old.gameObject);
+            if (old) HouseOwnership.DestroyGeometry(old, wall.transform, "Rebuild wall");
             var root = new GameObject("Wall geometry");
             root.transform.SetParent(wall.transform, false);
             var output = root.AddComponent<WallOutput>();
+            output.recordsTrims = true;
             var family = wall.Family;
             float depth=wall.Thickness;
             output.builtPanelLayout = wall.panelLayout;
@@ -89,7 +90,9 @@ namespace HouseToolkit.Editor
                     go.transform.localScale=scale;
                     go.transform.localPosition=new Vector3((right+left)/2,trim.height/2,side*(depth+trim.depth)/2)-Vector3.Scale(scale,b.center);
                     go.AddComponent<MeshFilter>().sharedMesh=mesh;
-                    go.AddComponent<MeshRenderer>().sharedMaterial=trim.material ? trim.material : family.surface;
+                    var renderer = go.AddComponent<MeshRenderer>();
+                    renderer.sharedMaterial = trim.material ? trim.material : family.surface;
+                    output.trims.Add(renderer);
                 }
             }
 
@@ -348,7 +351,7 @@ namespace HouseToolkit.Editor
                 var facing = placement.reversed ? Quaternion.Euler(0, 180, 0) : Quaternion.identity;
                 attachment.transform.SetLocalPositionAndRotation(new Vector3(placement.distance, fit.sill, 0), facing);
             }
-            foreach (var item in previous) Undo.DestroyObjectImmediate(item.gameObject);
+            foreach (var item in previous) HouseOwnership.DestroyGeometry(item, wall.transform, "Remove insert");
         }
 
         public static bool SetHeight(HouseFloor floor, float value, out string reason)

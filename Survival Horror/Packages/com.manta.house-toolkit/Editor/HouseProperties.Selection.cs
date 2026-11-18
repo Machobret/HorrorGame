@@ -151,7 +151,7 @@ namespace HouseToolkit.Editor
                 var choices=entries.Select(e=>OpeningPalette.Choices(e.pick.wall,e.opening.insert.kind).Append(e.opening.insert))
                     .Aggregate((common,next)=>common.Intersect(next)).Distinct().ToList();
                 MultiField.Draw(entries,e=>e.opening.insert,v=>{
-                    int index=EditorGUILayout.Popup("Insert",choices.IndexOf(v),choices.Select(c=>c.name).ToArray());
+                    int index=ProjectAssetNavigation.Popup("Insert",v,choices.IndexOf(v),choices.Select(c=>c.name).ToArray());
                     return index>=0 ? choices[index] : v;
                 },v=>EditOpenings(items,o=>o.insert=v));
             }

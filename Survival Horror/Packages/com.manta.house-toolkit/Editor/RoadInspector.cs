@@ -216,6 +216,7 @@ namespace HouseToolkit.Editor
             {
                 var box=EditorGUILayout.GetControlRect(false,36);
                 var preview=new Rect(box.x+EditorGUIUtility.labelWidth,box.y,36,36);
+                ProjectAssetNavigation.HandleDoubleClick(preview, set.atlas.mainTexture);
                 GUI.DrawTextureWithTexCoords(preview,set.atlas.mainTexture,entries[index-1].uv,true);
             }
             return index==0?null:entries[index-1].name;

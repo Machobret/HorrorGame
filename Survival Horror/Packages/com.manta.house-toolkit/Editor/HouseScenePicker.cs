@@ -137,7 +137,7 @@ namespace HouseToolkit.Editor
             if(hit)
             {
                 var fixture = hit.GetComponentInParent<FixtureAttachment>();
-                if (fixture) return new HousePick { prop = fixture.gameObject };
+                if (HouseOwnership.IsFixturePart(hit, fixture)) return new HousePick { prop = fixture.gameObject };
                 var renderer=hit.GetComponent<Renderer>();
                 if(renderer && renderer.bounds.IntersectRay(ray,out float entry))depth=entry;
                 hit.GetComponents(colliders);
@@ -166,7 +166,11 @@ namespace HouseToolkit.Editor
                 if (collider.Raycast(reverse, out var back, reach)) distance = Mathf.Min(distance, reach - back.distance);
                 if (distance < depth - .0001f) { depth = distance; hit = panel.gameObject; }
             }
-            if (hit)
+            if (hit && !HouseOwnership.IsArchitecture(hit) && !HouseOwnership.InsertModel(hit, hit.GetComponentInParent<InsertAttachment>()))
+            {
+                if (!hit.GetComponent<RoomContents>()) result.prop = HouseOwnership.PropRoot(hit);
+            }
+            else if (hit)
             {
                 var renderer=hit.GetComponent<Renderer>();
                 var wall=hit.GetComponentInParent<HouseWall>();
@@ -203,15 +207,7 @@ namespace HouseToolkit.Editor
                     visibleSlab=null;
                 }
 
-            if (hit && !hit.GetComponentInParent<HouseWall>() && !hit.GetComponentInParent<CornerJoint>() &&
-                !hit.GetComponentInParent<HouseSlab>() && !hit.GetComponent<HouseRoom>() &&
-                (hit.GetComponent<Renderer>() || hit.GetComponentInParent<RoomContents>() && !hit.GetComponent<RoomContents>()))
-            {
-                var prefab = PrefabUtility.GetNearestPrefabInstanceRoot(hit);
-                result.prop = prefab && !prefab.GetComponentInChildren<House>(true) &&
-                    !prefab.GetComponentInChildren<HouseFloor>(true) ? prefab : hit;
-                return result;
-            }
+            if (result.prop) return result;
 
             // Keep small endpoint handles usable at the base of their own incident wall.
             float bestPixels=8;
@@ -331,7 +327,7 @@ namespace HouseToolkit.Editor
             var output = pick.wall ? pick.wall.GetComponentInChildren<WallOutput>() : null;
             if (!output) return Array.Empty<Renderer>();
             var renderers = output.GetComponentsInChildren<Renderer>();
-            if (pick.segmentId == null) return renderers;
+            if (pick.segmentId == null) return Array.FindAll(renderers, r => HouseOwnership.IsArchitecture(r.gameObject));
             var segments = Array.FindAll(renderers, r => HouseScenePicker.Surround(pick.wall, r, output) == pick.segmentId);
             if (segments.Length != 0) return segments;
             // A frame can also be replaced with a self-contained prefab panel.

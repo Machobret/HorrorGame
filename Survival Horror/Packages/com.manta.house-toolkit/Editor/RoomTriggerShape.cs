@@ -69,6 +69,14 @@ namespace HouseToolkit.Editor
             internal bool emitter;
         }
 
+        internal Bounds WorldBounds()
+        {
+            var bounds = new Bounds(world[0], Vector3.zero);
+            foreach (var point in world) bounds.Encapsulate(point);
+            bounds.Expand(radius * 2);
+            return bounds;
+        }
+
         internal Projection Project(HouseFloor floor)
         {
             var inverse = Quaternion.Inverse(floor.transform.rotation);

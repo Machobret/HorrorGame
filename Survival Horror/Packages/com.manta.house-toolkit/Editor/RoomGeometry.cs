@@ -51,10 +51,6 @@ namespace HouseToolkit.Editor
         internal static void Publish(HouseFloor floor,List<int[]> loops,Dictionary<int,Vector2> points,string action)
         {
             var remaining=floor.GetComponentsInChildren<HouseRoom>(true).ToList();
-            var contents = remaining.SelectMany(r => r.transform.Cast<Transform>())
-                .SelectMany(child => child.GetComponent<RoomContents>() ? child.Cast<Transform>() : new[] { child })
-                .Concat(floor.transform.Cast<Transform>().Where(t => t.GetComponent<RoomContents>())
-                    .SelectMany(t => t.Cast<Transform>())).ToArray();
             // Exact matches get first choice; a split keeps the old identity on the best surviving boundary.
             foreach(var loop in loops.OrderByDescending(l=>remaining.Any(r=>r.corners!=null && r.corners.Length==l.Length && !l.Except(r.corners).Any())).ThenByDescending(l=>l.Length))
             {
@@ -85,7 +81,6 @@ namespace HouseToolkit.Editor
                 }
                 Undo.DestroyObjectImmediate(old.gameObject);
             }
-            RoomAssignment.Recheck(floor, contents, action);
             SlabBuilder.Rebuild(floor.House);
         }
     }

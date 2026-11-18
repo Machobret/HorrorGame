@@ -84,7 +84,7 @@ namespace HouseToolkit.Editor
             }
             if (floor.House.booleanCuts.Count > 0)
                 foreach (var joint in floor.GetComponentsInChildren<CornerJoint>(true)) BooleanOutput.Apply(floor.House, joint);
-            foreach(var joint in old.Values)Undo.DestroyObjectImmediate(joint.gameObject);
+            foreach(var joint in old.Values)HouseOwnership.DestroyGeometry(joint,floor.transform,"Rebuild corner");
             foreach(var w in walls)
             {
                 ends.TryGetValue((w,w.startCorner),out var a); ends.TryGetValue((w,w.endCorner),out var b);
