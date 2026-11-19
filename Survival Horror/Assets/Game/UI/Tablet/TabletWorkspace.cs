@@ -27,6 +27,20 @@ namespace HorrorGame.UI
         readonly List<Button> rows=new List<Button>();
         readonly List<PowerCircuit> circuits=new List<PowerCircuit>();
         float nextSearch;
+        private GameObject controlsGuide;
+        private TMP_Text guideHeader, guideBody, guideButtonLabel;
+        private Image guideStripe;
+        private int guidePage;
+        private int guideInputFrame = -1;
+        public bool IsControlsGuideOpen => controlsGuide && controlsGuide.activeInHierarchy;
+
+        private static readonly (string Title, string Copy)[] GuidePages =
+        {
+            ("OPEN AND CLOSE", "Press M to open your tablet. Press M or ESC to close it and return to the game."),
+            ("READ THE MAP", "Use WASD or click and drag to pan. Scroll to zoom. Use UP and DOWN to change floors. Press I to browse discovered maps."),
+            ("POWER A CIRCUIT", "Aim at a lightning bolt and press E, or click the bolt, to toggle it. NO SERVICE means the circuit is in another room. The POWER tab lists circuits you can use here.")
+        };
+
         private TMP_Text objectiveText;
         private Image objectiveBackground;
         private CanvasGroup completionPopup;
@@ -46,8 +60,15 @@ namespace HorrorGame.UI
             completionStarted = float.NegativeInfinity;
             if (completionPopup) completionPopup.gameObject.SetActive(false);
             SetPage(0);
+            if (Chapter1MapTutorial.Instance is { MapUnlocked: true, ControlsTutorialSeen: false })
+                ShowControlsGuide();
         }
-        void OnDisable(){Unbind();if(Map)Map.AllowMapNavigation=true;}
+        void OnDisable()
+        {
+            Unbind();
+            if (controlsGuide) controlsGuide.SetActive(false);
+            if (Map) Map.AllowMapNavigation = true;
+        }
         void LateUpdate()
         {
             if (Map.IsTabletLoading) return;
@@ -57,9 +78,84 @@ namespace HorrorGame.UI
                 selectedMap=Map.CurrentMap;nextSearch=Time.unscaledTime+1;BindNetwork();
             }
             if(Directory && Directory.activeSelf)Legend.SetActive(false);
-            Map.AllowMapNavigation=Page==0;
+            Map.AllowMapNavigation=Page==0 && !IsControlsGuideOpen && guideInputFrame != Time.frameCount;
             if(Page==2)RefreshLog();
         }
+        private void ShowControlsGuide()
+        {
+            if (!controlsGuide)
+            {
+                var startup = GetComponent<TabletStartupScreen>();
+                var cover = startup && startup.Screen ? startup.Screen.transform : null;
+                var parent = cover ? cover.parent : Footer.transform.parent;
+                var overlay = CreateObjectiveRect("Tablet controls tutorial", parent,
+                    new Vector2(.055f, .12f), new Vector2(.945f, .89f));
+                controlsGuide = overlay.gameObject;
+                if (cover) overlay.SetSiblingIndex(cover.GetSiblingIndex());
+                var shade = overlay.gameObject.AddComponent<Image>();
+                shade.color = new Color(.015f, .022f, .028f, .52f);
+
+                var card = CreateObjectiveRect("Instructions", overlay, new Vector2(.19f, .25f), new Vector2(.81f, .76f));
+                card.gameObject.AddComponent<Image>().color = new Color(.06f, .07f, .08f, .99f);
+                guideStripe = CreateObjectiveRect("Status stripe", card, new Vector2(0f, .96f), Vector2.one)
+                    .gameObject.AddComponent<Image>();
+                guideStripe.raycastTarget = false;
+
+                guideHeader = GuideLabel(card, "Heading", new Vector2(.065f, .72f), new Vector2(.945f, .93f), 27f);
+                guideBody = GuideLabel(card, "Instructions", new Vector2(.065f, .28f), new Vector2(.935f, .70f), 23f);
+                var buttonRect = CreateObjectiveRect("Next", card, new Vector2(.63f, .07f), new Vector2(.935f, .25f));
+                var buttonImage = buttonRect.gameObject.AddComponent<Image>();
+                buttonImage.color = new Color(.28f, .13f, .09f);
+                var button = buttonRect.gameObject.AddComponent<Button>();
+                button.targetGraphic = buttonImage;
+                button.navigation = new Navigation { mode = Navigation.Mode.None };
+                button.onClick.AddListener(AdvanceControlsGuide);
+                guideButtonLabel = GuideLabel(buttonRect, "Key hint", new Vector2(.04f, .08f), new Vector2(.96f, .92f), 21f);
+                guideButtonLabel.alignment = TextAlignmentOptions.Center;
+                guideButtonLabel.color = ObjectiveGold;
+            }
+            controlsGuide.SetActive(true);
+            Map.AllowMapNavigation = false;
+            RedrawControlsGuide();
+        }
+
+        private TMP_Text GuideLabel(Transform parent, string labelName, Vector2 min, Vector2 max, float size)
+        {
+            var label = CreateObjectiveRect(labelName, parent, min, max).gameObject.AddComponent<TextMeshProUGUI>();
+            if (Footer && Footer.font) label.font = Footer.font;
+            label.enableAutoSizing = true;
+            label.fontSizeMin = 11f;
+            label.fontSizeMax = size;
+            label.alignment = TextAlignmentOptions.MidlineLeft;
+            label.color = new Color(.94f, .87f, .78f);
+            label.raycastTarget = false;
+            return label;
+        }
+
+        private void RedrawControlsGuide()
+        {
+            var page = GuidePages[guidePage];
+            Color accent = guidePage == GuidePages.Length - 1 ? new Color(1f, .34f, .27f) : ObjectiveGold;
+            guideStripe.color = guideHeader.color = accent;
+            GameText.SetLabel(guideHeader, (guidePage + 1) + " / " + GuidePages.Length + "   " + GameText.Translate(page.Title));
+            GameText.SetLabel(guideBody, page.Copy);
+            GameText.SetLabel(guideButtonLabel, guidePage == GuidePages.Length - 1 ? "E: DONE" : "E: NEXT");
+        }
+
+        public void AdvanceControlsGuide()
+        {
+            if (!IsControlsGuideOpen || Map.IsTabletLoading || guideInputFrame == Time.frameCount) return;
+            guideInputFrame = Time.frameCount;
+            if (guidePage + 1 < GuidePages.Length)
+            {
+                guidePage++;
+                RedrawControlsGuide();
+                return;
+            }
+            controlsGuide.SetActive(false);
+            Chapter1MapTutorial.Instance?.CompleteControlsTutorial();
+        }
+
         private void RefreshObjectiveBoard()
         {
             if (!objectiveText)
@@ -207,7 +303,8 @@ namespace HorrorGame.UI
         public void ToggleLegend(){bool open=!Legend.activeSelf;if(open)Map.CloseDirectory();Legend.SetActive(open);}
         public void SetPage(int page)
         {
-            Page=Mathf.Clamp(page,0,2);if(Footer)Footer.text=Page==0?"PAN WASD / ZOOM WHEEL / FLOOR UP-DOWN / CLOSE ESC":Page==1?"SELECT A CIRCUIT / REVIEW LOAD BEFORE ENABLING / CLOSE ESC":"SCROLL TO READ / CLOSE ESC";Map.CloseDirectory();Map.AllowMapNavigation=Page==0;
+            if (IsControlsGuideOpen) return;
+            Page=Mathf.Clamp(page,0,2);if(Footer)Footer.text=Page==0?"WASD: PAN  |  CLICK + DRAG: PAN  |  WHEEL: ZOOM  |  UP or DOWN: FLOOR  |  ESC: CLOSE":Page==1?"SELECT A CIRCUIT  |  CHECK LOAD  |  ESC: CLOSE":"WHEEL: SCROLL  |  ESC: CLOSE";Map.CloseDirectory();Map.AllowMapNavigation=Page==0;
             bool hasMap=Map.CurrentMap && GameManager.Exists && GameManager.Instance.Inventory.Maps.Contains(Map.CurrentMap);
             MapImage.gameObject.SetActive(Page==0 && hasMap);MapFrame.SetActive(Page==0);Floors.SetActive(Page==0);MapTools.SetActive(Page==0);
             Annotations.gameObject.SetActive(Page==0 && hasMap);PowerPage.SetActive(Page==1);LogPage.SetActive(Page==2);Legend.SetActive(false);
@@ -223,8 +320,10 @@ namespace HorrorGame.UI
         void BindNetwork()
         {
             Unbind();Network=null;
+            var currentController = MapController.GetCurrent();
+            MapData currentRoomMap = currentController && currentController.GetCurrentRoom() ? currentController.Data : null;
             foreach(var candidate in Object.FindObjectsByType<PowerMapCircuitPanel>(FindObjectsInactive.Exclude,FindObjectsSortMode.None))
-                if(candidate.MapData==Map.CurrentMap && candidate.SourceGrid){Network=candidate;break;}
+                if(currentRoomMap && candidate.MapData==currentRoomMap && candidate.SourceGrid){Network=candidate;break;}
             subscribedGrid=Grid;
             if(subscribedGrid){subscribedGrid.OnGridChanged.AddListener(RefreshPower);subscribedGrid.OnGridOverloaded.AddListener(RecordOverload);subscribedGrid.CircuitChanged+=RecordCircuit;}
             BuildRows();RefreshPower();
@@ -241,7 +340,7 @@ namespace HorrorGame.UI
             if(!Grid || !Network)return;
             foreach(var circuit in Grid.Circuits)
             {
-                if(!Network.CanAccessCircuit(circuit.Id))continue;
+                if(!Network.HasCircuitService(circuit.Id))continue;
                 var row=Instantiate(PowerRowTemplate,PowerRows);row.gameObject.SetActive(true);string id=circuit.Id;
                 row.onClick.AddListener(()=>ToggleCircuit(id));rows.Add(row);circuits.Add(circuit);
             }
@@ -249,37 +348,30 @@ namespace HorrorGame.UI
         public void ToggleCircuit(string id)
         {
             if(!Grid || !Network || !Network.CanAccessCircuit(id) || Grid.IsShutdown)return;
-            var opening = Chapter1Opening.Instance;
-            if (opening && opening.IsDepotCircuit(Grid, id))
-            {
-                bool unlocked = Network.TryToggleCircuit(id);
-                RefreshPower();
-                PowerHelp.text = unlocked ? "Depot unlocked." : "Move closer to the depot gate.";
-                return;
-            }
+            if (!Network.HasCircuitService(id)) { PowerHelp.text = "NO SERVICE"; return; }
             bool changed=Network.TryToggleCircuit(id);RefreshPower();
             if (Network.SequencePuzzle && Network.SequencePuzzle.ShowingWrongAnswer)
             {
                 PowerHelp.text = "Shutter pattern rejected. Check the sequence note.";
                 return;
             }
-            if(!changed)PowerHelp.text="Move closer to the circuit control before changing its power.";
+            if(!changed)PowerHelp.text="Circuit state did not change.";
         }
         public void RefreshPower()
         {
-            if(!Network || !Grid){NetworkStatus.text="NO POWER NETWORK FOR THIS MAP";PowerHelp.text="Connect to a district service network to view its circuits.";return;}
-            NetworkStatus.text=Grid.IsShutdown?"SUPPLY TRIPPED / RESET AT FUSE BOX":"LOAD  "+Grid.CurrentConsumption+" / "+Grid.MaximumCapacity+"     AVAILABLE  "+Grid.RemainingCapacity;
+            if(!Network || !Grid){NetworkStatus.text="NO POWER NETWORK FOR THIS MAP";PowerHelp.text="No circuit network in your current room.";return;}
+            NetworkStatus.text=Grid.IsShutdown?"SUPPLY TRIPPED / RESET AT FUSE BOX":!Grid.EnforceCapacityLimit?"ROOM CIRCUITS":"LOAD  "+Grid.CurrentConsumption+" / "+Grid.MaximumCapacity+"     AVAILABLE  "+Grid.RemainingCapacity;
             NetworkStatus.color=Grid.IsShutdown?new Color(.85f,.49f,.36f):new Color(.65f,.84f,.88f);
-            PowerHelp.text=rows.Count==0?"Find a circuit diagram to identify and control this network.":Grid.IsShutdown?"All circuits are off. Restore supply at the physical fuse box.":"Enabling a circuit above capacity immediately trips the supply.";
+            PowerHelp.text=rows.Count==0?"No accessible circuits in your current room.":Grid.IsShutdown?"All circuits are off. Restore supply at the physical fuse box.":Grid.EnforceCapacityLimit?"Enabling a circuit above capacity immediately trips the supply.":"";
             for(int i=0;i<rows.Count;i++)
             {
-                var circuit=circuits[i];bool on=Grid.IsCircuitPowered(circuit.Id);bool trips=!on && Grid.CurrentConsumption+circuit.Consumption>Grid.MaximumCapacity;
-                rows[i].GetComponentInChildren<TMP_Text>().text=circuit.DisplayName+"   /   "+circuit.Consumption+" UNITS   /   "+(on?"[ON]":"[OFF]")+(trips?"\nWARNING: ENABLING WILL TRIP SUPPLY":"");
+                var circuit=circuits[i];bool on=Grid.IsCircuitPowered(circuit.Id);bool trips=Grid.EnforceCapacityLimit && !on && Grid.CurrentConsumption+circuit.Consumption>Grid.MaximumCapacity;
+                rows[i].GetComponentInChildren<TMP_Text>().text=circuit.DisplayName+(Grid.EnforceCapacityLimit?"   /   "+circuit.Consumption+" UNITS":"")+"   /   "+(on?"[ON]":"[OFF]")+(trips?"\nWARNING: ENABLING WILL TRIP SUPPLY":"");
                 rows[i].interactable=!Grid.IsShutdown;rows[i].GetComponent<Image>().color=trips?new Color(.28f,.13f,.10f):on?selected:normal;
                 var opening = Chapter1Opening.Instance;
                 if (opening && opening.IsDepotCircuit(Grid, circuit.Id))
                 {
-                    rows[i].GetComponentInChildren<TMP_Text>().text = opening.DepotUnlocked ? "Depot unlocked" : "Unlock Depot";
+                    rows[i].GetComponentInChildren<TMP_Text>().text = opening.DepotUnlocked ? "Depot unlocked" : opening.DepotHasPower ? "Entrance shutter power [ON]" : "Entrance shutter power [OFF]";
                     rows[i].interactable = !Grid.IsShutdown && !opening.DepotUnlocked;
                 }
             }

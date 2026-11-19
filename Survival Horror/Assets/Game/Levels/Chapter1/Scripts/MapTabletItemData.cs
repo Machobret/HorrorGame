@@ -8,20 +8,12 @@ namespace HorrorGame.Chapter1
     {
         public MapData MapToUnlock;
 
-        public bool TryCollectWithoutOpening()
-        {
-            var tutorial = Chapter1MapTutorial.Instance;
-            if (!tutorial || !tutorial.CollectTabletWithoutOpening) return false;
-            tutorial.UnlockAndStart(tutorial.MapToUnlock ? tutorial.MapToUnlock : MapToUnlock);
-            Chapter1Opening.Instance?.OnTabletCollected();
-            return true;
-        }
-
         public override void OnUse(InventoryEntry entry, Actor user)
         {
             base.OnUse(entry, user);
             var tutorial = Chapter1MapTutorial.Instance;
-            MapData map = tutorial && tutorial.TutorialCircuit ? tutorial.TutorialCircuit.GetMapData() : null;
+            MapData map = tutorial && tutorial.CollectTabletWithoutOpening ? tutorial.MapToUnlock : null;
+            if (!map && tutorial && tutorial.TutorialCircuit) map = tutorial.TutorialCircuit.GetMapData();
             if (!map && tutorial) map = tutorial.MapToUnlock;
             if (!map && MapController.Exists && GameManager.Exists && GameManager.Instance.Player)
             {
@@ -30,7 +22,8 @@ namespace HorrorGame.Chapter1
             }
             if (!map) map = MapToUnlock;
             if (tutorial) tutorial.UnlockAndStart(map);
-            UIManager.Get<UIMap>(true)?.Show(map);
+            var mapScreen = UIManager.Get<UIMap>(true);
+            if (mapScreen && !mapScreen.isActiveAndEnabled) mapScreen.Show();
         }
     }
 }

@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: HorrorEngineGame_ko
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: ko
+  m_SharedData: {fileID: 11400000, guid: ba6a28fe078146747a4791ee982af4c7, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 56956817408
+    m_Localized: "<color=green>{MAPNAME}</color> 지도를 주울까요?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 483911798784
+    m_Localized: "예"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 546914439168
+    m_Localized: "아니요"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1055071145984
+    m_Localized: "<color=green>{MAPNAME}</color> 지도를 획득했습니다"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3465613152256
+    m_Localized: "<color=green>{DOCNAME}</color> 획득"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 347899672399872
+    m_Localized: "문을 열었습니다"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 348330079293440
+    m_Localized: "반대편에서 잠겨 있습니다"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 348513965969408
+    m_Localized: "열쇠로 문을 열었습니다"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 348769885622272
+    m_Localized: "문이 잠겨 있습니다"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 724383813603328
+    m_Localized: "게임을 종료할까요?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 731041331679232
+    m_Localized: "사용"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 731114601975808
+    m_Localized: "줍기"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 731298757087232
+    m_Localized: "열기"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 731368340590592
+    m_Localized: "열기"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 731455707942912
+    m_Localized: "줍기"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 731553636552704
+    m_Localized: "조사"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 731665393782784
+    m_Localized: "오르기"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1061183174217728
+    m_Localized: "더 이상 아이템을 들 수 없습니다"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1065031255199744
+    m_Localized: "비어 있음"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 355974953308160
+    m_Localized: "위험"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 356074261843968
+    m_Localized: "주의"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 356221544828928
+    m_Localized: "양호"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 356340281380864
+    m_Localized: "중독"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

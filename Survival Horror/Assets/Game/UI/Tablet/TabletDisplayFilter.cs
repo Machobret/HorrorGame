@@ -16,6 +16,7 @@ namespace HorrorGame.UI
         private UIMap map;
         private RawImage pointer;
         private Texture2D pointerTexture;
+        private Texture2D grabTexture;
         private bool showPointer;
 
         public Vector2 ProjectToGlass(Vector2 screenPoint)
@@ -70,6 +71,8 @@ namespace HorrorGame.UI
             var mouse = Mouse.current;
             if (mouse == null || !Output || (map && map.IsTabletLoading))
                 showPointer = false;
+            else if (map && map.IsMapPointerHeld)
+                showPointer = true;
             else if (Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame)
                 showPointer = false;
             else if (mouse.delta.ReadValue().sqrMagnitude > .25f)
@@ -82,8 +85,19 @@ namespace HorrorGame.UI
             }
 
             if (!pointer) CreatePointer();
+            bool grabbing = map && map.IsMapPointerHeld;
+            Texture2D texture = grabbing ? grabTexture : pointerTexture;
+            if (pointer.texture != texture)
+            {
+                pointer.texture = texture;
+                pointer.rectTransform.pivot = grabbing ? new Vector2(.5f, .5f) : new Vector2(0f, 1f);
+                pointer.rectTransform.sizeDelta = new Vector2(texture.width, texture.height) * 2f;
+            }
+            Vector2 screen = mouse.position.ReadValue();
+            if (grabbing)
+                screen = map.ConstrainDragCursor(screen, pointer.rectTransform.rect.size * (pointer.canvas.scaleFactor * .5f));
             pointer.enabled = RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                Output.rectTransform, mouse.position.ReadValue(), null, out var localPoint);
+                Output.rectTransform, screen, null, out var localPoint);
             pointer.rectTransform.localPosition = localPoint;
         }
 
@@ -104,6 +118,31 @@ namespace HorrorGame.UI
                 "#..#+#....",
                 "....##...."
             };
+            pointerTexture = CreateCursorTexture(pixels, "Tablet pointer");
+            grabTexture = CreateCursorTexture(new[]
+            {
+                "...##.##....",
+                "..#+##+###..",
+                "..#+#++#+##.",
+                "..#+++++++#.",
+                ".##+++++++#.",
+                "#+#+++++++#.",
+                "#++#++++++#.",
+                ".#++++++++#.",
+                ".#+++++++#..",
+                "..#++++++#..",
+                "..#+++++#...",
+                "...######..."
+            }, "Tablet grab cursor");
+
+            pointer = new GameObject("Tablet pointer", typeof(RectTransform), typeof(RawImage))
+                .GetComponent<RawImage>();
+            pointer.rectTransform.SetParent(Output.rectTransform, false);
+            pointer.raycastTarget = false;
+        }
+
+        private static Texture2D CreateCursorTexture(string[] pixels, string name)
+        {
             int width = pixels[0].Length;
             int height = pixels.Length;
             var colors = new Color32[width * height];
@@ -117,22 +156,15 @@ namespace HorrorGame.UI
                         colors[(height - 1 - y) * width + x] = pixel == '+' ? fill : edge;
                 }
 
-            pointerTexture = new Texture2D(width, height, TextureFormat.RGBA32, false)
+            var texture = new Texture2D(width, height, TextureFormat.RGBA32, false)
             {
-                name = "Tablet pointer",
+                name = name,
                 filterMode = FilterMode.Point,
                 wrapMode = TextureWrapMode.Clamp
             };
-            pointerTexture.SetPixels32(colors);
-            pointerTexture.Apply(false, true);
-
-            pointer = new GameObject("Tablet pointer", typeof(RectTransform), typeof(RawImage))
-                .GetComponent<RawImage>();
-            pointer.rectTransform.SetParent(Output.rectTransform, false);
-            pointer.rectTransform.pivot = new Vector2(0f, 1f);
-            pointer.rectTransform.sizeDelta = new Vector2(width, height) * 2f;
-            pointer.texture = pointerTexture;
-            pointer.raycastTarget = false;
+            texture.SetPixels32(colors);
+            texture.Apply(false, true);
+            return texture;
         }
         void Resize()
         {
@@ -153,6 +185,7 @@ namespace HorrorGame.UI
         {
             if (pointer) Destroy(pointer.gameObject);
             if (pointerTexture) Destroy(pointerTexture);
+            if (grabTexture) Destroy(grabTexture);
         }
         void Release()
         {

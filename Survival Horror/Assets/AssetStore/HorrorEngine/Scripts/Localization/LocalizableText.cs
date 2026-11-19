@@ -26,7 +26,7 @@ namespace HorrorEngine
             if (localStr == null)
                 return "";
 
-            return (!localStr.IsLocalized || localStr.Localized == null || localStr.Localized.IsEmpty) ? localStr.Unlocalized : localStr.Localized.GetLocalizedString();
+            return (!localStr.IsLocalized || localStr.Localized == null || localStr.Localized.IsEmpty) ? GameText.Translate(localStr.Unlocalized) : localStr.Localized.GetLocalizedString();
         }
 
     }

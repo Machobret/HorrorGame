@@ -6,18 +6,19 @@ namespace HorrorEngine
     public abstract class Pickup : MonoBehaviour
     {
         public UnityEvent OnPickup;
-        public AudioClip PickupSound;
 
         public virtual void Take() 
         { 
             OnPickup?.Invoke();
 
-            if (PickupSound)
-            {
-                AudioSource playerSource = GameManager.Instance.Player.GetComponent<AudioSource>();
-                if (playerSource)
-                    playerSource.PlayOneShot(PickupSound);
-            }
+            var game = GameManager.Instance;
+            bool isDocument = this is PickupDocument ||
+                (this is PickupItem item && (item.Entry.Item is DocumentItemData ||
+                    item.Entry.Item is HorrorGame.Chapter1.CircuitDiagramUnlockItemData));
+            AudioClip clip = isDocument ? game.DocumentPickupSound : game.ItemPickupSound;
+
+            if (clip && game.Player && game.Player.TryGetComponent(out AudioSource playerSource))
+                playerSource.PlayOneShot(clip);
         }
     }
 }

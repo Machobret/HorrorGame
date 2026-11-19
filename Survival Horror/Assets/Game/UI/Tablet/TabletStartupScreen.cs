@@ -1,4 +1,5 @@
 using System.Collections;
+using HorrorEngine;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,7 +41,7 @@ namespace HorrorGame.UI
             {
                 float t=elapsed/Duration;
                 Progress.rectTransform.anchorMax=new Vector2(Mathf.Floor(t*20)/20,1);
-                Status.text=t<.3f?"CHECKING FIELD HARDWARE...":t<.65f?"LOADING LOCAL MAP ARCHIVE...":"LOCAL MODE READY";
+                GameText.SetLabel(Status, t < .3f ? "CHECKING FIELD HARDWARE..." : t < .65f ? "LOADING LOCAL MAP ARCHIVE..." : "LOCAL MODE READY");
                 Screen.alpha=t>.9f?Mathf.Clamp01((1-t)/.1f):1;
                 yield return null;elapsed=(float)(Time.realtimeSinceStartupAsDouble-start);
             }

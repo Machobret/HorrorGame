@@ -16,8 +16,7 @@ namespace HorrorGame.Chapter1
         public MapData MapData;
         public MapRoom Room;
         public Vector2 RoomOffset;
-        [Min(0.1f), Tooltip("Maximum X/Z world distance from the player required to operate this circuit through the map.")]
-        public float ActivationRange = 8f;
+        [HideInInspector] public float ActivationRange = 8f;
         public List<CircuitDrivenObject> LinkedTargets = new List<CircuitDrivenObject>();
         public Vector2 Size = new Vector2(220, 65);
         public List<Vector2> BorderPoints = new List<Vector2>();

@@ -97,9 +97,9 @@ namespace HorrorGame.Chapter1
             if (!open || !Grid) return;
             Rect energyBar = new Rect(16, 16, 260, 48);
             GUI.Box(energyBar, GUIContent.none);
-            GUI.Label(new Rect(energyBar.x + 12, energyBar.y + 7, energyBar.width - 24, 20), "DISTRICT POWER");
+            GUI.Label(new Rect(energyBar.x + 12, energyBar.y + 7, energyBar.width - 24, 20), GameText.Translate("DISTRICT POWER"), GameText.DisplayStyle(GUI.skin.label));
             string load = Grid.IsShutdown ? "GRID SHUT DOWN — RESET AT FUSE BOX" : $"LOAD  {Grid.CurrentConsumption} / {Grid.MaximumCapacity}    AVAILABLE  {Grid.RemainingCapacity}";
-            GUI.Label(new Rect(energyBar.x + 12, energyBar.y + 25, energyBar.width - 24, 20), load);
+            GUI.Label(new Rect(energyBar.x + 12, energyBar.y + 25, energyBar.width - 24, 20), GameText.Translate(load), GameText.DisplayStyle(GUI.skin.label));
             if (string.IsNullOrEmpty(hoveredCircuitId)) return;
             PowerCircuit circuit = Grid.Circuits.Find(value => value.Id == hoveredCircuitId);
             string activatedName = circuit != null && !string.IsNullOrWhiteSpace(circuit.DisplayName) ? circuit.DisplayName : hoveredCircuitId;
@@ -107,8 +107,8 @@ namespace HorrorGame.Chapter1
             bool powered = circuit != null && Grid.IsCircuitPowered(circuit.Id);
             Rect panel = new Rect(Screen.width * .5f - 135, Screen.height * .5f + 48, 270, 68);
             GUI.Box(panel, GUIContent.none);
-            GUI.Label(new Rect(panel.x + 12, panel.y + 9, panel.width - 24, 22), activatedName);
-            GUI.Label(new Rect(panel.x + 12, panel.y + 31, panel.width - 24, 22), $"{consumption} power   —   {(powered ? "ON" : "OFF")}");
+            GUI.Label(new Rect(panel.x + 12, panel.y + 9, panel.width - 24, 22), GameText.Translate(activatedName), GameText.DisplayStyle(GUI.skin.label));
+            GUI.Label(new Rect(panel.x + 12, panel.y + 31, panel.width - 24, 22), GameText.Translate($"{consumption} power   —   {(powered ? "ON" : "OFF")}"), GameText.DisplayStyle(GUI.skin.label));
         }
         private void ClearPoints() { foreach (GameObject point in points) if (point) Destroy(point); points.Clear(); }
         private void OnDestroy() => ClearPoints();

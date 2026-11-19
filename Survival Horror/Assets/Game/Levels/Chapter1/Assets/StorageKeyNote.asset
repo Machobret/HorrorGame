@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a543205dd590b764295581a5ae2883d4, type: 3}
+  m_Name: StorageKeyNote
+  m_EditorClassIdentifier: 
+  UniqueId: d96ca817-42ac-47c7-a819-2158ddc206a0
+  Name:
+    IsLocalized: 0
+    Unlocalized: Storage Key Note
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Image:
+    IsLocalized: 0
+    Unlocalized: {fileID: 21300000, guid: 6c594cae1eec42509fd55d1b959a7686, type: 3}
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+  Name_DEPRECATED: 
+  Image_DEPRECATED: {fileID: 0}
+  ShowImageOnRead: 1
+  ShowPageCount: 1
+  Pages:
+  - Text:
+      IsLocalized: 0
+      Unlocalized: I had to move the <color=#FFD84A>storage key</color>. Check the
+        <color=#FFD84A>other bay</color>.
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+        m_LocalVariables: []
+    Image:
+      IsLocalized: 0
+      Unlocalized: {fileID: 0}
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+    Caption:
+      IsLocalized: 0
+      Unlocalized: -Mr. Johnson
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+        m_LocalVariables: []
+    Text_DEPRECATED: 
+    Image_DEPRECATED: {fileID: 0}
+    Caption_DEPRECATED: 
+    ChangeImageColor: 0
+    ImageColor: {r: 1, g: 1, b: 1, a: 1}
+  ShowClip: {fileID: 0}
+  PageClip: {fileID: 0}
+  CloseClip: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []

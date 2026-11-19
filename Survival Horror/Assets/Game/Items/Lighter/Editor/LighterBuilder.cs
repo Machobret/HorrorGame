@@ -73,7 +73,6 @@ namespace HorrorGame.Items.Editor
                 var pickup = root.AddComponent<PickupItem>();
                 pickup.Entry = new InventoryEntry { Item = item, Count = 1 };
                 pickup.ShowItemSplash = true;
-                pickup.PickupSound = source.GetComponent<PickupItem>().PickupSound;
                 pickup.OnPickup = new UnityEvent();
                 var visual = MakeVisual(model, material);
                 visual.name = "Lighter_Visual";

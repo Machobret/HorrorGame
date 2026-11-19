@@ -20,6 +20,7 @@ namespace HorrorGame.Chapter1
     {
         [Tooltip("Shared authored circuit list. It is cloned on play so overloads never modify the asset.")]
         public DistrictPowerGridData Data;
+        public bool EnforceCapacityLimit = true;
         [Min(1)] public int MaximumCapacity = 100;
         public List<PowerCircuit> Circuits = new List<PowerCircuit>();
         public UnityEvent OnGridChanged=new UnityEvent();
@@ -93,8 +94,9 @@ namespace HorrorGame.Chapter1
             IsShutdown = false;
             foreach (PowerCircuit circuit in Circuits)
             {
-                if (circuit.Enabled) CircuitChanged?.Invoke(circuit.Id, false);
+                if (!circuit.Enabled) continue;
                 circuit.Enabled = false;
+                CircuitChanged?.Invoke(circuit.Id, false);
             }
             Recalculate();
         }
@@ -106,7 +108,7 @@ namespace HorrorGame.Chapter1
                 foreach (PowerCircuit circuit in Circuits)
                     if (circuit.Enabled) CurrentConsumption += circuit.Consumption;
 
-            if (CurrentConsumption > MaximumCapacity)
+            if (EnforceCapacityLimit && CurrentConsumption > MaximumCapacity)
             {
                 IsShutdown = true;
                 foreach (PowerCircuit circuit in Circuits)

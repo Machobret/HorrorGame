@@ -46,7 +46,7 @@ namespace HorrorGame.UI
         {
             if(runtime){runtime.SetFloat("_Damage",displayedDamage);runtime.SetFloat("_FluidTime",Time.unscaledTime);}
             float ratio=health ? Mathf.Clamp01(health.Normalized) : 1;
-            Label.text=ratio<=CriticalBelow ? "CRITICAL" : ratio<InjuredBelow ? "INJURED" : "FINE";
+            GameText.SetLabel(Label, ratio <= CriticalBelow ? "CRITICAL" : ratio < InjuredBelow ? "INJURED" : "FINE");
             Label.color=ratio<InjuredBelow ? new Color(.48f,.18f,.15f) : new Color(.18f,.17f,.15f);
         }
 

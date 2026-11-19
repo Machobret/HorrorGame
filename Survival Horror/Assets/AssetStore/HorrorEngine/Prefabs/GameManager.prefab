@@ -101,6 +101,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_QuitTransition: {fileID: 4522261688254217424}
+  m_ItemPickupSound: {fileID: 8300000, guid: 2df7187d3f6af2948a34fa2098f1a218, type: 3}
+  m_DocumentPickupSound: {fileID: 8300000, guid: 8ca3193c528bd5947a1d3cd85026659a, type: 3}
   references:
     version: 2
     RefIds: []

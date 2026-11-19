@@ -1,0 +1,23 @@
+^SPACE USED  (\d+) / UNLIMITED$|사용한 칸  $1 / 무제한
+^SPACE USED  (\d+) / (\d+)$|사용한 칸  $1 / $2
+^Loaded: (\d+) / (\d+)$|장전: $1 / $2
+^(\d+) rounds$|$1발
+^(\d+) items$|$1개
+^(<color=#[0-9A-Fa-f]+>\d+</color>) new circuits? discovered$|새 회로 $1개 발견
+^LOAD +(\d+) / (\d+) +AVAILABLE +(\d+)$|부하  $1 / $2     여유  $3
+^DISTRICT POWER GRID DATA    —    LOAD (\d+) / (\d+)    AVAILABLE (\d+)$|구역 전력망 데이터    —    부하 $1 / $2    여유 $3
+^(?<label>.*)\n(\d+) POWER   ON$|{label}\n전력 $2   켜짐
+^(?<label>.*)\n(\d+) POWER   OFF$|{label}\n전력 $2   꺼짐
+^Shutter Segment (\d+)$|셔터 구간 $1
+^Street lamp (\d+)$|가로등 $1
+^(?<label>.+)   /   (\d+) UNITS   /   \[ON\]$|{label}   /   $2단위   /   [켜짐]
+^(?<label>.+)   /   (\d+) UNITS   /   \[OFF\]$|{label}   /   $2단위   /   [꺼짐]
+^(?<label>.+)   /   (\d+) UNITS   /   \[OFF\]\nWARNING: ENABLING WILL TRIP SUPPLY$|{label}   /   $2단위   /   [꺼짐]\n주의: 작동하면 전원이 차단됩니다
+^(?<label>.+) / ON$|{label} / 켜짐
+^(?<label>.+) / OFF$|{label} / 꺼짐
+^(\d+) power   —   ON$|전력 $1   —   켜짐
+^(\d+) power   —   OFF$|전력 $1   —   꺼짐
+^(?<label>.+)  —  (\d+) power$|{label}  —  전력 $2
+^FIELD RECORD\n\nFILES COLLECTED: (\d+)    READ: (\d+)\n\nSERVICE HISTORY\n(?<log>[\s\S]*)$|현장 기록\n\n획득한 문서: $1    읽은 문서: $2\n\n정비 이력\n{log}
+^★ (?<label>.+)$|★ {label}
+^(\d+) \.No Data$|$1. 데이터 없음

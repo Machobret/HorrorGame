@@ -4294,7 +4294,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: PAN WASD / ZOOM WHEEL / FLOOR UP-DOWN / CLOSE ESC
+  m_text: "WASD: PAN  |  CLICK + DRAG: PAN  |  WHEEL: ZOOM  |  UP or DOWN: FLOOR  |  ESC: CLOSE"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 98c404638eb89184c88f47e1d717a86d, type: 2}
   m_sharedMaterial: {fileID: -1515060156621273078, guid: 98c404638eb89184c88f47e1d717a86d, type: 2}
@@ -14713,8 +14713,9 @@ MonoBehaviour:
   m_FloorsLegend: {fileID: 3988343717302564796}
   m_CurrentFloorColor: {r: 0.57, g: 0.78, b: 0.83, a: 1}
   m_NotCurrentFloorColor: {r: 1, g: 1, b: 1, a: 0.19607843}
+  m_OpenClip: {fileID: 8300000, guid: e8ee82f42abc5a1409df6bae92db156c, type: 3}
   m_ShowClip: {fileID: 8300000, guid: 86520cdcd86e14645a0daaf3c17b5e23, type: 3}
-  m_CloseClip: {fileID: 8300000, guid: e7a5ec70ce6ba5d4a96e971b41ff6f0d, type: 3}
+  m_CloseClip: {fileID: 8300000, guid: 1dc194fc9ef35a24f9be44efffd904be, type: 3}
   m_ErrorClip: {fileID: 8300000, guid: 09482022c1785ea4e91de45dd4a43186, type: 3}
 --- !u!114 &4324016709591602254
 MonoBehaviour:

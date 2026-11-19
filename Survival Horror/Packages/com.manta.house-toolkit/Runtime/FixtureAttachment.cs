@@ -14,6 +14,7 @@ namespace HouseToolkit
         [SerializeField, HideInInspector] internal GameObject lightPrefab;
         [SerializeField, HideInInspector] internal Light emitter;
         public bool HasLight => emitter != null;
+        public Light Emitter => emitter;
         [SerializeField, HideInInspector] internal bool overrideSpread;
         [SerializeField, HideInInspector] internal float localSpread;
         [System.Serializable] internal struct LocalValue { public bool enabled; public float value; }
@@ -144,6 +145,19 @@ namespace HouseToolkit
                 fixture.ApplyLighting(preset);
             }
             else light.enabled=value;
+        }
+
+        public void SetIndicatorLight(Color tint, float strength)
+        {
+            if (!emitter) return;
+            emitter.enabled = strength > 0f;
+            emitter.color = tint;
+            emitter.intensity = strength;
+            var diffuser = emitter.GetComponentInParent<LampShadeEmission>();
+            if (diffuser && diffuser.FollowsIntensity && diffuser.isActiveAndEnabled)
+                diffuser.Sync(emitter);
+            else if (LightPreset is FixtureChoice preset)
+                ApplyEmission(emitter.enabled, tint, preset.diffuserMaterial);
         }
 
         void ApplyEmission(bool on, Color tint, Material diffuser)

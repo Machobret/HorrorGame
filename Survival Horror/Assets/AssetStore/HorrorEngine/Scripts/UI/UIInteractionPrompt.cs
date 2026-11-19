@@ -95,7 +95,7 @@ namespace HorrorEngine
                     if (FillInteractionName)
                         m_Text.text = m_Interactive.Data.Prompt;
                     if (FillInteractionIcon)
-                        m_Icon.sprite = m_Interactive.Data.Icon;
+                        m_Icon.sprite = m_Interactive.PromptIconOverride ? m_Interactive.PromptIconOverride : m_Interactive.Data.Icon;
                 }
 
                 if (m_Prompt.TryGetComponent(out UIWorldAttached worldAttach))

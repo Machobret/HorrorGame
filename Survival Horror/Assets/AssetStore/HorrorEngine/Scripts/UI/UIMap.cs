@@ -27,6 +27,7 @@ namespace HorrorEngine
         [SerializeField] private Color m_NotCurrentFloorColor;
 
         [Header("Audio")]
+        [SerializeField] private AudioClip m_OpenClip;
         [SerializeField] private AudioClip m_ShowClip;
         [SerializeField] private AudioClip m_CloseClip;
         [SerializeField] private AudioClip m_ErrorClip;
@@ -38,8 +39,28 @@ namespace HorrorEngine
         private Image m_CrosshairHorizontal;
         private bool m_PersistentCursorAcquired;
         private bool m_MouseMapMode;
-        private Vector2 m_MapPointer;
+        private bool m_MapPointerHeld, m_MapPointerDragged;
+        private Vector2 m_MapPressPosition, m_LastDragViewport;
+        public bool IsMapPointerHeld => m_MapPointerHeld;
+        public bool MapClickedThisFrame { get; private set; }
+
+        public Vector2 ConstrainDragCursor(Vector2 screen, Vector2 halfCursorSize)
+        {
+            if (!m_MapPointerHeld || !TryGetMapPointer(out var viewport, true) ||
+                !TryProjectMapViewport(Vector2.zero, false, out var bottomLeft) ||
+                !TryProjectMapViewport(Vector2.one, false, out var topRight)) return screen;
+            Vector2 size = topRight - bottomLeft;
+            if (size.x <= 0f || size.y <= 0f) return screen;
+            Vector2 padding = (halfCursorSize + Vector2.one * 2f) / size;
+            padding = Vector2.Min(padding, Vector2.one * .5f);
+            viewport.x = Mathf.Clamp(viewport.x, padding.x, 1f - padding.x);
+            viewport.y = Mathf.Clamp(viewport.y, padding.y, 1f - padding.y);
+            Vector2 clampedScreen = bottomLeft + Vector2.Scale(viewport, size);
+            return m_DisplayFilter && m_DisplayFilter.isActiveAndEnabled
+                ? m_DisplayFilter.ProjectToGlass(clampedScreen) : clampedScreen;
+        }
         private HorrorGame.UI.TabletStartupScreen m_Startup;
+        private HorrorGame.UI.TabletWorkspace m_Workspace;
         private HorrorGame.UI.TabletDisplayFilter m_DisplayFilter;
         public bool IsTabletLoading => m_Startup && m_Startup.Screen && m_Startup.Screen.gameObject.activeInHierarchy;
         public bool AllowMapNavigation { get; set; }=true;
@@ -53,6 +74,7 @@ namespace HorrorEngine
             m_UIContext = GetComponent<UIContext>();
             m_Input = GetComponentInParent<IUIInput>();
             m_Startup = GetComponent<HorrorGame.UI.TabletStartupScreen>();
+            m_Workspace = GetComponent<HorrorGame.UI.TabletWorkspace>();
             m_DisplayFilter = GetComponent<HorrorGame.UI.TabletDisplayFilter>();
         }
 
@@ -68,7 +90,18 @@ namespace HorrorEngine
         // --------------------------------------------------------------------
 
 
+        private bool CanChangeMap(MapData map) =>
+            map && map != m_CurrentMap && GameManager.Exists &&
+            GameManager.Instance.Inventory is { } inventory && inventory.Maps.Contains(map);
+
         private void OnMapSelected(MapData map)
+        {
+            if (!CanChangeMap(map)) return;
+            SelectMap(map);
+            UIManager.Get<UIAudio>().Play(m_ShowClip);
+        }
+
+        private void SelectMap(MapData map)
         {
             m_CurrentMap = map;
 
@@ -90,8 +123,6 @@ namespace HorrorEngine
             m_MapName.text = map.Name;
 
             UpdateFloors();
-
-            UIManager.Get<UIAudio>().Play(m_ShowClip);
         }
 
         // --------------------------------------------------------------------
@@ -120,7 +151,7 @@ namespace HorrorEngine
 
                 // A map set can contain a deleted/missing map asset. Skip it
                 // rather than dereferencing a null entry while opening M.
-                bool isActive = map && map.IsKnownByPlayer();
+                bool isActive = map && (map == m_CurrentMap || CanChangeMap(map));
                 child.gameObject.SetActive(isActive);
 
                 if (isActive)
@@ -142,9 +173,22 @@ namespace HorrorEngine
 
         private void Update()
         {
+            MapClickedThisFrame = false;
+            if (IsTabletLoading || IsMapDirectoryOpen || !AllowMapNavigation)
+                m_MapPointerHeld = false;
+            if (MapRenderer.Exists && MapRenderer.Instance.RenderTexture != null && m_MapImage.texture != MapRenderer.Instance.RenderTexture)
+                SetMapTexture(MapRenderer.Instance.RenderTexture);
+
             if (IsTabletLoading)
             {
                 m_Input.ConsumeScrollDelta();
+                return;
+            }
+            if (m_Workspace && m_Workspace.IsControlsGuideOpen)
+            {
+                m_Input.ConsumeScrollDelta();
+                if (m_Input.IsCancelDown() || m_Input.IsToggleMapDown()) Hide();
+                else if (m_Input.IsConfirmDown()) m_Workspace.AdvanceControlsGuide();
                 return;
             }
             if (AllowMapNavigation && m_Input.IsToggleMapListDown())
@@ -171,6 +215,7 @@ namespace HorrorEngine
             if (m_Input.IsCancelDown() || m_Input.IsToggleMapDown())
             {
                 Hide();
+                return;
             }
 
             if(!AllowMapNavigation)return;
@@ -178,7 +223,7 @@ namespace HorrorEngine
             move.x = Mathf.Abs(move.x) > m_InputSnapThreshold ? move.x : 0f;
             move.y = Mathf.Abs(move.y) > m_InputSnapThreshold ? move.y : 0f;
             var mouse = Mouse.current;
-            bool mouseInside = HasTabletWorkspace && TryGetMapPointer(out m_MapPointer, true);
+            bool mouseInside = HasTabletWorkspace && TryGetMapPointer(out _, true);
             bool mouseMoved = mouse != null && mouse.delta.ReadValue().sqrMagnitude > .25f;
             if (mouseInside && mouse.leftButton.wasPressedThisFrame)
                 m_MouseMapMode = true;
@@ -187,12 +232,11 @@ namespace HorrorEngine
             else if (mouseInside && mouseMoved)
                 m_MouseMapMode = true;
 
+            UpdateMousePan(mouse);
             if (MapRenderer.Exists && m_CurrentMap)
             {
                 float panSpeed = m_MovementSpeed * MapRenderer.Instance.GetPanSpeedMultiplier();
-                if (m_MouseMapMode)
-                    move = mouseInside ? new Vector2(EdgePan(m_MapPointer.x), EdgePan(m_MapPointer.y)) : Vector2.zero;
-                if (move != Vector2.zero)
+                if (!m_MouseMapMode && !m_MapPointerHeld && move != Vector2.zero)
                     MapRenderer.Instance.MoveTarget(move * Time.unscaledDeltaTime * panSpeed);
                 float scroll = m_Input.ConsumeScrollDelta();
                 if (Mathf.Abs(scroll) > 0.001f)
@@ -255,11 +299,11 @@ namespace HorrorEngine
                 if (currentIndex >= m_CurrentMap.MapSet.Maps.Length)
                     currentIndex = 0;
 
-                if (m_CurrentMap.MapSet.Maps[currentIndex].IsKnownByPlayer())
+                if (CanChangeMap(m_CurrentMap.MapSet.Maps[currentIndex]))
                     break;
             }
 
-            if (currentIndex != prevIndex)
+            if (currentIndex != prevIndex && CanChangeMap(m_CurrentMap.MapSet.Maps[currentIndex]))
                 OnMapSelected(m_CurrentMap.MapSet.Maps[currentIndex]);
             else
                 UIManager.Get<UIAudio>().Play(m_ErrorClip);
@@ -278,11 +322,11 @@ namespace HorrorEngine
                 if (currentIndex < 0)
                     currentIndex = m_CurrentMap.MapSet.Maps.Length - 1;
 
-                if (m_CurrentMap.MapSet.Maps[currentIndex].IsKnownByPlayer())
+                if (CanChangeMap(m_CurrentMap.MapSet.Maps[currentIndex]))
                     break;
             }
 
-            if (currentIndex != prevIndex)
+            if (currentIndex != prevIndex && CanChangeMap(m_CurrentMap.MapSet.Maps[currentIndex]))
                 OnMapSelected(m_CurrentMap.MapSet.Maps[currentIndex]);
             else
                 UIManager.Get<UIAudio>().Play(m_ErrorClip);
@@ -334,7 +378,7 @@ namespace HorrorEngine
             // Generate the selected map before exposing its render texture. This
             // prevents the previous map frame from briefly showing in the UI.
             if (mapIsKnown)
-                OnMapSelected(map);
+                SelectMap(map);
             else
                 m_CurrentMap = null;
 
@@ -342,14 +386,7 @@ namespace HorrorEngine
 
             if (MapRenderer.Exists && mapIsKnown)
             {
-                RenderTexture renderTexture = MapRenderer.Instance.RenderTexture;
-                m_MapImage.texture = renderTexture;
-                // Do not sample the render texture's outermost pixels. Those
-                // pixels can contain a transient clear colour while the map
-                // camera pans, which shows up as a flashing panel-edge border.
-                float insetX = 1.5f / renderTexture.width;
-                float insetY = 1.5f / renderTexture.height;
-                m_MapImage.uvRect = new Rect(insetX, insetY, 1f - insetX * 2f, 1f - insetY * 2f);
+                SetMapTexture(MapRenderer.Instance.RenderTexture);
                 m_MapImage.gameObject.SetActive(true);
                 CreateCrosshair();
                 UpdateCrosshairPosition();
@@ -377,14 +414,27 @@ namespace HorrorEngine
             }
 
             m_UIContext.Activate();
+            if (m_OpenClip || mapIsKnown)
+                UIManager.Get<UIAudio>().Play(m_OpenClip ? m_OpenClip : m_ShowClip);
             OnShown.Invoke();
+        }
+
+        // --------------------------------------------------------------------
+
+        private void SetMapTexture(RenderTexture renderTexture)
+        {
+            m_MapImage.texture = renderTexture;
+            // Avoid bilinear sampling of the render texture's transient outer
+            // clear pixels when its size changes with the display resolution.
+            float insetX = 1.5f / renderTexture.width;
+            float insetY = 1.5f / renderTexture.height;
+            m_MapImage.uvRect = new Rect(insetX, insetY, 1f - insetX * 2f, 1f - insetY * 2f);
         }
 
         // --------------------------------------------------------------------
 
         private void Hide()
         {
-            if (!Chapter1MapTutorial.CanCloseMap) return;
             PauseController.Instance.Resume(this);
             gameObject.SetActive(false);
 
@@ -402,6 +452,8 @@ namespace HorrorEngine
 
         private void OnDisable()
         {
+            m_MapPointerHeld = false;
+            MapClickedThisFrame = false;
             if (!m_PersistentCursorAcquired) return;
             if (CursorController.Exists) CursorController.Instance.SetInUI(false);
             m_PersistentCursorAcquired = false;
@@ -428,13 +480,56 @@ namespace HorrorEngine
 
         public bool IsMapDirectoryOpen => m_MapList && m_MapList.gameObject.activeInHierarchy;
 
-        private static float EdgePan(float coordinate)
+        private void UpdateMousePan(Mouse mouse)
         {
-            const float edge = .13f;
-            return Mathf.Clamp01((coordinate - (1f - edge)) / edge) - Mathf.Clamp01((edge - coordinate) / edge);
+            if (!HasTabletWorkspace || !m_CurrentMap || !MapRenderer.Exists || mouse == null ||
+                !TryGetMapPointer(out var viewport, true, false))
+            {
+                m_MapPointerHeld = false;
+                return;
+            }
+
+            Vector2 screen = mouse.position.ReadValue();
+            bool inside = viewport.x >= 0f && viewport.x <= 1f && viewport.y >= 0f && viewport.y <= 1f &&
+                !IsPointerOverLegend(screen);
+            viewport = new Vector2(Mathf.Clamp01(viewport.x), Mathf.Clamp01(viewport.y));
+            if (mouse.leftButton.wasPressedThisFrame && inside)
+            {
+                m_MapPointerHeld = true;
+                m_MapPointerDragged = false;
+                m_MapPressPosition = screen;
+                m_LastDragViewport = viewport;
+            }
+
+            if (!m_MapPointerHeld) return;
+            m_MouseMapMode = true;
+            if (m_MapPointerDragged || (screen - m_MapPressPosition).sqrMagnitude >= 16f)
+            {
+                m_MapPointerDragged = true;
+                Vector2 delta = Vector2.Scale(viewport - m_LastDragViewport, m_MapImage.uvRect.size);
+                MapRenderer.Instance.DragViewport(delta);
+                m_LastDragViewport = viewport;
+            }
+
+            if (!mouse.leftButton.isPressed)
+            {
+                MapClickedThisFrame = mouse.leftButton.wasReleasedThisFrame && !m_MapPointerDragged && inside;
+                m_MapPointerHeld = false;
+            }
         }
 
-        public bool TryGetMapPointer(out Vector2 position, bool clampToEdge = false)
+        private bool IsPointerOverLegend(Vector2 screen)
+        {
+            var workspace = GetComponent<HorrorGame.UI.TabletWorkspace>();
+            if (!workspace || !workspace.Legend || !workspace.Legend.activeInHierarchy ||
+                !(workspace.Legend.transform is RectTransform legend)) return false;
+            if (m_DisplayFilter && m_DisplayFilter.isActiveAndEnabled) screen = m_DisplayFilter.GlassToScreen(screen);
+            var canvas = m_MapImage.canvas.rootCanvas;
+            var camera = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
+            return RectTransformUtility.RectangleContainsScreenPoint(legend, screen, camera);
+        }
+
+        public bool TryGetMapPointer(out Vector2 position, bool clampToEdge = false, bool limitViewport = true)
         {
             position = default;
             if (Mouse.current == null || !m_MapImage || !m_MapImage.isActiveAndEnabled ||
@@ -448,8 +543,9 @@ namespace HorrorEngine
                 return false;
             Rect bounds = image.rect;
             if (!clampToEdge && !bounds.Contains(local)) return false;
-            position = new Vector2(Mathf.InverseLerp(bounds.xMin, bounds.xMax, local.x),
-                Mathf.InverseLerp(bounds.yMin, bounds.yMax, local.y));
+            position = (local - bounds.min) / bounds.size;
+            if (limitViewport)
+                position = new Vector2(Mathf.Clamp01(position.x), Mathf.Clamp01(position.y));
             return true;
         }
 
@@ -512,14 +608,12 @@ namespace HorrorEngine
 
         public void OnItemsCategory()
         {
-            if (!Chapter1MapTutorial.CanCloseMap) return;
             Hide();
             UIManager.Get<UIInventory>().Show();
         }
 
         public void OnFilesCategory()
         {
-            if (!Chapter1MapTutorial.CanCloseMap) return;
             Hide();
             UIManager.Get<UIDocs>().Show();
         }

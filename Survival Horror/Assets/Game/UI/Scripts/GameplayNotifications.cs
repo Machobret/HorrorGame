@@ -1,4 +1,5 @@
 using HorrorEngine;
+using HorrorGame.Chapter1;
 using TMPro;
 using UnityEngine;
 
@@ -14,10 +15,11 @@ namespace HorrorGame.UI
         private UIMap map;
         private float started, expires, countChangedAt;
         private int circuitCount;
+        private static bool TabletOwned => Chapter1MapTutorial.Instance && Chapter1MapTutorial.Instance.MapUnlocked;
 
         public static void DocumentReceived(DocumentData document)
         {
-            if (!document || !UIManager.Exists) return;
+            if (!TabletOwned || !document || !UIManager.Exists) return;
             var notifications = Get();
             notifications.Clear();
             notifications.pendingDocument = document;
@@ -25,14 +27,14 @@ namespace HorrorGame.UI
 
         public static void CircuitsDiscovered(int count)
         {
-            if (count <= 0 || !UIManager.Exists) return;
+            if (!TabletOwned || count <= 0 || !UIManager.Exists) return;
             var notifications = Get();
             notifications.ShowCircuits(count);
         }
 
         public static void ShowControls(string hint)
         {
-            if (!UIManager.Exists || string.IsNullOrWhiteSpace(hint)) return;
+            if (!TabletOwned || !UIManager.Exists || string.IsNullOrWhiteSpace(hint)) return;
             var notifications = Get();
             if (!notifications.controlsPopup)
                 notifications.controlsPopup = notifications.CreatePopup("CONTROLS", string.Empty, false, out notifications.controlsText);
@@ -108,7 +110,7 @@ namespace HorrorGame.UI
 
         private void LateUpdate()
         {
-            if (map && map.isActiveAndEnabled)
+            if (!TabletOwned || (map && map.isActiveAndEnabled))
             {
                 Clear();
                 return;

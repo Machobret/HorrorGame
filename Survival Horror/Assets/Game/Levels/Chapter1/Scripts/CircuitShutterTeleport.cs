@@ -17,10 +17,13 @@ namespace HorrorGame.Chapter1
         public bool RequiresPuzzleUnlock;
         [SerializeField] private InteractionData lockedInteraction;
         [SerializeField] private string lockedHint;
+        public event System.Action OnLockedInteraction;
+
         private TwoSidedDoor passage;
         private Interactive interaction;
         private bool puzzleUnlocked;
         protected virtual bool PassageAvailable => puzzleUnlocked || (!RequiresPuzzleUnlock && Powered);
+        public bool CanTraverse => isActiveAndEnabled && passage && interaction && interaction.isActiveAndEnabled && PassageAvailable;
 
         public void SetPuzzleUnlocked(bool unlocked)
         {
@@ -70,21 +73,26 @@ namespace HorrorGame.Chapter1
             if (!interaction) return;
 
             bool available = PassageAvailable;
-            var data = available ? DoorInteraction : lockedInteraction;
+            var data = available || !lockedInteraction ? DoorInteraction : lockedInteraction;
             if (interaction.Data != data) interaction.SetInteractionData(data);
-            interaction.gameObject.SetActive(available || lockedInteraction);
+            interaction.SetPromptIcon(available ? null : LockedGateIcon.Sprite);
+            interaction.gameObject.SetActive(data);
         }
 
         private void Traverse(IInteractor interactor)
         {
-            if (PassageAvailable)
-            {
-                if (passage) UsePassage(interactor, passage);
-            }
+            if (TryTraverse(interactor)) return;
+            if (OnLockedInteraction != null)
+                OnLockedInteraction.Invoke();
             else if (lockedInteraction)
-            {
                 GameplayNotifications.ShowControls(lockedHint);
-            }
+        }
+
+        public bool TryTraverse(IInteractor interactor)
+        {
+            if (!CanTraverse) return false;
+            UsePassage(interactor, passage);
+            return true;
         }
 
         protected virtual void UsePassage(IInteractor interactor, TwoSidedDoor door)
@@ -120,6 +128,36 @@ namespace HorrorGame.Chapter1
             foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
                 if (child.name == "Leaf") return child;
             return null;
+        }
+    }
+
+    internal static class LockedGateIcon
+    {
+        private static Sprite sprite;
+        internal static Sprite Sprite
+        {
+            get
+            {
+                if (sprite) return sprite;
+                const int size = 24;
+                var pixels = new Color32[size * size];
+                for (int y = 3; y <= 21; y++)
+                    for (int x = 4; x <= 19; x++)
+                    {
+                        float dx = x - 11.5f;
+                        float dy = Mathf.Max(0f, y - 15.5f);
+                        float radius = dx * dx + dy * dy;
+                        bool shackle = y >= 12 && radius >= 12f && radius <= 38f;
+                        bool body = y <= 13 && !(x >= 11 && x <= 12 && y >= 6 && y <= 10);
+                        if (shackle || body) pixels[y * size + x] = Color.white;
+                    }
+                var texture = new Texture2D(size, size, TextureFormat.RGBA32, false)
+                    { name = "Locked gate icon", filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Clamp };
+                texture.SetPixels32(pixels);
+                texture.Apply(false, true);
+                sprite = UnityEngine.Sprite.Create(texture, new Rect(0, 0, size, size), Vector2.one * .5f);
+                return sprite;
+            }
         }
     }
 }

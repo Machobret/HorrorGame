@@ -22,12 +22,15 @@ namespace HorrorEngine
                         return;
                     }
                 }
+
+                // Saved selections from a disabled locale fall back to English.
+                LocalizationSettings.SelectedLocale = Languages[0];
             }
         }
 
         public override string GetDefaultValue()
         {
-            return LocalizationSettings.SelectedLocale.LocaleName;
+            return Languages[0].LocaleName;
         }
 
         public override int GetItemCount()

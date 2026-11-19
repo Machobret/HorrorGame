@@ -23,7 +23,7 @@ namespace HorrorEngine
                 HorrorGame.UI.GameplayNotifications.DocumentReceived(m_Data);
 
             if (m_ReadOnPickup)
-                Read();
+                Read(playShowSound: false);
 
             gameObject.SetActive(false);
 
@@ -32,7 +32,9 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
-        public void Read()
+        public void Read() => Read(playShowSound: true);
+
+        private void Read(bool playShowSound)
         {
             if (m_DocObtainedDialog.IsValid())
             {
@@ -43,7 +45,7 @@ namespace HorrorEngine
                 });
             }
             
-            UIManager.Get<UIDocument>().Show(m_Data);
+            UIManager.Get<UIDocument>().Show(m_Data, playShowSound);
         }
 
         // --------------------------------------------------------------------

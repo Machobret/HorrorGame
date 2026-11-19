@@ -50,6 +50,13 @@ namespace HorrorEngine
 
         [SerializeField] private SceneTransition m_QuitTransition;
 
+        [Header("Pickup Audio")]
+        [SerializeField] private AudioClip m_ItemPickupSound;
+        [SerializeField] private AudioClip m_DocumentPickupSound;
+
+        public AudioClip ItemPickupSound => m_ItemPickupSound;
+        public AudioClip DocumentPickupSound => m_DocumentPickupSound;
+
         private bool m_IsPlaying;
         private List<CharacterState> m_CharacterStates = new List<CharacterState>();
         private CharacterState m_SelectedCharacterState;

@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_Name: Fog Barrier
+  m_Shader: {fileID: 4800000, guid: d207a39c7346430bb616158cf6b49978, type: 3}
+  m_CustomRenderQueue: -1
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats: []
+    m_Colors:
+    - _MistColor: {r: 0.48, g: 0.51, b: 0.52, a: 1}

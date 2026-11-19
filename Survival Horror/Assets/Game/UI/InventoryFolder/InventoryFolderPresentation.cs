@@ -29,12 +29,12 @@ namespace HorrorGame.UI
         public void SelectPage(){pageSelected=Time.realtimeSinceStartupAsDouble;if(DescriptionScroll){DescriptionScroll.StopMovement();DescriptionScroll.verticalNormalizedPosition=1;}}
         void LateUpdate()
         {
-            if(FeedbackText && InventoryUI && InventoryUI.CombiningEntry!=null){FeedbackText.text="COMBINE: choose a second item";FeedbackText.color=new Color(.16f,.155f,.145f);}
+            if(FeedbackText && InventoryUI && InventoryUI.CombiningEntry!=null){GameText.SetLabel(FeedbackText, "COMBINE: choose a second item");FeedbackText.color=new Color(.16f,.155f,.145f);}
             else if(FeedbackText && Time.unscaledTime>feedbackUntil)FeedbackText.text="";
             if(CapacityText && GameManager.Exists)
             {
                 var inventory=GameManager.Instance.Inventory;
-                CapacityText.text="SPACE USED  "+inventory.UsedSlots+" / "+(inventory.IsInfinite()?"UNLIMITED":inventory.Capacity.ToString());
+                GameText.SetLabel(CapacityText, "SPACE USED  " + inventory.UsedSlots + " / " + (inventory.IsInfinite() ? "UNLIMITED" : inventory.Capacity.ToString()));
             }
             if(runtime)runtime.SetFloat("_FogTime",Time.unscaledTime);
             float t=Mathf.Clamp01((float)(Time.realtimeSinceStartupAsDouble-opened)/OpeningDuration);

@@ -99,6 +99,7 @@ namespace HouseToolkit
                 part.AddComponent<MeshFilter>().sharedMesh = Quad;
                 var renderer = part.AddComponent<MeshRenderer>();
                 renderer.sharedMaterial = Paint;
+                renderer.allowOcclusionWhenDynamic = false;
                 renderer.shadowCastingMode = ShadowCastingMode.Off;
                 renderer.lightProbeUsage = LightProbeUsage.BlendProbes;
                 var bounds = new Bounds(points[0], Vector3.zero);

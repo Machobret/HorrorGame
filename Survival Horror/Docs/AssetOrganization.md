@@ -54,9 +54,11 @@ Horror Engine room discovery uses all outline components on each room, matching 
 
 Horror Engine camera selection recognizes both the legacy fixed-camera prefabs and current Cinemachine cameras. Camera-relative movement uses the live output camera until a virtual camera is selected. Maintain Distance cameras anchor their travel limit to the authored virtual camera position so the camera can follow again when the player backtracks into the Chapter 1 shutter corridor.
 
-The integrated Chapter 1 tablet pickup unlocks its map without showing the item splash. Inventory ignores the opening key on the frame the screen appears so the same press cannot close it immediately.
+The integrated Chapter 1 tablet pickup unlocks its map after the item splash is dismissed. Inventory ignores the opening key on the frame the screen appears so the same press cannot close it immediately.
 
 Horror Engine documents use the shared UI actions for page navigation, confirmation, and dismissal on keyboard and controller.
+
+The Horror Engine GameManager prefab and pickup implementation use the shared clips in `Assets/Game/Sounds` for document and item pickups, including pickups inherited from vendor prefabs.
 
 Sandbox folders remain imported by Unity. Referenced sandbox content or Resources assets can still be included in builds. Promotion into Game requires checking ownership and updating dependencies; moving into Sandbox alone does not make content unused.
 
@@ -71,3 +73,5 @@ Sandbox folders remain imported by Unity. Referenced sandbox content or Resource
 `Assets/HorrorEngineSettings.asset` is an intentional root exception: Horror Engine's settings provider hardcodes its path. Keep it there unless the vendor integration is deliberately changed.
 
 The local Classic64 pebble surfaces use matching names in the source archive, vendor changelog, Unity materials and import catalog. The source preparation script recognizes the original download by texture checksum.
+
+English and Korean are the active game locales. The Horror Engine language setting, startup locale and string table collections reference the project-owned Korean assets in `Assets/Game/UI/Localization`. `GameText` resolves legacy Horror Engine `LocalizableText` values and custom UI text from the English/Korean catalog in that folder. Add an entry there for new legacy labels or add the translation to the corresponding Unity table for table-backed text.

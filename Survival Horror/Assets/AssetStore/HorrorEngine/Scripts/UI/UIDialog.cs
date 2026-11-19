@@ -110,6 +110,7 @@ namespace HorrorEngine
     {
         [SerializeField] GameObject m_Content;
         [SerializeField] TextMeshProUGUI m_Text;
+        public TMP_FontAsset DialogueFont => m_Text ? m_Text.font : null;
 
         private int m_CurrentLine;
         private DialogData m_Dialog;

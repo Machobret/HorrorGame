@@ -17,8 +17,8 @@ namespace HorrorGame.Chapter1
         {
             if (!IsOpen || !Puzzle) return;
             Rect page = new Rect(Screen.width * .5f - 190, Screen.height * .5f - 150, 380, 300);
-            GUI.Box(page, "SHUTTER SEQUENCE");
-            GUI.Label(new Rect(page.x + 24, page.y + 38, page.width - 48, 24), "Open green shutters. Leave red shutters closed.");
+            GUI.Box(page, GameText.Translate("SHUTTER SEQUENCE"), GameText.DisplayStyle(GUI.skin.box));
+            GUI.Label(new Rect(page.x + 24, page.y + 38, page.width - 48, 24), GameText.Translate("Open green shutters. Leave red shutters closed."), GameText.DisplayStyle(GUI.skin.label));
             bool[] solution = Puzzle.Solution;
             for (int row = 0; row < 3; ++row)
             for (int col = 0; col < 2; ++col)
@@ -26,7 +26,7 @@ namespace HorrorGame.Chapter1
                 int index = row * 2 + col;
                 Color old = GUI.color;
                 GUI.color = solution != null && index < solution.Length && solution[index] ? Color.green : Color.red;
-                GUI.Box(new Rect(page.x + 72 + col * 125, page.y + 82 + row * 55, 90, 38), solution != null && solution[index] ? "OPEN" : "CLOSED");
+                GUI.Box(new Rect(page.x + 72 + col * 125, page.y + 82 + row * 55, 90, 38), GameText.Translate(solution != null && solution[index] ? "OPEN" : "CLOSED"), GameText.DisplayStyle(GUI.skin.box));
                 GUI.color = old;
             }
         }

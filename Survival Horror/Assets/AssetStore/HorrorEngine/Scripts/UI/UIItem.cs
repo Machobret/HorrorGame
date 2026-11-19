@@ -49,19 +49,20 @@ namespace HorrorEngine
 
             var itemData = msg.Data;
             var onDismissed = msg.OnSplashDismissed;
+            bool playShowSound = !msg.SuppressSplashSound;
 
             if (gameObject.activeInHierarchy)
             {
                 UIManager.PushAction(new UIStackedAction()
                 {
-                    Action = () => { Show(itemData, onDismissed); },
+                    Action = () => { Show(itemData, onDismissed, playShowSound); },
                     StopProcessingActions = true,
                     Name = "UIItem.OnItemPickeUp (Show)"
                 });
             }
             else
             {
-                Show(itemData, onDismissed);
+                Show(itemData, onDismissed, playShowSound);
             }
         }
 
@@ -72,7 +73,7 @@ namespace HorrorEngine
             Show(item, null);
         }
 
-        private void Show(ItemData item, System.Action onDismissed)
+        private void Show(ItemData item, System.Action onDismissed, bool playShowSound = true)
         {
             m_OnDismissed = onDismissed;
             m_ShownFrame = Time.frameCount;
@@ -96,7 +97,8 @@ namespace HorrorEngine
                 m_Text.text = item.Name;
             }
 
-            UIManager.Get<UIAudio>().Play(m_ShowClip);
+            if (playShowSound)
+                UIManager.Get<UIAudio>().Play(m_ShowClip);
         }
 
         // --------------------------------------------------------------------

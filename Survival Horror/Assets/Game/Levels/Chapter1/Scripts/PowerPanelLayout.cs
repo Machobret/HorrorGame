@@ -27,7 +27,6 @@ namespace HorrorGame.Chapter1
         [HideInInspector] public string MapUniqueId;
         [HideInInspector] public string RoomUniqueId;
         [HideInInspector] public Vector3 WorldPosition;
-        [Min(0.1f), Tooltip("Maximum player X/Z distance required to operate this circuit from the map.")]
-        public float ActivationRange = 8f;
+        [HideInInspector] public float ActivationRange = 8f;
     }
 }

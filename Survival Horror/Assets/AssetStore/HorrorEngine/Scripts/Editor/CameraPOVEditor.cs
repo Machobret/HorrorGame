@@ -73,6 +73,8 @@ namespace HorrorEngine
                     EditorGUILayout.PropertyField(settings.FindPropertyRelative("FollowHorizontal"));
                     EditorGUILayout.PropertyField(settings.FindPropertyRelative("FollowVertical"));
                 }
+                if (allowMaintainDistance)
+                    EditorGUILayout.PropertyField(settings.FindPropertyRelative("LockAxis"));
                 EditorGUI.indentLevel--;
             }
 

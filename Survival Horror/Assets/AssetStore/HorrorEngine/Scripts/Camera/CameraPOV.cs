@@ -16,6 +16,14 @@ namespace HorrorEngine
             MaintainDistance
         }
 
+        public enum PositionFollowAxis
+        {
+            None,
+            X,
+            Y,
+            Z
+        }
+
         [Serializable]
         public class PlayerFollowSettings
         {
@@ -45,6 +53,9 @@ namespace HorrorEngine
 
             [Tooltip("Allow the camera to follow the player across the screen vertically.")]
             public bool FollowVertical = true;
+
+            [Tooltip("Keep the selected world coordinate fixed during Position Follow.")]
+            public PositionFollowAxis LockAxis;
 
         }
 
@@ -167,6 +178,8 @@ namespace HorrorEngine
             }
 
             ++m_TriggerEnterCount;
+            if (m_TriggerEnterCount == 1)
+                m_HasMaintainDistanceOrigin = false;
             SetFollowTarget(GetFollowTransform(other));
             CameraStack.Instance.AddCamera(this, Priority);
         }
@@ -286,20 +299,21 @@ namespace HorrorEngine
             {
                 if (!m_HasMaintainDistanceOrigin)
                 {
-                    // Reactivation can leave the virtual camera at its last followed position.
-                    // Anchor the limit to the authored position so the player can backtrack.
-                    Transform parent = cameraTransform.parent;
-                    m_MaintainDistanceOrigin = parent ? parent.TransformPoint(m_BaseCameraLocalPosition) : m_BaseCameraLocalPosition;
+                    // Recompute the first sweep from the authored pose, including
+                    // when this POV was still running as the no-trigger fallback.
+                    cameraTransform.localPosition = m_BaseCameraLocalPosition;
+                    m_MaintainDistanceOrigin = cameraTransform.position;
                     m_MaintainDistanceForward = cameraTransform.forward;
                     m_MaintainDistanceRight = cameraTransform.right;
                     m_MaintainDistanceUp = cameraTransform.up;
                     m_HasMaintainDistanceOrigin = true;
+                    cameraChanged = true;
                 }
 
                 Vector3 desiredPosition = GetMaintainDistancePosition();
                 Vector3 originalPosition = cameraTransform.position;
-                cameraTransform.position = GetUnobstructedCameraPosition(originalPosition, desiredPosition, m_PlayerTransform);
-                cameraChanged = (cameraTransform.position - originalPosition).sqrMagnitude > 0.000001f;
+                cameraTransform.position = GetPositionFollowMovement(originalPosition, desiredPosition);
+                cameraChanged |= (cameraTransform.position - originalPosition).sqrMagnitude > 0.000001f;
                 SynchronizeCameraState(cameraTransform, cameraChanged);
                 return;
             }
@@ -319,7 +333,7 @@ namespace HorrorEngine
             {
                 Vector3 originalPosition = cameraTransform.position;
                 Vector3 desiredPosition = originalPosition + cameraTransform.right * correction.x + cameraTransform.up * correction.y;
-                cameraTransform.position = GetUnobstructedCameraPosition(originalPosition, desiredPosition, m_PlayerTransform);
+                cameraTransform.position = GetPositionFollowMovement(originalPosition, desiredPosition);
                 cameraChanged = (cameraTransform.position - originalPosition).sqrMagnitude > 0.000001f;
             }
 
@@ -327,6 +341,24 @@ namespace HorrorEngine
         }
 
         // --------------------------------------------------------------------
+
+        private Vector3 GetPositionFollowMovement(Vector3 currentPosition, Vector3 desiredPosition)
+        {
+            switch (PositionFollow.LockAxis)
+            {
+                case PositionFollowAxis.X:
+                    desiredPosition.x = currentPosition.x;
+                    break;
+                case PositionFollowAxis.Y:
+                    desiredPosition.y = currentPosition.y;
+                    break;
+                case PositionFollowAxis.Z:
+                    desiredPosition.z = currentPosition.z;
+                    break;
+            }
+
+            return GetUnobstructedCameraPosition(currentPosition, desiredPosition, m_PlayerTransform);
+        }
 
         private Vector3 GetMaintainDistancePosition()
         {
@@ -632,6 +664,8 @@ namespace HorrorEngine
         {
             if (m_VirtualCam)
             {
+                if (!m_VirtualCam.isActiveAndEnabled)
+                    m_HasMaintainDistanceOrigin = false;
                 m_VirtualCam.gameObject.SetActive(true);
                 m_VirtualCam.enabled = true;
             }
@@ -671,10 +705,22 @@ namespace HorrorEngine
         private float m_HorizontalBorderDirection;
         private float m_VerticalBorderDirection;
         private const float BorderRotationSpeed = 90f;
+        private const float BorderReversalWindow = 0.25f;
+        private const float BorderSettleTime = 0.35f;
+        private const float BorderTurnDeadband = 0.15f;
+        private bool m_BorderTurnPaused;
+        private int m_LastBorderTurn;
+        private float m_LastBorderTurnTime;
+        private int m_SettlingBorderTurn;
+        private float m_BorderTurnSettledFor;
 
         public void ResetFollowState()
         {
             m_HasBorderOrientation = false;
+            m_BorderTurnPaused = false;
+            m_LastBorderTurn = 0;
+            m_SettlingBorderTurn = 0;
+            m_BorderTurnSettledFor = 0f;
             m_HorizontalBorderDirection = 0f;
             m_VerticalBorderDirection = 0f;
         }
@@ -691,25 +737,20 @@ namespace HorrorEngine
             bool borderMode = Owner.RotationFollow.FollowMode == CameraPOV.PlayerFollowMode.KeepPlayerInsideBorder;
             if (!borderMode)
             {
-                m_HasBorderOrientation = false;
-                m_HorizontalBorderDirection = 0f;
-                m_VerticalBorderDirection = 0f;
+                ResetFollowState();
             }
 
             Vector3 cameraPosition = state.GetFinalPosition();
             Quaternion cameraRotation = borderMode && m_HasBorderOrientation
                 ? m_AppliedBorderOrientation
                 : state.GetFinalOrientation();
-            Vector3 localPlayerPosition = Quaternion.Inverse(cameraRotation) * (Owner.FollowTarget.position - cameraPosition);
+            Vector3 toPlayer = Owner.FollowTarget.position - cameraPosition;
+            Vector3 localPlayerPosition = Quaternion.Inverse(cameraRotation) * toPlayer;
             if (localPlayerPosition.z <= 0.001f)
-                return;
-
-            // When the player is almost directly below a perspective camera, horizontal
-            // screen direction is unstable.  Keep the established border angle instead.
-            if (borderMode && localPlayerPosition.z < 0.5f)
             {
-                if (m_HasBorderOrientation)
-                    state.RawOrientation = m_AppliedBorderOrientation;
+                if (borderMode && m_HasBorderOrientation)
+                    state.RawOrientation = m_BorderOrientation = m_AppliedBorderOrientation;
+                m_BorderTurnSettledFor = 0f;
                 return;
             }
 
@@ -718,6 +759,8 @@ namespace HorrorEngine
                 ? state.Lens.OrthographicSize
                 : localPlayerPosition.z * Mathf.Tan(state.Lens.FieldOfView * 0.5f * Mathf.Deg2Rad);
             float halfWidth = halfHeight * aspect;
+            float horizontalMargin = 0f;
+            float verticalMargin = 0f;
             float correctionX;
             float correctionY;
             if (!borderMode)
@@ -727,8 +770,8 @@ namespace HorrorEngine
             }
             else
             {
-                float horizontalMargin = Mathf.Clamp01(Owner.RotationFollow.BorderOffset / (halfWidth * 2f));
-                float verticalMargin = Mathf.Clamp01(Owner.RotationFollow.BorderOffset / (halfHeight * 2f));
+                horizontalMargin = Mathf.Clamp(Owner.RotationFollow.BorderOffset / (halfWidth * 2f), 0f, 0.49f);
+                verticalMargin = Mathf.Clamp(Owner.RotationFollow.BorderOffset / (halfHeight * 2f), 0f, 0.49f);
                 Vector3 playerViewport = ToViewport(cameraPosition, cameraRotation, state.Lens, aspect, Owner.FollowTarget.position);
 
                 // Rotation follows the stable CameraPOVTarget marker rather than the
@@ -748,6 +791,13 @@ namespace HorrorEngine
             float yaw = Owner.RotationFollow.FollowHorizontal ? Mathf.Atan2(correctionX, localPlayerPosition.z) * Mathf.Rad2Deg : 0f;
             float pitch = Owner.RotationFollow.FollowVertical ? Mathf.Atan2(correctionY, localPlayerPosition.z) * Mathf.Rad2Deg : 0f;
 
+            if (borderMode && ShouldPauseBorderTurn(yaw, deltaTime))
+            {
+                if (m_HasBorderOrientation)
+                    state.RawOrientation = m_BorderOrientation = m_AppliedBorderOrientation;
+                return;
+            }
+
             if (Mathf.Approximately(yaw, 0f) && Mathf.Approximately(pitch, 0f))
             {
                 if (borderMode && m_HasBorderOrientation)
@@ -759,6 +809,18 @@ namespace HorrorEngine
             orientation *= Quaternion.AngleAxis(-pitch, Vector3.right);
             if (borderMode)
             {
+                Vector3 target = Owner.FollowTarget.position;
+                Vector3 before = ToViewport(cameraPosition, cameraRotation, state.Lens, aspect, target);
+                Vector3 after = ToViewport(cameraPosition, orientation, state.Lens, aspect, target);
+                if (after.z <= 0.001f
+                    || (yaw != 0f && !ImprovesBorderTurn(before.x, after.x, horizontalMargin))
+                    || (pitch != 0f && !ImprovesBorderTurn(before.y, after.y, verticalMargin)))
+                {
+                    if (m_HasBorderOrientation)
+                        state.RawOrientation = m_BorderOrientation = m_AppliedBorderOrientation;
+                    return;
+                }
+
                 if (!m_HasBorderOrientation)
                     m_AppliedBorderOrientation = state.RawOrientation;
 
@@ -770,6 +832,53 @@ namespace HorrorEngine
             {
                 state.RawOrientation = orientation;
             }
+        }
+
+        private static bool ImprovesBorderTurn(float before, float after, float margin)
+        {
+            // Reject a turn that makes the overflow worse or trades it for the opposite edge.
+            return before < 0.5f
+                ? after > before && after <= 1f - margin
+                : after < before && after >= margin;
+        }
+
+        private bool ShouldPauseBorderTurn(float yaw, float deltaTime)
+        {
+            int turn = Mathf.Abs(yaw) > BorderTurnDeadband ? (yaw > 0f ? 1 : -1) : 0;
+            float now = Time.unscaledTime;
+            if (m_BorderTurnPaused)
+            {
+                if (turn != m_SettlingBorderTurn)
+                {
+                    m_SettlingBorderTurn = turn;
+                    m_BorderTurnSettledFor = 0f;
+                }
+                else
+                    m_BorderTurnSettledFor += Mathf.Max(0f, deltaTime);
+
+                if (m_BorderTurnSettledFor < BorderSettleTime)
+                    return true;
+
+                m_BorderTurnPaused = false;
+                m_LastBorderTurn = 0;
+            }
+
+            if (turn == 0)
+                return false;
+
+            // Catch the reversal before applying it to the rendered orientation.
+            if (m_LastBorderTurn != 0 && turn != m_LastBorderTurn
+                && now - m_LastBorderTurnTime <= BorderReversalWindow)
+            {
+                m_BorderTurnPaused = true;
+                m_SettlingBorderTurn = turn;
+                m_BorderTurnSettledFor = 0f;
+                return true;
+            }
+
+            m_LastBorderTurn = turn;
+            m_LastBorderTurnTime = now;
+            return false;
         }
 
         private Quaternion SmoothBorderOrientation(float deltaTime)

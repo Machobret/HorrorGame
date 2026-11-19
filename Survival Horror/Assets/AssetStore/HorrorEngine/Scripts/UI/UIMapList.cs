@@ -46,7 +46,7 @@ namespace HorrorEngine
             {
                 m_KeyboardMode = true;
                 int index = m_KeyboardIndex < 0 && move < 0 ? m_DisplayedMaps.Count - 1 : m_KeyboardIndex + move;
-                while (index >= 0 && index < m_DisplayedMaps.Count && m_DisplayedMaps[index] == m_CurrentMap)
+                while (index >= 0 && index < m_DisplayedMaps.Count && !CanSelect(m_DisplayedMaps[index]))
                     index += move;
                 if (index >= 0 && index < m_DisplayedMaps.Count)
                     m_KeyboardIndex = index;
@@ -75,40 +75,16 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
-        /// <summary>
-        /// Rebuilds the I-key list from every available source. A map is shown
-        /// only once it is owned or its controller has been visited.
-        /// </summary>
+        /// <summary>Rebuilds the directory from maps in the player's inventory.</summary>
         public void Fill(MapData currentMap = null)
         {
             m_CurrentMap = currentMap;
-            var gameData = GameManager.Instance;
-            var mapDB = GameManager.Instance.GetDatabase<MapDatabase>();
             m_DisplayedMaps.Clear();
 
-            void AddCandidate(MapData map)
-            {
-                if (map && !m_DisplayedMaps.Contains(map) && map.IsKnownByPlayer())
-                    m_DisplayedMaps.Add(map);
-            }
-
-            // The map currently on screen is the most reliable source in
-            // prototype chapters, where a database may not yet be rebuilt.
-            if (currentMap && currentMap.MapSet)
-                foreach (MapData map in currentMap.MapSet.Maps) AddCandidate(map);
-
-            foreach (MapData map in gameData.Inventory.Maps) AddCandidate(map);
-
-            if (mapDB && mapDB.Registers.Count > 0)
-            {
-                foreach (MapData map in mapDB.Registers) AddCandidate(map);
-            }
-
-            // Map assets referenced directly by scenes/pickups can exist
-            // outside a rebuilt MapDatabase. Include loaded assets so their
-            // explored map sets are still selectable with I.
-            foreach (MapData map in Resources.FindObjectsOfTypeAll<MapData>())
-                AddCandidate(map);
+            if (GameManager.Exists && GameManager.Instance.Inventory is { } inventory)
+                foreach (MapData map in inventory.Maps)
+                    if (map && !m_DisplayedMaps.Contains(map))
+                        m_DisplayedMaps.Add(map);
 
             for (int i = 0; i < m_DisplayedMaps.Count; ++i)
             {
@@ -119,7 +95,8 @@ namespace HorrorEngine
                     item.SetParent(m_MapListContent, false);
 
                     Button button = item.GetComponentInChildren<Button>();
-                    button.onClick.AddListener(OnMapEntryClicked);
+                    int index = i;
+                    button.onClick.AddListener(() => SelectMap(index));
                 }
                 else item = m_MapListContent.GetChild(i);
 
@@ -127,31 +104,21 @@ namespace HorrorEngine
                 var tmPro = item.GetComponentInChildren<TMPro.TextMeshProUGUI>();
                 MapData map = m_DisplayedMaps[i];
                 tmPro.text = MapNavigationIndicator.HasActiveObjectiveFor(map) ? "★ " + map.Name : map.Name;
-                item.GetComponentInChildren<Button>().interactable = map != m_CurrentMap;
+                item.GetComponentInChildren<Button>().interactable = CanSelect(map);
             }
 
             for (int i = m_DisplayedMaps.Count; i < m_MapListContent.childCount; ++i)
                 m_MapListContent.GetChild(i).gameObject.SetActive(false);
         }
 
-        private void OnMapEntryClicked()
-        {
-            var selected = EventSystem.current.currentSelectedGameObject;
-            for (int i = 0; i < m_MapListContent.childCount; ++i)
-            {
-                var child = m_MapListContent.GetChild(i);
-                if (selected && (selected == child.gameObject || selected.transform.IsChildOf(child)))
-                {
-                    SelectMap(i);
-                    return;
-                }
-            }
-        }
+        private bool CanSelect(MapData map) =>
+            map && map != m_CurrentMap && GameManager.Exists &&
+            GameManager.Instance.Inventory is { } inventory && inventory.Maps.Contains(map);
 
         private void SelectMap(int index)
         {
             if (index < 0 || index >= m_DisplayedMaps.Count) return;
-            if (m_DisplayedMaps[index] == m_CurrentMap) return;
+            if (!CanSelect(m_DisplayedMaps[index])) return;
             m_KeyboardIndex = index;
             OnMapSelected?.Invoke(m_DisplayedMaps[index]);
         }

@@ -13,6 +13,8 @@ namespace HorrorGame.Chapter1
         public Pushable RequiredCrate;
         [Min(.05f)] public float RaiseSeconds = 1.15f;
         [Min(.05f)] public float HoldRaisedSeconds = .35f;
+        [Tooltip("Minimum and maximum lift as fractions of full travel.")]
+        [SerializeField] private Vector2 raisedHeightRange = new Vector2(.75f, .75f);
         public AudioSource SlamSound;
         [Tooltip("Show the demo ending when the jammed final gate is used.")]
         public bool EndsDemo;
@@ -156,9 +158,11 @@ namespace HorrorGame.Chapter1
 
         private IEnumerator SlamLoop()
         {
-            float peak = fullLift * .75f;
+            float minHeight = fullLift * Mathf.Clamp01(Mathf.Min(raisedHeightRange.x, raisedHeightRange.y));
+            float maxHeight = fullLift * Mathf.Clamp01(Mathf.Max(raisedHeightRange.x, raisedHeightRange.y));
             while (true)
             {
+                float peak = maxHeight > minHeight ? Random.Range(minHeight, maxHeight) : minHeight;
                 float start = lift;
                 for (float time = 0f; time < RaiseSeconds; time += CycleDeltaTime)
                 {
@@ -169,7 +173,8 @@ namespace HorrorGame.Chapter1
                 {
                     float progress = time / HoldRaisedSeconds;
                     float twitch = Mathf.Sin(progress * 4f * Mathf.PI) * (1f - progress);
-                    SetLift(peak + fullLift * .035f * twitch, true);
+                    float heldHeight = peak + fullLift * .035f * twitch;
+                    SetLift(maxHeight > minHeight ? Mathf.Clamp(heldHeight, minHeight, maxHeight) : heldHeight, true);
                     yield return null;
                 }
 

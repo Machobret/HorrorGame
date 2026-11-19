@@ -1,0 +1,227 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: HorrorEngineUI_ko
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: ko
+  m_SharedData: {fileID: 11400000, guid: 5d6bf3edd96320d4db0cbf23d6d92a49, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 64422678528
+    m_Localized: "게임 종료"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 209990193152
+    m_Localized: "설정"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 284367785984
+    m_Localized: "계속하기"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 383240114176
+    m_Localized: "일시 정지"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6324073271296
+    m_Localized: "일시 정지"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11826840735744
+    m_Localized: "나가기"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 353408374804480
+    m_Localized: "아이템"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 353546136719360
+    m_Localized: "지도"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 353785820221440
+    m_Localized: "선택"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 353875263754240
+    m_Localized: "뒤로"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 354587062308864
+    m_Localized: "문서"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 354981209444352
+    m_Localized: "사용"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 355122993696768
+    m_Localized: "장착"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 355199183228928
+    m_Localized: "조합"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 355324429340672
+    m_Localized: "살펴보기"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 355392834244608
+    m_Localized: "버리기"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 355821437587456
+    m_Localized: "장착 중"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 355911657066496
+    m_Localized: "도구"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 357539978153984
+    m_Localized: "새 게임"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 357813279002624
+    m_Localized: "게임 불러오기"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 358234873663488
+    m_Localized: "불러오기"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 358433889193984
+    m_Localized: "불러올 슬롯 선택"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 359138477740032
+    m_Localized: "게임"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 359213459312640
+    m_Localized: "그래픽"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 359307197812736
+    m_Localized: "오디오"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 359427310096384
+    m_Localized: "적용"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 359506456612864
+    m_Localized: "취소"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 359733892747264
+    m_Localized: "지도 목록"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 359883390324736
+    m_Localized: "층 선택"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 360136189415424
+    m_Localized: "지도 선택"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 360353760546816
+    m_Localized: "저장 중…"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 360654412451840
+    m_Localized: "슬롯 선택"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 360887817080832
+    m_Localized: "저장"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 722471638798336
+    m_Localized: "효과음 볼륨"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 722684206125056
+    m_Localized: "전체 볼륨"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 722822232281088
+    m_Localized: "음악 볼륨"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 722920802619392
+    m_Localized: "UI 볼륨"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 723017695236096
+    m_Localized: "언어"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 723082514010112
+    m_Localized: "이동 방식"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 723181151457280
+    m_Localized: "전체 화면"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 723447540092928
+    m_Localized: "그래픽 품질"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 723728415854592
+    m_Localized: "해상도"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 723812763308032
+    m_Localized: "수직 동기화"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1071238216945664
+    m_Localized: "축하합니다!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1071826614882304
+    m_Localized: "등급"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1071966989848576
+    m_Localized: "게임 클리어"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1072241091809280
+    m_Localized: "총 소요 시간"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52605598887579648
+    m_Localized: "해제"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52605886939795456
+    m_Localized: "지정"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52606979941863424
+    m_Localized: "빠른 슬롯"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52896584008208384
+    m_Localized: "교환"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

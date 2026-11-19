@@ -9,6 +9,7 @@ namespace HorrorEngine
     {
         [Tooltip("The exit on side B. The inherited Exit Point is side A. Place both at a similar distance from the doorway, facing away from it.")]
         public Transform OtherExitPoint;
+        public bool TraversalEnabled { get; set; } = true;
 
         private DoorLock m_Lock;
         private bool m_InUse;
@@ -31,7 +32,7 @@ namespace HorrorEngine
 
         public override void Use(IInteractor interactor)
         {
-            if (!isActiveAndEnabled || m_InUse)
+            if (!isActiveAndEnabled || !TraversalEnabled || m_InUse)
                 return;
 
             if (!ExitPoint || !OtherExitPoint || ExitPoint == OtherExitPoint ||

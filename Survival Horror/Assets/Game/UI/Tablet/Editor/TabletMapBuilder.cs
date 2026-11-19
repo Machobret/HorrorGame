@@ -31,6 +31,10 @@ namespace HorrorGame.UI.Editor
             {
                 var ui = new SerializedObject(map.GetComponent<UIMap>());
                 ui.FindProperty("m_SidebarDirectory").boolValue = true;
+                ui.FindProperty("m_OpenClip").objectReferenceValue =
+                    AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Game/Sounds/MapOpen.mp3");
+                ui.FindProperty("m_CloseClip").objectReferenceValue =
+                    AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Game/Sounds/CloseTablet.mp3");
                 ui.FindProperty("m_CrosshairColor").colorValue = new Color(.48f,.73f,.8f,.2f);
                 ui.FindProperty("m_CurrentFloorColor").colorValue = Ink;
                 ui.FindProperty("m_FloorsPrefab").objectReferenceValue=ListEntry((GameObject)ui.FindProperty("m_FloorsPrefab").objectReferenceValue,"Tablet_FloorEntry");
@@ -80,7 +84,7 @@ namespace HorrorGame.UI.Editor
                 var screen=Panel("Blue display",map.transform,new Vector2(.055f,.12f),new Vector2(.945f,.89f),new Color(.018f,.055f,.08f));screen.transform.SetSiblingIndex(2);
                 Border(map.transform,.055f,.12f,.945f,.89f);
                 Label("Device identification","HERO HQ  /  FIELD SERVICE TERMINAL",map.transform,new Vector2(.065f,.9f),new Vector2(.85f,.94f),22);
-                Label("Map controls","WASD PAN  /  WHEEL ZOOM  /  UP-DOWN FLOOR  /  M-ESC CLOSE",map.transform,new Vector2(.28f,.065f),new Vector2(.935f,.105f),14);
+                Label("Map controls","WASD: PAN  |  CLICK + DRAG: PAN  |  WHEEL: ZOOM  |  UP or DOWN: FLOOR  |  ESC: CLOSE",map.transform,new Vector2(.28f,.065f),new Vector2(.935f,.105f),14);
                 var directoryButton=Panel("Directory toggle",map.transform,new Vector2(.065f,.065f),new Vector2(.25f,.105f),new Color(.12f,.22f,.27f));directoryButton.raycastTarget=true;
                 var toggle=directoryButton.gameObject.AddComponent<Button>();toggle.targetGraphic=directoryButton;UnityEditor.Events.UnityEventTools.AddPersistentListener(toggle.onClick,map.GetComponent<UIMap>().ToggleMapDirectory);
                 Label("Directory toggle label","[ I ]  MAP DIRECTORY",directoryButton.transform,Vector2.zero,Vector2.one,15);

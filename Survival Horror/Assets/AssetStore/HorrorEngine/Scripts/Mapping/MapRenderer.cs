@@ -187,17 +187,18 @@ namespace HorrorEngine
             Destroy(m_RuntimeGridMaterial);
             Destroy(m_RuntimeMarkerMaterial);
             Destroy(m_RuntimeContourMaterial);
+            if (m_RenderTexture != null)
+            {
+                m_RenderTexture.Release();
+                Destroy(m_RenderTexture);
+            }
         }
 
         // --------------------------------------------------------------------
 
         private void Start()
         {
-            m_RenderTexture = new RenderTexture((int)(Screen.width* m_RenderTextureScale), (int)(Screen.height* m_RenderTextureScale), 16);
-            m_RenderTexture.filterMode = m_RenderTextureFilterMode;
-            m_RenderTexture.wrapMode = TextureWrapMode.Clamp;
-            m_RenderTexture.useMipMap = false;
-            m_RenderTexture.autoGenerateMips = false;
+            EnsureRenderTexture();
             gameObject.SetActive(false);
         }
 
@@ -205,8 +206,34 @@ namespace HorrorEngine
 
         private void Update()
         {
+            EnsureRenderTexture();
             Vector3 targetPos = new Vector3(m_MapTarget.position.x, m_Cam.transform.position.y, m_MapTarget.position.z);
             m_Cam.transform.position = Vector3.Lerp(m_Cam.transform.position, targetPos, Time.unscaledDeltaTime * m_CameraInterpolationSpeed);
+        }
+
+        private void EnsureRenderTexture()
+        {
+            int width = Mathf.Max(1, Mathf.RoundToInt(Screen.width * m_RenderTextureScale));
+            int height = Mathf.Max(1, Mathf.RoundToInt(Screen.height * m_RenderTextureScale));
+            if (m_RenderTexture != null && m_RenderTexture.width == width && m_RenderTexture.height == height) return;
+
+            if (m_RenderTexture != null)
+            {
+                if (m_Cam.targetTexture == m_RenderTexture) m_Cam.targetTexture = null;
+                m_RenderTexture.Release();
+                Destroy(m_RenderTexture);
+            }
+
+            m_RenderTexture = new RenderTexture(width, height, 16)
+            {
+                name = "Map render texture",
+                filterMode = m_RenderTextureFilterMode,
+                wrapMode = TextureWrapMode.Clamp,
+                useMipMap = false,
+                autoGenerateMips = false
+            };
+            m_RenderTexture.Create();
+            m_Cam.targetTexture = m_RenderTexture;
         }
 
         // --------------------------------------------------------------------
@@ -220,6 +247,7 @@ namespace HorrorEngine
 
         public void GenerateAll(MapData map, bool revealUnknownRooms = false)
         {
+            EnsureRenderTexture();
             m_Map = map;
             m_ContentBounds = CalculateContentBounds(map);
 
@@ -437,6 +465,15 @@ namespace HorrorEngine
         {
             m_MapTarget.Translate(new Vector3(movement.x, 0, movement.y), Space.World);
             ClampTargetToSafeArea();
+        }
+
+        public void DragViewport(Vector2 delta)
+        {
+            if (!m_Cam || delta == Vector2.zero) return;
+            var from = m_Cam.ViewportToWorldPoint(new Vector3(0f, 0f, m_Cam.nearClipPlane));
+            var to = m_Cam.ViewportToWorldPoint(new Vector3(delta.x, delta.y, m_Cam.nearClipPlane));
+            Vector3 pan = from - to;
+            MoveTarget(new Vector2(pan.x, pan.z));
         }
 
         /// <summary>Zooms the map camera. Positive scroll zooms in.</summary>

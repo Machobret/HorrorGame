@@ -466,7 +466,8 @@ namespace HorrorGame.Lighting
             {
                 if (renderer is MeshRenderer && renderer.GetComponentInChildren<Light>(true)) return true;
                 if (renderer.sharedMaterial is { } material &&
-                    string.Equals(material.GetTag("FixtureEmission", false), "True", System.StringComparison.OrdinalIgnoreCase)) return true;
+                    (string.Equals(material.GetTag("FixtureEmission", false), "True", System.StringComparison.OrdinalIgnoreCase) ||
+                     material.GetTag("HorrorVisibilityExempt", false) == "True")) return true;
             }
             return component.GetComponentInParent<HorrorLightSource>() != null;
         }

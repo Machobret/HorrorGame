@@ -47,7 +47,9 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
-        public void Show(DocumentData data)
+        public void Show(DocumentData data) => Show(data, playShowSound: true);
+
+        internal void Show(DocumentData data, bool playShowSound)
         {
             m_CurrentData = data;
             if(GameManager.Exists)GameManager.Instance.Inventory.ReadDocuments.Add(data);
@@ -65,7 +67,7 @@ namespace HorrorEngine
             m_PageImage.color = m_ImageFadeOutColor;
             
             gameObject.SetActive(true);
-            if (data.ShowClip)
+            if (playShowSound && data.ShowClip)
                 UIManager.Get<UIAudio>().Play(data.ShowClip);
             ShowNextPage();
             UpdateNavigationHighlight();

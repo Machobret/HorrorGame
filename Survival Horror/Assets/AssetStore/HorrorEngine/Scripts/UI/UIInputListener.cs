@@ -30,6 +30,11 @@ namespace HorrorEngine
         private void Update()
         {
             // TODO - This can be redone a bit better now that we support UIContexts
+            // Escape belongs to the UI Cancel action, while P/Start is the
+            // configurable pause action. In gameplay there is no active UI to
+            // cancel, so accept either action to open the pause screen. Once a
+            // UI owns the pause context, its own cancel handler remains in charge.
+            bool pausePressed = m_Input.IsTogglePauseDown() || m_Input.IsCancelDown();
 
             if (GameManager.Instance.IsPlaying)
             {
@@ -51,7 +56,7 @@ namespace HorrorEngine
                         m_Map?.Show();
                 }
 
-                if (m_Input.IsTogglePauseDown())
+                if (pausePressed)
                 {
                     if (!m_Pause)
                         m_Pause = GetComponentInChildren<UIPause>(true);
@@ -62,7 +67,7 @@ namespace HorrorEngine
             }
             else
             {
-                if (m_Input.IsTogglePauseDown())
+                if (pausePressed)
                 {
                      
                     if (!m_Pause)

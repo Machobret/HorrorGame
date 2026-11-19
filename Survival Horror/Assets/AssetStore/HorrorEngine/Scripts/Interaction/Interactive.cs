@@ -22,6 +22,14 @@ namespace HorrorEngine
         public OnInteractionEvent OnInteract;
         public UnityEvent OnFinishInteract;
         public UnityEvent OnDataChanged;
+        public Sprite PromptIconOverride { get; private set; }
+
+        public void SetPromptIcon(Sprite icon)
+        {
+            if (PromptIconOverride == icon) return;
+            PromptIconOverride = icon;
+            OnDataChanged?.Invoke();
+        }
 
         // --------------------------------------------------------------------
 

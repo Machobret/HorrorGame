@@ -17,6 +17,7 @@ namespace HorrorEngine
         private Transform m_TargetTransform;
 #if UNITY_6000_0_OR_NEWER
         private CinemachineCamera m_VirtualCam;
+        private CinemachineVirtualCamera m_LegacyVirtualCam;
 #else
         private CinemachineVirtualCamera m_VirtualCam;
 #endif
@@ -38,6 +39,7 @@ namespace HorrorEngine
 
 #if UNITY_6000_0_OR_NEWER
                 m_VirtualCam = preview.GetComponent<CinemachineCamera>();
+                m_LegacyVirtualCam = preview.GetComponent<CinemachineVirtualCamera>();
 #else
                 m_VirtualCam = preview.GetComponent<CinemachineVirtualCamera>();
 #endif
@@ -84,6 +86,15 @@ namespace HorrorEngine
                 m_Camera.farClipPlane = lens.FarClipPlane;
                 m_Camera.nearClipPlane = lens.NearClipPlane;
             }
+#if UNITY_6000_0_OR_NEWER
+            else if (m_LegacyVirtualCam)
+            {
+                var lens = m_LegacyVirtualCam.m_Lens;
+                m_Camera.fieldOfView = lens.FieldOfView;
+                m_Camera.farClipPlane = lens.FarClipPlane;
+                m_Camera.nearClipPlane = lens.NearClipPlane;
+            }
+#endif
             else if (m_RegularCam)
             {
                 m_Camera.fieldOfView = m_RegularCam.fieldOfView;
@@ -109,6 +120,10 @@ namespace HorrorEngine
         {
             if (!Application.isPlaying)
             {
+                serializedObject.Update();
+                var letterbox = serializedObject.FindProperty(nameof(CameraPreview.LetterboxHeight));
+                EditorGUILayout.PropertyField(letterbox);
+                serializedObject.ApplyModifiedProperties();
                 m_Aspect = EditorGUILayout.Vector2IntField("Aspect", m_Aspect);
                 EditorGUILayout.BeginHorizontal();
                 GUILayout.Box("", GUILayout.Height(m_Size));
@@ -117,7 +132,17 @@ namespace HorrorEngine
                 if (m_Camera)
                 {
                     Render();
-                    EditorGUI.DrawTextureTransparent(scale, m_Camera.targetTexture, ScaleMode.ScaleToFit);
+                    var texture = m_Camera.targetTexture;
+                    float fit = Mathf.Min(scale.width / texture.width, scale.height / texture.height);
+                    Vector2 size = new Vector2(texture.width, texture.height) * fit;
+                    var frame = new Rect(scale.center - size * .5f, size);
+                    EditorGUI.DrawTextureTransparent(frame, texture, ScaleMode.StretchToFill);
+                    float barHeight = frame.height * letterbox.floatValue;
+                    if (barHeight > 0f && Event.current.type == EventType.Repaint)
+                    {
+                        EditorGUI.DrawRect(new Rect(frame.x, frame.y, frame.width, barHeight), Color.black);
+                        EditorGUI.DrawRect(new Rect(frame.x, frame.yMax - barHeight, frame.width, barHeight), Color.black);
+                    }
                 }
 
                 if (GUILayout.Button(new GUIContent("Go to POV", "Moves the editor camera to this POV")))

@@ -1,0 +1,267 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: HorrorEngineSampleContent_ko
+  m_EditorClassIdentifier:
+  m_LocaleId:
+    m_Code: ko
+  m_SharedData: {fileID: 11400000, guid: 7bb2b06d71f243b428e4ad9bf566ec1f, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 75143319552
+    m_Localized: "예제 장면"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1283987869696
+    m_Localized: "디지털 기록"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1478083481600
+    m_Localized: "레트로 호러 템플릿을 구매해 주셔서 감사합니다.\n\n디스코드 서버에서 새 기능 선정에 참여하실 수 있습니다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3388224049152
+    m_Localized: "문서 예시입니다.\n\n문서에는 다음과 같이 유용한 정보가 들어 있을 수 있습니다.\n<color=green>보석함 안에 스페이드 열쇠가 있습니다.</color>"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3709704867840
+    m_Localized: "설명이 붙은 이미지도 표시할 수 있습니다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3880379486208
+    m_Localized: "문서를 닫습니다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4421750886400
+    m_Localized: "초록 약초"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4539199787008
+    m_Localized: "체력을 조금 회복시키는 약초."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5297341206528
+    m_Localized: "9mm 일반탄"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5450856927232
+    m_Localized: "9mm 총기에 사용하는 탄약."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 346577019604992
+    m_Localized: "손잡이에 스페이드 문양이 새겨져 있다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 347050686550016
+    m_Localized: "보석함"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 347162175344640
+    m_Localized: "보석함이다. 안에 뭔가 들어 있을지도 모른다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 347323387613184
+    m_Localized: "잉크 리본"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 347561015906304
+    m_Localized: "타자기에 사용하면 진행 상황을 저장할 수 있다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 367549936308224
+    m_Localized: "꺼져 있는 패널이다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 367636787761152
+    m_Localized: "빨간 불빛이 깜박인다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 367768606347264
+    m_Localized: "조사할 수 있는 곳이다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1051620635054080
+    m_Localized: "사물함"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1051915595288576
+    m_Localized: "돌격소총 탄약"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1052086458650624
+    m_Localized: "돌격소총용 5.56mm 군용 탄약."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1052335092797440
+    m_Localized: "건전지"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1052416122556416
+    m_Localized: "표준 C형 알카라인 건전지."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1052674693009408
+    m_Localized: "손전등"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1052746122006528
+    m_Localized: "C형 건전지를 사용하는 1000루멘 손전등."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1053511901253632
+    m_Localized: "스페이드 열쇠"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1053615974518784
+    m_Localized: "스페이드 문양이 새겨진 문을 열 수 있다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1053774372409344
+    m_Localized: "파란 약초"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1053844522143744
+    m_Localized: "여러 종류의 독을 해독하는 데 사용할 수 있다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1054401521520640
+    m_Localized: "초록 약초 혼합물"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1054541263147008
+    m_Localized: "체력을 크게 회복시킨다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1054762189721600
+    m_Localized: "초록·파란 약초 혼합물"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1054950404919296
+    m_Localized: "체력을 회복시키고 중독을 치료한다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1055184514191360
+    m_Localized: "전술 허리 주머니"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1055936808751104
+    m_Localized: "12게이지 산탄"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1056031289643008
+    m_Localized: "쌍열 산탄총용 산탄."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1056307685888000
+    m_Localized: "돌격소총"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1056478784131072
+    m_Localized: "완전 자동 소총."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1056601207476224
+    m_Localized: "단검"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1056666328240128
+    m_Localized: "위험한 상황에서 탈출하는 데 유용하다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1056794321620992
+    m_Localized: "권총"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1056855654928384
+    m_Localized: "9mm 탄약을 사용하는 글록 19."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1056947979948032
+    m_Localized: "나이프"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1057010017898496
+    m_Localized: "무한한 가능성을 품은 칼."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1057348808609792
+    m_Localized: "산탄총"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1057409231753216
+    m_Localized: "일반적인 펌프식 산탄총."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1060159936008192
+    m_Localized: "<color=green>잉크 리본</color>을 사용할까요?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1060368611020800
+    m_Localized: "낡은 타자기다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1060483925020672
+    m_Localized: "여기서 진행 상황을 저장할 수 있다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1060658454204416
+    m_Localized: "<color=green>잉크 리본</color>이 있다면 진행 상황을 저장할 수 있을 텐데…"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1061464335192064
+    m_Localized: "보관함"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1061854799728640
+    m_Localized: "낡은 VHS 재생기 같다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1061977546035200
+    m_Localized: "테이프를 재생할까요?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1063808863047680
+    m_Localized: "아래에 버튼이 있다. 누를까요?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1063968515035136
+    m_Localized: "에덴동산을 그린 그림이다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1064407956459520
+    m_Localized: "부활을 그린 그림이다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1064573493055488
+    m_Localized: "최후의 만찬을 그린 그림이다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1064909284839424
+    m_Localized: "무슨 일이 일어나고 있다…"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1067013256777728
+    m_Localized: "총 저장 횟수"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1067442946445312
+    m_Localized: "스테이지 종료\n\n표시된 구역에 들어가면 레벨이 끝납니다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1067993608228864
+    m_Localized: "발소리 효과 데모"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

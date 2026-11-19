@@ -13,23 +13,30 @@ MonoBehaviour:
   m_Name: GeneratorRoomKey
   m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.ItemData
   UniqueId: chapter1-generator-room-key
-  Image: {fileID: 0}
-  ExamineModel: {fileID: 0}
+  InventorySlots: 1
+  Image: {fileID: 21300000, guid: 7287f58a855a8f341be10ebb9a9abd4d, type: 3}
+  ExamineModel: {fileID: 919132149155446097, guid: 9995be14f2364924f8d41fd382911c82, type: 3}
   Name:
     IsLocalized: 0
-    Unlocalized: Generator Room Key
+    Unlocalized: Storage Unit Key
     Localized:
-      m_TableReference: {m_TableCollectionName: }
-      m_TableEntryReference: {m_KeyId: 0, m_Key: }
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
   Description:
     IsLocalized: 0
-    Unlocalized: A heavy key for a locked door in District 7.
+    Unlocalized: A heavy key for a locked storage unit in District 7.
     Localized:
-      m_TableReference: {m_TableCollectionName: }
-      m_TableEntryReference: {m_KeyId: 0, m_Key: }
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
@@ -41,3 +48,6 @@ MonoBehaviour:
   m_OnUseAudioClip: {fileID: 0}
   Name_DEPRECATED: 
   Description_DEPRECATED: 
+  references:
+    version: 2
+    RefIds: []

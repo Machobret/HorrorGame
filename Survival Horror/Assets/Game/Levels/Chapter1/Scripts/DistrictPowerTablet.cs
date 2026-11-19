@@ -146,23 +146,23 @@ namespace HorrorGame.Chapter1
         {
             if (!IsOpen || Grid == null || Panel != null) return;
             GUILayout.BeginArea(new Rect(Screen.width * .5f - 220, Screen.height * .5f - 250, 440, 500), GUI.skin.window);
-            GUILayout.Label("ELECTRICIAN TABLET — DISTRICT GRID");
-            GUILayout.Label(Grid.IsShutdown ? "GRID SHUT DOWN — return/reset required" : $"LOAD {Grid.CurrentConsumption} / {Grid.MaximumCapacity}    AVAILABLE {Grid.RemainingCapacity}");
+            GUILayout.Label(GameText.Translate("ELECTRICIAN TABLET — DISTRICT GRID"), GameText.DisplayStyle(GUI.skin.label));
+            GUILayout.Label(GameText.Translate(Grid.IsShutdown ? "GRID SHUT DOWN — return/reset required" : $"LOAD {Grid.CurrentConsumption} / {Grid.MaximumCapacity}    AVAILABLE {Grid.RemainingCapacity}"), GameText.DisplayStyle(GUI.skin.label));
             GUILayout.Space(10);
             if (Grid.IsShutdown)
             {
-                if (GUILayout.Button("RESET FUSE BOX")) Grid.ResetGrid();
+                if (GUILayout.Button(GameText.Translate("RESET FUSE BOX"), GameText.DisplayStyle(GUI.skin.button))) Grid.ResetGrid();
             }
             else
             {
                 foreach (PowerCircuit circuit in Grid.Circuits)
                 {
-                    bool requested = GUILayout.Toggle(circuit.Enabled, $"{circuit.DisplayName}  —  {circuit.Consumption} power");
+                    bool requested = GUILayout.Toggle(circuit.Enabled, GameText.Translate($"{circuit.DisplayName}  —  {circuit.Consumption} power"), GameText.DisplayStyle(GUI.skin.toggle));
                     if (requested != circuit.Enabled) Grid.SetCircuit(circuit.Id, requested);
                 }
             }
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("CLOSE")) Close();
+            if (GUILayout.Button(GameText.Translate("CLOSE"), GameText.DisplayStyle(GUI.skin.button))) Close();
             GUILayout.EndArea();
         }
     }

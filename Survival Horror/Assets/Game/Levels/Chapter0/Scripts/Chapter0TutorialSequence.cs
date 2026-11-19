@@ -459,7 +459,7 @@ namespace HorrorGame.Chapter0
             var titleStyle = CreatePromptStyle(m_InputDisplayBoldFont, 19, TextAnchor.MiddleLeft);
             var keyStyle = CreatePromptStyle(m_InputDisplayBoldFont, 18, TextAnchor.MiddleLeft);
             var bodyStyle = CreatePromptStyle(m_InputDisplayFont, 17, TextAnchor.MiddleLeft);
-            GUI.Label(new Rect(panel.x + 18, panel.y + 10, panel.width - 36, 24), "Press the following:", titleStyle);
+            GUI.Label(new Rect(panel.x + 18, panel.y + 10, panel.width - 36, 24), GameText.Translate("Press the following:"), titleStyle);
             if (m_Step == Step.Movement || m_Step == Step.AwaitTurnZone)
             {
                 DrawPromptRow(panel.x + 18, panel.y + 38, "W", "move forwards", Time.unscaledTime < m_ForwardFlashUntil, keyStyle, bodyStyle);
@@ -484,7 +484,7 @@ namespace HorrorGame.Chapter0
         {
             var style = new GUIStyle(GUI.skin.label)
             {
-                font = font ? font : GUI.skin.font,
+                font = GameText.DisplayFont(font ? font : GUI.skin.font),
                 fontSize = fontSize,
                 alignment = alignment,
                 richText = true
@@ -495,10 +495,11 @@ namespace HorrorGame.Chapter0
 
         private static void DrawPromptRow(float x, float y, string key, string explanation, bool isLit, GUIStyle keyStyle, GUIStyle bodyStyle)
         {
+            key = GameText.Translate(key);
             string quotedKey = isLit ? $"'<color=#FFD138>{key}</color>'" : $"'{key}'";
             float keyWidth = keyStyle.CalcSize(new GUIContent($"'{key}'")).x + 4f;
             GUI.Label(new Rect(x, y, keyWidth, 32f), quotedKey, keyStyle);
-            GUI.Label(new Rect(x + 118, y + 4, 250, 24), explanation, bodyStyle);
+            GUI.Label(new Rect(x + 118, y + 4, 250, 24), GameText.Translate(explanation), bodyStyle);
         }
     }
 }

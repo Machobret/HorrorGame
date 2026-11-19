@@ -30,7 +30,7 @@ namespace HorrorEngine
             if (content.Name.IsLocalized)
                 Label.GetComponent<LocalizeStringEvent>().StringReference = content.Name.Localized;
             else
-                Label.text = content.Name;
+                Label.text = content.Name.Unlocalized;
         }
     }
 }

@@ -81,6 +81,7 @@ namespace HorrorEngine
             OrderLegacySections();
             AddControls();
             AddResetButton();
+            ApplySettingsTheme();
             yield return null;
             WireKeyboardNavigation();
         }
@@ -165,7 +166,10 @@ namespace HorrorEngine
             // keeps every configuration in one continuous, correctly-sized list.
             var section = Rect("KeyboardBindings", list);
             section.SetAsLastSibling();
-            var image = section.gameObject.AddComponent<Image>(); image.color = new Color(.07f, .07f, .07f, .9f);
+            var image = section.gameObject.AddComponent<Image>();
+            var stockPanel = tab.GetComponent<Image>();
+            if (stockPanel != null) CopyImageAppearance(stockPanel, image);
+            else image.color = new Color(.07f, .07f, .07f, .9f);
             var layout = section.gameObject.AddComponent<VerticalLayoutGroup>();
             layout.padding = new RectOffset(10, 10, 10, 10); layout.spacing = 6; layout.childControlWidth = true; layout.childControlHeight = false; layout.childForceExpandWidth = true; layout.childForceExpandHeight = false;
             section.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
@@ -199,15 +203,22 @@ namespace HorrorEngine
         private void AddResetButton()
         {
             var apply = Find("ApplyButton")?.GetComponent<Button>();
-            if (apply == null || Find("ResetDefaultsButton") != null) return;
+            if (apply == null) return;
 
-            var resetObject = Instantiate(apply.gameObject, apply.transform.parent);
+            var resetObject = Find("ResetDefaultsButton")?.gameObject;
+            if (resetObject == null)
+                resetObject = Instantiate(apply.gameObject, apply.transform.parent);
             resetObject.name = "ResetDefaultsButton";
             var resetRect = resetObject.GetComponent<RectTransform>();
             resetRect.anchoredPosition = new Vector2(-260, resetRect.anchoredPosition.y);
-            var label = resetObject.GetComponentInChildren<TextMeshProUGUI>(true);
-            if (label != null) label.text = "Defaults";
             var reset = resetObject.GetComponent<Button>();
+            // Apply's localized label is cloned with the button and can update a
+            // frame later, turning Defaults back into Apply. This runtime-only
+            // action deliberately owns its text, so disable that inherited updater.
+            foreach (var component in resetObject.GetComponentsInChildren<Component>(true))
+                if (component.GetType().Name == "LocalizeStringEvent" && component is Behaviour behaviour)
+                    behaviour.enabled = false;
+            SetButtonLabel(reset, "Defaults");
             reset.onClick.RemoveAllListeners();
             reset.onClick.AddListener(() => GetComponent<UISettings>()?.ResetDefaults());
         }
@@ -318,18 +329,9 @@ namespace HorrorEngine
             var row = Rect(title, parent); row.sizeDelta = new Vector2(0, 34);
             var layout = row.gameObject.AddComponent<HorizontalLayoutGroup>(); layout.spacing = 10; layout.childControlWidth = false; layout.childControlHeight = true; layout.childForceExpandWidth = false;
             var text = Label(row, title, 17); text.gameObject.AddComponent<LayoutElement>().preferredWidth = 225;
-            var buttonRect = Rect("Rebind", row); var buttonImage = buttonRect.gameObject.AddComponent<Image>(); buttonImage.color = new Color(.16f, .16f, .15f, 1);
+            var buttonRect = Rect("Rebind", row); var buttonImage = buttonRect.gameObject.AddComponent<Image>();
             var button = buttonRect.gameObject.AddComponent<Button>(); button.targetGraphic = buttonImage; buttonRect.gameObject.AddComponent<LayoutElement>().preferredWidth = 150;
-            var colors = button.colors;
-            colors.normalColor = Color.white;
-            colors.highlightedColor = new Color(1f, .9f, .45f, 1f);
-            colors.selectedColor = new Color(1f, .9f, .45f, 1f);
-            colors.pressedColor = new Color(.75f, .65f, .3f, 1f);
-            colors.colorMultiplier = 1f;
-            button.colors = colors;
-            var callbacks = buttonRect.gameObject.AddComponent<UISelectableCallbacks>();
-            callbacks.OnSelected.AddListener(_ => buttonImage.color = new Color(.48f, .4f, .12f, 1f));
-            callbacks.OnDeselected.AddListener(_ => buttonImage.color = new Color(.16f, .16f, .15f, 1f));
+            StyleLikeStockSettingsButton(button, buttonImage);
             var value = Label(buttonRect, action.GetBindingDisplayString(index), 17); value.alignment = TextAlignmentOptions.Center;
             bindingEntries.Add(new BindingEntry { Action = action, Index = index, Label = value });
             button.onClick.AddListener(() => Rebind(action, index, button, value));
@@ -363,6 +365,56 @@ namespace HorrorEngine
             if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(button.gameObject);
         }
 #endif
+
+        private void ApplySettingsTheme()
+        {
+            // The original settings panel is the visual source of truth. Its
+            // normal labels, the footer, and runtime-added key controls all use
+            // the same game font instead of mixing TMP's default face in.
+            if (gameFont != null)
+                foreach (var legacyText in GetComponentsInChildren<Text>(true)) legacyText.font = gameFont;
+            if (font != null)
+                foreach (var tmpText in GetComponentsInChildren<TMP_Text>(true)) tmpText.font = font;
+
+            var apply = Find("ApplyButton")?.GetComponent<Button>();
+            var reset = Find("ResetDefaultsButton")?.GetComponent<Button>();
+            if (apply != null && reset != null)
+            {
+                var resetImage = reset.targetGraphic as Image;
+                if (resetImage != null) StyleLikeStockSettingsButton(reset, resetImage, apply);
+                SetButtonLabel(reset, "Defaults");
+            }
+        }
+
+        private void StyleLikeStockSettingsButton(Button button, Image target, Button template = null)
+        {
+            template ??= Find("Graphics")?.GetComponentInChildren<Button>(true);
+            template ??= Find("ApplyButton")?.GetComponent<Button>();
+            if (template == null || template == button) return;
+
+            button.transition = template.transition;
+            button.colors = template.colors;
+            button.spriteState = template.spriteState;
+            button.animationTriggers = template.animationTriggers;
+            if (template.targetGraphic is Image source) CopyImageAppearance(source, target);
+        }
+
+        private static void CopyImageAppearance(Image source, Image target)
+        {
+            target.sprite = source.sprite;
+            target.type = source.type;
+            target.preserveAspect = source.preserveAspect;
+            target.fillCenter = source.fillCenter;
+            target.material = source.material;
+            target.color = source.color;
+        }
+
+        private static void SetButtonLabel(Button button, string value)
+        {
+            if (button == null) return;
+            foreach (var text in button.GetComponentsInChildren<TMP_Text>(true)) text.text = value;
+            foreach (var text in button.GetComponentsInChildren<Text>(true)) text.text = value;
+        }
 
         private TextMeshProUGUI Label(RectTransform parent, string value, float size)
         {

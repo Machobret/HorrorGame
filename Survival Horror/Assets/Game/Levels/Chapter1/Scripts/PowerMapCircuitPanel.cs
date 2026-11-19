@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using HorrorEngine;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace HorrorGame.Chapter1
 {
@@ -23,10 +22,6 @@ namespace HorrorGame.Chapter1
         private readonly List<GameObject> points = new List<GameObject>();
         private PowerCircuitMapMarker hoveredPoint;
         private float statusTweenStarted;
-        private MeshFilter rangeBackground;
-        private Material rangeMaterial;
-        private PowerCircuitMapMarker rangeTarget;
-        private readonly Vector3[] rangeCorners = new Vector3[4];
         private readonly Vector3[] legendCorners = new Vector3[4];
         public PowerCircuitMapMarker HoveredPoint => hoveredPoint;
         public bool HoveredInRange { get; private set; }
@@ -47,17 +42,34 @@ namespace HorrorGame.Chapter1
                 return dot && Chapter1MapTutorial.IsTargetCircuit(MapData, dot.CircuitId) ? dot : null;
             }
         }
-        public bool CanAccessCircuit(string id)
+        public bool CanAccessCircuit(string id) => HasAccessibleCircuit(id, null);
+
+        public bool HasCircuitService(string id)
         {
-            if(!PlayerCanViewMap())return false;
-            if (TutorialDot && TutorialDot.CircuitId == id) return true;
+            string roomId = GetCurrentRoomId();
+            return roomId != null && HasAccessibleCircuit(id, roomId);
+        }
+
+        private bool HasAccessibleCircuit(string id, string requiredRoom)
+        {
+            if (!PlayerCanViewMap()) return false;
+            var tutorial = TutorialDot;
+            if (tutorial && tutorial.CircuitId == id &&
+                (requiredRoom == null || tutorial.ToShape(MapData).RoomUniqueId == requiredRoom)) return true;
+
             if (SequencePuzzle)
-            {
                 foreach (var dot in SequencePuzzle.SegmentDots)
-                    if (dot && dot.CircuitId == id && IsSequenceDotAvailable(dot)) return true;
-            }
-            if(Layout)foreach(var shape in Layout.Circuits)if(shape.CircuitId==id && IsCircuitRoomAvailable(shape.RoomUniqueId,id))return true;
-            foreach(var gate in HorrorGame.Environment.GarageDoorCircuitLink.Active)if(gate.TryMarker(SourceGrid,MapData,out var room,out var position) && gate.CircuitId==id && IsCircuitRoomAvailable(room,id))return true;
+                    if (dot && dot.CircuitId == id && IsSequenceDotAvailable(dot) &&
+                        (requiredRoom == null || dot.ToShape(MapData).RoomUniqueId == requiredRoom)) return true;
+
+            if (Layout)
+                foreach (var shape in Layout.Circuits)
+                    if (shape.CircuitId == id && (requiredRoom == null || shape.RoomUniqueId == requiredRoom) &&
+                        IsCircuitRoomAvailable(shape.RoomUniqueId, id)) return true;
+
+            foreach (var gate in HorrorGame.Environment.GarageDoorCircuitLink.Active)
+                if (gate.CircuitId == id && gate.TryMarker(SourceGrid, MapData, out var room, out _) &&
+                    (requiredRoom == null || room == requiredRoom) && IsCircuitRoomAvailable(room, id)) return true;
             return false;
         }
 
@@ -86,8 +98,8 @@ namespace HorrorGame.Chapter1
             bool showCircuits = DisplayInPlayerMap && mapUi && mapUi.gameObject.activeInHierarchy && !mapUi.IsTabletLoading && mapUi.AllowMapNavigation && mapUi.CurrentMap == MapData && PlayerCanViewMap();
             if (!showCircuits) { hoveredPoint = null; ClearPoints(); return; }
             if (points.Count == 0) CreateCircuitPoints();
-            var nextPoint = mapUi.IsMapDirectoryOpen ? null : GetCrosshairPoint();
-            bool nextInRange = nextPoint && IsCircuitInRange(nextPoint.CircuitId, out _, out _);
+            var nextPoint = mapUi.IsMapDirectoryOpen || mapUi.IsMapPointerHeld ? null : GetCrosshairPoint();
+            bool nextInRange = nextPoint && IsInCurrentRoom(nextPoint, GetCurrentRoomId());
             if (hoveredPoint != nextPoint || HoveredInRange != nextInRange)
             {
                 if (hoveredPoint != nextPoint || nextInRange)
@@ -98,9 +110,8 @@ namespace HorrorGame.Chapter1
                 if (hoveredPoint) hoveredPoint.SetHovered(HoveredInRange);
             }
             IUIInput input = UIManager.Instance.GetComponent<IUIInput>();
-            bool click = mapUi.HasTabletWorkspace && Mouse.current != null &&
-                Mouse.current.leftButton.wasPressedThisFrame && mapUi.TryGetMapPointer(out _);
-            if (hoveredPoint && (click || input != null && input.IsConfirmDown()))
+            bool click = mapUi.MapClickedThisFrame;
+            if (hoveredPoint && HoveredInRange && (click || input != null && input.IsConfirmDown()))
                 TryToggleCircuit(hoveredPoint.CircuitId);
             foreach (var point in points)
                 if (point && point.TryGetComponent(out PowerCircuitMapMarker marker))
@@ -188,11 +199,10 @@ namespace HorrorGame.Chapter1
         public bool TryToggleCircuit(string circuitId)
         {
             DistrictPowerGrid source = SourceGrid;
-            if (!source || source.IsShutdown || !CanAccessCircuit(circuitId) ||
-                !IsCircuitInRange(circuitId, out _, out _)) return false;
+            if (!source || source.IsShutdown || !HasCircuitService(circuitId)) return false;
             var opening = Chapter1Opening.Instance;
             if (opening && opening.IsDepotCircuit(source, circuitId))
-                return opening.TryUnlockDepot();
+                return opening.TryToggleDepotPower();
             bool wasPowered = source.IsCircuitPowered(circuitId);
             source.SetCircuit(circuitId, !wasPowered);
             bool powered = source.IsCircuitPowered(circuitId);
@@ -234,17 +244,16 @@ namespace HorrorGame.Chapter1
             {
                 Rect energyBar = new Rect(16, 16, 260, 48);
                 GUI.Box(energyBar, GUIContent.none);
-                GUI.Label(new Rect(energyBar.x + 12, energyBar.y + 7, energyBar.width - 24, 20), "DISTRICT POWER");
-                string load = grid.IsShutdown ? "GRID SHUT DOWN — RESET AT FUSE BOX" : $"LOAD  {grid.CurrentConsumption} / {grid.MaximumCapacity}    AVAILABLE  {grid.RemainingCapacity}";
-                GUI.Label(new Rect(energyBar.x + 12, energyBar.y + 25, energyBar.width - 24, 20), load);
+                GUI.Label(new Rect(energyBar.x + 12, energyBar.y + 7, energyBar.width - 24, 20), GameText.Translate("DISTRICT POWER"), GameText.DisplayStyle(GUI.skin.label));
+                string load = grid.IsShutdown ? "GRID SHUT DOWN — RESET AT FUSE BOX" : !grid.EnforceCapacityLimit ? "CIRCUITS ONLINE" : $"LOAD  {grid.CurrentConsumption} / {grid.MaximumCapacity}    AVAILABLE  {grid.RemainingCapacity}";
+                GUI.Label(new Rect(energyBar.x + 12, energyBar.y + 25, energyBar.width - 24, 20), GameText.Translate(load), GameText.DisplayStyle(GUI.skin.label));
             }
             if (!GetTabletOutput()) DrawTutorialHighlight();
             if (SequencePuzzle && SequencePuzzle.ShowingWrongAnswer)
-                GUI.Box(new Rect(Screen.width * .5f - 125, Screen.height * .72f, 250, 32), "SHUTTER PATTERN REJECTED");
+                GUI.Box(new Rect(Screen.width * .5f - 125, Screen.height * .72f, 250, 32), GameText.Translate("SHUTTER PATTERN REJECTED"), GameText.DisplayStyle(GUI.skin.box));
             Camera camera = MapRenderer.Instance.GetComponentInChildren<Camera>();
             if (!camera) return;
             var filter = mapUi.GetComponent<HorrorGame.UI.TabletDisplayFilter>();
-            float textScale = EffectScale;
             if (!mapUi.TryProjectMapViewport(Vector2.zero, false, out Vector2 bottomLeft) ||
                 !mapUi.TryProjectMapViewport(Vector2.one, false, out Vector2 topRight)) return;
             if (filter && filter.isActiveAndEnabled)
@@ -254,6 +263,15 @@ namespace HorrorGame.Chapter1
             }
             var mapBounds = Rect.MinMaxRect(bottomLeft.x, Screen.height - topRight.y,
                 topRight.x, Screen.height - bottomLeft.y);
+            // These labels are OnGUI overlays, not children of the tablet Canvas.
+            // Scale them from the map viewport that is actually visible on the
+            // glass. This is the same screen-space area that scales the marker
+            // icons, including aspect-ratio changes and display filtering.
+            const float referenceMapWidth = (0.935f - 0.065f) * 1280f;
+            const float referenceMapHeight = (0.82f - 0.14f) * 720f;
+            float resolutionScale = Mathf.Sqrt(
+                (mapBounds.width / referenceMapWidth) * (mapBounds.height / referenceMapHeight));
+            float textScale = EffectScale * resolutionScale;
             const float inset = 4f;
             var clip = Rect.MinMaxRect(mapBounds.xMin + inset, mapBounds.yMin + inset,
                 mapBounds.xMax - inset, mapBounds.yMax - inset);
@@ -263,7 +281,7 @@ namespace HorrorGame.Chapter1
             var workspace = mapUi.GetComponent<HorrorGame.UI.TabletWorkspace>();
             var font = workspace && workspace.Footer && workspace.Footer.font
                 ? workspace.Footer.font.sourceFontFile : null;
-            var style = new GUIStyle(GUI.skin.label)
+            var style = new GUIStyle(GameText.DisplayStyle(GUI.skin.label))
             {
                 alignment = TextAnchor.MiddleCenter,
                 fontStyle = font ? FontStyle.Normal : FontStyle.Bold,
@@ -290,12 +308,12 @@ namespace HorrorGame.Chapter1
             string activatedName = circuit != null && !string.IsNullOrWhiteSpace(circuit.DisplayName) ? circuit.DisplayName : hoveredPoint.CircuitId;
             var opening = Chapter1Opening.Instance;
             if (opening && opening.IsDepotCircuit(grid, hoveredPoint.CircuitId))
-                activatedName = opening.DepotUnlocked ? "Depot unlocked" : "Unlock Depot";
+                activatedName = opening.DepotUnlocked ? "Depot unlocked" : "Entrance shutter power";
             if (filter && filter.isActiveAndEnabled) screen = filter.ProjectToGlass(screen);
             if (!HoveredInRange)
             {
-                var alert = StatusRect(screen, mapBounds, 17f, 19f, 110f);
-                style.fontSize = 13;
+                var alert = StatusRect(screen, mapBounds, 17f * textScale, 19f * textScale, 110f * textScale);
+                style.fontSize = Mathf.Max(1, Mathf.RoundToInt(13f * textScale));
                 style.normal.textColor = new Color(1f, .35f, .32f);
                 style.hover.textColor = style.normal.textColor;
                 style.active.textColor = style.normal.textColor;
@@ -310,7 +328,7 @@ namespace HorrorGame.Chapter1
             style.normal.textColor = nameColor;
             style.hover.textColor = nameColor;
             style.active.textColor = nameColor;
-            var name = new GUIContent(activatedName.ToUpperInvariant());
+            var name = new GUIContent(GameText.Translate(activatedName).ToUpperInvariant());
             float width = Mathf.Min(style.CalcSize(name).x + 12f * textScale, Screen.width);
             float nameHeight = 22f * textScale;
             var label = new Rect(screen.x - width * .5f,
@@ -366,7 +384,7 @@ namespace HorrorGame.Chapter1
             if (legendBounds.width > 0f && legendBounds.Overlaps(label)) return;
             label.position -= clip.position;
             GUI.BeginGroup(clip);
-            GUI.Label(label, text, style);
+            GUI.Label(label, GameText.Translate(text), style);
             GUI.EndGroup();
         }
 
@@ -405,72 +423,10 @@ namespace HorrorGame.Chapter1
         {
             ClearPoints();
             if (tutorialRingOverlay) Destroy(tutorialRingOverlay.gameObject);
-            if (rangeBackground)
-            {
-                Destroy(rangeBackground.sharedMesh);
-                Destroy(rangeBackground.gameObject);
-            }
-            if (rangeMaterial) Destroy(rangeMaterial);
         }
 
-        private bool IsCircuitInRange(string circuitId, out float distance, out float range)
-        {
-            distance = float.PositiveInfinity;
-            range = 8f;
-            if (!GameManager.Exists || !GameManager.Instance.Player || !TryGetCircuitWorldPosition(circuitId, out Vector3 worldPosition, out range)) return false;
-            Vector3 player = GameManager.Instance.Player.transform.position;
-            player.y = 0f;
-            worldPosition.y = 0f;
-            distance = Vector3.Distance(player, worldPosition);
-            return distance <= range;
-        }
-
-        private bool TryGetCircuitWorldPosition(string circuitId, out Vector3 worldPosition, out float range)
-        {
-            worldPosition = Vector3.zero;
-            range = 8f;
-            if (Layout != null)
-            {
-                PowerPanelCircuitShape shape = Layout.Circuits.Find(value => value.CircuitId == circuitId);
-                if (shape != null)
-                {
-                    worldPosition = shape.WorldPosition;
-                    range = Mathf.Max(.1f, shape.ActivationRange);
-                }
-            }
-
-            // Scene elements provide an exact position for legacy layout data
-            // that was authored before world positions were serialized.
-            foreach (PowerCircuitPanelElement element in FindObjectsByType<PowerCircuitPanelElement>(FindObjectsInactive.Include, FindObjectsSortMode.None))
-            {
-                if (!element || element.CircuitId != circuitId || element.GetMapData() != MapData) continue;
-                worldPosition = element.Room ? element.Room.transform.TransformPoint(new Vector3(element.RoomOffset.x, 0f, element.RoomOffset.y)) : element.transform.position;
-                range = Mathf.Max(.1f, element.ActivationRange);
-                return true;
-            }
-            return worldPosition != Vector3.zero;
-        }
-
-        public bool TryGetRangeAxes(out Vector3 east, out Vector3 north)
-        {
-            east = north = default;
-            if (!hoveredPoint || !TryGetCircuitWorldPosition(hoveredPoint.CircuitId, out _, out float range))
-                return false;
-            east = Vector3.right * range * MapData.GlobalScale;
-            north = Vector3.forward * range * MapData.GlobalScale;
-            foreach (var dot in FindObjectsByType<PowerCircuitPanelElement>(FindObjectsInactive.Include, FindObjectsSortMode.None))
-            {
-                if (dot.CircuitId != hoveredPoint.CircuitId || dot.GetMapData() != MapData || !dot.Room) continue;
-                var room = dot.Room;
-                var matrix = MapData.GetTRS(room.Offset, room.Rotation, room.Scale, room.ZOrder);
-                var renderer = MapRenderer.Instance;
-                Vector3 origin = renderer.MapPositionToWorld(Vector3.zero);
-                east = renderer.MapPositionToWorld(matrix.MultiplyVector(room.transform.InverseTransformVector(Vector3.right * range))) - origin;
-                north = renderer.MapPositionToWorld(matrix.MultiplyVector(room.transform.InverseTransformVector(Vector3.forward * range))) - origin;
-                return true;
-            }
-            return true;
-        }
+        private static bool IsInCurrentRoom(PowerCircuitMapMarker marker, string roomId) =>
+            marker && roomId != null && marker.RoomUniqueId == roomId;
 
         private UnityEngine.UI.RawImage GetTabletOutput()
         {
@@ -480,7 +436,6 @@ namespace HorrorGame.Chapter1
 
         private void LateUpdate()
         {
-            UpdateRangeBackground();
             if (Chapter1MapTutorial.Instance && Chapter1MapTutorial.Instance.TutorialActive)
                 tutorialLastActive = Time.unscaledTime;
             var output = GetTabletOutput();
@@ -508,51 +463,6 @@ namespace HorrorGame.Chapter1
             tutorialRingOverlay.texture = GetTutorialRing();
             tutorialRingOverlay.color = new Color(1f, 1f, 1f, TutorialFade);
             tutorialRingOverlay.enabled = true;
-        }
-
-        private void UpdateRangeBackground()
-        {
-            bool visible = hoveredPoint && mapUi && mapUi.isActiveAndEnabled &&
-                !mapUi.IsTabletLoading && !mapUi.IsMapDirectoryOpen && mapUi.AllowMapNavigation && mapUi.CurrentMap == MapData;
-            if (!visible)
-            {
-                if (rangeBackground) rangeBackground.gameObject.SetActive(false);
-                rangeTarget = null;
-                return;
-            }
-            if (!rangeBackground)
-            {
-                var shader = Resources.Load<Shader>("MapCircuitRange");
-                if (!shader) return;
-                var background = new GameObject("Circuit range background");
-                background.layer = hoveredPoint.gameObject.layer;
-                rangeBackground = background.AddComponent<MeshFilter>();
-                rangeBackground.sharedMesh = new Mesh { name = "Circuit range quad" };
-                rangeMaterial = new Material(shader);
-                background.AddComponent<MeshRenderer>().sharedMaterial = rangeMaterial;
-            }
-            if (rangeTarget != hoveredPoint)
-            {
-                if (!TryGetRangeAxes(out Vector3 east, out Vector3 north))
-                {
-                    rangeBackground.gameObject.SetActive(false);
-                    rangeTarget = null;
-                    return;
-                }
-                Vector3 center = hoveredPoint.transform.position - Vector3.up * 2f;
-                rangeCorners[0] = center - east - north;
-                rangeCorners[1] = center + east - north;
-                rangeCorners[2] = center - east + north;
-                rangeCorners[3] = center + east + north;
-                Mesh mesh = rangeBackground.sharedMesh;
-                mesh.vertices = rangeCorners;
-                mesh.uv = new[] { Vector2.zero, Vector2.right, Vector2.up, Vector2.one };
-                mesh.triangles = new[] { 0, 2, 1, 2, 3, 1 };
-                mesh.RecalculateBounds();
-                rangeTarget = hoveredPoint;
-            }
-            rangeBackground.gameObject.SetActive(true);
-            rangeMaterial.SetFloat("_Phase", Mathf.Repeat(Time.unscaledTime * 2.14f, 1f));
         }
 
         private bool TryGetTutorialScreenPosition(out Vector2 screen)

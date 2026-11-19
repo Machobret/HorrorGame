@@ -21,9 +21,11 @@ namespace HorrorGame.Chapter1
         public PowerCircuitPanelElement TutorialCircuit;
         public string TargetCircuitId = "store_shutters";
         [TextArea] public string QuestText = "Activate circuit";
+        [TextArea] public string FollowUpQuestText;
 
         public bool MapUnlocked { get; private set; }
         public bool TutorialActive { get; private set; }
+        public bool ControlsTutorialSeen { get; private set; }
         public bool TutorialCircuitUnlocked { get; private set; }
         public string CurrentQuest { get; private set; }
 
@@ -33,7 +35,7 @@ namespace HorrorGame.Chapter1
 
         private void Update()
         {
-            if (!MapUnlocked || !GameManager.Exists || !GameManager.Instance.Player || !UIManager.Exists) return;
+            if (!GameManager.Exists || !GameManager.Instance.Player || !UIManager.Exists) return;
             var mapView = UIManager.Get<UIMap>(true);
             if ((mapView && mapView.isActiveAndEnabled) ||
                 (PauseController.Exists && PauseController.Instance.IsPaused)) return;
@@ -47,22 +49,18 @@ namespace HorrorGame.Chapter1
             if (!room) return;
 
             int discovered = 0;
-            Vector3 player = GameManager.Instance.Player.transform.position;
             foreach (var dot in FindObjectsByType<PowerCircuitPanelElement>(FindObjectsSortMode.None))
             {
                 if (dot.Room != room || dot.GetMapData() != controller.Data || string.IsNullOrWhiteSpace(dot.CircuitId))
                     continue;
-                Vector3 offset = room.transform.TransformPoint(new Vector3(dot.RoomOffset.x, 0f, dot.RoomOffset.y)) - player;
-                offset.y = 0f;
-                if (offset.sqrMagnitude <= dot.ActivationRange * dot.ActivationRange &&
-                    discoveredCircuits.Add(controller.Data.UniqueId + ":" + dot.CircuitId))
+                if (discoveredCircuits.Add(controller.Data.UniqueId + ":" + dot.CircuitId))
                     discovered++;
             }
             if (discovered == 0) return;
+            // Remember discoveries made before pickup so they never replay as notifications.
             GameplayNotifications.CircuitsDiscovered(discovered);
             GetComponent<SavableObjectState>()?.SaveState();
         }
-        public static bool CanCloseMap => Instance == null || Instance.CollectTabletWithoutOpening || !Instance.TutorialActive;
         public static bool IsTargetCircuit(MapData map, string circuitId)
         {
             if (!Instance || (!Instance.TutorialActive && !Instance.TutorialCircuitUnlocked)) return false;
@@ -115,7 +113,7 @@ namespace HorrorGame.Chapter1
                 GameManager.Instance.Inventory.Maps.Add(MapToUnlock);
 
             TutorialActive = true;
-            CurrentQuest = CollectTabletWithoutOpening ? string.Empty : QuestText;
+            CurrentQuest = QuestText;
             EnsureTutorialOverlay();
             SubscribeGrid();
             GetComponent<SavableObjectState>()?.SaveState();
@@ -129,9 +127,6 @@ namespace HorrorGame.Chapter1
             var controller = TutorialCircuit.GetComponentInParent<PowerPanelController>();
             if (!Grid && controller) Grid = controller.ResolveGrid();
             if (!Grid) return;
-            if (MapUnlocked && GameManager.Exists && GameManager.Instance.Inventory is { } inventory &&
-                !inventory.Maps.Contains(circuitMap))
-                inventory.Maps.Add(circuitMap);
 
             Grid.SyncDefinitionsFromData();
             if (!Grid.Circuits.Exists(c => c.Id == TutorialCircuit.CircuitId) &&
@@ -166,12 +161,19 @@ namespace HorrorGame.Chapter1
             // The highlighted gate teaches the intended action, while any
             // successfully powered circuit proves the player understands it.
             if (!TutorialActive || !powered) return;
-            if (CollectTabletWithoutOpening && TutorialCircuit && circuitId != TutorialCircuit.CircuitId) return;
+            string targetId = TutorialCircuit ? TutorialCircuit.CircuitId : TargetCircuitId;
+            if (!string.IsNullOrEmpty(targetId) && circuitId != targetId) return;
             TutorialActive = false;
             TutorialCircuitUnlocked = true;
-            CurrentQuest = string.Empty;
+            CurrentQuest = FollowUpQuestText;
             if (Grid) Grid.CircuitChanged -= OnCircuitChanged;
             GetComponent<SavableObjectState>()?.SaveState();
+        }
+
+        public void CompleteControlsTutorial()
+        {
+            ControlsTutorialSeen = true;
+            GetComponent<SavableObjectState>().SaveState();
         }
 
         public string GetSavableData()
@@ -180,6 +182,7 @@ namespace HorrorGame.Chapter1
             {
                 MapUnlocked = MapUnlocked,
                 TutorialActive = TutorialActive,
+                ControlsTutorialSeen = ControlsTutorialSeen,
                 TutorialCircuitUnlocked = TutorialCircuitUnlocked,
                 CurrentQuest = CurrentQuest,
                 DiscoveredCircuits = new List<string>(discoveredCircuits)
@@ -191,10 +194,12 @@ namespace HorrorGame.Chapter1
             SavedState state = JsonUtility.FromJson<SavedState>(data);
             MapUnlocked = state.MapUnlocked;
             TutorialActive = state.TutorialActive;
+            ControlsTutorialSeen = state.ControlsTutorialSeen;
             TutorialCircuitUnlocked = state.TutorialCircuitUnlocked;
             CurrentQuest = CollectTabletWithoutOpening && state.CurrentQuest == "Find the depot code in the staff room"
                 ? Chapter1Opening.DepotObjective
                 : state.CurrentQuest;
+            if (TutorialActive && string.IsNullOrWhiteSpace(CurrentQuest)) CurrentQuest = QuestText;
             discoveredCircuits.Clear();
             if (state.DiscoveredCircuits != null) discoveredCircuits.UnionWith(state.DiscoveredCircuits);
             if (TutorialActive) SubscribeGrid();
@@ -205,6 +210,7 @@ namespace HorrorGame.Chapter1
         {
             public bool MapUnlocked;
             public bool TutorialActive;
+            public bool ControlsTutorialSeen;
             public bool TutorialCircuitUnlocked;
             public string CurrentQuest;
             public List<string> DiscoveredCircuits;

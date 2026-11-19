@@ -1,7 +1,15 @@
 using System;
+using System.Collections;
+using HouseToolkit;
 using HorrorEngine;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
+#if UNITY_6000_0_OR_NEWER
+using Unity.Cinemachine;
+#else
+using Cinemachine;
+#endif
 
 namespace HorrorGame.Chapter1
 {
@@ -23,12 +31,30 @@ namespace HorrorGame.Chapter1
         [Min(.1f)] public float WrongCameraSeconds = 2f;
         [SerializeField] private bool[] solution = new bool[6];
         [SerializeField] private bool solved;
-        private float wrongCameraUntil;
-        private float wrongFeedbackUntil;
-        private UIMap tablet;
-        private MapRoom sequenceRoom;
-        private bool changedOnTablet;
-        public bool ShowingWrongAnswer => Time.unscaledTime < wrongFeedbackUntil;
+        public CameraPOV CheckCamera;
+        public Transform CheckButton;
+        public Transform[] LeverPositions = Array.Empty<Transform>();
+        public CircuitDrivenObject[] SegmentShutters = Array.Empty<CircuitDrivenObject>();
+        public ShutterIndicatorLamp[] SegmentLamps = Array.Empty<ShutterIndicatorLamp>();
+        public ShutterIndicatorLamp CheckLamp;
+        public InteractionData LeverInteraction;
+        public InteractionData CheckInteraction;
+
+        private const int SegmentCount = 6;
+        private static readonly Color Red = new Color(1f, .12f, .06f);
+        private static readonly Color Green = new Color(.18f, 1f, .25f);
+        private static readonly Color Yellow = new Color(1f, .67f, .12f);
+        [SerializeField] private Transform[] leverHandles = new Transform[SegmentCount];
+        private int leverMask;
+        private Coroutine feedback;
+        private Interactive checkInteraction;
+        private GameObject letterbox;
+        private UIInputListener input;
+        private PauseController pause;
+        private CinemachineBrain checkBrain;
+        private int checkCameraOverride = -1;
+        private bool ManualPuzzle => CheckButton;
+        public bool ShowingWrongAnswer { get; private set; }
 
         public bool[] Solution => solution;
         public bool IsSolved => solved;
@@ -41,16 +67,25 @@ namespace HorrorGame.Chapter1
 
         private void Start()
         {
+            if (ManualPuzzle)
+            {
+                for (int i = 0; i < LeverPositions.Length && i < SegmentCount; i++)
+                {
+                    int index = i;
+                    if (LeverPositions[i])
+                        InstallControl(LeverPositions[i], LeverInteraction, _ => ToggleLever(index));
+                }
+                checkInteraction = InstallControl(CheckButton, CheckInteraction, UseCheckButton);
+                if (PuzzleDoor) PuzzleDoor.OnLockedInteraction += CheckAnswer;
+                UpdateCheckPrompt();
+                RefreshIndicators();
+            }
             if (!Grid || !PuzzleDoor) return;
             if (SegmentDots == null) return;
             var anchor = Array.Find(SegmentDots, dot => dot && dot.Room && dot.GetMapData());
             if (!anchor) return;
             var controller = anchor.GetComponentInParent<PowerPanelController>();
-            sequenceRoom = anchor.Room;
             var sequenceMap = anchor.GetMapData();
-            tablet = UIManager.Get<UIMap>(true);
-            if (tablet) tablet.Closed += CheckAfterTabletClosed;
-            Grid.CircuitChanged += TrackSegmentChange;
             PowerMapCircuitPanel overlay = null;
             foreach (var candidate in FindObjectsByType<PowerMapCircuitPanel>(FindObjectsSortMode.None))
                 if (candidate.MapData == sequenceMap && candidate.SourceGrid == Grid) { overlay = candidate; break; }
@@ -74,42 +109,9 @@ namespace HorrorGame.Chapter1
             });
         }
 
-        private void TrackSegmentChange(string id, bool powered)
-        {
-            if (!solved && tablet && tablet.isActiveAndEnabled &&
-                Array.Exists(SegmentDots, dot => dot && dot.CircuitId == id))
-                changedOnTablet = true;
-        }
-
-        private void CheckAfterTabletClosed()
-        {
-            bool showWrongAnswer = changedOnTablet;
-            changedOnTablet = false;
-            if (solved || !sequenceRoom || !GameManager.Exists) return;
-            var player = GameManager.Instance.Player;
-            if (player && sequenceRoom.ContainsWorldPosition(player.transform.position))
-                TryConfirmPattern(showWrongAnswer);
-        }
-
-        private void TryConfirmPattern(bool showWrongAnswer)
-        {
-            if (solved || Grid.IsShutdown || SegmentDots.Length != 6) return;
-            for (int i = 0; i < 6; i++)
-            {
-                var dot = SegmentDots[i];
-                if (dot && Grid.IsCircuitPowered(dot.CircuitId) == solution[i]) continue;
-                if (showWrongAnswer) Wrong();
-                return;
-            }
-            solved = true;
-            Apply();
-            GetComponent<SavableObjectState>().SaveState();
-        }
-
         private void OnDestroy()
         {
-            if (tablet) tablet.Closed -= CheckAfterTabletClosed;
-            if (Grid) Grid.CircuitChanged -= TrackSegmentChange;
+            if (PuzzleDoor) PuzzleDoor.OnLockedInteraction -= CheckAnswer;
             if (noteSprite)
             {
                 if (Note && Note.Pages != null && Note.Pages.Count >= 2 && Note.Pages[1].Image.Unlocalized == noteSprite)
@@ -152,32 +154,163 @@ namespace HorrorGame.Chapter1
             noteSprite = Sprite.Create(noteTexture, new Rect(0, 0, width, height), Vector2.one * .5f);
             Note.Pages[1].Image.Unlocalized = noteSprite;
         }
-        private void Update() { if (WrongAnswerCamera && WrongAnswerCamera.activeSelf && Time.unscaledTime >= wrongCameraUntil) WrongAnswerCamera.SetActive(false); }
+        private static Interactive InstallControl(Transform anchor, InteractionData data, Action<IInteractor> action)
+        {
+            var hitbox = anchor.gameObject.AddComponent<BoxCollider>();
+            hitbox.isTrigger = true;
+            hitbox.size = new Vector3(.65f, .65f, .65f);
+            anchor.gameObject.layer = LayerMask.NameToLayer("InteractionSystem");
+            var interactive = anchor.gameObject.AddComponent<Interactive>();
+            interactive.Data = data;
+            interactive.OnInteract = new OnInteractionEvent();
+            interactive.OnDataChanged = new UnityEngine.Events.UnityEvent();
+            interactive.OnInteract.AddListener(interactor => action(interactor));
+            return interactive;
+        }
 
-        /// <summary>Assign this to a normal Interactive's UnityEvent to submit the current shutter pattern.</summary>
+        private void ToggleLever(int index)
+        {
+            if (feedback != null || index >= SegmentShutters.Length || !SegmentShutters[index] ||
+                !SegmentShutters[index].TryGetComponent(out GarageDoor door) || !door.IsOpen) return;
+            leverMask ^= 1 << index;
+            RefreshIndicators();
+            GetComponent<SavableObjectState>().SaveState();
+        }
+
+        private void RefreshIndicators()
+        {
+            for (int i = 0; i < SegmentCount; i++)
+            {
+                bool on = (leverMask & (1 << i)) != 0;
+                if (i < SegmentLamps.Length && SegmentLamps[i]) SegmentLamps[i].SetManualColor(on ? Green : Red);
+                if (i < leverHandles.Length && leverHandles[i]) leverHandles[i].localRotation = Quaternion.Euler(on ? -45f : 45f, 0f, 0f);
+            }
+            if (CheckLamp) CheckLamp.SetManualColor(solved ? Green : Yellow);
+        }
+
+        private void UseCheckButton(IInteractor interactor)
+        {
+            if (feedback != null) return;
+            if (solved && PuzzleDoor) PuzzleDoor.TryTraverse(interactor);
+            else CheckAnswer();
+        }
+
+        private void UpdateCheckPrompt()
+        {
+            if (!checkInteraction) return;
+            var data = solved && PuzzleDoor && PuzzleDoor.DoorInteraction ? PuzzleDoor.DoorInteraction : CheckInteraction;
+            if (checkInteraction.Data != data) checkInteraction.SetInteractionData(data);
+        }
+
         public void CheckAnswer()
         {
-            if (Grid && PuzzleDoor) return;
-            if (solved) return;
-            for (int i = 0; i < 6; ++i)
+            if (feedback != null) return;
+            if (solved)
             {
-                bool open = Shutters != null && i < Shutters.Length && Shutters[i] && Shutters[i].IsOpen;
-                if (open != solution[i]) { Wrong(); return; }
+                if (ManualPuzzle) feedback = StartCoroutine(ShowCheck(true));
+                return;
             }
-            solved = true; Apply(); GetComponent<SavableObjectState>().SaveState();
+            bool matches = true;
+            for (int i = 0; i < SegmentCount; i++)
+            {
+                bool on = ManualPuzzle ? (leverMask & (1 << i)) != 0 :
+                    Shutters != null && i < Shutters.Length && Shutters[i] && Shutters[i].IsOpen;
+                if (on != solution[i]) matches = false;
+            }
+
+            if (matches)
+            {
+                solved = true;
+                Apply();
+                GetComponent<SavableObjectState>().SaveState();
+            }
+            if (ManualPuzzle || !matches) feedback = StartCoroutine(ShowCheck(matches));
         }
-        private void Wrong()
+
+        private IEnumerator ShowCheck(bool passed)
         {
-            wrongFeedbackUntil = Time.unscaledTime + WrongCameraSeconds;
-            if (Grid && GameManager.Exists)
-                GameManager.Instance.Inventory.AddTabletLog("Shutter pattern rejected.");
-            if (WrongAnswerCamera) { WrongAnswerCamera.SetActive(true); wrongCameraUntil = Time.unscaledTime + WrongCameraSeconds; }
-            if (WrongAnswerBuzzer) WrongAnswerBuzzer.Play();
+            ShowingWrongAnswer = !passed;
+            if (CheckLamp) CheckLamp.SetManualColor(passed ? Green : Red);
+            if (!passed && WrongAnswerBuzzer) WrongAnswerBuzzer.Play();
+            if (ManualPuzzle)
+            {
+                pause = PauseController.Instance;
+                if (pause) pause.Pause(this);
+                input = UIManager.Get<UIInputListener>(true);
+                if (input) input.AddBlockingContext(this);
+                var outputCamera = CameraSystem.Exists ? CameraSystem.Instance.MainCamera : Camera.main;
+                if (CheckCamera && outputCamera && outputCamera.TryGetComponent(out checkBrain))
+                {
+                    var view = CheckCamera.GetComponentInChildren<CinemachineVirtualCameraBase>(true);
+                    if (view)
+                    {
+                        CheckCamera.Activate();
+                        checkCameraOverride = checkBrain.SetCameraOverride(-1, 0, null, view, 1f, -1f);
+                    }
+                }
+                MakeLetterbox();
+            }
+            else if (WrongAnswerCamera) WrongAnswerCamera.SetActive(true);
+
+            yield return new WaitForSecondsRealtime(WrongCameraSeconds);
+            EndCheck();
         }
+
+        private void MakeLetterbox()
+        {
+            letterbox = new GameObject("Shutter sequence letterbox", typeof(Canvas));
+            var canvas = letterbox.GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = 1000;
+            var preview = CheckCamera ? CheckCamera.GetComponentInChildren<CameraPreview>(true) : null;
+            float height = preview ? preview.LetterboxHeight : .2f;
+            AddBar("Top", 1f - height, 1f);
+            AddBar("Bottom", 0f, height);
+        }
+
+        private void AddBar(string barName, float bottom, float top)
+        {
+            var bar = new GameObject(barName, typeof(RectTransform), typeof(Image)).GetComponent<Image>();
+            bar.transform.SetParent(letterbox.transform, false);
+            bar.rectTransform.anchorMin = new Vector2(0f, bottom);
+            bar.rectTransform.anchorMax = new Vector2(1f, top);
+            bar.rectTransform.offsetMin = bar.rectTransform.offsetMax = Vector2.zero;
+            bar.color = Color.black;
+            bar.raycastTarget = false;
+        }
+
+        private void OnDisable()
+        {
+            if (feedback == null) return;
+            StopCoroutine(feedback);
+            EndCheck();
+        }
+
+        private void EndCheck()
+        {
+            if (letterbox) Destroy(letterbox);
+            if (checkCameraOverride >= 0)
+            {
+                if (checkBrain) checkBrain.ReleaseCameraOverride(checkCameraOverride);
+                if (CheckCamera) CheckCamera.Deactivate();
+                checkCameraOverride = -1;
+            }
+            if (WrongAnswerCamera) WrongAnswerCamera.SetActive(false);
+            if (input) input.RemoveBlockingContext(this);
+            if (pause) pause.Resume(this);
+            checkBrain = null;
+            input = null;
+            pause = null;
+            feedback = null;
+            ShowingWrongAnswer = false;
+            RefreshIndicators();
+        }
+
         private void Apply()
         {
             if (MainShutter) MainShutter.SetOpen(solved);
             if (PuzzleDoor) PuzzleDoor.SetPuzzleUnlocked(solved);
+            UpdateCheckPrompt();
         }
         private void GenerateSolution()
         {
@@ -186,15 +319,17 @@ namespace HorrorGame.Chapter1
             while (count > 0) { int index = UnityEngine.Random.Range(0, 6); if (solution[index]) continue; solution[index] = true; --count; }
         }
         private int CountSolution() { int count = 0; foreach (bool value in solution) if (value) ++count; return count; }
-        public string GetSavableData() => JsonUtility.ToJson(new State { Solution = solution, Solved = solved });
+        public string GetSavableData() => JsonUtility.ToJson(new State { Solution = solution, Solved = solved, LeverMask = leverMask });
         public void SetFromSavedData(string data)
         {
             State state = JsonUtility.FromJson<State>(data);
             if (state.Solution != null && state.Solution.Length == 6) solution = state.Solution;
             solved = state.Solved;
+            leverMask = state.LeverMask;
+            RefreshIndicators();
             Apply();
             RefreshNote();
         }
-        [Serializable] private struct State { public bool[] Solution; public bool Solved; }
+        [Serializable] private struct State { public bool[] Solution; public bool Solved; public int LeverMask; }
     }
 }

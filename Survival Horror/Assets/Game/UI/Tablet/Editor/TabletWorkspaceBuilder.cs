@@ -30,7 +30,7 @@ namespace HorrorGame.UI.Editor
             var nameScale=mapName.GetComponent<MenuTextScale>();if(nameScale)nameScale.BaseSize=21;
             var header=surface.Find("Device identification");if(header){Rect((RectTransform)header,new Vector2(.075f,.935f),new Vector2(.93f,.972f));header.GetComponent<TMP_Text>().text="HERO HQ / FIELD TERMINAL";}
             foreach(var t in surface.GetComponentsInChildren<Transform>(true))if(t.name=="Map scale label" || t.name=="Directory toggle" || t.name=="Display frame")t.gameObject.SetActive(false);
-            var controls=surface.Find("Map controls");if(controls){workspace.Footer=controls.GetComponent<TMP_Text>();Rect((RectTransform)controls,new Vector2(.075f,.071f),new Vector2(.93f,.108f));workspace.Footer.text="PAN WASD / ZOOM WHEEL / FLOOR UP-DOWN / CLOSE ESC";workspace.Footer.fontSize=15;}
+            var controls=surface.Find("Map controls");if(controls){workspace.Footer=controls.GetComponent<TMP_Text>();Rect((RectTransform)controls,new Vector2(.075f,.071f),new Vector2(.93f,.108f));workspace.Footer.text="WASD: PAN  |  CLICK + DRAG: PAN  |  WHEEL: ZOOM  |  UP or DOWN: FLOOR  |  ESC: CLOSE";workspace.Footer.fontSize=15;}
             var background=surface.Find("Bg");if(background){Rect((RectTransform)background,new Vector2(.045f,.035f),new Vector2(.96f,.987f));background.GetComponent<Image>().color=new Color(.012f,.026f,.035f);}
             Casing(owner.transform);
             workspace.MapTools=Container("Map tools",owner.transform,Vector2.zero,Vector2.one);
