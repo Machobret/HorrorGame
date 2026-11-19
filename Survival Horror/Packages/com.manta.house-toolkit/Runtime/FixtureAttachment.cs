@@ -6,7 +6,6 @@ namespace HouseToolkit
     public sealed class FixtureAttachment : MonoBehaviour
     {
         [HideInInspector] public FixtureMount mount;
-        [HideInInspector] public bool allowOpeningSurface;
         [HideInInspector] public int wallSide = 1;
         [HideInInspector] public float surfaceOffset;
         [HideInInspector] public bool allowOpeningSurface;
