@@ -3,7 +3,6 @@ using System.Linq;
 using HorrorEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEditor.Events;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -64,6 +63,7 @@ namespace HorrorGame.Environment.Editor
                     ConfigureClimbing(copy);
                     SmallCrateAppearance.Apply(copy);
                 }
+                ConfigurePushInteraction(copy);
                 var prefab = PrefabUtility.SaveAsPrefabAsset(copy, Output);
                 if (!prefab) throw new Exception("Could not save pushable crate.");
                 var pushable = prefab.GetComponent<Pushable>();
@@ -98,7 +98,7 @@ namespace HorrorGame.Environment.Editor
         {
             string path=Folder+"PushableCrate1.prefab";
             var root=PrefabUtility.LoadPrefabContents(path);
-            try { ConfigureClimbing(root); PrefabUtility.SaveAsPrefabAsset(root,path); }
+            try { ConfigureClimbing(root); ConfigurePushInteraction(root); PrefabUtility.SaveAsPrefabAsset(root,path); }
             finally { PrefabUtility.UnloadPrefabContents(root); }
             Debug.Log("CRATE_CLIMB_SETUP_OK: 1m crate, native up/down animations, dynamic edge markers and hand contacts.");
         }
@@ -110,12 +110,6 @@ namespace HorrorGame.Environment.Editor
             {
                 setup=Object.Instantiate(AssetDatabase.LoadAssetAtPath<ClimbableSetup>("Assets/AssetStore/HorrorEngine/ExampleContent/Platforming/ClimbableSetup_1mObstacle.asset"));
                 setup.name="CrateClimbSetup";AssetDatabase.CreateAsset(setup,Folder+"CrateClimbSetup.asset");
-            }
-            var data=AssetDatabase.LoadAssetAtPath<InteractionData>(Folder+"CrateClimbInteraction.asset");
-            if (!data)
-            {
-                data=Object.Instantiate(AssetDatabase.LoadAssetAtPath<InteractionData>("Assets/AssetStore/HorrorEngine/ExampleContent/Interaction/Interaction_Climb.asset"));
-                data.name="CrateClimbInteraction";AssetDatabase.CreateAsset(data,Folder+"CrateClimbInteraction.asset");
             }
             var rigTransform=root.transform.Find("ClimbRig");
             var rig=rigTransform ? rigTransform.gameObject : new GameObject("ClimbRig");
@@ -133,12 +127,67 @@ namespace HorrorGame.Environment.Editor
             contact.CrateBody=root.GetComponent<Rigidbody>();
             contact.LeftHandContact=Marker(rig.transform,"LeftHandContact",new Vector3(-.22f,1.015f,.035f),Quaternion.identity);
             contact.RightHandContact=Marker(rig.transform,"RightHandContact",new Vector3(.22f,1.015f,.035f),Quaternion.identity);
-            var interactive=rig.GetComponent<Interactive>();interactive.Data=data;interactive.ShowPrompt=true;
-            interactive.OnInteract=new OnInteractionEvent();
-            interactive.OnFinishInteract=new UnityEngine.Events.UnityEvent();interactive.OnDataChanged=new UnityEngine.Events.UnityEvent();
-            UnityEventTools.AddPersistentListener<IInteractor>(interactive.OnInteract,contact.PrepareClimb);
             if (!setup.ClimbAnimation || !setup.DropAnimation) throw new Exception("Native crate climb animation handles missing.");
         }
+        [MenuItem("Horror Game/Environment/Update Crate Controls")]
+        public static void UpdateCrateControls()
+        {
+            foreach (string name in new[] { "PushableCrate1", "PushableCrate1.5" })
+            {
+                string path = Folder + name + ".prefab";
+                var root = PrefabUtility.LoadPrefabContents(path);
+                try
+                {
+                    ConfigurePushInteraction(root);
+                    if (!PrefabUtility.SaveAsPrefabAsset(root, path))
+                        throw new Exception("Could not save crate controls for " + name);
+                }
+                finally { PrefabUtility.UnloadPrefabContents(root); }
+            }
+        }
+
+        static void ConfigurePushInteraction(GameObject root)
+        {
+            const string dataPath = Folder + "CratePushInteraction.asset";
+            var data = AssetDatabase.LoadAssetAtPath<InteractionData>(dataPath);
+            if (!data)
+            {
+                data = ScriptableObject.CreateInstance<InteractionData>();
+                data.Prompt = new LocalizableText { Unlocalized = "Push" };
+                data.Icon = AssetDatabase.LoadAssetAtPath<InteractionData>(
+                    "Assets/AssetStore/HorrorEngine/ExampleContent/Interaction/Interaction_Use.asset").Icon;
+                data.RotateToInteractive = false;
+                AssetDatabase.CreateAsset(data, dataPath);
+            }
+
+            var pushable = root.GetComponent<Pushable>();
+            var climb = root.GetComponentInChildren<Climbable>();
+            var interactionRoot = climb ? climb.transform : Marker(root.transform, "Push interaction",
+                Vector3.zero, Quaternion.identity);
+            interactionRoot.gameObject.layer = LayerMask.NameToLayer("InteractionSystem");
+            var trigger = interactionRoot.GetComponent<BoxCollider>();
+            if (!trigger) trigger = interactionRoot.gameObject.AddComponent<BoxCollider>();
+            trigger.isTrigger = true;
+            trigger.size = climb ? new Vector3(1.23f, .9f, 1.23f) : new Vector3(2.3f, 1.8f, 2.3f);
+            trigger.center = new Vector3(0, trigger.size.y * .5f, 0);
+
+            var interaction = interactionRoot.GetComponent<Interactive>();
+            if (!interaction) interaction = interactionRoot.gameObject.AddComponent<Interactive>();
+            interaction.Data = data;
+            interaction.ShowPrompt = true;
+            if (climb)
+            {
+                climb.ClimbOnInteract = false;
+                // Replace the original crate-only climb callback.
+                interaction.OnInteract = new OnInteractionEvent();
+            }
+            interaction.OnInteract ??= new OnInteractionEvent();
+            interaction.OnFinishInteract ??= new UnityEngine.Events.UnityEvent();
+            interaction.OnDataChanged ??= new UnityEngine.Events.UnityEvent();
+            pushable.PushInteraction = interaction;
+            pushable.SprintClimb = climb;
+        }
+
         static Transform Marker(Transform parent,string name,Vector3 position,Quaternion rotation)
         {
             var marker=parent.Find(name);

@@ -31,13 +31,6 @@ namespace HorrorGame.Environment
             restPosition=transform.localPosition; restRotation=transform.localRotation;
         }
 
-        // Persistent OnInteract listener runs before Climbable's runtime listener starts the native state.
-        public void PrepareClimb(IInteractor interactor)
-        {
-            if (interactor is PlayerInteractor player)
-                PrepareForActor(player.GetComponentInParent<Actor>(),null);
-        }
-
         public bool IsPlayerOnTop(Actor player)
         {
             if (!player || !CrateBody) return false;
@@ -81,6 +74,8 @@ namespace HorrorGame.Environment
 
         public bool CanStartClimb(Actor player)
         {
+            if (!isActiveAndEnabled || (lockedInPlace && !IsPlayerOnTop(player)))
+                return false;
             if(!actor)PrepareForActor(player,null);
             if(actor!=player || !CrateBody)return false;
             capsule=player.GetComponent<CharacterController>();

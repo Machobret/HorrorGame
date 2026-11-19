@@ -17,6 +17,12 @@ namespace HorrorEngine
         public Vector3[] PushAxis;
         public bool LocalSpaceAxis = true;
 
+        [Tooltip("When assigned, the player pushes this object by interacting with this prompt.")]
+        public Interactive PushInteraction;
+
+        [Tooltip("Optional climb to start when the player sprints into a solid face.")]
+        public Climbable SprintClimb;
+
         [SerializeField] SoundCue[] m_PushSounds;
         [SerializeField] float m_SnapSpeed = 1f;
 
@@ -40,6 +46,20 @@ namespace HorrorEngine
         {
             m_Rigidbody = GetComponent<Rigidbody>();
             m_AudioSource = GetComponent<AudioSource>();
+            if (PushInteraction)
+                PushInteraction.OnInteract.AddListener(OnPushInteraction);
+        }
+
+        private void OnDestroy()
+        {
+            if (PushInteraction)
+                PushInteraction.OnInteract.RemoveListener(OnPushInteraction);
+        }
+
+        private void OnPushInteraction(IInteractor interactor)
+        {
+            if (interactor is PlayerInteractor player)
+                player.GetComponentInParent<Actor>()?.GetComponentInChildren<PlayerStatePushing>()?.StartInteractionPush(this);
         }
 
         // --------------------------------------------------------------------

@@ -15,7 +15,7 @@ namespace HorrorEngine
         
         public Pushable Pushable => m_Pushable;
         public Vector3 PushAxis { get; private set; }
-        public bool IsPushing => m_PushTime > m_PushTimeThreshold && m_Pushable.CanBePushed;
+        public bool IsPushing => m_PushTime > m_PushTimeThreshold && m_Pushable && m_Pushable.CanBePushed;
 
         // --------------------------------------------------------------------
 
@@ -51,7 +51,7 @@ namespace HorrorEngine
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out Pushable pushable))
+            if (other.TryGetComponent(out Pushable pushable) && !pushable.PushInteraction)
             {
                 m_Pushable = pushable;
                 enabled = true;

@@ -14,6 +14,8 @@ namespace HorrorEngine
     public class Climbable : MonoBehaviour
     {
         public ClimbableSetup Setup;
+        [Tooltip("Start this climb when the player uses the Interactive on this object.")]
+        public bool ClimbOnInteract = true;
 
         public Transform ExitTop;
         public Transform ExitBottom;
@@ -22,6 +24,9 @@ namespace HorrorEngine
 
         private void Awake()
         {
+            if (!ClimbOnInteract)
+                return;
+
             m_Interactive = GetComponent<Interactive>();
             m_Interactive.OnInteract.AddListener((interactor) =>
             {

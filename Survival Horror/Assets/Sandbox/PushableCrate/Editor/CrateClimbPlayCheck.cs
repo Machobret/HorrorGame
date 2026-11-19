@@ -15,7 +15,7 @@ namespace HorrorGame.Tests
     {
         static Actor actor;
         static GameObject floor,box;
-        static Interactive interactive;
+        static Climbable climbable;
         static CrateClimbRig rig;
         static Vector3 savedPosition;
         static Quaternion savedRotation;
@@ -56,7 +56,7 @@ namespace HorrorGame.Tests
             floor.transform.SetPositionAndRotation(new Vector3(1000,-.25f,1000),Quaternion.identity);floor.transform.localScale=new Vector3(20,.5f,20);
             box=Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Game/Environment/PushableCrate/PushableCrate1.prefab"),new Vector3(1000,.02f,1000),Quaternion.Euler(0,27,0));
             foreach(var id in box.GetComponentsInChildren<ObjectUniqueId>(true)) id.RegenerateId();
-            rig=box.GetComponentInChildren<CrateClimbRig>();interactive=rig.GetComponent<Interactive>();
+            rig=box.GetComponentInChildren<CrateClimbRig>();climbable=rig.GetComponent<Climbable>();
             face=0;stage=0;started=Time.time;entered=false;report.Clear();
             EditorApplication.update+=Tick;
         }
@@ -70,7 +70,7 @@ namespace HorrorGame.Tests
                     if (Time.time-started<.35f) return;
                     Vector3 outward=box.transform.TransformDirection(Directions[face]);
                     Teleport(box.transform.position+outward*.95f+Vector3.up*.01f,Quaternion.LookRotation(-outward));
-                    interactive.Interact(actor.GetComponent<PlayerInteractor>());
+                    actor.GetComponentInChildren<PlayerStateClimbing>().StartClimb(climbable);
                     stage=1;started=Time.time;entered=false;return;
                 }
                 bool climbing=actor.StateController.CurrentState is PlayerStateClimbing;
@@ -119,7 +119,7 @@ namespace HorrorGame.Tests
                     {
                         forced.Rate=1;stage=10;started=Time.time;return;
                     }
-                    interactive.Interact(actor.GetComponent<PlayerInteractor>());
+                    rig.DropFromEdge(actor,outward);
                     stage=3;started=Time.time;entered=false;return;
                 }
                 if(Mathf.Abs(y)>.12f) { Finish(false,"Incorrect bottom landing face="+face+" height="+y);return; }

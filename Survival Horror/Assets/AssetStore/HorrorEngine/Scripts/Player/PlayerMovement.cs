@@ -58,6 +58,11 @@ namespace HorrorEngine
         private IPlayerMovementSettings m_Settings;
         private CharacterController m_CharacterCtrl;
         private PlayerStamina m_Stamina;
+        private Actor m_Actor;
+        private PlayerStateClimbing m_ClimbingState;
+        private Vector3 m_RunClimbDirection;
+        private Climbable m_RunClimbContact;
+        private float m_NextRunClimbAttempt;
 
         public Vector3 LockedAxis { get; set; }
         public Vector3 IntendedMovement { get; private set; }
@@ -89,8 +94,9 @@ namespace HorrorEngine
 
         private void Start()
         {
-            var owner = GetComponent<Actor>();
-            var animator = owner ? owner.MainAnimator : null;
+            m_Actor = GetComponent<Actor>();
+            m_ClimbingState = GetComponentInChildren<PlayerStateClimbing>();
+            var animator = m_Actor ? m_Actor.MainAnimator : null;
             if (animator && animator.isHuman && !animator.GetComponent<PlayerTurnAnimation>())
                 animator.gameObject.AddComponent<PlayerTurnAnimation>();
         }
@@ -193,7 +199,7 @@ namespace HorrorEngine
 
         private void UpdateMovement()
         {
-            Vector3 fwdMove = GetForwardMovement(out float fwdSpeed);
+            Vector3 fwdMove = GetForwardMovement(out float fwdSpeed, out bool running);
             Vector3 rightMove = GetRightMovement(out float rightSpeed);
              
             float fwdContribution = Mathf.Abs(Vector3.Dot(transform.forward, fwdMove.normalized));
@@ -220,17 +226,40 @@ namespace HorrorEngine
 
             Vector3 finalMove = newPos - prevPos;
             FilterMovement?.Invoke(ref finalMove);
+            m_RunClimbContact = null;
+            if (running && m_ClimbingState && Time.time >= m_NextRunClimbAttempt && m_CharacterCtrl.isGrounded
+                && m_Actor && m_Actor.StateController.CurrentState is PlayerStateMotion)
+                m_RunClimbDirection = Vector3.ProjectOnPlane(finalMove, Vector3.up).normalized;
+
             m_CharacterCtrl.Move(finalMove + m_Gravity * Time.deltaTime);
+            m_RunClimbDirection = Vector3.zero;
+            if (m_RunClimbContact)
+            {
+                m_NextRunClimbAttempt = Time.time + .2f;
+                m_ClimbingState.StartClimb(m_RunClimbContact);
+            }
+        }
+
+        private void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            if (m_RunClimbDirection == Vector3.zero || Mathf.Abs(hit.normal.y) > .45f
+                || Vector3.Dot(m_RunClimbDirection, -hit.normal) < .65f)
+                return;
+
+            var body = hit.collider.attachedRigidbody;
+            if (body && body.TryGetComponent(out Pushable crate) && crate.SprintClimb && crate.SprintClimb.isActiveAndEnabled)
+                m_RunClimbContact = crate.SprintClimb;
         }
 
         // --------------------------------------------------------------------
 
-        Vector3 GetForwardMovement(out float speed)
+        Vector3 GetForwardMovement(out float speed, out bool running)
         {
             float fwd = m_Settings.GetFwdRate(this);
             float absFwd = Mathf.Abs(fwd);
             
             speed = 0f;
+            running = false;
             if (m_MovementInputType == MovementInputType.AnalogAutoRun)
             {
                 if (fwd > Mathf.Epsilon)
@@ -239,6 +268,7 @@ namespace HorrorEngine
                     fwdT *= DepleteStamina(fwdT) ? 1f : 0f;
 
                     speed = Mathf.Lerp(m_MovementSpeed * absFwd, m_MovementRunSpeed * absFwd, fwdT);
+                    running = fwdT > .5f;
                 }
                 else if (fwd < -Mathf.Epsilon)
                 {
@@ -249,7 +279,8 @@ namespace HorrorEngine
             {
                 if (fwd > Mathf.Epsilon)
                 {
-                    speed = m_Running && !Constrain.HasFlag(MovementConstrain.Running) && DepleteStamina(1f) ? m_MovementRunSpeed : m_MovementSpeed * (m_MovementInputType == MovementInputType.Analog ? absFwd : 1f);
+                    running = m_Running && !Constrain.HasFlag(MovementConstrain.Running) && DepleteStamina(1f);
+                    speed = running ? m_MovementRunSpeed : m_MovementSpeed * (m_MovementInputType == MovementInputType.Analog ? absFwd : 1f);
                 }
                 else if (fwd < -Mathf.Epsilon)
                 {

@@ -59,8 +59,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.2, y: 1.7, z: 1.2}
-  m_Center: {x: 0, y: 0.85, z: 0}
+  m_Size: {x: 1.23, y: 0.9, z: 1.23}
+  m_Center: {x: 0, y: 0.45, z: 0}
 --- !u!114 &1569063480564924218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,23 +85,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc146b719d4cae3409b98e484b6b70d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.Interactive
-  Data: {fileID: 11400000, guid: 705a1ef3d096e3843ab459f9ab7e7357, type: 2}
+  Data: {fileID: 11400000, guid: 388f6473549e54f42ae60a98b012c620, type: 2}
   ShowPrompt: 1
   OnInteract:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7700283629940300119}
-        m_TargetAssemblyTypeName: HorrorGame.Environment.CrateClimbRig, Assembly-CSharp
-        m_MethodName: PrepareClimb
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnFinishInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -121,6 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.Climbable
   Setup: {fileID: 11400000, guid: 95cb38a279449d2478bdd07a2579487a, type: 2}
+  ClimbOnInteract: 0
   ExitTop: {fileID: 6480743712757699097}
   ExitBottom: {fileID: 6290844283079513441}
 --- !u!114 &7700283629940300119
@@ -471,6 +460,8 @@ MonoBehaviour:
   - {x: 1, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
   LocalSpaceAxis: 1
+  PushInteraction: {fileID: 7037303876342705544}
+  SprintClimb: {fileID: 4284420603423513709}
   m_PushSounds:
   - m_Clip: {fileID: 8300000, guid: a399ac7265a7b0a42b7fa4f8c3b84dbd, type: 3}
     MinVolume: 0.8
