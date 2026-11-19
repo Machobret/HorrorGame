@@ -10,6 +10,7 @@ namespace HorrorEngine
         [Min(10)] public float DegreesPerStep = 38;
         [Min(0)] public float StepHeight = .05f;
         [Min(.01f)] public float BlendDuration = .12f;
+        [Min(.01f)] public float LocomotionStopBlendDuration = .22f;
         public float TurningWeight => weight;
         public bool IsStepping => active;
         public int SwingFoot => swing;
@@ -21,15 +22,19 @@ namespace HorrorEngine
             public Transform Upper, Lower, Bone;
             public Vector3 Rest, Plant, From, To, Output;
             public Quaternion RestRotation, PlantRotation, FromRotation, ToRotation, OutputRotation;
+            public Quaternion MovingUpperRotation, MovingLowerRotation, MovingFootRotation;
         }
         private readonly Foot[] feet = { new Foot(), new Foot() };
-        private Transform actor;
+        private Transform actor, hips;
         private PlayerMovement movement;
         private ActorStateController states;
         private float previousYaw, yawRate, weight, phase;
         private Vector3 previousPosition;
         private int swing, direction;
-        private bool active, initialized;
+        private bool active, initialized, wasMoving;
+        private float stopBlendRemaining;
+        private Vector3 movingHipPosition;
+        private Quaternion movingHipRotation;
 
         private void OnEnable()
         {
@@ -39,9 +44,11 @@ namespace HorrorEngine
             actor = owner.transform; movement = owner.GetComponent<PlayerMovement>(); states = owner.StateController;
             Bind(feet[0], animator, HumanBodyBones.LeftUpperLeg, HumanBodyBones.LeftLowerLeg, HumanBodyBones.LeftFoot);
             Bind(feet[1], animator, HumanBodyBones.RightUpperLeg, HumanBodyBones.RightLowerLeg, HumanBodyBones.RightFoot);
-            initialized = movement && feet[0].Bone && feet[1].Bone;
+            hips = animator.GetBoneTransform(HumanBodyBones.Hips);
+            initialized = movement && hips && feet[0].Upper && feet[0].Lower && feet[0].Bone
+                && feet[1].Upper && feet[1].Lower && feet[1].Bone;
             previousYaw = actor.eulerAngles.y; previousPosition = actor.position;
-            active = false; phase = weight = yawRate = 0;
+            ResetCycle();
         }
         private static void Bind(Foot foot, Animator animator, HumanBodyBones upper, HumanBodyBones lower, HumanBodyBones bone)
         { foot.Upper = animator.GetBoneTransform(upper); foot.Lower = animator.GetBoneTransform(lower); foot.Bone = animator.GetBoneTransform(bone); }
@@ -59,8 +66,15 @@ namespace HorrorEngine
             bool allowedState = state is PlayerStateMotion || state is PlayerStateAiming || state is PlayerStateAttack || state is PlayerStateReload;
             if (!allowedState) { ResetCycle(); return; }
             float speed = movement.IntendedMovement.magnitude / Mathf.Max(.001f, Time.fixedDeltaTime);
-            bool turning = movement.enabled && !movement.Constrain.HasFlag(PlayerMovement.MovementConstrain.Rotation)
-                && Mathf.Abs(movement.InputAxis.x) > .15f && Mathf.Abs(yawRate) > 8 && speed < .12f && displacement < .025f;
+            bool moving = speed >= .12f;
+            bool canTurn = movement.enabled && !movement.Constrain.HasFlag(PlayerMovement.MovementConstrain.Rotation);
+            bool turning = canTurn && !moving && displacement < .025f &&
+                Mathf.Abs(movement.InputAxis.x) > .15f && Mathf.Abs(yawRate) > 8;
+            if (!canTurn || moving)
+                stopBlendRemaining = 0;
+            else if (wasMoving)
+                stopBlendRemaining = Mathf.Max(.01f, LocomotionStopBlendDuration);
+            wasMoving = canTurn && moving;
             for (int i = 0; i < 2; ++i)
             {
                 feet[i].Rest = actor.InverseTransformPoint(feet[i].Bone.position);
@@ -96,9 +110,59 @@ namespace HorrorEngine
                 else { phase = 1; active = false; }
             }
             // Walking uses its existing locomotion cycle, with a short handoff.
-            if (speed > .12f || !movement.enabled || movement.Constrain.HasFlag(PlayerMovement.MovementConstrain.Rotation)) active = false;
+            if (moving || !canTurn) active = false;
             weight = Mathf.MoveTowards(weight, active ? 1 : 0, dt / Mathf.Max(.01f, BlendDuration));
-            if (weight <= 0) { return; }
+            if (weight > 0)
+                ApplyPivotPose();
+
+            // The locomotion blend tree goes straight to idle on the first stationary
+            // physics tick. Ease the last visible leg pose into the new idle or pivot.
+            if (stopBlendRemaining > 0)
+            {
+                float time = Mathf.Max(.01f, LocomotionStopBlendDuration);
+                BlendOutMovingPose(Mathf.SmoothStep(0, 1, stopBlendRemaining / time));
+                stopBlendRemaining = Mathf.Max(0, stopBlendRemaining - dt);
+            }
+
+            if (weight > 0)
+            {
+                foreach (Foot foot in feet)
+                {
+                    foot.Output = foot.Bone.position;
+                    foot.OutputRotation = foot.Bone.rotation;
+                }
+            }
+            if (wasMoving)
+                CaptureMovingPose();
+        }
+
+        private void CaptureMovingPose()
+        {
+            movingHipPosition = hips.localPosition;
+            movingHipRotation = hips.localRotation;
+            foreach (Foot foot in feet)
+            {
+                foot.MovingUpperRotation = foot.Upper.localRotation;
+                foot.MovingLowerRotation = foot.Lower.localRotation;
+                foot.MovingFootRotation = foot.Bone.localRotation;
+            }
+        }
+
+        private void BlendOutMovingPose(float poseWeight)
+        {
+            hips.localPosition = Vector3.Lerp(hips.localPosition, movingHipPosition, poseWeight);
+            hips.localRotation = Quaternion.Slerp(hips.localRotation, movingHipRotation, poseWeight);
+            foreach (Foot foot in feet)
+            {
+                foot.Upper.localRotation = Quaternion.Slerp(foot.Upper.localRotation, foot.MovingUpperRotation, poseWeight);
+                foot.Lower.localRotation = Quaternion.Slerp(foot.Lower.localRotation, foot.MovingLowerRotation, poseWeight);
+                foot.Bone.localRotation = Quaternion.Slerp(foot.Bone.localRotation, foot.MovingFootRotation, poseWeight);
+            }
+        }
+
+        private void ApplyPivotPose()
+        {
+            float poseWeight = Mathf.SmoothStep(0, 1, weight);
             for (int i = 0; i < 2; ++i)
             {
                 var foot = feet[i]; Vector3 target = foot.Plant; Quaternion rotation = foot.PlantRotation;
@@ -109,10 +173,8 @@ namespace HorrorEngine
                     rotation = Quaternion.Slerp(foot.FromRotation, foot.ToRotation, t);
                 }
                 ReloadArmIK.Solve(foot.Upper, foot.Lower, foot.Bone, actor, target, rotation,
-                    new Vector3(i == 0 ? -.20f : .20f, .55f, .45f), Mathf.SmoothStep(0, 1, weight));
-                foot.Output = foot.Bone.position; foot.OutputRotation = foot.Bone.rotation;
+                    new Vector3(i == 0 ? -.20f : .20f, .55f, .45f), poseWeight);
             }
-
         }
         private void StartStep()
         {
@@ -121,7 +183,11 @@ namespace HorrorEngine
             foot.To = actor.position + lead * actor.TransformVector(foot.Rest);
             foot.ToRotation = lead * actor.rotation * foot.RestRotation;
         }
-        private void ResetCycle() { active = false; weight = phase = yawRate = 0; }
+        private void ResetCycle()
+        {
+            active = wasMoving = false;
+            weight = phase = yawRate = stopBlendRemaining = 0;
+        }
         private void OnDisable() { ResetCycle(); initialized = false; }
     }
 }

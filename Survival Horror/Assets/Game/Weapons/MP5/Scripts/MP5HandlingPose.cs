@@ -86,13 +86,21 @@ namespace HorrorGame.Weapons
             reload = GetComponent<MP5ReloadVisual>(); weight = aimWeight = 0;
         }
 
-        public Vector3 HoldingWrist(float aiming) => character.TransformPoint(Vector3.Lerp(LoweredWrist, AimedWrist, aiming));
+        private float AimPitch => animator ? animator.GetFloat(PlayerStateAiming.k_AimVerticalityHash) : 0;
+
+        public Vector3 HoldingWrist(float aiming)
+        {
+            // Follow the pitch of the weapon with the grip so downward aim
+            // does not fold the firing forearm back into the shoulder.
+            Vector3 position = Vector3.Lerp(LoweredWrist, AimedWrist, aiming);
+            position.y += .135f * AimPitch * aiming;
+            return character.TransformPoint(position);
+        }
 
         public Quaternion HoldingRotation(float aiming)
         {
             // Anchor both arms to a forward hold, independent of locomotion's arm swing.
-            float vertical = animator ? animator.GetFloat(PlayerStateAiming.k_AimVerticalityHash) : 0;
-            Quaternion frame = character.rotation * Quaternion.Euler(Mathf.Lerp(16, -vertical * 35, aiming) - 1.2f * Mathf.Exp(-(Time.time - shotTime) * 60), 0, 0);
+            Quaternion frame = character.rotation * Quaternion.Euler(Mathf.Lerp(16, -AimPitch * 35, aiming) - 1.2f * Mathf.Exp(-(Time.time - shotTime) * 60), 0, 0);
             Quaternion rootToFrame = Quaternion.Inverse(transform.rotation) * ModelFrame.rotation;
             return frame * Quaternion.Inverse(rootToFrame);
         }

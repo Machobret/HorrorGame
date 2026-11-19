@@ -258,7 +258,7 @@ namespace HorrorGame.Chapter0
 
             m_EncounterActive = false;
             if (m_EncounterEnemyAnimator)
-                m_EncounterEnemyAnimator.CrossFade("Base Layer.EnemyDeath", .1f, 0);
+                m_EncounterEnemyAnimator.CrossFadeInFixedTime("Base Layer.EnemyDeath", .1f, 0);
             StartCoroutine(FinishTutorialAfterEnemyDeath());
         }
 
@@ -310,7 +310,7 @@ namespace HorrorGame.Chapter0
                     m_EncounterEnemyAnimator.Play("EnemyMotion", 0, 0f);
                     m_EnemyWalkingAnimation = true;
                 }
-                m_EncounterEnemyAnimator.SetFloat("Speed", .2f);
+                m_EncounterEnemyAnimator.SetFloat("Speed", m_EnemyWalkSpeed);
             }
             m_EncounterEnemyTransform.position += direction * m_EnemyWalkSpeed * Time.deltaTime;
             m_EncounterEnemyTransform.rotation = Quaternion.Slerp(

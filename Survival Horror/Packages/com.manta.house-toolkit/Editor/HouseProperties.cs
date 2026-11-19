@@ -92,6 +92,7 @@ namespace HouseToolkit.Editor
         {
             GUILayout.Label(fixture.name, EditorStyles.boldLabel);
             GUILayout.Label(fixture.freePlacement ? "Freely placed" : "Attached to " + fixture.mount.ToString().ToLowerInvariant());
+            FixtureTool.SelectionFields(fixture);
             FixtureTool.DrawLighting(fixture);
             if (GUILayout.Button("Reattach to surface")) FixtureTool.BeginMove(fixture);
         }

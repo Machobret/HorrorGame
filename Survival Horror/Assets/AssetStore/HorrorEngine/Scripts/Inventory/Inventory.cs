@@ -999,13 +999,27 @@ namespace HorrorEngine
                     }
                     else
                     {
-                        equipped.Add(new InventoryEntry()
+                        var entry = new InventoryEntry()
                         {
                             Item = itemsDB.GetRegister(savedEquipment.OptionalData.ItemId),
                             Count = savedEquipment.OptionalData.Count,
                             SecondaryCount = savedEquipment.OptionalData.SecondaryCount,
                             Status = savedEquipment.OptionalData.Status,
-                        });
+                        };
+                        if (entry.Item is EquipableItemData item && !item.MoveOutOfInventoryOnEquip)
+                        {
+                            // Bring legacy equipment-only items into the grid if they now occupy a slot.
+                            int slots = Mathf.Max(1, item.InventorySlots);
+                            if (!IsInfinite())
+                            {
+                                m_MaxItems = Mathf.Max(m_MaxItems, UsedSlots + slots);
+                                while (Items.Count < m_MaxItems)
+                                    Items.Add(new InventoryEntry());
+                            }
+                            int index = IsInfinite() ? GetNewIndex() : GetNextAvailableIndex(slots);
+                            Items[index] = entry;
+                        }
+                        equipped.Add(entry);
                     }
                 }
             }

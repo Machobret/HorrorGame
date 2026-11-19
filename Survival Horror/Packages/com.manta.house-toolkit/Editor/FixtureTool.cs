@@ -670,6 +670,36 @@ namespace HouseToolkit.Editor
             t.localPosition = local;
             PrefabUtility.RecordPrefabInstancePropertyModifications(t);
         }
+
+        internal static void SelectionFields(FixtureAttachment fixture)
+        {
+            if (!fixture.allowOpeningSurface) return;
+            var available = Choices.Where(c => c.mount == fixture.mount && c.allowOpeningSurface).ToArray();
+            var model = fixture.transform.Cast<Transform>().FirstOrDefault(t => PrefabUtility.GetCorrespondingObjectFromSource(t.gameObject));
+            var source = model ? PrefabUtility.GetCorrespondingObjectFromSource(model.gameObject) : null;
+            int current = System.Array.FindIndex(available, c => c.prefab == source);
+            EditorGUI.BeginChangeCheck();
+            int chosen = EditorGUILayout.Popup("Advertisement", current, available.Select(c => c.label).ToArray());
+            if (EditorGUI.EndChangeCheck() && chosen >= 0 && chosen < available.Length)
+                ReplacePreset(fixture, available[chosen]);
+        }
+
+        internal static void ReplacePreset(FixtureAttachment fixture, FixtureChoice choice)
+        {
+            if (choice.mount != fixture.mount || !choice.allowOpeningSurface)
+                throw new System.ArgumentException("Choose a compatible surface decoration.");
+            Undo.IncrementCurrentGroup();
+            int group = Undo.GetCurrentGroup();
+            Undo.SetCurrentGroupName("Change advertisement");
+            foreach (Transform child in fixture.transform.Cast<Transform>().ToArray())
+                Undo.DestroyObjectImmediate(child.gameObject);
+            var model = (GameObject)PrefabUtility.InstantiatePrefab(choice.prefab, fixture.transform);
+            Undo.RegisterCreatedObjectUndo(model, "Change advertisement");
+            Undo.RecordObject(fixture.gameObject, "Change advertisement");
+            fixture.name = choice.label;
+            ApplyPreset(choice, fixture, model);
+            Undo.CollapseUndoOperations(group);
+        }
     }
 
     [CustomEditor(typeof(FixturePalette))]
@@ -703,6 +733,7 @@ namespace HouseToolkit.Editor
         {
             var fixture = (FixtureAttachment)target;
             EditorGUILayout.LabelField("Mount",fixture.freePlacement ? "Free" : fixture.mount.ToString());
+            FixtureTool.SelectionFields(fixture);
             FixtureTool.DrawLighting(fixture);
             if (GUILayout.Button("Reattach to surface")) FixtureTool.BeginMove(fixture);
             if (GUILayout.Button(new GUIContent("Reapply fixture preset", "Refit the model and restore the generated light's position, range and intensity.")) && !FixtureTool.Refit(fixture))

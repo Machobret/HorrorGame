@@ -9,6 +9,7 @@ namespace HouseToolkit
         [HideInInspector] public bool allowOpeningSurface;
         [HideInInspector] public int wallSide = 1;
         [HideInInspector] public float surfaceOffset;
+        [HideInInspector] public bool allowOpeningSurface;
         [HideInInspector] public bool emitterFitted;
         [SerializeField, HideInInspector] internal FixturePalette lightPalette;
         [SerializeField, HideInInspector] internal GameObject lightPrefab;
