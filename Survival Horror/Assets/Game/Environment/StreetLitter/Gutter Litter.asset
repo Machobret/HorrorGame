@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cff52737df948ad9010ca74a435fca6, type: 3}
+  m_Name: Gutter Litter
+  m_EditorClassIdentifier: HouseToolkit::HouseToolkit.ScatterPreset
+  entries:
+  - label: Small scraps
+    weight: 45
+    solid: 0
+    material: {fileID: 2100000, guid: a5bfc4d93d890714db99f8fc0f6325c3, type: 2}
+    variants:
+    - {fileID: -665133753008809090, guid: 309a4db35c6861246a5310a9da634667, type: 2}
+    - {fileID: 4905168667966953237, guid: 309a4db35c6861246a5310a9da634667, type: 2}
+    - {fileID: 4809447997395489972, guid: 309a4db35c6861246a5310a9da634667, type: 2}
+  - label: Bottle caps
+    weight: 30
+    solid: 1
+    material: {fileID: 2100000, guid: 179ee0d6b3e892a408f7c181c7ced417, type: 2}
+    variants:
+    - {fileID: -6328081950303058713, guid: 309a4db35c6861246a5310a9da634667, type: 2}
+  - label: Crushed cups
+    weight: 25
+    solid: 1
+    material: {fileID: 2100000, guid: 527428be19386d7408d223ab708b4665, type: 2}
+    variants:
+    - {fileID: 8591899636162247085, guid: 309a4db35c6861246a5310a9da634667, type: 2}

@@ -84,7 +84,7 @@ public static class DownloadedEnvironmentPackImporter
                     "Exact duplicate geometry/material assemblies share a prefab within each pack",
                     "All prefab roots use identity transforms and bottom-centred placement pivots",
                     "Every renderer has a nonempty saved mesh and matching URP material slots; textured meshes retain UV0",
-                    "Every mesh part has a static nonconvex MeshCollider",
+                    "Physical mesh parts have static nonconvex MeshColliders; non-blocking decoration is exempt",
                     "Source geometry, local part transforms, triangle counts and bounds preserved",
                     "Prefab dependencies contain no combined FBX, Blender source, or scene",
                     "All declared available textures, normal maps and emission maps assigned",
@@ -330,6 +330,7 @@ public static class DownloadedEnvironmentPackImporter
                 clone.transform.localScale = source.lossyScale;
                 try
                 {
+                    bool nonBlocking = PrefabCollisionBatch.IsNonBlocking(prefabPath);
                     foreach (var filter in clone.GetComponentsInChildren<MeshFilter>(true))
                     {
                         var mesh = filter.sharedMesh;
@@ -350,6 +351,11 @@ public static class DownloadedEnvironmentPackImporter
                         }
                         filter.sharedMesh = saved;
                         var collider = filter.GetComponent<MeshCollider>();
+                        if (nonBlocking)
+                        {
+                            if (collider && !collider.isTrigger) Object.DestroyImmediate(collider);
+                            continue;
+                        }
                         if (!collider) collider = filter.gameObject.AddComponent<MeshCollider>();
                         collider.sharedMesh = saved; collider.convex = false;
                     }
@@ -407,6 +413,7 @@ public static class DownloadedEnvironmentPackImporter
                     || Mathf.Abs(bounds.min.y) > .005f || Mathf.Abs(bounds.center.x) > .005f || Mathf.Abs(bounds.center.z) > .005f)
                     throw new InvalidOperationException("Bounds/pivot mismatch: " + entry.prefab + " " + bounds);
                 int triangles = 0;
+                bool nonBlocking = PrefabCollisionBatch.IsNonBlocking(entry.prefab);
                 foreach (var filter in instance.GetComponentsInChildren<MeshFilter>(true))
                 {
                     var mesh = filter.sharedMesh; var renderer = filter.GetComponent<Renderer>();
@@ -417,7 +424,8 @@ public static class DownloadedEnvironmentPackImporter
                     if (!renderer || renderer.sharedMaterials.Length != mesh.subMeshCount || renderer.sharedMaterials.Any(m => !m || m.shader.name != "Universal Render Pipeline/Lit"))
                         throw new InvalidOperationException("Material slot mismatch: " + entry.prefab);
                     var collider = filter.GetComponent<MeshCollider>();
-                    if (!collider || collider.sharedMesh != mesh || collider.convex) throw new InvalidOperationException("Collider mismatch: " + entry.prefab);
+                    if (nonBlocking ? collider && !collider.isTrigger : !collider || collider.sharedMesh != mesh || collider.convex)
+                        throw new InvalidOperationException("Collider mismatch: " + entry.prefab);
                 }
                 if (triangles != entry.triangles || renderers.Length != entry.mesh_parts) throw new InvalidOperationException("Geometry mismatch: " + entry.prefab);
                 foreach (var dependency in AssetDatabase.GetDependencies(entry.prefab, true))

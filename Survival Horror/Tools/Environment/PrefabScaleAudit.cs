@@ -119,7 +119,10 @@ public static class PrefabScaleAudit
                 var root=PrefabUtility.LoadPrefabContents(path);
                 try
                 {
-                    var renderers=root.GetComponentsInChildren<MeshRenderer>(true).Where(r=>r.GetComponent<MeshFilter>()&&r.GetComponent<MeshFilter>().sharedMesh&&r.name!="Emitter"&&!r.GetComponentInParent<Canvas>()).ToArray();
+                    var renderers=root.GetComponentsInChildren<Renderer>(true).Where(r=>
+                        r.name!="Emitter" && !r.GetComponentInParent<Canvas>() &&
+                        (r is SkinnedMeshRenderer skinned && skinned.sharedMesh ||
+                         r is MeshRenderer && r.TryGetComponent<MeshFilter>(out var filter) && filter.sharedMesh)).ToArray();
                     var b=renderers.Length>0?renderers[0].bounds:new Bounds();foreach(var r in renderers.Skip(1))b.Encapsulate(r.bounds);
                     var scale=root.transform.localScale;
                     rows.Add(new Entry{path=path,guid=AssetDatabase.AssetPathToGUID(path),family=path.Split('/')[3],size=new[]{b.size.x,b.size.y,b.size.z},center=new[]{b.center.x,b.center.y,b.center.z},root_scale=new[]{scale.x,scale.y,scale.z},meshes=renderers.Length,
@@ -127,7 +130,10 @@ public static class PrefabScaleAudit
                 }
                 finally{PrefabUtility.UnloadPrefabContents(root);}
             }
-            Directory.CreateDirectory("../ScaleAudit");File.WriteAllText("../ScaleAudit/AllPrefabs.json",JsonUtility.ToJson(new Result{assets=rows.ToArray()},true));
+            string[] args=Environment.GetCommandLineArgs();
+            int option=Array.IndexOf(args,"-sizeAuditOutput");
+            string output=option<0 ? "../ScaleAudit" : args[option+1];
+            Directory.CreateDirectory(output);File.WriteAllText(Path.Combine(output,"AllPrefabs.json"),JsonUtility.ToJson(new Result{assets=rows.ToArray()},true));
             Debug.Log("SCALE_AUDIT_COMPLETE "+rows.Count);EditorApplication.Exit(0);
         }
         catch(Exception e){File.WriteAllText("../ScaleAuditFailure.txt",e.ToString());Debug.LogException(e);EditorApplication.Exit(1);}

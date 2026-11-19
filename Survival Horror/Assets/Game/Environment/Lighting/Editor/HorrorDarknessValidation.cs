@@ -14,6 +14,7 @@ namespace HorrorGame.Lighting.Editor
             if (!Application.isBatchMode) throw new InvalidOperationException("Run in a separate batch editor.");
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             var manager = new GameObject("Validation Manager").AddComponent<HorrorDarknessVisibilityManager>();
+            Call(manager, "OnEnable"); // This batch check runs outside Play mode.
             var player = GameObject.CreatePrimitive(PrimitiveType.Capsule);
             player.AddComponent<HorrorEngine.PlayerActor>();
             var body = player.GetComponent<Renderer>();
@@ -37,6 +38,7 @@ namespace HorrorGame.Lighting.Editor
             float wallGlow = (float)Field("closeGlowTarget").GetValue(manager);
             Require(wallGlow > .1f, "Player fill active near a wall");
             Field("closeGlowAmount").SetValue(manager, 1f);
+            Call(manager, "RefreshPlayerRenderers");
             Call(manager, "RefreshTrackedObjects");
             Call(manager, "RefreshLights");
             Call(manager, "ApplyVisibility", true);
@@ -56,6 +58,26 @@ namespace HorrorGame.Lighting.Editor
             Require(block.GetColor("_EmissionColor").r > .001f, "Player faint fill in darkness");
             Require(block.GetColor("_BaseColor") == material.GetColor("_BaseColor"),
                 "Player albedo preserved for ambient, baked and realtime lighting");
+            var litProp = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            litProp.transform.position = new Vector3(30f, 0f, 0f);
+            var litRenderer = litProp.GetComponent<Renderer>();
+            litRenderer.sharedMaterial = material;
+            var legacyProps = new Renderer[2];
+            for (int i = 0; i < legacyProps.Length; i++)
+            {
+                var prop = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                prop.transform.position = new Vector3(32f + i * 2f, 0f, 0f);
+                legacyProps[i] = prop.GetComponent<Renderer>();
+                legacyProps[i].sharedMaterial = gunSource;
+            }
+            Call(manager, "RefreshTrackedObjects");
+            Call(manager, "ApplyVisibility", true);
+            Require(litRenderer.sharedMaterial == material && !litRenderer.HasPropertyBlock(),
+                "Ordinary lit props keep shared materials and remain eligible for batching");
+            Require(legacyProps[0].sharedMaterial != gunSource &&
+                legacyProps[0].sharedMaterial == legacyProps[1].sharedMaterial &&
+                legacyProps[0].sharedMaterial != gunRenderer.sharedMaterial,
+                "Legacy scenery shares a lit material variant independent of player glow");
             Field("block").SetValue(manager, null);
             Call(manager, "LateUpdate");
             Require(Field("block").GetValue(manager) != null, "Missing material buffer recovered");
@@ -94,6 +116,27 @@ namespace HorrorGame.Lighting.Editor
             Physics.SyncTransforms();
             Call(manager, "ApplyVisibility", true);
             Require(dust.GetComponent<Renderer>().forceRenderingOff, "Wall blocks light from revealing particles");
+            var barPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
+                "Assets/Game/Environment/Lighting/Light Sources/BarLight.prefab");
+            var bar = (GameObject)PrefabUtility.InstantiatePrefab(barPrefab);
+            var cover = bar.GetComponent<Renderer>();
+            var coverMaterial = cover.sharedMaterial;
+            var teal = new Color(.1f, 1.2f, .8f);
+            block.Clear();
+            block.SetColor("_EmissionColor", teal);
+            cover.SetPropertyBlock(block, 0);
+            cover.GetPropertyBlock(block, 0);
+            var originalTint = block.GetColor("_EmissionColor");
+            Call(manager, "RefreshTrackedObjects");
+            Call(manager, "ApplyVisibility", true);
+            cover.GetPropertyBlock(block, 0);
+            Require(cover.sharedMaterial == coverMaterial,
+                $"Bar diffuser retained its material (actual {cover.sharedMaterial.name}, shader tag {coverMaterial.GetTag("FixtureEmission", false)})");
+            Require(block.GetColor("_EmissionColor") == originalTint,
+                $"Bar retained its emission through darkness update (expected {originalTint}, actual {block.GetColor("_EmissionColor")})");
+            Call(manager, "OnDisable");
+            Require(litRenderer.sharedMaterial == material && legacyProps[0].sharedMaterial == gunSource,
+                "Disabling runtime lighting restores converted scenery");
             UnityEngine.Object.DestroyImmediate(manager.gameObject);
             UnityEngine.Object.DestroyImmediate(material);
             Debug.Log("HORROR_DARKNESS_VALIDATION_PASSED");

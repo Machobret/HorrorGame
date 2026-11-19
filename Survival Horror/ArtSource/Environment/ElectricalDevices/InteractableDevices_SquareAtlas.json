@@ -1,0 +1,99 @@
+﻿{
+    "width":  960,
+    "height":  960,
+    "edgePadding":  4,
+    "rectangleFormat":  "x, y, width, height",
+    "sharedSidesAppliesTo":  "Left, right, top and bottom. Orient the long axis along the casing edge.",
+    "regions":  [
+                    {
+                        "name":  "BuzzerFront",
+                        "pixelsTopLeft":  [
+                                              4,
+                                              4,
+                                              311,
+                                              335
+                                          ],
+                        "unityUVBottomLeft":  [
+                                                  0.0041666666666666666,
+                                                  0.646875,
+                                                  0.32395833333333335,
+                                                  0.34895833333333331
+                                              ]
+                    },
+                    {
+                        "name":  "KeycardReaderFront",
+                        "pixelsTopLeft":  [
+                                              324,
+                                              4,
+                                              311,
+                                              335
+                                          ],
+                        "unityUVBottomLeft":  [
+                                                  0.3375,
+                                                  0.646875,
+                                                  0.32395833333333335,
+                                                  0.34895833333333331
+                                              ]
+                    },
+                    {
+                        "name":  "ButtonFront",
+                        "pixelsTopLeft":  [
+                                              644,
+                                              4,
+                                              311,
+                                              335
+                                          ],
+                        "unityUVBottomLeft":  [
+                                                  0.67083333333333328,
+                                                  0.646875,
+                                                  0.32395833333333335,
+                                                  0.34895833333333331
+                                              ]
+                    },
+                    {
+                        "name":  "MiniTerminalFront",
+                        "pixelsTopLeft":  [
+                                              4,
+                                              348,
+                                              311,
+                                              335
+                                          ],
+                        "unityUVBottomLeft":  [
+                                                  0.0041666666666666666,
+                                                  0.2885416666666667,
+                                                  0.32395833333333335,
+                                                  0.34895833333333331
+                                              ]
+                    },
+                    {
+                        "name":  "SharedBack",
+                        "pixelsTopLeft":  [
+                                              324,
+                                              348,
+                                              311,
+                                              335
+                                          ],
+                        "unityUVBottomLeft":  [
+                                                  0.3375,
+                                                  0.2885416666666667,
+                                                  0.32395833333333335,
+                                                  0.34895833333333331
+                                              ]
+                    },
+                    {
+                        "name":  "SharedSides",
+                        "pixelsTopLeft":  [
+                                              4,
+                                              692,
+                                              952,
+                                              264
+                                          ],
+                        "unityUVBottomLeft":  [
+                                                  0.0041666666666666666,
+                                                  0.0041666666666666519,
+                                                  0.9916666666666667,
+                                                  0.275
+                                              ]
+                    }
+                ]
+}

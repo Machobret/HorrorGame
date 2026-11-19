@@ -1,0 +1,5 @@
+Repacked from InteractableDevices_CompactAtlas.png and InteractableDevices_SelectedAtlas.png. The four fronts and shared back use 311x335 pixel rectangles. The shared back was resized to match. One shared casing strip runs along the bottom.
+Used built-in image generation for the terminal screen retouch. A small patch of the generated glass was composited at the dot to preserve the original controls and bezel.
+
+Edit prompt:
+Edit this existing wide electrical device texture atlas. Keep exact framing, dimensions, layout, front faces, positions, edges and all controls. Only remove the one tiny blue pixel-like dot in the middle of the black screen on the fourth device from the left. Fill that pinprick with its surrounding nearly black glass texture so it reads as an unlit display. Keep the bezel, four keys, and all details. No further changes.

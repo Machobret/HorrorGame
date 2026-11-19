@@ -80,6 +80,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5754084199372789682, guid: 0400010d4c12c0b488d50fefb7943a53, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: fabdcc74548beff4fa52e6d95df044a6, type: 2}
     - target: {fileID: 919132149155446097, guid: 0400010d4c12c0b488d50fefb7943a53, type: 3}
       propertyPath: m_Name
       value: Urban_VentCoverSeeThroughDamaged_Model
@@ -92,9 +96,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7103628113899595811}
   m_SourcePrefab: {fileID: 100100000, guid: 0400010d4c12c0b488d50fefb7943a53, type: 3}
---- !u!4 &8035526882754545572 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0400010d4c12c0b488d50fefb7943a53, type: 3}
+--- !u!1 &7262122073577725214 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0400010d4c12c0b488d50fefb7943a53, type: 3}
   m_PrefabInstance: {fileID: 7496615814403104847}
   m_PrefabAsset: {fileID: 0}
 --- !u!64 &7103628113899595811
@@ -118,9 +122,9 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 2596763110803777506, guid: 0400010d4c12c0b488d50fefb7943a53, type: 3}
---- !u!1 &7262122073577725214 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0400010d4c12c0b488d50fefb7943a53, type: 3}
+  m_Mesh: {fileID: 4300000, guid: fabdcc74548beff4fa52e6d95df044a6, type: 2}
+--- !u!4 &8035526882754545572 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0400010d4c12c0b488d50fefb7943a53, type: 3}
   m_PrefabInstance: {fileID: 7496615814403104847}
   m_PrefabAsset: {fileID: 0}

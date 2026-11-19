@@ -80,6 +80,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5754084199372789682, guid: 54c4d2018b487bf4baf6dcbc8f679b19, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: fd8440db13f58674faca915397e9ffc6, type: 2}
     - target: {fileID: 919132149155446097, guid: 54c4d2018b487bf4baf6dcbc8f679b19, type: 3}
       propertyPath: m_Name
       value: Urban_ValveBlueEndPieceRusted_Model
@@ -95,6 +99,11 @@ PrefabInstance:
 --- !u!4 &7162463833673061991 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 54c4d2018b487bf4baf6dcbc8f679b19, type: 3}
+  m_PrefabInstance: {fileID: 7272354168597590412}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7506935722177858781 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 54c4d2018b487bf4baf6dcbc8f679b19, type: 3}
   m_PrefabInstance: {fileID: 7272354168597590412}
   m_PrefabAsset: {fileID: 0}
 --- !u!64 &7255889095595202495
@@ -118,9 +127,4 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 8020374120339580272, guid: 54c4d2018b487bf4baf6dcbc8f679b19, type: 3}
---- !u!1 &7506935722177858781 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 54c4d2018b487bf4baf6dcbc8f679b19, type: 3}
-  m_PrefabInstance: {fileID: 7272354168597590412}
-  m_PrefabAsset: {fileID: 0}
+  m_Mesh: {fileID: 4300000, guid: fd8440db13f58674faca915397e9ffc6, type: 2}

@@ -80,6 +80,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5754084199372789682, guid: b04ae82dd00455244a92f9669daac9a5, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: c129cd99470e7ba4f8129ea97508089c, type: 2}
     - target: {fileID: 919132149155446097, guid: b04ae82dd00455244a92f9669daac9a5, type: 3}
       propertyPath: m_Name
       value: Urban_MetalFenceGateWithGate_Model
@@ -95,6 +99,11 @@ PrefabInstance:
 --- !u!4 &6923882038002660873 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b04ae82dd00455244a92f9669daac9a5, type: 3}
+  m_PrefabInstance: {fileID: 7465890085316481506}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7736413040981798067 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b04ae82dd00455244a92f9669daac9a5, type: 3}
   m_PrefabInstance: {fileID: 7465890085316481506}
   m_PrefabAsset: {fileID: 0}
 --- !u!64 &1654411430700889118
@@ -118,9 +127,4 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 7921957523778112952, guid: b04ae82dd00455244a92f9669daac9a5, type: 3}
---- !u!1 &7736413040981798067 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b04ae82dd00455244a92f9669daac9a5, type: 3}
-  m_PrefabInstance: {fileID: 7465890085316481506}
-  m_PrefabAsset: {fileID: 0}
+  m_Mesh: {fileID: 4300000, guid: c129cd99470e7ba4f8129ea97508089c, type: 2}

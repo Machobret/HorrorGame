@@ -1,9 +1,9 @@
 {
   "verified": true,
-  "completed_utc": "2026-11-17T19:01:13.7558895Z",
-  "reviewed": 392,
-  "resized": 389,
-  "physics_checks": 480,
+  "completed_utc": "2026-11-18T12:55:55.7748103Z",
+  "reviewed": 635,
+  "resized": 632,
+  "physics_checks": 711,
   "assets": [
     {
       "id": "P0126",
@@ -310,8 +310,8 @@
       ],
       "resized": true,
       "mesh_parts": 1,
-      "colliders": 1,
-      "physics_checks": 1
+      "colliders": 0,
+      "physics_checks": 0
     },
     {
       "id": "P0140",
@@ -332,8 +332,8 @@
       ],
       "resized": true,
       "mesh_parts": 1,
-      "colliders": 1,
-      "physics_checks": 1
+      "colliders": 0,
+      "physics_checks": 0
     },
     {
       "id": "P0141",
@@ -354,8 +354,8 @@
       ],
       "resized": true,
       "mesh_parts": 1,
-      "colliders": 1,
-      "physics_checks": 1
+      "colliders": 0,
+      "physics_checks": 0
     },
     {
       "id": "P0142",
@@ -376,8 +376,8 @@
       ],
       "resized": true,
       "mesh_parts": 1,
-      "colliders": 1,
-      "physics_checks": 1
+      "colliders": 0,
+      "physics_checks": 0
     },
     {
       "id": "P0143",
@@ -1703,7 +1703,7 @@
       "id": "P0203",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Cardboard_01_C_017.prefab",
       "guid": "f4ba9bb2416878646b55195d75abaa53",
-      "role": "Wooden crate or compressed bale",
+      "role": "Upright compressed cardboard bale",
       "reference": "Uniform family calibration 0.35; source proportions retained",
       "factor": 0.3499999940395355,
       "source_size_m": [
@@ -1725,7 +1725,7 @@
       "id": "P0204",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Cardboard_02_C_018.prefab",
       "guid": "d731fd0ea0ecaa7478de43458c9e4658",
-      "role": "Wooden crate or compressed bale",
+      "role": "Flat compressed cardboard bale",
       "reference": "Uniform family calibration 0.35; source proportions retained",
       "factor": 0.3499999940395355,
       "source_size_m": [
@@ -1989,7 +1989,7 @@
       "id": "P0221",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Cardboard_02.prefab",
       "guid": "0c3ef994c5b4c3d40b30bc15e6f43fb5",
-      "role": "Wrapped pallet/carton stacks",
+      "role": "Large compressed cardboard bale",
       "reference": "Uniform family calibration 0.4; source proportions retained",
       "factor": 0.4000000059604645,
       "source_size_m": [
@@ -2561,7 +2561,7 @@
       "id": "P0285",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Wood_05_Cube_117.prefab",
       "guid": "3ad7c6c9e8726d54c97b966561ef2368",
-      "role": "Folded table",
+      "role": "Shallow freestanding shelf",
       "reference": "Overall horizontal dimension 1.2 m",
       "factor": 0.5059226155281067,
       "source_size_m": [
@@ -2671,7 +2671,7 @@
       "id": "P0292",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Wood_12_Cube_124.prefab",
       "guid": "a544e0c0b8b31cb4e82d18041c1f07c4",
-      "role": "Bathroom cabinet",
+      "role": "Bathroom vanity with vessel sink",
       "reference": "Overall 1 dimension 0.85 m",
       "factor": 0.38278675079345703,
       "source_size_m": [
@@ -2715,7 +2715,7 @@
       "id": "P0296",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Metal_14_Cube_128.prefab",
       "guid": "729e320bac7c85f42adc1d483b7a5ecb",
-      "role": "Range hood and chimney",
+      "role": "Ice merchandiser freezer",
       "reference": "Overall 0 dimension 0.8 m",
       "factor": 0.3019241988658905,
       "source_size_m": [
@@ -2825,7 +2825,7 @@
       "id": "P0301",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Plastic_04_Cube_133.prefab",
       "guid": "4e79f223cec510545a5939aa495d528f",
-      "role": "Tall cupboard/wardrobe",
+      "role": "Tall dark shelving cabinet",
       "reference": "Overall 1 dimension 1.9 m",
       "factor": 0.5030311942100525,
       "source_size_m": [
@@ -2869,7 +2869,7 @@
       "id": "P0305",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Metal_Cube_137.prefab",
       "guid": "45da097246f86024281f928618b358ca",
-      "role": "Tall cupboard/wardrobe",
+      "role": "Tall light shelving cabinet",
       "reference": "Overall 1 dimension 1.9 m",
       "factor": 0.5030311942100525,
       "source_size_m": [
@@ -2891,7 +2891,7 @@
       "id": "P0309",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Wood_12_Cube_141.prefab",
       "guid": "f8d9900cb02d41f49aa2262555b20df6",
-      "role": "Kitchen worktop/counter",
+      "role": "L-shaped wooden service counter",
       "reference": "Overall 1 dimension 0.9 m",
       "factor": 0.45161116123199463,
       "source_size_m": [
@@ -3199,7 +3199,7 @@
       "id": "P0327",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_TV_06_Cube_168.prefab",
       "guid": "c29e9f3357c51d640b32cabc76aa164f",
-      "role": "Matching CRT television family",
+      "role": "Beige CRT computer monitor",
       "reference": "Uniform family calibration 0.4; source proportions retained",
       "factor": 0.4000000059604645,
       "source_size_m": [
@@ -3353,7 +3353,7 @@
       "id": "P0334",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_TV_06_Cube_175.prefab",
       "guid": "75e408cd424078b479232f596de4dd75",
-      "role": "Matching CRT television family",
+      "role": "Beige CRT computer monitor with green screen",
       "reference": "Uniform family calibration 0.4; source proportions retained",
       "factor": 0.4000000059604645,
       "source_size_m": [
@@ -3390,14 +3390,14 @@
       ],
       "resized": true,
       "mesh_parts": 1,
-      "colliders": 1,
-      "physics_checks": 1
+      "colliders": 0,
+      "physics_checks": 0
     },
     {
       "id": "P0336",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Wire_Cube_177.prefab",
       "guid": "8f061cd2f655f1f459eaf2f0071bd4f0",
-      "role": "Dish drainer/rack",
+      "role": "Narrow wire basket with grid",
       "reference": "Uniform family calibration 0.5; source proportions retained",
       "factor": 0.5,
       "source_size_m": [
@@ -3419,7 +3419,7 @@
       "id": "P0337",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Wire_Cube_178.prefab",
       "guid": "4cf965b84935abf45824f403d43d2457",
-      "role": "Dish drainer/rack",
+      "role": "Wide wire basket with grid",
       "reference": "Uniform family calibration 0.5; source proportions retained",
       "factor": 0.5,
       "source_size_m": [
@@ -3639,7 +3639,7 @@
       "id": "P0347",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Wood_05_Cube_190.prefab",
       "guid": "d161c6e862c4b004db9cfd85aeab027a",
-      "role": "Writing desk",
+      "role": "Wide two-drawer chest",
       "reference": "Overall 1 dimension 0.75 m",
       "factor": 0.5490386486053467,
       "source_size_m": [
@@ -3683,7 +3683,7 @@
       "id": "P0349",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Plastic_02_Cube_192.prefab",
       "guid": "26c6eb8677bcdb443b67736b213a6d35",
-      "role": "Side/bedside cabinet",
+      "role": "Woodgrain CRT television",
       "reference": "Overall 1 dimension 0.6 m",
       "factor": 0.6127036213874817,
       "source_size_m": [
@@ -3771,7 +3771,7 @@
       "id": "P0355",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Wood_05_Cube_198.prefab",
       "guid": "de9e45e5e7e2c894ca0788161a8a0cc7",
-      "role": "Dining table",
+      "role": "Rectangular two-tier table",
       "reference": "Overall 1 dimension 0.75 m",
       "factor": 0.5106611847877502,
       "source_size_m": [
@@ -3991,7 +3991,7 @@
       "id": "P0371",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Tiles_Cube_214.prefab",
       "guid": "ca5c2f028df72f341b9c95f7fe811d4b",
-      "role": "Kitchen worktop/counter",
+      "role": "Kitchen sink cabinet",
       "reference": "Overall 1 dimension 0.9 m",
       "factor": 0.34497517347335815,
       "source_size_m": [
@@ -4079,7 +4079,7 @@
       "id": "P0377",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Wood_04_Cube_222.prefab",
       "guid": "bd4d8c787a7f5f145bc61e2c677052ca",
-      "role": "Wall cupboard/hanging storage",
+      "role": "Wall shelf with cup hooks",
       "reference": "Uniform family calibration 0.5; source proportions retained",
       "factor": 0.5,
       "source_size_m": [
@@ -4211,7 +4211,7 @@
       "id": "P0384",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Tiles_Cube_230.prefab",
       "guid": "bd2d443205120c443a635cb4d72779e8",
-      "role": "Kitchen worktop/counter",
+      "role": "Tiled counter with open shelf",
       "reference": "Overall 1 dimension 0.9 m",
       "factor": 0.44254469871520996,
       "source_size_m": [
@@ -4292,8 +4292,8 @@
       ],
       "resized": true,
       "mesh_parts": 2,
-      "colliders": 2,
-      "physics_checks": 2
+      "colliders": 0,
+      "physics_checks": 0
     },
     {
       "id": "P0388",
@@ -4314,14 +4314,14 @@
       ],
       "resized": true,
       "mesh_parts": 2,
-      "colliders": 2,
-      "physics_checks": 2
+      "colliders": 0,
+      "physics_checks": 0
     },
     {
       "id": "P0389",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Metal_Cube_241.prefab",
       "guid": "d4aeeabc40991794faf51ec9f9ac2319",
-      "role": "Small standing light/bollard, plausible existing height",
+      "role": "Metal stem with two flared ends",
       "reference": "Uniform family calibration 1; source proportions retained",
       "factor": 1.0,
       "source_size_m": [
@@ -4358,8 +4358,8 @@
       ],
       "resized": true,
       "mesh_parts": 2,
-      "colliders": 2,
-      "physics_checks": 2
+      "colliders": 0,
+      "physics_checks": 0
     },
     {
       "id": "P0391",
@@ -4380,14 +4380,14 @@
       ],
       "resized": true,
       "mesh_parts": 3,
-      "colliders": 3,
-      "physics_checks": 3
+      "colliders": 0,
+      "physics_checks": 0
     },
     {
       "id": "P0392",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Metal_15_Cube_245.prefab",
       "guid": "1901cbe852165be4db6be7d9fb03303c",
-      "role": "Small standing light/bollard, plausible existing height",
+      "role": "Metal stem with two flared ends",
       "reference": "Uniform family calibration 1; source proportions retained",
       "factor": 1.0,
       "source_size_m": [
@@ -4497,7 +4497,7 @@
       "id": "P0397",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Metal_04_Cylinder_003.prefab",
       "guid": "2e49fd9bf72978a4a8e41580e9c704b8",
-      "role": "Table spoon",
+      "role": "Square-headed metal utensil",
       "reference": "Overall max dimension 0.22 m",
       "factor": 0.3981598913669586,
       "source_size_m": [
@@ -5245,7 +5245,7 @@
       "id": "P0437",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Marmol_Cylinder_051.prefab",
       "guid": "1c5732bb0756f7242a08d8447aa2e912",
-      "role": "Small hood/vent fitting",
+      "role": "Angled metal fitting on a plate",
       "reference": "Uniform family calibration 0.5; source proportions retained",
       "factor": 0.5,
       "source_size_m": [
@@ -5663,7 +5663,7 @@
       "id": "P0456",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_001.prefab",
       "guid": "727de9fc1553a0b47a03d6c27df95b22",
-      "role": "Retail display/shelf family, shelf-bank lengths retained",
+      "role": "Wide bookcase facade with books",
       "reference": "Uniform family calibration 0.6; source proportions retained",
       "factor": 0.6000000238418579,
       "source_size_m": [
@@ -5685,7 +5685,7 @@
       "id": "P0457",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_002.prefab",
       "guid": "88781c799f49ca441895bc2584c84868",
-      "role": "Retail display/shelf family, shelf-bank lengths retained",
+      "role": "Narrow bookcase facade with books",
       "reference": "Uniform family calibration 0.6; source proportions retained",
       "factor": 0.6000000238418579,
       "source_size_m": [
@@ -5707,7 +5707,7 @@
       "id": "P0458",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_003.prefab",
       "guid": "17c8f8044467b664eb0ced623b73f6ac",
-      "role": "Retail display/shelf family, shelf-bank lengths retained",
+      "role": "Wide slanted book display",
       "reference": "Uniform family calibration 0.6; source proportions retained",
       "factor": 0.6000000238418579,
       "source_size_m": [
@@ -5729,7 +5729,7 @@
       "id": "P0459",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_004.prefab",
       "guid": "7c041c2527e59c148992aa6da0998711",
-      "role": "Retail display/shelf family, shelf-bank lengths retained",
+      "role": "Narrow slanted book display",
       "reference": "Uniform family calibration 0.6; source proportions retained",
       "factor": 0.6000000238418579,
       "source_size_m": [
@@ -5883,7 +5883,7 @@
       "id": "P0466",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_011.prefab",
       "guid": "cb01b7e0a6528e542b33fb447902f7e5",
-      "role": "Retail display/shelf family, shelf-bank lengths retained",
+      "role": "Short bank of glass-door cooler facades",
       "reference": "Uniform family calibration 0.6; source proportions retained",
       "factor": 0.6000000238418579,
       "source_size_m": [
@@ -5905,7 +5905,7 @@
       "id": "P0467",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_012.prefab",
       "guid": "e65b737a1f9ef9143aac14294d98f599",
-      "role": "Retail display/shelf family, shelf-bank lengths retained",
+      "role": "Medium bank of glass-door cooler facades",
       "reference": "Uniform family calibration 0.6; source proportions retained",
       "factor": 0.6000000238418579,
       "source_size_m": [
@@ -5927,7 +5927,7 @@
       "id": "P0468",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_013.prefab",
       "guid": "9830a76f6a82fa94e97a5ceed5520d5b",
-      "role": "Retail display/shelf family, shelf-bank lengths retained",
+      "role": "Long bank of glass-door cooler facades",
       "reference": "Uniform family calibration 0.6; source proportions retained",
       "factor": 0.6000000238418579,
       "source_size_m": [
@@ -5949,7 +5949,7 @@
       "id": "P0469",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_014.prefab",
       "guid": "155c059f25ef2fa4b80d82165e162865",
-      "role": "Retail display/shelf family, shelf-bank lengths retained",
+      "role": "Single glass-door drinks cooler facade",
       "reference": "Uniform family calibration 0.6; source proportions retained",
       "factor": 0.6000000238418579,
       "source_size_m": [
@@ -5971,7 +5971,7 @@
       "id": "P0470",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_015.prefab",
       "guid": "3fd87dac6e50f2b48b1b11f03f47c574",
-      "role": "Retail display/shelf family, shelf-bank lengths retained",
+      "role": "Medium bank of drinks cooler facades",
       "reference": "Uniform family calibration 0.6; source proportions retained",
       "factor": 0.6000000238418579,
       "source_size_m": [
@@ -5993,7 +5993,7 @@
       "id": "P0471",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_016.prefab",
       "guid": "dd743eca950f0a849884c4b97d8cf5d1",
-      "role": "Retail display/shelf family, shelf-bank lengths retained",
+      "role": "Wide bank of drinks cooler facades",
       "reference": "Uniform family calibration 0.6; source proportions retained",
       "factor": 0.6000000238418579,
       "source_size_m": [
@@ -6235,7 +6235,7 @@
       "id": "P0482",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_027.prefab",
       "guid": "52dc21407f84d534a9545133ddbb2e51",
-      "role": "Retail display/shelf family, shelf-bank lengths retained",
+      "role": "Tower of green bottle cartons",
       "reference": "Uniform family calibration 0.6; source proportions retained",
       "factor": 0.6000000238418579,
       "source_size_m": [
@@ -6257,7 +6257,7 @@
       "id": "P0483",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_028.prefab",
       "guid": "1c797caabb9766a4cbcbfcdec721b35d",
-      "role": "Retail display/shelf family, shelf-bank lengths retained",
+      "role": "Medium stack of green bottle cartons",
       "reference": "Uniform family calibration 0.6; source proportions retained",
       "factor": 0.6000000238418579,
       "source_size_m": [
@@ -6279,7 +6279,7 @@
       "id": "P0484",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_029.prefab",
       "guid": "261ddc2a618fe6944b7f06f30b7606cc",
-      "role": "Retail display/shelf family, shelf-bank lengths retained",
+      "role": "Long stack of green bottle cartons",
       "reference": "Uniform family calibration 0.6; source proportions retained",
       "factor": 0.6000000238418579,
       "source_size_m": [
@@ -6301,7 +6301,7 @@
       "id": "P0485",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_030.prefab",
       "guid": "37f45d4ef8a8a25409c8f0ec7e95350c",
-      "role": "Retail display/shelf family, shelf-bank lengths retained",
+      "role": "Square island of green bottle cartons",
       "reference": "Uniform family calibration 0.6; source proportions retained",
       "factor": 0.6000000238418579,
       "source_size_m": [
@@ -6323,7 +6323,7 @@
       "id": "P0486",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_031.prefab",
       "guid": "3010aef5a2b2aa74f9661ec706f6f4ab",
-      "role": "Retail display/shelf family, shelf-bank lengths retained",
+      "role": "Wide island of green bottle cartons",
       "reference": "Uniform family calibration 0.6; source proportions retained",
       "factor": 0.6000000238418579,
       "source_size_m": [
@@ -6345,7 +6345,7 @@
       "id": "P0487",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_032.prefab",
       "guid": "ace4af81eb409d446846836c130827ef",
-      "role": "Retail display/shelf family, shelf-bank lengths retained",
+      "role": "Low stack of green bottle cartons",
       "reference": "Uniform family calibration 0.6; source proportions retained",
       "factor": 0.6000000238418579,
       "source_size_m": [
@@ -6411,7 +6411,7 @@
       "id": "P0490",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_036.prefab",
       "guid": "a65e0c8e0bdbd1b4499c0afbe808a8da",
-      "role": "Tall retail shelving bank",
+      "role": "Tall glass-door cooler facade bank",
       "reference": "Overall 1 dimension 2.05 m",
       "factor": 0.5100714564323425,
       "source_size_m": [
@@ -6433,7 +6433,7 @@
       "id": "P0491",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_037.prefab",
       "guid": "4be57a72c0bdd1847a16432d99a1fd02",
-      "role": "Tall retail shelving bank",
+      "role": "Tall drinks cooler facade bank",
       "reference": "Overall 1 dimension 2.05 m",
       "factor": 0.5100714564323425,
       "source_size_m": [
@@ -6455,7 +6455,7 @@
       "id": "P0492",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Librero_038.prefab",
       "guid": "593c1982474f8b248ab6246ebccf59dc",
-      "role": "Refrigerated meat display",
+      "role": "Produce display case",
       "reference": "Overall 1 dimension 1.6 m",
       "factor": 0.40109390020370483,
       "source_size_m": [
@@ -6785,7 +6785,7 @@
       "id": "P0507",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Mesa_001.prefab",
       "guid": "c21c2c0ef25a9e04cb0711d436d008e6",
-      "role": "Dining/kitchen table",
+      "role": "Wooden prep table with lower shelf",
       "reference": "Overall 1 dimension 0.75 m",
       "factor": 0.43564867973327637,
       "source_size_m": [
@@ -6807,7 +6807,7 @@
       "id": "P0508",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Mesa_002.prefab",
       "guid": "09abad9168b458c468386916d14c692b",
-      "role": "Dining/kitchen table",
+      "role": "Wooden prep table with lower shelf",
       "reference": "Overall 1 dimension 0.75 m",
       "factor": 0.43564867973327637,
       "source_size_m": [
@@ -6829,7 +6829,7 @@
       "id": "P0509",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Mesa_003.prefab",
       "guid": "f9f1c763c647e054a9dff0a7d2d8f798",
-      "role": "Dining/kitchen table",
+      "role": "Wooden prep table with lower shelf",
       "reference": "Overall 1 dimension 0.75 m",
       "factor": 0.43564867973327637,
       "source_size_m": [
@@ -6851,7 +6851,7 @@
       "id": "P0510",
       "path": "Assets/Game/Environment/ModelsPackPSX/Prefabs/ModelsPackPSX_Mesa_004.prefab",
       "guid": "cff779a13dd81d4458a36b5b728b909a",
-      "role": "Dining/kitchen table",
+      "role": "Wooden prep table with lower shelf",
       "reference": "Overall 1 dimension 0.75 m",
       "factor": 0.4076088070869446,
       "source_size_m": [
@@ -7240,8 +7240,8 @@
       ],
       "resized": true,
       "mesh_parts": 1,
-      "colliders": 1,
-      "physics_checks": 1
+      "colliders": 0,
+      "physics_checks": 0
     },
     {
       "id": "P0529",
@@ -8623,6 +8623,5352 @@
         0.44997620582580566,
         0.9180557727813721,
         0.38970261812210083
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_streetlight.prefab",
+      "guid": "b95b9615df2666740b868c76068e5488",
+      "role": "Pizzeria streetlight",
+      "reference": "4.97 m pole matched to the calibrated 4.96 m Urban streetlight.",
+      "factor": 0.44999998807907104,
+      "source_size_m": [
+        3.4563541412353516,
+        11.047006607055664,
+        0.6529375314712524
+      ],
+      "size_m": [
+        1.5553593635559082,
+        4.9711527824401855,
+        0.29382190108299255
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_streetlight_001.prefab",
+      "guid": "b10279e8830a7f542a73a61a5ed89553",
+      "role": "Pizzeria streetlight",
+      "reference": "4.97 m pole matched to the calibrated 4.96 m Urban streetlight.",
+      "factor": 0.44999998807907104,
+      "source_size_m": [
+        3.4563543796539307,
+        11.047009468078613,
+        0.6529390811920166
+      ],
+      "size_m": [
+        1.5553594827651978,
+        4.97115421295166,
+        0.29382258653640747
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_streetlight_002.prefab",
+      "guid": "a3e305c408e02634f86b194ec573c5d8",
+      "role": "Pizzeria streetlight",
+      "reference": "4.97 m pole matched to the calibrated 4.96 m Urban streetlight.",
+      "factor": 0.44999998807907104,
+      "source_size_m": [
+        3.456355571746826,
+        11.047009468078613,
+        3.45635986328125
+      ],
+      "size_m": [
+        1.555359959602356,
+        4.97115421295166,
+        1.5553619861602783
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_streetlight_003.prefab",
+      "guid": "609b8292ce5d37d4bb3e9eb05a515dec",
+      "role": "Pizzeria streetlight",
+      "reference": "4.97 m pole matched to the calibrated 4.96 m Urban streetlight.",
+      "factor": 0.44999998807907104,
+      "source_size_m": [
+        3.4563562870025635,
+        11.047006607055664,
+        3.45635986328125
+      ],
+      "size_m": [
+        1.5553603172302246,
+        4.9711527824401855,
+        1.5553619861602783
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_traffic_light.prefab",
+      "guid": "0c58fdac5f384d2439439f7176aad8b5",
+      "role": "Pizzeria traffic signal",
+      "reference": "5.53 m overall height preserves clearance for the 2.61 m Box Truck under the lower signal arms.",
+      "factor": 0.75,
+      "source_size_m": [
+        5.831161022186279,
+        7.376297950744629,
+        4.774467945098877
+      ],
+      "size_m": [
+        4.37337064743042,
+        5.532223701477051,
+        3.5808510780334473
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_traffic_light_002.prefab",
+      "guid": "c0542ecf403f8764babfa4f2ea9c13b9",
+      "role": "Pizzeria traffic signal",
+      "reference": "5.53 m overall height preserves clearance for the 2.61 m Box Truck under the lower signal arms.",
+      "factor": 0.75,
+      "source_size_m": [
+        5.831162929534912,
+        7.3762993812561035,
+        4.774471282958984
+      ],
+      "size_m": [
+        4.3733720779418945,
+        5.532224655151367,
+        3.5808534622192383
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/BusStops/Urban_Busstop.prefab",
+      "guid": "9e1af8c5d59e9da439f9c16e6da12c72",
+      "role": "Flat-roof bus shelter",
+      "reference": "Sized against the 2.8 m Urban storey pitch and 1.97 m player mesh. Rounded roofs retain higher crowns and entry clearance.",
+      "factor": 0.800000011920929,
+      "source_size_m": [
+        2.2607994079589844,
+        3.066784143447876,
+        4.260800361633301
+      ],
+      "size_m": [
+        1.8086395263671875,
+        2.453427314758301,
+        3.4086403846740723
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/BusStops/Urban_BusstopAlt.prefab",
+      "guid": "86694173de8478b43bfd56bfaeaa4d2d",
+      "role": "Flat-roof bus shelter",
+      "reference": "Sized against the 2.8 m Urban storey pitch and 1.97 m player mesh. Rounded roofs retain higher crowns and entry clearance.",
+      "factor": 0.800000011920929,
+      "source_size_m": [
+        2.2553138732910156,
+        3.0252163410186768,
+        4.258231163024902
+      ],
+      "size_m": [
+        1.8042510747909546,
+        2.420173168182373,
+        3.4065849781036377
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/BusStops/Urban_BusstopAltCleanBench.prefab",
+      "guid": "9cccb62a75ad56c42b92afb760a2d786",
+      "role": "Flat-roof bus shelter",
+      "reference": "Sized against the 2.8 m Urban storey pitch and 1.97 m player mesh. Rounded roofs retain higher crowns and entry clearance.",
+      "factor": 0.800000011920929,
+      "source_size_m": [
+        2.2553138732910156,
+        3.03393816947937,
+        4.258231163024902
+      ],
+      "size_m": [
+        1.8042510747909546,
+        2.4271504878997803,
+        3.4065849781036377
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/BusStops/Urban_BusstopCleanBench.prefab",
+      "guid": "8f9284c00a0fca54fb31eaa91e9083c0",
+      "role": "Flat-roof bus shelter",
+      "reference": "Sized against the 2.8 m Urban storey pitch and 1.97 m player mesh. Rounded roofs retain higher crowns and entry clearance.",
+      "factor": 0.800000011920929,
+      "source_size_m": [
+        2.2607994079589844,
+        3.0755059719085693,
+        4.260800361633301
+      ],
+      "size_m": [
+        1.8086395263671875,
+        2.460404872894287,
+        3.4086403846740723
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/BusStops/Urban_BusstopCleanBenchRoundRoof.prefab",
+      "guid": "903400c54a479e5458089307b71ed3a3",
+      "role": "Rounded bus shelter",
+      "reference": "Sized against the 2.8 m Urban storey pitch and 1.97 m player mesh. Rounded roofs retain higher crowns and entry clearance.",
+      "factor": 0.8199999928474426,
+      "source_size_m": [
+        2.2209877967834473,
+        3.801830768585205,
+        4.242850303649902
+      ],
+      "size_m": [
+        1.8212100267410278,
+        3.1175012588500977,
+        3.4791371822357178
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/BusStops/Urban_BusstopCleanSeats.prefab",
+      "guid": "0020687924dab6a48a435025c5891ce3",
+      "role": "Flat-roof bus shelter",
+      "reference": "Sized against the 2.8 m Urban storey pitch and 1.97 m player mesh. Rounded roofs retain higher crowns and entry clearance.",
+      "factor": 0.800000011920929,
+      "source_size_m": [
+        2.2607994079589844,
+        3.066784143447876,
+        4.260800361633301
+      ],
+      "size_m": [
+        1.8086395263671875,
+        2.453427314758301,
+        3.4086403846740723
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/BusStops/Urban_BusstopCleanSeatsAlt.prefab",
+      "guid": "5fbda4f7bb0d22d44ac7dae1dd51b3dc",
+      "role": "Flat-roof bus shelter",
+      "reference": "Sized against the 2.8 m Urban storey pitch and 1.97 m player mesh. Rounded roofs retain higher crowns and entry clearance.",
+      "factor": 0.800000011920929,
+      "source_size_m": [
+        2.2553138732910156,
+        3.0252163410186768,
+        4.258231163024902
+      ],
+      "size_m": [
+        1.8042510747909546,
+        2.420173168182373,
+        3.4065849781036377
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/BusStops/Urban_BusstopCleanSeatsRoundRoof.prefab",
+      "guid": "873592d6a7837ce4a83e6a0be8ca3ded",
+      "role": "Rounded bus shelter",
+      "reference": "Sized against the 2.8 m Urban storey pitch and 1.97 m player mesh. Rounded roofs retain higher crowns and entry clearance.",
+      "factor": 0.8199999928474426,
+      "source_size_m": [
+        2.2209877967834473,
+        3.7931089401245117,
+        4.242850303649902
+      ],
+      "size_m": [
+        1.8212100267410278,
+        3.110349416732788,
+        3.4791371822357178
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/BusStops/Urban_BusstopGraffiti.prefab",
+      "guid": "261b49925b9267342bd805b6fd1c66cf",
+      "role": "Flat-roof bus shelter",
+      "reference": "Sized against the 2.8 m Urban storey pitch and 1.97 m player mesh. Rounded roofs retain higher crowns and entry clearance.",
+      "factor": 0.800000011920929,
+      "source_size_m": [
+        2.2607994079589844,
+        3.0755059719085693,
+        4.260800361633301
+      ],
+      "size_m": [
+        1.8086395263671875,
+        2.460404872894287,
+        3.4086403846740723
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/BusStops/Urban_BusstopGraffitiAlt.prefab",
+      "guid": "0e1ea0994b4704f4983b6137c43193b3",
+      "role": "Flat-roof bus shelter",
+      "reference": "Sized against the 2.8 m Urban storey pitch and 1.97 m player mesh. Rounded roofs retain higher crowns and entry clearance.",
+      "factor": 0.800000011920929,
+      "source_size_m": [
+        2.2553138732910156,
+        3.03393816947937,
+        4.258231163024902
+      ],
+      "size_m": [
+        1.8042510747909546,
+        2.4271504878997803,
+        3.4065849781036377
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/BusStops/Urban_BusstopGraffitiRoundRoof.prefab",
+      "guid": "0c7106fad14bd9d45aa7a9a39f147ceb",
+      "role": "Rounded bus shelter",
+      "reference": "Sized against the 2.8 m Urban storey pitch and 1.97 m player mesh. Rounded roofs retain higher crowns and entry clearance.",
+      "factor": 0.8199999928474426,
+      "source_size_m": [
+        2.2209877967834473,
+        3.801830768585205,
+        4.242850303649902
+      ],
+      "size_m": [
+        1.8212100267410278,
+        3.1175012588500977,
+        3.4791371822357178
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/BusStops/Urban_BusstopRoundRoof.prefab",
+      "guid": "8571cf4cb240d9348bd0eef9181fa177",
+      "role": "Rounded bus shelter",
+      "reference": "Sized against the 2.8 m Urban storey pitch and 1.97 m player mesh. Rounded roofs retain higher crowns and entry clearance.",
+      "factor": 0.8199999928474426,
+      "source_size_m": [
+        2.2209877967834473,
+        3.7931089401245117,
+        4.242850303649902
+      ],
+      "size_m": [
+        1.8212100267410278,
+        3.110349416732788,
+        3.4791371822357178
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/TrafficLights/Urban_Light.prefab",
+      "guid": "cee95379aefc2a2438a6c4f395abe6c3",
+      "role": "Urban traffic signal, pole or head",
+      "reference": "Matched pole and head dimensions across the Urban kit, scaled together for approximately 5.1 m pole heights.",
+      "factor": 0.8999999761581421,
+      "source_size_m": [
+        0.7272427082061768,
+        1.122630000114441,
+        0.3719402551651001
+      ],
+      "size_m": [
+        0.6545184254646301,
+        1.0103670358657837,
+        0.33474624156951904
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 0,
+      "physics_checks": 0
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/TrafficLights/Urban_LightTop.prefab",
+      "guid": "cf55a0f58f20c9941b66294461c08e4d",
+      "role": "Urban traffic signal, pole or head",
+      "reference": "Matched pole and head dimensions across the Urban kit, scaled together for approximately 5.1 m pole heights.",
+      "factor": 0.8999999761581421,
+      "source_size_m": [
+        0.7272427082061768,
+        1.122630000114441,
+        0.3719402551651001
+      ],
+      "size_m": [
+        0.6545184254646301,
+        1.0103670358657837,
+        0.33474624156951904
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 0,
+      "physics_checks": 0
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/TrafficLights/Urban_StreetLight.prefab",
+      "guid": "3e40df18a30a6924c93b259bd920864d",
+      "role": "Urban streetlight",
+      "reference": "4.96 m pole beside the 4 m Chapter 1 streetlamp and 2.8 m Urban storeys.",
+      "factor": 0.75,
+      "source_size_m": [
+        2.060610294342041,
+        6.6078362464904785,
+        0.7062615156173706
+      ],
+      "size_m": [
+        1.5454577207565308,
+        4.955877304077148,
+        0.5296961069107056
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/TrafficLights/Urban_StreetLightClean.prefab",
+      "guid": "0ba2d0cdf595baf44b463a170a4ed1fe",
+      "role": "Urban streetlight",
+      "reference": "4.96 m pole beside the 4 m Chapter 1 streetlamp and 2.8 m Urban storeys.",
+      "factor": 0.75,
+      "source_size_m": [
+        2.060610294342041,
+        6.6078362464904785,
+        0.7062615156173706
+      ],
+      "size_m": [
+        1.5454577207565308,
+        4.955877304077148,
+        0.5296961069107056
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/TrafficLights/Urban_TrafficLighPoleL.prefab",
+      "guid": "7cc3ad7b39b010742ac8befc3e3f3249",
+      "role": "Urban traffic signal, pole or head",
+      "reference": "Matched pole and head dimensions across the Urban kit, scaled together for approximately 5.1 m pole heights.",
+      "factor": 0.8999999761581421,
+      "source_size_m": [
+        0.8032249808311462,
+        5.66429328918457,
+        3.560835361480713
+      ],
+      "size_m": [
+        0.7229024767875671,
+        5.097864151000977,
+        3.20475172996521
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/TrafficLights/Urban_TrafficLight.prefab",
+      "guid": "bd33a3890d2240341b3bf35f4edb22f5",
+      "role": "Urban traffic signal, pole or head",
+      "reference": "Matched pole and head dimensions across the Urban kit, scaled together for approximately 5.1 m pole heights.",
+      "factor": 0.8999999761581421,
+      "source_size_m": [
+        1.06959867477417,
+        5.664292812347412,
+        0.8032256364822388
+      ],
+      "size_m": [
+        0.962638795375824,
+        5.097863674163818,
+        0.7229030728340149
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/TrafficLights/Urban_TrafficLightL.prefab",
+      "guid": "3190748b616ef8d418d692734ca29e2b",
+      "role": "Urban traffic signal, pole or head",
+      "reference": "Matched pole and head dimensions across the Urban kit, scaled together for approximately 5.1 m pole heights.",
+      "factor": 0.8999999761581421,
+      "source_size_m": [
+        1.0836445093154907,
+        5.66429328918457,
+        3.7608354091644287
+      ],
+      "size_m": [
+        0.9752800464630127,
+        5.097864151000977,
+        3.384751796722412
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/RoadFurniture/Urban/TrafficLights/Urban_TrafficLightPole.prefab",
+      "guid": "5cec0cc96829c2943972c127143caaaa",
+      "role": "Urban traffic signal, pole or head",
+      "reference": "Matched pole and head dimensions across the Urban kit, scaled together for approximately 5.1 m pole heights.",
+      "factor": 0.8999999761581421,
+      "source_size_m": [
+        0.803225040435791,
+        5.627248287200928,
+        0.8032256364822388
+      ],
+      "size_m": [
+        0.7229025363922119,
+        5.064523696899414,
+        0.7229030728340149
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/HouseholdDecor/HouseProps_basketball.prefab",
+      "guid": "072bd2d242233e54faa4bd5bb474653a",
+      "role": "HouseProps_basketball",
+      "reference": "Basketball diameter",
+      "factor": 0.5157607793807983,
+      "source_size_m": [
+        0.4652729034423828,
+        0.4652729034423828,
+        0.4653320014476776
+      ],
+      "size_m": [
+        0.23996952176094055,
+        0.23996952176094055,
+        0.23999999463558197
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/HouseProps_apple.prefab",
+      "guid": "571c6e6a83386964aa8d8cea965221fb",
+      "role": "HouseProps_apple",
+      "reference": "Handheld apple",
+      "factor": 0.46457192301750183,
+      "source_size_m": [
+        0.17821884155273438,
+        0.18296413123607635,
+        0.1782226413488388
+      ],
+      "size_m": [
+        0.08279547095298767,
+        0.08500000089406967,
+        0.08279723674058914
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/HouseProps_egg.prefab",
+      "guid": "01d47ba107764f749813284837445ac8",
+      "role": "HouseProps_egg",
+      "reference": "Egg height",
+      "factor": 0.4726024270057678,
+      "source_size_m": [
+        0.08301544189453125,
+        0.12272471934556961,
+        0.0830078125
+      ],
+      "size_m": [
+        0.03923330083489418,
+        0.057999998331069946,
+        0.03922969475388527
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/HouseProps_burger.prefab",
+      "guid": "761e1748286bccb4eb409652637664c2",
+      "role": "HouseProps_burger",
+      "reference": "Burger bun diameter",
+      "factor": 0.45204177498817444,
+      "source_size_m": [
+        0.28943634033203125,
+        0.11426004022359848,
+        0.2986449599266052
+      ],
+      "size_m": [
+        0.1308373212814331,
+        0.051650311797857285,
+        0.13500000536441803
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/InteriorFixtures/HouseProps_bathtub.prefab",
+      "guid": "ebdfc959b0331c2449d00ed0b694e6b8",
+      "role": "HouseProps_bathtub",
+      "reference": "Domestic bathtub length including rim",
+      "factor": 0.6234942078590393,
+      "source_size_m": [
+        1.5139007568359375,
+        0.8960659503936768,
+        2.806762218475342
+      ],
+      "size_m": [
+        0.9439083337783813,
+        0.5586919188499451,
+        1.75
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/InteriorFixtures/HouseProps_bathroomSink2.prefab",
+      "guid": "d43c77be36e39934a8ae6b4abb39993f",
+      "role": "HouseProps_bathroomSink2",
+      "reference": "Freestanding washbasin including fittings",
+      "factor": 0.7576626539230347,
+      "source_size_m": [
+        0.6641349792480469,
+        1.2142606973648071,
+        0.8209228515625
+      ],
+      "size_m": [
+        0.503190279006958,
+        0.9200000166893005,
+        0.6219825744628906
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/AppliancesElectronics/HouseProps_oven.prefab",
+      "guid": "53dc7f94d60964846b49b215c8bcf69e",
+      "role": "HouseProps_oven",
+      "reference": "Freestanding cooker including top",
+      "factor": 0.7528022527694702,
+      "source_size_m": [
+        0.8138256072998047,
+        1.2221004962921143,
+        1.2922362089157104
+      ],
+      "size_m": [
+        0.6126497387886047,
+        0.9200000166893005,
+        0.9727983474731445
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/AppliancesElectronics/HouseProps_washingMachine.prefab",
+      "guid": "801c862f9f9cef54584e3a8ca7e37b7d",
+      "role": "HouseProps_washingMachine",
+      "reference": "Domestic laundry appliance",
+      "factor": 0.8109067678451538,
+      "source_size_m": [
+        0.9203834533691406,
+        1.0605411529541016,
+        0.9962767958641052
+      ],
+      "size_m": [
+        0.7463451623916626,
+        0.8600000143051147,
+        0.807887613773346
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/AppliancesElectronics/Village_Stove.prefab",
+      "guid": "73b6e55e72ab74845b6d7863822d66f0",
+      "role": "Village_Stove",
+      "reference": "Domestic cooker height",
+      "factor": 0.8274456262588501,
+      "source_size_m": [
+        0.7872974872589111,
+        1.0876847505569458,
+        0.684844970703125
+      ],
+      "size_m": [
+        0.6514458656311035,
+        0.8999999761581421,
+        0.5666719675064087
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/AppliancesElectronics/HouseProps_remote.prefab",
+      "guid": "3070144bab60b2d48996874f8a67decc",
+      "role": "HouseProps_remote",
+      "reference": "Handheld TV remote",
+      "factor": 0.6030921339988708,
+      "source_size_m": [
+        0.09964179992675781,
+        0.02156216837465763,
+        0.2984618544578552
+      ],
+      "size_m": [
+        0.06009318679571152,
+        0.013003974221646786,
+        0.18000000715255737
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/AppliancesElectronics/HouseProps_phone.prefab",
+      "guid": "30ed3c0a0d621654283a4b0ddcc204fc",
+      "role": "HouseProps_phone",
+      "reference": "Desk telephone body",
+      "factor": 0.6544361710548401,
+      "source_size_m": [
+        0.29693603515625,
+        0.07943394780158997,
+        0.3896483778953552
+      ],
+      "size_m": [
+        0.19432568550109863,
+        0.051984451711177826,
+        0.2549999952316284
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/AppliancesElectronics/Village_Phone.prefab",
+      "guid": "0885ae9d1d434164ea7241bebf295615",
+      "role": "Village_Phone",
+      "reference": "Desk telephone body",
+      "factor": 0.6721539497375488,
+      "source_size_m": [
+        0.3793773651123047,
+        0.14141428470611572,
+        0.2358092963695526
+      ],
+      "size_m": [
+        0.2549999952316284,
+        0.09505217522382736,
+        0.15850014984607697
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/AppliancesElectronics/Village_Phone_01.prefab",
+      "guid": "5156385a42ebdd34b88b67bbde480eac",
+      "role": "Village_Phone_01",
+      "reference": "Desk telephone body",
+      "factor": 0.6721539497375488,
+      "source_size_m": [
+        0.3793773651123047,
+        0.14141416549682617,
+        0.2358092963695526
+      ],
+      "size_m": [
+        0.2549999952316284,
+        0.0950520932674408,
+        0.15850014984607697
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk_phone.prefab",
+      "guid": "d275d271a654a5a45802cd79238b4bff",
+      "role": "Office_desk_phone",
+      "reference": "Desk telephone footprint around 25 cm with extra space for cable",
+      "factor": 0.75,
+      "source_size_m": [
+        0.3328007757663727,
+        0.08850710839033127,
+        0.3328006863594055
+      ],
+      "size_m": [
+        0.2496005892753601,
+        0.0663803294301033,
+        0.24960051476955414
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk_phone_with_cable.prefab",
+      "guid": "854b2070f0dd581428dba83ccc683fd7",
+      "role": "Office_desk_phone_with_cable",
+      "reference": "Desk telephone footprint around 25 cm with extra space for cable",
+      "factor": 0.75,
+      "source_size_m": [
+        0.3917050063610077,
+        0.0972822979092598,
+        0.39658355712890625
+      ],
+      "size_m": [
+        0.29377874732017517,
+        0.07296172529459,
+        0.2974376678466797
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/HouseholdDecor/Village_Alarm_clock.prefab",
+      "guid": "112aa5b09aa680c4aa452fd1caedd6c8",
+      "role": "Village_Alarm_clock",
+      "reference": "Matching bedside alarm clocks 19 to 22 cm wide",
+      "factor": 0.550000011920929,
+      "source_size_m": [
+        0.3363170623779297,
+        0.16192053258419037,
+        0.1725158542394638
+      ],
+      "size_m": [
+        0.18497438728809357,
+        0.08905629068613052,
+        0.09488371759653091
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/HouseholdDecor/Village_Alarm_clock_01.prefab",
+      "guid": "e637c03052b208a40a7adcca8352dd90",
+      "role": "Village_Alarm_clock_01",
+      "reference": "Matching bedside alarm clocks 19 to 22 cm wide",
+      "factor": 0.550000011920929,
+      "source_size_m": [
+        0.40265846252441406,
+        0.16806481778621674,
+        0.1680908054113388
+      ],
+      "size_m": [
+        0.2214621603488922,
+        0.09243565052747726,
+        0.09244994074106216
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/LightingElectrical/HouseProps_powerSocket.prefab",
+      "guid": "39d27f667437de64e8300826833f3604",
+      "role": "HouseProps_powerSocket",
+      "reference": "Single wall plate",
+      "factor": 0.5247918367385864,
+      "source_size_m": [
+        0.03472900390625,
+        0.18747766315937042,
+        0.1905517429113388
+      ],
+      "size_m": [
+        0.018225498497486115,
+        0.098386749625206,
+        0.10000000149011612
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/InteriorFixtures/HouseProps_toiletPaper.prefab",
+      "guid": "29736c21b4ac2ac45923b7621e4b8f12",
+      "role": "HouseProps_toiletPaper",
+      "reference": "Wall holder including paper",
+      "factor": 0.5972297191619873,
+      "source_size_m": [
+        0.20151138305664062,
+        0.23477016389369965,
+        0.3013915717601776
+      ],
+      "size_m": [
+        0.12034858763217926,
+        0.14021171629428864,
+        0.18000000715255737
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/ToolsEquipment/HouseProps_broom.prefab",
+      "guid": "f5a94607413bf8c4dada7668b2fedaad",
+      "role": "HouseProps_broom",
+      "reference": "Full length sweeping broom",
+      "factor": 0.7541877627372742,
+      "source_size_m": [
+        0.16175317764282227,
+        1.9623761177062988,
+        0.7082520723342896
+      ],
+      "size_m": [
+        0.12199226021766663,
+        1.4800000190734863,
+        0.534155011177063
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/ToolsEquipment/HouseProps_bucket.prefab",
+      "guid": "ad5779a7eeb912d4a8c79a36ea96a941",
+      "role": "HouseProps_bucket",
+      "reference": "Household pail including handle",
+      "factor": 0.674123227596283,
+      "source_size_m": [
+        0.43245792388916016,
+        0.5043588280677795,
+        0.4324950873851776
+      ],
+      "size_m": [
+        0.29152992367744446,
+        0.3400000035762787,
+        0.2915549874305725
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/HouseProps_pallet.prefab",
+      "guid": "febebaa68f23d634f9dc1eaf24775af4",
+      "role": "HouseProps_pallet",
+      "reference": "Square pallet",
+      "factor": 0.8499763607978821,
+      "source_size_m": [
+        1.4118003845214844,
+        0.17423632740974426,
+        1.411803960800171
+      ],
+      "size_m": [
+        1.1999969482421875,
+        0.14809675514698029,
+        1.2000000476837158
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/IndustrialExterior/Prefabs/IndustrialExterior_Palet_single.prefab",
+      "guid": "7081944ed2e563d4799ec4aaec07a5b2",
+      "role": "IndustrialExterior_Palet_single",
+      "reference": "Single pallet 1.20 m long with identical boards in staggered stack",
+      "factor": 0.6850000023841858,
+      "source_size_m": [
+        1.7492282390594482,
+        0.2163633406162262,
+        1.3952220678329468
+      ],
+      "size_m": [
+        1.1982213258743286,
+        0.148208886384964,
+        0.9557271003723145
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/IndustrialExterior/Prefabs/IndustrialExterior_Palet_stack.prefab",
+      "guid": "3572bac6642327f49b2ce207c02c0106",
+      "role": "IndustrialExterior_Palet_stack",
+      "reference": "Single pallet 1.20 m long with identical boards in staggered stack",
+      "factor": 0.6850000023841858,
+      "source_size_m": [
+        2.2130541801452637,
+        1.0818159580230713,
+        1.7726788520812988
+      ],
+      "size_m": [
+        1.515942096710205,
+        0.7410439252853394,
+        1.2142850160598755
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterDiagonalClosed.prefab",
+      "guid": "7e1b406312be31e478a29bd77ea68a5b",
+      "role": "Urban_DumpsterDiagonalClosed",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.0276525020599365,
+        1.8924787044525146,
+        3.672929525375366
+      ],
+      "size_m": [
+        1.257144570350647,
+        1.1733367443084717,
+        2.2772161960601807
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterDiagonalClosedBlue.prefab",
+      "guid": "1cc387c7aa488c342a222fc81c79d9c2",
+      "role": "Urban_DumpsterDiagonalClosedBlue",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.0276525020599365,
+        1.8924787044525146,
+        3.672929525375366
+      ],
+      "size_m": [
+        1.257144570350647,
+        1.1733367443084717,
+        2.2772161960601807
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterDiagonalClosedRed.prefab",
+      "guid": "30d40f80230d8674983aa6f500e5aacc",
+      "role": "Urban_DumpsterDiagonalClosedRed",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.0276525020599365,
+        1.8924787044525146,
+        3.672929525375366
+      ],
+      "size_m": [
+        1.257144570350647,
+        1.1733367443084717,
+        2.2772161960601807
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterDiagonalEmptyNoLid.prefab",
+      "guid": "23399a1fa9dafc54fa4576d072bcb38f",
+      "role": "Urban_DumpsterDiagonalEmptyNoLid",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.0276525020599365,
+        1.7966687679290771,
+        3.672929525375366
+      ],
+      "size_m": [
+        1.257144570350647,
+        1.1139346361160278,
+        2.2772161960601807
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterDiagonalEmptyNoLidBlue.prefab",
+      "guid": "fb225af18247cbd40877176f54da49df",
+      "role": "Urban_DumpsterDiagonalEmptyNoLidBlue",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.0276525020599365,
+        1.7966687679290771,
+        3.672929525375366
+      ],
+      "size_m": [
+        1.257144570350647,
+        1.1139346361160278,
+        2.2772161960601807
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterDiagonalEmptyNoLidRed.prefab",
+      "guid": "5495e47ce212bc747a020fe72df01b5a",
+      "role": "Urban_DumpsterDiagonalEmptyNoLidRed",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.0276525020599365,
+        2.0211081504821777,
+        3.672929525375366
+      ],
+      "size_m": [
+        1.257144570350647,
+        1.253087043762207,
+        2.2772161960601807
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterDiagonalEmptyOpen.prefab",
+      "guid": "d9e4068a73de6d14eb3a6bbac893e09f",
+      "role": "Urban_DumpsterDiagonalEmptyOpen",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.530787467956543,
+        3.4771015644073486,
+        3.6729297637939453
+      ],
+      "size_m": [
+        1.5690882205963135,
+        2.1558029651641846,
+        2.2772164344787598
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterDiagonalEmptyOpenBlue.prefab",
+      "guid": "bdf3144957301864b92458a4c4bbd3ee",
+      "role": "Urban_DumpsterDiagonalEmptyOpenBlue",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.530787467956543,
+        3.4771015644073486,
+        3.6729297637939453
+      ],
+      "size_m": [
+        1.5690882205963135,
+        2.1558029651641846,
+        2.2772164344787598
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterDiagonalEmptyOpenRed.prefab",
+      "guid": "1751fa2b2e4c25842ae38457a685c3cf",
+      "role": "Urban_DumpsterDiagonalEmptyOpenRed",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.530787467956543,
+        3.4771015644073486,
+        3.6729297637939453
+      ],
+      "size_m": [
+        1.5690882205963135,
+        2.1558029651641846,
+        2.2772164344787598
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterDiagonalFullNoLid.prefab",
+      "guid": "467076c64dd957344a8803d37b44a42b",
+      "role": "Urban_DumpsterDiagonalFullNoLid",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.0276525020599365,
+        1.7966687679290771,
+        3.672929525375366
+      ],
+      "size_m": [
+        1.257144570350647,
+        1.1139346361160278,
+        2.2772161960601807
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterDiagonalFullNoLidBlue.prefab",
+      "guid": "c71e610fd057ece4daee2bbe194dada6",
+      "role": "Urban_DumpsterDiagonalFullNoLidBlue",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.0276525020599365,
+        1.7966687679290771,
+        3.672929525375366
+      ],
+      "size_m": [
+        1.257144570350647,
+        1.1139346361160278,
+        2.2772161960601807
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterDiagonalFullNoLidRed.prefab",
+      "guid": "23ae7acdc05e58a42a74d1ecf1425f4f",
+      "role": "Urban_DumpsterDiagonalFullNoLidRed",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.0276525020599365,
+        1.7966687679290771,
+        3.672929525375366
+      ],
+      "size_m": [
+        1.257144570350647,
+        1.1139346361160278,
+        2.2772161960601807
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterDiagonalFullOpen.prefab",
+      "guid": "3671c6aa6cb5f9d4eb3a38111ab88c2d",
+      "role": "Urban_DumpsterDiagonalFullOpen",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.530787467956543,
+        3.4771015644073486,
+        3.6729297637939453
+      ],
+      "size_m": [
+        1.5690882205963135,
+        2.1558029651641846,
+        2.2772164344787598
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterDiagonalFullOpenBlue.prefab",
+      "guid": "0f4b815a88eb1014bb7e14ab4d753d0e",
+      "role": "Urban_DumpsterDiagonalFullOpenBlue",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.530787467956543,
+        3.4771015644073486,
+        3.6729297637939453
+      ],
+      "size_m": [
+        1.5690882205963135,
+        2.1558029651641846,
+        2.2772164344787598
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterDiagonalFullOpenRed.prefab",
+      "guid": "ec0d9dd211e2e8d47828710b1abc9fdd",
+      "role": "Urban_DumpsterDiagonalFullOpenRed",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.530787467956543,
+        3.4771015644073486,
+        3.6729297637939453
+      ],
+      "size_m": [
+        1.5690882205963135,
+        2.1558029651641846,
+        2.2772164344787598
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterEmptyLidOpen.prefab",
+      "guid": "34e3b587611785d49b2028f1eb4940db",
+      "role": "Urban_DumpsterEmptyLidOpen",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.738966226577759,
+        3.4100100994110107,
+        3.6729297637939453
+      ],
+      "size_m": [
+        1.698159098625183,
+        2.114206314086914,
+        2.2772164344787598
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterEmptyLidOpenBlue.prefab",
+      "guid": "c12f3f2a5cf28234d99fc78a8e5d6d73",
+      "role": "Urban_DumpsterEmptyLidOpenBlue",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.738966226577759,
+        3.4100100994110107,
+        3.6729297637939453
+      ],
+      "size_m": [
+        1.698159098625183,
+        2.114206314086914,
+        2.2772164344787598
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterEmptyLidOpenRed.prefab",
+      "guid": "3f38df8e179777d4db64c93ebae0cac2",
+      "role": "Urban_DumpsterEmptyLidOpenRed",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.738966226577759,
+        3.8359882831573486,
+        3.6729297637939453
+      ],
+      "size_m": [
+        1.698159098625183,
+        2.378312826156616,
+        2.2772164344787598
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterEmptyNoLid.prefab",
+      "guid": "df6e7c67145b0524f9a59ae2058bf266",
+      "role": "Urban_DumpsterEmptyNoLid",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.0276525020599365,
+        1.7966687679290771,
+        3.672929525375366
+      ],
+      "size_m": [
+        1.257144570350647,
+        1.1139346361160278,
+        2.2772161960601807
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterEmptyNoLidBlue.prefab",
+      "guid": "456aa6ba0569d3c4187552085b6c2ea8",
+      "role": "Urban_DumpsterEmptyNoLidBlue",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.0276525020599365,
+        1.7966687679290771,
+        3.672929525375366
+      ],
+      "size_m": [
+        1.257144570350647,
+        1.1139346361160278,
+        2.2772161960601807
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterEmptyNoLidRed.prefab",
+      "guid": "346e8cc6d6aedd24a8e49eb105a3ca96",
+      "role": "Urban_DumpsterEmptyNoLidRed",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.0276525020599365,
+        1.7966687679290771,
+        3.672929525375366
+      ],
+      "size_m": [
+        1.257144570350647,
+        1.1139346361160278,
+        2.2772161960601807
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterFullLidOpen.prefab",
+      "guid": "3269e4415560bc44ba32cd9fcf6752e4",
+      "role": "Urban_DumpsterFullLidOpen",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.738966226577759,
+        3.4100100994110107,
+        3.6729297637939453
+      ],
+      "size_m": [
+        1.698159098625183,
+        2.114206314086914,
+        2.2772164344787598
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterFullLidOpenBlue.prefab",
+      "guid": "ae6a07547a1980143b0343da6324174e",
+      "role": "Urban_DumpsterFullLidOpenBlue",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.738966226577759,
+        3.4100100994110107,
+        3.6729297637939453
+      ],
+      "size_m": [
+        1.698159098625183,
+        2.114206314086914,
+        2.2772164344787598
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterFullLidOpenRed.prefab",
+      "guid": "a71b8ce37883c0e469ae666449ca913d",
+      "role": "Urban_DumpsterFullLidOpenRed",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.738966226577759,
+        3.4100100994110107,
+        3.6729297637939453
+      ],
+      "size_m": [
+        1.698159098625183,
+        2.114206314086914,
+        2.2772164344787598
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterFullNoLid.prefab",
+      "guid": "40fab682739b687448e961333312339a",
+      "role": "Urban_DumpsterFullNoLid",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.0276525020599365,
+        1.7966687679290771,
+        3.672929525375366
+      ],
+      "size_m": [
+        1.257144570350647,
+        1.1139346361160278,
+        2.2772161960601807
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterFullNoLidBlue.prefab",
+      "guid": "4fe8725be3cd7744ca53b49d3496e647",
+      "role": "Urban_DumpsterFullNoLidBlue",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.0276525020599365,
+        1.7966687679290771,
+        3.672929525375366
+      ],
+      "size_m": [
+        1.257144570350647,
+        1.1139346361160278,
+        2.2772161960601807
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterFullNoLidRed.prefab",
+      "guid": "0b7167b0dda12204d8850ff31c5ed1e5",
+      "role": "Urban_DumpsterFullNoLidRed",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.0276525020599365,
+        1.7966687679290771,
+        3.672929525375366
+      ],
+      "size_m": [
+        1.257144570350647,
+        1.1139346361160278,
+        2.2772161960601807
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterLid1.prefab",
+      "guid": "e31cfcf62ea12ba499ceefde4a3b1ced",
+      "role": "Urban_DumpsterLid1",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        1.9305287599563599,
+        0.17516034841537476,
+        1.6396453380584717
+      ],
+      "size_m": [
+        1.196927785873413,
+        0.10859941691160202,
+        1.0165801048278809
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterLid2.prefab",
+      "guid": "10d1b7c435eafde4898e8253a96dc524",
+      "role": "Urban_DumpsterLid2",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        1.9305287599563599,
+        0.17516034841537476,
+        1.6396453380584717
+      ],
+      "size_m": [
+        1.196927785873413,
+        0.10859941691160202,
+        1.0165801048278809
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterLidClosed.prefab",
+      "guid": "9edc5002b7f53f348b3380022dc1a395",
+      "role": "Urban_DumpsterLidClosed",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.0566701889038086,
+        1.9642672538757324,
+        3.677428722381592
+      ],
+      "size_m": [
+        1.2751355171203613,
+        1.2178456783294678,
+        2.280005693435669
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterLidClosedBlue.prefab",
+      "guid": "7efc3809bf60e2543a7a6fa57186e010",
+      "role": "Urban_DumpsterLidClosedBlue",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.0566701889038086,
+        1.9642672538757324,
+        3.677428722381592
+      ],
+      "size_m": [
+        1.2751355171203613,
+        1.2178456783294678,
+        2.280005693435669
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterLidClosedRed.prefab",
+      "guid": "5fce1decdbda0b1409aceaebffcd141a",
+      "role": "Urban_DumpsterLidClosedRed",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        2.0566701889038086,
+        1.9642672538757324,
+        3.677428722381592
+      ],
+      "size_m": [
+        1.2751355171203613,
+        1.2178456783294678,
+        2.280005693435669
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterTrashpile1.prefab",
+      "guid": "84da257a8edcf3045ae478b42dfaa524",
+      "role": "Urban_DumpsterTrashpile1",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        1.8539414405822754,
+        1.1795580387115479,
+        3.1996960639953613
+      ],
+      "size_m": [
+        1.1494437456130981,
+        0.7313259840011597,
+        1.983811616897583
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Dumpsters/Urban_DumpsterTrashpile2.prefab",
+      "guid": "c86bb6dee01e45043a73c2911484cf24",
+      "role": "Urban_DumpsterTrashpile2",
+      "reference": "Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        1.8539414405822754,
+        0.9862537980079651,
+        3.1996958255767822
+      ],
+      "size_m": [
+        1.1494437456130981,
+        0.6114773750305176,
+        1.983811378479004
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Litter/Urban_Trashbag1.prefab",
+      "guid": "172ef93cee6e70f4396500ee525f4599",
+      "role": "Urban_Trashbag1",
+      "reference": "Filled bags around 58 to 75 cm high; retain grouped footprint",
+      "factor": 0.7200000286102295,
+      "source_size_m": [
+        0.7708594799041748,
+        0.8094236850738525,
+        0.9170647263526917
+      ],
+      "size_m": [
+        0.5550188422203064,
+        0.5827850699424744,
+        0.6602866053581238
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Litter/Urban_Trashbag1Blue.prefab",
+      "guid": "3d27afaa9255fb044959f78f21fda416",
+      "role": "Urban_Trashbag1Blue",
+      "reference": "Filled bags around 58 to 75 cm high; retain grouped footprint",
+      "factor": 0.7200000286102295,
+      "source_size_m": [
+        0.7708594799041748,
+        0.8094236850738525,
+        0.9170647263526917
+      ],
+      "size_m": [
+        0.5550188422203064,
+        0.5827850699424744,
+        0.6602866053581238
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Litter/Urban_Trashbag1Red.prefab",
+      "guid": "50fb2236bd63a6b4bb402a35b75b6b19",
+      "role": "Urban_Trashbag1Red",
+      "reference": "Filled bags around 58 to 75 cm high; retain grouped footprint",
+      "factor": 0.7200000286102295,
+      "source_size_m": [
+        0.7708594799041748,
+        0.8094236850738525,
+        0.9170647263526917
+      ],
+      "size_m": [
+        0.5550188422203064,
+        0.5827850699424744,
+        0.6602866053581238
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Litter/Urban_Trashbag1White.prefab",
+      "guid": "1e09585661c3a7a4bb39e29cb17f9f34",
+      "role": "Urban_Trashbag1White",
+      "reference": "Filled bags around 58 to 75 cm high; retain grouped footprint",
+      "factor": 0.7200000286102295,
+      "source_size_m": [
+        0.7708594799041748,
+        0.8094236850738525,
+        0.9170647263526917
+      ],
+      "size_m": [
+        0.5550188422203064,
+        0.5827850699424744,
+        0.6602866053581238
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Litter/Urban_Trashbag2.prefab",
+      "guid": "07642ede7908e13419c60acfb2a8c893",
+      "role": "Urban_Trashbag2",
+      "reference": "Filled bags around 58 to 75 cm high; retain grouped footprint",
+      "factor": 0.7200000286102295,
+      "source_size_m": [
+        0.8554757833480835,
+        1.0422618389129639,
+        0.7744085192680359
+      ],
+      "size_m": [
+        0.6159425377845764,
+        0.7504284977912903,
+        0.5575741529464722
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Litter/Urban_Trashbag2Blue.prefab",
+      "guid": "391700ab0da12c84697450b94584795f",
+      "role": "Urban_Trashbag2Blue",
+      "reference": "Filled bags around 58 to 75 cm high; retain grouped footprint",
+      "factor": 0.7200000286102295,
+      "source_size_m": [
+        0.8554757833480835,
+        1.0422618389129639,
+        0.7744085192680359
+      ],
+      "size_m": [
+        0.6159425377845764,
+        0.7504284977912903,
+        0.5575741529464722
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Litter/Urban_Trashbag2Red.prefab",
+      "guid": "1723e287a77329b42b9c1191166b4f81",
+      "role": "Urban_Trashbag2Red",
+      "reference": "Filled bags around 58 to 75 cm high; retain grouped footprint",
+      "factor": 0.7200000286102295,
+      "source_size_m": [
+        0.8554757833480835,
+        1.0422618389129639,
+        0.7744085192680359
+      ],
+      "size_m": [
+        0.6159425377845764,
+        0.7504284977912903,
+        0.5575741529464722
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Litter/Urban_Trashbag2White.prefab",
+      "guid": "5269b954b1c3ab44f89893fdd79ee1bf",
+      "role": "Urban_Trashbag2White",
+      "reference": "Filled bags around 58 to 75 cm high; retain grouped footprint",
+      "factor": 0.7200000286102295,
+      "source_size_m": [
+        0.8554757833480835,
+        1.0422618389129639,
+        0.7744085192680359
+      ],
+      "size_m": [
+        0.6159425377845764,
+        0.7504284977912903,
+        0.5575741529464722
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Litter/Urban_Trashbag3.prefab",
+      "guid": "aa4e07363ec829b44b8a1126e597ab3d",
+      "role": "Urban_Trashbag3",
+      "reference": "Filled bags around 58 to 75 cm high; retain grouped footprint",
+      "factor": 0.7200000286102295,
+      "source_size_m": [
+        1.7312233448028564,
+        0.31751376390457153,
+        0.8693780899047852
+      ],
+      "size_m": [
+        1.2464808225631714,
+        0.22860990464687347,
+        0.6259522438049316
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Litter/Urban_Trashbag3Blue.prefab",
+      "guid": "fbeb46e7edcfede44bc5a5dfe60286ee",
+      "role": "Urban_Trashbag3Blue",
+      "reference": "Filled bags around 58 to 75 cm high; retain grouped footprint",
+      "factor": 0.7200000286102295,
+      "source_size_m": [
+        1.7312233448028564,
+        0.31751376390457153,
+        0.8693780899047852
+      ],
+      "size_m": [
+        1.2464808225631714,
+        0.22860990464687347,
+        0.6259522438049316
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Litter/Urban_Trashbag3Red.prefab",
+      "guid": "bde047868ddd603419bd0fcc0b2888c9",
+      "role": "Urban_Trashbag3Red",
+      "reference": "Filled bags around 58 to 75 cm high; retain grouped footprint",
+      "factor": 0.7200000286102295,
+      "source_size_m": [
+        1.7312233448028564,
+        0.31751376390457153,
+        0.8693780899047852
+      ],
+      "size_m": [
+        1.2464808225631714,
+        0.22860990464687347,
+        0.6259522438049316
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Urban/Litter/Urban_Trashbag3White.prefab",
+      "guid": "353e0886c7b45154b95bbae6ca22d762",
+      "role": "Urban_Trashbag3White",
+      "reference": "Filled bags around 58 to 75 cm high; retain grouped footprint",
+      "factor": 0.7200000286102295,
+      "source_size_m": [
+        1.7312233448028564,
+        0.31751376390457153,
+        0.8693780899047852
+      ],
+      "size_m": [
+        1.2464808225631714,
+        0.22860990464687347,
+        0.6259522438049316
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Mine_Barrel.prefab",
+      "guid": "d5cf014ec4d77274c9470ae81e3cf114",
+      "role": "Mine_Barrel",
+      "reference": "Industrial drum",
+      "factor": 0.797111451625824,
+      "source_size_m": [
+        0.8076562881469727,
+        1.1416220664978027,
+        0.807647705078125
+      ],
+      "size_m": [
+        0.6437920331954956,
+        0.9100000262260437,
+        0.6437852382659912
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Mine_Barrel_01.prefab",
+      "guid": "e053d26b4113a2741a38abf351e07e74",
+      "role": "Mine_Barrel_01",
+      "reference": "Industrial drum",
+      "factor": 0.7796952128410339,
+      "source_size_m": [
+        0.901240348815918,
+        1.167122721672058,
+        0.9012450575828552
+      ],
+      "size_m": [
+        0.7026928067207336,
+        0.9100000262260437,
+        0.7026964426040649
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/StorageContainers/Mine_Locker.prefab",
+      "guid": "572749b3850b6e4479af998cecb70d74",
+      "role": "Mine_Locker",
+      "reference": "Single standing locker",
+      "factor": 0.7830623984336853,
+      "source_size_m": [
+        0.6412997245788574,
+        2.3625192642211914,
+        0.6491090655326843
+      ],
+      "size_m": [
+        0.5021777153015137,
+        1.850000023841858,
+        0.5082929134368896
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Kitchen_pan.prefab",
+      "guid": "d8c1713fbbb76734e8f4cad7a7b7f45f",
+      "role": "Kitchen_pan",
+      "reference": "Frying pan with handle including a 30 cm bowl",
+      "factor": 0.5674113631248474,
+      "source_size_m": [
+        0.5280771255493164,
+        0.09805621951818466,
+        0.8459470868110657
+      ],
+      "size_m": [
+        0.29963696002960205,
+        0.05563821271061897,
+        0.47999998927116394
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/HouseProps_pan.prefab",
+      "guid": "fd30da48ae6cabf41bb7e815660fa76e",
+      "role": "HouseProps_pan",
+      "reference": "Frying pan with handle",
+      "factor": 0.8133320808410645,
+      "source_size_m": [
+        0.5655746459960938,
+        0.11580359190702438,
+        0.3572997450828552
+      ],
+      "size_m": [
+        0.46000000834465027,
+        0.09418677538633347,
+        0.2906033396720886
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Kitchen_clean_plate.prefab",
+      "guid": "0b512539ff104a746ae58373035b62f6",
+      "role": "Kitchen_clean_plate",
+      "reference": "Dinner plate",
+      "factor": 0.7340990304946899,
+      "source_size_m": [
+        0.3677864074707031,
+        0.021746981889009476,
+        0.3677977919578552
+      ],
+      "size_m": [
+        0.2699916362762451,
+        0.015964437276124954,
+        0.27000001072883606
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Kitchen_dirty_plate.prefab",
+      "guid": "a648226f93e712d4da213e10d0f84409",
+      "role": "Kitchen_dirty_plate",
+      "reference": "Dinner plate",
+      "factor": 0.7340990304946899,
+      "source_size_m": [
+        0.3677864074707031,
+        0.021746981889009476,
+        0.3677977919578552
+      ],
+      "size_m": [
+        0.2699916362762451,
+        0.015964437276124954,
+        0.27000001072883606
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Village_Plate.prefab",
+      "guid": "c8f5acbda3bba8c408c89e32d9c6521c",
+      "role": "Village_Plate",
+      "reference": "Dinner plate",
+      "factor": 0.8225513100624084,
+      "source_size_m": [
+        0.32822322845458984,
+        0.02290240488946438,
+        0.3282470107078552
+      ],
+      "size_m": [
+        0.26998043060302734,
+        0.01883840188384056,
+        0.27000001072883606
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Village_Plate_01.prefab",
+      "guid": "50fbaa2ceb3e4cb4887f3953d881c447",
+      "role": "Village_Plate_01",
+      "reference": "Dinner plate",
+      "factor": 0.8225513100624084,
+      "source_size_m": [
+        0.32822322845458984,
+        0.02290240488946438,
+        0.3282470107078552
+      ],
+      "size_m": [
+        0.26998043060302734,
+        0.01883840188384056,
+        0.27000001072883606
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Village_Cereal_bowl.prefab",
+      "guid": "26d53c66af4c8e543919585d7bbea0fa",
+      "role": "Village_Cereal_bowl",
+      "reference": "Matching bowls and filled versions about 21 cm across",
+      "factor": 0.7400000095367432,
+      "source_size_m": [
+        0.29088783264160156,
+        0.14667439460754395,
+        0.2835998237133026
+      ],
+      "size_m": [
+        0.21525698900222778,
+        0.10853905230760574,
+        0.20986387133598328
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Village_Plate_food.prefab",
+      "guid": "99aa6e497e4f5ca48982f721b264beaf",
+      "role": "Village_Plate_food",
+      "reference": "Matching bowls and filled versions about 21 cm across",
+      "factor": 0.7400000095367432,
+      "source_size_m": [
+        0.29088783264160156,
+        0.14667439460754395,
+        0.2835998237133026
+      ],
+      "size_m": [
+        0.21525698900222778,
+        0.10853905230760574,
+        0.20986387133598328
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Village_Plate_food_01.prefab",
+      "guid": "d3bbbd7d0d839974a9c69f0958ad6751",
+      "role": "Village_Plate_food_01",
+      "reference": "Matching bowls and filled versions about 21 cm across",
+      "factor": 0.7400000095367432,
+      "source_size_m": [
+        0.29088783264160156,
+        0.14667439460754395,
+        0.2835998237133026
+      ],
+      "size_m": [
+        0.21525698900222778,
+        0.10853905230760574,
+        0.20986387133598328
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Village_Milk.prefab",
+      "guid": "3a8d3c2d4f4701d4c87b378153f8ec82",
+      "role": "Village_Milk",
+      "reference": "Milk container",
+      "factor": 0.5469622611999512,
+      "source_size_m": [
+        0.2754182815551758,
+        0.45706993341445923,
+        0.275421142578125
+      ],
+      "size_m": [
+        0.15064340829849243,
+        0.25,
+        0.15064497292041779
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Village_Bottle.prefab",
+      "guid": "4288e1a9e9dcc0a4a8e879cbe595a4e8",
+      "role": "Village_Bottle",
+      "reference": "Table bottle",
+      "factor": 0.5809913277626038,
+      "source_size_m": [
+        0.13995742797851562,
+        0.5163588523864746,
+        0.12121585756540298
+      ],
+      "size_m": [
+        0.08131404966115952,
+        0.30000001192092896,
+        0.0704253613948822
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Kitchen_chocolate_bar_close.prefab",
+      "guid": "9a74e64684c626440bc85be346a0c403",
+      "role": "Kitchen_chocolate_bar_close",
+      "reference": "Wrapped bar about 17 cm long; open wrapper projects further",
+      "factor": 0.6700000166893005,
+      "source_size_m": [
+        0.11471128463745117,
+        0.021000836044549942,
+        0.2589721083641052
+      ],
+      "size_m": [
+        0.07685656100511551,
+        0.014070560224354267,
+        0.1735113114118576
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Kitchen_chocolate_bar_open.prefab",
+      "guid": "61f2cc85df1c76645bc3702b3a00360d",
+      "role": "Kitchen_chocolate_bar_open",
+      "reference": "Wrapped bar about 17 cm long; open wrapper projects further",
+      "factor": 0.6700000166893005,
+      "source_size_m": [
+        0.11471176147460938,
+        0.02100084349513054,
+        0.3262328505516052
+      ],
+      "size_m": [
+        0.07685688138008118,
+        0.01407056488096714,
+        0.21857601404190063
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Kitchen_toast.prefab",
+      "guid": "c185ace0d2a444f4b9510210939a6f77",
+      "role": "Kitchen_toast",
+      "reference": "Bread slice",
+      "factor": 0.7096328139305115,
+      "source_size_m": [
+        0.15523910522460938,
+        0.019039558246731758,
+        0.1761474311351776
+      ],
+      "size_m": [
+        0.11016276478767395,
+        0.013511095196008682,
+        0.125
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Kitchen_toasted_toast.prefab",
+      "guid": "ca0c3c4cd7a289641a3fed072845905d",
+      "role": "Kitchen_toasted_toast",
+      "reference": "Bread slice",
+      "factor": 0.7096328139305115,
+      "source_size_m": [
+        0.15523910522460938,
+        0.019039558246731758,
+        0.1761474311351776
+      ],
+      "size_m": [
+        0.11016276478767395,
+        0.013511095196008682,
+        0.125
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Kitchen_Pizza_box_close.prefab",
+      "guid": "58701238fc43b744abab28f09ff8cefd",
+      "role": "Kitchen_Pizza_box_close",
+      "reference": "Pizza box 40 cm wide; preserve lid hinge and slice fit",
+      "factor": 0.75,
+      "source_size_m": [
+        0.5275516510009766,
+        0.02817642316222191,
+        0.5275267362594604
+      ],
+      "size_m": [
+        0.3956637382507324,
+        0.021132316440343857,
+        0.39564505219459534
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Kitchen_pizza_box_clean.prefab",
+      "guid": "b159c8ffc22588c478760da7aa2bed2e",
+      "role": "Kitchen_pizza_box_clean",
+      "reference": "Pizza box 40 cm wide; preserve lid hinge and slice fit",
+      "factor": 0.75,
+      "source_size_m": [
+        0.5275516510009766,
+        0.37622877955436707,
+        0.9412840604782104
+      ],
+      "size_m": [
+        0.3956637382507324,
+        0.2821715772151947,
+        0.7059630155563354
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Kitchen_pizza_box_semi_close_empty.prefab",
+      "guid": "ad90f8e9b837c03478fb0dd12837e3e7",
+      "role": "Kitchen_pizza_box_semi_close_empty",
+      "reference": "Pizza box 40 cm wide; preserve lid hinge and slice fit",
+      "factor": 0.75,
+      "source_size_m": [
+        0.5275516510009766,
+        0.31982657313346863,
+        0.5286254286766052
+      ],
+      "size_m": [
+        0.3956637382507324,
+        0.23986992239952087,
+        0.3964690566062927
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Kitchen_pizza_box_semi_close_with_pizza.prefab",
+      "guid": "3ee54cdbf0a03db4aa7bc92d1980b897",
+      "role": "Kitchen_pizza_box_semi_close_with_pizza",
+      "reference": "Pizza box 40 cm wide; preserve lid hinge and slice fit",
+      "factor": 0.75,
+      "source_size_m": [
+        0.5275497436523438,
+        0.31982657313346863,
+        0.5286254286766052
+      ],
+      "size_m": [
+        0.3956623077392578,
+        0.23986992239952087,
+        0.3964690566062927
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Kitchen_pizza_full.prefab",
+      "guid": "0d5dd334f8f697942bbbd1a757c4df02",
+      "role": "Kitchen_pizza_full",
+      "reference": "Pizza box 40 cm wide; preserve lid hinge and slice fit",
+      "factor": 0.75,
+      "source_size_m": [
+        0.527551531791687,
+        0.37622877955436707,
+        0.9412840604782104
+      ],
+      "size_m": [
+        0.39566364884376526,
+        0.2821715772151947,
+        0.7059630155563354
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Kitchen_pizza_half.prefab",
+      "guid": "23844b459504f2e4a99c38bb018a8cb5",
+      "role": "Kitchen_pizza_half",
+      "reference": "Pizza box 40 cm wide; preserve lid hinge and slice fit",
+      "factor": 0.75,
+      "source_size_m": [
+        0.5275516510009766,
+        0.37622877955436707,
+        0.9412840604782104
+      ],
+      "size_m": [
+        0.3956637382507324,
+        0.2821715772151947,
+        0.7059630155563354
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Kitchen_pizza_one_slice_gone.prefab",
+      "guid": "a39aa800df125d54aba2522a3f9591c2",
+      "role": "Kitchen_pizza_one_slice_gone",
+      "reference": "Pizza box 40 cm wide; preserve lid hinge and slice fit",
+      "factor": 0.75,
+      "source_size_m": [
+        0.5275516510009766,
+        0.37622877955436707,
+        0.9412840604782104
+      ],
+      "size_m": [
+        0.3956637382507324,
+        0.2821715772151947,
+        0.7059630155563354
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Kitchen_pizza_quarter_eaten.prefab",
+      "guid": "7fd40af7f0fb7764ab9181f2d356d4ef",
+      "role": "Kitchen_pizza_quarter_eaten",
+      "reference": "Pizza box 40 cm wide; preserve lid hinge and slice fit",
+      "factor": 0.75,
+      "source_size_m": [
+        0.5275516510009766,
+        0.37622877955436707,
+        0.9412840604782104
+      ],
+      "size_m": [
+        0.3956637382507324,
+        0.2821715772151947,
+        0.7059630155563354
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Kitchen_pizza_slice.prefab",
+      "guid": "ae1eca1e001a38744ac342db1ba327e6",
+      "role": "Kitchen_pizza_slice",
+      "reference": "Pizza box 40 cm wide; preserve lid hinge and slice fit",
+      "factor": 0.75,
+      "source_size_m": [
+        0.17567062377929688,
+        0.017365820705890656,
+        0.23742671310901642
+      ],
+      "size_m": [
+        0.13175296783447266,
+        0.013024365529417992,
+        0.1780700385570526
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/HouseProps_pizza.prefab",
+      "guid": "53c792f5fa2b6ee43b1290a0af12250c",
+      "role": "HouseProps_pizza",
+      "reference": "Whole pizza or pizza carton about 40 cm wide",
+      "factor": 0.6299999952316284,
+      "source_size_m": [
+        0.6422893404960632,
+        0.03397008031606674,
+        0.6423338651657104
+      ],
+      "size_m": [
+        0.4046422839164734,
+        0.02140115015208721,
+        0.4046703279018402
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Village_Box_Pizza.prefab",
+      "guid": "815e8119e75f9544f8b8421ed7d6029d",
+      "role": "Village_Box_Pizza",
+      "reference": "Whole pizza or pizza carton about 40 cm wide",
+      "factor": 0.6299999952316284,
+      "source_size_m": [
+        0.6333541870117188,
+        0.4783899784088135,
+        0.6333617568016052
+      ],
+      "size_m": [
+        0.39901313185691833,
+        0.30138570070266724,
+        0.39901790022850037
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Village_Box_Pizza_001.prefab",
+      "guid": "a81993d4ffb54684c9f39e106d5c6ad4",
+      "role": "Village_Box_Pizza_001",
+      "reference": "Whole pizza or pizza carton about 40 cm wide",
+      "factor": 0.6299999952316284,
+      "source_size_m": [
+        0.6333522796630859,
+        0.0742763876914978,
+        0.6333311796188354
+      ],
+      "size_m": [
+        0.3990119397640228,
+        0.04679412394762039,
+        0.3989986479282379
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Kitchen_soda_bottle.prefab",
+      "guid": "79d35ba09977c6e4a85fda4f6d88f03e",
+      "role": "Kitchen_soda_bottle",
+      "reference": "Large soft drink bottle",
+      "factor": 0.7153189778327942,
+      "source_size_m": [
+        0.13496780395507812,
+        0.4473528563976288,
+        0.1349487602710724
+      ],
+      "size_m": [
+        0.0965450331568718,
+        0.3199999928474426,
+        0.09653141349554062
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/FoodKitchenware/Kitchen_knife_block.prefab",
+      "guid": "ffc1700525df4b845873f9b6c8b6b28d",
+      "role": "Kitchen_knife_block",
+      "reference": "Countertop knife block with handles",
+      "factor": 0.7256519198417664,
+      "source_size_m": [
+        0.12174224853515625,
+        0.44098278880119324,
+        0.4304198920726776
+      ],
+      "size_m": [
+        0.08834249526262283,
+        0.3199999928474426,
+        0.3123350143432617
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_computer_keyboard.prefab",
+      "guid": "debdb3435929db246a80b27255e5f6ad",
+      "role": "Office_computer_keyboard",
+      "reference": "Full size desktop keyboard",
+      "factor": 0.6736962795257568,
+      "source_size_m": [
+        0.68280029296875,
+        0.041101496666669846,
+        0.22486096620559692
+      ],
+      "size_m": [
+        0.46000000834465027,
+        0.027689924463629723,
+        0.15148799121379852
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_computer_monitor.prefab",
+      "guid": "624050781d1b4174d9b345a523c6b2f7",
+      "role": "Office_computer_monitor",
+      "reference": "Desktop CRT casing",
+      "factor": 0.7472509741783142,
+      "source_size_m": [
+        0.6022073030471802,
+        0.5672544240951538,
+        0.5328910946846008
+      ],
+      "size_m": [
+        0.44999998807907104,
+        0.4238814413547516,
+        0.39820340275764465
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_computer_tower.prefab",
+      "guid": "a4d68d17e23d3fc4b9745b3e83b2dbe3",
+      "role": "Office_computer_tower",
+      "reference": "Desktop system paired with CRT monitor",
+      "factor": 0.7799999713897705,
+      "source_size_m": [
+        0.2621717154979706,
+        0.6091364622116089,
+        0.6091364622116089
+      ],
+      "size_m": [
+        0.2044939398765564,
+        0.4751264452934265,
+        0.4751264452934265
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_computer_tower_alt.prefab",
+      "guid": "b9ea58b8bf4d50d4d8d7b29ac1015dec",
+      "role": "Office_computer_tower_alt",
+      "reference": "Desktop system paired with CRT monitor",
+      "factor": 0.7799999713897705,
+      "source_size_m": [
+        0.2621717154979706,
+        0.6091364622116089,
+        0.6091364622116089
+      ],
+      "size_m": [
+        0.2044939398765564,
+        0.4751264452934265,
+        0.4751264452934265
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_horizontal_desktop.prefab",
+      "guid": "63e8be9a39e80b04db371edf1516a45b",
+      "role": "Office_horizontal_desktop",
+      "reference": "Desktop system paired with CRT monitor",
+      "factor": 0.7799999713897705,
+      "source_size_m": [
+        0.680438220500946,
+        0.20443089306354523,
+        0.5791060924530029
+      ],
+      "size_m": [
+        0.530741810798645,
+        0.15945610404014587,
+        0.451702743768692
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_file_binder.prefab",
+      "guid": "bf362bb84df0879439fa19e5496df7f6",
+      "role": "Office_file_binder",
+      "reference": "Standing office binder",
+      "factor": 0.7541424632072449,
+      "source_size_m": [
+        0.09296770393848419,
+        0.42432302236557007,
+        0.3005531430244446
+      ],
+      "size_m": [
+        0.07011089473962784,
+        0.3199999928474426,
+        0.2266598790884018
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_file_binder_alt.prefab",
+      "guid": "cd9677f24e8fb474c9b3ac328524359a",
+      "role": "Office_file_binder_alt",
+      "reference": "Standing office binder",
+      "factor": 0.7540174722671509,
+      "source_size_m": [
+        0.09403838962316513,
+        0.42439335584640503,
+        0.29951581358909607
+      ],
+      "size_m": [
+        0.07090658694505692,
+        0.3199999928474426,
+        0.22584015130996704
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_file_binder_alt2.prefab",
+      "guid": "fa771b2c251c7414182c6244857f1d55",
+      "role": "Office_file_binder_alt2",
+      "reference": "Standing office binder",
+      "factor": 0.7559217810630798,
+      "source_size_m": [
+        0.09146437048912048,
+        0.42332422733306885,
+        0.29866620898246765
+      ],
+      "size_m": [
+        0.06913991272449493,
+        0.3199999928474426,
+        0.2257682830095291
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_file_binder_alt3.prefab",
+      "guid": "8245f46af950f714598bcfe6e39d957d",
+      "role": "Office_file_binder_alt3",
+      "reference": "Standing office binder",
+      "factor": 0.7574830651283264,
+      "source_size_m": [
+        0.0911066010594368,
+        0.4224517047405243,
+        0.297481894493103
+      ],
+      "size_m": [
+        0.06901170313358307,
+        0.3199999928474426,
+        0.22533749043941498
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_file_binder_alt4.prefab",
+      "guid": "101a6542277336840b3a2a06ab208d87",
+      "role": "Office_file_binder_alt4",
+      "reference": "Standing office binder",
+      "factor": 0.7574830651283264,
+      "source_size_m": [
+        0.0911066010594368,
+        0.4224517047405243,
+        0.297481894493103
+      ],
+      "size_m": [
+        0.06901170313358307,
+        0.3199999928474426,
+        0.22533749043941498
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_file_binder_alt5.prefab",
+      "guid": "e32f43600a9c0b6408146751e751fb9e",
+      "role": "Office_file_binder_alt5",
+      "reference": "Standing office binder",
+      "factor": 0.7574830651283264,
+      "source_size_m": [
+        0.0911066010594368,
+        0.4224517047405243,
+        0.297481894493103
+      ],
+      "size_m": [
+        0.06901170313358307,
+        0.3199999928474426,
+        0.22533749043941498
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_paper_stack.prefab",
+      "guid": "4a27a260313bb9b4d8dc3ce85c84288e",
+      "role": "Office_paper_stack",
+      "reference": "Office paper around 30 cm on its long edge",
+      "factor": 0.699999988079071,
+      "source_size_m": [
+        0.32919394969940186,
+        0.029659004881978035,
+        0.4426305890083313
+      ],
+      "size_m": [
+        0.23043575882911682,
+        0.02076130360364914,
+        0.30984142422676086
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 0,
+      "physics_checks": 0
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_paper_stack_large.prefab",
+      "guid": "8695db443e21f47499a7b52c7f5f974e",
+      "role": "Office_paper_stack_large",
+      "reference": "Office paper around 30 cm on its long edge",
+      "factor": 0.699999988079071,
+      "source_size_m": [
+        0.2976369559764862,
+        0.11809933185577393,
+        0.42094364762306213
+      ],
+      "size_m": [
+        0.20834587514400482,
+        0.08266953378915787,
+        0.2946605682373047
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_elastic_ball.prefab",
+      "guid": "d6c5d18b3d47150479b18b3b188c9e46",
+      "role": "Office_elastic_ball",
+      "reference": "Desk-sized rubber band ball",
+      "factor": 0.418448269367218,
+      "source_size_m": [
+        0.20313143730163574,
+        0.167535200715065,
+        0.1804264783859253
+      ],
+      "size_m": [
+        0.08500000089406967,
+        0.07010481506586075,
+        0.07549914717674255
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_pen.prefab",
+      "guid": "88490bce556aa7147a8d3636778c5abf",
+      "role": "Office_pen",
+      "reference": "Desk pen",
+      "factor": 0.6797785758972168,
+      "source_size_m": [
+        0.10826271772384644,
+        0.061141110956668854,
+        0.22801542282104492
+      ],
+      "size_m": [
+        0.07359467446804047,
+        0.04156241565942764,
+        0.1550000011920929
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_beanbag_blue.prefab",
+      "guid": "af46609a9357aab4aa8b44db1ebf111e",
+      "role": "Office_beanbag_blue",
+      "reference": "Single occupant beanbag footprint",
+      "factor": 0.6532605290412903,
+      "source_size_m": [
+        1.771963357925415,
+        0.8727371692657471,
+        1.7757080793380737
+      ],
+      "size_m": [
+        1.1575536727905273,
+        0.5701247453689575,
+        1.159999966621399
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_beanbag_green.prefab",
+      "guid": "8235f0d1b0777b24bbf69dae8e69ca69",
+      "role": "Office_beanbag_green",
+      "reference": "Single occupant beanbag footprint",
+      "factor": 0.6532605290412903,
+      "source_size_m": [
+        1.771963357925415,
+        0.8727371692657471,
+        1.7757080793380737
+      ],
+      "size_m": [
+        1.1575536727905273,
+        0.5701247453689575,
+        1.159999966621399
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_beanbag_red.prefab",
+      "guid": "b0dba1c7e7f9506439ca324f10257bb2",
+      "role": "Office_beanbag_red",
+      "reference": "Single occupant beanbag footprint",
+      "factor": 0.6532605290412903,
+      "source_size_m": [
+        1.771963357925415,
+        0.8727371692657471,
+        1.7757080793380737
+      ],
+      "size_m": [
+        1.1575536727905273,
+        0.5701247453689575,
+        1.159999966621399
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_conference_desk.prefab",
+      "guid": "835f1a459da16894b8c44b0cb191518a",
+      "role": "Office_conference_desk",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8582421541213989,
+      "source_size_m": [
+        4.974209308624268,
+        0.8797050714492798,
+        2.57474946975708
+      ],
+      "size_m": [
+        4.269076347351074,
+        0.7549999952316284,
+        2.2097585201263428
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_conference_desk_alt.prefab",
+      "guid": "bbfd8eb6fb526ea4cafd27cdd58ff36a",
+      "role": "Office_conference_desk_alt",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8582421541213989,
+      "source_size_m": [
+        4.974209308624268,
+        0.8797050714492798,
+        2.574749231338501
+      ],
+      "size_m": [
+        4.269076347351074,
+        0.7549999952316284,
+        2.2097582817077637
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_conference_desk_squared.prefab",
+      "guid": "81d54b5c5e654594aa49e82c927ccfb5",
+      "role": "Office_conference_desk_squared",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8582422137260437,
+      "source_size_m": [
+        4.186675548553467,
+        0.879705011844635,
+        2.0312352180480957
+      ],
+      "size_m": [
+        3.593181848526001,
+        0.7549999952316284,
+        1.7432918548583984
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_conference_desk_squared_alt.prefab",
+      "guid": "5113abe64d8882f4688b286f1e0c25f1",
+      "role": "Office_conference_desk_squared_alt",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8582422137260437,
+      "source_size_m": [
+        4.1737165451049805,
+        0.879705011844635,
+        2.0164506435394287
+      ],
+      "size_m": [
+        3.582059860229492,
+        0.7549999952316284,
+        1.7306030988693237
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk1.prefab",
+      "guid": "53fbc47d8efc9ab4f9c2ca1eab18d468",
+      "role": "Office_desk1",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472576141357422,
+      "source_size_m": [
+        2.205190896987915,
+        0.8911103010177612,
+        1.086809515953064
+      ],
+      "size_m": [
+        1.8683648109436035,
+        0.7549999952316284,
+        0.9208076596260071
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk1_alt.prefab",
+      "guid": "2bd1de22c48aae343aa5b5dbc2967919",
+      "role": "Office_desk1_alt",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472573161125183,
+      "source_size_m": [
+        2.3937816619873047,
+        0.8911105990409851,
+        1.478930950164795
+      ],
+      "size_m": [
+        2.028149127960205,
+        0.7549999952316284,
+        1.253035068511963
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk1_alt2.prefab",
+      "guid": "3a7766aed68f3574f92340ad8cc68cee",
+      "role": "Office_desk1_alt2",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472573161125183,
+      "source_size_m": [
+        2.3937816619873047,
+        0.8911105990409851,
+        1.478930950164795
+      ],
+      "size_m": [
+        2.028149127960205,
+        0.7549999952316284,
+        1.253035068511963
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk1_alt2_weathered.prefab",
+      "guid": "c8fea8782a88e514d92730e993ef44a9",
+      "role": "Office_desk1_alt2_weathered",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472573161125183,
+      "source_size_m": [
+        2.3937816619873047,
+        0.8911105990409851,
+        1.478930950164795
+      ],
+      "size_m": [
+        2.028149127960205,
+        0.7549999952316284,
+        1.253035068511963
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk1_alt3.prefab",
+      "guid": "3fc6150fdb93a384192fd6bddf22b7a7",
+      "role": "Office_desk1_alt3",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472573161125183,
+      "source_size_m": [
+        2.3937816619873047,
+        0.8911105990409851,
+        1.478930950164795
+      ],
+      "size_m": [
+        2.028149127960205,
+        0.7549999952316284,
+        1.253035068511963
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk1_alt3_weathered.prefab",
+      "guid": "5cf47ab152deca14e8eeb8d9fb3ad86b",
+      "role": "Office_desk1_alt3_weathered",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472573161125183,
+      "source_size_m": [
+        2.3937816619873047,
+        0.8911105990409851,
+        1.478930950164795
+      ],
+      "size_m": [
+        2.028149127960205,
+        0.7549999952316284,
+        1.253035068511963
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk1_alt4.prefab",
+      "guid": "a4e0bb85688095d45939ee6a77f71006",
+      "role": "Office_desk1_alt4",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472573161125183,
+      "source_size_m": [
+        2.3937816619873047,
+        0.8911105990409851,
+        1.478930950164795
+      ],
+      "size_m": [
+        2.028149127960205,
+        0.7549999952316284,
+        1.253035068511963
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk1_alt4_weathered.prefab",
+      "guid": "3debd4b904815714a973e608ad3410f6",
+      "role": "Office_desk1_alt4_weathered",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472573161125183,
+      "source_size_m": [
+        2.3937816619873047,
+        0.8911105990409851,
+        1.478930950164795
+      ],
+      "size_m": [
+        2.028149127960205,
+        0.7549999952316284,
+        1.253035068511963
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk1_alt_weathered.prefab",
+      "guid": "6dafa3b6a286be845a07ab7c7c2cd82e",
+      "role": "Office_desk1_alt_weathered",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.847257673740387,
+      "source_size_m": [
+        2.205190896987915,
+        0.8911102414131165,
+        1.0970697402954102
+      ],
+      "size_m": [
+        1.868364930152893,
+        0.7549999952316284,
+        0.9295007586479187
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk1_corner.prefab",
+      "guid": "e06d41c4ef4fe8f4a8379e86f86a4c05",
+      "role": "Office_desk1_corner",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472567796707153,
+      "source_size_m": [
+        2.490417003631592,
+        0.8911111950874329,
+        2.5834767818450928
+      ],
+      "size_m": [
+        2.110022783279419,
+        0.7549999952316284,
+        2.188868284225464
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk1_corner_weathered.prefab",
+      "guid": "a8bf30f87b6314047b4ada0b886fce55",
+      "role": "Office_desk1_corner_weathered",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472575545310974,
+      "source_size_m": [
+        2.200000286102295,
+        0.891110360622406,
+        2.200000286102295
+      ],
+      "size_m": [
+        1.863966941833496,
+        0.7549999952316284,
+        1.863966941833496
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk1_weathered.prefab",
+      "guid": "1c33bcb31ad482044a526fb348d236d3",
+      "role": "Office_desk1_weathered",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472576141357422,
+      "source_size_m": [
+        2.2051916122436523,
+        0.8911103010177612,
+        1.0917881727218628
+      ],
+      "size_m": [
+        1.8683654069900513,
+        0.7549999952316284,
+        0.9250258803367615
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk2.prefab",
+      "guid": "d0b00077a59a117468099627f0348798",
+      "role": "Office_desk2",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472574949264526,
+      "source_size_m": [
+        2.205190896987915,
+        0.8911104202270508,
+        1.091788411140442
+      ],
+      "size_m": [
+        1.8683645725250244,
+        0.7549999952316284,
+        0.9250259399414062
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk2_alt.prefab",
+      "guid": "36cb783c2681eb5489f36082f518576f",
+      "role": "Office_desk2_alt",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472573161125183,
+      "source_size_m": [
+        2.3937816619873047,
+        0.8911105990409851,
+        1.478930950164795
+      ],
+      "size_m": [
+        2.028149127960205,
+        0.7549999952316284,
+        1.253035068511963
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk2_alt2.prefab",
+      "guid": "45590ab646bbe3f438edc9ae9ea019d9",
+      "role": "Office_desk2_alt2",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472573161125183,
+      "source_size_m": [
+        2.3937816619873047,
+        0.8911105990409851,
+        1.478930950164795
+      ],
+      "size_m": [
+        2.028149127960205,
+        0.7549999952316284,
+        1.253035068511963
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk2_alt2_weathered.prefab",
+      "guid": "b3dc9509a58c4b741abddf5146f3b458",
+      "role": "Office_desk2_alt2_weathered",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472573161125183,
+      "source_size_m": [
+        2.3937816619873047,
+        0.8911105990409851,
+        1.478930950164795
+      ],
+      "size_m": [
+        2.028149127960205,
+        0.7549999952316284,
+        1.253035068511963
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk2_alt3.prefab",
+      "guid": "317e9b0fdd5951d49840a4acb67165cb",
+      "role": "Office_desk2_alt3",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472573161125183,
+      "source_size_m": [
+        2.3937816619873047,
+        0.8911105990409851,
+        1.478930950164795
+      ],
+      "size_m": [
+        2.028149127960205,
+        0.7549999952316284,
+        1.253035068511963
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk2_alt3_weathered.prefab",
+      "guid": "caa36a8e0a64d1c4d9d2607cfd71f130",
+      "role": "Office_desk2_alt3_weathered",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472573161125183,
+      "source_size_m": [
+        2.3937816619873047,
+        0.8911105990409851,
+        1.478930950164795
+      ],
+      "size_m": [
+        2.028149127960205,
+        0.7549999952316284,
+        1.253035068511963
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk2_alt4.prefab",
+      "guid": "8cd2dc66e5693494fb9e92272fc22849",
+      "role": "Office_desk2_alt4",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472573161125183,
+      "source_size_m": [
+        2.3937816619873047,
+        0.8911105990409851,
+        1.478930950164795
+      ],
+      "size_m": [
+        2.028149127960205,
+        0.7549999952316284,
+        1.253035068511963
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk2_alt4_weathered.prefab",
+      "guid": "1261c93a75d848e4abba4186adf82b57",
+      "role": "Office_desk2_alt4_weathered",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472573161125183,
+      "source_size_m": [
+        2.3937816619873047,
+        0.8911105990409851,
+        1.478930950164795
+      ],
+      "size_m": [
+        2.028149127960205,
+        0.7549999952316284,
+        1.253035068511963
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk2_alt_weathered.prefab",
+      "guid": "c223a72180cfe644fbaf75b7d95ac139",
+      "role": "Office_desk2_alt_weathered",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472573161125183,
+      "source_size_m": [
+        2.3937816619873047,
+        0.8911105990409851,
+        1.478930950164795
+      ],
+      "size_m": [
+        2.028149127960205,
+        0.7549999952316284,
+        1.253035068511963
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk2_corner.prefab",
+      "guid": "f3d4608be27117444ab3337b2c18a7c2",
+      "role": "Office_desk2_corner",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472575545310974,
+      "source_size_m": [
+        2.205190896987915,
+        0.891110360622406,
+        2.2105393409729004
+      ],
+      "size_m": [
+        1.868364691734314,
+        0.7549999952316284,
+        1.8728961944580078
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk2_corner_weathered.prefab",
+      "guid": "e0a110c4ed853d24bab4e71177d88fe8",
+      "role": "Office_desk2_corner_weathered",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.8472575545310974,
+      "source_size_m": [
+        2.200000286102295,
+        0.891110360622406,
+        2.200000286102295
+      ],
+      "size_m": [
+        1.863966941833496,
+        0.7549999952316284,
+        1.863966941833496
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_desk2_weathered.prefab",
+      "guid": "ac374acd4700dee4c9f021e91dbe9eb1",
+      "role": "Office_desk2_weathered",
+      "reference": "Sitting desk worktop including matching corner and conference pieces",
+      "factor": 0.847257673740387,
+      "source_size_m": [
+        2.2051913738250732,
+        0.8911102414131165,
+        1.091788411140442
+      ],
+      "size_m": [
+        1.8683652877807617,
+        0.7549999952316284,
+        0.9250261187553406
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_book_case.prefab",
+      "guid": "e7d8962947d8b134caf16481496e199d",
+      "role": "Office_book_case",
+      "reference": "Reachable office bookcase",
+      "factor": 0.81600022315979,
+      "source_size_m": [
+        2.0,
+        2.4999992847442627,
+        0.4887790083885193
+      ],
+      "size_m": [
+        1.63200044631958,
+        2.0399999618530273,
+        0.39884379506111145
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_book_case_small.prefab",
+      "guid": "15cddea8444867746a8ab8f56c64850e",
+      "role": "Office_book_case_small",
+      "reference": "Reachable office bookcase",
+      "factor": 0.81600022315979,
+      "source_size_m": [
+        1.0,
+        2.4999992847442627,
+        0.4887790083885193
+      ],
+      "size_m": [
+        0.81600022315979,
+        2.0399999618530273,
+        0.39884379506111145
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_book_case_with_back.prefab",
+      "guid": "9a7afb3ad21589a489470b4bcd00916e",
+      "role": "Office_book_case_with_back",
+      "reference": "Reachable office bookcase",
+      "factor": 0.81600022315979,
+      "source_size_m": [
+        2.0250000953674316,
+        2.4999992847442627,
+        0.5000001192092896
+      ],
+      "size_m": [
+        1.6524004936218262,
+        2.0399999618530273,
+        0.4080002009868622
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_book_case_with_back_Small.prefab",
+      "guid": "a6962a1055510f0479e2975db0a0ecda",
+      "role": "Office_book_case_with_back_Small",
+      "reference": "Reachable office bookcase",
+      "factor": 0.81600022315979,
+      "source_size_m": [
+        1.0125000476837158,
+        2.4999992847442627,
+        0.5000001192092896
+      ],
+      "size_m": [
+        0.8262002468109131,
+        2.0399999618530273,
+        0.4080002009868622
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_whiteboard.prefab",
+      "guid": "ff215e0a289d5bb4eba57523e48a6cef",
+      "role": "Office_whiteboard",
+      "reference": "Freestanding whiteboard including frame",
+      "factor": 0.7248484492301941,
+      "source_size_m": [
+        2.1478664875030518,
+        2.566053628921509,
+        0.8568750619888306
+      ],
+      "size_m": [
+        1.5568777322769165,
+        1.8600000143051147,
+        0.6211045384407043
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_wall_clock.prefab",
+      "guid": "2cbf957fb0446e544a280d7bd161ac56",
+      "role": "Office_wall_clock",
+      "reference": "Office wall clock",
+      "factor": 0.595818817615509,
+      "source_size_m": [
+        0.6042104959487915,
+        0.6042103171348572,
+        0.03393465653061867
+      ],
+      "size_m": [
+        0.36000001430511475,
+        0.3599998950958252,
+        0.02021890878677368
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 0,
+      "physics_checks": 0
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Can_Soda.prefab",
+      "guid": "42fe794290aea4e4292e82207827ff30",
+      "role": "Pizzeria_Can_Soda",
+      "reference": "Single drink can",
+      "factor": 0.6563991904258728,
+      "source_size_m": [
+        0.10306153446435928,
+        0.19805021584033966,
+        0.10306151956319809
+      ],
+      "size_m": [
+        0.06764950603246689,
+        0.12999999523162842,
+        0.06764949858188629
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Can_Soda_001.prefab",
+      "guid": "ee612a2042d87074b921ab9688e24818",
+      "role": "Pizzeria_Can_Soda_001",
+      "reference": "Single drink can",
+      "factor": 0.6563991904258728,
+      "source_size_m": [
+        0.10306153446435928,
+        0.19805021584033966,
+        0.10306151956319809
+      ],
+      "size_m": [
+        0.06764950603246689,
+        0.12999999523162842,
+        0.06764949858188629
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Can_Soda_002.prefab",
+      "guid": "0d61d4ee6f0ebef4bb960db57f918616",
+      "role": "Pizzeria_Can_Soda_002",
+      "reference": "Single drink can",
+      "factor": 0.6563991904258728,
+      "source_size_m": [
+        0.10306153446435928,
+        0.19805021584033966,
+        0.10306151956319809
+      ],
+      "size_m": [
+        0.06764950603246689,
+        0.12999999523162842,
+        0.06764949858188629
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Can_Soda_003.prefab",
+      "guid": "b8d96dace62718a49ac6220dc7cfe7ef",
+      "role": "Pizzeria_Can_Soda_003",
+      "reference": "Single drink can",
+      "factor": 0.6563991904258728,
+      "source_size_m": [
+        0.10306153446435928,
+        0.19805021584033966,
+        0.10306151956319809
+      ],
+      "size_m": [
+        0.06764950603246689,
+        0.12999999523162842,
+        0.06764949858188629
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Can_Soda_005.prefab",
+      "guid": "ecb20c55ce9dacc4c91242bb3937aebb",
+      "role": "Pizzeria_Can_Soda_005",
+      "reference": "Single drink can",
+      "factor": 0.6376162767410278,
+      "source_size_m": [
+        0.10609752684831619,
+        0.20388437807559967,
+        0.106097511947155
+      ],
+      "size_m": [
+        0.06764951348304749,
+        0.12999999523162842,
+        0.06764949858188629
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Can_Soda_006.prefab",
+      "guid": "5d9658abdf0c23b43bd6dae5ff05a655",
+      "role": "Pizzeria_Can_Soda_006",
+      "reference": "Single drink can",
+      "factor": 0.6376162767410278,
+      "source_size_m": [
+        0.10609752684831619,
+        0.20388437807559967,
+        0.106097511947155
+      ],
+      "size_m": [
+        0.06764951348304749,
+        0.12999999523162842,
+        0.06764949858188629
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Can_Soda_007.prefab",
+      "guid": "5a79b6eee3e12614c95080c5b7967fb3",
+      "role": "Pizzeria_Can_Soda_007",
+      "reference": "Single drink can",
+      "factor": 0.6376162767410278,
+      "source_size_m": [
+        0.10609752684831619,
+        0.20388437807559967,
+        0.106097511947155
+      ],
+      "size_m": [
+        0.06764951348304749,
+        0.12999999523162842,
+        0.06764949858188629
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Can_Soda_038.prefab",
+      "guid": "62268a4838d242448a4e5c8e79a7b6b5",
+      "role": "Pizzeria_Can_Soda_038",
+      "reference": "Single drink can",
+      "factor": 0.6376162767410278,
+      "source_size_m": [
+        0.10609752684831619,
+        0.20388437807559967,
+        0.106097511947155
+      ],
+      "size_m": [
+        0.06764951348304749,
+        0.12999999523162842,
+        0.06764949858188629
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_vessel_Soda.prefab",
+      "guid": "5b335d76d27692f47bd459f173180a2d",
+      "role": "Pizzeria_vessel_Soda",
+      "reference": "Takeaway soft drink cup and matching lids; stacked cups retain their arrangement",
+      "factor": 0.6700000166893005,
+      "source_size_m": [
+        0.16141821444034576,
+        0.2532980442047119,
+        0.16141819953918457
+      ],
+      "size_m": [
+        0.10815020650625229,
+        0.1697096824645996,
+        0.1081501916050911
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_vessel_Soda_001.prefab",
+      "guid": "657e08d758e9c794dab7050a6c974398",
+      "role": "Pizzeria_vessel_Soda_001",
+      "reference": "Takeaway soft drink cup and matching lids; stacked cups retain their arrangement",
+      "factor": 0.6700000166893005,
+      "source_size_m": [
+        0.16141821444034576,
+        0.2532980442047119,
+        0.16141819953918457
+      ],
+      "size_m": [
+        0.10815020650625229,
+        0.1697096824645996,
+        0.1081501916050911
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_vessel_Soda_002.prefab",
+      "guid": "7446d8646ed27c14ea243cf925c53569",
+      "role": "Pizzeria_vessel_Soda_002",
+      "reference": "Takeaway soft drink cup and matching lids; stacked cups retain their arrangement",
+      "factor": 0.6700000166893005,
+      "source_size_m": [
+        0.16644352674484253,
+        0.4309569299221039,
+        0.16644351184368134
+      ],
+      "size_m": [
+        0.11151716113090515,
+        0.2887411415576935,
+        0.11151715368032455
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_vessel_Soda_003.prefab",
+      "guid": "05f6249f077ce764b9a9b810b2aece86",
+      "role": "Pizzeria_vessel_Soda_003",
+      "reference": "Takeaway soft drink cup and matching lids; stacked cups retain their arrangement",
+      "factor": 0.6700000166893005,
+      "source_size_m": [
+        0.16896288096904755,
+        0.015631088986992836,
+        0.16896289587020874
+      ],
+      "size_m": [
+        0.11320512741804123,
+        0.010472829453647137,
+        0.11320514231920242
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_vessel_Soda_004.prefab",
+      "guid": "a2982b6bc1a56c24a856fa472a8cceba",
+      "role": "Pizzeria_vessel_Soda_004",
+      "reference": "Takeaway soft drink cup and matching lids; stacked cups retain their arrangement",
+      "factor": 0.6700000166893005,
+      "source_size_m": [
+        0.16141840815544128,
+        0.5065961480140686,
+        0.16141822934150696
+      ],
+      "size_m": [
+        0.10815033316612244,
+        0.339419424533844,
+        0.10815021395683289
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_vessel_Soda_005.prefab",
+      "guid": "9fdb04c3307864b4cb6f3fa2f2b09c18",
+      "role": "Pizzeria_vessel_Soda_005",
+      "reference": "Takeaway soft drink cup and matching lids; stacked cups retain their arrangement",
+      "factor": 0.6700000166893005,
+      "source_size_m": [
+        0.16896291077136993,
+        0.08128149062395096,
+        0.16896291077136993
+      ],
+      "size_m": [
+        0.11320514976978302,
+        0.05445859953761101,
+        0.11320514976978302
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_vessel_Soda_008.prefab",
+      "guid": "33d2d1a6a77ab1b4b805b83d8bdb6705",
+      "role": "Pizzeria_vessel_Soda_008",
+      "reference": "Takeaway soft drink cup and matching lids; stacked cups retain their arrangement",
+      "factor": 0.6700000166893005,
+      "source_size_m": [
+        0.1614183783531189,
+        0.405276894569397,
+        0.16141821444034576
+      ],
+      "size_m": [
+        0.10815031081438065,
+        0.2715355157852173,
+        0.10815020650625229
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Basil_Pizza.prefab",
+      "guid": "978c4772c60218140b111d1764834bc0",
+      "role": "Pizzeria_Basil_Pizza",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.5993001461029053,
+        0.03167900815606117,
+        0.6301413178443909
+      ],
+      "size_m": [
+        0.3715660870075226,
+        0.019640985876321793,
+        0.39068761467933655
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Cheese_Pizza.prefab",
+      "guid": "07a87beadc26069479c06410507daf0f",
+      "role": "Pizzeria_Cheese_Pizza",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.5993001461029053,
+        0.03167900815606117,
+        0.6301413178443909
+      ],
+      "size_m": [
+        0.3715660870075226,
+        0.019640985876321793,
+        0.39068761467933655
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Ham_Pizza.prefab",
+      "guid": "3ae9a450ab4bfff40826c8eaa695f412",
+      "role": "Pizzeria_Ham_Pizza",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.5993001461029053,
+        0.03167900815606117,
+        0.6301413178443909
+      ],
+      "size_m": [
+        0.3715660870075226,
+        0.019640985876321793,
+        0.39068761467933655
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Mushroom_pizza.prefab",
+      "guid": "4f7123670c0e0d442965ecb17e73042d",
+      "role": "Pizzeria_Mushroom_pizza",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.5993001461029053,
+        0.03167900815606117,
+        0.6301413178443909
+      ],
+      "size_m": [
+        0.3715660870075226,
+        0.019640985876321793,
+        0.39068761467933655
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Olive_Pizza.prefab",
+      "guid": "6da8a2120f183b34c829149320ce6434",
+      "role": "Pizzeria_Olive_Pizza",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.5993001461029053,
+        0.03167900815606117,
+        0.6301413178443909
+      ],
+      "size_m": [
+        0.3715660870075226,
+        0.019640985876321793,
+        0.39068761467933655
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pepper_Pizza.prefab",
+      "guid": "492a4b3710bff304fb6a604041583268",
+      "role": "Pizzeria_Pepper_Pizza",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.5993001461029053,
+        0.03167900815606117,
+        0.6301413178443909
+      ],
+      "size_m": [
+        0.3715660870075226,
+        0.019640985876321793,
+        0.39068761467933655
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pineapple_Pizza.prefab",
+      "guid": "2dce0a45347542d49922af6aad7e64ad",
+      "role": "Pizzeria_Pineapple_Pizza",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.5993001461029053,
+        0.03167900815606117,
+        0.6301413178443909
+      ],
+      "size_m": [
+        0.3715660870075226,
+        0.019640985876321793,
+        0.39068761467933655
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_M.prefab",
+      "guid": "90f1a5346f69b8341a09155971d8c515",
+      "role": "Pizzeria_Pizza_M",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.5993001461029053,
+        0.03167900815606117,
+        0.6301413178443909
+      ],
+      "size_m": [
+        0.3715660870075226,
+        0.019640985876321793,
+        0.39068761467933655
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_Peperoni.prefab",
+      "guid": "ad3e6a5bd3de4044bb913cbed367c79f",
+      "role": "Pizzeria_Pizza_Peperoni",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.5993001461029053,
+        0.03167900815606117,
+        0.6301413178443909
+      ],
+      "size_m": [
+        0.3715660870075226,
+        0.019640985876321793,
+        0.39068761467933655
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_S.prefab",
+      "guid": "831526389d20d4949aed0517dc3e30c8",
+      "role": "Pizzeria_Pizza_S",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.5993001461029053,
+        0.03167900815606117,
+        0.6301413178443909
+      ],
+      "size_m": [
+        0.3715660870075226,
+        0.019640985876321793,
+        0.39068761467933655
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_S_002.prefab",
+      "guid": "bd51bb9acd92c1841b50c0c854014c25",
+      "role": "Pizzeria_Pizza_S_002",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.17573033273220062,
+        0.030060144141316414,
+        0.29897022247314453
+      ],
+      "size_m": [
+        0.10895280539989471,
+        0.018637290224432945,
+        0.18536153435707092
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_S_003.prefab",
+      "guid": "72d5397211ff94047a98d5903957ff3d",
+      "role": "Pizzeria_Pizza_S_003",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.2843376100063324,
+        0.03006013296544552,
+        0.24187196791172028
+      ],
+      "size_m": [
+        0.17628931999206543,
+        0.01863728277385235,
+        0.14996062219142914
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_S_004.prefab",
+      "guid": "8d5995da71e9d2b44a3663cb503128cb",
+      "role": "Pizzeria_Pizza_S_004",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.2843376100063324,
+        0.03006012737751007,
+        0.1847737431526184
+      ],
+      "size_m": [
+        0.17628931999206543,
+        0.01863727904856205,
+        0.11455971747636795
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_S_005.prefab",
+      "guid": "e85f650c6b5875241b8de1049c72d1af",
+      "role": "Pizzeria_Pizza_S_005",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.2843376100063324,
+        0.03006013296544552,
+        0.2418719381093979
+      ],
+      "size_m": [
+        0.17628931999206543,
+        0.01863728277385235,
+        0.14996060729026794
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_S_006.prefab",
+      "guid": "73257046db3293645a3862bd4acf5639",
+      "role": "Pizzeria_Pizza_S_006",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.17573033273220062,
+        0.030060140416026115,
+        0.29897019267082214
+      ],
+      "size_m": [
+        0.10895280539989471,
+        0.018637286499142647,
+        0.18536151945590973
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_S_007.prefab",
+      "guid": "16271704bccac5e458db4e68abf01d5e",
+      "role": "Pizzeria_Pizza_S_007",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.17573033273220062,
+        0.030060140416026115,
+        0.29897019267082214
+      ],
+      "size_m": [
+        0.10895280539989471,
+        0.018637286499142647,
+        0.18536151945590973
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_S_008.prefab",
+      "guid": "9983c92a6811b554098918afe0b85f50",
+      "role": "Pizzeria_Pizza_S_008",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.2843376100063324,
+        0.03006013296544552,
+        0.2418719381093979
+      ],
+      "size_m": [
+        0.17628931999206543,
+        0.01863728277385235,
+        0.14996060729026794
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_S_009.prefab",
+      "guid": "56b6243f48e6edb428a5ccf449e14ed7",
+      "role": "Pizzeria_Pizza_S_009",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.2843376100063324,
+        0.03006012737751007,
+        0.1847737431526184
+      ],
+      "size_m": [
+        0.17628931999206543,
+        0.01863727904856205,
+        0.11455971747636795
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_S_010.prefab",
+      "guid": "2fd35f53869ddb2458f05c7c01711966",
+      "role": "Pizzeria_Pizza_S_010",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.2843376100063324,
+        0.03006013296544552,
+        0.24187196791172028
+      ],
+      "size_m": [
+        0.17628931999206543,
+        0.01863728277385235,
+        0.14996062219142914
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_S_011.prefab",
+      "guid": "1b9efa49d11ebe046aca0243eb35bdca",
+      "role": "Pizzeria_Pizza_S_011",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.17573033273220062,
+        0.030060144141316414,
+        0.29897022247314453
+      ],
+      "size_m": [
+        0.10895280539989471,
+        0.018637290224432945,
+        0.18536153435707092
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_box.prefab",
+      "guid": "2f1024cb205a0ea449dd1c6f04a571b8",
+      "role": "Pizzeria_Pizza_box",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.6900177597999573,
+        0.0787908136844635,
+        0.6900178790092468
+      ],
+      "size_m": [
+        0.42781099677085876,
+        0.04885030537843704,
+        0.4278110861778259
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_box_001.prefab",
+      "guid": "c39a1fd975a12d24883dabc77de74412",
+      "role": "Pizzeria_Pizza_box_001",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.6999124884605408,
+        0.09409325569868088,
+        0.6999121904373169
+      ],
+      "size_m": [
+        0.43394574522972107,
+        0.05833781883120537,
+        0.43394556641578674
+      ],
+      "resized": true,
+      "mesh_parts": 2,
+      "colliders": 2,
+      "physics_checks": 2
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_box_003.prefab",
+      "guid": "0ee49b9f2aed4674cab12bc52b59ffae",
+      "role": "Pizzeria_Pizza_box_003",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.6798092126846313,
+        0.07879067957401276,
+        0.6798089742660522
+      ],
+      "size_m": [
+        0.4214816987514496,
+        0.04885021969676018,
+        0.42148154973983765
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_box_004.prefab",
+      "guid": "6f8f0b8fb29f79346b47b9c26dc7f992",
+      "role": "Pizzeria_Pizza_box_004",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.6924973130226135,
+        0.07879064977169037,
+        0.6924968361854553
+      ],
+      "size_m": [
+        0.42934831976890564,
+        0.048850201070308685,
+        0.42934805154800415
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_box_005.prefab",
+      "guid": "3c99992cbcbd1da4ca53669e9775f8a1",
+      "role": "Pizzeria_Pizza_box_005",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.6994240283966064,
+        0.07879066467285156,
+        0.6994237899780273
+      ],
+      "size_m": [
+        0.4336428940296173,
+        0.04885021224617958,
+        0.43364274501800537
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pizza_box_006.prefab",
+      "guid": "fa7b1af214a161b4eb3aedfd919a5ffa",
+      "role": "Pizzeria_Pizza_box_006",
+      "reference": "Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.7052254676818848,
+        0.07879061996936798,
+        0.7052254676818848
+      ],
+      "size_m": [
+        0.43723979592323303,
+        0.04885018616914749,
+        0.43723979592323303
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Dish.prefab",
+      "guid": "113775d7b9234d145adfd4b19ae10205",
+      "role": "Pizzeria_Dish",
+      "reference": "Dinner plate",
+      "factor": 0.7358722686767578,
+      "source_size_m": [
+        0.3618778884410858,
+        0.0290348120033741,
+        0.38050082325935364
+      ],
+      "size_m": [
+        0.2662959098815918,
+        0.02136591263115406,
+        0.2800000011920929
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Dish_001.prefab",
+      "guid": "35b9aa1b3fdc8c348b8b1d217b727132",
+      "role": "Pizzeria_Dish_001",
+      "reference": "Dinner plate",
+      "factor": 0.7358722686767578,
+      "source_size_m": [
+        0.3618778884410858,
+        0.0290348120033741,
+        0.38050082325935364
+      ],
+      "size_m": [
+        0.2662959098815918,
+        0.02136591263115406,
+        0.2800000011920929
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Dish_002.prefab",
+      "guid": "beb99be82df224b4bae4702f8fb921a2",
+      "role": "Pizzeria_Dish_002",
+      "reference": "Dinner plate",
+      "factor": 0.7358722686767578,
+      "source_size_m": [
+        0.3618778884410858,
+        0.0290348120033741,
+        0.38050082325935364
+      ],
+      "size_m": [
+        0.2662959098815918,
+        0.02136591263115406,
+        0.2800000011920929
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Dish_004.prefab",
+      "guid": "bf86678debe48044c9e9e6050672fad3",
+      "role": "Pizzeria_Dish_004",
+      "reference": "Dinner plate",
+      "factor": 0.7358722686767578,
+      "source_size_m": [
+        0.3618778884410858,
+        0.0290348120033741,
+        0.38050082325935364
+      ],
+      "size_m": [
+        0.2662959098815918,
+        0.02136591263115406,
+        0.2800000011920929
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Cheese_grater.prefab",
+      "guid": "a296f5092137df94ca7fc1b268432b43",
+      "role": "Pizzeria_Cheese_grater",
+      "reference": "Box grater about 23 to 29 cm high",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.20728342235088348,
+        0.45849117636680603,
+        0.1543308049440384
+      ],
+      "size_m": [
+        0.12851572036743164,
+        0.28426453471183777,
+        0.09568510204553604
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Cheese_grater_001.prefab",
+      "guid": "511287978d40d8d429c9f5f711cd6db6",
+      "role": "Pizzeria_Cheese_grater_001",
+      "reference": "Box grater about 23 to 29 cm high",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.16642098128795624,
+        0.36810728907585144,
+        0.12390705943107605
+      ],
+      "size_m": [
+        0.10318101197481155,
+        0.22822651267051697,
+        0.07682237774133682
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Roller.prefab",
+      "guid": "6e4fea779a288054ba7ffac8fe528948",
+      "role": "Pizzeria_Roller",
+      "reference": "Rolling pins about 37 to 53 cm long",
+      "factor": 0.699999988079071,
+      "source_size_m": [
+        0.7460135817527771,
+        0.07698969542980194,
+        0.08890000730752945
+      ],
+      "size_m": [
+        0.5222095251083374,
+        0.05389278754591942,
+        0.062230005860328674
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Roller_001.prefab",
+      "guid": "60b133ed658f27c4fb53b15d3ee105db",
+      "role": "Pizzeria_Roller_001",
+      "reference": "Rolling pins about 37 to 53 cm long",
+      "factor": 0.699999988079071,
+      "source_size_m": [
+        0.5283482670783997,
+        0.05452631786465645,
+        0.06296153366565704
+      ],
+      "size_m": [
+        0.3698437809944153,
+        0.038168422877788544,
+        0.04407307505607605
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Cutting_board.prefab",
+      "guid": "a750a71d67510e04c897bdc1e19c46ca",
+      "role": "Pizzeria_Cutting_board",
+      "reference": "Commercial cutting boards about 44 to 61 cm long",
+      "factor": 0.6800000071525574,
+      "source_size_m": [
+        0.9013937711715698,
+        0.034777119755744934,
+        0.53256756067276
+      ],
+      "size_m": [
+        0.6129477620124817,
+        0.023648440837860107,
+        0.36214593052864075
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Cutting_board_001.prefab",
+      "guid": "e3527bf9f5a4ccf428121af097bf5a51",
+      "role": "Pizzeria_Cutting_board_001",
+      "reference": "Commercial cutting boards about 44 to 61 cm long",
+      "factor": 0.6800000071525574,
+      "source_size_m": [
+        0.6383929252624512,
+        0.024630149826407433,
+        0.3771795928478241
+      ],
+      "size_m": [
+        0.4341071844100952,
+        0.016748500987887383,
+        0.2564821243286133
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_tongs.prefab",
+      "guid": "2ef52db92a92e30428979cc63b7543b9",
+      "role": "Pizzeria_tongs",
+      "reference": "Kitchen tongs at serving distance",
+      "factor": 0.699999988079071,
+      "source_size_m": [
+        0.5898556113243103,
+        0.08428984880447388,
+        0.19948574900627136
+      ],
+      "size_m": [
+        0.4128989279270172,
+        0.059002894908189774,
+        0.13964001834392548
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_tongs_001.prefab",
+      "guid": "735cd77d073b0e34da11b206e115e331",
+      "role": "Pizzeria_tongs_001",
+      "reference": "Kitchen tongs at serving distance",
+      "factor": 0.699999988079071,
+      "source_size_m": [
+        0.14598454535007477,
+        0.43165886402130127,
+        0.06168361008167267
+      ],
+      "size_m": [
+        0.10218918323516846,
+        0.30216121673583984,
+        0.04317852854728699
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Pineapple.prefab",
+      "guid": "cf19ed30496eb0743831524509d916c2",
+      "role": "Pizzeria_Pineapple",
+      "reference": "Whole pineapple with crown",
+      "factor": 0.5752347111701965,
+      "source_size_m": [
+        0.23672273755073547,
+        0.5562946796417236,
+        0.23672275245189667
+      ],
+      "size_m": [
+        0.1361711323261261,
+        0.3199999928474426,
+        0.1361711472272873
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Menu_Cube_033.prefab",
+      "guid": "053bd3efe04264f4eb03f894b0eee1a3",
+      "role": "Pizzeria_Menu_Cube_033",
+      "reference": "Freestanding row of countertop menu boards about 35 cm high",
+      "factor": 0.3474803864955902,
+      "source_size_m": [
+        0.6321634650230408,
+        0.9990636706352234,
+        4.748469352722168
+      ],
+      "size_m": [
+        0.21966440975666046,
+        0.34715503454208374,
+        1.649999976158142
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_coffee_machine.prefab",
+      "guid": "ca56e5a408493574eae7f5cfc9b34170",
+      "role": "Office_coffee_machine",
+      "reference": "Floor-standing coffee vending machine",
+      "factor": 0.8568850755691528,
+      "source_size_m": [
+        1.2536813020706177,
+        2.123972177505493,
+        1.2828941345214844
+      ],
+      "size_m": [
+        1.0742607116699219,
+        1.8200000524520874,
+        1.0992927551269531
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Refrigerator.prefab",
+      "guid": "1bff67c92c5d18343b1337c6506102fc",
+      "role": "Pizzeria_Refrigerator",
+      "reference": "Commercial upright refrigerator including compressor housing",
+      "factor": 0.7800981998443604,
+      "source_size_m": [
+        1.5840967893600464,
+        2.6663310527801514,
+        0.9444129467010498
+      ],
+      "size_m": [
+        1.2357510328292847,
+        2.0799999237060547,
+        0.7367348074913025
+      ],
+      "resized": true,
+      "mesh_parts": 3,
+      "colliders": 3,
+      "physics_checks": 3
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Refrigerator_01.prefab",
+      "guid": "bcaf093433d9fc54cad2a900712e2205",
+      "role": "Pizzeria_Refrigerator_01",
+      "reference": "Commercial upright refrigerator including compressor housing",
+      "factor": 0.8653733134269714,
+      "source_size_m": [
+        1.4948967695236206,
+        2.4035868644714355,
+        0.9518556594848633
+      ],
+      "size_m": [
+        1.293643832206726,
+        2.0799999237060547,
+        0.8237105011940002
+      ],
+      "resized": true,
+      "mesh_parts": 3,
+      "colliders": 3,
+      "physics_checks": 3
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Refrigerator_01_001.prefab",
+      "guid": "e4c9c798b6f1f4e44ad9addc688493f5",
+      "role": "Pizzeria_Refrigerator_01_001",
+      "reference": "Commercial upright refrigerator including compressor housing",
+      "factor": 0.8653734922409058,
+      "source_size_m": [
+        1.4948976039886475,
+        2.4035863876342773,
+        0.9518575668334961
+      ],
+      "size_m": [
+        1.2936447858810425,
+        2.0799999237060547,
+        0.8237123489379883
+      ],
+      "resized": true,
+      "mesh_parts": 3,
+      "colliders": 3,
+      "physics_checks": 3
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_water_cooler.prefab",
+      "guid": "b46e8e09a067f4647877d6573e0dedc2",
+      "role": "Office_water_cooler",
+      "reference": "Matching dispenser body and refill bottle; assembled height about 1.52 m",
+      "factor": 0.8199999928474426,
+      "source_size_m": [
+        0.37757596373558044,
+        1.3962879180908203,
+        0.44878271222114563
+      ],
+      "size_m": [
+        0.30961230397224426,
+        1.144956111907959,
+        0.3680018186569214
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_water_cooler_bottle.prefab",
+      "guid": "71fb6854d37e15f41abf23d2076a83f7",
+      "role": "Office_water_cooler_bottle",
+      "reference": "Matching dispenser body and refill bottle; assembled height about 1.52 m",
+      "factor": 0.8199999928474426,
+      "source_size_m": [
+        0.34910061955451965,
+        0.5123326778411865,
+        0.40310654044151306
+      ],
+      "size_m": [
+        0.28626251220703125,
+        0.4201127886772156,
+        0.33054736256599426
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Office/Prefabs/Office_water_cooler_bottle_attached.prefab",
+      "guid": "1a0d6e6b1fa12f44880e107de6c5cf7b",
+      "role": "Office_water_cooler_bottle_attached",
+      "reference": "Matching dispenser body and refill bottle; assembled height about 1.52 m",
+      "factor": 0.8199999928474426,
+      "source_size_m": [
+        0.7790499925613403,
+        1.849648356437683,
+        0.7821491956710815
+      ],
+      "size_m": [
+        0.638821005821228,
+        1.5167115926742554,
+        0.6413623690605164
+      ],
+      "resized": true,
+      "mesh_parts": 1,
+      "colliders": 1,
+      "physics_checks": 1
+    },
+    {
+      "id": "",
+      "path": "Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_Basil.prefab",
+      "guid": "e76b771f8f776f549916c26cbe51d410",
+      "role": "Pizzeria_Basil",
+      "reference": "Loose topping spread matches its 39 cm pizza",
+      "factor": 0.6200000047683716,
+      "source_size_m": [
+        0.3765915632247925,
+        0.019977645948529243,
+        0.3768484592437744
+      ],
+      "size_m": [
+        0.23348677158355713,
+        0.012386140413582325,
+        0.23364605009555817
       ],
       "resized": true,
       "mesh_parts": 1,

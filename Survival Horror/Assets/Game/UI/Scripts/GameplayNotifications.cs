@@ -8,8 +8,8 @@ namespace HorrorGame.UI
     {
         private const float Duration = 4f;
         private GameObject surface;
-        private CanvasGroup documentPopup, circuitPopup, activePopup;
-        private TMP_Text documentName, circuitText;
+        private CanvasGroup documentPopup, circuitPopup, controlsPopup, activePopup;
+        private TMP_Text documentName, circuitText, controlsText;
         private DocumentData pendingDocument;
         private UIMap map;
         private float started, expires, countChangedAt;
@@ -28,6 +28,17 @@ namespace HorrorGame.UI
             if (count <= 0 || !UIManager.Exists) return;
             var notifications = Get();
             notifications.ShowCircuits(count);
+        }
+
+        public static void ShowControls(string hint)
+        {
+            if (!UIManager.Exists || string.IsNullOrWhiteSpace(hint)) return;
+            var notifications = Get();
+            if (!notifications.controlsPopup)
+                notifications.controlsPopup = notifications.CreatePopup("CONTROLS", string.Empty, false, out notifications.controlsText);
+            notifications.Clear();
+            notifications.controlsText.text = hint;
+            notifications.Activate(notifications.controlsPopup);
         }
 
         public static void DismissAll()
@@ -72,6 +83,7 @@ namespace HorrorGame.UI
 
         private void ShowCircuits(int count)
         {
+            if (controlsPopup && activePopup == controlsPopup && Time.unscaledTime < expires) return;
             if (!circuitPopup)
                 circuitPopup = CreatePopup("TABLET UPDATE", "Press M", true, out circuitText);
             if (activePopup != circuitPopup || Time.unscaledTime >= expires)

@@ -1,12 +1,10 @@
-"""Build the first cross-pack placement catalogue. Never moves or edits prefab assets."""
+"""Build the project placement catalogue using the original pilot classification rules."""
 from pathlib import Path
-import collections
 import json
 import re
 import unicodedata
 
 ROOT = Path(__file__).resolve().parents[2]
-OUTPUT = ROOT / 'Assets/Game/Environment/Editor/AssetLibrary/Catalog.json'
 SOURCE = ROOT / 'ArtSource/Environment/AssetLibrary'
 
 
@@ -100,11 +98,11 @@ def classify(name, role):
     return None
 
 
-def main():
+def build_pilot_catalogue():
     quality = read(ROOT / 'ArtSource/Environment/DownloadedEnvironmentPacks/QualityCatalog.json')
     qa = {a['guid']: a for a in quality['assets'] if a['status'] != 'Removed'}
     plan = read(ROOT / 'ArtSource/Environment/ScaleCalibration/ScalePlan.json')
-    roles = {a['guid']: a['role'] for a in plan['assets']}
+    roles = {a['guid']: a['role'] for a in plan['assets'] if not a.get('dimension_only')}
     sizes = {a['guid']: a['target_size_m'] for a in plan['assets']}
     reviewed = read(SOURCE / 'ReviewedSubjects.json')['subjects']
     entries = []
@@ -115,7 +113,7 @@ def main():
         # These are authoring fragments, not complete placeable subjects.
         if any(x in rel for x in ['/DisplayGeometry/', '/WallFamilies/', '/Windows/', '/Editor/']):
             continue
-        if rel.split('/')[3] in {'GarageDoors', 'LightingElectrical', 'Sewer', 'Vehicles'}:
+        if rel.split('/')[3] in {'ElectricalBox', 'ElectricalDevices', 'GarageDoors', 'LightingElectrical', 'Sewer', 'Vehicles'}:
             continue
         if path.stem in {'HouseProps_pencilCup', 'Mine_Tray', 'StorageBox_NoCollision'}:
             continue
@@ -175,22 +173,26 @@ def main():
         ('tableware',['crockery','dishes','dish','plate','bowl','cup','mug']),
         ('packaged',['canned food','tinned food','tins','cans','canned goods','groceries']),
         ('containers',['box','boxes','crate','crates','carton','cartons']),
+        ('electricity box',['electricitybox','electrical box','electrical cabinet','breaker box','fuse box']),
+        ('interactables',['interactable','interactible','interactibles']),
+        ('intercom speaker',['speaker box','buzzer']),
+        ('keycard reader',['key card reader','card reader']),
+        ('control button',['push button']),
+        ('security screen',['mini terminal','security terminal']),
         ('countertop',['blender','toaster','microwave']),
+        ('television',['tv','tvs','televisions']),
+        ('floodlight',['flood light','work light']),
         ('stockroom',['backroom','back room']),
     ]
     catalog = dict(version=1, scope=['Kitchen','Grocery Store','Storage'],
                    statuses=['Candidate','Unreviewed','Review','Background'],
                    synonyms=[dict(canonical=c,aliases=v) for c,v in aliases],
                    entries=entries)
-    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT.write_text(json.dumps(catalog, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
-    SOURCE.mkdir(parents=True, exist_ok=True)
-    report = dict(total=len(entries), categories=dict(sorted(collections.Counter(a['category'] for a in entries).items())),
-                  tags=dict(sorted(collections.Counter(t for a in entries for t in a['tags']).items())),
-                  statuses=dict(collections.Counter(a['status'] for a in entries)), unmatched=excluded)
-    (SOURCE/'ClassificationReceipt.json').write_text(json.dumps(report,indent=2)+'\n')
-    print(json.dumps(report,indent=2))
+    return catalog, excluded
 
 
 if __name__ == '__main__':
-    main()
+    from build_project_asset_inventory import publish_catalogue
+
+    pilot, unmatched = build_pilot_catalogue()
+    publish_catalogue(pilot, unmatched)

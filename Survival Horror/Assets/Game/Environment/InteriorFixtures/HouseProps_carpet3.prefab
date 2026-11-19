@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8967195256009652691}
   - component: {fileID: 7580594518217577093}
   - component: {fileID: 551622761319594940}
-  - component: {fileID: 8663686483031323929}
   m_Layer: 0
   m_Name: HouseProps_carpet3_Visual
   m_TagString: Untagged
@@ -123,25 +122,3 @@ Transform:
   - {fileID: 8967195256009652691}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &8663686483031323929
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1497699397943289537}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2390778073664202400, guid: cd8f82e3743948f4cb5ad2282b76915d, type: 3}

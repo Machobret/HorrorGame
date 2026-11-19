@@ -16,50 +16,765 @@ MonoBehaviour:
   - label: Wall light
     prefab: {fileID: 4352859168878914077, guid: 70c56214f00d8f84bad940957e404277, type: 3}
     mount: 0
+    wallAndCeiling: 0
+    recessedWallMount: 0
     modelRotation: {x: 0, y: -90, z: 0}
-    lightRange: 6.5
+    lightRange: 3
     previousLightIntensity: 0.75
-    lightIntensity: 2
+    lightIntensity: 1
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 37cca4fccfeb4d7ca45107c85d0d97d2, type: 2}
+    emitterOffset: 0.922
+    freeOffsetAxis: {x: 1, y: 0, z: 0}
+    beamAngle: 155
     originalRange: 6.5
     originalIntensity: 2
   - label: Ceiling light
     prefab: {fileID: 1616010202186468042, guid: 60db14e8aa2f8204fbc09cd64c7502c2, type: 3}
     mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
     modelRotation: {x: 0, y: 0, z: 0}
     lightRange: 8
     previousLightIntensity: 0.75
     lightIntensity: 1.6
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 37cca4fccfeb4d7ca45107c85d0d97d2, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 155
     originalRange: 8
     originalIntensity: 1.6
   - label: Bollard light
     prefab: {fileID: 2597850291939527455, guid: 12178f7f198f732499f810b1e2281788, type: 3}
     mount: 1
+    wallAndCeiling: 0
+    recessedWallMount: 0
     modelRotation: {x: 0, y: 0, z: 0}
     lightRange: 5
+    previousLightIntensity: 0
     lightIntensity: 0.75
+    initiallyOff: 0
+    lightColor: {r: 1, g: 1, b: 1, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 7abb6f438cc757241b64e0bf8416d3a7, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
   - label: Power socket
     prefab: {fileID: 622919538952406093, guid: 39d27f667437de64e8300826833f3604, type: 3}
     mount: 0
+    wallAndCeiling: 0
+    recessedWallMount: 0
     modelRotation: {x: 0, y: -90, z: 0}
     lightRange: 0
+    previousLightIntensity: 0
+    lightIntensity: 1
+    initiallyOff: 0
+    lightColor: {r: 1, g: 1, b: 1, a: 1}
+    diffuserMaterial: {fileID: 0}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
   - label: Vent cover
     prefab: {fileID: 6966549269211079946, guid: 4c1421869782afd408c033c404ba1152, type: 3}
     mount: 0
+    wallAndCeiling: 0
+    recessedWallMount: 0
     modelRotation: {x: 0, y: 90, z: 0}
     lightRange: 0
+    previousLightIntensity: 0
+    lightIntensity: 1
+    initiallyOff: 0
+    lightColor: {r: 1, g: 1, b: 1, a: 1}
+    diffuserMaterial: {fileID: 0}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
   - label: Pancake light
     prefab: {fileID: 6531299125685625040, guid: f17eb91418ea289478fbf4bb282288f7, type: 3}
     mount: 0
     wallAndCeiling: 1
+    recessedWallMount: 0
     modelRotation: {x: 90, y: 0, z: 0}
     lightRange: 5.5
+    previousLightIntensity: 0
     lightIntensity: 1.1
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 7abb6f438cc757241b64e0bf8416d3a7, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
     beamAngle: 145
+    originalRange: 0
+    originalIntensity: 0
   - label: Bar light
     prefab: {fileID: 1853418466214196067, guid: 4c48096793f3c8140a8dcc8d69d6d04a, type: 3}
     mount: 0
     wallAndCeiling: 1
+    recessedWallMount: 0
     modelRotation: {x: 0, y: 0, z: 0}
-    lightRange: 7
-    lightIntensity: 1.5
+    lightRange: 8
+    previousLightIntensity: 0
+    lightIntensity: 1.25
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: e697b8f4eefe409c83e06bc5e3a21a94, type: 2}
+    emitterOffset: 0.62
+    freeOffsetAxis: {x: 0, y: 0, z: 1}
     beamAngle: 145
+    originalRange: 7
+    originalIntensity: 1.5
+  - label: Shaded desk lamp 1
+    prefab: {fileID: 4099268432729230329, guid: b9896e8ae74b74b45bc3c3e4140ece5b, type: 3}
+    mount: 1
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 0e690bb262ec45c5ac9c7e2b552280ae, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Shaded desk lamp 2
+    prefab: {fileID: 2647972490135329609, guid: 3e595abc141e5e74395060c58a860e94, type: 3}
+    mount: 1
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 0e690bb262ec45c5ac9c7e2b552280ae, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Pendant
+    prefab: {fileID: 5269655392897939830, guid: 1d968effca158ac4293b88f51d61e8c4, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 4b027b3931115394a84712e020791e4a, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Linear ceiling strip
+    prefab: {fileID: 7190844526279558348, guid: 23e2fba3224401f49b8b39bb7f863783, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 4b027b3931115394a84712e020791e4a, type: 2}
+    emitterOffset: 0.69
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Floor lamp
+    prefab: {fileID: 768564671474599655, guid: c6c2d1a7fde28024e8987061a9a52c75, type: 3}
+    mount: 1
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: a9b16b0f543f4903a1463426f29b976d, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Table lamp
+    prefab: {fileID: 7892515650464324863, guid: 93c9a7b0dde560a459f6a35790f782fc, type: 3}
+    mount: 1
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: a9b16b0f543f4903a1463426f29b976d, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Floodlight
+    prefab: {fileID: 3734616782883709319, guid: e1b221682a59dec44a907a3f56de94ec, type: 3}
+    mount: 1
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 15.3
+    previousLightIntensity: 0
+    lightIntensity: 41.31
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 7abb6f438cc757241b64e0bf8416d3a7, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
+    beamAngle: 114.9
+    originalRange: 10
+    originalIntensity: 3
+  - label: Mine lantern
+    prefab: {fileID: 830259788905320585, guid: 724e7b69ec214d844b88da2675d1d1de, type: 3}
+    mount: 1
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 4b027b3931115394a84712e020791e4a, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Mine lamp
+    prefab: {fileID: 4734977224504262039, guid: 39ad96578ffd5bd4986bf7167e8196be, type: 3}
+    mount: 1
+    wallAndCeiling: 0
+    recessedWallMount: 1
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 5
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 4b027b3931115394a84712e020791e4a, type: 2}
+    emitterOffset: 1
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Utility downlight 1
+    prefab: {fileID: 8283177345313440597, guid: 928b9787f1515c14387887a97ed6a265, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 4b027b3931115394a84712e020791e4a, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Utility downlight 2
+    prefab: {fileID: 4802971001240490845, guid: 75c3f4f60b257894cbc1f318dae8c00b, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 4b027b3931115394a84712e020791e4a, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Utility downlight 3
+    prefab: {fileID: 3040758791875708288, guid: e29c7d96ded574141b5c8a6850e82c77, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 4b027b3931115394a84712e020791e4a, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Village sconce 1
+    prefab: {fileID: 7939666230346136762, guid: f6cf1525b145f0f48ad643b9742a6ddf, type: 3}
+    mount: 0
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: -90, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 4b027b3931115394a84712e020791e4a, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 0, z: 1}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Village sconce 2
+    prefab: {fileID: 5115053959066936441, guid: 02a7511a2a4fb00418ea2c35b6b9e59c, type: 3}
+    mount: 0
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: -90, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 4b027b3931115394a84712e020791e4a, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 0, z: 1}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Village sconce 3
+    prefab: {fileID: 2988083111554970482, guid: 3d2d1bef7fc7fce4f9fec902e009faeb, type: 3}
+    mount: 0
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: -90, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 4b027b3931115394a84712e020791e4a, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 0, z: 1}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Village sconce 4
+    prefab: {fileID: 7928345382514530979, guid: d8c04facbd06c3647a854ae3b35b23b5, type: 3}
+    mount: 0
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: -90, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 4b027b3931115394a84712e020791e4a, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 0, z: 1}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Metro ceiling strip
+    prefab: {fileID: 6029928762856048486, guid: 236abeb810ddd64469c9a66e0498f78a, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: e63fdd0a3f1e69547a30dfad58952245, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Circular task lamp
+    prefab: {fileID: 6250231820052079249, guid: a81e242bd904e814c9558634b27838be, type: 3}
+    mount: 1
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 7abb6f438cc757241b64e0bf8416d3a7, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Circular task lamp angled
+    prefab: {fileID: 3523000548637668257, guid: 5b67d6b2f24a8f145ad16afc2b4849f1, type: 3}
+    mount: 1
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 7abb6f438cc757241b64e0bf8416d3a7, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Square task lamp
+    prefab: {fileID: 1453780602570158767, guid: c2153799d0b002c4f9460b8c30ad006e, type: 3}
+    mount: 1
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 7abb6f438cc757241b64e0bf8416d3a7, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Square task lamp angled
+    prefab: {fileID: 4648015089278671400, guid: 18f550b13632b42488483391753e1b66, type: 3}
+    mount: 1
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 7abb6f438cc757241b64e0bf8416d3a7, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Square ceiling panel
+    prefab: {fileID: 3644959014960791225, guid: 9811e3d59b8580e4da66ae1469f4e65f, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 6
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: ac1885d6986ecdb4fac5df76aebeac44, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Street lamp 1
+    prefab: {fileID: 6811451973011260868, guid: b95b9615df2666740b868c76068e5488, type: 3}
+    mount: 1
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 11
+    previousLightIntensity: 0
+    lightIntensity: 2.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 6fea2548b0a268c4d848d89b4040ac89, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Street lamp 2
+    prefab: {fileID: 641313091334882384, guid: b10279e8830a7f542a73a61a5ed89553, type: 3}
+    mount: 1
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 11
+    previousLightIntensity: 0
+    lightIntensity: 2.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 6fea2548b0a268c4d848d89b4040ac89, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Street lamp 3
+    prefab: {fileID: 7416540961769061978, guid: a3e305c408e02634f86b194ec573c5d8, type: 3}
+    mount: 1
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 11
+    previousLightIntensity: 0
+    lightIntensity: 2.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 6fea2548b0a268c4d848d89b4040ac89, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Street lamp 4
+    prefab: {fileID: 8182100293622363965, guid: 609b8292ce5d37d4bb3e9eb05a515dec, type: 3}
+    mount: 1
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 11
+    previousLightIntensity: 0
+    lightIntensity: 2.5
+    initiallyOff: 0
+    lightColor: {r: 1, g: 0.96, b: 0.9, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 6fea2548b0a268c4d848d89b4040ac89, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: 1, z: 0}
+    beamAngle: 155
+    originalRange: 0
+    originalIntensity: 0
+  - label: Ceiling panel 01 horror
+    prefab: {fileID: 5682240304876754789, guid: a81be858f21bb7648ac3d9863026e2fe, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 9.32
+    previousLightIntensity: 0
+    lightIntensity: 11.89
+    initiallyOff: 0
+    lightColor: {r: 0.86, g: 0.91, b: 1, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 32f8b194ae3e0e44fa31f432c7dcc988, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 74.7
+    originalRange: 0
+    originalIntensity: 0
+  - label: Ceiling panel 02 horror
+    prefab: {fileID: 3057668281593123838, guid: 179ad43bc762b444a99fe76225354ab8, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 5
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 1
+    lightColor: {r: 0.86, g: 0.91, b: 1, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 5b2d09a5f1f5636449142fd77053901a, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 110
+    originalRange: 0
+    originalIntensity: 0
+  - label: Ceiling panel 03 horror
+    prefab: {fileID: 6281952373755395952, guid: f24e123fc6af46f4fbe6a17499e511af, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 5
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 0.86, g: 0.91, b: 1, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 32f8b194ae3e0e44fa31f432c7dcc988, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 110
+    originalRange: 0
+    originalIntensity: 0
+  - label: Ceiling panel 04 horror
+    prefab: {fileID: 1298423071102797502, guid: bde1ce0f355f58d47a7010dd5d83061b, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 5
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 1
+    lightColor: {r: 0.86, g: 0.91, b: 1, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 5b2d09a5f1f5636449142fd77053901a, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 110
+    originalRange: 0
+    originalIntensity: 0
+  - label: Ceiling panel 05 horror
+    prefab: {fileID: 1720894983892020483, guid: 838792d1ffadf8d47bfd80dd6e6dd93a, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 5
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 0.86, g: 0.91, b: 1, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 32f8b194ae3e0e44fa31f432c7dcc988, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 110
+    originalRange: 0
+    originalIntensity: 0
+  - label: Ceiling panel 06 horror
+    prefab: {fileID: 5178290690195133497, guid: d9e23ca322604914cb8c3f84eed343fc, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 5
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 1
+    lightColor: {r: 0.86, g: 0.91, b: 1, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 5b2d09a5f1f5636449142fd77053901a, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 110
+    originalRange: 0
+    originalIntensity: 0
+  - label: Ceiling panel 01 normal
+    prefab: {fileID: 1455211094933295572, guid: 2b43e0f8196423b4b97c4b2d1882034f, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 5
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 0.86, g: 0.91, b: 1, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 6284ef91a16305048bc01d699b248609, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 110
+    originalRange: 0
+    originalIntensity: 0
+  - label: Ceiling panel 02 normal
+    prefab: {fileID: 3149678033712453337, guid: a2b0198e5c6658e408957f66287b3a1f, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 5
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 0.86, g: 0.91, b: 1, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 6284ef91a16305048bc01d699b248609, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 110
+    originalRange: 0
+    originalIntensity: 0
+  - label: Ceiling panel 03 normal
+    prefab: {fileID: 634128717865577207, guid: cbaf9b2e07839364cbf9eac34c191330, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 5
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 0.86, g: 0.91, b: 1, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 6284ef91a16305048bc01d699b248609, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 110
+    originalRange: 0
+    originalIntensity: 0
+  - label: Ceiling panel 04 normal
+    prefab: {fileID: 3552990766506168478, guid: 2ecc2f6db2e67114ba04862833842f3a, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 5
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 0.86, g: 0.91, b: 1, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 6284ef91a16305048bc01d699b248609, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 110
+    originalRange: 0
+    originalIntensity: 0
+  - label: Ceiling panel 05 normal
+    prefab: {fileID: 5617967741712796450, guid: 810253a27acdde34f9edb0cf3e564730, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 5
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 0.86, g: 0.91, b: 1, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 6284ef91a16305048bc01d699b248609, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 110
+    originalRange: 0
+    originalIntensity: 0
+  - label: Ceiling panel 06 normal
+    prefab: {fileID: 1428524529991129847, guid: 52646971ce146344b8ce612e84b3c0eb, type: 3}
+    mount: 2
+    wallAndCeiling: 0
+    recessedWallMount: 0
+    modelRotation: {x: 0, y: 0, z: 0}
+    lightRange: 5
+    previousLightIntensity: 0
+    lightIntensity: 1.5
+    initiallyOff: 0
+    lightColor: {r: 0.86, g: 0.91, b: 1, a: 1}
+    diffuserMaterial: {fileID: 2100000, guid: 6284ef91a16305048bc01d699b248609, type: 2}
+    emitterOffset: 0
+    freeOffsetAxis: {x: 0, y: -1, z: 0}
+    beamAngle: 110
+    originalRange: 0
+    originalIntensity: 0

@@ -18,18 +18,20 @@ namespace HorrorGame.Chapter1
             // light can be composed. Play mode always calls Refresh via the
             // circuit base class, restoring the actual powered state.
             if (Application.isPlaying) return;
-            foreach (Light light in Lights) if (light) light.enabled = true;
+            foreach (Light light in Lights)
+                if (light && !light.GetComponentInParent<HouseToolkit.FixtureAttachment>()) light.enabled = true;
         }
 #endif
 
         public override void Refresh()
         {
             bool powered = Powered;
-            foreach (Light light in Lights) if (light) light.enabled = powered;
+            foreach (Light light in Lights) if (light) HouseToolkit.FixtureAttachment.SetPower(light, powered);
             if (FogClearVolume) FogClearVolume.SetPowered(powered);
             foreach (Renderer renderer in EmissiveRenderers)
             {
-                if (!renderer || !renderer.material.HasProperty("_EmissionColor")) continue;
+                if (!renderer || renderer.GetComponentInParent<HouseToolkit.FixtureAttachment>()) continue;
+                if (!renderer.material.HasProperty("_EmissionColor")) continue;
                 renderer.material.EnableKeyword("_EMISSION");
                 renderer.material.SetColor("_EmissionColor", powered ? OnEmission : Color.black);
             }

@@ -94,6 +94,99 @@ public sealed class EnvironmentSelectionTests
     }
 
     [Test]
+    public void PinnedCutawayFollowsTheRememberedFloorAcrossHouseEdits()
+    {
+        var upper=HouseEditing.AddFloor(house);
+        var top=HouseEditing.AddFloor(house);
+        var neighbour=HouseEditing.Create(Vector3.right*10,house.exteriorFamily);
+        var neighbourFloor=HouseEditing.Floors(neighbour).Single();
+        var neighbourUpper=HouseEditing.AddFloor(neighbour);
+        var visibility=SceneVisibilityManager.instance;
+
+        HouseScene.Enter(floor);
+        HouseScene.SwitchFloor(upper);
+        HouseScene.SetCutawayPinned(house,true);
+        HouseScene.Leave();
+        Assert.IsFalse(HouseScene.Floor);
+        Assert.IsFalse(visibility.IsHidden(upper.gameObject));
+        Assert.IsTrue(visibility.IsHidden(top.gameObject));
+
+        HouseScene.Enter(neighbourFloor);
+        Assert.IsTrue(visibility.IsHidden(top.gameObject));
+        Assert.IsTrue(visibility.IsHidden(neighbourUpper.gameObject));
+        HouseScene.Leave();
+        Assert.IsTrue(visibility.IsHidden(top.gameObject));
+        Assert.IsFalse(visibility.IsHidden(neighbourUpper.gameObject));
+
+        HouseScene.ToggleCutaway(house);
+        Assert.IsTrue(HouseScene.IsCutawayPinned(house));
+        Assert.IsFalse(visibility.IsHidden(top.gameObject));
+        HouseScene.Enter(floor);
+        Assert.AreSame(upper,HouseScene.Floor);
+        Assert.IsFalse(HouseScene.Cutaway,"A pinned off setting must survive re-entry.");
+        HouseScene.ToggleCutaway(house);
+        HouseScene.Leave();
+        Assert.IsTrue(visibility.IsHidden(top.gameObject));
+        HouseScene.SetCutawayPinned(house,false);
+        Assert.IsFalse(visibility.IsHidden(top.gameObject));
+    }
+
+    [Test]
+    public void SavingWithPinnedCutawaysPreservesManualVisibilityAcrossReopen()
+    {
+        house.name="Pinned house";
+        var upper=HouseEditing.AddFloor(house);
+        var neighbour=HouseEditing.Create(Vector3.right*10,house.exteriorFamily);
+        neighbour.name="Pinned neighbour";
+        var neighbourFloor=HouseEditing.Floors(neighbour).Single();
+        var neighbourUpper=HouseEditing.AddFloor(neighbour);
+        var marker=new GameObject("Manually hidden prop");
+        marker.transform.SetParent(upper.transform,false);
+        var visibility=SceneVisibilityManager.instance;
+        var scene=floor.gameObject.scene;
+        var path=AssetDatabase.GenerateUniqueAssetPath("Assets/PinnedCutawayCheck.unity");
+        try
+        {
+            Assert.IsTrue(EditorSceneManager.SaveScene(scene,path));
+            visibility.Hide(marker,false);
+            HouseScene.Enter(floor);
+            HouseScene.SetCutawayPinned(house,true);
+            HouseScene.Enter(neighbourFloor);
+            HouseScene.SetCutawayPinned(neighbour,true);
+            HouseScene.Leave();
+
+            // Removing one preview also writes visibility for this scene.
+            HouseScene.SetCutawayPinned(neighbour,false);
+            Assert.IsTrue(visibility.IsHidden(upper.gameObject));
+            Assert.IsFalse(visibility.IsHidden(neighbourUpper.gameObject));
+            HouseScene.Enter(neighbourFloor);
+            HouseScene.SetCutawayPinned(neighbour,true);
+            HouseScene.Leave();
+            Assert.IsTrue(EditorSceneManager.SaveScene(scene));
+            Assert.IsTrue(visibility.IsHidden(upper.gameObject));
+            Assert.IsTrue(visibility.IsHidden(neighbourUpper.gameObject));
+
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
+            var reopened=EditorSceneManager.OpenScene(path);
+            var houses=reopened.GetRootGameObjects().SelectMany(root=>root.GetComponentsInChildren<House>()).ToArray();
+            Assert.AreEqual(2,houses.Length);
+            foreach(var reopenedHouse in houses)
+            {
+                Assert.IsFalse(HouseScene.IsCutawayPinned(reopenedHouse));
+                Assert.IsFalse(visibility.IsHidden(HouseEditing.Floors(reopenedHouse).Last().gameObject));
+            }
+            var reopenedMarker=houses.Single(h=>h.name=="Pinned house").GetComponentsInChildren<Transform>()
+                .Single(go=>go.name=="Manually hidden prop");
+            Assert.IsTrue(visibility.IsHidden(reopenedMarker.gameObject));
+        }
+        finally
+        {
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
+            AssetDatabase.DeleteAsset(path);
+        }
+    }
+
+    [Test]
     public void RoofRespectsFloorAndRoomOverridesAndNoTrim()
     {
         var edit=new FloorEdit(floor);

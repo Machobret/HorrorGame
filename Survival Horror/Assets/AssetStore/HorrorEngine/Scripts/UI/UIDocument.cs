@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 namespace HorrorEngine
 {
@@ -30,6 +29,8 @@ namespace HorrorEngine
         private DocumentData m_CurrentData;
         private int m_CurrentPage;
         private int m_OpenedFrame;
+        private int m_HorizontalInput;
+        private IUIInput m_Input;
         private bool m_PreviousSelected;
         private float m_HighlightStarted;
 
@@ -38,6 +39,7 @@ namespace HorrorEngine
 
         private void Awake()
         {
+            m_Input = GetComponentInParent<IUIInput>();
             gameObject.SetActive(false);
 
             m_DefaultImageColor = m_PageImage.color;
@@ -58,6 +60,7 @@ namespace HorrorEngine
 
             m_CurrentPage = -1;
             m_OpenedFrame = Time.frameCount;
+            m_HorizontalInput = GetHorizontalInput();
             SelectPrevious(false);
             m_PageImage.color = m_ImageFadeOutColor;
             
@@ -153,16 +156,21 @@ namespace HorrorEngine
         {
             if (!m_CurrentData || Time.frameCount == m_OpenedFrame) return;
 
-            var keyboard = Keyboard.current;
-            if (keyboard != null)
+            if (m_Input != null && m_Input.IsCancelDown())
             {
-                if (keyboard.dKey.wasPressedThisFrame)
-                    SelectPrevious(false);
-                else if (m_CurrentPage > 0 && keyboard.aKey.wasPressedThisFrame)
-                    SelectPrevious(true);
+                Hide();
+                return;
             }
 
-            if (keyboard != null && keyboard.eKey.wasPressedThisFrame)
+            int horizontal = GetHorizontalInput();
+            if (horizontal != m_HorizontalInput)
+            {
+                if (horizontal > 0) SelectPrevious(false);
+                if (horizontal < 0 && m_CurrentPage > 0) SelectPrevious(true);
+                m_HorizontalInput = horizontal;
+            }
+
+            if (m_Input != null && m_Input.IsConfirmDown())
             {
                 if (m_PreviousSelected)
                     ShowPrevPage();
@@ -173,6 +181,12 @@ namespace HorrorEngine
             }
 
             if (m_CurrentData) UpdateNavigationHighlight();
+        }
+
+        private int GetHorizontalInput()
+        {
+            float axis = m_Input?.GetPrimaryAxis().x ?? 0f;
+            return axis > .5f ? 1 : axis < -.5f ? -1 : 0;
         }
 
         private void SelectPrevious(bool previous)

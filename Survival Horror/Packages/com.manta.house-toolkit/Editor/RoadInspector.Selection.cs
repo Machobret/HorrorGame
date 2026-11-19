@@ -42,6 +42,41 @@ namespace HouseToolkit.Editor
                     Field("Change road sidewalk",(g,h)=>Side(g,h).sidewalk,
                         v=>(RoadOverride)EditorGUILayout.EnumPopup(left?"Left sidewalk":"Right sidewalk",v),(g,h,v)=>Side(g,h).sidewalk=v);
                 }
+                var streets = hits.GroupBy(h => graph.Span(h.id).run).Select(group => group.First()).ToArray();
+                StreetlightRun Lights(RoadGraph g, RoadHit h) => g.Lights(g.Span(h.id).run);
+                Field("Toggle streetlights", (g,h) => Lights(g,h)?.enabled == true,
+                    v => EditorGUILayout.Toggle("Repeating streetlights", v), (g,h,v) => {
+                        var style = Lights(g,h);
+                        if (style == null)
+                        {
+                            style = new StreetlightRun { run = g.Span(h.id).run };
+                            g.streetlights.Add(style);
+                        }
+                        if (v && !style.prefab)
+                        {
+                            style.prefab = AssetDatabase.FindAssets("Pizzeria_streetlight_001 t:Prefab")
+                                .Select(id => AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(id)))
+                                .FirstOrDefault(prefab => prefab && prefab.name == "Pizzeria_streetlight_001");
+                            if (!style.prefab) throw new InvalidOperationException("The Pizzeria_streetlight_001 prefab is missing.");
+                        }
+                        style.enabled = v;
+                    }, streets);
+                var lit = streets.Where(h => Lights(graph,h)?.enabled == true).ToArray();
+                if (lit.Length > 0)
+                {
+                    Field("Change streetlight side", (g,h) => Lights(g,h).side,
+                        v => (StreetlightSide)EditorGUILayout.EnumPopup("Side", v),
+                        (g,h,v) => Lights(g,h).side = v, lit);
+                    Field("Change streetlight period", (g,h) => Lights(g,h).period,
+                        v => EditorGUILayout.Slider("Period (m)", v, 2, 60), (g,h,v) => {
+                            var style = Lights(g,h);
+                            style.period = v;
+                            style.offset = Mathf.Repeat(style.offset, v);
+                        }, lit);
+                    Field("Change streetlight offset", (g,h) => Lights(g,h).offset,
+                        v => EditorGUILayout.Slider("Offset (m)", v, 0, lit.Min(h => Lights(graph,h).period)),
+                        (g,h,v) => Lights(g,h).offset = v, lit);
+                }
             }
             if(part==RoadPart.Path && !(road is ProceduralShelf || road is ProceduralMarking))
             {

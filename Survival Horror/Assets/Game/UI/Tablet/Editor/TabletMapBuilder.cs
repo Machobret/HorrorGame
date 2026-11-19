@@ -180,7 +180,7 @@ namespace HorrorGame.UI.Editor
             asset.TryAddCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 /:-_.,?<>[]()+%=\\");
             EditorUtility.SetDirty(asset);return asset;
         }
-        static void Style(TMP_Text text){text.font=font;text.color=Ink;text.enableWordWrapping=false;text.fontStyle=FontStyles.Normal;}
+        static void Style(TMP_Text text){text.font=font;text.color=Ink;text.textWrappingMode=TextWrappingModes.NoWrap;text.fontStyle=FontStyles.Normal;}
         static void Rect(RectTransform r,Vector2 min,Vector2 max){r.anchorMin=min;r.anchorMax=max;r.pivot=new Vector2(.5f,.5f);r.offsetMin=Vector2.zero;r.offsetMax=Vector2.zero;}
         static Image Panel(string name,Transform parent,Vector2 min,Vector2 max,Color color)
         {var go=new GameObject(name,typeof(RectTransform),typeof(CanvasRenderer),typeof(Image));go.layer=parent.gameObject.layer;go.transform.SetParent(parent,false);var image=go.GetComponent<Image>();Rect(image.rectTransform,min,max);image.color=color;image.raycastTarget=false;return image;}

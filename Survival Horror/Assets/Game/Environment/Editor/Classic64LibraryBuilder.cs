@@ -185,6 +185,8 @@ namespace HorrorGame.Environment.Editor
                     var visual = Object.Instantiate(model, go.transform, false);
                     visual.name = asset.name + "_Model";
                     var parts = visual.GetComponentsInChildren<MeshFilter>();
+                    var existing = AssetDatabase.LoadAssetAtPath<GameObject>(asset.prefab_path);
+                    bool nonBlocking = existing && AssetDatabase.GetLabels(existing).Contains("NonBlockingDecoration");
                     if (parts.Length != asset.geometry.Length) throw new InvalidOperationException("Missing mesh parts: " + asset.name);
                     foreach (var part in parts)
                     {
@@ -196,6 +198,11 @@ namespace HorrorGame.Environment.Editor
                         if (!renderer || renderer.sharedMaterials.Length != mesh.subMeshCount || renderer.sharedMaterials.Any(m => !m || !materials.Values.Contains(m)))
                             throw new InvalidOperationException("Unresolved material slots: " + part.name);
                         var collision = part.GetComponent<MeshCollider>();
+                        if (nonBlocking)
+                        {
+                            if (collision && !collision.isTrigger) Object.DestroyImmediate(collision);
+                            continue;
+                        }
                         if (!collision) collision = part.gameObject.AddComponent<MeshCollider>();
                         collision.sharedMesh = mesh;
                         collision.convex = false;

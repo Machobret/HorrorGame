@@ -1,9 +1,10 @@
 using HorrorEngine;
+using HorrorGame.UI;
 using UnityEngine;
 
 namespace HorrorGame.Chapter1
 {
-    /// <summary>Powered garage-door passage. Its prompt exists only while the assigned circuit is on.</summary>
+    /// <summary>Powered garage-door passage with optional feedback while locked.</summary>
     public class CircuitShutterTeleport : CircuitDrivenObject
     {
         [Min(.5f)] public float ExitClearance = 1.25f;
@@ -13,10 +14,13 @@ namespace HorrorGame.Chapter1
         public Transform OtherExitPoint;
         public DoorAnimation Animation;
         public InteractionData DoorInteraction;
+        public bool RequiresPuzzleUnlock;
+        [SerializeField] private InteractionData lockedInteraction;
+        [SerializeField] private string lockedHint;
         private TwoSidedDoor passage;
         private Interactive interaction;
         private bool puzzleUnlocked;
-        protected virtual bool PassageAvailable => puzzleUnlocked || Powered;
+        protected virtual bool PassageAvailable => puzzleUnlocked || (!RequiresPuzzleUnlock && Powered);
 
         public void SetPuzzleUnlocked(bool unlocked)
         {
@@ -63,12 +67,29 @@ namespace HorrorGame.Chapter1
 
         public override void Refresh()
         {
-            if (interaction) interaction.gameObject.SetActive(PassageAvailable);
+            if (!interaction) return;
+
+            bool available = PassageAvailable;
+            var data = available ? DoorInteraction : lockedInteraction;
+            if (interaction.Data != data) interaction.SetInteractionData(data);
+            interaction.gameObject.SetActive(available || lockedInteraction);
         }
 
         private void Traverse(IInteractor interactor)
         {
-            if (PassageAvailable && passage) passage.Use(interactor);
+            if (PassageAvailable)
+            {
+                if (passage) UsePassage(interactor, passage);
+            }
+            else if (lockedInteraction)
+            {
+                GameplayNotifications.ShowControls(lockedHint);
+            }
+        }
+
+        protected virtual void UsePassage(IInteractor interactor, TwoSidedDoor door)
+        {
+            door.Use(interactor);
         }
 
         private Transform CreateExit(string exitName, float side)

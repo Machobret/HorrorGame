@@ -96,24 +96,25 @@ namespace HorrorEngine
                     return false;
                 }
 
-                // check if first point in otherShape is inside this shape. If not, parent test fails.
-                // if yes, then continue to line seg intersection test between the two shapes
-
-                // (this point test is important because without it, if all line seg intersection tests fail,
-                // we wouldn't know if otherShape is entirely inside or entirely outside of this shape)
-                bool pointInsideShape = false;
-                for (int i = 0; i < triangles.Length; i += 3)
+                // Shared walls and corners are boundaries between adjoining solids.
+                // Only strictly interior outlines can become holes.
+                const float boundaryToleranceSquared = .00000001f;
+                foreach (Vector2 point in otherShape.points)
                 {
-                    if (Maths2D.PointInTriangle(polygon.points[triangles[i]], polygon.points[triangles[i + 1]], polygon.points[triangles[i + 2]], otherShape.points[0]))
+                    bool interior = false;
+                    for (int i = 0; i < triangles.Length && !interior; i += 3)
+                        interior = Maths2D.PointInTriangle(polygon.points[triangles[i]], polygon.points[triangles[i + 1]], polygon.points[triangles[i + 2]], point);
+                    if (!interior) return false;
+
+                    for (int i = 0; i < points.Length; i++)
                     {
-                        pointInsideShape = true;
-                        break;
+                        Vector2 start = points[i];
+                        Vector2 edge = points[(i + 1) % points.Length] - start;
+                        Vector2 offset = point - start;
+                        float lengthSquared = edge.sqrMagnitude;
+                        float fraction = lengthSquared > 0f ? Mathf.Clamp01(Vector2.Dot(offset, edge) / lengthSquared) : 0f;
+                        if ((offset - fraction * edge).sqrMagnitude <= boundaryToleranceSquared) return false;
                     }
-                }
-
-                if (!pointInsideShape)
-                {
-                    return false;
                 }
 
                 // Check for intersections between line segs of this shape and otherShape (any intersections will fail the parent test)

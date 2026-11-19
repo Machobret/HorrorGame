@@ -10,9 +10,16 @@ namespace Game.Editor.AssetLibrary
 {
     [Serializable] public sealed class LibraryEntry
     {
-        public string guid, name, category, status, note, path, source, original, classification;
+        public string guid, name, category, status, note, path, source, original, classification, view, role, action;
+        public string family, familyName, variantName;
         public string[] tags = Array.Empty<string>();
         public float[] size = Array.Empty<float>();
+        public bool CanPlace => action != "Inspect";
+    }
+
+    [Serializable] public sealed class LibraryCategoryAlias
+    {
+        public string previous, current;
     }
 
     [Serializable] public sealed class LibrarySynonym
@@ -24,8 +31,9 @@ namespace Game.Editor.AssetLibrary
     [Serializable] public sealed class LibraryCatalog
     {
         public int version;
-        public string[] scope, statuses;
+        public string[] scope, statuses, browseCategories;
         public LibrarySynonym[] synonyms;
+        public LibraryCategoryAlias[] categoryAliases;
         public LibraryEntry[] entries;
     }
 
@@ -63,19 +71,26 @@ namespace Game.Editor.AssetLibrary
         readonly (Regex pattern, string replacement)[] replacements;
         readonly Dictionary<string, string> documents = new Dictionary<string, string>();
         readonly Dictionary<string, LibraryEntry> entriesByGuid;
+        readonly Dictionary<string, string> categoryAliases;
 
         public LibraryIndex()
         {
             catalog = JsonUtility.FromJson<LibraryCatalog>(File.ReadAllText(CatalogPath));
-            if (catalog == null || catalog.version != 1 || catalog.entries == null)
+            if (catalog == null || catalog.version != 1 || catalog.entries == null || catalog.browseCategories == null)
                 throw new InvalidDataException("Unsupported or invalid asset catalogue.");
             overrides = File.Exists(OverridesPath)
                 ? JsonUtility.FromJson<LibraryOverrides>(File.ReadAllText(OverridesPath)) : new LibraryOverrides();
+            categoryAliases = (catalog.categoryAliases ?? Array.Empty<LibraryCategoryAlias>())
+                .ToDictionary(alias => alias.previous, alias => alias.current);
             entriesByGuid = catalog.entries.ToDictionary(entry => entry.guid);
             foreach (var edit in overrides.entries)
             {
                 if (!entriesByGuid.TryGetValue(edit.guid, out var entry)) continue;
-                entry.name = edit.name; entry.category = edit.category; entry.status = edit.status;
+                entry.name = edit.name; entry.status = edit.status;
+                string editedCategory = CurrentCategory(edit.category);
+                // Preserve an old custom label as a searchable detail under its original broad group.
+                entry.category = string.IsNullOrEmpty(BrowseCategory(editedCategory))
+                    ? entry.category.Split('/')[0] + "/" + editedCategory : editedCategory;
                 entry.note = edit.note; entry.tags = edit.tags ?? Array.Empty<string>();
             }
             replacements = catalog.synonyms
@@ -87,7 +102,7 @@ namespace Game.Editor.AssetLibrary
                 .ToArray();
             var canonicalFields = new Dictionary<string, string>(StringComparer.Ordinal);
             foreach (var entry in catalog.entries)
-                documents[entry.guid] = string.Join(" ", new[] {entry.name, entry.category, entry.original}
+                documents[entry.guid] = string.Join(" ", new[] {entry.name, entry.category, entry.original, entry.familyName ?? "", entry.variantName ?? ""}
                     .Concat(entry.tags).Select(field =>
                     {
                         if (!canonicalFields.TryGetValue(field, out string value))
@@ -97,6 +112,15 @@ namespace Game.Editor.AssetLibrary
         }
 
         public LibraryEntry Find(string guid) => guid != null && entriesByGuid.TryGetValue(guid, out var entry) ? entry : null;
+
+        public string CurrentCategory(string category) =>
+            category != null && categoryAliases.TryGetValue(category, out string current) ? current : category ?? "";
+
+        public string BrowseCategory(string category)
+        {
+            string group = CurrentCategory(category).Split('/')[0];
+            return catalog.browseCategories.Contains(group) ? group : "";
+        }
 
         public static string Normalize(string input)
         {
@@ -118,12 +142,13 @@ namespace Game.Editor.AssetLibrary
         public Func<LibraryEntry, bool> CreateMatcher(LibraryFilter filter, ISet<string> favourites = null)
         {
             var clauses = ParseQuery(filter.query);
-            string categoryPrefix = filter.category + "/";
+            string category = CurrentCategory(filter.category);
+            string categoryPrefix = category + "/";
             return entry =>
             {
                 if (filter.favouritesOnly && (favourites == null || !favourites.Contains(entry.guid))) return false;
                 if (!string.IsNullOrEmpty(filter.collection) && !entry.tags.Contains(filter.collection)) return false;
-                if (!string.IsNullOrEmpty(filter.category) && entry.category != filter.category &&
+                if (category.Length > 0 && entry.category != category &&
                     !entry.category.StartsWith(categoryPrefix, StringComparison.Ordinal)) return false;
                 if (filter.status == "Placeable")
                 {

@@ -6,7 +6,8 @@ import json
 from pathlib import Path
 import re
 
-from build_asset_library import normalize
+from build_asset_library import build_pilot_catalogue, normalize
+from asset_library_variants import assign_families
 
 
 PROJECT = Path(__file__).resolve().parents[2]
@@ -14,6 +15,7 @@ GAME = PROJECT / 'Assets/Game'
 ART = PROJECT / 'ArtSource/Environment'
 CATALOGUE = GAME / 'Environment/Editor/AssetLibrary/Catalog.json'
 OUTPUT = PROJECT / 'Exports/Reviews/AssetLibrary/WholeProject'
+MODELS_PACK_SUBJECTS = ART / 'AssetLibrary/ModelsPackPSXSubjects.json'
 
 DECISIONS = {
     'Identity': ('Ambiguous subject or standalone role',
@@ -34,6 +36,32 @@ PILOT_GROUPS = {
     'Retail': 'Commercial & built-in fixtures', 'Storage': 'Storage',
 }
 
+PROP_GROUPS = {
+    'Appliances & electronics': 'Appliances & electronics',
+    'Buildings': 'Buildings',
+    'Commercial & built-in fixtures': 'Fixtures & utilities',
+    'Decor & clutter': 'Decor & signage',
+    'Fixtures & utilities': 'Fixtures & utilities',
+    'Food & kitchenware': 'Food & kitchenware',
+    'Furniture': 'Furniture',
+    'Interactables': 'Interactables',
+    'Nature & debris': 'Nature & debris',
+    'Signs & graphics': 'Decor & signage',
+    'Storage': 'Storage',
+    'Street & transport': 'Street & vehicles',
+    'Tools & equipment': 'Tools & equipment',
+    'Waste & recycling': 'Waste & recycling',
+}
+
+# Other Buildings inventory subgroups are construction kits, loose parts, or doors.
+PLACEABLE_BUILDING_SUBGROUPS = {
+    'Background buildings', 'Commercial buildings', 'Complete buildings',
+    'Industrial buildings', 'Urban buildings', 'Urban exteriors',
+}
+
+# Collections are cross-category scene kits. Smaller contexts remain regular tags.
+PROP_COLLECTIONS = ('Kitchen', 'Grocery Store', 'Office', 'Restaurant', 'Street')
+
 # Named against the saved front renders for Pizzeria. IDs are pinned to the quality catalogue.
 PIZZERIA_REVIEWED = {
     'P0762': ('Buildings', 'Urban buildings', 'Masonry corner building'),
@@ -52,6 +80,7 @@ PIZZERIA_REVIEWED = {
 }
 
 OTHER_RENDER_SUBJECTS = {
+    'P0349': 'Woodgrain CRT television · P0349',
     'P0182': 'Single bed with mattress',
     'P0226': 'Single mattress',
     'P0280': 'Metal single bed frame',
@@ -60,8 +89,16 @@ OTHER_RENDER_SUBJECTS = {
     'P0346': 'Low single bed platform',
     'P0436': 'Freestanding coat rack',
     'P0529': 'Checked mattress',
-    'P1030': 'Sewer access ladder',
     'P1124': 'Wood pallet',
+}
+
+# Standalone subjects confirmed in the prefab renders. The surrounding kit parts
+# still follow their original architecture and infrastructure rules.
+REVIEWED_PACK_PROPS = {
+    'P0069': ('Fixtures & utilities', 'Ventilation fixtures', 'Packaged industrial ventilation unit', ('Industrial Yard',)),
+    'P0070': ('Fixtures & utilities', 'Ventilation fixtures', 'Framed industrial exhaust fan', ('Industrial Yard',)),
+    'P0071': ('Fixtures & utilities', 'Ventilation fixtures', 'Cross-braced industrial exhaust fan', ('Industrial Yard',)),
+    'P1030': ('Fixtures & utilities', 'Access ladders', 'Sewer access ladder', ('Sewer',)),
 }
 
 VARIANT_NOTES = {
@@ -155,8 +192,6 @@ def pack_environment(a, scale_role):
     name, scaled = normalize(subject), normalize(scale_role)
     if asset_id == 'P0436':
         return env('Furniture', 'Coat racks', tags=('Entryway',))
-    if asset_id == 'P1030':
-        return env('Infrastructure kits', 'Sewer access ladders', 'Kit module', ('Sewer',))
     if asset_id == 'P1124':
         return env('Storage', 'Pallets', tags=('Sewer', 'Stockroom'))
     if asset_id == 'P0182':
@@ -168,7 +203,7 @@ def pack_environment(a, scale_role):
         if a['id'] in ('P0772', 'P0924'):
             return technical('Prefab components', 'Restaurant fixture review', 'Hold for visual review', decision='Identity',
                              note=f'{title} in the saved render. Confirm its intended use before promoting it to Environment.')
-        return env(group, subgroup, tags=('Restaurant',))
+        return env(group, subgroup, tags=('Restaurant', 'Street') if group == 'Buildings' else ('Restaurant',))
     if category == 'Exterior buildings':
         return env('Buildings', 'Industrial buildings' if pack == 'IndustrialExterior' else 'Urban exteriors', tags=('Street',))
     if category == 'Vegetation':
@@ -204,7 +239,13 @@ def pack_environment(a, scale_role):
         return env('Infrastructure kits', 'Industrial structures & services', 'Kit module', ('Industrial Yard',))
     if pack == 'Office':
         if name.startswith('divider'):
+            if re.fullmatch(r'divider full [ch](?: lue| red)? desk(?: blue| red)?', name):
+                return env('Furniture', 'Desks', tags=('Office',))
+            if name.startswith(('divider veneer', 'divider wood')):
+                return env('Furniture', 'Office dividers', tags=('Office',))
             return env('Buildings', 'Modular office partitions', 'Kit module', ('Office',))
+        if re.search(r'^(desk\d|conference desk)', name):
+            return env('Furniture', 'Desks', tags=('Office',))
         if re.search(r'chair|desk|armchair|couch|beanbag', name) and not re.search(r'lamp|phone|desktop', name):
             return env('Furniture', 'Office furniture', tags=('Office',))
         if re.search(r'computer|desktop|phone|\btv\b', name):
@@ -241,6 +282,8 @@ def pack_environment(a, scale_role):
         if re.search(r'\bbed\b|mattress|chair|sofa|\bdesk\b|workbench|\btable\b', scaled) and not re.search(r'paper|platter|tableware', scaled):
             if re.search(r'bed|mattress', scaled):
                 return env('Furniture', 'Beds & mattresses', tags=('Bedroom',))
+            if 'writing desk' in scaled:
+                return env('Furniture', 'Desks', tags=('Office',))
             return env('Furniture', 'Seating & tables')
         if 'television' in scaled:
             return env('Appliances & electronics', 'Televisions')
@@ -254,6 +297,18 @@ def pack_environment(a, scale_role):
 
 def named_environment(parts, stem):
     folder, name = parts[1], normalize(stem)
+    if folder == 'ElectricalBox' and stem == 'ElectricityBox':
+        return env('Interactables', 'Electrical cabinets',
+                   tags=('Electrical', 'Industrial Yard', 'Interactable'),
+                   note='Toggle the Antenna child per instance. Attach interaction scripts to the prefab root.')
+    if folder == 'ElectricalDevices' and stem in {'ControlButton', 'IntercomSpeaker', 'KeycardReader', 'SecurityScreen'}:
+        return env('Interactables', 'Electrical controls',
+                   tags=('Electrical', 'Interactable', 'Antenna', 'Post Mount'),
+                   note='Check Post Mount in the Device Indicator inspector for freestanding placement. The antenna indicator is controlled separately.')
+    if folder == 'ElectricalDevices' and stem == 'DevicePost':
+        return technical('Prefab components', 'Electrical device mounts', 'Mount dependency')
+    if folder == 'Fences' and stem == 'Urban_WoodenFencePile':
+        return env('Nature & debris', 'Fence debris', tags=('Street', 'Outdoors'))
     direct = {
         'FillerBuildings': ('Buildings', 'Background buildings', 'Scene prop', ('Street',)),
         'FireEscapes': ('Buildings', 'Fire escape kit', 'Kit module', ('Street',)),
@@ -283,9 +338,11 @@ def named_environment(parts, stem):
         role = {'PushableCrate1': 'Push and climb', 'PushableCrate1.5': 'Push only'}.get(stem, 'Interactive prefab')
         return result('Gameplay', 'Interactables', 'Pushable crates', role, ('Stockroom',))
     if folder == 'PSXShelvesProps':
+        if 'Lighting' in parts and re.fullmatch(r'CeilingLight_\d+_(Normal|Horror)', stem):
+            return env('Fixtures & utilities', 'Lighting fixtures', tags=(stem.rsplit('_', 1)[1],))
         if 'DisplayGeometry' in parts or 'Lighting' in parts:
-            return technical('Showroom & authoring', 'Shelf showroom geometry' if 'DisplayGeometry' in parts else 'Shelf showroom lighting',
-                             'Demo component')
+            subgroup = 'Shelf showroom geometry' if 'DisplayGeometry' in parts else 'Shelf showroom lighting'
+            return technical('Showroom & authoring', subgroup, 'Demo component')
         if 'Books' in parts:
             return env('Decor & clutter', 'Books', tags=('Office',))
         return env('Storage', 'Shelving', tags=('Stockroom',))
@@ -308,6 +365,8 @@ def named_environment(parts, stem):
             return env('Tools & equipment', 'Vehicle maintenance', tags=('Garage',))
         return env('Street & transport', 'Road vehicles', tags=('Street',))
     if folder == 'Lighting':
+        if stem == 'Floodlight':
+            return env('Fixtures & utilities', 'Lighting fixtures', tags=('Industrial', 'Outdoors', 'Spotlight'))
         if stem in ('AtmosphericFog', 'Fire'):
             return result('Surfaces & presentation', 'Effects', 'Atmospheric effects', 'Scene effect')
         if stem in ('EmergencyRed', 'MoonWindow'):
@@ -363,16 +422,20 @@ def variant_review(parts, stem, quality):
     return ''
 
 
-def prefab_inventory():
-    pilot = read_json(CATALOGUE)
+def prefab_inventory(pilot=None, apply_overrides=True):
+    if pilot is None:
+        pilot, _ = build_pilot_catalogue()
+    live = {a['guid'] for a in read_json(CATALOGUE)['entries']} if CATALOGUE.exists() else set()
     entries = {a['guid']: a for a in pilot['entries']}
     overrides_path = CATALOGUE.with_name('Overrides.json')
-    if overrides_path.exists():
+    if apply_overrides and overrides_path.exists():
+        entries = {guid: dict(entry) for guid, entry in entries.items()}
         for override in read_json(overrides_path)['entries']:
             if override['guid'] in entries:
                 entries[override['guid']].update(override)
     quality = {a['guid']: a for a in read_json(ART / 'DownloadedEnvironmentPacks/QualityCatalog.json')['assets'] if a['status'] != 'Removed'}
-    calibrated = {a['guid']: a['role'] for a in read_json(ART / 'ScaleCalibration/ScalePlan.json')['assets']}
+    subjects = read_json(MODELS_PACK_SUBJECTS)['subjects']
+    calibrated = {a['guid']: a['role'] for a in read_json(ART / 'ScaleCalibration/ScalePlan.json')['assets'] if not a.get('dimension_only')}
     rows = []
     for path in sorted(GAME.rglob('*.prefab')):
         parts = path.relative_to(GAME).parts
@@ -391,11 +454,24 @@ def prefab_inventory():
             if row['view'] == 'Environment':
                 evidence = 'Identified reusable chapter prop with no script or nested prefab references'
         elif a:
-            row = pack_environment(a, scale_role)
-            reviewed = PIZZERIA_REVIEWED.get(a['id'])
-            rendered_name = reviewed[2] if reviewed else OTHER_RENDER_SUBJECTS.get(a['id'])
-            display = rendered_name or scale_role or label(a['source_object'])
-            evidence = 'Saved prefab front render' if rendered_name else 'Scale audit role and download quality review' if scale_role else 'Source name and download quality review'
+            if a['id'] in REVIEWED_PACK_PROPS:
+                group, subgroup, display, tags = REVIEWED_PACK_PROPS[a['id']]
+                row = env(group, subgroup, tags=tags)
+                evidence = 'Saved prefab render confirms standalone fixture'
+            else:
+                row = pack_environment(a, scale_role)
+                reviewed = PIZZERIA_REVIEWED.get(a['id'])
+                rendered_name = reviewed[2] if reviewed else OTHER_RENDER_SUBJECTS.get(a['id'])
+                display = rendered_name or scale_role or label(a['source_object'])
+                if a['pack'] == 'Pizzeria' and scale_role in ('Pizzeria streetlight', 'Pizzeria traffic signal'):
+                    display = label(a['source_object'])
+                evidence = 'Saved prefab front render' if rendered_name else 'Scale audit role and download quality review' if scale_role else 'Source name and download quality review'
+                if a['pack'] == 'Office' and a['source_object'].startswith('divider') and row['group'] == 'Furniture':
+                    kind = 'Cubicle desk' if row['subgroup'] == 'Desks' else 'Freestanding office divider'
+                    subject = label(a['source_object']).replace('lue desk', 'blue desk')
+                    profile = re.sub(r'^divider (?:full )?|\bdesk\b', '', subject)
+                    display = f"{kind} ({' '.join(profile.split()).title()})"
+                    evidence = 'Saved prefab render shows a work surface or freestanding feet'
         else:
             row = named_environment(parts, path.stem)
             display = label(path.stem)
@@ -404,12 +480,27 @@ def prefab_inventory():
                 evidence = 'Classic64 finished geometry review documents this complete textured building'
             elif parts[1] == 'PushableCrate':
                 evidence = 'Crate documentation and both prefab GUIDs referenced in Electricity Puzzle Dom'
+            elif path.stem == 'Urban_WoodenFencePile':
+                display = 'Wooden fence debris pile'
+                evidence = 'Source mesh and scale audit identify a low pile of discarded fence boards'
+            elif parts[1] == 'PSXShelvesProps' and 'Lighting' in parts and row['view'] == 'Environment':
+                evidence = 'Fixture prefab includes an imported fixture mesh and child spotlight'
         status = known['status'] if known else {'Keep': 'Candidate', 'BackgroundOnly': 'Background', 'Review': 'Review'}.get(a.get('status'), 'Unreviewed')
+        subject = subjects.get(a.get('id'))
+        if subject:
+            if 'category' in subject:
+                group, subgroup = subject['category'].split('/', 1)
+                row = env(group, subgroup, tags=subject.get('tags', row['tags']))
+            display = f"{subject['name']} · {a['id']}"
+            evidence = 'Opposing Unity renders of the current prefab'
+            if subject.get('review'):
+                status = 'Review'
+            row['decision_note'] = subject.get('note', row['decision_note'])
         variants = variant_review(parts, path.stem, a)
         row.update(guid=guid, prefab=path.relative_to(PROJECT).as_posix(), name=display, status=status,
                    review_note=' '.join(a.get('reasons', [])[:1]) if status in ('Review', 'Background') else '',
                    tags='; '.join(sorted(row['tags'])), source_pack=a.get('pack', parts[1] if len(parts) > 2 else parts[0]),
-                   review_id=a.get('id', ''), scale_subject=scale_role, evidence=evidence, current_browser='Yes' if known else 'No',
+                   review_id=a.get('id', ''), scale_subject=scale_role, evidence=evidence, current_browser='Yes' if guid in live else 'No',
                    variant_review=variants, variant_note=VARIANT_NOTES.get(variants, ''))
         rows.append(row)
     if len({r['guid'] for r in rows}) != len(rows):
@@ -421,13 +512,116 @@ def prefab_inventory():
     return rows
 
 
+def prop_exclusion(row):
+    if row['group'] == 'Needs classification':
+        return 'Needs classification'
+    if row['view'] != 'Environment':
+        return row['view']
+    if row['role'] != 'Scene prop' or row['group'] not in PROP_GROUPS:
+        return 'Buildings & construction'
+    if row['group'] == 'Buildings' and row['subgroup'] not in PLACEABLE_BUILDING_SUBGROUPS:
+        return 'Buildings & construction'
+    stem = Path(row['prefab']).stem
+    if stem.startswith('Urban_Duct') or stem.endswith('_automatic_ticket_gate'):
+        return 'Buildings & construction'
+    return ''
+
+
+def publish_catalogue(pilot, unmatched):
+    rows = prefab_inventory(pilot, apply_overrides=False)
+    existing = {entry['guid']: entry for entry in pilot['entries']}
+    quality = {a['guid']: a for a in read_json(ART / 'DownloadedEnvironmentPacks/QualityCatalog.json')['assets'] if a['status'] != 'Removed'}
+    sizes = {a['guid']: a['target_size_m'] for a in read_json(ART / 'ScaleCalibration/ScalePlan.json')['assets']}
+    aliases, entries, excluded = {}, [], Counter()
+    for row in rows:
+        reason = prop_exclusion(row)
+        if reason:
+            excluded[reason] += 1
+            continue
+        guid = row['guid']
+        base, reviewed = existing.get(guid, {}), quality.get(guid, {})
+        group = PROP_GROUPS[row['group']]
+        category = f"{group}/{row['subgroup']}"
+        if group != row['group']:
+            aliases[row['group']] = group
+            aliases[f"{row['group']}/{row['subgroup']}"] = category
+        old_category = base.get('category')
+        if old_category and old_category != category:
+            aliases[old_category] = category
+            aliases[old_category.split('/')[0]] = group
+        name = row['name'].strip()
+        original = base.get('original', reviewed.get('source_object', Path(row['prefab']).stem))
+        tags = row['tags'].split('; ') if row['tags'] else []
+        note = base.get('note') or row['review_note']
+        if group == 'Buildings':
+            tags = sorted(set(tags) | {'Exterior'})
+            if row['source_pack'] == 'Pizzeria':
+                note = 'Street-facing exterior for set dressing.'
+        entries.append(dict(guid=guid, name=name[:1].upper() + name[1:], category=category, view=row['view'],
+                            role=row['role'], action='Place',
+                            tags=tags, status=row['status'],
+                            note=' '.join(filter(None, [note, row['decision_note']])),
+                            path=row['prefab'], source=base.get('source', row['source_pack']), original=original,
+                            size=sizes.get(guid, base.get('size', reviewed.get('bounds_m', []))), classification=row['evidence']))
+    canonical = {value for e in entries for value in (e['category'], e['category'].split('/')[0])}
+    families = assign_families(entries)
+    browse_categories = sorted({e['category'].split('/')[0] for e in entries})
+    catalogue = dict(version=1, browseCategories=browse_categories, scope=PROP_COLLECTIONS,
+                     statuses=pilot['statuses'], synonyms=pilot['synonyms'],
+                     categoryAliases=[dict(previous=key, current=value) for key, value in sorted(aliases.items()) if key not in canonical],
+                     entries=entries)
+    CATALOGUE.write_text(json.dumps(catalogue, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    report = dict(total=len(entries), variant_families=len(families), grouped_variants=sum(len(v) for v in families.values()),
+                  browse_categories=dict(sorted(Counter(e['category'].split('/')[0] for e in entries).items())),
+                  collections={tag: sum(tag in e['tags'] for e in entries) for tag in PROP_COLLECTIONS},
+                  project_browser_only=dict(sorted(excluded.items())),
+                  categories=dict(sorted(Counter(e['category'] for e in entries).items())), statuses=dict(Counter(e['status'] for e in entries)),
+                  excluded_level_prefabs=[r['prefab'] for r in rows if r['view'] == 'Outside browser'], unmatched_pilot_subjects=unmatched)
+    (ART / 'AssetLibrary/ClassificationReceipt.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+    print(f'Published {len(entries):,} prefabs in {len(browse_categories)} broad categories. {sum(excluded.values()):,} prefabs remain outside the shelf.')
+
+
 def write_csv(path, rows):
     fields = ('view', 'group', 'subgroup', 'role', 'name', 'status', 'review_note', 'tags', 'decision', 'decision_note', 'variant_review',
-              'variant_note', 'current_browser', 'source_pack', 'review_id', 'scale_subject', 'evidence', 'guid', 'prefab')
+              'variant_note', 'current_browser', 'shelf_status', 'shelf_reason', 'source_pack', 'review_id', 'scale_subject',
+              'evidence', 'guid', 'prefab')
     with path.open('w', newline='', encoding='utf-8-sig') as output:
         writer = csv.DictWriter(output, fieldnames=fields)
         writer.writeheader()
         writer.writerows(rows)
+
+
+def shelf_coverage(rows, entries):
+    """Compare the actual published GUIDs with the current asset inventory and scope policy."""
+    owned = {row['guid']: row for row in rows}
+    live = {entry['guid']: entry for entry in entries}
+    missing, unexpected, unclassified = [], [], []
+    exclusions = Counter()
+    for guid, row in owned.items():
+        reason = prop_exclusion(row)
+        if reason == 'Needs classification':
+            unclassified.append(row['prefab'])
+        if reason:
+            exclusions[reason] += 1
+        if reason and guid in live:
+            unexpected.append(row['prefab'])
+            row.update(shelf_status='Unexpected shelf entry', shelf_reason=reason)
+        elif not reason and guid not in live:
+            missing.append(row['prefab'])
+            row.update(shelf_status='Missing eligible prefab', shelf_reason='Qualifies for the Asset Library')
+        elif reason:
+            row.update(shelf_status='Project window only', shelf_reason=reason)
+        else:
+            row.update(shelf_status='In Asset Library', shelf_reason='Placeable environment prefab')
+
+    unknown_guids = sorted(live.keys() - owned.keys())
+    duplicate_guids = sorted(guid for guid, count in Counter(entry['guid'] for entry in entries).items() if count > 1)
+    stale_paths = [dict(guid=guid, catalogue=live[guid]['path'], actual=row['prefab'])
+                   for guid, row in owned.items() if guid in live and live[guid]['path'] != row['prefab']]
+    return dict(verified=not any((missing, unexpected, unclassified, unknown_guids, duplicate_guids, stale_paths)),
+                owned_prefabs=len(owned), shelf_entries=len(entries), intended_exclusions=dict(sorted(exclusions.items())),
+                missing_eligible=missing, unexpected_on_shelf=unexpected, needs_classification=unclassified,
+                unknown_guids=unknown_guids, duplicate_catalogue_guids=duplicate_guids, stale_paths=stale_paths)
 
 
 def supporting_assets():
@@ -471,10 +665,11 @@ def report(rows):
     nature_review = sum(r['group'] == 'Nature & debris' and r['status'] == 'Review' for r in rows)
     lines = ['# Whole-project Asset Library proposal', '',
              f'**{len(rows):,} owned prefabs** inventoried by GUID. The current browser has {current:,}. '
-             f'The proposal covers {len(rows) - outside:,} browser entries and keeps {outside:,} chapter-specific prefabs in the inventory only.', '',
+             f'The Asset Library includes {sum(not prop_exclusion(r) for r in rows):,} placeable environment prefabs. '
+             f'The {outside:,} chapter-specific prefabs and other out-of-scope assets remain in this inventory and Unity’s Project browser.', '',
              '`PrefabInventory.csv` has the full item-level proposal. `DecisionQueue.csv` lists the exact prefabs needing a decision. '
              '`VariantReview.csv` lists the separate variant consolidation work.', '',
-             '## Proposed views and groups', '', '| View | Prefabs |', '| --- | ---: |']
+             '## Whole-project classifications', '', '| Inventory area | Prefabs |', '| --- | ---: |']
     lines.extend(f'| {view} | {count:,} |' for view, count in views.most_common())
     lines.extend(['', f'{reusable_from_levels:,} reusable props from chapter folders are proposed for Environment. '
                   f'Foliage and debris remain accessible for hand placement, including {nature_review:,} with Review status. '
@@ -510,11 +705,16 @@ def report(rows):
 
 def main():
     rows = sorted(prefab_inventory(), key=lambda r: (r['view'], r['group'], r['subgroup'], r['name'].casefold(), r['guid']))
+    coverage = shelf_coverage(rows, read_json(CATALOGUE)['entries'])
     OUTPUT.mkdir(parents=True, exist_ok=True)
     write_csv(OUTPUT / 'PrefabInventory.csv', rows)
     write_csv(OUTPUT / 'DecisionQueue.csv', sorted((r for r in rows if r['decision']), key=lambda r: (r['decision'], r['prefab'])))
     write_csv(OUTPUT / 'VariantReview.csv', sorted((r for r in rows if r['variant_review']), key=lambda r: (r['variant_review'], r['prefab'])))
+    (OUTPUT / 'ShelfCoverage.json').write_text(json.dumps(coverage, indent=2) + '\n', encoding='utf-8')
     report(rows)
+    print(f"Shelf coverage: {'PASS' if coverage['verified'] else 'FAIL'}. See {OUTPUT / 'ShelfCoverage.json'}")
+    if not coverage['verified']:
+        raise SystemExit(1)
 
 
 if __name__ == '__main__':

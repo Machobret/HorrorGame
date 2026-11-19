@@ -19,10 +19,17 @@ public static class PrefabCollisionBatch
         public string[] failures;
     }
     [Serializable] public class Receipt { public bool verified; public string completed_utc; public Entry[] assets; public int changed_prefabs, added_colliders; }
+    public const string NonBlockingLabel = "NonBlockingDecoration";
     const string Output="../";
     static bool Owned(string p)=>p.StartsWith("Assets/Game/")||p.StartsWith("Assets/Sandbox/");
+    public static bool IsNonBlocking(string path)
+    {
+        var asset = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+        return asset && AssetDatabase.GetLabels(asset).Contains(NonBlockingLabel);
+    }
     static string Skip(string path)
     {
+        if(IsNonBlocking(path))return "Reviewed non-blocking decoration";
         if(path.Contains("/UI/")||path.Contains("MapUI")||path.EndsWith("DistrictPowerGridMapUI.prefab"))return "UI prefab";
         if(path.Contains("_Examination"))return "Examination presentation";
         if(path.StartsWith("Assets/Game/Characters/")&&path.EndsWith("_Visual.prefab"))return "Character presentation under its gameplay controller";
@@ -34,12 +41,22 @@ public static class PrefabCollisionBatch
     static bool Covered(MeshFilter f)=>f.GetComponentsInParent<Collider>(true).Any(Solid);
     static bool Effect(MeshFilter f)=>f.GetComponentInParent<Canvas>()||f.GetComponent<ParticleSystem>()||
         f.transform.name.Equals("Emitter",StringComparison.OrdinalIgnoreCase)||f.GetComponent<Renderer>().shadowCastingMode==UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+    static bool NestedDecoration(Transform child, Transform root)
+    {
+        for (var current = child; current != root; current = current.parent)
+        {
+            if (!PrefabUtility.IsAnyPrefabInstanceRoot(current.gameObject)) continue;
+            var path = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(current.gameObject);
+            if (!string.IsNullOrEmpty(path) && IsNonBlocking(path)) return true;
+        }
+        return false;
+    }
     static MeshFilter[] Meshes(GameObject root)
     {
         var lowerLods=new HashSet<Renderer>();
         foreach(var group in root.GetComponentsInChildren<LODGroup>(true))
             foreach(var lod in group.GetLODs().Skip(1))foreach(var renderer in lod.renderers)if(renderer)lowerLods.Add(renderer);
-        return root.GetComponentsInChildren<MeshFilter>(true).Where(f=>f.sharedMesh&&f.sharedMesh.vertexCount>0&&f.GetComponent<MeshRenderer>()&&!Effect(f)&&!lowerLods.Contains(f.GetComponent<Renderer>())).ToArray();
+        return root.GetComponentsInChildren<MeshFilter>(true).Where(f=>f.sharedMesh&&f.sharedMesh.vertexCount>0&&f.GetComponent<MeshRenderer>()&&!Effect(f)&&!lowerLods.Contains(f.GetComponent<Renderer>())&&!NestedDecoration(f.transform, root.transform)).ToArray();
     }
     static bool Cuboid(Mesh m)
     {

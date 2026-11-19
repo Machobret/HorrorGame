@@ -23,4 +23,8 @@ Use **Horror Game > Lighting > Update Skyboxes and Sun Lights** after pulling ch
 
 Drag a prefab from `Light Sources` into a scene. Keep character-held lights (flashlight and lighter) dynamic/mixed; retain the environment, static lamps, and fire bounce lighting as baked/mixed. `HorrorLightSource` adds a subtle, optional Perlin flicker without animator overhead. Use `HorrorLightingPresetApplier` to apply a matching mood at runtime.
 
+The Village desk lamps and House floor and table lamps use atlas masks for their fabric shades and bulbs. A directly placed prefab reads the light on the prefab, and a House Toolkit placement uses the fixture preset. Regenerate the masks with `ArtSource/Environment/LampShades/BuildEmissionMasks.ps1` after changes to their source atlas regions.
+
+Find **Floodlight** under **Fixtures & utilities** in the Asset Library or under **Fixture** in the Environment Tools. It sits on its original stand and uses an adjustable spotlight aimed through the diffuser. The source FBX is preserved in `ArtSource/Environment/Floodlight`. The imported model remaps the original **Yellow** and **Emission** slots to existing project materials.
+
 The Chandelier prefab includes `HorrorChandelierSwing`, which provides a subtle configurable pendulum sway during play. Use **Horror Game > Lighting > Create or Refresh Light Source Prefabs** to add the Candle Holder and update existing Chandeliers without opening any scene.

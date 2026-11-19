@@ -36,6 +36,7 @@ namespace HouseToolkit.Editor
             Pair(EnvironmentPlacementTool.Kind.Sidewalk,EnvironmentPlacementTool.Kind.GroundArea);
             Pair(EnvironmentPlacementTool.Kind.FillerBuilding,EnvironmentPlacementTool.Kind.Wall);
             Pair(EnvironmentPlacementTool.Kind.Shelf,EnvironmentPlacementTool.Kind.Marking);
+            creation.Add(new Button(ScatterBrush.Open) { text = "Scatter" });
             var cancel=new Button(EnvironmentPlacementTool.Cancel){text="Cancel placement"};
             creation.Add(cancel);
             var enter=new Button(()=>{
@@ -53,6 +54,7 @@ namespace HouseToolkit.Editor
             var marking=SceneToolButtons.Add(surfaceTools,"Draw Marking","Draw warehouse floor paint. Points support vertical movement.",()=>RoadScene.SetBrush(RoadScene.Brush.Sidewalk));
             var ground=SceneToolButtons.Add(surfaceTools,"Ground Area","Close a perimeter to fill it or draw between boundaries to divide it.",()=>RoadScene.SetBrush(RoadScene.Brush.Ground));
             var groundLabel=ground.Q<Label>();
+            var fixture=SceneToolButtons.Add(surfaceTools,"Fixture","Attach a fixture to a façade wall.",()=>FixtureTool.BeginFacadeBrush(RoadScene.Active as FillerBuilding));
             surfaceTools.Add(new Button(HouseProperties.Open){text=HouseProperties.WindowTitle});
             surfaceTools.Add(new Button(RoadScene.Leave){text="Done"});
 
@@ -69,15 +71,26 @@ namespace HouseToolkit.Editor
 
             var opening = SceneToolButtons.Add(editing, "Slab opening", "Draw or edit a floor or ceiling opening", HouseProperties.DrawOpening);
             tools.Add(HouseTool.Boolean, SceneToolButtons.Add(editing, "Boolean cut", "Subtract a box or sphere from the house", () => HouseScene.SetMode(HouseTool.Boolean)));
-            var cutaway = SceneToolButtons.Add(editing, "Cutaway", "Hide the active ceiling and upper floors", () =>
+            var cutawayRow = new VisualElement();
+            cutawayRow.style.flexDirection = FlexDirection.Row;
+            cutawayRow.style.marginTop = 5;
+            root.Add(cutawayRow);
+            var cutaway = SceneToolButtons.Add(cutawayRow, "Cutaway", "Hide the selected floor's ceiling and the floors above it.",
+                () => HouseScene.ToggleCutaway(CutawayTarget()));
+            cutaway.style.flexGrow = 1;
+            var pin = new Button(() =>
             {
-                HouseScene.Cutaway = !HouseScene.Cutaway;
-                HouseScene.ApplyCutaway();
-                HouseScene.Repaint();
-            });
-            cutaway.style.marginTop = 5;
-            editing.Add(new Button(HouseProperties.Open) {text = HouseProperties.WindowTitle});
-            editing.Add(new Button(HouseScene.Leave) {text = "Done"});
+                var house = CutawayTarget();
+                HouseScene.SetCutawayPinned(house, !HouseScene.IsCutawayPinned(house));
+            }) { name = "pin-cutaway", text = "Pin", tooltip = "Keep this building's Cutaway setting after leaving edit mode." };
+            pin.style.width = 36;
+            pin.style.height = 26;
+            pin.style.flexShrink = 0;
+            cutawayRow.Add(pin);
+            var footer = new VisualElement();
+            root.Add(footer);
+            footer.Add(new Button(HouseProperties.Open) {text = HouseProperties.WindowTitle});
+            footer.Add(new Button(HouseScene.Leave) {text = "Done"});
 
             var message = new Label();
             message.style.whiteSpace = WhiteSpace.Normal;
@@ -98,6 +111,13 @@ namespace HouseToolkit.Editor
                 enter.style.display=!placing && !active && !floor && (selected || selectedFloor) ? DisplayStyle.Flex : DisplayStyle.None;
                 enter.text=selected ? RoadScene.EditLabel(selected) : selectedFloor ? selectedFloor.EditLabel : "Edit House";
                 editing.style.display=floor ? DisplayStyle.Flex : DisplayStyle.None;
+                footer.style.display=editing.style.display;
+                var cutawayHouse = floor ? floor.House : selectedFloor ? selectedFloor.House : null;
+                bool pinned = HouseScene.IsCutawayPinned(cutawayHouse);
+                cutawayRow.style.display = cutawayHouse && !cutawayHouse.wallsOnly && (floor || pinned)
+                    ? DisplayStyle.Flex : DisplayStyle.None;
+                SceneToolButtons.Highlight(cutaway, HouseScene.CutawayFor(cutawayHouse));
+                SceneToolButtons.Highlight(pin, pinned);
                 surfaceTools.style.display=active ? DisplayStyle.Flex : DisplayStyle.None;
                 road.style.display=active is RoadNetwork ? DisplayStyle.Flex : DisplayStyle.None;
                 walk.style.display=active is ProceduralSidewalk ? DisplayStyle.Flex : DisplayStyle.None;
@@ -107,14 +127,15 @@ namespace HouseToolkit.Editor
                 SceneToolButtons.Highlight(shelf,RoadScene.Mode==RoadScene.Brush.Sidewalk);
                 groundLabel.text=active is FillerBuilding ? "Draw footprint" : "Ground Area";
                 ground.style.display=active is GroundArea || active is FillerBuilding ? DisplayStyle.Flex : DisplayStyle.None;
-                SceneToolButtons.Highlight(select,RoadScene.Mode==RoadScene.Brush.Select);
+                fixture.style.display=active is FillerBuilding ? DisplayStyle.Flex : DisplayStyle.None;
+                SceneToolButtons.Highlight(fixture,FixtureTool.facadeBrush);
+                SceneToolButtons.Highlight(select,RoadScene.Mode==RoadScene.Brush.Select && !FixtureTool.facadeBrush);
                 SceneToolButtons.Highlight(road,RoadScene.Mode==RoadScene.Brush.Road);
                 SceneToolButtons.Highlight(walk,RoadScene.Mode==RoadScene.Brush.Sidewalk);
                 SceneToolButtons.Highlight(ground,RoadScene.Mode==RoadScene.Brush.Ground);
                 if (floor)
                 {
-                    cutaway.style.display = opening.style.display = floor.WallsOnly ? DisplayStyle.None : DisplayStyle.Flex;
-                    SceneToolButtons.Highlight(cutaway, HouseScene.Cutaway);
+                    opening.style.display = floor.WallsOnly ? DisplayStyle.None : DisplayStyle.Flex;
                     foreach (var pair in tools) SceneToolButtons.Highlight(pair.Value, !HouseScene.DrawingOpening && pair.Key == HouseScene.Mode);
                     SceneToolButtons.Highlight(opening,HouseScene.DrawingOpening);
                 }
@@ -127,6 +148,12 @@ namespace HouseToolkit.Editor
 
             ProceduralSurface SelectedSurface() => Selection.activeGameObject && Selection.activeGameObject.scene.IsValid()
                 ? Selection.activeGameObject.GetComponent<ProceduralSurface>() : null;
+
+            House CutawayTarget()
+            {
+                var floor = HouseScene.Floor ? HouseScene.Floor : HouseScene.SelectedFloor();
+                return floor ? floor.House : null;
+            }
 
             void AddTool(HouseTool tool, string tip)
             {

@@ -28,7 +28,7 @@ Shader "Horror Game/Environment/Surface Mapping"
         Cull [_Cull]
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+        #include "Packages/com.manta.house-toolkit/Runtime/BuildingSurfaceLighting.hlsl"
         #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl"
         CBUFFER_START(UnityPerMaterial)
             float4 _BaseMap_ST;
@@ -103,7 +103,6 @@ Shader "Horror Game/Environment/Surface Mapping"
             #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
             #pragma multi_compile _ SHADOWS_SHADOWMASK
             #pragma multi_compile_fog
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
             Varyings WallVertex(Attributes input)
             {
@@ -155,6 +154,10 @@ Shader "Horror Game/Environment/Surface Mapping"
                 }
                 InputData lighting = (InputData)0;
                 lighting.positionWS = input.positionWS;
+                #if defined(_ADDITIONAL_LIGHT_SHADOWS)
+                    // Keep grazing point lights from sampling the wall's own shadow.
+                    lighting.positionWS += normalWS * 0.003;
+                #endif
                 lighting.normalWS = mappedNormal;
                 lighting.viewDirectionWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
                 #if defined(_MAIN_LIGHT_SHADOWS_SCREEN)
@@ -212,12 +215,7 @@ Shader "Horror Game/Environment/Surface Mapping"
                     float3 lightDirection = _LightDirection;
                 #endif
                 float4 positionCS = TransformWorldToHClip(ApplyShadowBias(positionWS, normalWS, lightDirection));
-                #if UNITY_REVERSED_Z
-                    positionCS.z = min(positionCS.z, UNITY_NEAR_CLIP_VALUE * positionCS.w);
-                #else
-                    positionCS.z = max(positionCS.z, UNITY_NEAR_CLIP_VALUE * positionCS.w);
-                #endif
-                return positionCS;
+                return ApplyShadowClamping(positionCS);
             }
             ENDHLSL
         }

@@ -30,6 +30,9 @@ namespace HouseToolkit.Editor
                 building.finishes.RemoveAll(f=>f.wall!=0 && !ids.Contains(f.wall));
                 building.entrances.RemoveAll(e=>!ids.Contains(e.wall));
                 updateFacade?.Invoke(building);
+                foreach(var fixture in building.GetComponentsInChildren<FixtureAttachment>(true))
+                    if(fixture.transform.parent==building.transform && fixture.facadeEdge!=0 && !ids.Contains(fixture.facadeEdge))
+                        Undo.DestroyObjectImmediate(fixture.gameObject);
                 if(firstPerimeter)building.PlaceInitialEntrance();
             }
             PrefabUtility.RecordPrefabInstancePropertyModifications(road);
@@ -84,6 +87,15 @@ namespace HouseToolkit.Editor
                 plan.edges.Find(e=>e.id==id).b=split;
                 Line(plan,split,edge.b);
             },out issue,building=>{
+                float splitDistance=Vector2.Distance(edge.a,split);
+                foreach(var fixture in building.GetComponentsInChildren<FixtureAttachment>(true))
+                {
+                    if(fixture.transform.parent!=building.transform || fixture.facadeEdge!=id || fixture.edgeDistance<=splitDistance)continue;
+                    Undo.RecordObject(fixture,"Insert boundary point");
+                    fixture.facadeEdge=newId;
+                    fixture.edgeDistance-=splitDistance;
+                    PrefabUtility.RecordPrefabInstancePropertyModifications(fixture);
+                }
                 foreach(var finish in building.finishes.Where(f=>f.wall==id).ToArray())
                     if(finish.floor==0 && finish.groundStyle!=FillerBuilding.GroundStyle.Inherit)
                         building.SetGroundStyle(newId,finish.groundStyle,finish.material);

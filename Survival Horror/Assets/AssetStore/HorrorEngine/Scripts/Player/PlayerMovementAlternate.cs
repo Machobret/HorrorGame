@@ -52,7 +52,7 @@ namespace HorrorEngine
 
             Transform inputCam = CameraSystem.Instance.MainCamera.transform;
 
-            if (IsLockingEnabled)
+            if (IsLockingEnabled && (m_LockedCam || m_LastRefreshedCam))
             {
                 inputCam = m_LockedCam ? m_LockedCam.transform : m_LastRefreshedCam.transform;
             }

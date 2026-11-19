@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
+using Unity.Profiling;
 
 
 namespace HorrorGame.Lighting
@@ -84,27 +86,63 @@ namespace HorrorGame.Lighting
         [Range(0f, .15f)] [SerializeField] private float minimumVisibility = 0f;
         [Range(.05f, 1f)] [SerializeField] private float updateInterval = .12f;
         [Range(.01f, 1f)] [SerializeField] private float directionalLightContribution = .22f;
-
-        private readonly Dictionary<Renderer, RendererState> renderers = new();
-        private readonly Dictionary<ParticleSystem, ParticleState> particles = new();
-        private readonly List<Renderer> expiredRenderers = new();
-        private readonly List<ParticleSystem> expiredParticles = new();
-        private readonly List<Light> lights = new();
-        // Native Unity objects must be recreated after a Play-mode script reload.
-        [System.NonSerialized] private MaterialPropertyBlock block;
-        [Header("Wall proximity glow (independent of scene lights)")]
         [SerializeField, Range(.4f, 2f)] private float closeGlowDistance = .85f;
         [SerializeField, Range(0f, .2f)] private float playerGlowIntensity = .05f;
+
+        private const float DiscoveryInterval = 1f;
+        private const int ReceiversPerUpdate = 24;
+        private const int LightsPerReceiver = 4;
+        private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
+        private static readonly int TintColor = Shader.PropertyToID("_Color");
+        private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
+        private static readonly int Darkness = Shader.PropertyToID("_DarknessVisibility");
+        private static readonly int EmissionMap = Shader.PropertyToID("_EmissionMap");
+        private static readonly int BaseMap = Shader.PropertyToID("_BaseMap");
+        private static readonly ProfilerMarker UpdateMarker = new("Horror Darkness.Update");
+        private static readonly ProfilerMarker DiscoveryMarker = new("Horror Darkness.Discover World");
+        private static readonly ProfilerMarker VisibilityMarker = new("Horror Darkness.Sample Visibility");
+
+        private readonly Dictionary<(Material, bool), Material> variants = new();
+        private readonly HashSet<Material> usedVariants = new();
+        private readonly List<(Material, bool)> unusedVariants = new();
+        private readonly Dictionary<Renderer, RendererState> world = new();
+        private readonly Dictionary<Renderer, RendererState> player = new();
+        private readonly HashSet<Renderer> visitedWorld = new();
+        private readonly List<Renderer> rendererBuffer = new();
+        private readonly List<Renderer> removedRenderers = new();
+        private readonly List<RendererState> worldReceivers = new();
+        private readonly List<ParticleState> particles = new();
+        private readonly HashSet<ParticleSystem> knownParticles = new();
+        private readonly List<Light> lights = new();
+        private readonly LightSample[] strongestLights = new LightSample[LightsPerReceiver];
+        private readonly RaycastHit[] hits = new RaycastHit[32];
+        private readonly List<Material> materialBuffer = new();
+
+        [System.NonSerialized] private MaterialPropertyBlock block;
         private Transform glowPlayer;
         private Transform glowModel;
         private float closeGlowTarget;
         private float closeGlowAmount;
+        private float nextDiscovery;
         private float nextRefresh;
+        private int nextWorldReceiver;
+        private int nextParticle;
+        private bool pruneVariants;
 
         private void OnEnable()
         {
             block = new MaterialPropertyBlock();
-            nextRefresh = 0f;
+            nextDiscovery = nextRefresh = 0f;
+            SceneManager.sceneLoaded += SceneLoaded;
+            SceneManager.sceneUnloaded += SceneUnloaded;
+        }
+
+        private void SceneLoaded(Scene scene, LoadSceneMode mode) => nextDiscovery = nextRefresh = 0f;
+
+        private void SceneUnloaded(Scene scene)
+        {
+            pruneVariants = true;
+            nextDiscovery = nextRefresh = 0f;
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -118,76 +156,125 @@ namespace HorrorGame.Lighting
 
         private void LateUpdate()
         {
-            if (block == null) block = new MaterialPropertyBlock();
-            bool refresh = Time.unscaledTime >= nextRefresh;
+            using var scope = UpdateMarker.Auto();
+            block ??= new MaterialPropertyBlock();
+            float now = Time.unscaledTime;
+            bool discover = now >= nextDiscovery;
+            bool refresh = now >= nextRefresh;
             if (refresh)
             {
-                nextRefresh = Time.unscaledTime + updateInterval;
-                RefreshTrackedObjects();
+                nextRefresh = now + updateInterval;
                 UpdatePlayerGlowTarget();
+                RefreshPlayerRenderers();
                 RefreshLights();
+                RefreshParticles();
+            }
+            if (discover)
+            {
+                nextDiscovery = now + DiscoveryInterval;
+                RefreshTrackedObjects();
+                if (pruneVariants) PruneVariants();
             }
             closeGlowAmount = Mathf.MoveTowards(closeGlowAmount, closeGlowTarget, Time.deltaTime * 2.5f);
-            // Catch newly spawned dust before its first rendered frame.
-            RefreshParticles();
             ApplyVisibility(refresh);
         }
 
         private void RefreshTrackedObjects()
         {
-            expiredRenderers.Clear();
-            foreach (var pair in renderers)
-                if (pair.Key == null)
-                {
-                    pair.Value.Restore(null);
-                    expiredRenderers.Add(pair.Key);
-                }
-                else if (ShouldIgnore(pair.Key))
-                {
-                    // Return previously tracked UI/map meshes to their original
-                    // unlit materials instead of leaving darkness overrides behind.
-                    pair.Value.Restore(pair.Key);
-                    expiredRenderers.Add(pair.Key);
-                }
-            foreach (var key in expiredRenderers) renderers.Remove(key);
-            expiredParticles.Clear();
-            foreach (var pair in particles)
-                if (pair.Key == null) expiredParticles.Add(pair.Key);
-            foreach (var key in expiredParticles) particles.Remove(key);
+            using var scope = DiscoveryMarker.Auto();
+            visitedWorld.RemoveWhere(renderer => !renderer);
+            removedRenderers.Clear();
+            foreach (var pair in world)
+                if (!pair.Key) removedRenderers.Add(pair.Key);
+            foreach (var renderer in removedRenderers) RemoveWorldRenderer(renderer);
+
             foreach (var renderer in FindObjectsByType<Renderer>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
             {
-                if (renderer is ParticleSystemRenderer || ShouldIgnore(renderer) || renderers.ContainsKey(renderer)) continue;
-                renderers.Add(renderer, new RendererState(renderer));
+                if (renderer is ParticleSystemRenderer || player.ContainsKey(renderer) || visitedWorld.Contains(renderer) ||
+                    ShouldIgnore(renderer)) continue;
+                visitedWorld.Add(renderer);
+                renderer.GetSharedMaterials(materialBuffer);
+                if (materialBuffer.TrueForAll(material => !material || HorrorRuntimeMaterials.IsLit(material))) continue;
+                var state = new RendererState(renderer, materialBuffer, this, false);
+                world.Add(renderer, state);
+                if (state.NeedsVisibility) worldReceivers.Add(state);
             }
         }
 
+        private void RemoveWorldRenderer(Renderer renderer)
+        {
+            var state = world[renderer];
+            state.Restore();
+            if (state.NeedsVisibility) worldReceivers.Remove(state);
+            world.Remove(renderer);
+        }
+
+        private void RefreshPlayerRenderers()
+        {
+            removedRenderers.Clear();
+            foreach (var pair in player)
+                if (!pair.Key || !IsPlayerRenderer(pair.Key.transform) || !pair.Value.OwnsMaterials(materialBuffer))
+                    removedRenderers.Add(pair.Key);
+            foreach (var renderer in removedRenderers)
+            {
+                player[renderer].Restore();
+                player.Remove(renderer);
+                visitedWorld.Remove(renderer);
+                nextDiscovery = 0f;
+            }
+            TrackPlayerHierarchy(glowPlayer);
+            if (glowModel && !glowModel.IsChildOf(glowPlayer)) TrackPlayerHierarchy(glowModel);
+        }
+
+        private void TrackPlayerHierarchy(Transform root)
+        {
+            if (!root) return;
+            root.GetComponentsInChildren(false, rendererBuffer);
+            foreach (var renderer in rendererBuffer)
+            {
+                if (renderer is ParticleSystemRenderer || player.ContainsKey(renderer) || ShouldIgnore(renderer)) continue;
+                if (world.ContainsKey(renderer)) RemoveWorldRenderer(renderer);
+                renderer.GetSharedMaterials(materialBuffer);
+                player.Add(renderer, new RendererState(renderer, materialBuffer, this, true));
+            }
+        }
+
+        private bool IsPlayerRenderer(Transform target) =>
+            (glowPlayer && target.IsChildOf(glowPlayer)) || (glowModel && target.IsChildOf(glowModel));
+
         private void RefreshParticles()
         {
+            particles.RemoveAll(particle => !particle.Source);
+            knownParticles.RemoveWhere(particle => !particle);
             foreach (var particle in FindObjectsByType<ParticleSystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
-            {
-                if (ShouldIgnore(particle) || particles.ContainsKey(particle)) continue;
-                particles.Add(particle, new ParticleState(particle));
-            }
+                if (!knownParticles.Contains(particle) && !ShouldIgnore(particle))
+                {
+                    knownParticles.Add(particle);
+                    var state = new ParticleState(particle);
+                    particles.Add(state);
+                    state.Apply(minimumVisibility);
+                }
         }
 
         private void RefreshLights()
         {
             lights.Clear();
             foreach (var light in FindObjectsByType<Light>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
-                if (light.enabled && light.gameObject.activeInHierarchy) lights.Add(light);
+            {
+                if (IsOldHelper(light)) light.enabled = false;
+                else if (light.enabled && light.intensity > 0f) lights.Add(light);
+            }
         }
 
         private void UpdatePlayerGlowTarget()
         {
             var actor = HorrorEngine.GameManager.Exists ? HorrorEngine.GameManager.Instance.Player : null;
-            if (actor == null) actor = FindFirstObjectByType<HorrorEngine.PlayerActor>();
-            glowPlayer = actor != null ? actor.transform : null;
-            glowModel = actor != null && actor.MainAnimator != null ? actor.MainAnimator.transform : glowPlayer;
+            if (!actor) actor = FindFirstObjectByType<HorrorEngine.PlayerActor>();
+            glowPlayer = actor ? actor.transform : null;
+            glowModel = actor && actor.MainAnimator ? actor.MainAnimator.transform : glowPlayer;
             closeGlowTarget = 0f;
-            if (glowPlayer == null) return;
+            if (!glowPlayer) return;
 
-            // Only proximity controls this fill. Scene lights and equipped lights
-            // never change its target intensity.
             float nearest = closeGlowDistance;
             for (int height = 0; height < 3; height++)
             {
@@ -195,259 +282,333 @@ namespace HorrorGame.Lighting
                 for (int direction = 0; direction < 16; direction++)
                 {
                     float angle = direction * Mathf.PI * 2f / 16f;
-                    Vector3 heading = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
-                    foreach (var hit in Physics.RaycastAll(origin, heading, closeGlowDistance,
-                                 ~0, QueryTriggerInteraction.Ignore))
+                    Vector3 heading = new(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
+                    int count = Physics.RaycastNonAlloc(origin, heading, hits, nearest, ~0, QueryTriggerInteraction.Ignore);
+                    for (int i = 0; i < count; i++)
                     {
-                        if (hit.transform.IsChildOf(glowPlayer) ||
-                            (glowModel != null && hit.transform.IsChildOf(glowModel)) ||
-                            Mathf.Abs(hit.normal.y) > .65f) continue;
+                        var hit = hits[i];
+                        if (IsPlayerRenderer(hit.transform) || Mathf.Abs(hit.normal.y) > .65f) continue;
                         nearest = Mathf.Min(nearest, hit.distance);
                     }
                 }
             }
-            closeGlowTarget = Mathf.SmoothStep(0f, 1f,
-                Mathf.InverseLerp(closeGlowDistance, .3f, nearest));
-
-            foreach (var light in FindObjectsByType<Light>(FindObjectsInactive.Include, FindObjectsSortMode.None))
-                if (IsOldHelper(light)) light.enabled = false;
+            closeGlowTarget = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(closeGlowDistance, .3f, nearest));
         }
 
-        private static bool IsOldHelper(Light light)
-        {
-            return light.name == "__FaintSafetyGlow" || light.name == "__FeetSafetyGlow" ||
-                   light.name == "__WallBounceGlow" || light.name == "__CloseBodyFillFront" ||
-                   light.name == "__CloseBodyFillBack";
-        }
+        private static bool IsOldHelper(Light light) =>
+            light.name is "__FaintSafetyGlow" or "__FeetSafetyGlow" or "__WallBounceGlow" or
+                "__CloseBodyFillFront" or "__CloseBodyFillBack";
 
         private void ApplyVisibility(bool refresh)
         {
-            foreach (var pair in renderers)
+            foreach (var state in player.Values)
+                if (state.Renderer) state.ApplyGlow(block, closeGlowAmount * playerGlowIntensity);
+            if (!refresh) return;
+
+            using var scope = VisibilityMarker.Auto();
+            // Split the sample budget when both types of receiver are present.
+            int worldBudget = particles.Count == 0 ? ReceiversPerUpdate : ReceiversPerUpdate / 2;
+            int worldCount = Mathf.Min(worldBudget, worldReceivers.Count);
+            for (int i = 0; i < worldCount; i++)
             {
-                if (pair.Key == null) continue;
-                bool isPlayerRenderer = !(pair.Key is ParticleSystemRenderer) &&
-                    ((glowPlayer != null && pair.Key.transform.IsChildOf(glowPlayer)) ||
-                     (glowModel != null && pair.Key.transform.IsChildOf(glowModel)));
-                if (refresh) pair.Value.Visibility = LocalVisibility(pair.Key.bounds.center, pair.Key);
-                float visibility = pair.Value.Visibility;
-                pair.Value.Apply(pair.Key, block, visibility, isPlayerRenderer ? closeGlowAmount * playerGlowIntensity : 0f, isPlayerRenderer);
+                nextWorldReceiver %= worldReceivers.Count;
+                var state = worldReceivers[nextWorldReceiver++];
+                if (state.Renderer && state.Renderer.gameObject.activeInHierarchy)
+                    state.ApplyVisibility(block, LocalVisibility(state.Renderer.bounds.center, state.Renderer));
             }
-            foreach (var pair in particles)
+            int particleCount = Mathf.Min(ReceiversPerUpdate - worldCount, particles.Count);
+            for (int i = 0; i < particleCount; i++)
             {
-                if (pair.Key == null) continue;
-                pair.Value.Apply(pair.Key, LocalVisibility(pair.Key.transform.position, pair.Key.GetComponent<Renderer>()));
+                nextParticle %= particles.Count;
+                var state = particles[nextParticle++];
+                if (state.Source && state.Source.gameObject.activeInHierarchy)
+                    state.Apply(LocalVisibility(state.Source.transform.position, state.Renderer));
             }
         }
 
         private float LocalVisibility(Vector3 point, Renderer receiver)
         {
-            float brightness = minimumVisibility;
+            System.Array.Clear(strongestLights, 0, strongestLights.Length);
+            int mask = receiver ? 1 << receiver.gameObject.layer : ~0;
             foreach (var light in lights)
             {
-                if (light == null) continue;
-                // The fill contributes uniformly to the body and never reveals world props or dust.
-                if (IsOldHelper(light)) continue;
-                if (receiver != null && (light.cullingMask & (1 << receiver.gameObject.layer)) == 0) continue;
-                if (!light.enabled || !light.gameObject.activeInHierarchy) continue;
+                if (!light || (light.cullingMask & mask) == 0) continue;
+                var sample = new LightSample { Source = light };
                 if (light.type == LightType.Directional)
                 {
-                    if (!IsOccluded(point, -light.transform.forward, 100f, receiver, light))
-                        brightness += light.intensity * directionalLightContribution;
-                    continue;
+                    sample.Direction = -light.transform.forward;
+                    sample.Distance = 100f;
+                    sample.Contribution = light.intensity * directionalLightContribution;
                 }
-                float distance = Vector3.Distance(point, light.transform.position);
-                if (distance >= light.range || light.range <= 0f) continue;
-                float falloff = 1f - distance / light.range;
-                if (light.type == LightType.Spot)
+                else
                 {
-                    var toPoint = (point - light.transform.position).normalized;
-                    float edge = Mathf.Cos(light.spotAngle * Mathf.Deg2Rad * .5f);
-                    if (Vector3.Dot(light.transform.forward, toPoint) < edge) continue;
+                    Vector3 toLight = light.transform.position - point;
+                    float range = light.range;
+                    float distanceSquared = toLight.sqrMagnitude;
+                    if (distanceSquared >= range * range || range <= 0f) continue;
+                    float distance = Mathf.Sqrt(distanceSquared);
+                    sample.Direction = distance > .001f ? toLight / distance : Vector3.zero;
+                    if (light.type == LightType.Spot && distance > .001f &&
+                        Vector3.Dot(light.transform.forward, -sample.Direction) <
+                        Mathf.Cos(light.spotAngle * Mathf.Deg2Rad * .5f)) continue;
+                    sample.Distance = distance;
+                    float falloff = 1f - distance / range;
+                    sample.Contribution = light.intensity * light.color.maxColorComponent * falloff * falloff * .1f;
                 }
-                if (IsOccluded(point, (light.transform.position - point).normalized, distance, receiver, light)) continue;
-                brightness += light.intensity * light.color.maxColorComponent * falloff * falloff * .1f;
+                for (int i = 0; i < strongestLights.Length; i++)
+                {
+                    if (sample.Contribution <= strongestLights[i].Contribution) continue;
+                    (sample, strongestLights[i]) = (strongestLights[i], sample);
+                }
+            }
+
+            float brightness = minimumVisibility;
+            foreach (var sample in strongestLights)
+            {
+                if (!sample.Source || brightness >= 1f) break;
+                if (!IsOccluded(point, sample, receiver)) brightness += sample.Contribution;
             }
             return Mathf.Clamp01(brightness);
         }
 
-        private bool IsOccluded(Vector3 point, Vector3 direction, float distance, Renderer receiver, Light light)
+        private bool IsOccluded(Vector3 point, LightSample sample, Renderer receiver)
         {
-            foreach (var hit in Physics.RaycastAll(point + direction * .02f, direction,
-                         Mathf.Max(0f, distance - .04f), ~0, QueryTriggerInteraction.Ignore))
+            if (sample.Distance <= .04f) return false;
+            int count = Physics.RaycastNonAlloc(point + sample.Direction * .02f, sample.Direction, hits,
+                sample.Distance - .04f, ~0, QueryTriggerInteraction.Ignore);
+            for (int i = 0; i < count; i++)
             {
-                if (receiver != null && (hit.transform == receiver.transform ||
-                    hit.transform.IsChildOf(receiver.transform) || receiver.transform.IsChildOf(hit.transform))) continue;
-                if (glowPlayer != null && receiver != null && receiver.transform.IsChildOf(glowPlayer) &&
-                    hit.transform.IsChildOf(glowPlayer)) continue;
-                if (hit.transform == light.transform || light.transform.IsChildOf(hit.transform)) continue;
+                Transform obstacle = hits[i].transform;
+                if (receiver && (obstacle.IsChildOf(receiver.transform) || receiver.transform.IsChildOf(obstacle))) continue;
+                if (sample.Source.transform.IsChildOf(obstacle)) continue;
                 return true;
             }
-            return false;
+            // A saturated buffer can omit a blocker. Keep the receiver dark in that case.
+            return count == hits.Length;
         }
 
-        private void OnDestroy()
+        private struct LightSample
         {
-            foreach (var pair in renderers) pair.Value.Restore(pair.Key);
-            foreach (var pair in particles) pair.Value.Restore();
+            public Light Source;
+            public Vector3 Direction;
+            public float Distance;
+            public float Contribution;
+        }
+
+        private Material Variant(Material source, bool forPlayer)
+        {
+            if (!source || !forPlayer && HorrorRuntimeMaterials.IsLit(source)) return source;
+            var key = (source, forPlayer);
+            if (variants.TryGetValue(key, out var cached)) return cached;
+            var material = HorrorRuntimeMaterials.Create(source);
+            if (forPlayer && material.HasProperty(EmissionColor))
+            {
+                material.EnableKeyword("_EMISSION");
+                if (material.HasProperty(EmissionMap) && material.HasProperty(BaseMap))
+                {
+                    material.SetTexture(EmissionMap, material.GetTexture(BaseMap));
+                    material.SetTextureScale(EmissionMap, material.GetTextureScale(BaseMap));
+                    material.SetTextureOffset(EmissionMap, material.GetTextureOffset(BaseMap));
+                }
+            }
+            variants.Add(key, material);
+            return material;
+        }
+
+        private void PruneVariants()
+        {
+            pruneVariants = false;
+            usedVariants.Clear();
+            foreach (var state in world.Values) state.CollectMaterials(usedVariants);
+            foreach (var state in player.Values) state.CollectMaterials(usedVariants);
+            unusedVariants.Clear();
+            foreach (var variant in variants)
+                if (!usedVariants.Contains(variant.Value)) unusedVariants.Add(variant.Key);
+            foreach (var key in unusedVariants)
+            {
+                Destroy(variants[key]);
+                variants.Remove(key);
+            }
+            unusedVariants.Clear();
+            usedVariants.Clear();
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= SceneLoaded;
+            SceneManager.sceneUnloaded -= SceneUnloaded;
+            foreach (var state in world.Values) state.Restore();
+            foreach (var state in player.Values) state.Restore();
+            foreach (var state in particles) state.Restore();
+            foreach (var material in variants.Values)
+                if (Application.isPlaying) Destroy(material);
+                else DestroyImmediate(material);
+            variants.Clear();
+            world.Clear();
+            player.Clear();
+            worldReceivers.Clear();
+            visitedWorld.Clear();
+            particles.Clear();
+            knownParticles.Clear();
+            closeGlowTarget = closeGlowAmount = 0f;
+            pruneVariants = false;
         }
 
         private static bool ShouldIgnore(Component component)
         {
-            if (component.gameObject.layer == 5) return true; // Unity UI
+            if (component.gameObject.layer == 5) return true;
             if (component.gameObject.layer == LayerMask.NameToLayer("MapSystem")) return true;
             if (component.GetComponentInParent<HorrorEngine.MapRenderer>() != null) return true;
             if (component.GetComponentInParent<Canvas>() != null) return true;
             if (component.GetComponentInParent<Light>() != null) return true;
+            if (component.GetComponentInParent<HouseToolkit.FixtureAttachment>() is { HasLight: true }) return true;
+            if (component is Renderer renderer)
+            {
+                if (renderer is MeshRenderer && renderer.GetComponentInChildren<Light>(true)) return true;
+                if (renderer.sharedMaterial is { } material &&
+                    string.Equals(material.GetTag("FixtureEmission", false), "True", System.StringComparison.OrdinalIgnoreCase)) return true;
+            }
             return component.GetComponentInParent<HorrorLightSource>() != null;
         }
 
         private sealed class RendererState
         {
-            public float Visibility;
-            private readonly Material[] originalMaterials;
-            private Material[] playerMaterials;
-            private bool glowPrepared;
-            private float blendedVisibility;
+            public Renderer Renderer { get; }
+            public bool NeedsVisibility { get; }
+            private readonly Material[] originals;
+            private readonly Material[] applied;
+            private readonly MaterialPropertyBlock[] originalBlocks;
             private readonly bool originalForceOff;
-            private readonly Color[] baseColors;
-            private readonly Color[] tintColors;
-            private readonly Color[] emissionColors;
+            private readonly bool canDim;
+            private float lastValue = -1f;
 
-            public RendererState(Renderer renderer)
+            public RendererState(Renderer renderer, List<Material> materials, HorrorDarknessVisibilityManager manager, bool forPlayer)
             {
-                var materials = renderer.sharedMaterials;
-                originalMaterials = materials;
+                Renderer = renderer;
                 originalForceOff = renderer.forceRenderingOff;
-                playerMaterials = new Material[materials.Length];
-                for (int i = 0; i < materials.Length; i++)
-                    if (materials[i] != null) playerMaterials[i] = HorrorRuntimeMaterials.Create(materials[i]);
-                renderer.sharedMaterials = playerMaterials;
-                materials = playerMaterials;
-                baseColors = new Color[materials.Length]; tintColors = new Color[materials.Length]; emissionColors = new Color[materials.Length];
-                for (int i = 0; i < materials.Length; i++)
+                originals = materials.ToArray();
+                applied = new Material[originals.Length];
+                originalBlocks = new MaterialPropertyBlock[originals.Length];
+                bool allSlotsCanDim = true;
+                bool hasLitSlot = false;
+                for (int i = 0; i < originals.Length; i++)
                 {
-                    var material = materials[i];
-                    baseColors[i] = material != null && material.HasProperty("_BaseColor") ? material.GetColor("_BaseColor") : Color.white;
-                    tintColors[i] = material != null && material.HasProperty("_Color") ? material.GetColor("_Color") : Color.white;
-                    emissionColors[i] = material != null && material.HasProperty("_EmissionColor") ? material.GetColor("_EmissionColor") : Color.black;
-                }
-            }
-
-            public void Apply(Renderer renderer, MaterialPropertyBlock block, float visibility, float glow, bool isPlayer)
-            {
-                blendedVisibility = Mathf.MoveTowards(blendedVisibility, visibility, Time.deltaTime * 3f);
-                if (isPlayer && !glowPrepared)
-                {
-                    glowPrepared = true;
-                    for (int i = 0; i < playerMaterials.Length; i++)
+                    applied[i] = manager.Variant(originals[i], forPlayer);
+                    var material = applied[i];
+                    if (!material) continue;
+                    bool needsVisibility = !HorrorRuntimeMaterials.IsLit(material);
+                    NeedsVisibility |= needsVisibility;
+                    hasLitSlot |= !needsVisibility;
+                    allSlotsCanDim &= !needsVisibility || material.HasProperty(BaseColor) ||
+                        material.HasProperty(TintColor) || material.HasProperty(Darkness);
+                    if (forPlayer || needsVisibility)
                     {
-                        var material = playerMaterials[i];
-                        if (material == null) continue;
-                        if (!material.HasProperty("_EmissionColor")) continue;
-                        material.EnableKeyword("_EMISSION");
-                        if (material.HasProperty("_EmissionMap") && material.HasProperty("_BaseMap"))
-                        {
-                            material.SetTexture("_EmissionMap", material.GetTexture("_BaseMap"));
-                            material.SetTextureScale("_EmissionMap", material.GetTextureScale("_BaseMap"));
-                            material.SetTextureOffset("_EmissionMap", material.GetTextureOffset("_BaseMap"));
-                        }
+                        originalBlocks[i] = new MaterialPropertyBlock();
+                        renderer.GetPropertyBlock(originalBlocks[i], i);
                     }
-                    renderer.sharedMaterials = playerMaterials;
                 }
-                var materials = playerMaterials ?? originalMaterials;
-                bool canDim = true;
-                for (int i = 0; i < materials.Length; i++)
-                {
-                    var material = materials[i];
-                    if (material == null) continue;
-                    canDim &= material.HasProperty("_BaseColor") || material.HasProperty("_Color") ||
-                              material.HasProperty("_DarknessVisibility");
-                    renderer.GetPropertyBlock(block, i);
-                    // A lit character already responds to realtime lights, ambient
-                    // light and probes. Multiplying albedo by our light estimate
-                    // applies darkness twice and ignores baked/environment lighting.
-                    bool naturallyLit = HorrorRuntimeMaterials.IsLit(material);
-                    float albedoVisibility = naturallyLit ? 1f : blendedVisibility;
-                    if (material.HasProperty("_BaseColor")) block.SetColor("_BaseColor", Dim(baseColors[i], albedoVisibility));
-                    if (material.HasProperty("_Color")) block.SetColor("_Color", Dim(tintColors[i], albedoVisibility));
-                    if (material.HasProperty("_EmissionColor"))
-                    {
-                        Color emission = isPlayer ? baseColors[i] * glow : Color.black;
-                        if (isPlayer)
-                        {
-                            material.EnableKeyword("_EMISSION");
-                            material.SetColor("_EmissionColor", emission);
-                        }
-                        block.SetColor("_EmissionColor", emission);
-                    }
-                    if (material.HasProperty("_DarknessVisibility")) block.SetFloat("_DarknessVisibility", albedoVisibility);
-                    renderer.SetPropertyBlock(block, i);
-                }
-                // Fallback for custom shaders without any supported tint property.
-                renderer.forceRenderingOff = originalForceOff || (!canDim && blendedVisibility <= .001f && glow <= .001f &&
-                    !System.Array.Exists(materials, m => m != null && HorrorRuntimeMaterials.IsLit(m)));
+                canDim = hasLitSlot || allSlotsCanDim;
+                renderer.sharedMaterials = applied;
             }
 
-            private static Color Dim(Color color, float visibility)
+            public void CollectMaterials(HashSet<Material> materials) => materials.UnionWith(applied);
+
+            public bool OwnsMaterials(List<Material> buffer)
             {
-                return new Color(color.r * visibility, color.g * visibility, color.b * visibility, color.a);
+                Renderer.GetSharedMaterials(buffer);
+                if (buffer.Count != applied.Length) return false;
+                for (int i = 0; i < buffer.Count; i++)
+                    if (buffer[i] != applied[i]) return false;
+                return true;
             }
 
-            public void Restore(Renderer renderer)
+            public void ApplyGlow(MaterialPropertyBlock block, float glow)
             {
-                if (renderer != null)
+                if (Mathf.Approximately(lastValue, glow)) return;
+                lastValue = glow;
+                for (int i = 0; i < applied.Length; i++)
                 {
-                    renderer.forceRenderingOff = originalForceOff;
-                    if (playerMaterials != null) renderer.sharedMaterials = originalMaterials;
-                    for (int i = 0; i < originalMaterials.Length; i++) renderer.SetPropertyBlock(null, i);
+                    var material = applied[i];
+                    if (!material || !material.HasProperty(EmissionColor)) continue;
+                    Renderer.GetPropertyBlock(block, i);
+                    Color color = material.HasProperty(BaseColor) ? material.GetColor(BaseColor) :
+                        material.HasProperty(TintColor) ? material.GetColor(TintColor) : Color.white;
+                    if (material.HasProperty(BaseColor) && !block.HasColor(BaseColor)) block.SetColor(BaseColor, color);
+                    block.SetColor(EmissionColor, color * glow);
+                    Renderer.SetPropertyBlock(block, i);
                 }
-                if (playerMaterials != null)
-                    foreach (var material in playerMaterials)
-                        if (material != null)
-                        {
-                            if (Application.isPlaying) Object.Destroy(material);
-                            else Object.DestroyImmediate(material);
-                        }
+            }
+
+            public void ApplyVisibility(MaterialPropertyBlock block, float visibility)
+            {
+                if (Mathf.Approximately(lastValue, visibility)) return;
+                lastValue = visibility;
+                for (int i = 0; i < applied.Length; i++)
+                {
+                    var material = applied[i];
+                    if (originalBlocks[i] == null || !material) continue;
+                    Renderer.GetPropertyBlock(block, i);
+                    if (material.HasProperty(BaseColor)) block.SetColor(BaseColor, Dim(material.GetColor(BaseColor), visibility));
+                    if (material.HasProperty(TintColor)) block.SetColor(TintColor, Dim(material.GetColor(TintColor), visibility));
+                    if (material.HasProperty(Darkness)) block.SetFloat(Darkness, visibility);
+                    Renderer.SetPropertyBlock(block, i);
+                }
+                Renderer.forceRenderingOff = originalForceOff || (!canDim && visibility <= .001f);
+            }
+
+            private static Color Dim(Color color, float visibility) =>
+                new(color.r * visibility, color.g * visibility, color.b * visibility, color.a);
+
+            public void Restore()
+            {
+                if (!Renderer) return;
+                var current = Renderer.sharedMaterials;
+                for (int i = 0; i < Mathf.Min(current.Length, applied.Length); i++)
+                {
+                    if (current[i] == applied[i]) current[i] = originals[i];
+                    if (originalBlocks[i] != null) Renderer.SetPropertyBlock(originalBlocks[i], i);
+                }
+                Renderer.sharedMaterials = current;
+                if (NeedsVisibility) Renderer.forceRenderingOff = originalForceOff;
             }
         }
 
-        private readonly struct ParticleState
+        private sealed class ParticleState
         {
-            private readonly ParticleSystem source;
+            public ParticleSystem Source { get; }
+            public ParticleSystemRenderer Renderer { get; }
             private readonly float rateMultiplier;
             private readonly float distanceMultiplier;
             private readonly bool originalForceOff;
-            private readonly ParticleSystemRenderer renderer;
+            private float lastVisibility = -1f;
 
-            public ParticleState(ParticleSystem particle)
+            public ParticleState(ParticleSystem source)
             {
-                source = particle;
-                var emission = particle.emission;
+                Source = source;
+                var emission = source.emission;
                 rateMultiplier = emission.rateOverTimeMultiplier;
                 distanceMultiplier = emission.rateOverDistanceMultiplier;
-                renderer = particle.GetComponent<ParticleSystemRenderer>();
-                originalForceOff = renderer != null && renderer.forceRenderingOff;
+                Renderer = source.GetComponent<ParticleSystemRenderer>();
+                originalForceOff = Renderer && Renderer.forceRenderingOff;
+            }
+
+            public void Apply(float visibility)
+            {
+                if (Mathf.Approximately(lastVisibility, visibility)) return;
+                lastVisibility = visibility;
+                var emission = Source.emission;
+                emission.rateOverTimeMultiplier = rateMultiplier * visibility;
+                emission.rateOverDistanceMultiplier = distanceMultiplier * visibility;
+                if (Renderer) Renderer.forceRenderingOff = originalForceOff || visibility < .025f;
             }
 
             public void Restore()
             {
-                if (renderer != null) renderer.forceRenderingOff = originalForceOff;
-                if (source != null)
-                {
-                    var emission = source.emission;
-                    emission.rateOverTimeMultiplier = rateMultiplier;
-                    emission.rateOverDistanceMultiplier = distanceMultiplier;
-                }
-            }
-
-            public void Apply(ParticleSystem particle, float visibility)
-            {
-                var emission = particle.emission;
-                emission.rateOverTimeMultiplier = rateMultiplier * visibility;
-                emission.rateOverDistanceMultiplier = distanceMultiplier * visibility;
-                // Footstep particles are not a light source. Hide existing particles too,
-                // rather than merely reducing future emission, when there is no local light.
-                if (renderer != null) renderer.forceRenderingOff = originalForceOff || visibility < .025f;
+                if (Renderer) Renderer.forceRenderingOff = originalForceOff;
+                if (!Source) return;
+                var emission = Source.emission;
+                emission.rateOverTimeMultiplier = rateMultiplier;
+                emission.rateOverDistanceMultiplier = distanceMultiplier;
             }
         }
     }

@@ -1,5 +1,6 @@
 """Build explicit per-prefab metre-scale decisions from the visual review and Unity size audit."""
 from pathlib import Path
+from fnmatch import fnmatchcase
 import json
 
 SOURCE=Path(__file__).resolve().parent
@@ -12,6 +13,7 @@ def write(p,v):p.write_text(json.dumps(v,ensure_ascii=False,indent=2)+'\n',encod
 
 def build():
     catalog=read(PACKS/'QualityCatalog.json')['assets'];measured={a['path']:a for a in read(AUDIT/'AllPrefabs.json')['assets']}
+    subjects=read(SOURCE.parent/'AssetLibrary/ModelsPackPSXSubjects.json')['subjects']
     models={int(a['id'][1:]):a for a in catalog if a['pack']=='ModelsPackPSX' and a['status']!='Removed'}
     decisions={}
     def set_rule(ids,role,factor=None,axis=None,target=None):
@@ -92,7 +94,8 @@ def build():
     set_rule('343','Domestic satellite dish and stand',axis=0,target=.80)
     set_rule('345-346','Matching mattress and wooden frame',factor=.55)
     set_rule('347-348','Writing desk',axis=1,target=.75)
-    set_rule('349 353','Side/bedside cabinet',axis=1,target=.60)
+    set_rule('349','Woodgrain CRT television',axis=1,target=.60)
+    set_rule('353','Side/bedside cabinet',axis=1,target=.60)
     set_rule('354','Dining chair',axis=1,target=.95)
     set_rule('355-356','Dining table',axis=1,target=.75)
     set_rule('357','Low coffee table',axis=1,target=.43)
@@ -142,7 +145,9 @@ def build():
     assets=[]
     for ident,a in models.items():
         rule=decisions[ident];old=measured[a['prefab']]['size'];factor=rule['factor']
-        assets.append(dict(id=a['id'],path=a['prefab'],guid=a['guid'],role=rule['role'],reference=rule['reference'],factor=factor,source_size_m=old,target_size_m=[v*factor for v in old]))
+        subject=subjects.get(a['id'], {})
+        role=subject['name'] if subject.get('replaceScaleRole') else rule['role']
+        assets.append(dict(id=a['id'],path=a['prefab'],guid=a['guid'],role=role,reference=rule['reference'],factor=factor,source_size_m=old,target_size_m=[v*factor for v in old]))
     # Other libraries: targeted corrections after silhouette and horizontal-surface review.
     def other(path,role,factor=None,axis=None,target=None,reference=None):
         a=measured[path];old=a['size'];denominator=max(old[0],old[2]) if axis=='horizontal' else max(old) if axis=='max' else old[int(axis)] if axis is not None else 1
@@ -172,6 +177,39 @@ def build():
             other(path,'Adjustable high-back office chair',factor=.50/.58,reference='Measured seat 0.58 m; calibrated to 0.50 m')
         if a['family']=='StorageContainers' and name.startswith('Urban_TrashCan'):
             other(path,'Matching public litter-bin family',factor=.5,reference='2.105 m source bin corrected to 1.053 m; preserve all colour/lid variants')
+        if '/RoadFurniture/Urban/BusStops/' in path and name.startswith('Urban_Busstop') and not name.startswith((
+            'Urban_BusstopBench', 'Urban_BusstopSingleSeat', 'Urban_BusstopTwoSeats', 'Urban_BusstopThreeSeats',
+        )):
+            rounded = 'RoundRoof' in name
+            other(path, 'Rounded bus shelter' if rounded else 'Flat-roof bus shelter', factor=.82 if rounded else .80,
+                  reference='Sized against the 2.8 m Urban storey pitch and 1.97 m player mesh. Rounded roofs retain higher crowns and entry clearance.')
+        if '/RoadFurniture/Urban/TrafficLights/' in path:
+            if name.startswith('Urban_StreetLight'):
+                other(path, 'Urban streetlight', factor=.75, reference='4.96 m pole beside the 4 m Chapter 1 streetlamp and 2.8 m Urban storeys.')
+            else:
+                other(path, 'Urban traffic signal, pole or head', factor=.90,
+                      reference='Matched pole and head dimensions across the Urban kit, scaled together for approximately 5.1 m pole heights.')
+        if '/Pizzeria/Prefabs/' in path and name.startswith('Pizzeria_streetlight'):
+            other(path, 'Pizzeria streetlight', factor=.45, reference='4.97 m pole matched to the calibrated 4.96 m Urban streetlight.')
+        if '/Pizzeria/Prefabs/' in path and name.startswith('Pizzeria_traffic_light'):
+            other(path, 'Pizzeria traffic signal', factor=.75, reference='5.53 m overall height preserves clearance for the 2.61 m Box Truck under the lower signal arms.')
+    planned = {entry['path'] for entry in assets}
+    for line in (SOURCE/'PropScaleReferences.tsv').read_text(encoding='utf-8').splitlines()[1:]:
+        names, dimension, amount, reference = line.split('\t')
+        patterns = names.lower().split()
+        matches = [path for path in measured if path.startswith('Assets/Game/Environment/')
+                   and any(fnmatchcase(Path(path).stem.lower(), pattern) for pattern in patterns)]
+        if not matches or planned.intersection(matches):
+            raise ValueError(f'Missing or overlapping scale decision for {names}')
+        for path in sorted(matches):
+            axis = {'x': 0, 'y': 1, 'max': 'max'}.get(dimension)
+            if axis is None and dimension != 'factor':
+                raise ValueError(f'Unknown dimension {dimension}')
+            amount_value = float(amount)
+            other(path, Path(path).stem, axis=axis, target=amount_value if axis is not None else None,
+                  factor=amount_value, reference=reference)
+            assets[-1]['dimension_only'] = True
+        planned.update(matches)
     plan=dict(units='Unity metres',method='Uniform scaling per visually identified object/family; no axis stretching. Original proportions, pivots, hierarchy, geometry, materials and collider bindings retained.',assets=assets,
         wider_audit=dict(measured_prefabs=len(measured),input='Exports/Reviews/PrefabCollision/ScaleAudit/AllPrefabs.json',surface_evidence='Exports/Reviews/PrefabCollision/ScaleAudit/FurnitureSurfaces.json',retained_notes=['Previously calibrated Cars_* and Classic64 Volvo/shovel/guardrail sizes retained.','Pizzeria prep tables retain approximately 0.90–0.96 m worktops; overall height includes backsplashes.','Large buildings, sewer/metro assemblies, pipe lengths and modular architecture are not normalized to prop size.','Plausible smaller fixtures and trays retained; reviewed ModelsPackPSX entries include three unchanged prefabs.']))
     write(SOURCE/'ScalePlan.json',plan)

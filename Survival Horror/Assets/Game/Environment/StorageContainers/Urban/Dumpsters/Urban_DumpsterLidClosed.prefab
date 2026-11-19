@@ -41,6 +41,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 8029877706130460768}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: e50d42e887f14934da9270d5799cd88c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.61999995
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e50d42e887f14934da9270d5799cd88c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.61999995
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e50d42e887f14934da9270d5799cd88c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.61999995
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e50d42e887f14934da9270d5799cd88c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -92,9 +104,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5227978959053124559}
   m_SourcePrefab: {fileID: 100100000, guid: e50d42e887f14934da9270d5799cd88c, type: 3}
---- !u!4 &7917242921897849267 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e50d42e887f14934da9270d5799cd88c, type: 3}
+--- !u!1 &7391641542009694985 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e50d42e887f14934da9270d5799cd88c, type: 3}
   m_PrefabInstance: {fileID: 7662042435778713176}
   m_PrefabAsset: {fileID: 0}
 --- !u!64 &5227978959053124559
@@ -119,8 +131,8 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -4222471772823519253, guid: e50d42e887f14934da9270d5799cd88c, type: 3}
---- !u!1 &7391641542009694985 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e50d42e887f14934da9270d5799cd88c, type: 3}
+--- !u!4 &7917242921897849267 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e50d42e887f14934da9270d5799cd88c, type: 3}
   m_PrefabInstance: {fileID: 7662042435778713176}
   m_PrefabAsset: {fileID: 0}

@@ -305,13 +305,13 @@ namespace HouseToolkit.Editor
             var points=movingPavement??PavementPoints(Picks.Items);
             if(points.Count==0)return false;
             var pivot=movingPavement==null ? points.Aggregate(Vector2.zero,(a,b)=>a+b)/points.Count : pavementOrigin;
-            Vector2 target;
             if(direct)
             {
                 var plane=new Plane(Active.transform.up,PavementWorld(pivot));
                 var start=HandleUtility.GUIPointToWorldRay(down);
                 if(!plane.Raycast(start,out var a) || !plane.Raycast(ray,out var b))return false;
-                target=pivot+Flat(Active.transform.InverseTransformVector(ray.GetPoint(b)-start.GetPoint(a)));
+                var target=pivot+Flat(Active.transform.InverseTransformVector(ray.GetPoint(b)-start.GetPoint(a)));
+                pavementDelta=PlanSnapping.FloorPoint(target,pivot,e.shift,e.alt,PlanSnapping.Grid)-pivot;
             }
             else
             {
@@ -319,10 +319,14 @@ namespace HouseToolkit.Editor
                 var moved=PlanarMoveHandle.Draw(PavementWorld(pivot+pavementDelta),Active.transform.rotation);
                 bool changed=EditorGUI.EndChangeCheck();
                 if(!changed && movingPavement==null)return false;
-                target=changed ? Flat(Active.transform.InverseTransformPoint(moved)) : pivot+pavementDelta;
+                if(changed)
+                {
+                    // Snap the translation so an off-grid pivot keeps its offset on the untouched axis.
+                    var delta=Flat(Active.transform.InverseTransformVector(moved-PavementWorld(pivot)));
+                    pavementDelta=PlanSnapping.FloorPoint(delta,Vector2.zero,e.shift,e.alt,PlanSnapping.Grid);
+                }
             }
             movingPavement=points;pavementOrigin=pivot;pavementView=view;
-            pavementDelta=PlanSnapping.FloorPoint(target,pivot,e.shift,e.alt,PlanSnapping.Grid)-pivot;
             if(released)
             {
                 var delta=pavementDelta;

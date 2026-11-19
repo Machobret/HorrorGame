@@ -1,0 +1,313 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4992fa4685309e447a9abb36b7fb16c1, type: 3}
+  m_Name: DistrictStorage_IntegratedMap
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.MapData
+  UniqueId: 126d6fc2-9883-47f1-8bf7-5c8a55016061
+  ControllerUniqueId: cebbdc2c-1b4e-4d01-b53a-5dac20572231
+  Name:
+    IsLocalized: 0
+    Unlocalized: Storage Unit
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Abbreviation:
+    IsLocalized: 0
+    Unlocalized: SU
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Name_DEPRECATED: NoName
+  Abbreviation_DEPRECATED: 
+  Size: {x: 25, y: 25}
+  CellSize: 50
+  GlobalScale: 10
+  MapSet: {fileID: 0}
+  Rooms:
+  - Name: Outside
+    UniqueId: 0cf17860-f4b1-4fab-9c66-3694de2211b1
+    Transform:
+      Offset: {x: 333.7, y: 641.3}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 90
+    Shapes:
+    - Points:
+      - {x: 14.88, y: 0, z: -27.74282}
+      - {x: 14.88, y: 0, z: -34.63}
+      - {x: 11.13, y: 0, z: -34.63}
+      - {x: 11.13, y: 0, z: -40.5}
+      - {x: 0.38, y: 0, z: -40.5}
+      - {x: 0.38, y: 0, z: -27.7}
+      - {x: 9.349999, y: 0, z: -27.7}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+  - Name: Storage Unit Office
+    UniqueId: 0ef96083-1345-4d79-bb82-dca5043e79f4
+    Transform:
+      Offset: {x: 428.8, y: 624.2}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 90
+    Shapes:
+    - Points:
+      - {x: 13.42, y: 0, z: -25.119999}
+      - {x: 13.17, y: 0, z: -25.119999}
+      - {x: 9.42, y: 0, z: -25.119999}
+      - {x: 9.42, y: 0, z: -29.369999}
+      - {x: 11.42, y: 0, z: -29.369999}
+      - {x: 13.42, y: 0, z: -29.369999}
+      Closed: 1
+      Connections: []
+    - Points:
+      - {x: 13.42, y: 0, z: -31.619999}
+      - {x: 13.42, y: 0, z: -30.869999}
+      - {x: 13.42, y: 0, z: -29.369999}
+      - {x: 11.42, y: 0, z: -29.369999}
+      - {x: 11.42, y: 0, z: -31.619999}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+  - Name: Storage Unit Entrance
+    UniqueId: e7339175-cbd0-4afb-845a-bbb4809733ff
+    Transform:
+      Offset: {x: 379.3, y: 586.5}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 90
+    Shapes:
+    - Points:
+      - {x: 9.4, y: 0, z: -25.07}
+      - {x: 9.4, y: 0, z: -30.07}
+      - {x: 9.65, y: 0, z: -30.07}
+      - {x: 13.4, y: 0, z: -30.07}
+      - {x: 16.15, y: 0, z: -28.32}
+      - {x: 16.15, y: 0, z: -25.07}
+      Closed: 1
+      Connections: []
+    - Points:
+      - {x: 12.15, y: 0, z: -35.82}
+      - {x: 15.9, y: 0, z: -34.07}
+      - {x: 13.4, y: 0, z: -30.07}
+      - {x: 9.65, y: 0, z: -30.07}
+      - {x: 9.65, y: 0, z: -34.32}
+      - {x: 9.65, y: 0, z: -35.82}
+      Closed: 1
+      Connections: []
+    - Points:
+      - {x: 16.15, y: 0, z: -25.07}
+      - {x: 16.15, y: 0, z: -28.32}
+      - {x: 19.15, y: 0, z: -28.32}
+      - {x: 19.15, y: 0, z: -27.57}
+      - {x: 19.15, y: 0, z: -25.07}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+  - Name: Storage Unit Thin Hall
+    UniqueId: 1d418312-97c1-45ff-a495-046fe472b522
+    Transform:
+      Offset: {x: 422.3, y: 534.4}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 90
+    Shapes:
+    - Points:
+      - {x: 8.19, y: 0, z: -25.77}
+      - {x: 10.69, y: 0, z: -29.77}
+      - {x: 11.69, y: 0, z: -29.77}
+      - {x: 13.19, y: 0, z: -29.77}
+      - {x: 17.189999, y: 0, z: -29.77}
+      - {x: 21.189999, y: 0, z: -29.77}
+      - {x: 25.689999, y: 0, z: -29.77}
+      - {x: 26.939999, y: 0, z: -29.77}
+      - {x: 26.939999, y: 0, z: -26.52}
+      - {x: 25.689999, y: 0, z: -26.52}
+      - {x: 21.189999, y: 0, z: -26.52}
+      - {x: 16.939999, y: 0, z: -26.52}
+      - {x: 12.69, y: 0, z: -26.52}
+      - {x: 10.94, y: 0, z: -24.02}
+      Closed: 1
+      Connections: []
+    - Points:
+      - {x: 10.94, y: 0, z: -24.02}
+      - {x: 12.69, y: 0, z: -26.52}
+      - {x: 16.939999, y: 0, z: -26.52}
+      - {x: 16.939999, y: 0, z: -23.27}
+      - {x: 13.94, y: 0, z: -23.27}
+      - {x: 13.94, y: 0, z: -24.02}
+      Closed: 1
+      Connections: []
+    - Points:
+      - {x: 16.939999, y: 0, z: -20.77}
+      - {x: 13.94, y: 0, z: -20.77}
+      - {x: 13.94, y: 0, z: -23.27}
+      - {x: 16.939999, y: 0, z: -23.27}
+      Closed: 1
+      Connections: []
+    - Points:
+      - {x: 16.939999, y: 0, z: -26.52}
+      - {x: 21.189999, y: 0, z: -26.52}
+      - {x: 21.189999, y: 0, z: -20.77}
+      - {x: 16.939999, y: 0, z: -20.77}
+      - {x: 16.939999, y: 0, z: -23.27}
+      Closed: 1
+      Connections: []
+    - Points:
+      - {x: 21.189999, y: 0, z: -26.52}
+      - {x: 25.689999, y: 0, z: -26.52}
+      - {x: 25.689999, y: 0, z: -20.77}
+      - {x: 21.189999, y: 0, z: -20.77}
+      Closed: 1
+      Connections: []
+    - Points:
+      - {x: 26.939999, y: 0, z: -26.52}
+      - {x: 26.939999, y: 0, z: -24.02}
+      - {x: 26.939999, y: 0, z: -20.77}
+      - {x: 25.689999, y: 0, z: -20.77}
+      - {x: 25.689999, y: 0, z: -26.52}
+      Closed: 1
+      Connections: []
+    - Points:
+      - {x: 13.19, y: 0, z: -29.77}
+      - {x: 11.69, y: 0, z: -29.77}
+      - {x: 11.69, y: 0, z: -34.52}
+      - {x: 13.19, y: 0, z: -34.52}
+      Closed: 1
+      Connections: []
+    - Points:
+      - {x: 17.189999, y: 0, z: -34.52}
+      - {x: 17.189999, y: 0, z: -29.77}
+      - {x: 13.19, y: 0, z: -29.77}
+      - {x: 13.19, y: 0, z: -34.52}
+      Closed: 1
+      Connections: []
+    - Points:
+      - {x: 21.189999, y: 0, z: -29.77}
+      - {x: 17.189999, y: 0, z: -29.77}
+      - {x: 17.189999, y: 0, z: -34.52}
+      - {x: 21.189999, y: 0, z: -34.52}
+      Closed: 1
+      Connections: []
+    - Points:
+      - {x: 25.689999, y: 0, z: -29.77}
+      - {x: 21.189999, y: 0, z: -29.77}
+      - {x: 21.189999, y: 0, z: -34.52}
+      - {x: 25.689999, y: 0, z: -34.52}
+      Closed: 1
+      Connections: []
+    - Points:
+      - {x: 26.939999, y: 0, z: -31.77}
+      - {x: 26.939999, y: 0, z: -29.77}
+      - {x: 25.689999, y: 0, z: -29.77}
+      - {x: 25.689999, y: 0, z: -34.52}
+      - {x: 26.939999, y: 0, z: -34.52}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+  - Name: Storage Unit Big Hall
+    UniqueId: 0ac60971-9a41-4b1b-89f4-20df2c919ee9
+    Transform:
+      Offset: {x: 437.28, y: 357.36}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 90
+    Shapes:
+    - Points:
+      - {x: 9.236, y: 0, z: -30.272}
+      - {x: 16.486, y: 0, z: -30.272}
+      - {x: 16.486, y: 0, z: -22.522}
+      - {x: 9.236, y: 0, z: -22.522}
+      - {x: 9.236, y: 0, z: -25.022}
+      - {x: 9.236, y: 0, z: -28.272}
+      Closed: 1
+      Connections: []
+    - Points:
+      - {x: 16.486, y: 0, z: -30.272}
+      - {x: 23.986, y: 0, z: -30.272}
+      - {x: 23.986, y: 0, z: -22.522}
+      - {x: 16.486, y: 0, z: -22.522}
+      Closed: 1
+      Connections: []
+    - Points:
+      - {x: 23.986, y: 0, z: -30.272}
+      - {x: 16.486, y: 0, z: -30.272}
+      - {x: 9.236, y: 0, z: -30.272}
+      - {x: 9.236, y: 0, z: -33.022}
+      - {x: 9.236, y: 0, z: -36.522}
+      - {x: 23.986, y: 0, z: -36.522}
+      - {x: 23.986, y: 0, z: -33.022}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+  - Name: Storage Unit Shelves
+    UniqueId: 48978751-4b05-4e92-90e4-f112fa9d772b
+    Transform:
+      Offset: {x: 393.29, y: 357.32}
+      Scale: {x: 1, y: 1, z: 1}
+      ZOrder: 0
+      Rotation: 90
+    Shapes:
+    - Points:
+      - {x: 23.982, y: 0, z: -26.921}
+      - {x: 23.982, y: 0, z: -34.671}
+      - {x: 23.982, y: 0, z: -37.421}
+      - {x: 32.232002, y: 0, z: -37.421}
+      - {x: 32.232002, y: 0, z: -17.421}
+      - {x: 9.232, y: 0, z: -17.421}
+      - {x: 9.232, y: 0, z: -19.171}
+      - {x: 9.232, y: 0, z: -23.671}
+      - {x: 9.232, y: 0, z: -26.921}
+      - {x: 16.482, y: 0, z: -26.921}
+      Closed: 1
+      Connections: []
+    - Points:
+      - {x: 9.232, y: 0, z: -19.171}
+      - {x: -13.518, y: 0, z: -19.171}
+      - {x: -13.518, y: 0, z: -23.671}
+      - {x: -6.7679996, y: 0, z: -23.671}
+      - {x: -3.7679996, y: 0, z: -23.671}
+      - {x: -0.76799965, y: 0, z: -23.671}
+      - {x: 3.4820004, y: 0, z: -23.671}
+      - {x: 7.9820004, y: 0, z: -23.671}
+      - {x: 9.232, y: 0, z: -23.671}
+      Closed: 1
+      Connections: []
+    LinkedElements: []
+    Details: []
+    Images: []
+  Doors: []
+  references:
+    version: 2
+    RefIds: []

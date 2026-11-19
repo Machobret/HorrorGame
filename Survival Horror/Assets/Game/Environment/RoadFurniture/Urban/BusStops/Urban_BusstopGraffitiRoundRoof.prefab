@@ -41,6 +41,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 7653328981433064622}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 956f24f9eb7cc7a4ebbb2a1161987794, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.82
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 956f24f9eb7cc7a4ebbb2a1161987794, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.82
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 956f24f9eb7cc7a4ebbb2a1161987794, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.82
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 956f24f9eb7cc7a4ebbb2a1161987794, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -80,6 +92,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 956f24f9eb7cc7a4ebbb2a1161987794, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 956f24f9eb7cc7a4ebbb2a1161987794, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 34aec475a91a4949a15d602d6ed09638, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 956f24f9eb7cc7a4ebbb2a1161987794, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f73321a3648129d409ea704da3125501, type: 2}
+    - target: {fileID: -5754084199372789682, guid: 956f24f9eb7cc7a4ebbb2a1161987794, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: c2c64044a119ce44bb27ddac937aa123, type: 2}
     - target: {fileID: 919132149155446097, guid: 956f24f9eb7cc7a4ebbb2a1161987794, type: 3}
       propertyPath: m_Name
       value: Urban_BusstopGraffitiRoundRoof_Model
@@ -95,6 +123,11 @@ PrefabInstance:
 --- !u!4 &7122998714566041854 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 956f24f9eb7cc7a4ebbb2a1161987794, type: 3}
+  m_PrefabInstance: {fileID: 7301250794865067797}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7607188057987856964 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 956f24f9eb7cc7a4ebbb2a1161987794, type: 3}
   m_PrefabInstance: {fileID: 7301250794865067797}
   m_PrefabAsset: {fileID: 0}
 --- !u!64 &4847430665357638842
@@ -119,8 +152,3 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5039200551662491541, guid: 956f24f9eb7cc7a4ebbb2a1161987794, type: 3}
---- !u!1 &7607188057987856964 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 956f24f9eb7cc7a4ebbb2a1161987794, type: 3}
-  m_PrefabInstance: {fileID: 7301250794865067797}
-  m_PrefabAsset: {fileID: 0}

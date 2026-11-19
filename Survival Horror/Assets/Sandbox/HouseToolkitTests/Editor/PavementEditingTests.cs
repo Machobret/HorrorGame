@@ -247,6 +247,63 @@ public class PavementEditingTests
     }
 
     [UnityTest]
+    public IEnumerator FillerWallGizmoMovesOnlyAlongTheGrabbedLocalAxis()
+    {
+        var building=new GameObject("Off-grid filler").AddComponent<FillerBuilding>();
+        building.transform.SetPositionAndRotation(road.transform.position,road.transform.rotation);
+        RoadScene.Enter(building);
+        var loop=SlabOpening.Rectangle(new Rect(.23f,.35f,8,6));
+        Assert.IsTrue(RoadScene.ChangeGround("Draw footprint",plan=>{
+            for(int i=0;i<loop.Length;i++)GroundEditing.Line(plan,loop[i],loop[(i+1)%loop.Length]);
+        }),RoadScene.Message);
+        var wall=building.footprint.edges.First();
+        int id=wall.id;
+        Vector2 a=wall.a,b=wall.b;
+        RoadScene.Pick(new RoadHit(RoadPart.Boundary,id));
+        var view=ScriptableObject.CreateInstance<SceneView>();
+        var oldTool=Tools.current;
+        float oldGrid=PlanSnapping.Grid;
+        try
+        {
+            view.Show();view.position=new Rect(80,80,960,720);view.orthographic=true;
+            var center=(a+b)*.5f;
+            var pivot=building.transform.TransformPoint(new Vector3(center.x,building.PavementElevation,center.y));
+            view.LookAtDirect(pivot,Quaternion.LookRotation(-building.transform.up,building.transform.forward),6);
+            Tools.current=Tool.Move;PlanSnapping.Grid=1;view.Focus();view.Repaint();
+            yield return null;yield return null;
+            void Check(Vector2 delta)
+            {
+                var current=building.footprint.edges.Single(edge=>edge.id==id);
+                Assert.That(Vector2.Distance(current.a,a+delta),Is.LessThan(.001f),"Unexpected start point after drag");
+                Assert.That(Vector2.Distance(current.b,b+delta),Is.LessThan(.001f),"Unexpected end point after drag");
+                Assert.AreEqual(1,building.footprint.faces.Count);
+            }
+            foreach(var axis in new[]{Vector2.right,Vector2.up})
+            {
+                var along=building.transform.TransformDirection(new Vector3(axis.x,0,axis.y));
+                Vector3 grip=default;
+                void Locate(SceneView v)
+                {
+                    if(v==view && Event.current.commandName=="LocateFacadeArrow")
+                        grip=pivot+along*HandleUtility.GetHandleSize(pivot)*.5f;
+                }
+                SceneView.duringSceneGui+=Locate;
+                try {view.SendEvent(EditorGUIUtility.CommandEvent("LocateFacadeArrow"));}
+                finally {SceneView.duringSceneGui-=Locate;}
+                Drag(view,grip,grip+along*.18f,shiftOnDrag:false);
+                Check(Vector2.zero);
+                Undo.IncrementCurrentGroup();
+                Drag(view,grip,grip+along*1.1f+Vector3.Cross(building.transform.up,along)*.35f,shiftOnDrag:false);
+                Check(axis);
+                Undo.PerformUndo();Check(Vector2.zero);
+                Undo.PerformRedo();Check(axis);
+                Undo.PerformUndo();
+            }
+        }
+        finally {PlanSnapping.Grid=oldGrid;Tools.current=oldTool;view.Close();}
+    }
+
+    [UnityTest]
     public IEnumerator DoubleClickInsertsFillerFootprintPointFromOutlineAndFacade()
     {
         var building=new GameObject("Rotated filler").AddComponent<FillerBuilding>();

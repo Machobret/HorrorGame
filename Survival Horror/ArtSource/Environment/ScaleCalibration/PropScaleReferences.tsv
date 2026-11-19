@@ -1,0 +1,62 @@
+Prefab names (shell patterns separated by spaces)	Dimension	Metres or factor	Placement reference
+HouseProps_basketball	max	0.24	Basketball diameter
+HouseProps_apple	max	0.085	Handheld apple
+HouseProps_egg	y	0.058	Egg height
+HouseProps_burger	max	0.135	Burger bun diameter
+HouseProps_bathtub	max	1.75	Domestic bathtub length including rim
+HouseProps_bathroomSink2	y	0.92	Freestanding washbasin including fittings
+HouseProps_oven	y	0.92	Freestanding cooker including top
+HouseProps_washingMachine	y	0.86	Domestic laundry appliance
+Village_Stove	y	0.90	Domestic cooker height
+HouseProps_remote	max	0.18	Handheld TV remote
+HouseProps_phone Village_Phone Village_Phone_01	max	0.255	Desk telephone body
+Office_desk_phone*	factor	0.75	Desk telephone footprint around 25 cm with extra space for cable
+Village_Alarm_clock*	factor	0.55	Matching bedside alarm clocks 19 to 22 cm wide
+HouseProps_powerSocket	max	0.10	Single wall plate
+HouseProps_toiletPaper	max	0.18	Wall holder including paper
+HouseProps_broom	y	1.48	Full length sweeping broom
+HouseProps_bucket	y	0.34	Household pail including handle
+HouseProps_pallet	max	1.20	Square pallet
+IndustrialExterior_Palet_*	factor	0.685	Single pallet 1.20 m long with identical boards in staggered stack
+Urban_Dumpster*	factor	0.62	Two-lid commercial bin body about 2.28 m long and 1.22 m high closed; lids and contents share its scale
+Urban_Trashbag*	factor	0.72	Filled bags around 58 to 75 cm high; retain grouped footprint
+Mine_Barrel Mine_Barrel_01	y	0.91	Industrial drum
+Mine_Locker	y	1.85	Single standing locker
+Kitchen_pan	max	0.48	Frying pan with handle including a 30 cm bowl
+HouseProps_pan	max	0.46	Frying pan with handle
+Kitchen_clean_plate Kitchen_dirty_plate Village_Plate Village_Plate_01	max	0.27	Dinner plate
+Village_Cereal_bowl Village_Plate_food Village_Plate_food_01	factor	0.74	Matching bowls and filled versions about 21 cm across
+Village_Milk	y	0.25	Milk container
+Village_Bottle	y	0.30	Table bottle
+Kitchen_chocolate_bar_*	factor	0.67	Wrapped bar about 17 cm long; open wrapper projects further
+Kitchen_toast Kitchen_toasted_toast	max	0.125	Bread slice
+Kitchen_*izza*	factor	0.75	Pizza box 40 cm wide; preserve lid hinge and slice fit
+HouseProps_pizza Village_Box_Pizza*	factor	0.63	Whole pizza or pizza carton about 40 cm wide
+Kitchen_soda_bottle	y	0.32	Large soft drink bottle
+Kitchen_knife_block	y	0.32	Countertop knife block with handles
+Office_computer_keyboard	x	0.46	Full size desktop keyboard
+Office_computer_monitor	x	0.45	Desktop CRT casing
+Office_horizontal_desktop Office_computer_tower*	factor	0.78	Desktop system paired with CRT monitor
+Office_file_binder*	y	0.32	Standing office binder
+Office_paper_stack*	factor	0.70	Office paper around 30 cm on its long edge
+Office_elastic_ball	max	0.085	Desk-sized rubber band ball
+Office_pen	max	0.155	Desk pen
+Office_beanbag_*	max	1.16	Single occupant beanbag footprint
+Office_conference_desk* Office_desk1* Office_desk2*	y	0.755	Sitting desk worktop including matching corner and conference pieces
+Office_book_case*	y	2.04	Reachable office bookcase
+Office_whiteboard	y	1.86	Freestanding whiteboard including frame
+Office_wall_clock	max	0.36	Office wall clock
+Pizzeria_Can_Soda*	y	0.13	Single drink can
+Pizzeria_vessel_Soda Pizzeria_vessel_Soda_00?	factor	0.67	Takeaway soft drink cup and matching lids; stacked cups retain their arrangement
+Pizzeria_*_Pizza Pizzeria_Pizza_M Pizzeria_Pizza_S* Pizzeria_Pizza_Peperoni Pizzeria_Pizza_box*	factor	0.62	Whole takeaway pizza about 39 cm and matching carton about 43 cm; same scale for slices
+Pizzeria_Dish*	max	0.28	Dinner plate
+Pizzeria_Cheese_grater*	factor	0.62	Box grater about 23 to 29 cm high
+Pizzeria_Roller*	factor	0.70	Rolling pins about 37 to 53 cm long
+Pizzeria_Cutting_board*	factor	0.68	Commercial cutting boards about 44 to 61 cm long
+Pizzeria_tongs*	factor	0.70	Kitchen tongs at serving distance
+Pizzeria_Pineapple	y	0.32	Whole pineapple with crown
+Pizzeria_Menu_Cube_033	max	1.65	Freestanding row of countertop menu boards about 35 cm high
+Office_coffee_machine	y	1.82	Floor-standing coffee vending machine
+Pizzeria_Refrigerator*	y	2.08	Commercial upright refrigerator including compressor housing
+Office_water_cooler*	factor	0.82	Matching dispenser body and refill bottle; assembled height about 1.52 m
+Pizzeria_Basil	factor	0.62	Loose topping spread matches its 39 cm pizza

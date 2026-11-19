@@ -61,6 +61,13 @@ namespace HorrorEngine
 
         public override void Take()
         {
+            if (Entry.Item is HorrorGame.Chapter1.MapTabletItemData tablet && tablet.TryCollectWithoutOpening())
+            {
+                gameObject.SetActive(false);
+                base.Take();
+                return;
+            }
+
             // The map tablet unlocks a saved feature and has no inventory entry.
             bool isMapTablet = Entry.Item is HorrorGame.Chapter1.MapTabletItemData;
             bool useOnPickup = m_UseOnPickup || isMapTablet;

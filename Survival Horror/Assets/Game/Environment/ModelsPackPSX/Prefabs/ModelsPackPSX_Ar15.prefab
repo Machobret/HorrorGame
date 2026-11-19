@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6695848589393544052}
   - component: {fileID: 2608159572174648855}
   - component: {fileID: 5666755429092763466}
-  - component: {fileID: 5245325724843382132}
   m_Layer: 0
   m_Name: Ar15
   m_TagString: Untagged
@@ -91,28 +90,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5245325724843382132
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2426516678698260225}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 135c0deeac9dbbd4883a284ffddf29b8, type: 2}
 --- !u!1 &3601147699592262447
 GameObject:
   m_ObjectHideFlags: 0

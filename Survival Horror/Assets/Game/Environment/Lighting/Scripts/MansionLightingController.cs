@@ -59,7 +59,7 @@ namespace HorrorGame.Lighting
         {
             if (lights == null) return;
             foreach (var light in lights)
-                if (light != null) light.enabled = enabled;
+                if (light != null) HouseToolkit.FixtureAttachment.SetPower(light,enabled);
         }
     }
 }

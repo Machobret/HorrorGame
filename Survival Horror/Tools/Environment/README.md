@@ -4,6 +4,8 @@
 
 The batch resolves inherited/nested prefab collision before adding anything. Placeable 3D prefabs under `Assets/Game` and `Assets/Sandbox` are in scope. Existing solid colliders, triggers, character controllers and prefab links remain intact. UI, held weapons, examination presentations, VFX and controller-only/toolkit authoring presets do not receive blocking collision. Vendor prefabs are audited through dependencies but are not edited.
 
+Prefabs labelled `NonBlockingDecoration` are intentionally collider-free for solid physics. The batch respects that label on stand-alone and nested decoration, and the downloaded-pack builder preserves it. Use it for reviewed dressing such as rugs, decals and mounted light fixtures. Grounded poles, shelter structures and gameplay collision follow their normal coverage rules.
+
 Missing static geometry receives mesh collision; exact cuboids and very small compact imported props use local-bounds boxes. Meshes under nonkinematic rigidbodies receive convex collision. Lower LODs and light/effect emitters do not duplicate collision. Colliders stay on the owning mesh part so multipart assemblies keep their source pivots.
 
 Run from the project root:
@@ -15,3 +17,9 @@ Run from the project root:
 5. `python Tools/Environment/prefab_collision.py promote` requires successful verification, rechecks concurrent edits and copies only the listed prefab files. Metadata, scenes and vendor assets are preserved.
 
 The downloaded-prop and Classic64 import builders also generate static collision so those rebuilds retain it. Re-run this maintenance pass after importing other art-only prefab families. Review receipts and logs stay outside runtime content.
+
+## Prefab health scan
+
+`python Tools/Environment/prefab_health.py stage` refreshes the isolated snapshot and builds the scope from the current owned prefabs. Run Unity with `-batchmode -nographics -projectPath <snapshot> -executeMethod PrefabHealthAudit.RunBatch`, then run `python Tools/Environment/prefab_health.py summarize`. The reports are written under `Exports/Reviews/AssetHealth`.
+
+The scan compares face winding with imported normals, checks the winding of closed components, and records mirrored transforms, material bindings, approximate prefab dimensions and transparent-material opacity sampled from PNG atlases. The review queue flags candidates that need visual or gameplay context, including interior surfaces, intentional mirrors and authored translucency.

@@ -228,10 +228,13 @@ namespace HorrorGame.Environment.Editor
                     renderer.sharedMaterials = asset.material_names.Select(n => materials[n]).ToArray();
                     if (renderer.sharedMaterials.Length != source.sharedMesh.subMeshCount)
                         throw new InvalidOperationException("Material/submesh mismatch: " + asset.name);
-                    var collision = visual.AddComponent<MeshCollider>();
-                    collision.sharedMesh = source.sharedMesh;
-                    collision.convex = false;
-                    // Static placement collision is part of the art prefab; gameplay behavior is assigned by consumers.
+                    var existing = AssetDatabase.LoadAssetAtPath<GameObject>(asset.prefab_path);
+                    if (!existing || !AssetDatabase.GetLabels(existing).Contains("NonBlockingDecoration"))
+                    {
+                        var collision = visual.AddComponent<MeshCollider>();
+                        collision.sharedMesh = source.sharedMesh;
+                        collision.convex = false;
+                    }
                     var prefab = PrefabUtility.SaveAsPrefabAsset(go, asset.prefab_path);
                     if (!prefab) throw new InvalidOperationException("Could not save prefab: " + asset.prefab_path);
                     var prefabImporter = AssetImporter.GetAtPath(asset.prefab_path);

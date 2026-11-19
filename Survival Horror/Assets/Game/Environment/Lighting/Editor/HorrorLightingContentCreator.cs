@@ -149,7 +149,7 @@ namespace HorrorGame.Lighting.Editor
         private static void CreateLightSourcePrefabs(Material emissive)
         {
             CreateLightPrefab("Fire", LightType.Point, new Color(1f, .16f, .015f), 7f, 5f, 0f, true, .22f, emissive);
-            CreateLightPrefab("StreetLamp", LightType.Spot, new Color(.58f, .72f, 1f), 10f, 17f, 70f, true, .07f, emissive);
+            CreateLightPrefab("StreetLamp", LightType.Spot, new Color(.58f, .72f, 1f), 10f, 8f, 54f, true, .07f, emissive);
             CreateLightPrefab("Lantern", LightType.Point, new Color(1f, .42f, .08f), 4.5f, 6f, 0f, true, .16f, emissive);
             CreateLightPrefab("Flashlight", LightType.Spot, new Color(.82f, .9f, 1f), 9f, 22f, 38f, false, 0f, emissive);
             CreateLightPrefab("Lighter", LightType.Point, new Color(1f, .22f, .025f), 2.2f, 2.8f, 0f, true, .22f, emissive);
@@ -173,6 +173,11 @@ namespace HorrorGame.Lighting.Editor
             // Portable source prefabs must illuminate immediately when spawned in gameplay.
             // Static scene bounce is supplied by the separately baked test-scene lights.
             var light = root.AddComponent<Light>(); light.type = type; light.color = color; light.intensity = intensity; light.range = range; light.spotAngle = angle; light.shadows = LightShadows.Soft; light.lightmapBakeType = LightmapBakeType.Realtime;
+            if (name == "StreetLamp")
+            {
+                root.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+                light.innerSpotAngle = 36f;
+            }
             var mesh = GameObject.CreatePrimitive(PrimitiveType.Sphere); mesh.name = "Emitter"; mesh.transform.SetParent(root.transform); mesh.transform.localScale = Vector3.one * .16f; mesh.GetComponent<Renderer>().sharedMaterial = emissive; Object.DestroyImmediate(mesh.GetComponent<Collider>());
             var source = root.AddComponent<HorrorLightSource>(); source.animateFlicker = flicker; source.flickerAmount = flickerAmount;
             if (name == "Chandelier") root.AddComponent<HorrorChandelierSwing>();

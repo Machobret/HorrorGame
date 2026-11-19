@@ -359,6 +359,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2001492723978979408, guid: 79ddbba9770bfca47bf24b679271b503, type: 3}
+      propertyPath: m_LoadScene
+      value:
+      objectReference: {fileID: 11400000, guid: e53ea98c379b4ea8a5d0f2e9f08530fb, type: 2}
+    - target: {fileID: 2001492723978979408, guid: 79ddbba9770bfca47bf24b679271b503, type: 3}
+      propertyPath: m_SpawnCharacter
+      value:
+      objectReference: {fileID: 11400000, guid: 77e34bb7c35d4d219e014e81b8aa0c55, type: 2}
+    - target: {fileID: 2001492723978979408, guid: 79ddbba9770bfca47bf24b679271b503, type: 3}
+      propertyPath: m_SpawnPointId
+      value: temporary-house-demo
+      objectReference: {fileID: 0}
     - target: {fileID: 2788185042680646062, guid: 79ddbba9770bfca47bf24b679271b503, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

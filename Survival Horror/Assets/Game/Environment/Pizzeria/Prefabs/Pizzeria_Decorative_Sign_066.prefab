@@ -43,7 +43,6 @@ GameObject:
   - component: {fileID: 5094614360304168446}
   - component: {fileID: 3618767431897498726}
   - component: {fileID: 4345491877492028668}
-  - component: {fileID: 2703947289277536921}
   m_Layer: 0
   m_Name: Decorative_Sign.066
   m_TagString: Untagged
@@ -123,25 +122,3 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2703947289277536921
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6726230390108341921}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 2f038e03dfaa1044f85e024212c9f5c1, type: 2}

@@ -1,5 +1,17 @@
 # Chapter 1: District Power Puzzle
 
+## Integrated opening
+
+In `1stLevel_Integrated`, the player starts at the far end of the street and approaches Machobret's Corner Market. The tablet is a non-blocking pickup. The player opens it with M, powers the alley intercom, and uses E at the courtyard gate. The main shutter shows **Shutter locked** until the player selects **Unlock Depot** on the tablet. Once unlocked, E takes the player through the shutter. The staff-room desk holds the circuit diagram for the storage puzzles.
+
+`Chapter1Opening` connects the intercom, depot shutter, and storefront hours sign. The alley electrical box is the world anchor for its tablet circuit. The Corner Market scene instance uses its source layout and keeps real-time shadows off on its fixtures.
+
+The jammed shutter at the end of storage is the demo exit. Interacting with it shows the closing note and offers a return to the main menu.
+
+## Integrated tablet maps
+
+Run **Horror Game > Chapter 1 > Rebuild Integrated Tablet Maps** after editing the store floor, courtyard, storage rooms, or circuit fixtures. The command projects the ground-floor geometry onto the courtyard approach and storage maps, updates each circuit from its linked world fixture, then saves the scene and tablet assets. The starting view covers the courtyard and its immediate gate approach.
+
 ## Dom scene third-person camera
 
 `Scenes/Electricity_Puzzle_Dom.unity` uses `District_ThirdPersonCamera`. Its `DistrictThirdPersonCamera` component binds to the native registered player and follows at chest height with smooth turning. `CinemachineThirdPersonFollow` controls distance (3.2 m), shoulder offset and obstacle avoidance; the lens uses a 65-degree field of view. Adjust these components on the scene object to tune the view.

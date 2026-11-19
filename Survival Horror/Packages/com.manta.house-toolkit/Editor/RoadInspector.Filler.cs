@@ -55,6 +55,16 @@ namespace HouseToolkit.Editor
             if(editing)tab=(Tab)GUILayout.Toolbar((int)tab,FillerTabs);
             if(!editing || tab==Tab.Road)
             {
+                if(building.footprint.faces.Count > 0)
+                {
+                    bool placing=FixtureTool.facadeBrush==building;
+                    if(GUILayout.Toggle(placing,"Place wall fixture",GUI.skin.button)!=placing)
+                    {
+                        if(placing) RoadScene.SetDrawing(false);
+                        else FixtureTool.BeginFacadeBrush(building);
+                    }
+                    if(FixtureTool.facadeBrush==building){FixtureTool.Palette(true);return;}
+                }
                 TypePicker(building);
                 serializedObject.Update();
                 void Field(string key,string label)=>EditorGUILayout.PropertyField(serializedObject.FindProperty(key),new GUIContent(label));

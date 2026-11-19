@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1382504038284896706}
   - component: {fileID: 8019762106983866018}
   - component: {fileID: 4577970500261528672}
-  - component: {fileID: 354820165972251006}
   m_Layer: 0
   m_Name: wall_clock
   m_TagString: Untagged
@@ -28,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 2538694585689466074}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0.30210522, z: 0.01696727}
-  m_LocalScale: {x: 100, y: 99.999985, z: 99.999985}
+  m_LocalPosition: {x: 0, y: 0.17999999, z: 0.01010942}
+  m_LocalScale: {x: 59.581886, y: 59.58188, z: 59.58188}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1431501204379756056}
@@ -91,28 +90,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &354820165972251006
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2538694585689466074}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 0e804852d87501e478af5f0e40154c5b, type: 2}
 --- !u!1 &7620251083452696213
 GameObject:
   m_ObjectHideFlags: 0

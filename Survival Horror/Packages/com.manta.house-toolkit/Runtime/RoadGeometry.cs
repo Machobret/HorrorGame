@@ -105,7 +105,7 @@ namespace HouseToolkit
             return branch;
         }
 
-        internal static RoadMesh Build(RoadGraph graph, RoadFamily fallback)
+        internal static RoadMesh Build(RoadGraph graph, RoadFamily fallback, Action<GameObject,Vector3,Quaternion> placeLamp = null)
         {
             var mesh=new RoadMesh();
             var byPort=new Dictionary<int,Arm>();
@@ -118,17 +118,19 @@ namespace HouseToolkit
             // Accumulate distance along an authored run, including subdivisions and grade.
             foreach (var run in graph.spans.GroupBy(s=>s.run))
             {
+                var lights = placeLamp != null ? graph.Lights(run.Key) : null;
                 var remaining=new HashSet<RoadSpan>(run);
                 var starts=run.ToLookup(s=>s.start.node);
                 var ends=new HashSet<int>(run.Select(s=>s.end.node));
                 foreach (var root in run.OrderBy(s=>ends.Contains(s.start.node)).ThenBy(s=>s.id))
                 {
                     var span=root; float station=0;
+                    bool nextLampLeft = false;
                     while (span!=null && remaining.Remove(span))
                     {
                         var a=byPort[span.start.port]; var b=byPort[span.end.port];
                         float length=Vector3.Distance(a.node.position,b.node.position);
-                        Strip(mesh,a,b,station,length);
+                        Strip(mesh,a,b,station,length,lights,placeLamp,ref nextLampLeft);
                         station+=length;
                         span=starts[span.end.node].FirstOrDefault(remaining.Contains);
                     }
@@ -378,7 +380,7 @@ namespace HouseToolkit
             Quad(s.pavement,outward,s.width,s.height,s.width,0,t.width,t.height,t.width,0);
         }
 
-        static void Strip(RoadMesh mesh,Arm a,Arm b,float station,float length)
+        static void Strip(RoadMesh mesh,Arm a,Arm b,float station,float length, StreetlightRun lights, Action<GameObject,Vector3,Quaternion> placeLamp, ref bool nextLampLeft)
         {
             var f=a.family;
             float from=a.trim/a.length*length, to=length-b.trim/b.length*length;
@@ -401,6 +403,29 @@ namespace HouseToolkit
                     stripFade: new Vector4(near.x,near.y,far.x,far.y));
             }
             int lanes=Mathf.Max(1,f.LaneCount);
+            if (lights != null && lights.enabled && lights.prefab && to > from)
+            {
+                float period = Mathf.Clamp(lights.period, 2, 60);
+                float phase = Mathf.Repeat(lights.offset, period);
+                var left = At(LeftOf(a.dir), 0);
+                var facingFromRight = Quaternion.LookRotation(Vector3.Cross(left, Vector3.up), Vector3.up);
+                var facingFromLeft = Quaternion.LookRotation(Vector3.Cross(-left, Vector3.up), Vector3.up);
+                float leftHeight = a.Walk(true) ? f.sidewalkHeight : 0;
+                float rightHeight = a.Walk(false) ? f.sidewalkHeight : 0;
+                float begin = station + from + (a.trim > 0 ? .3f : 0);
+                float limit = station + to - (b.trim > 0 ? .3f : 0);
+                int first = Mathf.CeilToInt((begin - phase) / period);
+                for (int i = first; i * (double)period + phase < limit; i++)
+                {
+                    float t = (i * period + phase - station - from) / (to - from);
+                    bool alternating = lights.side == StreetlightSide.Alternating;
+                    if (lights.side == StreetlightSide.Right || lights.side == StreetlightSide.Both || (alternating && !nextLampLeft))
+                        placeLamp(lights.prefab, P(t,-1) + Vector3.up * rightHeight, facingFromRight);
+                    if (lights.side == StreetlightSide.Left || lights.side == StreetlightSide.Both || (alternating && nextLampLeft))
+                        placeLamp(lights.prefab, P(t,1) + Vector3.up * leftHeight, facingFromLeft);
+                    if (alternating) nextLampLeft = !nextLampLeft;
+                }
+            }
             // Left is +1 in span space. All lanes share the family's total road width equally.
             float Boundary(int fromLeft)=>1f-2f*fromLeft/lanes;
             float divider=Boundary(f.reverseLanes);

@@ -48,6 +48,16 @@ Use Unity's Project window or AssetDatabase to move Assets, preserving metadata.
 
 Horror Engine example scenes are in Build Settings. Game systems, item databases, core prefabs and source tools also reference vendor content. Do not delete ExampleContent or treat AssetStore as pristine without auditing existing project changes. New customization should prefer owned assets and prefab variants where practical.
 
+The Horror Engine map renderer always draws the project?s navigation grid, and its map list shows discovered maps only. The unused runtime grid toggle and unknown-map label were removed from the vendor scripts.
+
+Horror Engine room discovery uses all outline components on each room, matching the map renderer. Adjacent outlines can share edges without being treated as holes, and additional contours have their own line renderers. The shared map and document databases register Chapter 1's integrated tablet assets for save and load.
+
+Horror Engine camera selection recognizes both the legacy fixed-camera prefabs and current Cinemachine cameras. Camera-relative movement uses the live output camera until a virtual camera is selected. Maintain Distance cameras anchor their travel limit to the authored virtual camera position so the camera can follow again when the player backtracks into the Chapter 1 shutter corridor.
+
+The integrated Chapter 1 tablet pickup unlocks its map without showing the item splash. Inventory ignores the opening key on the frame the screen appears so the same press cannot close it immediately.
+
+Horror Engine documents use the shared UI actions for page navigation, confirmation, and dismissal on keyboard and controller.
+
 Sandbox folders remain imported by Unity. Referenced sandbox content or Resources assets can still be included in builds. Promotion into Game requires checking ownership and updating dependencies; moving into Sandbox alone does not make content unused.
 
 ## Verification after moves

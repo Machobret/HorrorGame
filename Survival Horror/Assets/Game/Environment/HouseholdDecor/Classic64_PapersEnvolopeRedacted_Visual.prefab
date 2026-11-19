@@ -43,7 +43,6 @@ GameObject:
   - component: {fileID: 3226640752467437561}
   - component: {fileID: 8437473459357997814}
   - component: {fileID: 5523030574283831369}
-  - component: {fileID: 8430694287581766664}
   m_Layer: 0
   m_Name: Classic64_PapersEnvolopeRedacted_Part000
   m_TagString: Untagged
@@ -155,25 +154,3 @@ Transform:
   - {fileID: 611293326086264629}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &8430694287581766664
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1795306019080544380}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 9007004694603060715, guid: e55318b666417f84a8ef136c0968e2a6, type: 3}

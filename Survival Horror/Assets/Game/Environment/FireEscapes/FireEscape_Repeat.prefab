@@ -84,6 +84,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: c4ff1663b9278c74c9c1f6274ce7958b, type: 2}
+    - target: {fileID: -5754084199372789682, guid: ef28b11b90ef189488b8a19ebc27e41b, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: 75ddac3ca66b93c47b1a6e29f776b517, type: 2}
     - target: {fileID: 919132149155446097, guid: ef28b11b90ef189488b8a19ebc27e41b, type: 3}
       propertyPath: m_Name
       value: FireEscape_Repeat_Model
@@ -99,6 +103,11 @@ PrefabInstance:
 --- !u!4 &291387897711075230 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ef28b11b90ef189488b8a19ebc27e41b, type: 3}
+  m_PrefabInstance: {fileID: 252640021077031029}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1099132379418248484 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ef28b11b90ef189488b8a19ebc27e41b, type: 3}
   m_PrefabInstance: {fileID: 252640021077031029}
   m_PrefabAsset: {fileID: 0}
 --- !u!64 &1178130581619973782
@@ -122,9 +131,4 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 6665486340056491881, guid: ef28b11b90ef189488b8a19ebc27e41b, type: 3}
---- !u!1 &1099132379418248484 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ef28b11b90ef189488b8a19ebc27e41b, type: 3}
-  m_PrefabInstance: {fileID: 252640021077031029}
-  m_PrefabAsset: {fileID: 0}
+  m_Mesh: {fileID: 4300000, guid: 75ddac3ca66b93c47b1a6e29f776b517, type: 2}

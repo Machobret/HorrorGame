@@ -35,6 +35,14 @@ namespace HouseToolkit
         [HideInInspector] public List<Finish> finishes=new List<Finish>();
         [HideInInspector] public List<Entrance> entrances=new List<Entrance>();
         public Material DefaultFacade=>facade ? facade : buildingType ? buildingType.facade : null;
+        protected override void BuildSurface()
+        {
+            base.BuildSurface();
+            foreach(Transform child in transform)
+                if(child.TryGetComponent<FixtureAttachment>(out var fixture) && fixture.facadeEdge!=0 &&
+                    footprint.edges.Find(e=>e.id==fixture.facadeEdge) is GroundEdge edge)
+                    fixture.FitFacade(this,edge);
+        }
         public float FloorPitch=>clearHeight+House.DefaultSlabThickness;
         public float Elevation(int storeys)
         {
@@ -129,6 +137,30 @@ namespace HouseToolkit
         }
 
         static Vector3 At(Vector2 p,float y)=>new Vector3(p.x,y,p.y);
+
+        float RoofTrim(Material material, int floor, int levels, float height) =>
+            floor==levels-1 && material && material.HasProperty(roofTrimHeight)
+                ? Mathf.Clamp(material.GetFloat(roofTrimHeight),0,height*.25f) : 0;
+
+        // Used when detaching posters authored against an older facade.
+        internal bool TryFacadeNormal(GroundEdge edge, out Vector3 normal)
+        {
+            normal = default;
+            if (footprint.faces.Count != 1) return false;
+            var polygon = footprint.faces[0].polygon;
+            for (int i = 0; i < polygon.Length; i++)
+            {
+                var a = polygon[i];
+                var b = polygon[(i + 1) % polygon.Length];
+                if (a == edge.a && b == edge.b || a == edge.b && b == edge.a)
+                {
+                    normal = Vector3.Cross(Vector3.up, At(b - a, 0)).normalized;
+                    return normal != Vector3.zero;
+                }
+            }
+            return false;
+        }
+
         internal override RoadMesh CreateGeometry()
         {
             var mesh=new RoadMesh();
@@ -160,8 +192,7 @@ namespace HouseToolkit
                     var finish=FinishAt(edge.id,floor);
                     var groundStyle=floor==0 && finish!=null ? finish.groundStyle : GroundStyle.Inherit;
                     var material=MaterialFor(edge.id,floor,finish);
-                    float trim=floor==levels-1 && material && material.HasProperty(roofTrimHeight)
-                        ? Mathf.Clamp(material.GetFloat(roofTrimHeight),0,(high-low)*.25f) : 0;
+                    float trim=RoofTrim(material,floor,levels,high-low);
                     float wallTop=high-trim;
                     float vTop=1-trim/(high-low);
                     var renderMaterial=material;

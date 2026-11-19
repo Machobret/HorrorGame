@@ -190,6 +190,9 @@ namespace HorrorGame.Chapter1
             DistrictPowerGrid source = SourceGrid;
             if (!source || source.IsShutdown || !CanAccessCircuit(circuitId) ||
                 !IsCircuitInRange(circuitId, out _, out _)) return false;
+            var opening = Chapter1Opening.Instance;
+            if (opening && opening.IsDepotCircuit(source, circuitId))
+                return opening.TryUnlockDepot();
             bool wasPowered = source.IsCircuitPowered(circuitId);
             source.SetCircuit(circuitId, !wasPowered);
             bool powered = source.IsCircuitPowered(circuitId);
@@ -285,6 +288,9 @@ namespace HorrorGame.Chapter1
             if (!hoveredPoint || !TryProjectMarker(camera, hoveredPoint.transform, out Vector2 screen)) return;
             PowerCircuit circuit = grid.Circuits.Find(value => value.Id == hoveredPoint.CircuitId);
             string activatedName = circuit != null && !string.IsNullOrWhiteSpace(circuit.DisplayName) ? circuit.DisplayName : hoveredPoint.CircuitId;
+            var opening = Chapter1Opening.Instance;
+            if (opening && opening.IsDepotCircuit(grid, hoveredPoint.CircuitId))
+                activatedName = opening.DepotUnlocked ? "Depot unlocked" : "Unlock Depot";
             if (filter && filter.isActiveAndEnabled) screen = filter.ProjectToGlass(screen);
             if (!HoveredInRange)
             {

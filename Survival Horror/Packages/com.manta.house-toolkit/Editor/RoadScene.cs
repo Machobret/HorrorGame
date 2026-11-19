@@ -118,6 +118,7 @@ namespace HouseToolkit.Editor
         }
         internal static void Leave()
         {
+            FixtureTool.facadeBrush=null;
             if(Active)Tools.hidden=hidden;
             indexedPlan=null;corners.Clear();CancelPavementMove();
             previewSource=null;previewRack=null;previewFamily=null;
@@ -131,6 +132,7 @@ namespace HouseToolkit.Editor
         {
             if (brush!=Brush.Select && ((Active is GroundArea || Active is FillerBuilding) && brush!=Brush.Ground ||
                 Active is ProceduralPath && brush!=Brush.Sidewalk)) return;
+            FixtureTool.facadeBrush=null;
             CancelPavementMove();Mode=brush;EndChain();Picks.Pick(default,false);SelectedRoads.Clear();hover=default;Message=null;
             RoadInspector.ShowTool(Drawing); Repaint();
         }
@@ -412,6 +414,7 @@ namespace HouseToolkit.Editor
         {
             if(!Active || EditorApplication.isPlayingOrWillChangePlaymode)return;
             var e=Event.current;
+            if(FixtureTool.DrawFacadeBrush(Active as FillerBuilding,e))return;
             if(e.type==EventType.Repaint)
                 using(new Handles.DrawingScope(Color.white))DrawPavementOutlines();
             if(Drawing && press.Track(view,e,Place))return;
@@ -604,7 +607,10 @@ namespace HouseToolkit.Editor
                 if(e.rawType==EventType.MouseUp && e.button==0 && selectionControl==control)
                 {
                     selectionControl=GUIUtility.hotControl=0;pointerView=null;pressedHit=default;
-                    if((e.mousePosition-down).sqrMagnitude<16)Pick(hit,e.shift);
+                    if((e.mousePosition-down).sqrMagnitude<16)
+                    {
+                        Pick(hit,e.shift);
+                    }
                     e.Use();
                 }
             }

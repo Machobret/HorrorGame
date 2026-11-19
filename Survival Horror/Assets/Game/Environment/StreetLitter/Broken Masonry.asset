@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cff52737df948ad9010ca74a435fca6, type: 3}
+  m_Name: Broken Masonry
+  m_EditorClassIdentifier: HouseToolkit::HouseToolkit.ScatterPreset
+  entries:
+  - label: Plaster flakes
+    weight: 57
+    solid: 0
+    material: {fileID: 2100000, guid: 6467b97beee86ef4497d25bf47de278b, type: 2}
+    variants:
+    - {fileID: 4191477324499910119, guid: 8baa5f3f2b9b6f243990c8b249961796, type: 2}
+    - {fileID: 5101161649715480366, guid: 8baa5f3f2b9b6f243990c8b249961796, type: 2}
+  - label: Brick chips
+    weight: 31
+    solid: 1
+    material: {fileID: 2100000, guid: 6467b97beee86ef4497d25bf47de278b, type: 2}
+    variants:
+    - {fileID: 1995131049963471650, guid: 8baa5f3f2b9b6f243990c8b249961796, type: 2}
+    - {fileID: 4714141172187412706, guid: 8baa5f3f2b9b6f243990c8b249961796, type: 2}
+  - label: Concrete fragments
+    weight: 12
+    solid: 1
+    material: {fileID: 2100000, guid: 6467b97beee86ef4497d25bf47de278b, type: 2}
+    variants:
+    - {fileID: 4692848498830370496, guid: 8baa5f3f2b9b6f243990c8b249961796, type: 2}
+    - {fileID: -4553319478614559163, guid: 8baa5f3f2b9b6f243990c8b249961796, type: 2}

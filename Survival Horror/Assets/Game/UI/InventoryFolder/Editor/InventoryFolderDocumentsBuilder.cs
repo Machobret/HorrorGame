@@ -41,8 +41,8 @@ namespace HorrorGame.UI.Editor
                 var note=Panel("File details paper",content,new Vector2(.665f,.12f),new Vector2(.965f,.91f),Color.white,Sprite("Inventory_TornNotebook"));note.material=paper;
 
                 var title=(TMP_Text)data.FindProperty("m_DocumentName").objectReferenceValue;
-                title.transform.SetParent(note.transform,false);Rect(title.rectTransform,new Vector2(.16f,.62f),new Vector2(.92f,.88f));Style(title,paperFont,Ink,25);title.enableWordWrapping=true;title.alignment=TextAlignmentOptions.TopLeft;
-                Label("Read instructions","Select a collected file.\n\nOpen it to read the contents.",note.transform,new Vector2(.16f,.24f),new Vector2(.92f,.56f),20,Ink,paperFont).enableWordWrapping=true;
+                title.transform.SetParent(note.transform,false);Rect(title.rectTransform,new Vector2(.16f,.62f),new Vector2(.92f,.88f));Style(title,paperFont,Ink,25);title.textWrappingMode=TextWrappingModes.Normal;title.alignment=TextAlignmentOptions.TopLeft;
+                Label("Read instructions","Select a collected file.\n\nOpen it to read the contents.",note.transform,new Vector2(.16f,.24f),new Vector2(.92f,.56f),20,Ink,paperFont).textWrappingMode=TextWrappingModes.Normal;
                 var page=(GameObject)data.FindProperty("m_DocumentsPage").objectReferenceValue;
                 var parent=(Transform)data.FindProperty("m_PageParent").objectReferenceValue;
                 parent.SetParent(folder.transform,false);var panelImage=parent.GetComponent<Image>();if(panelImage)panelImage.enabled=false;Rect((RectTransform)parent,new Vector2(.08f,.21f),new Vector2(.92f,.77f));
@@ -61,7 +61,7 @@ namespace HorrorGame.UI.Editor
                     var backing=Panel("File slot",entry.transform,Vector2.zero,Vector2.one,new Color(.18f,.17f,.15f,.13f));backing.transform.SetAsFirstSibling();
                     var border=entry.gameObject.AddComponent<Outline>();border.effectColor=new Color(.83f,.82f,.77f,.5f);border.effectDistance=new Vector2(1,-1);
                     var annotation=entry.gameObject.AddComponent<InventoryFileAnnotation>();annotation.Entry=entry;
-                    annotation.Title=Label("File title","",entry.transform,new Vector2(.04f,.02f),new Vector2(.96f,.28f),11,Ink,paperFont);annotation.Title.enableWordWrapping=true;annotation.Title.alignment=TextAlignmentOptions.Center;annotation.Title.enableAutoSizing=true;annotation.Title.fontSizeMin=9;annotation.Title.fontSizeMax=11;
+                    annotation.Title=Label("File title","",entry.transform,new Vector2(.04f,.02f),new Vector2(.96f,.28f),11,Ink,paperFont);annotation.Title.textWrappingMode=TextWrappingModes.Normal;annotation.Title.alignment=TextAlignmentOptions.Center;annotation.Title.enableAutoSizing=true;annotation.Title.fontSizeMin=9;annotation.Title.fontSizeMax=11;
                     var corner=new GameObject("Unread corner",typeof(RectTransform),typeof(CanvasRenderer),typeof(InventoryPaperTab));corner.transform.SetParent(entry.transform,false);Rect((RectTransform)corner.transform,new Vector2(.77f,.77f),new Vector2(.98f,.98f));corner.GetComponent<InventoryPaperTab>().Corner=true;corner.GetComponent<InventoryPaperTab>().color=Ink;corner.GetComponent<InventoryPaperTab>().raycastTarget=false;annotation.Unread=corner;
                     ButtonStyle(entry.GetComponent<Button>());
                 }

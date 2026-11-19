@@ -1,0 +1,49 @@
+{
+  "source": "User-supplied cabinet and antenna FBXs with their base-color atlas.",
+  "currentModels": {
+    "source": "../Props.blend",
+    "cabinetObject": "Cube.003",
+    "antennaObject": "Cube.004",
+    "exportRecipe": "../ElectricalDevices/export_props.py",
+    "indicators": ["Light_Red", "Light_Green", "Light_Universal"]
+  },
+  "sourceAssets": [
+    {
+      "source": "Original/SM_ElectricityBox_01.fbx",
+      "unityAsset": "Assets/Game/Environment/ElectricalBox/ElectricityBox_Model.fbx",
+      "sha256": "f3aabe9e3dcd0ffbad1614e87539dbac143dcb1b62f7aaedf3a07c8c60805c97"
+    },
+    {
+      "source": "Original/SM_ElectricityBoxAntenna_01.fbx",
+      "unityAsset": "Assets/Game/Environment/ElectricalBox/ElectricityBox_Antenna_Model.fbx",
+      "sha256": "72bf7b96d827c81248e5d0d3e0ae54fb15821b5f8f2fb9a8d149ee7030a86378"
+    },
+    {
+      "source": "Original/ElectricityBox_base_color.png",
+      "unityAsset": "Assets/Game/Environment/ElectricalBox/ElectricityBox_BaseColor.png",
+      "sha256": "87f36d38847250f39ad33a092ed11e08a95b270b461843e27a4217083a8e64be"
+    }
+  ],
+  "prefab": "Assets/Game/Environment/ElectricalBox/ElectricityBox.prefab",
+  "prefabGUID": "36e9d6887cc21de4a8c134cf7d188965",
+  "cabinetSizeM": {
+    "x": 1.075705647468567,
+    "y": 1.4999998807907104,
+    "z": 0.47228243947029114
+  },
+  "assembledSizeM": {
+    "x": 1.075705647468567,
+    "y": 2.254920721054077,
+    "z": 0.47228243947029114
+  },
+  "placement": "Ground-centred at unit scale, with the front facing local +Z.",
+  "antenna": {
+    "child": "Antenna",
+    "activeByDefault": true,
+    "offsetFromCabinetTopM": {
+      "x": 0.28136247396469116,
+      "y": -0.006456613540649414,
+      "z": 1.3728781311783678e-07
+    }
+  }
+}

@@ -43,7 +43,6 @@ GameObject:
   - component: {fileID: 6854103774522595848}
   - component: {fileID: 3222056801036401330}
   - component: {fileID: 8470009192874919391}
-  - component: {fileID: 3883529775732973477}
   m_Layer: 0
   m_Name: Cube.238
   m_TagString: Untagged
@@ -125,28 +124,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3883529775732973477
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7712202096272768997}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 12b505da9b9142e4f8cf3e53d147c0cd, type: 2}
 --- !u!1 &7968942379105594654
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,7 +135,6 @@ GameObject:
   - component: {fileID: 2080008663346811300}
   - component: {fileID: 3508385807642315928}
   - component: {fileID: 3909155015897429019}
-  - component: {fileID: 5499031093035110586}
   m_Layer: 0
   m_Name: Cube.239
   m_TagString: Untagged
@@ -239,25 +215,3 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5499031093035110586
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7968942379105594654}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 382b1a05ee270504ca2cf2010716d6e4, type: 2}

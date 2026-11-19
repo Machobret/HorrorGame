@@ -308,8 +308,40 @@ public sealed class BuildingFixtureTests
                 var light = fixture.GetComponentInChildren<Light>();
                 Assert.AreEqual(choice.lightIntensity, light.intensity, .001f, choice.label);
                 Assert.AreEqual(choice.lightRange, light.range, .001f, choice.label);
-                Assert.AreEqual(LightShadows.None, light.shadows, choice.label);
+                var sourceLight = choice.prefab.GetComponentInChildren<Light>(true);
+                Assert.IsNotNull(sourceLight,choice.label);
+                Assert.IsTrue(renderers.Any(r=>r.sharedMaterials.Contains(choice.diffuserMaterial)),choice.label);
+                Assert.IsTrue(choice.diffuserMaterial.IsKeywordEnabled("_EMISSION"),choice.label);
+                Assert.AreEqual(sourceLight ? sourceLight.shadows : LightShadows.None, light.shadows, choice.label);
+                if (choice.label == "Bar light" || choice.label == "Wall light")
+                {
+                    Assert.AreEqual(LightShadows.Hard, light.shadows);
+                    foreach (var housing in renderers)
+                        Assert.AreEqual(UnityEngine.Rendering.ShadowCastingMode.Off, housing.shadowCastingMode, choice.label);
+                }
             }
+        }
+    }
+
+    [Test] public void MineLampRecessesHalfItsCageOnEitherWallFace()
+    {
+        var wall = floor.GetComponentsInChildren<HouseWall>().First(w => w.length > 5);
+        var choice = palette.fixtures.Single(c => c.label == "Mine lamp");
+        Assert.IsTrue(choice.Supports(FixtureMount.Floor));
+        Assert.IsTrue(choice.Supports(FixtureMount.Wall));
+        Physics.SyncTransforms();
+        foreach (int side in new[] { 1, -1 })
+        {
+            var normal = wall.transform.forward * side;
+            var point = wall.transform.TransformPoint(new Vector3(.35f, 1.6f, side * wall.Thickness * .5f));
+            var fixture = FixtureTool.PlaceFromRay(choice, new Ray(point + normal * .25f, -normal), point, null);
+            Assert.AreSame(wall.transform, fixture.transform.parent);
+            Assert.AreEqual(FixtureMount.Wall, fixture.mount);
+            var depths = fixture.GetComponentsInChildren<MeshFilter>().SelectMany(filter =>
+                filter.sharedMesh.vertices.Select(vertex => Vector3.Dot(filter.transform.TransformPoint(vertex) - point, normal))).ToArray();
+            Assert.That(depths.Max(), Is.InRange(.08f, .12f));
+            Assert.AreEqual(-depths.Min(), depths.Max(), .003f);
+            Assert.That(Vector3.Dot(fixture.emitter.transform.position - point, normal), Is.InRange(.025f, depths.Max()));
         }
     }
 
@@ -336,18 +368,18 @@ public sealed class BuildingFixtureTests
         }
     }
 
-    [Test] public void MountedLightAimsIntoRoomAndUpgradesAnUntouchedLegacyEmitterOnce()
+    [Test] public void MountedPointLightUpgradesAnUntouchedLegacyEmitterOnce()
     {
         var wall = floor.GetComponentsInChildren<HouseWall>().First();
         var choice = palette.fixtures.First(c => c.mount == FixtureMount.Wall && c.lightRange > 0);
         foreach (int side in new[] { -1, 1 })
         {
             var fixture = FixtureTool.Place(choice, wall.transform, wall.transform.position, side);
-            var light = fixture.GetComponentInChildren<Light>();
-            Assert.AreEqual(LightType.Spot, light.type);
-            Assert.Greater(Vector3.Dot(light.transform.forward, wall.transform.forward * side), .1f);
-            Assert.Greater(Vector3.Dot(light.transform.forward, -floor.transform.up), .5f);
-            var position = light.transform.localPosition;
+            var face = fixture.emitter;
+            Assert.AreEqual(LightType.Point, face.type);
+            var light = new GameObject("Light").AddComponent<Light>();
+            light.transform.SetParent(fixture.transform, false);
+            fixture.emitter = light;
             var model = fixture.transform.GetChild(0);
             var mesh = model.GetComponentInChildren<MeshFilter>();
             var bounds = mesh.sharedMesh.bounds;
@@ -364,7 +396,8 @@ public sealed class BuildingFixtureTests
             light.intensity = 1.23f;
             Assert.IsTrue(FixtureTool.UpgradeEmitter(fixture));
             Assert.AreEqual(1.23f, light.intensity, .001f);
-            Assert.Less(Vector3.Distance(position, light.transform.localPosition), .0001f);
+            Assert.Less(Vector3.Distance(face.transform.position, light.transform.position), .0001f);
+            Assert.IsFalse(face.enabled);
             Assert.IsFalse(FixtureTool.UpgradeEmitter(fixture));
         }
     }
@@ -406,6 +439,8 @@ public sealed class BuildingFixtureTests
         {
             var copy = AssetDatabase.LoadAssetAtPath<FixturePalette>(path);
             var preset = copy.fixtures.Single(c => c.label == label);
+            // Exercise a custom model that requests a generated directional beam.
+            if (preset.mount != FixtureMount.Floor) preset.prefab = copy.fixtures.Single(c => c.label == "Vent cover").prefab;
             var host = preset.mount == FixtureMount.Wall ? floor.GetComponentInChildren<HouseWall>().transform : floor.transform;
             FixtureAttachment Place() => FixtureTool.Place(preset, host, host.position, 1);
             float Spread(FixtureAttachment f) => preset.mount == FixtureMount.Floor ? f.emitter.range : f.emitter.spotAngle;
@@ -413,6 +448,7 @@ public sealed class BuildingFixtureTests
             var b = Place();
             var c = Place();
             var unrelated = FixtureTool.Place(palette.fixtures.Single(p => p.label == label), host, host.position, 1);
+            float unrelatedSpread = Spread(unrelated);
             float original = Spread(a);
             FixtureTool.SetSpread(b, true, local);
             c.gameObject.SetActive(false);
@@ -421,7 +457,7 @@ public sealed class BuildingFixtureTests
             Assert.AreEqual(shared, Spread(a), .001f);
             Assert.AreEqual(local, Spread(b), .001f);
             Assert.AreEqual(shared, Spread(c), .001f);
-            Assert.AreEqual(original, Spread(unrelated), .001f);
+            Assert.AreEqual(unrelatedSpread, Spread(unrelated), .001f);
             Assert.AreEqual(preset.lightIntensity, a.emitter.intensity);
             if (preset.mount != FixtureMount.Floor)
             {
@@ -452,6 +488,9 @@ public sealed class BuildingFixtureTests
         try
         {
             var choice = AssetDatabase.LoadAssetAtPath<FixturePalette>(path).fixtures.Single(c => c.label == "Wall light");
+            choice.prefab = palette.fixtures.Single(c => c.label == "Vent cover").prefab;
+            EditorUtility.SetDirty(AssetDatabase.LoadAssetAtPath<FixturePalette>(path));
+            AssetDatabase.SaveAssetIfDirty(AssetDatabase.LoadAssetAtPath<FixturePalette>(path));
             FixtureTool.SelectBrush(choice);
             var host = floor.GetComponentInChildren<HouseWall>().transform;
             FixtureTool.Place(choice, host, host.position, 1);
@@ -486,14 +525,18 @@ public sealed class BuildingFixtureTests
         var choice = palette.fixtures.Single(c => c.label == "Wall light");
         var host = floor.GetComponentInChildren<HouseWall>().transform;
         var fixture = FixtureTool.Place(choice, host, host.position, 1);
-        fixture.emitter.spotAngle = 88;
+        var legacy = new GameObject("Light").AddComponent<Light>();
+        legacy.transform.SetParent(fixture.transform, false);
+        legacy.type = LightType.Spot;
+        legacy.spotAngle = 88;
         fixture.emitter = null;
         fixture.lightPalette = null;
         fixture.lightPrefab = null;
         new BuildMaterials().OnProcessScene(house.gameObject.scene, null);
         Assert.AreSame(choice, fixture.LightPreset);
         Assert.IsTrue(fixture.overrideSpread);
-        Assert.AreEqual(88, fixture.emitter.spotAngle, .001f);
+        Assert.AreSame(legacy, fixture.emitter);
+        Assert.AreEqual(LightType.Point, fixture.emitter.type);
         Assert.IsFalse(FixtureTool.SyncLighting(fixture));
         var socket = FixtureTool.Place(palette.fixtures.Single(c => c.label == "Power socket"), host, host.position, 1);
         Assert.IsNull(socket.emitter);
@@ -534,6 +577,46 @@ public sealed class BuildingFixtureTests
         Assert.Less(lamp.transform.localPosition.z,0);
     }
 
+    [Test] public void BarDiffuserRendersAboveWhiteInAnUnlitRoom()
+    {
+        var choice = palette.fixtures.Single(c => c.label == "Bar light");
+        var fixture = FixtureTool.Place(choice, null, Vector3.right * 100, 1);
+        fixture.emitter.cullingMask = 0;
+        var camera = new GameObject("Diffuser review camera").AddComponent<Camera>();
+        camera.transform.SetPositionAndRotation(fixture.transform.position + Vector3.forward, Quaternion.LookRotation(Vector3.back));
+        camera.clearFlags = CameraClearFlags.SolidColor;
+        camera.backgroundColor = Color.black;
+        camera.orthographic = true;
+        camera.orthographicSize = .12f;
+        camera.allowHDR = true;
+        var target = RenderTexture.GetTemporary(256, 64, 24, RenderTextureFormat.ARGBHalf);
+        var previous = RenderTexture.active;
+        var pixel = new Texture2D(1, 1, TextureFormat.RGBAFloat, false, true);
+        try
+        {
+            camera.targetTexture = target;
+            float ReadCenter()
+            {
+                camera.Render();
+                RenderTexture.active = target;
+                pixel.ReadPixels(new Rect(128, 32, 1, 1), 0, 0);
+                return pixel.GetPixel(0, 0).r;
+            }
+            float on = ReadCenter();
+            FixtureAttachment.SetPower(fixture.emitter, false);
+            float off = ReadCenter();
+            Assert.That(on - off, Is.GreaterThan(1f), $"Center of bar, powered {on:F2}, unpowered {off:F2}");
+        }
+        finally
+        {
+            camera.targetTexture = null;
+            RenderTexture.active = previous;
+            RenderTexture.ReleaseTemporary(target);
+            Object.DestroyImmediate(pixel);
+            Object.DestroyImmediate(camera.gameObject);
+        }
+    }
+
     [TestCase("Pancake light")]
     [TestCase("Bar light")]
     public void FlatFixturesRotateFlushAndMoveBetweenWallAndCeiling(string label)
@@ -549,19 +632,28 @@ public sealed class BuildingFixtureTests
         var renderer = model.GetComponent<Renderer>();
         Assert.IsTrue(renderer.sharedMaterial.enableInstancing);
         Assert.IsTrue(renderer.sharedMaterial.IsKeywordEnabled("_EMISSION"), "The diffuser must remain emissive after URP imports it.");
-        Assert.Greater(renderer.sharedMaterial.GetColor("_EmissionColor").maxColorComponent, 1f);
+        float emission = renderer.sharedMaterial.GetColor("_EmissionColor").maxColorComponent;
+        if (label == "Bar light")
+            Assert.That(emission, Is.InRange(1.1f, 1.6f), "The fluorescent face should peak slightly above white.");
+        else
+            Assert.That(emission, Is.InRange(.1f, .9f));
         Assert.IsEmpty(f.GetComponentsInChildren<Collider>());
         void CheckFace(Vector3 normal)
         {
             var distances = model.sharedMesh.vertices.Select(v => Vector3.Dot(model.transform.TransformPoint(v) - f.transform.position, normal)).ToArray();
             Assert.AreEqual(0, distances.Min(), .001f);
             Assert.That(distances.Max(), Is.InRange(.03f, .05f));
-            Assert.Greater(Vector3.Dot(f.emitter.transform.forward, normal), .999f);
+            Assert.AreEqual(LightType.Point, f.emitter.type);
+            Assert.Less(Vector3.Distance(f.emitter.transform.position, renderer.bounds.center + normal * f.lightOffset), .001f);
+            Assert.Greater(f.emitter.intensity, 0);
+            Assert.IsTrue(f.emitter.enabled);
             Assert.AreSame(choice, f.LightPreset);
             Assert.AreEqual(1, f.GetComponentsInChildren<Light>().Length);
         }
         FixtureTool.SetRotation(f, 90);
         Assert.Greater(Mathf.Abs(Vector3.Dot(f.transform.right, wall.transform.up)), .999f);
+        CheckFace(wall.transform.forward * side);
+        FixtureTool.SetLightOffset(f, .25f);
         CheckFace(wall.transform.forward * side);
         ray = new Ray(floor.World(new Vector2(3,2)) + floor.transform.up, floor.transform.up);
         Assert.IsTrue(FixtureTool.TargetSurface(floor, choice, choice.mount, ray, out host, out point, out side));
@@ -573,6 +665,9 @@ public sealed class BuildingFixtureTests
         Assert.AreEqual(90, f.surfaceRotation, .001f);
         CheckFace(-floor.transform.up);
         var second = FixtureTool.Place(choice, host, point, side);
+        Assert.AreEqual(0, second.lightOffset);
+        FixtureTool.SetLightOffset(f, 0);
+        CheckFace(-floor.transform.up);
         Assert.AreSame(model.sharedMesh, second.GetComponentInChildren<MeshFilter>().sharedMesh);
         Assert.AreSame(renderer.sharedMaterial, second.GetComponentInChildren<Renderer>().sharedMaterial);
     }
@@ -595,7 +690,7 @@ public sealed class BuildingFixtureTests
             Assert.AreEqual(2.5f, a.emitter.intensity);
             Assert.AreEqual(4, a.emitter.range);
             Assert.AreEqual(10, b.emitter.range);
-            Assert.AreEqual(choice.beamAngle, a.emitter.spotAngle, .001f);
+            Assert.AreEqual(LightType.Point, a.emitter.type);
             Undo.FlushUndoRecordObjects(); Undo.PerformUndo();
             Assert.AreEqual(original, a.emitter.intensity);
             Undo.PerformRedo();
@@ -617,6 +712,72 @@ public sealed class BuildingFixtureTests
         finally { AssetDatabase.DeleteAsset(path); }
     }
 
+    [Test] public void SlidingFixtureKeepsItsFaceOffsetAndUndoesOnARotatedWall()
+    {
+        var wall = floor.GetComponentsInChildren<HouseWall>().First(w => w.length > 5);
+        var point = new Vector3(1, 1, -wall.Thickness * .5f - .025f);
+        var fixture = FixtureTool.Place(palette.fixtures.Single(c => c.label == "Bar light"),
+            wall.transform, wall.transform.TransformPoint(point), -1);
+        FixtureTool.SetRotation(fixture, 70);
+        Undo.IncrementCurrentGroup();
+        FixtureTool.Slide(fixture, wall.transform.TransformPoint(new Vector3(3, 2, 4)));
+        Assert.Less(Vector3.Distance(fixture.transform.localPosition, new Vector3(3, 2, point.z)), .001f);
+        Assert.AreSame(wall.transform, fixture.transform.parent);
+        Assert.AreEqual(70, fixture.surfaceRotation, .001f);
+        Undo.FlushUndoRecordObjects();
+        Undo.PerformUndo();
+        Assert.Less(Vector3.Distance(fixture.transform.localPosition, point), .001f);
+    }
+
+    [UnityTest] public IEnumerator WallFixtureMoveGizmoSlidesOnItsRotatedHost()
+    {
+        var wall = floor.GetComponentsInChildren<HouseWall>().First(w => w.length > 5);
+        var start = new Vector3(2, 1, wall.Thickness * .5f);
+        var fixture = FixtureTool.Place(palette.fixtures.Single(c => c.label == "Bar light"),
+            wall.transform, wall.transform.TransformPoint(start), 1);
+        var view = ScriptableObject.CreateInstance<SceneView>();
+        var previous = Tools.current;
+        try
+        {
+            view.Show(); view.position = new Rect(80,80,850,680); view.orthographic = true;
+            view.LookAtDirect(fixture.transform.position, Quaternion.LookRotation(-wall.transform.forward, wall.transform.up), 3);
+            Tools.current = Tool.Move;
+            Selection.activeGameObject = fixture.gameObject;
+            view.Focus(); view.Repaint(); yield return null; yield return null;
+            var world = fixture.transform.position;
+            PavementEditingTests.Drag(view, world, world + wall.transform.right * .6f + wall.transform.up * .4f, shiftOnDrag:false);
+            var delta = fixture.transform.localPosition - start;
+            Assert.That(delta.x, Is.EqualTo(.6f).Within(.04f));
+            Assert.That(delta.y, Is.EqualTo(.4f).Within(.04f));
+            Assert.AreEqual(0, delta.z, .001f);
+            Assert.AreSame(wall.transform, fixture.transform.parent);
+        }
+        finally { Selection.activeObject = null; view.Close(); Tools.current = previous; }
+    }
+
+    [Test] public void LegacyBarKeepsItsLightReferenceAndHasOnlyOneActivePointAtTheDiffuser()
+    {
+        var choice = palette.fixtures.Single(c => c.label == "Bar light");
+        var host = floor.GetComponentInChildren<HouseWall>().transform;
+        var f = FixtureTool.Place(choice, host, host.position, 1);
+        var face = f.emitter;
+        var old = new GameObject("Light").AddComponent<Light>();
+        old.transform.SetParent(f.transform, false);
+        old.transform.localPosition = Vector3.forward * .4f;
+        old.type = LightType.Spot;
+        f.emitter = old;
+        FixtureTool.SetLightField(f, FixtureTool.LightField.Range, true, 4);
+        Assert.AreSame(old, f.emitter);
+        Assert.AreEqual(LightType.Point, old.type);
+        Assert.AreEqual(4f, old.range);
+        Assert.AreEqual(LightShadows.Hard, old.shadows);
+        Assert.IsFalse(face.enabled);
+        Assert.Less(Vector3.Distance(face.transform.position, old.transform.position), .001f);
+        FixtureTool.SetLightOffset(f, .3f);
+        Assert.Less(Vector3.Distance(face.transform.position + f.transform.forward * .3f, old.transform.position), .001f);
+        Assert.IsFalse(FixtureTool.SyncLighting(f));
+    }
+
     [Test] public void PlainWallRevealsShareACentreSeam()
     {
         var mesh=AssetDatabase.LoadAssetAtPath<Mesh>("Packages/com.manta.house-toolkit/Runtime/Wall Faces.asset");
@@ -628,6 +789,125 @@ public sealed class BuildingFixtureTests
             Assert.AreEqual(slot==0?0:.5f,z.Max());
             Assert.AreEqual(30,z.Length);
         }
+    }
+
+    [Test] public void FreeLightsKeepIndependentEmissionAndRotateTheirOffsetAxis()
+    {
+        var choice=palette.fixtures.Single(c=>c.label=="Table lamp");
+        var a=FixtureTool.PlaceFromRay(choice,new Ray(Vector3.up*80,Vector3.up),Vector3.zero,null);
+        var b=FixtureTool.Place(choice,null,Vector3.right,1);
+        Assert.IsTrue(a.freePlacement);
+        var diffuser=a.GetComponentsInChildren<Renderer>().Single(r=>r.sharedMaterial==choice.diffuserMaterial);
+        var other=b.GetComponentsInChildren<Renderer>().Single(r=>r.sharedMaterial==choice.diffuserMaterial);
+        Assert.AreSame(diffuser.sharedMaterial,other.sharedMaterial);
+        Color Glow(Renderer r){var block=new MaterialPropertyBlock();r.GetPropertyBlock(block,0);return block.GetColor("_EmissionColor");}
+        var inherited=Glow(other);
+        FixtureTool.SetAppearance(a,()=>{a.overrideColor=true;a.localColor=Color.blue;});
+        Assert.AreEqual(Color.blue,a.emitter.color);
+        Assert.Greater(Glow(diffuser).b,0);
+        Assert.AreEqual(0,Glow(diffuser).r);
+        Assert.AreEqual(inherited,Glow(other));
+        FixtureTool.SetAppearance(a,()=>{a.overridePower=true;a.localOn=false;});
+        Assert.IsFalse(a.emitter.enabled);
+        Assert.AreEqual(0,Glow(diffuser).maxColorComponent);
+        a.transform.rotation=Quaternion.Euler(0,0,90);
+        var source=a.emitter.transform.position;
+        var cover=diffuser.transform.position;
+        FixtureTool.SetLightOffset(a,.4f);
+        Assert.Less(Vector3.Distance(source+a.transform.up*.4f,a.emitter.transform.position),.001f);
+        Assert.AreEqual(cover,diffuser.transform.position);
+        FixtureTool.SetAppearance(a,()=>{a.overridePower=a.overrideColor=a.overrideOffset=false;});
+        Assert.IsTrue(a.emitter.enabled);
+        Assert.AreEqual(inherited,Glow(diffuser));
+        Assert.Less(Vector3.Distance(source,a.emitter.transform.position),.001f);
+        FixtureAttachment.SetPower(a.emitter,false);
+        Assert.IsFalse(a.emitter.enabled);
+        Assert.AreEqual(0,Glow(diffuser).maxColorComponent);
+        FixtureAttachment.SetPower(a.emitter,true);
+        Assert.AreEqual(inherited,Glow(diffuser));
+    }
+
+    [UnityTest] public IEnumerator SceneClickMountsMineLampOnSelectedFillerBuilding()
+    {
+        var building = new GameObject("Rotated filler").AddComponent<FillerBuilding>();
+        building.transform.SetPositionAndRotation(Vector3.right * 20, Quaternion.Euler(0, 32, 0));
+        var points = SlabOpening.Rectangle(new Rect(0, 0, 6, 3));
+        Assert.IsTrue(GroundEditing.Change(building, "Footprint", plan => {
+            for (int i = 0; i < points.Length; i++)
+                GroundEditing.Line(plan, points[i], points[(i + 1) % points.Length]);
+        }, out var issue), issue);
+        building.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+        var view = ScriptableObject.CreateInstance<SceneView>();
+        try
+        {
+            var point = building.transform.TransformPoint(new Vector3(3, building.Elevation(1) + .5f, 0));
+            view.Show();
+            view.position = new Rect(80, 80, 850, 680);
+            view.orthographic = true;
+            view.LookAtDirect(point, building.transform.rotation, 3);
+            FixtureTool.SelectBrush(palette.fixtures.Single(c => c.label == "Table lamp"));
+            FixtureTool.BeginFacadeBrush(building);
+            Assert.IsTrue(FixtureTool.Brush.Supports(FixtureMount.Wall));
+            FixtureTool.SelectBrush(palette.fixtures.Single(c => c.label == "Mine lamp"));
+            Physics.SyncTransforms();
+            view.Focus();
+            view.Repaint();
+            yield return null;
+            yield return null;
+            PavementEditingTests.ClickScene(view, point);
+            var lamp = building.GetComponentInChildren<FixtureAttachment>();
+            Assert.IsNotNull(lamp, "Scene click should attach the selected swatch to this building.");
+            Assert.AreEqual("Mine lamp", lamp.name);
+            Assert.AreEqual(1, lamp.storey);
+            Assert.AreEqual(FixtureMount.Wall, lamp.mount);
+            Assert.That(Vector3.Distance(point, lamp.transform.position), Is.LessThan(.08f));
+            Assert.AreSame(building, RoadScene.Active);
+            Assert.AreSame(building.gameObject, Selection.activeGameObject);
+            Assert.AreSame(building, FixtureTool.facadeBrush);
+            Assert.IsFalse(lamp.overrideOffset);
+            Assert.AreEqual(FixtureTool.Brush.emitterOffset, lamp.lightOffset, .001f);
+            PavementEditingTests.ClickScene(view, point + building.transform.right);
+            var lamps = building.GetComponentsInChildren<FixtureAttachment>();
+            Assert.AreEqual(2, lamps.Length);
+            Assert.AreSame(lamp.LightPreset, lamps.Single(other => other != lamp).LightPreset);
+            view.SendEvent(new Event { type = EventType.KeyDown, keyCode = KeyCode.Escape });
+            Assert.IsNull(FixtureTool.facadeBrush);
+            Assert.AreSame(building, RoadScene.Active);
+        }
+        finally { RoadScene.Leave(); view.Close(); }
+    }
+
+    [Test] public void FacadeLightFollowsStoreySplitMoveDeleteAndUndo()
+    {
+        var building=new GameObject("Facade").AddComponent<FillerBuilding>();
+        building.transform.SetPositionAndRotation(Vector3.right*20,Quaternion.Euler(0,32,0));
+        var a=Vector2.zero;var b=Vector2.right*6;var c=new Vector2(6,3);var d=new Vector2(0,3);
+        Assert.IsTrue(GroundEditing.Change(building,"Footprint",p=>{
+            GroundEditing.Line(p,a,b);GroundEditing.Line(p,b,c);GroundEditing.Line(p,c,d);GroundEditing.Line(p,d,a);
+        },out var issue),issue);
+        var edge=building.footprint.edges[0];
+        var p=building.transform.TransformPoint(new Vector3(4,building.Elevation(1)+.5f,0));
+        var n=-building.transform.forward;
+        Physics.SyncTransforms();
+        var lamp=FixtureTool.PlaceFromRay(palette.fixtures.Single(f=>f.label=="Bar light"),new Ray(p+n,-n),Vector3.zero,null);
+        Assert.AreEqual(edge.id,lamp.facadeEdge);
+        Assert.AreEqual(1,lamp.storey);
+        Assert.IsTrue(GroundEditing.InsertPoint(building,edge.id,Vector2.right*2,out _,out issue),issue);
+        Assert.AreNotEqual(edge.id,lamp.facadeEdge);
+        Assert.Less(Vector3.Distance(p,lamp.transform.position),.001f);
+        building.clearHeight+=1;
+        building.Rebuild();
+        Assert.Less(Vector3.Distance(p+building.transform.up,lamp.transform.position),.001f);
+        var translated=Vector2.up*.7f;
+        Assert.IsTrue(GroundEditing.Change(building,"Move fixture wall",plan=>GroundEditing.Move(plan,
+            new System.Collections.Generic.HashSet<Vector2>{Vector2.right*2,b},translated),out issue),issue);
+        Assert.Less(Vector3.Distance(p+building.transform.up+building.transform.forward*.7f,lamp.transform.position),.001f);
+        var id=lamp.facadeEdge;
+        Undo.IncrementCurrentGroup();
+        Assert.IsTrue(GroundEditing.Change(building,"Delete fixture wall",plan=>plan.edges.RemoveAll(e=>e.id==id),out issue),issue);
+        Assert.IsFalse(lamp);
+        Undo.FlushUndoRecordObjects();Undo.PerformUndo();
+        Assert.AreEqual(id,building.GetComponentInChildren<FixtureAttachment>().facadeEdge);
     }
 
     [UnityTest] public IEnumerator ReattachCeilingLightInCutawayAndUndo()

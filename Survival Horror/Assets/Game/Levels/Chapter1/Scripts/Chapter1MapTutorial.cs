@@ -14,6 +14,7 @@ namespace HorrorGame.Chapter1
 
         [Tooltip("Leave off for Chapter 1: M is unavailable until the tablet is used.")]
         public bool StartsUnlocked;
+        public bool CollectTabletWithoutOpening;
         public DistrictPowerGrid Grid;
         public MapData MapToUnlock;
         [Tooltip("Drag the circuit-dot GameObject from PowerPanelController here. Its map and ID drive the tutorial automatically.")]
@@ -61,7 +62,7 @@ namespace HorrorGame.Chapter1
             GameplayNotifications.CircuitsDiscovered(discovered);
             GetComponent<SavableObjectState>()?.SaveState();
         }
-        public static bool CanCloseMap => Instance == null || !Instance.TutorialActive;
+        public static bool CanCloseMap => Instance == null || Instance.CollectTabletWithoutOpening || !Instance.TutorialActive;
         public static bool IsTargetCircuit(MapData map, string circuitId)
         {
             if (!Instance || (!Instance.TutorialActive && !Instance.TutorialCircuitUnlocked)) return false;
@@ -114,7 +115,7 @@ namespace HorrorGame.Chapter1
                 GameManager.Instance.Inventory.Maps.Add(MapToUnlock);
 
             TutorialActive = true;
-            CurrentQuest = QuestText;
+            CurrentQuest = CollectTabletWithoutOpening ? string.Empty : QuestText;
             EnsureTutorialOverlay();
             SubscribeGrid();
             GetComponent<SavableObjectState>()?.SaveState();
@@ -122,10 +123,16 @@ namespace HorrorGame.Chapter1
 
         private void EnsureTutorialOverlay()
         {
-            if (!TutorialCircuit || !MapToUnlock) return;
+            if (!TutorialCircuit) return;
+            MapData circuitMap = TutorialCircuit.GetMapData();
+            if (!circuitMap) return;
             var controller = TutorialCircuit.GetComponentInParent<PowerPanelController>();
             if (!Grid && controller) Grid = controller.ResolveGrid();
             if (!Grid) return;
+            if (MapUnlocked && GameManager.Exists && GameManager.Instance.Inventory is { } inventory &&
+                !inventory.Maps.Contains(circuitMap))
+                inventory.Maps.Add(circuitMap);
+
             Grid.SyncDefinitionsFromData();
             if (!Grid.Circuits.Exists(c => c.Id == TutorialCircuit.CircuitId) &&
                 !string.IsNullOrWhiteSpace(TutorialCircuit.CircuitId))
@@ -137,11 +144,11 @@ namespace HorrorGame.Chapter1
                 });
 
             foreach (var panel in FindObjectsByType<PowerMapCircuitPanel>(FindObjectsSortMode.None))
-                if (panel.MapData == MapToUnlock && panel.SourceGrid) return;
+                if (panel.MapData == circuitMap && panel.SourceGrid) return;
 
             var overlay = new GameObject("Tutorial Circuit Overlay").AddComponent<PowerMapCircuitPanel>();
             overlay.transform.SetParent(transform, false);
-            overlay.MapData = MapToUnlock;
+            overlay.MapData = circuitMap;
             overlay.Grid = Grid;
             if (controller) overlay.Layout = controller.Data;
         }
@@ -159,6 +166,7 @@ namespace HorrorGame.Chapter1
             // The highlighted gate teaches the intended action, while any
             // successfully powered circuit proves the player understands it.
             if (!TutorialActive || !powered) return;
+            if (CollectTabletWithoutOpening && TutorialCircuit && circuitId != TutorialCircuit.CircuitId) return;
             TutorialActive = false;
             TutorialCircuitUnlocked = true;
             CurrentQuest = string.Empty;
@@ -184,7 +192,9 @@ namespace HorrorGame.Chapter1
             MapUnlocked = state.MapUnlocked;
             TutorialActive = state.TutorialActive;
             TutorialCircuitUnlocked = state.TutorialCircuitUnlocked;
-            CurrentQuest = state.CurrentQuest;
+            CurrentQuest = CollectTabletWithoutOpening && state.CurrentQuest == "Find the depot code in the staff room"
+                ? Chapter1Opening.DepotObjective
+                : state.CurrentQuest;
             discoveredCircuits.Clear();
             if (state.DiscoveredCircuits != null) discoveredCircuits.UnionWith(state.DiscoveredCircuits);
             if (TutorialActive) SubscribeGrid();

@@ -3,6 +3,7 @@ using System.Globalization;
 using HorrorEngine;
 using HorrorGame.Environment;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace HorrorGame.Chapter1
 {
@@ -13,11 +14,49 @@ namespace HorrorGame.Chapter1
         [Min(.05f)] public float RaiseSeconds = 1.15f;
         [Min(.05f)] public float HoldRaisedSeconds = .35f;
         public AudioSource SlamSound;
+        [Tooltip("Show the demo ending when the jammed final gate is used.")]
+        public bool EndsDemo;
 
         public bool Jammed => jammedLift >= 0f;
         protected override bool PassageAvailable => Jammed;
         protected override float PromptDepth => 2.6f;
         protected override bool KeepPromptAtThreshold => true;
+
+        protected override void UsePassage(IInteractor interactor, TwoSidedDoor door)
+        {
+            if (!EndsDemo)
+            {
+                base.UsePassage(interactor, door);
+                return;
+            }
+
+            var choices = UIManager.Get<UIChoices>();
+            if (choices.isActiveAndEnabled) return;
+
+            var note = new DialogData { PauseGame = false };
+            note.SetLines(new[]
+            {
+                new DialogLine
+                {
+                    LineText = new LocalizableText { Unlocalized = "Thank you for playing the Exaltfall demo!\n\nReturn to the main menu?" }
+                }
+            });
+            var returnToMenu = new UnityEvent();
+            returnToMenu.AddListener(() => GameManager.Instance.QuitGame());
+            choices.Show(new ChoiceData
+            {
+                ChoiceDialog = note,
+                Choices = new[]
+                {
+                    new ChoiceEntry { ChoiceText = new LocalizableText { Unlocalized = "Keep Exploring" } },
+                    new ChoiceEntry
+                    {
+                        ChoiceText = new LocalizableText { Unlocalized = "Return to Main Menu" },
+                        OnSelected = returnToMenu
+                    }
+                }
+            });
+        }
 
         private BoxCollider leafCollider;
         private BoxCollider passageWall;
@@ -26,6 +65,7 @@ namespace HorrorGame.Chapter1
         private Vector3 closedScale;
         private float fullLift;
         private float lift;
+        private float caughtCrateLift;
         private float jammedLift = -1f;
         private Vector3? jammedCratePosition;
         private Coroutine cycle;
@@ -74,7 +114,7 @@ namespace HorrorGame.Chapter1
 
             if (Jammed)
             {
-                PinCrate();
+                PinCrate(jammedCratePosition);
                 SetLift(jammedLift, false);
             }
             else if (Powered && isActiveAndEnabled)
@@ -85,8 +125,22 @@ namespace HorrorGame.Chapter1
 
         private void Update()
         {
-            if (leafCollider && !Jammed && !Powered && lift > 0f)
+            if (!leafCollider || Jammed) return;
+            if (cycle != null && Powered)
+                CatchCrateInTrack();
+            else if (!Powered && lift > 0f)
                 CloseWithoutJamming();
+        }
+
+        private void CatchCrateInTrack()
+        {
+            if (caughtCrateLift > 0f || !RequiredCrate) return;
+            Vector3 offset = RequiredCrate.transform.position - passageWall.bounds.center;
+            if (Mathf.Abs(Vector3.Dot(offset, passageWall.transform.forward)) > .12f) return;
+
+            // Hold a crate centered beneath the leaf so a long push cannot strand it past the barrier.
+            caughtCrateLift = GetCrateLift();
+            if (caughtCrateLift > 0f) PinCrate(RequiredCrate.transform.localPosition);
         }
 
         private void OnDisable()
@@ -125,16 +179,10 @@ namespace HorrorGame.Chapter1
                 for (float time = 0f; ; time += CycleDeltaTime)
                 {
                     float next = Mathf.Max(0f, releasedHeight - .5f * fallAcceleration * time * time);
-                    float contact = GetCrateLift();
+                    float contact = caughtCrateLift > 0f ? caughtCrateLift : GetCrateLift();
                     if (contact > 0f && next <= contact)
                     {
-                        jammedLift = contact;
-                        jammedCratePosition = RequiredCrate.transform.localPosition;
-                        cycle = null;
-                        Refresh();
-                        if (SlamSound) SlamSound.Play();
-                        GetComponent<SavableObjectState>()?.SaveState();
-                        RequiredCrate.GetComponent<SavableObjectState>()?.SaveState();
+                        FinishJam(contact);
                         yield break;
                     }
                     SetLift(next, next <= 0f);
@@ -155,8 +203,25 @@ namespace HorrorGame.Chapter1
 
         private void CloseWithoutJamming()
         {
+            if (caughtCrateLift > 0f)
+            {
+                FinishJam(caughtCrateLift);
+                return;
+            }
             float clearance = GetCrateLift();
             SetLift(clearance, clearance <= 0f);
+        }
+
+        private void FinishJam(float contact)
+        {
+            jammedLift = contact;
+            jammedCratePosition = RequiredCrate.transform.localPosition;
+            caughtCrateLift = 0f;
+            cycle = null;
+            Refresh();
+            if (SlamSound) SlamSound.Play();
+            GetComponent<SavableObjectState>()?.SaveState();
+            RequiredCrate.GetComponent<SavableObjectState>()?.SaveState();
         }
 
         private float GetCrateLift()
@@ -184,14 +249,14 @@ namespace HorrorGame.Chapter1
             leafCollider.enabled = solid;
         }
 
-        private void PinCrate()
+        private void PinCrate(Vector3? localPosition)
         {
             if (!RequiredCrate) return;
             if (RequiredCrate.TryGetComponent(out ResetTransformOnDoorTransition doorReset))
                 doorReset.KeepPinnedTransform();
-            if (jammedCratePosition.HasValue && RequiredCrate.transform.localPosition != jammedCratePosition.Value)
+            if (localPosition.HasValue && RequiredCrate.transform.localPosition != localPosition.Value)
             {
-                RequiredCrate.transform.localPosition = jammedCratePosition.Value;
+                RequiredCrate.transform.localPosition = localPosition.Value;
                 if (RequiredCrate.TryGetComponent(out Rigidbody crateBody))
                     crateBody.position = RequiredCrate.transform.position;
             }
@@ -212,12 +277,18 @@ namespace HorrorGame.Chapter1
             public Vector3 CratePosition;
         }
 
-        public string GetSavableData() => jammedCratePosition.HasValue
-            ? JsonUtility.ToJson(new JamState { Lift = jammedLift, CratePosition = jammedCratePosition.Value })
-            : jammedLift.ToString(CultureInfo.InvariantCulture);
+        public string GetSavableData()
+        {
+            if (jammedCratePosition.HasValue)
+                return JsonUtility.ToJson(new JamState { Lift = jammedLift, CratePosition = jammedCratePosition.Value });
+            if (caughtCrateLift > 0f && RequiredCrate)
+                return JsonUtility.ToJson(new JamState { Lift = caughtCrateLift, CratePosition = RequiredCrate.transform.localPosition });
+            return jammedLift.ToString(CultureInfo.InvariantCulture);
+        }
 
         public void SetFromSavedData(string savedData)
         {
+            caughtCrateLift = 0f;
             jammedCratePosition = null;
             if (!string.IsNullOrEmpty(savedData) && savedData.StartsWith("{"))
             {

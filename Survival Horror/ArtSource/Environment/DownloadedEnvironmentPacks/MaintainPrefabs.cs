@@ -99,7 +99,8 @@ public static class DownloadedPrefabMaintenance
                             if (saved) { EditorUtility.CopySerialized(mesh, saved); Object.DestroyImmediate(mesh); }
                             else { saved = mesh; AssetDatabase.CreateAsset(saved, path); }
                             filter.sharedMesh = saved;
-                            filter.GetComponent<MeshCollider>().sharedMesh = saved;
+                            var collider = filter.GetComponent<MeshCollider>();
+                            if (collider) collider.sharedMesh = saved;
                         }
                     }
                     PrefabUtility.SaveAsPrefabAsset(instance, a.prefab);
@@ -120,7 +121,7 @@ public static class DownloadedPrefabMaintenance
         var receipt = new Receipt { verified=true, completed_utc=DateTime.UtcNow.ToString("o"), retained_count=results.Count,
             removed_count=removedCount, repaired_count=results.Count(r => r.repaired), assets=results.ToArray(), removed_prefabs=removed.ToArray(),
             checks=new[] { "AssetDatabase dependency audit before native prefab deletion", "Original source collections and shared dependencies retained",
-                "All retained prefab GUIDs preserved", "Every retained renderer has native mesh, matching URP materials and matching static MeshCollider",
+                "All retained prefab GUIDs preserved", "Retained renderers have native meshes, matching URP materials and collision appropriate to their decoration labels",
                 "No retained prefab uses SourceDefault or unrepaired missing-source material slots", "No prefab depends on a combined FBX, source scene or deleted prefab",
                 "Planar UVs generated only for replacement tiling surfaces; working source material slots and UVs preserved" } };
         File.WriteAllText("MaintenanceReceipt.json", JsonUtility.ToJson(receipt, true));
@@ -193,11 +194,14 @@ public static class DownloadedPrefabMaintenance
             throw new InvalidOperationException("Invalid prefab root "+a.prefab);
         foreach(var t in prefab.GetComponentsInChildren<Transform>(true))
             if(GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(t.gameObject)>0)throw new InvalidOperationException("Missing script "+a.prefab);
+        bool nonBlocking = PrefabCollisionBatch.IsNonBlocking(a.prefab);
         foreach(var f in prefab.GetComponentsInChildren<MeshFilter>(true))
         {
             var m=f.sharedMesh;var r=f.GetComponent<MeshRenderer>();var collider=f.GetComponent<MeshCollider>();
-            if(!m || m.vertexCount==0 || m.triangles.Length==0 || !r || r.sharedMaterials.Length!=m.subMeshCount || !collider || collider.sharedMesh!=m || collider.convex)
-                throw new InvalidOperationException("Broken geometry/material/collider "+a.prefab);
+            if(!m || m.vertexCount==0 || m.triangles.Length==0 || !r || r.sharedMaterials.Length!=m.subMeshCount)
+                throw new InvalidOperationException("Broken geometry/material "+a.prefab);
+            if(nonBlocking ? collider && !collider.isTrigger : !collider || collider.sharedMesh!=m || collider.convex)
+                throw new InvalidOperationException("Broken collision policy "+a.prefab);
             foreach(var v in m.vertices)if(!float.IsFinite(v.x)||!float.IsFinite(v.y)||!float.IsFinite(v.z))throw new InvalidOperationException("Invalid vertex "+a.prefab);
             foreach(var mat in r.sharedMaterials)
                 if(!mat || mat.shader.name!="Universal Render Pipeline/Lit" || mat.name.StartsWith("SourceDefault") || a.repairs.Any(p=>p.original==AssetDatabase.GetAssetPath(mat)))

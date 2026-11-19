@@ -8,6 +8,15 @@ namespace HorrorGame.Chapter1
     {
         public MapData MapToUnlock;
 
+        public bool TryCollectWithoutOpening()
+        {
+            var tutorial = Chapter1MapTutorial.Instance;
+            if (!tutorial || !tutorial.CollectTabletWithoutOpening) return false;
+            tutorial.UnlockAndStart(tutorial.MapToUnlock ? tutorial.MapToUnlock : MapToUnlock);
+            Chapter1Opening.Instance?.OnTabletCollected();
+            return true;
+        }
+
         public override void OnUse(InventoryEntry entry, Actor user)
         {
             base.OnUse(entry, user);

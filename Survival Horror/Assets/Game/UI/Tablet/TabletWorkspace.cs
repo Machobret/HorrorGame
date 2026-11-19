@@ -249,6 +249,14 @@ namespace HorrorGame.UI
         public void ToggleCircuit(string id)
         {
             if(!Grid || !Network || !Network.CanAccessCircuit(id) || Grid.IsShutdown)return;
+            var opening = Chapter1Opening.Instance;
+            if (opening && opening.IsDepotCircuit(Grid, id))
+            {
+                bool unlocked = Network.TryToggleCircuit(id);
+                RefreshPower();
+                PowerHelp.text = unlocked ? "Depot unlocked." : "Move closer to the depot gate.";
+                return;
+            }
             bool changed=Network.TryToggleCircuit(id);RefreshPower();
             if (Network.SequencePuzzle && Network.SequencePuzzle.ShowingWrongAnswer)
             {
@@ -268,6 +276,12 @@ namespace HorrorGame.UI
                 var circuit=circuits[i];bool on=Grid.IsCircuitPowered(circuit.Id);bool trips=!on && Grid.CurrentConsumption+circuit.Consumption>Grid.MaximumCapacity;
                 rows[i].GetComponentInChildren<TMP_Text>().text=circuit.DisplayName+"   /   "+circuit.Consumption+" UNITS   /   "+(on?"[ON]":"[OFF]")+(trips?"\nWARNING: ENABLING WILL TRIP SUPPLY":"");
                 rows[i].interactable=!Grid.IsShutdown;rows[i].GetComponent<Image>().color=trips?new Color(.28f,.13f,.10f):on?selected:normal;
+                var opening = Chapter1Opening.Instance;
+                if (opening && opening.IsDepotCircuit(Grid, circuit.Id))
+                {
+                    rows[i].GetComponentInChildren<TMP_Text>().text = opening.DepotUnlocked ? "Depot unlocked" : "Unlock Depot";
+                    rows[i].interactable = !Grid.IsShutdown && !opening.DepotUnlocked;
+                }
             }
         }
         void RefreshLog()

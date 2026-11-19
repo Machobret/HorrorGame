@@ -17,7 +17,7 @@ Shader "House Toolkit/Projected Finish"
         Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalPipeline" "UniversalMaterialType"="Lit" }
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+        #include "BuildingSurfaceLighting.hlsl"
         CBUFFER_START(UnityPerMaterial)
             float4 _BaseMap_ST;
             half4 _BaseColor;
@@ -94,7 +94,6 @@ half3 WallMappedNormal(float3 positionWS, half3 normalWS, float2 uv, half2 encod
             #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
             #pragma multi_compile _ SHADOWS_SHADOWMASK
             #pragma multi_compile_fog
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
             Varyings WallVertex(Attributes input)
             {
@@ -122,6 +121,10 @@ half3 WallMappedNormal(float3 positionWS, half3 normalWS, float2 uv, half2 encod
                 half3 mappedNormal = WallMappedNormal(input.positionWS, normalWS, uv, packed.rg);
                 InputData lighting = (InputData)0;
                 lighting.positionWS = input.positionWS;
+                #if defined(_ADDITIONAL_LIGHT_SHADOWS)
+                    // Keep grazing point lights from sampling the wall's own shadow.
+                    lighting.positionWS += normalWS * 0.003;
+                #endif
                 lighting.normalWS = mappedNormal;
                 lighting.viewDirectionWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
                 #if defined(_MAIN_LIGHT_SHADOWS_SCREEN)
@@ -179,12 +182,7 @@ half3 WallMappedNormal(float3 positionWS, half3 normalWS, float2 uv, half2 encod
                     float3 lightDirection = _LightDirection;
                 #endif
                 float4 positionCS = TransformWorldToHClip(ApplyShadowBias(positionWS, normalWS, lightDirection));
-                #if UNITY_REVERSED_Z
-                    positionCS.z = min(positionCS.z, UNITY_NEAR_CLIP_VALUE * positionCS.w);
-                #else
-                    positionCS.z = max(positionCS.z, UNITY_NEAR_CLIP_VALUE * positionCS.w);
-                #endif
-                return positionCS;
+                return ApplyShadowClamping(positionCS);
             }
             ENDHLSL
         }

@@ -28,8 +28,13 @@ namespace Game.Editor.AssetLibrary
         UserState state;
         HashSet<string> favourites;
         List<LibraryEntry> visible = new List<LibraryEntry>();
+        List<LibraryGridCard> gridCards = new();
+        LibraryGridLayout gridLayout;
+        readonly Dictionary<string, bool> expandedFamilies = new();
+        string expansionQuery = "";
         LibraryEntry[] byName, byCategory;
-        string[] collections, categories, tags;
+        string[] collections, collectionLabels, categories, tags;
+        Dictionary<string, int> collectionCounts;
         readonly Dictionary<string, GUIContent> cardLabels = new();
         static readonly string[] Statuses = {LibraryFilter.DefaultStatus, "Placeable", "Candidate", "Unreviewed", "Review", "Background"};
         static readonly string[] TagModes = {"Match all", "Match any"};
@@ -37,9 +42,9 @@ namespace Game.Editor.AssetLibrary
         const string SearchControl = "AssetLibrarySearch";
         Vector2 gridScroll, filterScroll, detailScroll;
         string selectedGuid, error, savedName = "", tagSearch = "";
-        string editTitle, editCategory, editNote, editTags, editStatus;
+        string editTitle, editCategory, editSubgroup, editNote, editTags, editStatus;
         bool editing;
-        GUIContent filterButton = new GUIContent("Filters"), activeFilterSummary;
+        GUIContent filterButton = new GUIContent("Filters"), activeFilterSummary, clearFilterButton;
         double saveAt, projectChangeAt;
         (DateTime catalogue, DateTime overrides) metadataStamp;
         Vector2 dragOrigin;
@@ -131,13 +136,17 @@ namespace Game.Editor.AssetLibrary
                 var entries = index.catalog.entries;
                 byName = entries.OrderBy(e => e.name).ToArray();
                 byCategory = entries.OrderBy(e => e.category).ThenBy(e => e.name).ToArray();
-                collections = new[] { "All collections" }.Concat(index.catalog.scope).ToArray();
-                categories = new[] {"All categories"}.Concat(entries.Select(e => e.category.Split('/')[0]).Distinct().OrderBy(s => s))
-                    .Concat(entries.Select(e => e.category).Where(c => c.Contains('/')).Distinct().OrderBy(s => s)).ToArray();
+                collections = new[] { "" }.Concat(index.catalog.scope).ToArray();
+                collectionCounts = index.catalog.scope.ToDictionary(name => name, name => entries.Count(entry => entry.tags.Contains(name)));
+                collectionLabels = new[] { "All collections" }.Concat(index.catalog.scope.Select(name => $"{name} ({collectionCounts[name]})")).ToArray();
+                categories = new[] { "All categories" }.Concat(index.catalog.browseCategories).ToArray();
                 tags = entries.SelectMany(e => e.tags).Distinct().OrderBy(s => s).ToArray();
                 cardLabels.Clear();
                 foreach (var entry in entries)
-                    cardLabels.Add(entry.guid, new GUIContent(entry.name, $"{entry.name}\n{entry.category} · {entry.status}"));
+                {
+                    string cardName = string.IsNullOrEmpty(entry.variantName) ? entry.name : $"{entry.familyName} · {entry.variantName}";
+                    cardLabels.Add(entry.guid, new GUIContent(cardName, $"{cardName}\n{entry.name}\n{entry.category} · {entry.status}"));
+                }
                 error = null;
                 RefreshResults();
             }
@@ -148,11 +157,26 @@ namespace Game.Editor.AssetLibrary
         void RefreshResults()
         {
             if (index == null) return;
+            filter.category = index.BrowseCategory(filter.category);
+            if (Array.IndexOf(collections, filter.collection) < 0) filter.collection = "";
             visible = (state.sortByCategory ? byCategory : byName).Where(index.CreateMatcher(filter, favourites)).ToList();
+            if (expansionQuery != filter.query)
+            {
+                expansionQuery = filter.query;
+                expandedFamilies.Clear();
+            }
+            RefreshGridCards();
             var activeFilters = DescribeActiveFilters(filter);
-            string filterTooltip = "Active filters\n" + string.Join("\n", activeFilters);
+            var filterDetails = activeFilters.ToList();
+            if (!string.IsNullOrWhiteSpace(filter.query)) filterDetails.Add($"Search: {filter.query}");
+            string filterTooltip = "Active filters\n" + string.Join("\n", filterDetails);
             activeFilterSummary = activeFilters.Count == 0 ? null :
-                new GUIContent("Active filters  ·  " + string.Join("  ·  ", activeFilters), filterTooltip);
+                new GUIContent("Active filters  ·  " + string.Join("  ·  ", filterDetails), filterTooltip);
+            string keep = !string.IsNullOrEmpty(filter.category) ? filter.category : filter.collection;
+            bool canClear = activeFilters.Count > (keep.Length > 0 ? 1 : 0) || !string.IsNullOrWhiteSpace(filter.query);
+            clearFilterButton = activeFilterSummary == null || !canClear ? null : keep.Length > 0
+                ? new GUIContent("Clear others", $"Keep {keep} and clear the search and other filters")
+                : new GUIContent("Clear all", "Clear search and filters");
             filterButton = new GUIContent(activeFilters.Count == 0 ? "Filters" : $"Filters ({activeFilters.Count})",
                 activeFilters.Count == 0 ? "Show or hide filters" : filterTooltip);
             gridScroll = Vector2.zero;
@@ -160,10 +184,17 @@ namespace Game.Editor.AssetLibrary
             Repaint();
         }
 
+        void RefreshGridCards()
+        {
+            gridCards = LibraryGridCard.Build(visible, expandedFamilies, !string.IsNullOrWhiteSpace(filter.query));
+            gridLayout = null;
+            Repaint();
+        }
+
         internal static List<string> DescribeActiveFilters(LibraryFilter filter)
         {
             var labels = new List<string>();
-            if (!string.IsNullOrEmpty(filter.collection)) labels.Add(filter.collection);
+            if (!string.IsNullOrEmpty(filter.collection)) labels.Add("Collection: " + filter.collection);
             if (!string.IsNullOrEmpty(filter.category)) labels.Add("Category: " + filter.category);
             if (!string.IsNullOrEmpty(filter.status) && filter.status != LibraryFilter.DefaultStatus) labels.Add("Status: " + filter.status);
             if (filter.favouritesOnly) labels.Add("Favourites only");
@@ -172,10 +203,29 @@ namespace Game.Editor.AssetLibrary
             return labels;
         }
 
+        internal static LibraryFilter ClearNarrowing(LibraryFilter current) => string.IsNullOrEmpty(current.category)
+            ? StartCollection(current.collection) : new LibraryFilter { category = current.category };
+
+        internal static LibraryFilter StartCollection(string collection) => new LibraryFilter { collection = collection };
+
+        [SerializeField] bool showDecals;
+        Vector2 decalScroll;
+        static readonly string[] sections = { "Assets", "Decals" };
+
         void OnGUI()
         {
             if (Event.current.rawType == EventType.MouseUp || Event.current.rawType == EventType.MouseDown)
                 ReleaseDrag();
+            showDecals = GUILayout.Toolbar(showDecals ? 1 : 0, sections) == 1;
+            if (showDecals)
+            {
+                using (var scroll = new EditorGUILayout.ScrollViewScope(decalScroll))
+                {
+                    decalScroll = scroll.scrollPosition;
+                    WallDecalTool.DrawLibrary();
+                }
+                return;
+            }
             if (index == null || error != null)
             {
                 EditorGUILayout.HelpBox(error ?? "Loading catalogue…", MessageType.Error);
@@ -196,7 +246,7 @@ namespace Game.Editor.AssetLibrary
             using (new EditorGUILayout.HorizontalScope(EditorStyles.toolbar))
             {
                 GUILayout.Label(new GUIContent($"{visible.Count} / {index.catalog.entries.Length} assets",
-                    "Drag a card into the Scene or Hierarchy. Double-click to reveal its prefab."), EditorStyles.miniLabel);
+                    "Drag a prefab card into the Scene or Hierarchy. Open variant groups with Show. Double-click a prefab to reveal it."), EditorStyles.miniLabel);
                 GUILayout.FlexibleSpace();
                 if (position.width >= 390) GUILayout.Label("Drag into Scene or Hierarchy", EditorStyles.miniLabel);
             }
@@ -207,6 +257,7 @@ namespace Game.Editor.AssetLibrary
             bool narrow = position.width < 290;
             // Search can refresh the summary during this event. Keep the existing row for this layout pass.
             var summary = activeFilterSummary;
+            var clearButton = clearFilterButton;
             using (new EditorGUILayout.HorizontalScope(EditorStyles.toolbar))
             {
                 DrawSearch();
@@ -225,6 +276,18 @@ namespace Game.Editor.AssetLibrary
                 float height = EditorGUIUtility.singleLineHeight + 4;
                 var row = GUILayoutUtility.GetRect(1, 100000, height, height, GUILayout.ExpandWidth(true));
                 GUI.Box(row, GUIContent.none, EditorStyles.toolbar);
+                if (clearButton != null && row.width > 1)
+                {
+                    float buttonWidth = Mathf.Min(82, row.width * 0.45f);
+                    var button = new Rect(row.xMax - buttonWidth - 4, row.y + 2, buttonWidth, row.height - 4);
+                    row.xMax = button.xMin;
+                    if (GUI.Button(button, clearButton, EditorStyles.miniButton))
+                    {
+                        filter = ClearNarrowing(filter);
+                        tagSearch = "";
+                        RefreshResults();
+                    }
+                }
                 GUI.Label(row, summary, summaryStyle);
             }
             if (narrow)
@@ -316,15 +379,22 @@ namespace Game.Editor.AssetLibrary
             using (var scroll = new EditorGUILayout.ScrollViewScope(filterScroll, GUILayout.ExpandHeight(true)))
             {
                 filterScroll = scroll.scrollPosition;
+                int currentCollection = Mathf.Max(0, Array.IndexOf(collections, filter.collection));
+                int chosenCollection = EditorGUILayout.Popup("Collection", currentCollection, collectionLabels);
+                if (chosenCollection != currentCollection)
+                {
+                    filter = StartCollection(collections[chosenCollection]);
+                    tagSearch = "";
+                    RefreshResults();
+                }
                 EditorGUI.BeginChangeCheck();
-                filter.collection = DrawFilterPopup("Collection", filter.collection, collections);
                 filter.category = DrawFilterPopup("Category", filter.category, categories);
                 filter.favouritesOnly = EditorGUILayout.ToggleLeft("Favourites only", filter.favouritesOnly);
                 if (EditorGUI.EndChangeCheck()) RefreshResults();
 
-                if (GUILayout.Button("Reset filters", EditorStyles.miniButton))
+                if (GUILayout.Button("Reset search & filters", EditorStyles.miniButton))
                 {
-                    filter = new LibraryFilter { query = filter.query };
+                    filter = new LibraryFilter();
                     tagSearch = "";
                     RefreshResults();
                 }
@@ -442,25 +512,98 @@ namespace Game.Editor.AssetLibrary
             if (Event.current.type == EventType.Layout || viewport.width <= 1 || viewport.height <= 1) return;
             float scrollbar = Mathf.Max(14, GUI.skin.verticalScrollbar.fixedWidth + GUI.skin.verticalScrollbar.margin.left);
             var (columns, width, imageSize, height) = GridMetrics(viewport.width, state.thumbnail, scrollbar);
-            int rows = Mathf.CeilToInt(visible.Count / (float)columns);
-            float total = rows * height;
-            gridScroll.y = Mathf.Clamp(gridScroll.y, 0, Mathf.Max(0, total - viewport.height));
+            if (gridLayout == null || gridLayout.Columns != columns || gridLayout.RowHeight != height)
+                gridLayout = new LibraryGridLayout(gridCards, columns, height);
+            var layout = gridLayout;
             float contentWidth = columns * width;
-            gridScroll = GUI.BeginScrollView(viewport, gridScroll, new Rect(0, 0, contentWidth, total));
-            int firstRow = Mathf.FloorToInt(gridScroll.y / height);
-            int lastRow = Mathf.Min(rows, Mathf.CeilToInt((gridScroll.y + viewport.height) / height));
+            gridScroll.y = Mathf.Clamp(gridScroll.y, 0, Mathf.Max(0, layout.Height - viewport.height));
+            gridScroll = GUI.BeginScrollView(viewport, gridScroll, new Rect(0, 0, contentWidth, layout.Height));
+            float viewportBottom = gridScroll.y + viewport.height;
+            int firstRow = layout.FirstRowAfter(gridScroll.y - height);
+            int lastRow = layout.FirstRowAfter(viewportBottom);
             if (Event.current.type == EventType.Repaint)
-                thumbnails.SetViewport(visible, firstRow * columns, Mathf.Min(visible.Count, lastRow * columns), showDetails ? index.Find(selectedGuid) : null);
-            for (int row = firstRow; row < lastRow; row++)
-                for (int col = 0; col < columns; col++)
+            {
+                int firstCell = firstRow < layout.Rows.Count ? layout.Rows[firstRow].First : layout.Cells.Count;
+                int lastCell = lastRow < layout.Rows.Count ? layout.Rows[lastRow].First : layout.Cells.Count;
+                thumbnails.SetViewport(layout.ThumbnailEntries, firstCell, lastCell, showDetails ? index.Find(selectedGuid) : null);
+            }
+            foreach (var section in layout.Sections)
+            {
+                if (section.Top >= viewportBottom) break;
+                if (section.Bottom > gridScroll.y) DrawVariantSection(section, contentWidth);
+            }
+            for (int i = firstRow; i < lastRow; i++)
+            {
+                var row = layout.Rows[i];
+                float inset = row.InSection ? LibraryGridLayout.SectionInset : 0;
+                float cellWidth = (contentWidth - 2 * inset) / columns;
+                float thumb = Mathf.Max(1, Mathf.Min(imageSize, cellWidth - 12));
+                for (int col = 0; col < row.Count; col++)
                 {
-                    int i = row * columns + col;
-                    if (i >= visible.Count) break;
-                    DrawCard(new Rect(4 + col * width, row * height + 2, width - 4, height - 4), imageSize, visible[i]);
+                    var rect = new Rect(inset + 4 + col * cellWidth, row.Top + 2, cellWidth - 4, height - 4);
+                    var card = layout.Cells[row.First + col];
+                    if (card.IsFamily) DrawFamilyCard(rect, thumb, card);
+                    else DrawCard(rect, thumb, card.Entry);
                 }
-            if (visible.Count == 0) GUI.Label(new Rect(8, 10, contentWidth - 16, 64),
-                "No matching assets. Clear search or adjust filters.", EditorStyles.wordWrappedLabel);
+            }
+            if (visible.Count == 0)
+            {
+                string message = collectionCounts.TryGetValue(filter.collection, out int count)
+                    ? $"No matches with the current search and filters. {filter.collection} has {count} assets before filtering."
+                    : "No matches with the current search and filters.";
+                GUI.Label(new Rect(8, 10, contentWidth - 16, 100), message, EditorStyles.wordWrappedLabel);
+            }
             GUI.EndScrollView();
+        }
+
+        static readonly Color VariantAccent = new Color(.30f, .52f, .68f);
+
+        void DrawVariantSection(LibraryGridLayout.Section section, float width)
+        {
+            var panel = new Rect(4, section.Top, width - 4, section.Bottom - section.Top);
+            if (Event.current.type == EventType.Repaint)
+            {
+                EditorGUI.DrawRect(panel, EditorGUIUtility.isProSkin ? new Color(.105f, .125f, .15f) : new Color(.70f, .75f, .80f));
+                EditorGUI.DrawRect(new Rect(panel.x, panel.y, 2, panel.height), VariantAccent);
+                EditorGUI.DrawRect(new Rect(panel.x, panel.yMax - 1, panel.width, 1), VariantAccent);
+            }
+            var family = section.Family;
+            string heading = $"{family.Entry.familyName} ({family.VariantCount})";
+            GUI.Label(new Rect(panel.x + 9, panel.y + 4, panel.width - 43, 20), new GUIContent(heading, heading), EditorStyles.boldLabel);
+            var close = new Rect(panel.xMax - 26, panel.y + 4, 20, 19);
+            if (GUI.Button(close, new GUIContent("×", "Close variants"), EditorStyles.miniButton))
+                ToggleFamily(family);
+        }
+
+        void DrawFamilyCard(Rect rect, float imageSize, LibraryGridCard card)
+        {
+            var entry = card.Entry;
+            string action = card.Expanded ? "Hide" : "Show";
+            var button = new Rect(rect.x + 4, rect.yMax - 21, rect.width - 8, 17);
+            if (GUI.Button(button, new GUIContent($"{action} {card.VariantCount}",
+                    $"{action} {card.VariantCount} variants of {entry.familyName}"), EditorStyles.miniButton))
+                ToggleFamily(card);
+
+            float size = Mathf.Max(1, imageSize - 34);
+            var imageRect = new Rect(rect.center.x - size / 2, rect.y + 16, size, size);
+            if (Event.current.type == EventType.Repaint)
+            {
+                var background = new Rect(rect.x, rect.y, rect.width, button.y - rect.y - 2);
+                EditorGUI.DrawRect(background, EditorGUIUtility.isProSkin ? new Color(.17f, .22f, .27f) : new Color(.76f, .82f, .88f));
+                EditorGUI.DrawRect(new Rect(rect.x, rect.y, rect.width, 2), VariantAccent);
+                var image = thumbnails.Get(entry.guid);
+                if (image != null) GUI.DrawTexture(imageRect, image, ScaleMode.ScaleToFit);
+            }
+            GUI.Label(new Rect(rect.x + 4, rect.y + 2, rect.width - 8, 15), "Variants", EditorStyles.miniBoldLabel);
+            GUI.Label(new Rect(rect.x + 4, imageRect.yMax + 1, rect.width - 8, 25),
+                new GUIContent(entry.familyName, entry.familyName), cardNameStyle);
+        }
+
+        void ToggleFamily(LibraryGridCard family)
+        {
+            expandedFamilies[family.Entry.family] = !family.Expanded;
+            RefreshGridCards();
+            Repaint();
         }
 
         void DrawCard(Rect rect, float imageSize, LibraryEntry entry)
@@ -493,6 +636,12 @@ namespace Game.Editor.AssetLibrary
             {
                 // Standard prefab drag: Unity owns surface placement, prefab links, hierarchy targets and Undo.
                 ReleaseDrag();
+                if (!entry.CanPlace)
+                {
+                    ShowNotification(new GUIContent("Open this prefab from Details for inspection."));
+                    evt.Use();
+                    return;
+                }
                 var prefab = ResolveForAction(entry);
                 if (prefab == null) { evt.Use(); return; }
                 DragAndDrop.PrepareStartDrag();
@@ -569,6 +718,9 @@ namespace Game.Editor.AssetLibrary
                     }
                 }
                 GUILayout.Label(entry.category, EditorStyles.wordWrappedLabel);
+                if (!string.IsNullOrEmpty(entry.familyName))
+                    GUILayout.Label(string.IsNullOrEmpty(entry.variantName) ? entry.familyName : $"{entry.familyName} · {entry.variantName}", smallStyle);
+                if (!string.IsNullOrEmpty(entry.role)) GUILayout.Label(entry.role, smallStyle);
                 GUILayout.Label("Status: " + entry.status);
                 if (entry.status == "Unreviewed") EditorGUILayout.HelpBox("Classified from its named subject. Full visual quality review has not been recorded.", MessageType.Info);
                 if (entry.note.Length > 0) EditorGUILayout.HelpBox(entry.note, MessageType.Info);
@@ -590,7 +742,9 @@ namespace Game.Editor.AssetLibrary
                 GUILayout.Space(8);
                 if (GUILayout.Button(editing ? "Cancel editing" : "Edit classification"))
                 {
-                    editing = !editing; editTitle = entry.name; editCategory = entry.category; editStatus = entry.status;
+                    editing = !editing; editTitle = entry.name; editCategory = index.BrowseCategory(entry.category); editStatus = entry.status;
+                    int separator = entry.category.IndexOf('/');
+                    editSubgroup = separator < 0 ? "" : entry.category.Substring(separator + 1);
                     editNote = entry.note; editTags = string.Join(", ", entry.tags);
                 }
                 if (editing) DrawEdit(entry);
@@ -600,7 +754,10 @@ namespace Game.Editor.AssetLibrary
         void DrawEdit(LibraryEntry entry)
         {
             editTitle = EditorGUILayout.TextField("Name", editTitle);
-            editCategory = EditorGUILayout.TextField("Category", editCategory);
+            var groups = index.catalog.browseCategories;
+            int group = Mathf.Max(0, Array.IndexOf(groups, editCategory));
+            editCategory = groups[EditorGUILayout.Popup("Category", group, groups)];
+            editSubgroup = EditorGUILayout.TextField("Detail", editSubgroup);
             editStatus = index.catalog.statuses[EditorGUILayout.Popup("Status", Mathf.Max(0, Array.IndexOf(index.catalog.statuses, editStatus)), index.catalog.statuses)];
             GUILayout.Label("Tags (comma separated)", smallStyle);
             editTags = EditorGUILayout.TextArea(editTags, GUILayout.MinHeight(45));
@@ -613,7 +770,8 @@ namespace Game.Editor.AssetLibrary
                     // Resolve spelling/case against existing canonical tags; search aliases stay in the search system.
                     var known = index.catalog.entries.SelectMany(e => e.tags).Distinct().ToArray();
                     var tags = editTags.Split(',').Select(t => known.FirstOrDefault(k => k.Equals(t.Trim(), StringComparison.OrdinalIgnoreCase)) ?? t.Trim());
-                    index.SaveOverride(entry, editTitle, editCategory, editStatus, editNote, tags);
+                    string category = string.IsNullOrWhiteSpace(editSubgroup) ? editCategory : editCategory + "/" + editSubgroup.Trim();
+                    index.SaveOverride(entry, editTitle, category, editStatus, editNote, tags);
                     editing = false; Reload();
                 }
                 catch (Exception ex) { ShowNotification(new GUIContent(ex.Message)); }

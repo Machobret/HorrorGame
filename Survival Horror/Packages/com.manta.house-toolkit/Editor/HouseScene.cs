@@ -27,7 +27,6 @@ namespace HouseToolkit.Editor
         internal static HouseTool Mode;
         internal static bool PlacingInsert => Mode == HouseTool.Door || Mode == HouseTool.Window || Mode == HouseTool.Panel;
         internal static OpeningKind BrushKind => Mode == HouseTool.Panel ? OpeningKind.Panel : Mode == HouseTool.Window ? OpeningKind.Window : OpeningKind.Door;
-        internal static bool Cutaway;
         internal static float Grid { get => PlanSnapping.Grid; set => PlanSnapping.Grid=value; }
         internal static HouseRoom Room {get;private set;}
         static int corner;
@@ -150,14 +149,6 @@ namespace HouseToolkit.Editor
         static int pressedClicks;
         static bool editing;
         static SceneView dragView;
-        static readonly List<GameObject> hidden=new List<GameObject>();
-        // Unity's public Show/Hide commands record Undo on the shared Scene visibility state.
-        // Use the same Unity 6 native operations without recording a house preview as an edit.
-        static readonly Type visibilityState = typeof(SceneVisibilityManager).Assembly.GetType("UnityEditor.SceneVisibilityState", true);
-        static readonly Action<GameObject,bool,bool> setPreviewHidden =
-            (Action<GameObject,bool,bool>)visibilityState.GetMethod("SetGameObjectHidden").CreateDelegate(typeof(Action<GameObject,bool,bool>));
-        static readonly Action<Scene> persistVisibility =
-            (Action<Scene>)visibilityState.GetMethod("GeneratePersistentDataForLoadedScene").CreateDelegate(typeof(Action<Scene>));
         static readonly List<Renderer> houseRenderers=new List<Renderer>();
         static readonly List<EditorSelectedRenderState> renderStates=new List<EditorSelectedRenderState>();
         static bool refreshRenderStates=true, nativeOutlineSuppressed;
@@ -208,12 +199,12 @@ namespace HouseToolkit.Editor
             SceneView.duringSceneGui+=OnScene;
             Selection.selectionChanged += OnNativeSelection;
             Undo.undoRedoEvent+=OnUndo;
-            AssemblyReloadEvents.beforeAssemblyReload+=Leave;
-            EditorApplication.quitting+=Leave;
+            AssemblyReloadEvents.beforeAssemblyReload+=EndCutawaySession;
+            EditorApplication.quitting+=EndCutawaySession;
             EditorSceneManager.sceneSaved+=OnSceneSaved;
-            EditorApplication.playModeStateChanged+=state=>{if(state==PlayModeStateChange.ExitingEditMode)Leave();};
-            UnityEditor.SceneManagement.EditorSceneManager.sceneClosing+=(scene,removing)=>{if(Floor && Floor.gameObject.scene==scene)Leave();};
-            EditorApplication.hierarchyChanged+=()=>{refreshRenderStates=true;InvalidatePicking(keepPointer:true);if(Cutaway && Floor)ApplyCutaway();};
+            EditorApplication.playModeStateChanged+=state=>{if(state==PlayModeStateChange.ExitingEditMode)EndCutawaySession();};
+            EditorSceneManager.sceneClosing+=OnSceneClosing;
+            EditorApplication.hierarchyChanged+=()=>{refreshRenderStates=true;InvalidatePicking(keepPointer:true);ApplyCutaway();};
         }
         static void OnNativeSelection()
         {
@@ -305,7 +296,9 @@ namespace HouseToolkit.Editor
             if(!recentFloors.TryGetValue(house.GetInstanceID(),out var saved))saved=EditorPrefs.GetString(Key(house));
             var selected=HouseEditing.Floors(house).FirstOrDefault(f=>f.floorId==saved)??requested;
             if (!WallJunctions.Refresh(selected,out Message)){Repaint();return;}
-            editingHouse=house; Floor=selected; Cutaway=true; SlabBuilder.Rebuild(house);
+            editingHouse=house; Floor=selected;
+            Cutaway=!pinnedCutaways.TryGetValue(house,out var cutaway) || cutaway.enabled;
+            SlabBuilder.Rebuild(house);
             focusedPlane=Floor.transform.position;
             refreshRenderStates=true;oldToolsHidden=Tools.hidden;Tools.hidden=true;editing=true;
             Selection.activeGameObject=house.gameObject;
@@ -339,47 +332,11 @@ namespace HouseToolkit.Editor
             FixtureTool.Cancel();
             RestoreNativeOutline();houseRenderers.Clear();renderStates.Clear();refreshRenderStates=true;
             Remember();
+            RememberPinnedCutaway();
             if(editing)Tools.hidden=oldToolsHidden;
             editing=false;editingHouse=null;
             DrawFamily=null; FlipDoor=false;
-            RestoreVisibility(); Cutaway=false;Floor=null;ResetSelection();Repaint();
-        }
-        static void OnSceneSaved(Scene scene)
-        {
-            if(!Floor || Floor.gameObject.scene!=scene || hidden.Count==0)return;
-            // Unity snapshots the hierarchy eye flags on save. Store the artist's underlying
-            // visibility, then resume the cutaway in the current Scene view.
-            RestoreVisibility();
-            ApplyCutaway();
-        }
-        static void RestoreVisibility()
-        {
-            if(hidden.Count==0)return;
-            Scene scene=default;
-            foreach(var go in hidden)
-            {
-                if(!go)continue;
-                scene=go.scene;
-                setPreviewHidden(go,false,false);
-            }
-            hidden.Clear();
-            if(scene.IsValid() && scene.isLoaded && !string.IsNullOrEmpty(scene.path))persistVisibility(scene);
-        }
-        internal static void ApplyCutaway()
-        {
-            if(!Floor || !Cutaway || Floor.WallsOnly){RestoreVisibility();return;}
-            var above=new HashSet<GameObject>(HouseEditing.Floors(House).Where(f=>f.transform.localPosition.y>Floor.transform.localPosition.y)
-                .SelectMany(f=>f.GetComponentsInChildren<Transform>(true)).Select(t=>t.gameObject));
-            foreach(var slab in Floor.GetComponentsInChildren<HouseSlab>(true))
-                if (slab.overhead)
-                {
-                    above.Add(slab.gameObject);
-                    foreach (Transform child in slab.transform)
-                        if (child.TryGetComponent<BooleanCutResult>(out _)) above.Add(child.gameObject);
-                }
-            var manager=SceneVisibilityManager.instance;
-            foreach(var go in hidden.ToArray())if(!go || !above.Contains(go)){if(go)setPreviewHidden(go,false,false);hidden.Remove(go);}
-            foreach(var go in above)if(!manager.IsHidden(go)){setPreviewHidden(go,true,false);hidden.Add(go);}
+            Cutaway=false;Floor=null;ApplyCutaway();ResetSelection();Repaint();
         }
         static readonly SlabOpeningTool openingTool=new SlabOpeningTool();
         internal static bool DrawingOpening=>openingTool.Active;
@@ -420,7 +377,7 @@ namespace HouseToolkit.Editor
         {
             if(!Floor)
             {
-                if(!editing)return;
+                if(!editing){ApplyCutaway();return;}
                 var survivor=editingHouse?HouseEditing.Floors(editingHouse)
                     .OrderBy(f=>(f.transform.position-focusedPlane).sqrMagnitude).FirstOrDefault():null;
                 if(survivor)SwitchFloor(survivor);else Leave();

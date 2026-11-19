@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8803513198390895195}
   - component: {fileID: 4708785578791817609}
   - component: {fileID: 4291404612929258322}
-  - component: {fileID: 3110330481272278372}
   m_Layer: 0
   m_Name: Classic64_SignNosmoking_Part000
   m_TagString: Untagged
@@ -155,25 +154,3 @@ Transform:
   - {fileID: 8032487261163939597}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &3110330481272278372
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 717673828233761393}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 511075800431012074, guid: 35996ebfb0782d74a8dbf224205407a9, type: 3}

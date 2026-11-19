@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HouseToolkit;
+using HouseToolkit.Editor;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -25,6 +26,80 @@ public sealed class RoadSurfaceTests
         family.forwardLanes = family.reverseLanes = 1;
         family.centerLine = RoadLines.None;
         return family;
+    }
+
+    [Test]
+    public void StreetlightSpacingSurvivesSubdivisionAndSkipsTheJunction()
+    {
+        var road = new GameObject("Streetlight test").AddComponent<RoadNetwork>();
+        var family = Family();
+        try
+        {
+            road.family = family;
+            family.rightSidewalk = true;
+            var graph = road.graph;
+            var start = graph.AddNode(Vector3.zero);
+            var end = graph.AddNode(Vector3.right * 50);
+            var span = graph.Connect(start.id, end.id, 0, null);
+            road.Rebuild();
+            Assert.IsEmpty(road.GetComponentsInChildren<Light>());
+            var settings = new StreetlightRun { run = span.run, enabled = true, period = 10, offset = 5,
+                prefab = Asset<GameObject>("Assets/Game/Environment/Pizzeria/Prefabs/Pizzeria_streetlight_001.prefab") };
+            graph.streetlights.Add(settings);
+            float[] Positions() => road.GetComponentsInChildren<Light>().Select(l => l.transform.parent.localPosition.x).OrderBy(x => x).ToArray();
+            road.Rebuild();
+            Assert.That(Positions(), Is.EqualTo(new[]{5f,15f,25f,35f,45f}).Within(.001f));
+            var first = road.GetComponentInChildren<Light>();
+            var pivot = first.transform.parent;
+            Assert.AreEqual(family.sidewalkHeight, pivot.localPosition.y, .001f);
+            Assert.AreEqual(-family.width / 2, pivot.localPosition.z, .001f);
+            Assert.That(Vector3.Dot(pivot.right, Vector3.forward), Is.GreaterThan(.99f));
+            var middle = graph.AddNode(Vector3.right * 25);
+            RoadEditing.Split(graph, span, middle);
+            road.Rebuild();
+            Assert.That(Positions(), Is.EqualTo(new[]{5f,15f,25f,35f,45f}).Within(.001f));
+            Assert.AreSame(first, road.GetComponentInChildren<Light>());
+            graph.Connect(middle.id, graph.AddNode(middle.position + Vector3.forward * 20).id, 0, null);
+            road.Rebuild();
+            Assert.That(Positions(), Is.EqualTo(new[]{5f,15f,35f,45f}).Within(.001f));
+            RoadEditing.Split(graph, span, graph.AddNode(Vector3.right * 10));
+            void CheckSide(StreetlightSide side, params int[] expectedSides)
+            {
+                settings.side = side;
+                road.Rebuild();
+                var poles = road.GetComponentsInChildren<Light>().Select(l => l.transform.parent)
+                    .OrderBy(t => t.localPosition.x).ThenBy(t => t.localPosition.z).ToArray();
+                var stations = new[] {5f, 15f, 35f, 45f};
+                Assert.AreEqual(expectedSides.Length, poles.Length);
+                for (int i = 0; i < poles.Length; i++)
+                {
+                    var pole = poles[i];
+                    var sign = expectedSides[i];
+                    Assert.AreEqual(stations[side == StreetlightSide.Both ? i / 2 : i], pole.localPosition.x, .001f);
+                    Assert.AreEqual(sign * family.width / 2, pole.localPosition.z, .001f);
+                    Assert.AreEqual(sign < 0 ? family.sidewalkHeight : 0, pole.localPosition.y, .001f);
+                    Assert.Greater(Vector3.Dot(pole.right, -sign * Vector3.forward), .99f);
+                }
+            }
+            CheckSide(StreetlightSide.Left, 1,1,1,1);
+            CheckSide(StreetlightSide.Both, -1,1,-1,1,-1,1,-1,1);
+            CheckSide(StreetlightSide.Alternating, -1,1,-1,1);
+            CheckSide(StreetlightSide.Right, -1,-1,-1,-1);
+            settings.period = 20;
+            settings.offset = 4;
+            road.Rebuild();
+            var moved = Positions();
+            Assert.AreEqual(2, moved.Length);
+            Assert.AreEqual(4, moved[0], .001f);
+            Assert.AreEqual(44, moved[1], .001f);
+            Assert.IsTrue(RoadEditing.Change(road,"Disable test streetlights",g=>g.Lights(span.run).enabled=false,out var issue),issue);
+            Assert.IsEmpty(road.GetComponentsInChildren<Light>());
+            Undo.FlushUndoRecordObjects();
+            Undo.PerformUndo();
+            road.Rebuild();
+            Assert.AreEqual(2, Positions().Length);
+        }
+        finally { Object.DestroyImmediate(road.gameObject); Object.DestroyImmediate(family); }
     }
 
     [Test]

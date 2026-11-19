@@ -63,9 +63,7 @@ namespace HorrorEngine
 
         public Mesh GetMesh()
         {
-            // Generate array of valid shape data
-            CompositeShapeData[] eligibleShapes = shapes.Select(shape => new CompositeShapeData(shape.Points)).Where(x => x.IsValidShape).ToArray();
-            Process(eligibleShapes);
+            BuildGeometry();
 
             return new Mesh()
             {
@@ -73,6 +71,12 @@ namespace HorrorEngine
                 triangles = triangles,
                 normals = vertices.Select(x => Vector3.up).ToArray()
             };
+        }
+
+        internal void BuildGeometry()
+        {
+            CompositeShapeData[] eligibleShapes = shapes.Select(shape => new CompositeShapeData(shape.Points)).Where(x => x.IsValidShape).ToArray();
+            Process(eligibleShapes);
         }
 
         private void Process(CompositeShapeData[] eligibleShapes)

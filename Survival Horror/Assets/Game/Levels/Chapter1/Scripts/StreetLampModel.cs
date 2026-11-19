@@ -40,9 +40,10 @@ namespace HorrorGame.Chapter1
                 {
                     light.type = LightType.Spot;
                     light.color = new Color(1f, .58f, .23f);
-                    light.range = 25f;
+                    light.range = 8.5f;
                     light.intensity = 15f;
-                    light.spotAngle = 115f;
+                    light.spotAngle = 54f;
+                    light.innerSpotAngle = 36f;
                     light.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
                 }
             }

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cff52737df948ad9010ca74a435fca6, type: 3}
+  m_Name: Loading Bay Hardware
+  m_EditorClassIdentifier: HouseToolkit::HouseToolkit.ScatterPreset
+  entries:
+  - label: Packing straps
+    weight: 58
+    solid: 0
+    material: {fileID: 2100000, guid: 6467b97beee86ef4497d25bf47de278b, type: 2}
+    variants:
+    - {fileID: -237900121173268566, guid: 8baa5f3f2b9b6f243990c8b249961796, type: 2}
+    - {fileID: -7706030342685183992, guid: 8baa5f3f2b9b6f243990c8b249961796, type: 2}
+    - {fileID: -409997751975445561, guid: 8baa5f3f2b9b6f243990c8b249961796, type: 2}
+  - label: Wood splinters
+    weight: 33
+    solid: 1
+    material: {fileID: 2100000, guid: 6467b97beee86ef4497d25bf47de278b, type: 2}
+    variants:
+    - {fileID: -961369305888782631, guid: 8baa5f3f2b9b6f243990c8b249961796, type: 2}
+    - {fileID: 618614628203593271, guid: 8baa5f3f2b9b6f243990c8b249961796, type: 2}
+  - label: Chipped pallet blocks
+    weight: 9
+    solid: 1
+    material: {fileID: 2100000, guid: 6467b97beee86ef4497d25bf47de278b, type: 2}
+    variants:
+    - {fileID: -6786985330818717884, guid: 8baa5f3f2b9b6f243990c8b249961796, type: 2}

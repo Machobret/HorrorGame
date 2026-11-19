@@ -10,22 +10,15 @@ namespace HorrorGame.General
     [DefaultExecutionOrder(-10000)]
     public sealed class FixedRetroPresentation : MonoBehaviour
     {
-        private const bool Enabled = false;
         private const int Width = 1280;
         private const int Height = 720;
         private const float AspectRatio = (float)Width / Height;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static void Create()
+        private static void ResetEditorPreview()
         {
             // Player builds and Play mode must never inherit the editor preview toggle.
             Shader.SetGlobalFloat("_RetroCompositeEditorEnabled", 1f);
-            if (!Enabled) return;
-            if (FindFirstObjectByType<FixedRetroPresentation>() != null) return;
-
-            var presentation = new GameObject(nameof(FixedRetroPresentation));
-            Object.DontDestroyOnLoad(presentation);
-            presentation.AddComponent<FixedRetroPresentation>();
         }
 
         private void Awake()

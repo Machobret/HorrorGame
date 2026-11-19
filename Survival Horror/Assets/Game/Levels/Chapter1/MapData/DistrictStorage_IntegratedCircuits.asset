@@ -1,0 +1,225 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3076550ad26bad6488de9f5538368149, type: 3}
+  m_Name: DistrictStorage_IntegratedCircuits
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorGame.Chapter1.PowerPanelLayout
+  CanvasSize: {x: 800, y: 500}
+  Circuits:
+  - CircuitId: outside_shutter
+    Label: Outside Shutter
+    Bounds:
+      serializedVersion: 2
+      x: -95.12
+      y: -64.880005
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -95.12, y: -64.880005}
+    - {x: 124.88, y: -64.880005}
+    - {x: 124.88, y: 0.11999512}
+    - {x: -95.12, y: 0.11999512}
+    MapPosition: {x: 657.5, y: 492.50003}
+    RoomName: Outside
+    MapUniqueId: 126d6fc2-9883-47f1-8bf7-5c8a55016061
+    RoomUniqueId: 0cf17860-f4b1-4fab-9c66-3694de2211b1
+    WorldPosition: {x: 15.75, y: 0, z: -25.75}
+    ActivationRange: 9
+  - CircuitId: shutter_l
+    Label: Shutter_L
+    Bounds:
+      serializedVersion: 2
+      x: -93.85
+      y: -59.07
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -93.85, y: -59.07}
+    - {x: 126.15, y: -59.07}
+    - {x: 126.15, y: 5.9300003}
+    - {x: -93.85, y: 5.9300003}
+    MapPosition: {x: 644.99994, y: 425.00003}
+    RoomName: Storage Unit Entrance
+    MapUniqueId: 126d6fc2-9883-47f1-8bf7-5c8a55016061
+    RoomUniqueId: e7339175-cbd0-4afb-845a-bbb4809733ff
+    WorldPosition: {x: 22.5, y: 0, z: -24.5}
+    ActivationRange: 8
+  - CircuitId: shutter_r
+    Label: Shutter_R
+    Bounds:
+      serializedVersion: 2
+      x: -98.35
+      y: -62.57
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -98.35, y: -62.57}
+    - {x: 121.65, y: -62.57}
+    - {x: 121.65, y: 2.4300003}
+    - {x: -98.35, y: 2.4300003}
+    MapPosition: {x: 679.99994, y: 470.00003}
+    RoomName: Storage Unit Entrance
+    MapUniqueId: 126d6fc2-9883-47f1-8bf7-5c8a55016061
+    RoomUniqueId: e7339175-cbd0-4afb-845a-bbb4809733ff
+    WorldPosition: {x: 18, y: 0, z: -28}
+    ActivationRange: 8
+  - CircuitId: shutter_seg_1
+    Label: Shutter Segment 1
+    Bounds:
+      serializedVersion: 2
+      x: -86.56
+      y: -59.02
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -86.56, y: -59.02}
+    - {x: 133.44, y: -59.02}
+    - {x: 133.44, y: 5.9799995}
+    - {x: -86.56, y: 5.9799995}
+    MapPosition: {x: 687.5, y: 300.0001}
+    RoomName: Storage Unit Thin Hall
+    MapUniqueId: 126d6fc2-9883-47f1-8bf7-5c8a55016061
+    RoomUniqueId: 1d418312-97c1-45ff-a495-046fe472b522
+    WorldPosition: {x: 35, y: 0, z: -28.75}
+    ActivationRange: 10
+  - CircuitId: shutter_seg_2
+    Label: Shutter Segment 2
+    Bounds:
+      serializedVersion: 2
+      x: -86.44978
+      y: -62.27
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -86.44978, y: -62.27}
+    - {x: 133.55022, y: -62.27}
+    - {x: 133.55022, y: 2.7299995}
+    - {x: -86.44978, y: 2.7299995}
+    MapPosition: {x: 720, y: 298.8979}
+    RoomName: Storage Unit Thin Hall
+    MapUniqueId: 126d6fc2-9883-47f1-8bf7-5c8a55016061
+    RoomUniqueId: 1d418312-97c1-45ff-a495-046fe472b522
+    WorldPosition: {x: 35.110218, y: 0, z: -32}
+    ActivationRange: 10
+  - CircuitId: shutter_seg_3
+    Label: Shutter Segment 3
+    Bounds:
+      serializedVersion: 2
+      x: -90.81
+      y: -59.02
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -90.81, y: -59.02}
+    - {x: 129.19, y: -59.02}
+    - {x: 129.19, y: 5.9799995}
+    - {x: -90.81, y: 5.9799995}
+    MapPosition: {x: 687.5, y: 342.50006}
+    RoomName: Storage Unit Thin Hall
+    MapUniqueId: 126d6fc2-9883-47f1-8bf7-5c8a55016061
+    RoomUniqueId: 1d418312-97c1-45ff-a495-046fe472b522
+    WorldPosition: {x: 30.75, y: 0, z: -28.75}
+    ActivationRange: 10
+  - CircuitId: shutter_seg_4
+    Label: Shutter Segment 4
+    Bounds:
+      serializedVersion: 2
+      x: -90.93999
+      y: -62.27
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -90.93999, y: -62.27}
+    - {x: 129.06001, y: -62.27}
+    - {x: 129.06001, y: 2.7299995}
+    - {x: -90.93999, y: 2.7299995}
+    MapPosition: {x: 720, y: 343.79993}
+    RoomName: Storage Unit Thin Hall
+    MapUniqueId: 126d6fc2-9883-47f1-8bf7-5c8a55016061
+    RoomUniqueId: 1d418312-97c1-45ff-a495-046fe472b522
+    WorldPosition: {x: 30.620014, y: 0, z: -32}
+    ActivationRange: 10
+  - CircuitId: shutter_seg_5
+    Label: Shutter Segment 5
+    Bounds:
+      serializedVersion: 2
+      x: -95.06
+      y: -59.02
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -95.06, y: -59.02}
+    - {x: 124.94, y: -59.02}
+    - {x: 124.94, y: 5.9799995}
+    - {x: -95.06, y: 5.9799995}
+    MapPosition: {x: 687.5, y: 385.00006}
+    RoomName: Storage Unit Thin Hall
+    MapUniqueId: 126d6fc2-9883-47f1-8bf7-5c8a55016061
+    RoomUniqueId: 1d418312-97c1-45ff-a495-046fe472b522
+    WorldPosition: {x: 26.5, y: 0, z: -28.75}
+    ActivationRange: 10
+  - CircuitId: shutter_seg_6
+    Label: Shutter Segment 6
+    Bounds:
+      serializedVersion: 2
+      x: -94.93019
+      y: -62.27
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -94.93019, y: -62.27}
+    - {x: 125.06981, y: -62.27}
+    - {x: 125.06981, y: 2.7299995}
+    - {x: -94.93019, y: 2.7299995}
+    MapPosition: {x: 720, y: 383.70197}
+    RoomName: Storage Unit Thin Hall
+    MapUniqueId: 126d6fc2-9883-47f1-8bf7-5c8a55016061
+    RoomUniqueId: 1d418312-97c1-45ff-a495-046fe472b522
+    WorldPosition: {x: 26.62981, y: 0, z: -32}
+    ActivationRange: 10
+  - CircuitId: broken_shutter
+    Label: Broken_Shutter
+    Bounds:
+      serializedVersion: 2
+      x: -97.014
+      y: -55.022
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -97.014, y: -55.022}
+    - {x: 122.986, y: -55.022}
+    - {x: 122.986, y: 9.978001}
+    - {x: -97.014, y: 9.978001}
+    MapPosition: {x: 662.5, y: 227.50002}
+    RoomName: Storage Unit Big Hall
+    MapUniqueId: 126d6fc2-9883-47f1-8bf7-5c8a55016061
+    RoomUniqueId: 0ac60971-9a41-4b1b-89f4-20df2c919ee9
+    WorldPosition: {x: 42.25, y: 0, z: -26.25}
+    ActivationRange: 8
+  - CircuitId: alley_intercom
+    Label: Alley intercom
+    Bounds:
+      serializedVersion: 2
+      x: -100.270004
+      y: -54.010002
+      width: 220
+      height: 65
+    BorderPoints:
+    - {x: -100.270004, y: -54.010002}
+    - {x: 119.729996, y: -54.010002}
+    - {x: 119.729996, y: 10.989998}
+    - {x: -100.270004, y: 10.989998}
+    MapPosition: {x: 581.1, y: 544.3}
+    RoomName: Street
+    MapUniqueId: 5fba2770-ece1-4b74-9515-e870b4bc2739
+    RoomUniqueId: 6620671a-e92a-459d-ac67-cd0e3d07452c
+    WorldPosition: {x: 10.57, y: 0, z: -18.11}
+    ActivationRange: 12

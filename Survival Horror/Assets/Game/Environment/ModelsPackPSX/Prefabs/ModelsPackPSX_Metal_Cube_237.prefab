@@ -43,7 +43,6 @@ GameObject:
   - component: {fileID: 5491442984488805825}
   - component: {fileID: 1771208901026510507}
   - component: {fileID: 1753615592293125361}
-  - component: {fileID: 3447483465868792845}
   m_Layer: 0
   m_Name: Cube.237
   m_TagString: Untagged
@@ -124,28 +123,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3447483465868792845
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5997734560405211532}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 66801b0102b8253409510cf0965c8f66, type: 2}
 --- !u!1 &8113913947140616984
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,7 +134,6 @@ GameObject:
   - component: {fileID: 5620381549347289779}
   - component: {fileID: 1474192707456609361}
   - component: {fileID: 4862593826659830060}
-  - component: {fileID: 4812274564611772564}
   m_Layer: 0
   m_Name: Cube.235
   m_TagString: Untagged
@@ -238,25 +214,3 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4812274564611772564
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8113913947140616984}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: bd3a00ec3466651418fbf6e1f1180f7f, type: 2}

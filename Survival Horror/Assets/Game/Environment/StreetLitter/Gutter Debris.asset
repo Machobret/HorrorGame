@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cff52737df948ad9010ca74a435fca6, type: 3}
+  m_Name: Gutter Debris
+  m_EditorClassIdentifier: HouseToolkit::HouseToolkit.ScatterPreset
+  entries:
+  - label: Faded leaves
+    weight: 72
+    solid: 0
+    material: {fileID: 2100000, guid: 6467b97beee86ef4497d25bf47de278b, type: 2}
+    variants:
+    - {fileID: 4300000, guid: 8baa5f3f2b9b6f243990c8b249961796, type: 2}
+    - {fileID: -8414904956710278305, guid: 8baa5f3f2b9b6f243990c8b249961796, type: 2}
+  - label: Twig fragments
+    weight: 22
+    solid: 1
+    material: {fileID: 2100000, guid: 6467b97beee86ef4497d25bf47de278b, type: 2}
+    variants:
+    - {fileID: -6416160172299677606, guid: 8baa5f3f2b9b6f243990c8b249961796, type: 2}
+    - {fileID: -6015174904734594231, guid: 8baa5f3f2b9b6f243990c8b249961796, type: 2}
+  - label: Discarded filters
+    weight: 6
+    solid: 1
+    material: {fileID: 2100000, guid: 6467b97beee86ef4497d25bf47de278b, type: 2}
+    variants:
+    - {fileID: -1201640245173307028, guid: 8baa5f3f2b9b6f243990c8b249961796, type: 2}
+    - {fileID: 5164968246336740439, guid: 8baa5f3f2b9b6f243990c8b249961796, type: 2}

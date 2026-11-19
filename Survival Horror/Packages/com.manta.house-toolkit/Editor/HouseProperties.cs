@@ -38,6 +38,20 @@ namespace HouseToolkit.Editor
         internal const string WindowTitle = "Procedural Env Properties";
         static HouseProperties window;
         UnityEditor.Editor roadEditor;
+        ScatterBrush scatter;
+        Vector2 scatterScroll;
+        internal static void OpenScatter()
+        {
+            Open();
+            if (!window.scatter)
+            {
+                window.scatter = CreateInstance<ScatterBrush>();
+                window.scatter.hideFlags = HideFlags.HideAndDontSave;
+            }
+            window.scatter.Activate();
+            window.Repaint();
+        }
+
         Vector2 roadScroll;
         Vector2 scroll;
         int tab;
@@ -46,7 +60,11 @@ namespace HouseToolkit.Editor
         Vector2 floorsScroll;
         bool ceilingCuts,rectangleCuts;
         [MenuItem("Window/House Toolkit/" + WindowTitle)]
-        public static void Open(){window=GetWindow<HouseProperties>(WindowTitle);}
+        public static void Open()
+        {
+            window = GetWindow<HouseProperties>(WindowTitle);
+            if (window.scatter) window.scatter.Deactivate();
+        }
         internal static void RepaintOpen(){if(window)window.Repaint();}
         public static void OpenFloors(){Open(); ShowFloor();}
         internal static void DrawOpening()
@@ -65,6 +83,7 @@ namespace HouseToolkit.Editor
         void OnDisable()
         {
             if (roadEditor) DestroyImmediate(roadEditor);
+            if (scatter) DestroyImmediate(scatter);
             if (window == this) window = null;
         }
 
@@ -72,18 +91,28 @@ namespace HouseToolkit.Editor
         static void DrawFixtureSelection(FixtureAttachment fixture)
         {
             GUILayout.Label(fixture.name, EditorStyles.boldLabel);
-            GUILayout.Label("Attached to " + fixture.mount.ToString().ToLowerInvariant());
+            GUILayout.Label(fixture.freePlacement ? "Freely placed" : "Attached to " + fixture.mount.ToString().ToLowerInvariant());
             FixtureTool.DrawLighting(fixture);
-            if (GUILayout.Button("Move fixture")) FixtureTool.BeginMove(fixture);
+            if (GUILayout.Button("Reattach to surface")) FixtureTool.BeginMove(fixture);
         }
 
         void OnGUI()
         {
+            if (scatter && scatter.Active)
+            {
+                using (var area = new EditorGUILayout.ScrollViewScope(scatterScroll))
+                {
+                    scatterScroll = area.scrollPosition;
+                    scatter.DrawProperties();
+                }
+                return;
+            }
             var floor=HouseScene.Floor;
             var selected = Selection.activeGameObject;
+            var fixture = selected && selected.scene.IsValid() ? selected.GetComponent<FixtureAttachment>() : null;
             var road = RoadScene.Active;
             if (!road && selected && selected.scene.IsValid()) road = selected.GetComponent<ProceduralSurface>();
-            if (road)
+            if (road && !fixture)
             {
                 UnityEditor.Editor.CreateCachedEditor(road, typeof(RoadInspector), ref roadEditor);
                 roadScroll = EditorGUILayout.BeginScrollView(roadScroll);
@@ -92,7 +121,6 @@ namespace HouseToolkit.Editor
                 return;
             }
             if (roadEditor) DestroyImmediate(roadEditor);
-            var fixture = selected && selected.scene.IsValid() ? selected.GetComponent<FixtureAttachment>() : null;
             if (!floor)
             {
                 if (fixture)

@@ -46,7 +46,7 @@ namespace HorrorGame.Chapter0
         private Transform m_EncounterEnemyTransform;
         private Animator m_EncounterEnemyAnimator;
         private int m_ForwardPresses, m_BackwardPresses, m_LeftPresses, m_RightPresses, m_TurnPresses;
-        private bool m_TurnZoneReached, m_EncounterZoneReached;
+        private bool m_EncounterZoneReached;
         private float m_NextForwardPressTime, m_NextBackwardPressTime, m_NextLeftPressTime, m_NextRightPressTime, m_NextTurnPressTime;
         private float m_ForwardFlashUntil, m_BackwardFlashUntil, m_LeftFlashUntil, m_RightFlashUntil, m_TurnFlashUntil, m_AimFlashUntil, m_ShootFlashUntil;
         private float m_PromptFadeStart = -1f;
@@ -151,7 +151,6 @@ namespace HorrorGame.Chapter0
 
         public void TriggerTurn()
         {
-            m_TurnZoneReached = true;
             m_PromptFadeStart = -1f;
             if (m_PlayerMovement) m_PlayerMovement.Constrain &= ~PlayerMovement.MovementConstrain.Rotation;
             m_Step = Step.Turn;

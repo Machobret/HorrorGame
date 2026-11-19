@@ -56,16 +56,22 @@ namespace HorrorGame.Environment.Editor
                 string path = Root + "Materials/" + source.name + ".mat";
                 var mat = AssetDatabase.LoadAssetAtPath<Material>(path);
                 if (!mat) { mat = new Material(shader); AssetDatabase.CreateAsset(mat, path); }
-                mat.shader = shader;
+                bool fixturePanel = source.name == "M_light_on" || source.name == "M_light_off" || source.name == "M_light_flicker";
+                mat.shader = fixturePanel ? Shader.Find("Horror Game/Lighting/Fixture") : shader;
                 var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "Textures/" + source.texture);
                 mat.SetTexture("_BaseMap", texture); mat.SetColor("_BaseColor", Color.white);
                 mat.SetFloat("_Metallic", source.metallic);
                 mat.SetFloat("_Smoothness", 1 - source.roughness);
-                if (source.emissionStrength > 0)
+                if (source.emissionStrength > 0 || fixturePanel)
                 {
                     mat.EnableKeyword("_EMISSION");
                     mat.SetTexture("_EmissionMap", texture);
-                    mat.SetColor("_EmissionColor", new Color(source.emission[0], source.emission[1], source.emission[2]) * source.emissionStrength);
+                    mat.SetColor("_EmissionColor", source.emissionStrength > 0 ? new Color(source.emission[0], source.emission[1], source.emission[2]) * source.emissionStrength : Color.black);
+                    if (fixturePanel)
+                    {
+                        mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.BakedEmissive;
+                        mat.enableInstancing = true;
+                    }
                 }
                 else { mat.DisableKeyword("_EMISSION"); mat.SetColor("_EmissionColor", Color.black); }
                 EditorUtility.SetDirty(mat); materials.Add(source.name, mat);
@@ -93,7 +99,7 @@ namespace HorrorGame.Environment.Editor
                     {
                         renderer.shadowCastingMode = ShadowCastingMode.On; renderer.receiveShadows = true;
                         // Exact static mesh collision leaves shelf openings and scattered stock correctly shaped.
-                        if (!source.name.StartsWith("Display_Label"))
+                        if (source.category != "Lighting" && !source.name.StartsWith("Display_Label"))
                         {
                             var collider = renderer.gameObject.AddComponent<MeshCollider>();
                             collider.sharedMesh = renderer.GetComponent<MeshFilter>().sharedMesh;
@@ -151,7 +157,9 @@ namespace HorrorGame.Environment.Editor
                 }
                 var expected = new Vector3(source.size[0], source.size[1], source.size[2]);
                 if ((bounds.size - expected).magnitude > .01f) throw new Exception("Model scale mismatch: " + path + " " + bounds.size + " expected " + expected);
-                if (source.category != "DisplayGeometry" && !prefab.GetComponentInChildren<Collider>(true)) throw new Exception("Missing collision: " + path);
+                bool hasCollider = prefab.GetComponentInChildren<Collider>(true) != null;
+                if (source.category == "Lighting" ? hasCollider : source.category != "DisplayGeometry" && !hasCollider)
+                    throw new Exception("Unexpected collision policy: " + path);
                 report.Add(path + " | size=" + bounds.size.ToString("F3") + " | meshes=" + filters.Length);
             }
             string output = "Exports/Reviews/PSXShelvesProps/Validation.txt";

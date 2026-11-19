@@ -43,6 +43,7 @@ namespace HorrorEngine
 
         private IUIInput m_Input;
         private bool m_Expanding;
+        private int m_OpenedFrame = -1;
         private UIContext m_UIContext;
 
         // --------------------------------------------------------------------
@@ -161,7 +162,7 @@ namespace HorrorEngine
 
         void Update()
         {
-            if (m_Expanding)
+            if (m_Expanding || Time.frameCount == m_OpenedFrame)
                 return;
 
             if (m_Input.IsCancelDown() || m_Input.IsToggleInventoryDown())
@@ -189,6 +190,7 @@ namespace HorrorEngine
 
         public void Show()
         {
+            m_OpenedFrame = Time.frameCount;
             HorrorGame.UI.GameplayNotifications.DismissAll();
             RefreshMapTabVisibility(transform);
             if (m_PauseGame)

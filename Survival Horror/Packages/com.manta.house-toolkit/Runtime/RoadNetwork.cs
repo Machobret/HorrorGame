@@ -58,6 +58,18 @@ namespace HouseToolkit
         public Material material;
     }
 
+    public enum StreetlightSide { Left = 1, Right = 0, Both = 2, Alternating = 3 }
+
+    [Serializable]
+    public sealed class StreetlightRun
+    {
+        public int run;
+        public bool enabled;
+        public GameObject prefab;
+        public StreetlightSide side = StreetlightSide.Right;
+        public float period = 16, offset = 4;
+    }
+
     [Serializable]
     public sealed class RoadGraph
     {
@@ -65,6 +77,8 @@ namespace HouseToolkit
         public List<RoadNode> nodes = new List<RoadNode>();
         public List<RoadSpan> spans = new List<RoadSpan>();
         public List<SidewalkRunStyle> runStyles = new List<SidewalkRunStyle>();
+        public List<StreetlightRun> streetlights = new List<StreetlightRun>();
+        internal StreetlightRun Lights(int run) => streetlights.Find(s => s.run == run);
         public SidewalkRunStyle RunStyle(int run) => runStyles.Find(s=>s.run==run);
         public float RunWidth(int run, float fallback) => RunStyle(run) is SidewalkRunStyle s && s.width>0 ? s.width : fallback;
         public RoadNode Node(int id) => nodes.Find(n => n.id == id);
@@ -107,7 +121,58 @@ namespace HouseToolkit
         [Min(0)] public float pavementWidth;
         internal override RoadGraph Streets => graph;
         internal override RoadFamily StreetFamily => family;
-        internal override RoadMesh CreateGeometry() => WithPavement(RoadGeometry.Build(graph,family));
+        Transform lampRoot;
+        readonly List<(GameObject source, Transform instance)> lamps = new List<(GameObject, Transform)>();
+        int usedLamps;
+
+        internal override RoadMesh CreateGeometry()
+        {
+            usedLamps = 0;
+            var mesh = RoadGeometry.Build(graph, family, PlaceLamp);
+            if (usedLamps == 0) ClearLamps();
+            else while (lamps.Count > usedLamps)
+            {
+                int last = lamps.Count - 1;
+                RemoveLampObject(lamps[last].instance);
+                lamps.RemoveAt(last);
+            }
+            return WithPavement(mesh);
+        }
+
+        void PlaceLamp(GameObject source, Vector3 position, Quaternion rotation)
+        {
+            if (!lampRoot)
+            {
+                lampRoot = new GameObject("Streetlights").transform;
+                lampRoot.SetParent(transform, false);
+                lampRoot.gameObject.hideFlags = HideFlags.DontSave | HideFlags.HideInHierarchy;
+            }
+            if (usedLamps == lamps.Count) lamps.Add(default);
+            var slot = lamps[usedLamps];
+            if (!slot.instance || slot.source != source)
+            {
+                RemoveLampObject(slot.instance);
+                slot = (source, Instantiate(source, lampRoot).transform);
+                lamps[usedLamps] = slot;
+            }
+            slot.instance.SetLocalPositionAndRotation(position, rotation);
+            usedLamps++;
+        }
+
+        void OnDisable() => ClearLamps();
+        void ClearLamps()
+        {
+            RemoveLampObject(lampRoot);
+            lampRoot = null;
+            lamps.Clear();
+        }
+        static void RemoveLampObject(Transform item)
+        {
+            if (!item) return;
+            item.gameObject.SetActive(false);
+            if (Application.IsPlaying(item.gameObject)) Destroy(item.gameObject);
+            else DestroyImmediate(item.gameObject);
+        }
         internal override RoadGraph Paths { get => paths; set => paths=value; }
         internal override GroundPlan Areas { get => ground; set => ground=value; }
         public override float PathWidth => pavementWidth > 0 ? pavementWidth : (family ? family : RoadFamily.Default).sidewalkWidth;

@@ -1,0 +1,144 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e7837af5fb543b42b8a26c6a6e61537, type: 3}
+  m_Name: Stackspace
+  m_EditorClassIdentifier:
+  material: {fileID: 2100000, guid: 8a74a489273d417e9cfc9a6f7bda37f3, type: 2}
+  posters:
+  - id: stackspace-header
+    label: Stackspace Self Storage
+    themes:
+    - Storage
+    - Advertising
+    uv: {x: 0.01660156, y: 0.80273438, width: 0.49414063, height: 0.1640625, serializedVersion: 2}
+    size: {x: 2.4, y: 0.40629921}
+  - id: moving-storage
+    label: Moving & Storage
+    themes:
+    - Storage
+    - Advertising
+    uv: {x: 0.54394531, y: 0.77929688, width: 0.2421875, height: 0.1875, serializedVersion: 2}
+    size: {x: 0.9, y: 0.3528}
+  - id: units-available
+    label: Units Available
+    themes:
+    - Storage
+    - Advertising
+    uv: {x: 0.01660156, y: 0.52539063, width: 0.24414063, height: 0.1875, serializedVersion: 2}
+    size: {x: 0.9, y: 0.35}
+  - id: need-more-space
+    label: Need More Space
+    themes:
+    - Storage
+    - Advertising
+    uv: {x: 0.29394531, y: 0.48632813, width: 0.11914063, height: 0.2265625, serializedVersion: 2}
+    size: {x: 0.52, y: 0.49483871}
+  - id: packing-supplies
+    label: Packing Supplies
+    themes:
+    - Storage
+    - Advertising
+    uv: {x: 0.44628906, y: 0.48632813, width: 0.11914063, height: 0.2265625, serializedVersion: 2}
+    size: {x: 0.52, y: 0.49483871}
+  - id: short-long-stay
+    label: Short & Long Stay
+    themes:
+    - Storage
+    - Advertising
+    uv: {x: 0.59863281, y: 0.48632813, width: 0.11914063, height: 0.2265625, serializedVersion: 2}
+    size: {x: 0.52, y: 0.49483871}
+  - id: business-storage
+    label: Business Storage
+    themes:
+    - Storage
+    - Advertising
+    uv: {x: 0.75097656, y: 0.48632813, width: 0.11914063, height: 0.2265625, serializedVersion: 2}
+    size: {x: 0.52, y: 0.49483871}
+  - id: reception
+    label: Reception
+    themes:
+    - Storage
+    - Wayfinding
+    uv: {x: 0.01660156, y: 0.31054688, width: 0.11914063, height: 0.109375, serializedVersion: 2}
+    size: {x: 0.58, y: 0.27129032}
+  - id: loading-bay
+    label: Loading Bay
+    themes:
+    - Storage
+    - Wayfinding
+    uv: {x: 0.16894531, y: 0.31054688, width: 0.11914063, height: 0.109375, serializedVersion: 2}
+    size: {x: 0.58, y: 0.27129032}
+  - id: unit-block-a
+    label: Unit Block A
+    themes:
+    - Storage
+    - Wayfinding
+    uv: {x: 0.32128906, y: 0.31054688, width: 0.11914063, height: 0.109375, serializedVersion: 2}
+    size: {x: 0.58, y: 0.27129032}
+  - id: unit-block-b
+    label: Unit Block B
+    themes:
+    - Storage
+    - Wayfinding
+    uv: {x: 0.47363281, y: 0.31054688, width: 0.11914063, height: 0.109375, serializedVersion: 2}
+    size: {x: 0.58, y: 0.27129032}
+  - id: keep-clear
+    label: Keep Clear
+    themes:
+    - Storage
+    - Safety
+    uv: {x: 0.62597656, y: 0.30273438, width: 0.11914063, height: 0.1171875, serializedVersion: 2}
+    size: {x: 0.5, y: 0.25}
+  - id: staff-only
+    label: Staff Only
+    themes:
+    - Storage
+    - Safety
+    uv: {x: 0.77832031, y: 0.30273438, width: 0.11914063, height: 0.1171875, serializedVersion: 2}
+    size: {x: 0.5, y: 0.25}
+  - id: cctv-operation
+    label: CCTV in Operation
+    themes:
+    - Storage
+    - Safety
+    uv: {x: 0.01660156, y: 0.11914063, width: 0.11914063, height: 0.1171875, serializedVersion: 2}
+    size: {x: 0.5, y: 0.25}
+  - id: way-out
+    label: Way Out
+    themes:
+    - Storage
+    - Wayfinding
+    - Safety
+    uv: {x: 0.16894531, y: 0.11914063, width: 0.11914063, height: 0.1171875, serializedVersion: 2}
+    size: {x: 0.5, y: 0.25}
+  - id: unit-a01
+    label: Unit A01
+    themes:
+    - Storage
+    - Wayfinding
+    uv: {x: 0.32128906, y: 0.11132813, width: 0.11914063, height: 0.125, serializedVersion: 2}
+    size: {x: 0.32, y: 0.17032258}
+  - id: unit-a02
+    label: Unit A02
+    themes:
+    - Storage
+    - Wayfinding
+    uv: {x: 0.47363281, y: 0.11132813, width: 0.11914063, height: 0.125, serializedVersion: 2}
+    size: {x: 0.32, y: 0.17032258}
+  - id: unit-b01
+    label: Unit B01
+    themes:
+    - Storage
+    - Wayfinding
+    uv: {x: 0.62597656, y: 0.11132813, width: 0.11914063, height: 0.125, serializedVersion: 2}
+    size: {x: 0.32, y: 0.17032258}
+  - id: unit-b02
+    label: Unit B02
+    themes:
+    - Storage
+    - Wayfinding
+    uv: {x: 0.77832031, y: 0.11132813, width: 0.11914063, height: 0.125, serializedVersion: 2}
+    size: {x: 0.32, y: 0.17032258}

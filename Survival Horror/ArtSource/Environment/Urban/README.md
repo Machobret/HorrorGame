@@ -26,6 +26,18 @@ assets without gameplay scripts or colliders. Engine omissions of duplicate and
 zero-area source triangles are independently counted in the manifest. No visible
 surface is simplified. The complete import installs no editor menus or scripts.
 
+The later [street furniture calibration](../ScaleCalibration/README.md) sets independent
+targets for shelters, streetlights and signal kits. Shelter and seat surfaces use
+`Urban_BusStop_Surface.mat` with `UrbanTwoSidedOpaqueLit.shader`. The material writes
+depth and shades the visible face under direct lighting. The four loose graffiti
+decals use `UrbanTwoSidedTransparentLit.shader` with the same source atlas.
+
+The three shelters with painted decals use a render mesh with separate submeshes
+for the opaque structure and the transparent decal faces. Those faces match the
+full atlas rectangles used by the loose graffiti decals. The prefab still
+references the original FBX mesh for collision. Standalone graffiti and signal
+heads are labelled as non-blocking decoration.
+
 Original canonical GLB/FBX pairs, five editable Blender masters and loose images
 are preserved under `Original/Pack`; embedded-only image versions are under
 `Original/EmbeddedTextures`. Review contact sheets and one-time conversion/import

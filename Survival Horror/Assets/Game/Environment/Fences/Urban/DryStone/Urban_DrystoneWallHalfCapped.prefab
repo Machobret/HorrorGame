@@ -80,6 +80,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5754084199372789682, guid: dbe1e955297c05d4cb24aef962521470, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: 8bf789ae488705842b469ca6fc58f600, type: 2}
     - target: {fileID: 919132149155446097, guid: dbe1e955297c05d4cb24aef962521470, type: 3}
       propertyPath: m_Name
       value: Urban_DrystoneWallHalfCapped_Model
@@ -95,6 +99,11 @@ PrefabInstance:
 --- !u!4 &7445166514189396310 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dbe1e955297c05d4cb24aef962521470, type: 3}
+  m_PrefabInstance: {fileID: 6978382610629725885}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7789357992332506092 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: dbe1e955297c05d4cb24aef962521470, type: 3}
   m_PrefabInstance: {fileID: 6978382610629725885}
   m_PrefabAsset: {fileID: 0}
 --- !u!64 &7818326801310668643
@@ -118,9 +127,4 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: -5900036354423060208, guid: dbe1e955297c05d4cb24aef962521470, type: 3}
---- !u!1 &7789357992332506092 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: dbe1e955297c05d4cb24aef962521470, type: 3}
-  m_PrefabInstance: {fileID: 6978382610629725885}
-  m_PrefabAsset: {fileID: 0}
+  m_Mesh: {fileID: 4300000, guid: 8bf789ae488705842b469ca6fc58f600, type: 2}

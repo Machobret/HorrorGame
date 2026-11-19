@@ -5,7 +5,7 @@ namespace HouseToolkit.Editor
 {
     internal static class PlanarMoveHandle
     {
-        internal static Vector3 Draw(Vector3 pivot, Quaternion rotation)
+        internal static Vector3 Draw(Vector3 pivot, Quaternion rotation, Color? secondAxisColor = null)
         {
             float size=HandleUtility.GetHandleSize(pivot)*.72f;
             var x=rotation*Vector3.right;
@@ -13,7 +13,7 @@ namespace HouseToolkit.Editor
             var moved=pivot;
             using(new Handles.DrawingScope(Handles.xAxisColor))
                 moved+=Handles.Slider(pivot,x,size,Handles.ArrowHandleCap,0)-pivot;
-            using(new Handles.DrawingScope(Handles.zAxisColor))
+            using(new Handles.DrawingScope(secondAxisColor ?? Handles.zAxisColor))
                 moved+=Handles.Slider(pivot,z,size,Handles.ArrowHandleCap,0)-pivot;
             using(new Handles.DrawingScope(Color.yellow))
                 moved+=Handles.Slider2D(pivot,rotation*Vector3.up,x,z,size*.13f,Handles.RectangleHandleCap,Vector2.zero)-pivot;

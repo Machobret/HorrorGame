@@ -52,6 +52,13 @@ namespace HorrorEngine
 
         private LineRenderer CreateLine(GameObject go)
         {
+            if (go.TryGetComponent<LineRenderer>(out _))
+            {
+                var segment = new GameObject("Contour") { layer = go.layer };
+                segment.transform.SetParent(go.transform, false);
+                go = segment;
+            }
+
             LineRenderer lineRenderer = go.AddComponent<LineRenderer>();
             lineRenderer.useWorldSpace = false;
             lineRenderer.sharedMaterial = Material;

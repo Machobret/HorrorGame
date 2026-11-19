@@ -37,7 +37,7 @@ namespace HorrorEngine
             [Min(0f)]
             public float MaintainDistance = 5f;
 
-            [Tooltip("Original Max: in Maintain Distance mode, prevents the camera from moving behind the position it had when this camera became active.")]
+            [Tooltip("Original Max: in Maintain Distance mode, prevents the camera from moving behind its authored position.")]
             public bool KeepOriginalPositionMax = true;
 
             [Tooltip("Allow the camera to follow the player across the screen horizontally.")]
@@ -83,6 +83,7 @@ namespace HorrorEngine
         private Collider m_FollowCollider;
         private Renderer[] m_FollowRenderers = Array.Empty<Renderer>();
         private float m_FollowVisualRadius;
+        private Vector3 m_BaseCameraLocalPosition;
         private Quaternion m_BaseCameraLocalRotation;
         private bool m_HasMaintainDistanceOrigin;
         private Vector3 m_MaintainDistanceOrigin;
@@ -119,6 +120,7 @@ namespace HorrorEngine
                 return;
             }
 
+            m_BaseCameraLocalPosition = m_VirtualCam.transform.localPosition;
             m_BaseCameraLocalRotation = m_VirtualCam.transform.localRotation;
             m_RotationFollowExtension = m_VirtualCam.GetComponent<FixedCameraRotationFollowExtension>();
             if (!m_RotationFollowExtension)
@@ -284,7 +286,10 @@ namespace HorrorEngine
             {
                 if (!m_HasMaintainDistanceOrigin)
                 {
-                    m_MaintainDistanceOrigin = cameraTransform.position;
+                    // Reactivation can leave the virtual camera at its last followed position.
+                    // Anchor the limit to the authored position so the player can backtrack.
+                    Transform parent = cameraTransform.parent;
+                    m_MaintainDistanceOrigin = parent ? parent.TransformPoint(m_BaseCameraLocalPosition) : m_BaseCameraLocalPosition;
                     m_MaintainDistanceForward = cameraTransform.forward;
                     m_MaintainDistanceRight = cameraTransform.right;
                     m_MaintainDistanceUp = cameraTransform.up;

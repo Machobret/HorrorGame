@@ -67,19 +67,19 @@ namespace HorrorEngine
 
         public bool ContainsWorldPosition(Vector3 worldPos)
         {
-            if (m_CompShape == null)
+            var composite = m_CompShape;
+            if (composite == null)
             {
-                Shape shape = GetComponent<Shape>();
-                if (shape)
-                {
-                    Shape[] shapes = { shape };
-                    m_CompShape = new CompositeShape(shapes);
-                    m_CompShape.GetMesh();
-                }
+                Shape[] shapes = GetComponents<Shape>();
+                if (shapes.Length == 0) return false;
+
+                composite = new CompositeShape(shapes);
+                composite.BuildGeometry();
+                if (Application.isPlaying) m_CompShape = composite;
             }
 
             Vector3 localPos = transform.InverseTransformPoint(worldPos);
-            return m_CompShape.ContainsPoint(localPos.ToXZ());
+            return composite.ContainsPoint(localPos.ToXZ());
         }
 
         // --------------------------------------------------------------------

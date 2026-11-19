@@ -11,7 +11,6 @@ namespace HorrorEngine
     {
         [SerializeField] private Transform m_MapListContent;
         [SerializeField] private GameObject m_MapListItemPrefab;
-        [SerializeField] private string m_UnknownMapName = "???";
 
         public UnityEvent<MapData> OnMapSelected;
         private readonly List<MapData> m_DisplayedMaps = new List<MapData>();

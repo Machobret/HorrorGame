@@ -63,7 +63,10 @@ namespace HouseToolkit.Editor
         internal static void Rebuild(House house)
         {
             foreach (var output in house.GetComponentsInChildren<WallOutput>(true)) Apply(house, output);
-            foreach (var wall in house.GetComponentsInChildren<HouseWall>(true)) ApplyWindows(house, wall);
+            foreach (var wall in house.GetComponentsInChildren<HouseWall>(true))
+            {
+                ApplyWindows(house, wall);
+            }
             foreach (var slab in house.GetComponentsInChildren<HouseSlab>(true)) Apply(house, slab);
             foreach (var joint in house.GetComponentsInChildren<CornerJoint>(true)) Apply(house, joint);
             house.booleanGeometryVersion = GeometryVersion;

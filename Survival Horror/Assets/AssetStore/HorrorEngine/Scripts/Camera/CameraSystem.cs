@@ -16,11 +16,9 @@ namespace HorrorEngine
         private CinemachineBrain m_Brain;
         private Camera m_MainCamera;
 
-#if UNITY_6000_0_OR_NEWER
-        public CinemachineCamera ActiveCamera => m_Brain.ActiveVirtualCamera as CinemachineCamera;
-#else
-        public CinemachineVirtualCamera ActiveCamera => m_Brain.ActiveVirtualCamera as CinemachineVirtualCamera;
-#endif
+        public CinemachineVirtualCameraBase ActiveCamera => m_Brain
+            ? m_Brain.ActiveVirtualCamera as CinemachineVirtualCameraBase
+            : null;
         public Camera MainCamera => m_MainCamera;
 
         // --------------------------------------------------------------------

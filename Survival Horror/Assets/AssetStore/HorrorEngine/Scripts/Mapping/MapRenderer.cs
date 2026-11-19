@@ -26,8 +26,6 @@ namespace HorrorEngine
         [SerializeField] private Color m_GridColor = new Color(.34f, .36f, .40f, .42f);
         [SerializeField] private Color m_ContourColor = Color.white;
         [SerializeField] private Color m_PlayerColor = Color.white;
-        [Tooltip("Shows the faint authoring grid behind the player map.")]
-        [SerializeField] private bool m_ShowGridInRuntime = true;
         [Tooltip("Extra world-space room around the drawn map that the player may pan into.")]
         [SerializeField, Min(0f)] private float m_MapPanPadding = 500f;
 
@@ -240,34 +238,29 @@ namespace HorrorEngine
                     DestroyImmediate(m_MapContent.GetChild(i).gameObject);
             }
 
-            // The grid helps while authoring, but is visual noise in the player map.
             var gridGen = GetComponentInChildren<GridGenerator>();
             if (gridGen)
             {
                 // The player map always renders a subtle grid. It establishes scale
                 // while panning and is shared with the editor's map representation.
-                bool showGrid = true;
-                gridGen.gameObject.SetActive(showGrid);
-                if (showGrid)
-                {
-                    // The map canvas is defined by the generated drawing's
-                    // bounds, not MapData.Size (which is only the authoring
-                    // grid). Generate enough cells to cover that full canvas.
-                    int cellSize = Mathf.Max(1, map.CellSize);
-                    int cellsX = Mathf.Max(1, Mathf.CeilToInt(m_ContentBounds.size.x / cellSize));
-                    int cellsY = Mathf.Max(1, Mathf.CeilToInt(m_ContentBounds.size.z / cellSize));
-                    gridGen.gameObject.layer = GetLayer();
-                    gridGen.Size = new Vector2Int(cellsX, cellsY);
-                    gridGen.Generate(cellsX, cellsY);
-                    // The grid is visual only. Keep its authored density instead
-                    // of multiplying it by the room transform scale.
-                    gridGen.transform.localScale = new Vector3(1, 1, -1) * cellSize;
-                    gridGen.transform.rotation = Quaternion.Euler(-90, 0, 0);
-                    // A rotated grid expands toward negative Z, so anchor its
-                    // top-left at the calculated canvas bounds.
-                    gridGen.transform.position = new Vector3(m_ContentBounds.min.x, m_GridHeight, m_ContentBounds.max.z);
-                    gridGen.GetComponent<MeshRenderer>().sharedMaterial = GridMaterial;
-                }
+                gridGen.gameObject.SetActive(true);
+                // The map canvas is defined by the generated drawing's
+                // bounds, not MapData.Size (which is only the authoring
+                // grid). Generate enough cells to cover that full canvas.
+                int cellSize = Mathf.Max(1, map.CellSize);
+                int cellsX = Mathf.Max(1, Mathf.CeilToInt(m_ContentBounds.size.x / cellSize));
+                int cellsY = Mathf.Max(1, Mathf.CeilToInt(m_ContentBounds.size.z / cellSize));
+                gridGen.gameObject.layer = GetLayer();
+                gridGen.Size = new Vector2Int(cellsX, cellsY);
+                gridGen.Generate(cellsX, cellsY);
+                // The grid is visual only. Keep its authored density instead
+                // of multiplying it by the room transform scale.
+                gridGen.transform.localScale = new Vector3(1, 1, -1) * cellSize;
+                gridGen.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                // A rotated grid expands toward negative Z, so anchor its
+                // top-left at the calculated canvas bounds.
+                gridGen.transform.position = new Vector3(m_ContentBounds.min.x, m_GridHeight, m_ContentBounds.max.z);
+                gridGen.GetComponent<MeshRenderer>().sharedMaterial = GridMaterial;
             }
 
             // Generate camera
