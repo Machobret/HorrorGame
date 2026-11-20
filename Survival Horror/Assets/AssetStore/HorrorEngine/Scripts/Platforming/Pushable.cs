@@ -17,7 +17,7 @@ namespace HorrorEngine
         public Vector3[] PushAxis;
         public bool LocalSpaceAxis = true;
 
-        [Tooltip("When assigned, the player pushes this object by interacting with this prompt.")]
+        [Tooltip("When assigned, the player can grab and move this box through this interaction.")]
         public Interactive PushInteraction;
 
         [Tooltip("Optional climb to start when the player sprints into a solid face.")]
@@ -59,7 +59,7 @@ namespace HorrorEngine
         private void OnPushInteraction(IInteractor interactor)
         {
             if (interactor is PlayerInteractor player)
-                player.GetComponentInParent<Actor>()?.GetComponentInChildren<PlayerStatePushing>()?.StartInteractionPush(this);
+                player.GetComponentInParent<Actor>()?.GetComponentInChildren<PlayerStatePushing>()?.StartCrateGrab(this);
         }
 
         // --------------------------------------------------------------------
