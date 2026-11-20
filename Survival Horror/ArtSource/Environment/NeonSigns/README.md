@@ -9,3 +9,9 @@ The downloaded **Pixel Art Sign Pack - Animated** supplies the artwork. The numb
 3. Run `python -B Tools/Environment/build_asset_library.py` from the project root to refresh the palette.
 
 Each atlas contains one variant's full loop at the original resolution. The loop starts on a bright frame for asset previews and uses 12 frames per second by default. The supplied PNGs have no timing metadata.
+
+## Directional arrow
+
+NeonArrow_Purple curves down-right on the front and down-left on the rear.
+Both faces share the nine-frame neon atlas. Set the two mounting arms against the wall
+and leave clearance for both illuminated faces.

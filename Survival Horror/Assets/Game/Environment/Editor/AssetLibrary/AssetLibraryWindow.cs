@@ -591,8 +591,7 @@ namespace Game.Editor.AssetLibrary
                 var background = new Rect(rect.x, rect.y, rect.width, button.y - rect.y - 2);
                 EditorGUI.DrawRect(background, EditorGUIUtility.isProSkin ? new Color(.17f, .22f, .27f) : new Color(.76f, .82f, .88f));
                 EditorGUI.DrawRect(new Rect(rect.x, rect.y, rect.width, 2), VariantAccent);
-                var image = thumbnails.Get(entry.guid);
-                if (image != null) GUI.DrawTexture(imageRect, image, ScaleMode.ScaleToFit);
+                thumbnails.Draw(entry.guid, imageRect);
             }
             GUI.Label(new Rect(rect.x + 4, rect.y + 2, rect.width - 8, 15), "Variants", EditorStyles.miniBoldLabel);
             GUI.Label(new Rect(rect.x + 4, imageRect.yMax + 1, rect.width - 8, 25),
@@ -612,12 +611,8 @@ namespace Game.Editor.AssetLibrary
             bool selected = selectedGuid == entry.guid;
             GUI.Box(rect, GUIContent.none, selected ? "SelectionRect" : "HelpBox");
             var imageRect = new Rect(rect.center.x - imageSize / 2, rect.y + 3, imageSize, imageSize);
-            if (Event.current.type == EventType.Repaint)
-            {
-                var image = thumbnails.Get(entry.guid);
-                if (image != null) GUI.DrawTexture(imageRect, image, ScaleMode.ScaleToFit);
-                else DrawPrefabIcon(imageRect);
-            }
+            if (Event.current.type == EventType.Repaint && !thumbnails.Draw(entry.guid, imageRect))
+                DrawPrefabIcon(imageRect);
             var star = new Rect(rect.xMax - 23, rect.y + 5, 20, 19);
             if (GUI.Button(star, favourites.Contains(entry.guid) ? "★" : "☆", EditorStyles.miniButton))
             { if (!favourites.Add(entry.guid)) favourites.Remove(entry.guid); RefreshResults(); }
@@ -697,12 +692,8 @@ namespace Game.Editor.AssetLibrary
                     var previewRect = GUILayoutUtility.GetRect(1, 124, GUILayout.ExpandWidth(true));
                     if (ProjectAssetNavigation.IsDoubleClick(previewRect)) { Event.current.Use(); Reveal(entry); }
                     if (previewEditor != null) previewEditor.OnInteractivePreviewGUI(previewRect, EditorStyles.helpBox);
-                    else if (Event.current.type == EventType.Repaint)
-                    {
-                        var texture = thumbnails.Get(entry.guid);
-                        if (texture != null) GUI.DrawTexture(previewRect, texture, ScaleMode.ScaleToFit);
-                        else DrawPrefabIcon(previewRect);
-                    }
+                    else if (Event.current.type == EventType.Repaint && !thumbnails.Draw(entry.guid, previewRect))
+                        DrawPrefabIcon(previewRect);
                     if (GUILayout.Button(previewEditor != null ? "Close 3D preview" : "Interactive 3D preview"))
                     {
                         if (previewEditor != null) DestroyPreview();

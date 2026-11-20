@@ -37,7 +37,7 @@ namespace HorrorGame.Chapter1
             DepotCircuit.Grid.HasSupply && !DepotCircuit.Grid.IsShutdown;
         internal string DepotQuest => DepotUnlocked ? string.Empty :
             DepotHasPower ? OpenMainShutterObjective : MainShutterObjective;
-        public bool CourtyardHasPower => Grid && Grid.HasSupply && !Grid.IsShutdown;
+        public bool CourtyardHasPower => Grid && Grid.Supply && Grid.HasSupply && !Grid.IsShutdown;
         public bool CourtyardPassageAvailable => CourtyardHasPower && CourtyardGate &&
             CourtyardGate.isActiveAndEnabled && (!intercomStatus || intercomStatus.AccessGranted);
         private InteractionData courtyardOpenInteraction;
@@ -105,7 +105,7 @@ namespace HorrorGame.Chapter1
         {
             bool passageAvailable = CourtyardPassageAvailable;
             if (intercomStatus)
-                intercomStatus.SetPowerState(Grid && (!Grid.Supply || Grid.Supply.IsAuthorized), CourtyardHasPower);
+                intercomStatus.SetPowerState(Grid && Grid.Supply && Grid.Supply.IsAuthorized, CourtyardHasPower);
             if (!CourtyardGate) return;
             CourtyardGate.TraversalEnabled = passageAvailable;
             if (courtyardInteraction)

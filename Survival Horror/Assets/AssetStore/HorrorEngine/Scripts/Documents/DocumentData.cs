@@ -87,6 +87,8 @@ namespace HorrorEngine
         public AudioClip PageClip;
         public AudioClip CloseClip;
 
+        public virtual string GetPageCaption(int pageIndex) => Pages[pageIndex].Caption;
+
 #if UNITY_EDITOR
         public void EditorOnly_MigrateUnlocalizedData()
         {

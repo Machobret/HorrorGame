@@ -26,6 +26,7 @@ namespace HorrorEngine
         [SerializeField] private UnityEvent m_OnUniquePageShown;
 
         private DocumentData m_CurrentData;
+        private string m_OpeningCaption;
         private Sprite m_Cover;
         // Page zero is the first text block. The cover is the page immediately before it.
         private int m_CurrentPage;
@@ -44,10 +45,11 @@ namespace HorrorEngine
 
         public void Show(DocumentData data) => Show(data, playShowSound: true);
 
-        internal void Show(DocumentData data, bool playShowSound)
+        internal void Show(DocumentData data, bool playShowSound, string openingCaption = null)
         {
             if (!data || data.Pages == null || data.Pages.Count == 0) return;
             m_CurrentData = data;
+            m_OpeningCaption = openingCaption;
             if (GameManager.Exists) GameManager.Instance.Inventory.ReadDocuments.Add(data);
             PauseController.Instance.Pause(this);
 
@@ -80,7 +82,9 @@ namespace HorrorEngine
             {
                 var page = m_CurrentData.Pages[index];
                 m_Text.text = page.Text;
-                m_PageImageCaption.text = page.Caption;
+                string caption = m_CurrentData.GetPageCaption(index);
+                m_PageImageCaption.text = index == 0 && !string.IsNullOrEmpty(m_OpeningCaption)
+                    ? m_OpeningCaption + "\n" + caption : caption;
                 m_Text.gameObject.SetActive(!string.IsNullOrWhiteSpace(m_Text.text));
                 m_PageImageCaption.gameObject.SetActive(!string.IsNullOrWhiteSpace(m_PageImageCaption.text));
                 m_PageNumber.text = $"{index + 1}/{lastPage + 1}";
@@ -191,6 +195,7 @@ namespace HorrorEngine
             UIManager.Get<UIAudio>().Play(m_CurrentData.CloseClip);
             gameObject.SetActive(false);
             m_CurrentData = null;
+            m_OpeningCaption = null;
             m_Cover = null;
             m_Artwork.sprite = null;
             UIManager.PopAction();

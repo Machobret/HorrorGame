@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 893ccb6af92eea84d854608035cd9513, type: 3}
+  m_Name: FieldManual04
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorGame.Items.PistolFieldManualData
+  UniqueId: e93dba10-b93a-4088-9c9f-8671a7db9bea
+  Name:
+    IsLocalized: 0
+    Unlocalized: Field Manual No. 04
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  Image:
+    IsLocalized: 0
+    Unlocalized: {fileID: 21300000, guid: 614510ae7ec68d5449cdc5cf79377f54, type: 3}
+    Localized:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+  Name_DEPRECATED: 
+  Image_DEPRECATED: {fileID: 0}
+  ShowImageOnRead: 0
+  ShowPageCount: 0
+  Pages:
+  - Text:
+      IsLocalized: 0
+      Unlocalized: 
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+        m_LocalVariables: []
+    Image:
+      IsLocalized: 0
+      Unlocalized: {fileID: 21300000, guid: 614510ae7ec68d5449cdc5cf79377f54, type: 3}
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+    Caption:
+      IsLocalized: 0
+      Unlocalized: Equip the 1911 in Inventory. Hold Aim, then press Fire. Press
+        Reload when empty.
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+        m_LocalVariables: []
+    Text_DEPRECATED: 
+    Image_DEPRECATED: {fileID: 0}
+    Caption_DEPRECATED: 
+    ChangeImageColor: 0
+    ImageColor: {r: 1, g: 1, b: 1, a: 1}
+  ShowClip: {fileID: 8300000, guid: 064693e7a6127fa448408ad9424c5081, type: 3}
+  PageClip: {fileID: 0}
+  CloseClip: {fileID: 8300000, guid: 757a425d6607890488ecd0baca7d3aad, type: 3}
+  references:
+    version: 2
+    RefIds: []

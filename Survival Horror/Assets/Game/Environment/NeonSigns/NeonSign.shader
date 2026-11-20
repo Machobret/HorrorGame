@@ -20,6 +20,7 @@ Shader "HorrorGame/Neon Sign"
             Blend SrcAlpha OneMinusSrcAlpha
 
             HLSLPROGRAM
+            #pragma target 3.5
             #pragma vertex Vert
             #pragma fragment Frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -48,8 +49,11 @@ Shader "HorrorGame/Neon Sign"
 
             Varyings Vert(Attributes input)
             {
-                float frame = fmod(floor(_Time.y * max(0, _FramesPerSecond)), _Layout.w);
-                float2 tile = float2(fmod(frame, _Layout.z), floor(frame / _Layout.z));
+                uint frameCount = max(1u, (uint)_Layout.w);
+                uint columns = max(1u, (uint)_Layout.z);
+                uint ticks = (uint)floor(max(0, _Time.y) * max(0, _FramesPerSecond));
+                uint frame = ticks % frameCount;
+                float2 tile = float2(frame % columns, frame / columns);
                 float2 pixel = tile * _Layout.xy + lerp(0.001, _Layout.xy - 0.001, input.uv);
 
                 Varyings output;

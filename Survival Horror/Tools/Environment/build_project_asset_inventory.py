@@ -484,7 +484,8 @@ def prefab_inventory(pilot=None, apply_overrides=True):
             elif parts[1] == 'NeonSigns':
                 design, version = path.stem.split('_', 1)
                 display = f'{label(design)} ({label(version)})'
-                evidence = 'Animated pixel art from the Pixel Art Sign Pack'
+                evidence = ('Original animated pixel arrow on a wall-mount board' if design == 'NeonArrow'
+                            else 'Animated pixel art from the Pixel Art Sign Pack')
             elif path.stem == 'Urban_WoodenFencePile':
                 display = 'Wooden fence debris pile'
                 evidence = 'Source mesh and scale audit identify a low pile of discarded fence boards'

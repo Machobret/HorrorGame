@@ -17,3 +17,14 @@ Create a flat straight-on fully filled rectangular printed texture for an origin
 ## CornerMarket_Fascia
 
 Create a flat straight-on fully filled rectangular printed texture for an original American corner convenience store in a PSX horror video game set around 2001. No wall, photo, mockup, perspective, watermark, shadows outside the art, real trademarks, or characters. Authentic inexpensive 1990s sign-shop typography, restrained wear, few muted ink colors, large perfectly legible lettering sized to work at 512 pixels wide. Keep all text safely in the central 88% of the canvas. Designed by a neighborhood business, simple and credible. Long very wide format, with a single wide line of bold heavy condensed cream block lettering across a flat deep forest green field and a thin muted cream border. Only wording: 'CORNER MARKET'. Small weathering along edges and slight ink fading, strong contrast, no other graphics. This is painted on the long rigid sign above the storefront, avoid folds or torn paper. Ratio as wide as possible.
+
+## JustInThymeMarket_Fascia
+
+Edited with the built-in image generation tool using the original fascia above as the source.
+The full-resolution master is the runtime texture at `Assets/Game/Environment/NeighborhoodStore/WindowAds/Textures/JustInThymeMarket_Fascia.png`.
+
+Repaint the lettering on this flat 3:1 storefront fascia texture. Set “JUST IN THYME” in large condensed cream capitals on one line and “MARKET” in smaller spaced capitals underneath. Keep the dark green enamel, thin cream border, worn paint, flat front-on crop and readable lettering at game-camera distance. Output the rectangular sign artwork edge to edge.
+
+### Corner Market lettering
+
+On this 3:1 green enamel storefront texture, change only the lower line from “MARKET” to “CORNER MARKET” in the same widely spaced cream capitals, centered and readable. Keep the top line “JUST IN THYME”, the thin cream border, weathering, colors, and full edge-to-edge crop.
