@@ -25,6 +25,14 @@ namespace HorrorEngine
         public Sprite PromptIconOverride { get; private set; }
         public Func<bool> PowerAvailable { get; set; }
         public bool LastInteractionCompleted { get; private set; }
+        public string PromptTextOverride { get; private set; }
+
+        public void SetPromptText(string text)
+        {
+            if (PromptTextOverride == text) return;
+            PromptTextOverride = text;
+            OnDataChanged?.Invoke();
+        }
 
         public void SetPromptIcon(Sprite icon)
         {

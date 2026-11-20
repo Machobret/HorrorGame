@@ -153,7 +153,7 @@ namespace HorrorGame.Environment.Editor
             if (!data)
             {
                 data = ScriptableObject.CreateInstance<InteractionData>();
-                data.Prompt = new LocalizableText { Unlocalized = "Push" };
+                data.Prompt = new LocalizableText { Unlocalized = "Grab crate" };
                 data.Icon = AssetDatabase.LoadAssetAtPath<InteractionData>(
                     "Assets/AssetStore/HorrorEngine/ExampleContent/Interaction/Interaction_Use.asset").Icon;
                 data.RotateToInteractive = false;

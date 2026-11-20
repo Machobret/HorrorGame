@@ -2,7 +2,7 @@
 
 Drag **PushableCrate1.prefab** (1 m cube) or **PushableCrate1.5.prefab** (1.5 m cube) into your level. This is the complete crate from Horror Engine SampleScene2, including its original mesh, solid collider, push setup, scraping sound and pressure-plate weight. Its root is reset to ground origin; root scales are 0.5 and 0.75 respectively. Scale the root uniformly if needed.
 
-Face a crate from nearby and press Interact once to play one shove. Keep floor and travel space unobstructed. PushAxis on the root limits movement to the crate local X and Z axes. It is a push object, not an inventory pickup or carry object.
+Face a crate from nearby and tap Interact to grab it. Use W to push, S to pull, and A or D to move sideways with the crate. Tap Interact again to let go. The player and crate translate together along the crate local X and Z axes. It is a push object, not an inventory pickup or carry object.
 
 Build/rebuild with **Horror Game > Environment > Build Pushable Crate**. Reads SampleScene2 in an isolated preview scene and never opens/replaces/saves your working scene. Uses independent reusable IDs and preserves them on rebuild. Save settings are retained from the template (the sample's SavableObjectState is disabled); enable and configure it if this crate should persist its position in saved games.
 
@@ -16,11 +16,16 @@ Wood is sampled from the plain interior of the existing muted gray-brown atlas, 
 
 HorrorEngine/Scripts/Player/PlayerStateMotion.cs keeps PlayerMovement enabled when transitioning specifically into PlayerStatePushing. Disabling/re-enabling it clears IntendedMovement, resets PushDetector contact intent and sends the player back to walking before the push animation starts. Other exit states retain their existing movement-disable behaviour.
 
-Assigning PushInteraction on Pushable enables the Interact command and skips the contact-based push detector for that object. The shove uses the native push animation event and crate physics. SprintClimb links an optional climbable that the running player can trigger by colliding with a crate face.
+Assigning PushInteraction on Pushable enables the grab and skips contact-based pushing. PlayerStatePushing consumes the existing Interact action to release the grab and uses local directional input while it is active. CrateGrab sweeps the player capsule and crate box, moves the crate using its existing Rigidbody, and plants the hands with the shared arm solver. The grab pose uses dedicated procedural push, pull and sidestep animations in CrateDragAnimation. Stride progress follows actual movement, and each planted shoe stays fixed while the other foot steps. The trailing foot closes in on sideways moves without crossing the lead foot. The player transfers weight between bent knees and settles when the crate stops. A pinned crate ends the grab. SprintClimb links an optional climbable triggered by running into a crate face.
+
+### Movement references
+
+- The [HSE manual handling technique booklet](https://assets.hse.ie/media/documents/Technique_Booklet_for_Supporting_Manual_Handling_and_People_Handling_Training_TOu5fct.pdf#page=16), pages 14?17, informed the push and pull stances, leg-driven weight transfer, and side step with uncrossed feet.
+- The [HSE pushing and pulling overview](https://www.hse.gov.uk/msd/pushpull/overview.htm) covers sliding loads without wheels. Both game crates stay grounded through the move.
 
 ## Climbing on the one-metre crate
 
-PushableCrate1 uses the native Climbable / PlayerStateClimbing system and the template 1m obstacle animations. Sprint directly into a crate face to climb onto the top. Walk out against an edge to climb back down. PushableCrate1.5 supports the Interact shove.
+PushableCrate1 uses the native Climbable / PlayerStateClimbing system and the template 1m obstacle animations. Sprint directly into a crate face to climb onto the top. Walk out against an edge to climb back down. PushableCrate1.5 supports the same grab controls.
 
 ClimbRig chooses the approached cardinal face (or the faced edge when descending). ExitTop, ExitBottom and the two hand contact markers are children of the moving crate. The actor uses its existing humanoid skeleton; CrateClimbRig adds a light arm IK correction during the animation's hand-attachment phase, with no new character rig or animation replacement. The crate is held still while climbing and restored to its previous physics settings afterwards.
 

@@ -345,13 +345,6 @@ namespace HorrorEngine
             IntendedMovement = Vector3.zero;
         }
 
-        internal float GetPushDirection()
-        {
-            m_InputAxis = m_Input.GetPrimaryAxis();
-            float forward = m_Settings.GetFwdRate(this);
-            return Mathf.Abs(forward) > .25f ? Mathf.Sign(forward) : 0f;
-        }
-
 
         // --------------------------------------------------------------------
 
