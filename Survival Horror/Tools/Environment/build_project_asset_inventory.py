@@ -300,16 +300,17 @@ def named_environment(parts, stem):
     if folder == 'ElectricalBox' and stem == 'ElectricityBox':
         return env('Interactables', 'Electrical cabinets',
                    tags=('Electrical', 'Industrial Yard', 'Interactable'),
-                   note='Toggle the Antenna child per instance. Attach interaction scripts to the prefab root.')
+                   note='Use the local lever to switch its assigned power feeds. The Antenna option controls the visual attachment.')
     if folder == 'ElectricalDevices' and stem in {'ControlButton', 'IntercomSpeaker', 'KeycardReader', 'SecurityScreen'}:
         return env('Interactables', 'Electrical controls',
                    tags=('Electrical', 'Interactable', 'Antenna', 'Post Mount'),
-                   note='Check Post Mount in the Device Indicator inspector for freestanding placement. The antenna indicator is controlled separately.')
+                   note='Use Antenna and Post Mount on the Device Indicator to show or hide the antenna and enable freestanding placement. The antenna indicator is controlled separately.')
     if folder == 'ElectricalDevices' and stem == 'DevicePost':
         return technical('Prefab components', 'Electrical device mounts', 'Mount dependency')
     if folder == 'Fences' and stem == 'Urban_WoodenFencePile':
         return env('Nature & debris', 'Fence debris', tags=('Street', 'Outdoors'))
     direct = {
+        'NeonSigns': ('Signs & graphics', 'Neon signs', 'Scene prop', ('Street', 'Neon')),
         'FillerBuildings': ('Buildings', 'Background buildings', 'Scene prop', ('Street',)),
         'FireEscapes': ('Buildings', 'Fire escape kit', 'Kit module', ('Street',)),
         'Fences': ('Buildings', 'Fences & boundary walls', 'Kit module', ('Street', 'Outdoors')),
@@ -480,6 +481,10 @@ def prefab_inventory(pilot=None, apply_overrides=True):
                 evidence = 'Classic64 finished geometry review documents this complete textured building'
             elif parts[1] == 'PushableCrate':
                 evidence = 'Crate documentation and both prefab GUIDs referenced in Electricity Puzzle Dom'
+            elif parts[1] == 'NeonSigns':
+                design, version = path.stem.split('_', 1)
+                display = f'{label(design)} ({label(version)})'
+                evidence = 'Animated pixel art from the Pixel Art Sign Pack'
             elif path.stem == 'Urban_WoodenFencePile':
                 display = 'Wooden fence debris pile'
                 evidence = 'Source mesh and scale audit identify a low pile of discarded fence boards'

@@ -308,6 +308,23 @@ MonoBehaviour:
     Details: []
     Images: []
   Doors: []
+  WallOpenings:
+  - Start: {x: 635, y: 425}
+    End: {x: 655, y: 425}
+  - Start: {x: 680, y: 480}
+    End: {x: 680, y: 460}
+  - Start: {x: 687.5, y: 314}
+    End: {x: 687.5, y: 286}
+  - Start: {x: 720, y: 312.89783}
+    End: {x: 720, y: 284.89783}
+  - Start: {x: 687.5, y: 356.5}
+    End: {x: 687.5, y: 328.5}
+  - Start: {x: 720, y: 357.79987}
+    End: {x: 720, y: 329.79987}
+  - Start: {x: 687.5, y: 399}
+    End: {x: 687.5, y: 371}
+  - Start: {x: 720, y: 397.7019}
+    End: {x: 720, y: 369.7019}
   references:
     version: 2
     RefIds: []

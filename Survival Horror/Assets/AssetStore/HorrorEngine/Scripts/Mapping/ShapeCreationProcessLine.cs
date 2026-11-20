@@ -30,7 +30,7 @@ namespace HorrorEngine
                     LineRenderer lineRenderer = CreateLine(go);
                     lineRenderer.positionCount = vertices.Length;
                     lineRenderer.SetPositions(vertices);
-                    lineRenderer.loop = Loop || (shape.Closed && vertices.Length >= 3);
+                    lineRenderer.loop = (Loop || shape.Closed) && vertices.Length >= 3;
                 }
                 else
                 {

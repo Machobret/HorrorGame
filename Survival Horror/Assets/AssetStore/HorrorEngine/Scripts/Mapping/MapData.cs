@@ -21,6 +21,13 @@ namespace HorrorEngine
     }
 
     [Serializable]
+    public struct MapWallOpening
+    {
+        public Vector2 Start;
+        public Vector2 End;
+    }
+
+    [Serializable]
     public class MapElementTransform
     {
         public Vector2 Offset;
@@ -147,6 +154,80 @@ namespace HorrorEngine
         public MapDataSet MapSet;
         public List<MapRoomSerializedData> Rooms = new List<MapRoomSerializedData>();
         public List<MapDoorSerializedData> Doors = new List<MapDoorSerializedData>();
+        [Tooltip("Doorway spans in the same map coordinates as room offsets. These affect wall lines only.")]
+        public List<MapWallOpening> WallOpenings = new List<MapWallOpening>();
+
+        internal ShapeData[] GetWallShapes(ShapeData[] shapes, Matrix4x4 roomTransform, bool closePaths)
+        {
+            if (WallOpenings == null || WallOpenings.Count == 0) return shapes;
+
+            var walls = new List<ShapeData>();
+            var gaps = new List<Vector2>();
+            foreach (var shape in shapes)
+            {
+                var points = shape.Points;
+                int firstSpan = walls.Count;
+                bool clipped = false;
+                for (int i = 1; i < points.Length; i++)
+                    clipped |= AddWallSpans(walls, gaps, roomTransform, points[i - 1], points[i]);
+                if ((closePaths || shape.Closed) && points.Length >= 3)
+                    clipped |= AddWallSpans(walls, gaps, roomTransform, points[points.Length - 1], points[0]);
+                if (shape.Connections != null)
+                    foreach (var edge in shape.Connections)
+                        if ((uint)edge.From < points.Length && (uint)edge.To < points.Length && edge.From != edge.To)
+                            clipped |= AddWallSpans(walls, gaps, roomTransform, points[edge.From], points[edge.To]);
+                if (!clipped)
+                {
+                    walls.RemoveRange(firstSpan, walls.Count - firstSpan);
+                    walls.Add(shape);
+                }
+            }
+            return walls.ToArray();
+        }
+
+        private bool AddWallSpans(List<ShapeData> walls, List<Vector2> gaps, Matrix4x4 roomTransform,
+            Vector3 from, Vector3 to)
+        {
+            Vector3 projectedFrom = roomTransform.MultiplyPoint3x4(from);
+            Vector3 projectedTo = roomTransform.MultiplyPoint3x4(to);
+            var origin = new Vector2(projectedFrom.x, -projectedFrom.z);
+            var direction = new Vector2(projectedTo.x, -projectedTo.z) - origin;
+            if (direction.sqrMagnitude < .000001f) return false;
+
+            Vector2 normal = Vector2.Perpendicular(direction.normalized);
+            float tolerance = .03f * GlobalScale;
+            gaps.Clear();
+            foreach (var opening in WallOpenings)
+            {
+                Vector2 start = opening.Start - origin;
+                Vector2 end = opening.End - origin;
+                if (Mathf.Abs(Vector2.Dot(start, normal)) > tolerance ||
+                    Mathf.Abs(Vector2.Dot(end, normal)) > tolerance) continue;
+                float a = Vector2.Dot(start, direction) / direction.sqrMagnitude;
+                float b = Vector2.Dot(end, direction) / direction.sqrMagnitude;
+                float lo = Mathf.Clamp01(Mathf.Min(a, b));
+                float hi = Mathf.Clamp01(Mathf.Max(a, b));
+                if (hi > lo) gaps.Add(new Vector2(lo, hi));
+            }
+
+            gaps.Sort((a, b) => a.x.CompareTo(b.x));
+            float cursor = 0f;
+            foreach (var gap in gaps)
+            {
+                if (gap.x > cursor) AddSpan(cursor, gap.x);
+                cursor = Mathf.Max(cursor, gap.y);
+            }
+            if (cursor < 1f) AddSpan(cursor, 1f);
+            return gaps.Count > 0;
+
+            void AddSpan(float start, float end)
+            {
+                walls.Add(new ShapeData
+                {
+                    Points = new[] { Vector3.LerpUnclamped(from, to, start), Vector3.LerpUnclamped(from, to, end) }
+                });
+            }
+        }
 
         public Matrix4x4 GetTRS(Vector2 offset, float rotation, Vector3 scale, float zOrder)
         {

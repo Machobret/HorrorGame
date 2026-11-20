@@ -111,6 +111,7 @@ namespace HorrorEngine
         [SerializeField] GameObject m_Content;
         [SerializeField] TextMeshProUGUI m_Text;
         public TMP_FontAsset DialogueFont => m_Text ? m_Text.font : null;
+        private float m_BaseTextSize, m_BaseTextSizeMax;
 
         private int m_CurrentLine;
         private DialogData m_Dialog;
@@ -125,6 +126,8 @@ namespace HorrorEngine
 
         private void Awake()
         {
+            m_BaseTextSize = m_Text.fontSize;
+            m_BaseTextSizeMax = m_Text.fontSizeMax;
             m_AppearingText = GetComponentInChildren<AppearingText>();
             m_AudioSource = GetComponent<AudioSource>();
             m_Input = GetComponentInParent<IUIInput>();
@@ -134,8 +137,12 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
-        public void Show(DialogData dialog, bool hideOnEnd = true)
+        public void Show(DialogData dialog, bool hideOnEnd = true) => Show(dialog, 1f, hideOnEnd);
+
+        public void Show(DialogData dialog, float textScale, bool hideOnEnd = true)
         {
+            m_Text.fontSize = m_BaseTextSize * textScale;
+            m_Text.fontSizeMax = m_BaseTextSizeMax * textScale;
             enabled = true;
             m_Dialog = dialog;
             m_HideOnEnd = hideOnEnd;

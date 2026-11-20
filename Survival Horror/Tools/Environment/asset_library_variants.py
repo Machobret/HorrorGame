@@ -34,6 +34,11 @@ def proposal(entry):
     if path.parts[2] != 'Environment':
         return None
 
+    if folder == 'NeonSigns':
+        design = path.parent.name
+        title, _, version = entry['name'].rpartition(' (')
+        return f'neon:{design}', title, version.removesuffix(')')
+
     if folder == 'Pizzeria' and entry['category'].startswith('Buildings/') and len(entry['size']) == 3:
         match = re.fullmatch(r'Pizzeria_building_(\d+)(?:_Cube)?(?:_(\d+))?', stem)
         if match:

@@ -23,6 +23,8 @@ namespace HorrorEngine
         public UnityEvent OnFinishInteract;
         public UnityEvent OnDataChanged;
         public Sprite PromptIconOverride { get; private set; }
+        public Func<bool> PowerAvailable { get; set; }
+        public bool LastInteractionCompleted { get; private set; }
 
         public void SetPromptIcon(Sprite icon)
         {
@@ -47,6 +49,11 @@ namespace HorrorEngine
 
             if (interactor is PlayerInteractor)
                 HorrorGame.UI.GameplayNotifications.DismissAll();
+            if (PowerAvailable != null && !PowerAvailable())
+            {
+                HorrorGame.UI.PlayerMonologue.Show("No power");
+                return;
+            }
 
             OnInteract?.Invoke(interactor);
             MessageBuffer<InteractionStartMessage>.Dispatch();
@@ -54,8 +61,11 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
-        public void Finish()
+        public void Finish() => Finish(true);
+
+        internal void Finish(bool completed)
         {
+            LastInteractionCompleted = completed;
             MessageBuffer<InteractionEndMessage>.Dispatch();
             OnFinishInteract?.Invoke();
         }

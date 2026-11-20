@@ -6,46 +6,26 @@ using UnityEngine;
 
 namespace HorrorGame.General.Editor
 {
-    /// <summary>Keeps the main-menu carousel in sync with MenuBg*.png assets in General/UI/Menu.</summary>
+    /// <summary>Keeps the main menu logo animation in sync with the branding assets.</summary>
     public sealed class MenuBackgroundCarouselSynchronizer : AssetPostprocessor
     {
-        private const string MenuAssetFolder = "Assets/Game/UI/MainMenu/Backgrounds";
         private const string LogoSequenceFolder = "Assets/Game/UI/Branding/LogoSequence";
         private const string MainMenuPrefab = "Assets/AssetStore/HorrorEngine/Prefabs/UI/UIMainMenu.prefab";
 
         private static void OnPostprocessAllAssets(string[] imported, string[] deleted, string[] moved, string[] movedFrom)
         {
-            if (ContainsMenuBackground(imported) || ContainsMenuBackground(deleted) || ContainsMenuBackground(moved) || ContainsMenuBackground(movedFrom) ||
-                ContainsLogoFrame(imported) || ContainsLogoFrame(deleted) || ContainsLogoFrame(moved) || ContainsLogoFrame(movedFrom))
+            if (ContainsLogoFrame(imported) || ContainsLogoFrame(deleted) || ContainsLogoFrame(moved) || ContainsLogoFrame(movedFrom))
                 EditorApplication.delayCall += Synchronize;
         }
 
-        [MenuItem("Horror Game/Refresh Main Menu Backgrounds")]
+        [MenuItem("Horror Game/Refresh Main Menu Logo Sequence")]
         private static void Synchronize()
         {
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(MainMenuPrefab);
             var carousel = prefab ? prefab.GetComponent<MainMenuBackgroundCarousel>() : null;
             if (!carousel) return;
 
-            string[] assetGuids = AssetDatabase.FindAssets("t:Sprite", new[] { MenuAssetFolder });
-            Array.Sort(assetGuids, (left, right) => string.Compare(
-                Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(left)),
-                Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(right)),
-                StringComparison.OrdinalIgnoreCase));
-
             var serialized = new SerializedObject(carousel);
-            var backgrounds = serialized.FindProperty("m_Backgrounds");
-            backgrounds.arraySize = 0;
-            foreach (string guid in assetGuids)
-            {
-                string assetPath = AssetDatabase.GUIDToAssetPath(guid);
-                if (!Path.GetFileNameWithoutExtension(assetPath).StartsWith("MenuBg", StringComparison.OrdinalIgnoreCase))
-                    continue;
-
-                int index = backgrounds.arraySize++;
-                backgrounds.GetArrayElementAtIndex(index).objectReferenceValue = AssetDatabase.LoadAssetAtPath<Sprite>(assetPath);
-            }
-
             string[] logoGuids = AssetDatabase.FindAssets("t:Sprite", new[] { LogoSequenceFolder });
             Array.Sort(logoGuids, (left, right) => string.Compare(
                 Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(left)),
@@ -73,15 +53,6 @@ namespace HorrorGame.General.Editor
         private static void ScheduleInitialSynchronize()
         {
             EditorApplication.delayCall += Synchronize;
-        }
-
-        private static bool ContainsMenuBackground(string[] paths)
-        {
-            foreach (string path in paths)
-                if (path.StartsWith(MenuAssetFolder, StringComparison.OrdinalIgnoreCase) &&
-                    Path.GetFileNameWithoutExtension(path).StartsWith("MenuBg", StringComparison.OrdinalIgnoreCase))
-                    return true;
-            return false;
         }
 
         private static bool ContainsLogoFrame(string[] paths)

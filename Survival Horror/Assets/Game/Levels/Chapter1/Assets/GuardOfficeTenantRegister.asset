@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a543205dd590b764295581a5ae2883d4, type: 3}
+  m_Name: GuardOfficeTenantRegister
+  m_EditorClassIdentifier:
+  UniqueId: 8f34435b-d0b8-4b15-b4db-89efe7769a6a
+  Name:
+    IsLocalized: 0
+    Unlocalized: Tenant Register
+  Image:
+    IsLocalized: 0
+    Unlocalized: {fileID: 21300000, guid: 5e8d0b732b424a388607fbf079ef647a, type: 3}
+  ShowImageOnRead: 1
+  ShowPageCount: 0
+  Pages:
+  - Text:
+      IsLocalized: 0
+      Unlocalized: "STORAGE DEPOT\nTenant register\n\nTENANT / UNIT\nCaleb Asher / 5\nMiriam Bell / 2\nArthur Boone / 19\nHelen Cho / 17\nRosa Delgado / 22\nVincent Hale / 1\nDaniel Mercer / 3\nElena Ortiz / 4\nEdwin Park / 24\nNora Price / 6\nSimon Reed / 12\nLeah Sutton / 14"
+    Artwork: {fileID: 21300000, guid: 5e8d0b732b424a388607fbf079ef647a, type: 3}
+  ShowClip: {fileID: 0}
+  PageClip: {fileID: 0}
+  CloseClip: {fileID: 0}

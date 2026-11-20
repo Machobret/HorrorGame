@@ -1,12 +1,38 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-using System;
 
 namespace HorrorEngine
 {
     public class InteractionColliderDetector : InteractionDetector
     {
         private Collider mCollider;
+        private Transform m_Player;
+
+        public override Interactive FocusedInteractive
+        {
+            get
+            {
+                if (!m_Player) return base.FocusedInteractive;
+                Interactive best = null;
+                float bestDistance = float.PositiveInfinity;
+                bool preferPush = false;
+                foreach (var interaction in m_Interactives)
+                {
+                    if (!interaction || !interaction.isActiveAndEnabled) continue;
+                    var crate = interaction.GetComponentInParent<Pushable>();
+                    bool isPush = crate && crate.PushInteraction == interaction;
+                    if (isPush && !crate.TryGetPushAxis(m_Player, out _)) continue;
+                    Vector3 offset = interaction.transform.position - m_Player.position;
+                    offset.y = 0;
+                    float facing = Vector3.Dot(m_Player.forward, offset.normalized);
+                    float distance = offset.sqrMagnitude + (1f - facing);
+                    if ((!isPush && preferPush) || (isPush == preferPush && distance >= bestDistance)) continue;
+                    best = interaction;
+                    bestDistance = distance;
+                    preferPush = isPush;
+                }
+                return best;
+            }
+        }
 
         // --------------------------------------------------------------------
 
@@ -14,6 +40,8 @@ namespace HorrorEngine
         {
             base.Awake();
             mCollider = GetComponent<Collider>();
+            var actor = GetComponentInParent<Actor>();
+            m_Player = actor ? actor.transform : transform;
         }
 
         // --------------------------------------------------------------------
@@ -51,6 +79,6 @@ namespace HorrorEngine
             RemoveInteractive(other.gameObject);
         }
 
-       
+        private void LateUpdate() => RefreshFocusIfChanged();
     }
 }

@@ -5,10 +5,13 @@ using UnityEngine;
 namespace HouseToolkit.Editor
 {
     // Ordinary presses commit immediately. Alt shares its button with Scene view orbit.
-    internal sealed class PointPlacement
+    internal sealed class PointPlacement : PointPlacement<Vector2> { }
+
+    internal class PointPlacement<T>
     {
         SceneView view;
-        Vector2 pressMouse, point;
+        Vector2 pressMouse;
+        T point;
         bool alt, finish;
         int control;
 
@@ -18,7 +21,7 @@ namespace HouseToolkit.Editor
             view=null;
         }
 
-        internal void Press(SceneView scene,Event e,int id,Vector2 position,bool finishes,Action<Vector2,bool> place)
+        internal void Press(SceneView scene,Event e,int id,T position,bool finishes,Action<T,bool> place)
         {
             if(e.button!=0 || e.rawType!=EventType.MouseDown)return;
             if(!e.alt && (e.type!=EventType.MouseDown || Tools.viewToolActive || GUIUtility.hotControl!=0 || HandleUtility.nearestControl!=id))return;
@@ -29,7 +32,7 @@ namespace HouseToolkit.Editor
             place(position,finishes);
         }
 
-        internal bool Track(SceneView scene,Event e,Action<Vector2,bool> place)
+        internal bool Track(SceneView scene,Event e,Action<T,bool> place)
         {
             if(!view || view!=scene)return false;
             var type=e.rawType;

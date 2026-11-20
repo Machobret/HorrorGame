@@ -93,6 +93,7 @@ namespace HorrorGame.Chapter1.Editor
 
             ApplyFloorRegions(streetMap, streetRooms, houseRooms, StoreRegions);
             ApplyFloorRegions(storageMap, storageRooms, houseRooms, StorageRegions);
+            ProjectBayOpenings(storageMap, physicalTargets);
 
             var storeFloor = FloorOutline(houseRooms[635049019]);
             float storeEast = storeFloor.Max(point => point.x);
@@ -178,6 +179,26 @@ namespace HorrorGame.Chapter1.Editor
         private static Vector3[] FloorOutline(HouseRoom room) =>
             room.polygon.Select(point => room.transform.TransformPoint(new Vector3(point.x, 0f, point.y))).ToArray();
 
+        private static void ProjectBayOpenings(MapData map, Dictionary<PowerCircuitPanelElement, CircuitDrivenObject> targets)
+        {
+            map.WallOpenings.Clear();
+            foreach (var pair in targets.OrderBy(entry => entry.Key.CircuitId, StringComparer.Ordinal))
+            {
+                string id = pair.Key.CircuitId;
+                if (id != "shutter_l" && id != "shutter_r" && !id.StartsWith("shutter_seg_", StringComparison.Ordinal))
+                    continue;
+                if (!pair.Value.TryGetComponent(out GarageDoor door) || !door.leaf)
+                    throw new InvalidOperationException($"Bay circuit {id} needs a shutter leaf to project its map opening.");
+
+                Transform leaf = door.leaf.transform;
+                map.WallOpenings.Add(new MapWallOpening
+                {
+                    Start = Project(leaf.TransformPoint(Vector3.left * .5f), map),
+                    End = Project(leaf.TransformPoint(Vector3.right * .5f), map)
+                });
+            }
+        }
+
         private static Vector3[] Outline(params (float X, float Z)[] points) =>
             points.Select(point => new Vector3(point.X, 0f, point.Z)).ToArray();
 
@@ -208,8 +229,8 @@ namespace HorrorGame.Chapter1.Editor
 
         private static Vector3 GetCircuitAnchor(CircuitDrivenObject target)
         {
-            if (target is Chapter1Opening opening && opening.AlleyPowerBox)
-                return opening.AlleyPowerBox.position;
+            if (target is HorrorGame.Environment.GarageDoorCircuitLink linked && linked.TabletAnchor)
+                return linked.TabletAnchor.position;
             if (target.TryGetComponent(out GarageDoor door) && door.leaf)
                 return door.leaf.bounds.center;
             if (target is CircuitShutterTeleport shutter && shutter.ExitPoint && shutter.OtherExitPoint)

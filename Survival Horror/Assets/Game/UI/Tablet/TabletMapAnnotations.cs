@@ -63,7 +63,7 @@ namespace HorrorGame.UI
         {
             if (connectionRenderer) connectionRenderer.enabled = false;
             var network = Workspace ? Workspace.Network : null;
-            if (!network || !network.HoveredInRange || !network.HoveredPoint ||
+            if (!network || !network.HoveredInRange || !network.HoveredPoint || network.HoveredPoint.IsInformational ||
                 !MapRenderer.Exists || Workspace.Map.IsMapDirectoryOpen) return;
 
             var renderer = MapRenderer.Instance;

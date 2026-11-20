@@ -113,7 +113,7 @@ def build_pilot_catalogue():
         # These are authoring fragments, not complete placeable subjects.
         if any(x in rel for x in ['/DisplayGeometry/', '/WallFamilies/', '/Windows/', '/Editor/']):
             continue
-        if rel.split('/')[3] in {'ElectricalBox', 'ElectricalDevices', 'GarageDoors', 'LightingElectrical', 'Sewer', 'Vehicles'}:
+        if rel.split('/')[3] in {'ElectricalBox', 'ElectricalDevices', 'GarageDoors', 'LightingElectrical', 'NeonSigns', 'Sewer', 'Vehicles'}:
             continue
         if path.stem in {'HouseProps_pencilCup', 'Mine_Tray', 'StorageBox_NoCollision'}:
             continue

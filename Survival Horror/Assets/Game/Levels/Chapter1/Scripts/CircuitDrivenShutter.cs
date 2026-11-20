@@ -26,8 +26,9 @@ namespace HorrorGame.Chapter1
         public UnityEvent OnBlocked;
         private Coroutine move;
         private bool forceOpen;
+        private bool lastOpen;
 
-        public bool IsOpen => Powered || forceOpen;
+        public bool IsOpen => Grid && !Grid.HasSupply ? lastOpen : Powered || forceOpen;
 
         /// <summary>Used by solved puzzle controllers to keep a main shutter open.</summary>
         public void SetForcedOpen(bool value) { forceOpen = value; Refresh(); }
@@ -51,7 +52,11 @@ namespace HorrorGame.Chapter1
 
         public override void Refresh()
         {
+            if (move != null) StopCoroutine(move);
+            move = null;
+            if (Grid && !Grid.HasSupply) return;
             bool open = IsOpen;
+            lastOpen = open;
             if (BlockingColliders != null)
                 foreach (Collider collider in BlockingColliders) if (collider) collider.enabled = !open;
             if (LocalDoorInteractionsToDisable != null)
@@ -64,7 +69,6 @@ namespace HorrorGame.Chapter1
             RefreshInteractionPrompts();
 
             if (!MovingPart) return;
-            if (move != null) StopCoroutine(move);
             move = StartCoroutine(Move(open ? OpenLocalPosition : ClosedLocalPosition));
         }
 

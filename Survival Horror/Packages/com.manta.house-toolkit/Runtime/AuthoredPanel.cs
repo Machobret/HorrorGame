@@ -3,16 +3,21 @@ using UnityEngine;
 
 namespace HouseToolkit
 {
-    // Whole bays use the FBX mesh directly. Only cropped bays lease a shared variant.
+    // Whole bays render the FBX mesh directly. Cropped and collision meshes are shared.
     [ExecuteAlways, RequireComponent(typeof(MeshFilter),typeof(MeshRenderer),typeof(MeshCollider))]
     public sealed class AuthoredPanel : MonoBehaviour
     {
         [HideInInspector] public Mesh source;
         [HideInInspector] public Vector3 limits; // left, right, top in source space
         [HideInInspector] public Vector2 glazing;
-        SharedGeometry lease;
+        const float SheetTolerance = .00001f;
+        SharedGeometry lease, collisionLease;
         void OnEnable()=>Refresh();
-        void OnDisable()=>SharedGeometry.Release(ref lease);
+        void OnDisable()
+        {
+            SharedGeometry.Release(ref collisionLease);
+            SharedGeometry.Release(ref lease);
+        }
         public void Refresh()
         {
             if(!source)return;
@@ -30,8 +35,46 @@ namespace HouseToolkit
             }
             GetComponent<MeshFilter>().sharedMesh=result;
             var collider = GetComponent<MeshCollider>();
-            var collisionMesh = result.vertexCount > 0 ? result : null;
+            Mesh collisionMesh = result.vertexCount > 0 ? result : null;
+            if (collisionMesh && TryGetSheetDepth(out float depth))
+            {
+                var key = Hash128.Compute(result.GetInstanceID());
+                key.Append(depth);
+                collisionMesh = SharedGeometry.Use(ref collisionLease, key, () => CreateCollisionMesh(result, depth));
+            }
+            else SharedGeometry.Release(ref collisionLease);
             if (collider.sharedMesh != collisionMesh) collider.sharedMesh = collisionMesh;
+        }
+
+        internal bool TryGetSheetDepth(out float depth)
+        {
+            depth = 0;
+            if (!source || source.subMeshCount != 2) return false;
+            var glazingSlot = source.GetSubMesh(1);
+            if (glazingSlot.indexCount == 0 || glazingSlot.bounds.size.z > SheetTolerance) return false;
+            depth = glazingSlot.bounds.center.z;
+            return true;
+        }
+
+        internal static Mesh CreateCollisionMesh(Mesh geometry, float sheetDepth)
+        {
+            var vertices = geometry.vertices;
+            var triangles = geometry.triangles;
+            var indices = new List<int>(triangles);
+            bool OnSheet(int index) => Mathf.Abs(vertices[index].z - sheetDepth) <= SheetTolerance;
+            // Identify the sheet by position because cropping can assign some of it the frame material.
+            for (int i = 0; i < triangles.Length; i += 3)
+            {
+                int a = triangles[i], b = triangles[i + 1], c = triangles[i + 2];
+                if (!OnSheet(a) || !OnSheet(b) || !OnSheet(c)) continue;
+                indices.Add(a);
+                indices.Add(c);
+                indices.Add(b);
+            }
+            var mesh = new Mesh { name = geometry.name + " (collision)", indexFormat = geometry.indexFormat };
+            mesh.vertices = vertices;
+            mesh.SetTriangles(indices, 0);
+            return mesh;
         }
         struct Vertex
         {

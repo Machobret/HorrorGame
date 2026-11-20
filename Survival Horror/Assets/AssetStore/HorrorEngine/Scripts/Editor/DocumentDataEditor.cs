@@ -164,6 +164,7 @@ namespace HorrorEngine
             pageBoxStyle.padding = new RectOffset(20, 20, 10, 10);
 
             EditorGUILayout.BeginVertical(pageBoxStyle);
+            EditorGUILayout.PropertyField(pageElement.FindPropertyRelative("Artwork"), new GUIContent("Printed Page"));
 
             // Page text
 

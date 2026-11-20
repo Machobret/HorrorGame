@@ -37,7 +37,7 @@ namespace HorrorEngine
 
         public bool IsToggleInventoryDown()
         {
-            return Input.GetButtonDown(m_ToggleInventory);
+            return Input.GetButtonDown(m_ToggleInventory) || Input.GetKeyDown(KeyCode.I);
         }
 
         public bool IsToggleMapDown()

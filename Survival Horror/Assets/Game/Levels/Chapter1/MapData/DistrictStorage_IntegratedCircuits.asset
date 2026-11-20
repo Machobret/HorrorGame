@@ -15,23 +15,23 @@ MonoBehaviour:
   CanvasSize: {x: 800, y: 500}
   Circuits:
   - CircuitId: outside_shutter
-    Label: Outside Shutter
+    Label: Main shutter
     Bounds:
       serializedVersion: 2
-      x: -95.12
-      y: -64.880005
+      x: -95.156
+      y: -63.081
       width: 220
       height: 65
     BorderPoints:
-    - {x: -95.12, y: -64.880005}
-    - {x: 124.88, y: -64.880005}
-    - {x: 124.88, y: 0.11999512}
-    - {x: -95.12, y: 0.11999512}
-    MapPosition: {x: 657.5, y: 492.50003}
+    - {x: -95.156, y: -63.081}
+    - {x: 124.844, y: -63.081}
+    - {x: 124.844, y: 1.9189987}
+    - {x: -95.156, y: 1.9189987}
+    MapPosition: {x: 639.51, y: 492.86002}
     RoomName: Outside
     MapUniqueId: 126d6fc2-9883-47f1-8bf7-5c8a55016061
     RoomUniqueId: 0cf17860-f4b1-4fab-9c66-3694de2211b1
-    WorldPosition: {x: 15.75, y: 0, z: -25.75}
+    WorldPosition: {x: 15.714, y: 0, z: -23.951}
     ActivationRange: 9
   - CircuitId: shutter_l
     Label: Shutter_L
@@ -204,22 +204,3 @@ MonoBehaviour:
     RoomUniqueId: 0ac60971-9a41-4b1b-89f4-20df2c919ee9
     WorldPosition: {x: 42.25, y: 0, z: -26.25}
     ActivationRange: 8
-  - CircuitId: alley_intercom
-    Label: Alley intercom
-    Bounds:
-      serializedVersion: 2
-      x: -100.270004
-      y: -54.010002
-      width: 220
-      height: 65
-    BorderPoints:
-    - {x: -100.270004, y: -54.010002}
-    - {x: 119.729996, y: -54.010002}
-    - {x: 119.729996, y: 10.989998}
-    - {x: -100.270004, y: 10.989998}
-    MapPosition: {x: 581.1, y: 544.3}
-    RoomName: Street
-    MapUniqueId: 5fba2770-ece1-4b74-9515-e870b4bc2739
-    RoomUniqueId: 6620671a-e92a-459d-ac67-cd0e3d07452c
-    WorldPosition: {x: 10.57, y: 0, z: -18.11}
-    ActivationRange: 12

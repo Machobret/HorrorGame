@@ -9,7 +9,7 @@ namespace HouseToolkit.Editor
     internal static class BooleanOutput
     {
         const string Action = "Edit Boolean cut";
-        const int GeometryVersion = 3;
+        const int GeometryVersion = 4;
 
         internal static bool Change(House house, BooleanCut value, string remove, out string issue)
         {
@@ -105,6 +105,10 @@ namespace HouseToolkit.Editor
             var state = owner.Cast<Transform>().Select(t => t.GetComponent<BooleanCutResult>()).FirstOrDefault(s => s);
             var renderer = owner.GetComponent<MeshRenderer>();
             var filter = owner.GetComponent<MeshFilter>();
+            var panel = owner.GetComponent<AuthoredPanel>();
+            // Inactive panels do not always have their transient meshes on scene load.
+            if (panel && panel.source && (!filter.sharedMesh || !panel.GetComponent<MeshCollider>().sharedMesh))
+                panel.Refresh();
             var mesh = renderer && filter && (renderer.enabled || (state && state.GetComponent<MeshRenderer>()))
                 ? filter.sharedMesh : null;
             var colliders = owner.GetComponents<Collider>().Where(c => Supported(c) &&
@@ -143,7 +147,6 @@ namespace HouseToolkit.Editor
                 return;
             }
 
-            var panel = owner.GetComponent<AuthoredPanel>();
             bool splitGlass = mesh && mesh.subMeshCount == 2 && (panel ||
                 (root is InsertAttachment insert && insert.finishRenderer == renderer));
             var result = mesh ? HouseBooleanMesh.SubtractAll(mesh, cuts, matrix, owner.GetComponent<HouseSlab>(), splitGlass, panel) : null;
@@ -174,11 +177,12 @@ namespace HouseToolkit.Editor
                 collider.enabled = false;
                 PrefabUtility.RecordPrefabInstancePropertyModifications(collider);
             }
-            try { AddCollision(go, clippedColliders, mesh, result, cuts, matrix); }
+            try { AddCollision(go, clippedColliders, mesh, result, cuts, matrix, panel); }
             finally { Undo.RegisterCreatedObjectUndo(go, Action); }
         }
 
-        static void AddCollision(GameObject go, Collider[] colliders, Mesh source, Mesh result, BooleanCut[] cuts, Matrix4x4 matrix)
+        static void AddCollision(GameObject go, Collider[] colliders, Mesh source, Mesh result, BooleanCut[] cuts,
+            Matrix4x4 matrix, AuthoredPanel panel)
         {
             foreach (var original in colliders)
             {
@@ -196,12 +200,17 @@ namespace HouseToolkit.Editor
                 }
                 else if (original is MeshCollider model && model.sharedMesh)
                 {
-                    var collision = model.sharedMesh == source ? result : HouseBooleanMesh.SubtractAll(model.sharedMesh, cuts, matrix);
+                    // Cut the original sheet once, then give its surviving faces a collidable back.
+                    float depth = 0;
+                    bool cutSheet = panel && result && model == panel.GetComponent<MeshCollider>() &&
+                        panel.TryGetSheetDepth(out depth);
+                    var collision = cutSheet || model.sharedMesh == source ? result : HouseBooleanMesh.SubtractAll(model.sharedMesh, cuts, matrix);
                     if (collision.vertexCount == 0)
                     {
                         if (collision != result && collision != model.sharedMesh) Object.DestroyImmediate(collision);
                         continue;
                     }
+                    if (cutSheet) collision = AuthoredPanel.CreateCollisionMesh(collision, depth);
                     if (collision != result && collision != model.sharedMesh) Undo.RegisterCreatedObjectUndo(collision, Action);
                     CreateCollider(go, original, collision);
                 }

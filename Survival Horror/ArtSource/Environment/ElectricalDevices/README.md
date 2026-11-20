@@ -19,6 +19,9 @@ stays on the device. Position it about 1.50 m above grade to leave about 0.56 m 
 underground. The shared `DevicePost` prefab uses a copy of the packed atlas imported with
 Repeat wrapping to preserve the shaft's UVs.
 
+Use **Antenna** on the root's **Device Indicator** or **Electrical Box Indicator** to toggle the
+antenna and its tip light per instance. Use the same checkbox in Prefab Mode to change the default.
+
 One `IndicatorLamp` binds each named emissive material slot to its own short-range realtime
 point light. `Light_Universal` takes the caller's tint. `Light_Red` and `Light_Green` use their
 fixed tints. Zero strength switches off emission and the corresponding point light.
@@ -28,9 +31,11 @@ For the four devices, call `DeviceIndicator.BodyIndicator.SetColor(color, streng
 `SetIndicator(color, strength)` call controls the antenna, and `SetAntennaEnabled(bool)`
 shows or hides the entire antenna.
 
-For the electricity box, call `ElectricalBoxIndicator.SetPowered(bool)`. The cabinet
-shows green when powered and red when unpowered. Its universal antenna light defaults off
-and is controlled separately through `AntennaIndicator`. For a Chapter 1 installation,
-assign the grid and circuit on the optional `CircuitDrivenElectricalBox` component.
+Enable **Emit Real Lights** on an electrical device or electricity box to make its
+indicators cast light into the scene. The default uses emissive indicators alone.
+
+`ElectricalBoxPower` controls the cabinet's indicator colors from tablet authorization
+and lever position. For a circuit-driven cabinet display, assign the grid and circuit
+on `CircuitDrivenElectricalBox`.
 
 Find the devices in **Window → Game → Asset Library**, under the **Interactables** category.

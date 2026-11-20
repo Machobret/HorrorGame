@@ -12,6 +12,7 @@
 | `Assets/Game/Enemies/<Enemy>` | Enemy implementation and content |
 | `Assets/Game/Environment/ProjectedFinishes` | Shared building materials grouped by surface, with the House Toolkit finish library at the root |
 | `Assets/Game/Environment/Lighting` | Reusable lighting systems, presets, skyboxes and fixtures |
+| `Assets/Game/Environment/NeonSigns` | Animated neon sign prefabs and their materials and frame atlases, grouped by design |
 | `Assets/Game/Environment/Editor/AssetLibrary` | Editor-only cross-pack prefab catalogue and browser; Window > Game > Asset Library |
 | `Assets/Game/Rendering` | Presentation shaders, materials and scripts |
 | `Assets/Game/UI` | Menus, fonts, branding and UI scripts |
@@ -50,13 +51,17 @@ Horror Engine example scenes are in Build Settings. Game systems, item databases
 
 The Horror Engine map renderer always draws the project?s navigation grid, and its map list shows discovered maps only. The unused runtime grid toggle and unknown-map label were removed from the vendor scripts.
 
-Horror Engine room discovery uses all outline components on each room, matching the map renderer. Adjacent outlines can share edges without being treated as holes, and additional contours have their own line renderers. The shared map and document databases register Chapter 1's integrated tablet assets for save and load.
+Horror Engine room discovery uses all outline components on each room, matching the map renderer. Adjacent outlines can share edges without being treated as holes, and additional contours have their own line renderers. Circuit hover only highlights rooms the map has already drawn. The shared map and document databases register Chapter 1's integrated tablet assets for save and load.
 
 Horror Engine camera selection recognizes both the legacy fixed-camera prefabs and current Cinemachine cameras. Camera-relative movement uses the live output camera until a virtual camera is selected. Maintain Distance cameras anchor their travel limit to the authored virtual camera position so the camera can follow again when the player backtracks into the Chapter 1 shutter corridor.
 
 The integrated Chapter 1 tablet pickup unlocks its map after the item splash is dismissed. Inventory ignores the opening key on the frame the screen appears so the same press cannot close it immediately.
 
 Horror Engine documents use the shared UI actions for page navigation, confirmation, and dismissal on keyboard and controller.
+
+The main menu renders its Chapter 1 backdrop from the **Main Menu Exterior** hierarchy in `Assets/Game/UI/MainMenu/Scenes/MainMenu.unity`. The backdrop shares source assets with Chapter 1 and stores generated meshes and material overrides in the adjacent `MainMenuExteriorVisuals.asset`. The Horror Engine menu prefab draws its controls over the camera and uses its scene transition for the fade.
+
+Horror Engine uses Tab as the default keyboard inventory binding. Crate prompts take priority when the player faces a pushable crate within reach. Forward input pushes and backward input pulls while in the crate-moving stance. Interacting again releases the crate. Weapon obstruction rays check solid colliders.
 
 The Horror Engine GameManager prefab and pickup implementation use the shared clips in `Assets/Game/Sounds` for document and item pickups, including pickups inherited from vendor prefabs.
 

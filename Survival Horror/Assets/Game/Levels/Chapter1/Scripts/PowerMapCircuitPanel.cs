@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using HorrorEngine;
+using HorrorGame.UI;
 using UnityEngine;
 
 namespace HorrorGame.Chapter1
@@ -8,6 +9,9 @@ namespace HorrorGame.Chapter1
     [DefaultExecutionOrder(20)]
     public sealed class PowerMapCircuitPanel : MonoBehaviour
     {
+        internal const string BreakerCircuitId = "alley_breaker";
+        internal const string ConnectionLostLabel = "CONNECTION LOST";
+        private const string BreakerLabel = "Electricity box";
         public MapData MapData;
         public PowerPanelLayout Layout;
         public DistrictPowerGrid Grid;
@@ -21,6 +25,8 @@ namespace HorrorGame.Chapter1
         private UIMap mapUi;
         private readonly List<GameObject> points = new List<GameObject>();
         private PowerCircuitMapMarker hoveredPoint;
+        private PowerCircuitMapMarker snappedPoint;
+        private DistrictPowerGrid subscribedGrid;
         private float statusTweenStarted;
         private readonly Vector3[] legendCorners = new Vector3[4];
         public PowerCircuitMapMarker HoveredPoint => hoveredPoint;
@@ -42,6 +48,18 @@ namespace HorrorGame.Chapter1
                 return dot && Chapter1MapTutorial.IsTargetCircuit(MapData, dot.CircuitId) ? dot : null;
             }
         }
+
+        private MapRoom BreakerMapRoom
+        {
+            get
+            {
+                var tutorial = Chapter1MapTutorial.Instance;
+                if (tutorial && tutorial.UsesBreakerObjective && tutorial.Grid == SourceGrid && tutorial.MapToUnlock == MapData)
+                    return tutorial.BreakerRoom;
+                var dot = TutorialDot;
+                return dot ? dot.Room : null;
+            }
+        }
         public bool CanAccessCircuit(string id) => HasAccessibleCircuit(id, null);
 
         public bool HasCircuitService(string id)
@@ -54,22 +72,28 @@ namespace HorrorGame.Chapter1
         {
             if (!PlayerCanViewMap()) return false;
             var tutorial = TutorialDot;
+            if (IsBreakerCircuit(id))
+            {
+                var room = BreakerMapRoom;
+                return room && room.TryGetComponent(out ObjectUniqueId roomId) &&
+                    MatchesCircuitRoom(id, roomId.Id, requiredRoom);
+            }
             if (tutorial && tutorial.CircuitId == id &&
-                (requiredRoom == null || tutorial.ToShape(MapData).RoomUniqueId == requiredRoom)) return true;
+                (requiredRoom == null || MatchesCircuitRoom(id, tutorial.ToShape(MapData).RoomUniqueId, requiredRoom))) return true;
 
             if (SequencePuzzle)
                 foreach (var dot in SequencePuzzle.SegmentDots)
                     if (dot && dot.CircuitId == id && IsSequenceDotAvailable(dot) &&
-                        (requiredRoom == null || dot.ToShape(MapData).RoomUniqueId == requiredRoom)) return true;
+                        (requiredRoom == null || MatchesCircuitRoom(id, dot.ToShape(MapData).RoomUniqueId, requiredRoom))) return true;
 
             if (Layout)
                 foreach (var shape in Layout.Circuits)
-                    if (shape.CircuitId == id && (requiredRoom == null || shape.RoomUniqueId == requiredRoom) &&
+                    if (shape.CircuitId == id && MatchesCircuitRoom(id, shape.RoomUniqueId, requiredRoom) &&
                         IsCircuitRoomAvailable(shape.RoomUniqueId, id)) return true;
 
             foreach (var gate in HorrorGame.Environment.GarageDoorCircuitLink.Active)
                 if (gate.CircuitId == id && gate.TryMarker(SourceGrid, MapData, out var room, out _) &&
-                    (requiredRoom == null || room == requiredRoom) && IsCircuitRoomAvailable(room, id)) return true;
+                    MatchesCircuitRoom(id, room, requiredRoom) && IsCircuitRoomAvailable(room, id)) return true;
             return false;
         }
 
@@ -96,10 +120,20 @@ namespace HorrorGame.Chapter1
             if (sequenceVisible != sequenceWasVisible) ClearPoints();
             sequenceWasVisible = sequenceVisible;
             bool showCircuits = DisplayInPlayerMap && mapUi && mapUi.gameObject.activeInHierarchy && !mapUi.IsTabletLoading && mapUi.AllowMapNavigation && mapUi.CurrentMap == MapData && PlayerCanViewMap();
-            if (!showCircuits) { hoveredPoint = null; ClearPoints(); return; }
+            if (!showCircuits) { ClearPoints(); return; }
             if (points.Count == 0) CreateCircuitPoints();
-            var nextPoint = mapUi.IsMapDirectoryOpen || mapUi.IsMapPointerHeld ? null : GetCrosshairPoint();
-            bool nextInRange = nextPoint && IsInCurrentRoom(nextPoint, GetCurrentRoomId());
+            if (subscribedGrid != grid)
+            {
+                StopWatchingDisplacement();
+                subscribedGrid = grid;
+                if (subscribedGrid) subscribedGrid.CircuitDisplaced += OnCircuitDisplaced;
+            }
+            var nextPoint = mapUi.IsMapDirectoryOpen || mapUi.IsMapPointerDragging ? null : GetCrosshairPoint();
+            snappedPoint = mapUi.UsesMouseOnMap ? null : nextPoint;
+            mapUi.SetCircuitCrosshair(snappedPoint ? snappedPoint.transform : null);
+            if (MapRenderer.Exists) MapRenderer.Instance.FocusCircuitRoom(nextPoint ? nextPoint.RoomUniqueId : null);
+            string currentRoomId = GetCurrentRoomId();
+            bool nextInRange = nextPoint && (nextPoint.IsInformational || IsMarkerReachable(nextPoint, currentRoomId));
             if (hoveredPoint != nextPoint || HoveredInRange != nextInRange)
             {
                 if (hoveredPoint != nextPoint || nextInRange)
@@ -107,16 +141,34 @@ namespace HorrorGame.Chapter1
                 if (hoveredPoint) hoveredPoint.SetHovered(false);
                 hoveredPoint = nextPoint;
                 HoveredInRange = nextInRange;
-                if (hoveredPoint) hoveredPoint.SetHovered(HoveredInRange);
+                if (hoveredPoint) hoveredPoint.SetHovered(true);
             }
             IUIInput input = UIManager.Instance.GetComponent<IUIInput>();
             bool click = mapUi.MapClickedThisFrame;
-            if (hoveredPoint && HoveredInRange && (click || input != null && input.IsConfirmDown()))
+            if (hoveredPoint && !hoveredPoint.IsInformational && HoveredInRange &&
+                (click || input != null && input.IsConfirmDown()))
                 TryToggleCircuit(hoveredPoint.CircuitId);
             foreach (var point in points)
                 if (point && point.TryGetComponent(out PowerCircuitMapMarker marker))
-                    marker.SetPowerVisual(grid && grid.IsCircuitPowered(marker.CircuitId),
-                        marker == hoveredPoint, marker == hoveredPoint && !HoveredInRange);
+                {
+                    bool reachable = marker.IsInformational || IsMarkerReachable(marker, currentRoomId);
+                    marker.SetPowerVisual(reachable && !marker.IsInformational && IsCircuitShownPowered(marker.CircuitId), reachable);
+                }
+        }
+
+        private void OnCircuitDisplaced(string circuitId)
+        {
+            foreach (var point in points)
+            {
+                if (!point || !point.TryGetComponent(out PowerCircuitMapMarker marker) || marker.CircuitId != circuitId) continue;
+                marker.AnimateDisplacement();
+            }
+        }
+
+        private void StopWatchingDisplacement()
+        {
+            if (subscribedGrid) subscribedGrid.CircuitDisplaced -= OnCircuitDisplaced;
+            subscribedGrid = null;
         }
 
         private void CreateCircuitPoints()
@@ -136,9 +188,15 @@ namespace HorrorGame.Chapter1
                 points.Add(PowerCircuitMapMarker.Create(markerRoot, layer, tutorialDot.CircuitId,
                     new Vector3(position.x, 6f, -position.y), shape.RoomUniqueId).gameObject);
             }
+            if (TryGetBreakerMapPosition(out Vector3 breakerPosition, out var breakerRoomId))
+                points.Add(PowerCircuitMapMarker.Create(markerRoot, layer, BreakerCircuitId, breakerPosition,
+                    breakerRoomId, informational: !IsBreakerCircuit(BreakerCircuitId)).gameObject);
             if(Layout) foreach (PowerPanelCircuitShape shape in Layout.Circuits)
             {
                 if (tutorialDot && shape.CircuitId == tutorialDot.CircuitId) continue;
+                var depot = Chapter1Opening.Instance;
+                if (depot && depot.IsDepotCircuit(grid, shape.CircuitId) && depot.DepotMotor &&
+                    depot.DepotMotor.TryMarker(grid, MapData, out _, out _)) continue;
                 if (!IsCircuitRoomAvailable(shape.RoomUniqueId, shape.CircuitId)) continue;
                 // MapPosition is generated from the assigned MapRoom. Bounds belong to the
                 // obsolete standalone layout editor and may be nowhere near this map.
@@ -156,6 +214,22 @@ namespace HorrorGame.Chapter1
             {
                 foreach (var dot in SequencePuzzle.SegmentDots) AddSequenceMarker(dot, markerRoot, layer);
             }
+        }
+
+        private bool TryGetBreakerMapPosition(out Vector3 position, out string roomId)
+        {
+            position = default;
+            roomId = null;
+            var room = BreakerMapRoom;
+            var source = SourceGrid;
+            if (!room || !source || !source.Supply || !room.TryGetComponent(out ObjectUniqueId id)) return false;
+
+            Vector3 local = room.transform.InverseTransformPoint(source.Supply.transform.position);
+            position = MapData.GetTRS(room.Offset, room.Rotation, room.Scale, room.ZOrder)
+                .MultiplyPoint3x4(new Vector3(local.x, 0f, local.z));
+            position.y = 6f;
+            roomId = id.Id;
+            return true;
         }
 
         private void AddSequenceMarker(PowerCircuitPanelElement dot, Transform root, int layer)
@@ -178,6 +252,8 @@ namespace HorrorGame.Chapter1
             // The tablet tutorial can expose its one highlighted target before
             // the player has collected a room diagram.
             if (Chapter1MapTutorial.IsTargetCircuit(MapData, circuitId)) return true;
+            var opening = Chapter1Opening.Instance;
+            if (opening && opening.DepotMotor && opening.IsDepotCircuit(SourceGrid, circuitId)) return true;
             if (MapData == null || string.IsNullOrWhiteSpace(roomId) || !GameManager.Exists || GameManager.Instance.Inventory == null) return false;
             var room = MapData.Rooms.Find(candidate => candidate != null && candidate.UniqueId == roomId);
             if (room != null && ObjectStateManager.Instance != null && room.GetState() >= MapRoomState.Visited)
@@ -196,13 +272,48 @@ namespace HorrorGame.Chapter1
             return GameManager.Exists && GameManager.Instance.Inventory != null && MapData && MapData.IsKnownByPlayer();
         }
 
+        public bool HasControlPower(string circuitId)
+        {
+            if (IsBreakerCircuit(circuitId)) return true;
+            var source = SourceGrid;
+            if (!source || !source.HasSupply || source.IsShutdown) return false;
+            var opening = Chapter1Opening.Instance;
+            return !opening || !opening.IsDepotCircuit(source, circuitId) || opening.DepotControlHasPower;
+        }
+
+        public bool TryGetQueuedCircuit(string circuitId, out bool requested)
+        {
+            requested = false;
+            var bays = RandomShutterKeyPuzzle.TabletBayPuzzle;
+            return bays && bays.TryGetQueuedCircuit(SourceGrid, circuitId, out requested);
+        }
+
+        private bool IsBreakerCircuit(string circuitId) => circuitId == BreakerCircuitId &&
+            SourceGrid && SourceGrid.Supply && SourceGrid.Supply.RequiresTabletAuthorization;
+
+        public bool IsCircuitShownPowered(string circuitId)
+        {
+            if (IsBreakerCircuit(circuitId)) return SourceGrid.Supply.IsAuthorized;
+            return TryGetQueuedCircuit(circuitId, out bool requested) ? requested :
+                SourceGrid && SourceGrid.IsCircuitPowered(circuitId);
+        }
+
         public bool TryToggleCircuit(string circuitId)
         {
             DistrictPowerGrid source = SourceGrid;
-            if (!source || source.IsShutdown || !HasCircuitService(circuitId)) return false;
+            if (!source || !HasCircuitService(circuitId)) return false;
+            if (IsBreakerCircuit(circuitId)) return source.Supply.SetTabletAuthorization(!source.Supply.IsAuthorized);
+            if (source.IsShutdown) return false;
+            if (!HasControlPower(circuitId))
+            {
+                PlayerMonologue.Show("No power");
+                return false;
+            }
             var opening = Chapter1Opening.Instance;
             if (opening && opening.IsDepotCircuit(source, circuitId))
                 return opening.TryToggleDepotPower();
+            var bays = RandomShutterKeyPuzzle.TabletBayPuzzle;
+            if (bays && bays.TryQueueCircuit(source, circuitId, out bool changed)) return changed;
             bool wasPowered = source.IsCircuitPowered(circuitId);
             source.SetCircuit(circuitId, !wasPowered);
             bool powered = source.IsCircuitPowered(circuitId);
@@ -215,8 +326,12 @@ namespace HorrorGame.Chapter1
             if (!mapCamera) return null;
             if (!mapUi.TryGetCrosshairViewport(out Vector2 cursor)) return null;
             if (!mapUi.TryProjectMapViewport(cursor, false, out Vector2 crosshair)) return null;
+            bool mouse = mapUi.UsesMouseOnMap;
+            float radius = (mouse ? 23f : 24f) * Mathf.Max(.75f, EffectScale);
+            float releaseRadius = radius * 1.45f;
+            if (!mouse && snappedPoint && TryProjectMarker(mapCamera, snappedPoint.transform, out Vector2 snappedScreen) &&
+                (crosshair - snappedScreen).sqrMagnitude < releaseRadius * releaseRadius) return snappedPoint;
             PowerCircuitMapMarker nearest = null;
-            float radius = 14f * EffectScale;
             float nearestDistance = radius * radius;
             foreach (var point in points)
             {
@@ -291,39 +406,45 @@ namespace HorrorGame.Chapter1
             foreach (var point in points)
             {
                 if (!point || !point.TryGetComponent(out PowerCircuitMapMarker marker) ||
-                    currentRoomId == null || marker.RoomUniqueId != currentRoomId ||
+                    marker.IsInformational || !IsMarkerReachable(marker, currentRoomId) ||
                     marker == hoveredPoint ||
                     !TryProjectMarker(camera, point.transform, out Vector2 idleScreen)) continue;
                 if (filter && filter.isActiveAndEnabled) idleScreen = filter.ProjectToGlass(idleScreen);
-                bool idlePowered = grid.IsCircuitPowered(marker.CircuitId);
-                style.normal.textColor = GetStatusColor(idlePowered);
+                bool idlePowered = IsCircuitShownPowered(marker.CircuitId);
+                bool idleAvailable = HasControlPower(marker.CircuitId);
+                style.normal.textColor = GetStatusColor(idlePowered, idleAvailable);
                 style.hover.textColor = style.normal.textColor;
                 style.active.textColor = style.normal.textColor;
                 DrawStatusLabel(idleScreen, clip, legendBounds, 8f * textScale, 11f * textScale, 42f * textScale,
-                    idlePowered, style);
+                    idlePowered, idleAvailable, TryGetQueuedCircuit(marker.CircuitId, out _), style);
             }
 
             if (!hoveredPoint || !TryProjectMarker(camera, hoveredPoint.transform, out Vector2 screen)) return;
-            PowerCircuit circuit = grid.Circuits.Find(value => value.Id == hoveredPoint.CircuitId);
-            string activatedName = circuit != null && !string.IsNullOrWhiteSpace(circuit.DisplayName) ? circuit.DisplayName : hoveredPoint.CircuitId;
-            var opening = Chapter1Opening.Instance;
-            if (opening && opening.IsDepotCircuit(grid, hoveredPoint.CircuitId))
-                activatedName = opening.DepotUnlocked ? "Depot unlocked" : "Entrance shutter power";
             if (filter && filter.isActiveAndEnabled) screen = filter.ProjectToGlass(screen);
             if (!HoveredInRange)
             {
-                var alert = StatusRect(screen, mapBounds, 17f * textScale, 19f * textScale, 110f * textScale);
                 style.fontSize = Mathf.Max(1, Mathf.RoundToInt(13f * textScale));
                 style.normal.textColor = new Color(1f, .35f, .32f);
                 style.hover.textColor = style.normal.textColor;
                 style.active.textColor = style.normal.textColor;
-                DrawClippedLabel(alert, clip, legendBounds, "NO SERVICE", style);
+                float alertWidth = style.CalcSize(new GUIContent(GameText.Translate(ConnectionLostLabel))).x + 12f * textScale;
+                var alert = StatusRect(screen, mapBounds, 17f * textScale, 19f * textScale, alertWidth);
+                DrawClippedLabel(alert, clip, legendBounds, ConnectionLostLabel, style);
                 return;
             }
+
+            PowerCircuit circuit = grid.Circuits.Find(value => value.Id == hoveredPoint.CircuitId);
+            string activatedName = hoveredPoint.CircuitId == BreakerCircuitId ? BreakerLabel :
+                circuit != null && !string.IsNullOrWhiteSpace(circuit.DisplayName) ? circuit.DisplayName : hoveredPoint.CircuitId;
+            bool controlAvailable = HasControlPower(hoveredPoint.CircuitId);
+            var opening = Chapter1Opening.Instance;
+            if (opening && opening.IsDepotCircuit(grid, hoveredPoint.CircuitId))
+                activatedName = opening.DepotMotor ? "Main shutter power" : opening.DepotUnlocked ? "Depot unlocked" : "Entrance shutter power";
             float elapsed = Time.unscaledTime - statusTweenStarted;
             float nameProgress = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / .26f));
             style.fontSize = Mathf.Max(1, Mathf.RoundToInt(Mathf.Lerp(9f, 15f, nameProgress) * textScale));
-            Color nameColor = GetStatusColor(grid.IsCircuitPowered(hoveredPoint.CircuitId));
+            Color nameColor = hoveredPoint.IsInformational ? new Color(1f, .82f, .36f) :
+                GetStatusColor(IsCircuitShownPowered(hoveredPoint.CircuitId), controlAvailable);
             nameColor.a = nameProgress;
             style.normal.textColor = nameColor;
             style.hover.textColor = nameColor;
@@ -334,18 +455,18 @@ namespace HorrorGame.Chapter1
             var label = new Rect(screen.x - width * .5f,
                 Screen.height - screen.y - Mathf.Lerp(29f, 39f, nameProgress) * textScale, width, nameHeight);
             DrawClippedLabel(label, clip, legendBounds, name.text, style);
-            if (currentRoomId == null || hoveredPoint.RoomUniqueId != currentRoomId) return;
+            if (hoveredPoint.IsInformational || !IsMarkerReachable(hoveredPoint, currentRoomId)) return;
 
-            bool powered = grid.IsCircuitPowered(hoveredPoint.CircuitId);
+            bool powered = IsCircuitShownPowered(hoveredPoint.CircuitId);
             const float slideDuration = .18f;
             float slide = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / slideDuration));
             float growth = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((elapsed - slideDuration) / .15f));
             style.fontSize = Mathf.Max(1, Mathf.RoundToInt(Mathf.Lerp(7f, 10f, growth) * textScale));
-            style.normal.textColor = GetStatusColor(powered);
+            style.normal.textColor = GetStatusColor(powered, controlAvailable);
             style.hover.textColor = style.normal.textColor;
             style.active.textColor = style.normal.textColor;
             DrawStatusLabel(screen, clip, legendBounds, Mathf.Lerp(8f, 13f, slide) * textScale,
-                12f * textScale, 42f * textScale, powered, style);
+                12f * textScale, 42f * textScale, powered, controlAvailable, TryGetQueuedCircuit(hoveredPoint.CircuitId, out _), style);
         }
 
         private Rect GetLegendBounds(HorrorGame.UI.TabletDisplayFilter filter)
@@ -373,10 +494,13 @@ namespace HorrorGame.Chapter1
         }
 
         private static void DrawStatusLabel(Vector2 screen, Rect clip, Rect legendBounds, float gap, float height,
-            float width, bool powered, GUIStyle style)
+            float width, bool powered, bool available, bool queued, GUIStyle style)
         {
+            if (queued) width *= 1.5f;
             var label = new Rect(screen.x - width * .5f, Screen.height - screen.y + gap, width, height);
-            DrawClippedLabel(label, clip, legendBounds, powered ? "ON" : "OFF", style);
+            string status = !available ? "NO POWER" : powered ? "ON" : "OFF";
+            if (available && queued) status = powered ? "QUEUED ON" : "QUEUED OFF";
+            DrawClippedLabel(label, clip, legendBounds, status, style);
         }
 
         private static void DrawClippedLabel(Rect label, Rect clip, Rect legendBounds, string text, GUIStyle style)
@@ -409,24 +533,42 @@ namespace HorrorGame.Chapter1
                 Mathf.Clamp(top, bounds.yMin, bounds.yMax - height), width, height);
         }
 
-        private static Color GetStatusColor(bool powered) =>
-            powered ? new Color(.47f, .94f, .59f) : new Color(1f, .43f, .40f);
+        private static Color GetStatusColor(bool powered, bool available) =>
+            !available ? new Color(1f, .43f, .40f) : powered ? new Color(.47f, .94f, .59f) : new Color(1f, .75f, .25f);
 
         private void ClearPoints()
         {
+            if (points.Count > 0)
+            {
+                if (mapUi && mapUi.CurrentMap == MapData) mapUi.SetCircuitCrosshair(null);
+                if (MapRenderer.Exists && MapRenderer.Instance.CurrentMap == MapData)
+                    MapRenderer.Instance.FocusCircuitRoom(null);
+            }
+            StopWatchingDisplacement();
             hoveredPoint = null;
+            snappedPoint = null;
             HoveredInRange = false;
             foreach (GameObject point in points) if (point) Destroy(point);
             points.Clear();
         }
+        private void OnDisable() => ClearPoints();
         private void OnDestroy()
         {
             ClearPoints();
             if (tutorialRingOverlay) Destroy(tutorialRingOverlay.gameObject);
         }
 
-        private static bool IsInCurrentRoom(PowerCircuitMapMarker marker, string roomId) =>
-            marker && roomId != null && marker.RoomUniqueId == roomId;
+        private bool IsMarkerReachable(PowerCircuitMapMarker marker, string roomId) =>
+            roomId != null && MatchesCircuitRoom(marker.CircuitId, marker.RoomUniqueId, roomId);
+
+        private bool MatchesCircuitRoom(string circuitId, string primaryRoomId, string requiredRoom)
+        {
+            if (requiredRoom == null || primaryRoomId == requiredRoom) return true;
+            var source = SourceGrid;
+            if (source && source.HasAdditionalTabletAccess(circuitId, requiredRoom)) return true;
+            var opening = Chapter1Opening.Instance;
+            return opening && opening.CanUseDepotCircuitFromOffice(source, circuitId, requiredRoom);
+        }
 
         private UnityEngine.UI.RawImage GetTabletOutput()
         {
@@ -470,11 +612,16 @@ namespace HorrorGame.Chapter1
             screen = default;
             var startup = mapUi ? mapUi.GetComponent<HorrorGame.UI.TabletStartupScreen>() : null;
             if (startup && startup.Screen && startup.Screen.gameObject.activeInHierarchy) return false;
-            if (!Chapter1MapTutorial.Instance || TutorialFade <= 0f || !MapRenderer.Exists) return false;
+            var tutorial = Chapter1MapTutorial.Instance;
+            if (!tutorial || TutorialFade <= 0f || !MapRenderer.Exists) return false;
             PowerCircuitMapMarker target = null;
             foreach (GameObject point in points)
             {
-                if (!point || !point.TryGetComponent(out PowerCircuitMapMarker marker) || !Chapter1MapTutorial.IsTargetCircuit(MapData, marker.CircuitId)) continue;
+                if (!point || !point.TryGetComponent(out PowerCircuitMapMarker marker)) continue;
+                bool isTarget = tutorial.WaitingForCircuitPower ? marker.CircuitId == BreakerCircuitId :
+                    !marker.IsInformational && Chapter1MapTutorial.IsTargetCircuit(MapData, marker.CircuitId) &&
+                    HasControlPower(marker.CircuitId);
+                if (!isTarget) continue;
                 target = marker;
                 break;
             }

@@ -96,6 +96,7 @@ namespace HorrorGame.Lighting
         private static readonly int TintColor = Shader.PropertyToID("_Color");
         private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
         private static readonly int Darkness = Shader.PropertyToID("_DarknessVisibility");
+        private static readonly int VisibilityExempt = Shader.PropertyToID("_HorrorVisibilityExempt");
         private static readonly int EmissionMap = Shader.PropertyToID("_EmissionMap");
         private static readonly int BaseMap = Shader.PropertyToID("_BaseMap");
         private static readonly ProfilerMarker UpdateMarker = new("Horror Darkness.Update");
@@ -467,6 +468,7 @@ namespace HorrorGame.Lighting
                 if (renderer is MeshRenderer && renderer.GetComponentInChildren<Light>(true)) return true;
                 if (renderer.sharedMaterial is { } material &&
                     (string.Equals(material.GetTag("FixtureEmission", false), "True", System.StringComparison.OrdinalIgnoreCase) ||
+                     (material.HasProperty(VisibilityExempt) && material.GetFloat(VisibilityExempt) > .5f) ||
                      material.GetTag("HorrorVisibilityExempt", false) == "True")) return true;
             }
             return component.GetComponentInParent<HorrorLightSource>() != null;

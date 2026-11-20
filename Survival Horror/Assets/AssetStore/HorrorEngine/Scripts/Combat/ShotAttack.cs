@@ -229,11 +229,11 @@ namespace HorrorEngine
             float maxRange = m_MaxRange;
 
             RaycastHit hit;
-            if (Physics.Raycast(originPos, dir, out hit, m_MaxRange, m_ObstructionLayerMask)) maxRange = Mathf.Min(maxRange, hit.distance);
-            if (Physics.Raycast(originPos + Vector3.up * m_CastRadius,  dir, out hit, m_MaxRange, m_ObstructionLayerMask)) maxRange = Mathf.Min(maxRange, hit.distance);
-            if (Physics.Raycast(originPos + Vector3.down * m_CastRadius, dir, out hit, m_MaxRange, m_ObstructionLayerMask)) maxRange = Mathf.Min(maxRange, hit.distance);
-            if (Physics.Raycast(originPos + Vector3.left * m_CastRadius, dir, out hit, m_MaxRange, m_ObstructionLayerMask)) maxRange = Mathf.Min(maxRange, hit.distance);
-            if (Physics.Raycast(originPos + Vector3.right * m_CastRadius, dir, out hit, m_MaxRange, m_ObstructionLayerMask)) maxRange = Mathf.Min(maxRange, hit.distance);
+            if (Physics.Raycast(originPos, dir, out hit, m_MaxRange, m_ObstructionLayerMask, QueryTriggerInteraction.Ignore)) maxRange = Mathf.Min(maxRange, hit.distance);
+            if (Physics.Raycast(originPos + Vector3.up * m_CastRadius,  dir, out hit, m_MaxRange, m_ObstructionLayerMask, QueryTriggerInteraction.Ignore)) maxRange = Mathf.Min(maxRange, hit.distance);
+            if (Physics.Raycast(originPos + Vector3.down * m_CastRadius, dir, out hit, m_MaxRange, m_ObstructionLayerMask, QueryTriggerInteraction.Ignore)) maxRange = Mathf.Min(maxRange, hit.distance);
+            if (Physics.Raycast(originPos + Vector3.left * m_CastRadius, dir, out hit, m_MaxRange, m_ObstructionLayerMask, QueryTriggerInteraction.Ignore)) maxRange = Mathf.Min(maxRange, hit.distance);
+            if (Physics.Raycast(originPos + Vector3.right * m_CastRadius, dir, out hit, m_MaxRange, m_ObstructionLayerMask, QueryTriggerInteraction.Ignore)) maxRange = Mathf.Min(maxRange, hit.distance);
 
             return Mathf.Min(maxRange, m_MaxRange);
         }

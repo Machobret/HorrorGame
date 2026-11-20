@@ -2,11 +2,31 @@
 
 ## Integrated opening
 
-In `1stLevel_Integrated`, the player starts at the far end of the street and approaches Machobret's Corner Market. The tablet is a non-blocking pickup. The player opens it with M, powers the alley intercom, and uses E at the courtyard gate. The main shutter shows **Shutter locked** until the player selects **Unlock Depot** on the tablet. Once unlocked, E takes the player through the shutter. The staff-room desk holds the circuit diagram for the storage puzzles.
+In `1stLevel_Integrated`, the Maintenance Schedule on the alley electricity box points to the tablet at Machobret's Corner Market. After picking up the tablet, use the electricity box's lightning icon on the alley map to authorize the lever. Pull the lever up to light the intercom green and unlock the gate. Use E at the gate to enter.
 
-`Chapter1Opening` connects the intercom, depot shutter, and storefront hours sign. The alley electrical box is the world anchor for its tablet circuit. The Corner Market scene instance uses its source layout and keeps real-time shadows off on its fixtures.
+The electricity box shows red when disconnected on the tablet, yellow when connected with the lever down, and green when connected with the lever up. The tutorial highlights the electricity box until the supply is on.
+
+`Chapter1Opening` ties courtyard passage and the intercom indicator directly to the alley breaker's supply. The intercom has no map marker or interaction. Its indicator is dark when disconnected, red when connected without power, and green when powered. Enable **Requires Unlock** on `IntercomStatus` for a powered intercom that should show yellow until an external control calls `SetUnlocked`.
+
+Connected fixtures go dark during an outage. Motorized shutters hold their position when the breaker cuts power and resume their requested motion when it returns. Authorization, lever position, and progression persist in saves.
+
+`DocumentDB` registers the Maintenance Schedule for inventory saves. The breaker uses the standard pickup animation's reach and finish timing. The supply changes when the lever interaction completes.
+
+## Storage facility
+
+The storage office contains a pistol, matching ammunition and the circuit diagram. The player comments on the pistol the first time they enter while it is still there. The first gun pickup opens the equip, aim, fire and reload tutorial. Tab opens inventory, and each new document shows a reminder for the Documents tab. The office button powers the main shutter's tablet control. The main shutter raises physically when selected on the tablet.
+
+The first two storage bay shutters operate independently. Their tablet requests apply on close in the order selected. The Runner spawns before the first shutter rises, and the other bay contains the key. The encounter uses the local bake in `Scenes/StorageEncounter_NavMesh.asset`. Navigation links connect the bays to the corridor when their shutters are open.
+
+The reverse of the Shutter Notice marks the overloaded bays with an X and tells the player to switch off their power. Each numbered bay button switches its interior light and local load. Turning off the marked bays powers the two corridor shutter controls. Either control moves the same physical shutter. The overhead fixtures retain their authored colors. Each of the eight storage bays has an exterior security screen that shows yellow while its shutter is closed and green once it has fully opened. The tablet markers stay at the centers of the shutters.
+
+Author additional installations by assigning an `ElectricalBoxPower` to the local `DistrictPowerGrid`, `ElectricalFixtureFeed`, or `ElectricalDeviceFeed`. Assign a unique Horror Engine save ID and `SavableObjectState` to each cabinet that should persist. Fixture feeds hold explicit light references so unrelated lighting keeps its own supply. Horror Engine's `Interactive` checks an optional power callback before running a linked device's local action.
+
+The revised cabinet and lever sources are in `ArtSource/Environment/ElectricalBox/Revised`. The assembly recipe is `Tools/Environment/BuildIntegratedBreaker.cs`. Stage the recipe in `Assets/Editor` of an isolated copy and set `BREAKER_ASSET_SOURCE` to the revised source folder before running `BuildIntegratedBreaker.Run`.
 
 The jammed shutter at the end of storage is the demo exit. Interacting with it shows the closing note and offers a return to the main menu.
+
+Press Interact at the crate to enter the stance. Move toward the crate to push or away from it to pull. Press Interact again to release it.
 
 ## Integrated tablet maps
 

@@ -72,6 +72,7 @@ MonoBehaviour:
   antenna: {fileID: 4108604204184622500}
   bodyIndicator: {fileID: 8596042905005768302}
   antennaIndicator: {fileID: 2636799695122479490}
+  emitRealLights: 0
   postMount: {fileID: 2316279706539473207}
 --- !u!1 &4682662794500879688
 GameObject:
@@ -113,11 +114,11 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4682662794500879688}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 0.035346147, g: 1, b: 0, a: 1}
-  m_Intensity: 0.072
+  m_Intensity: 0.288
   m_Range: 0.4
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -187,7 +188,7 @@ MonoBehaviour:
   lensRenderer: {fileID: 6554512938003208584}
   emissionSlot: 1
   pointLight: {fileID: 4675433140529465098}
-  lightIntensityPerStrength: 0.08
+  lightIntensityPerStrength: 0.32
 --- !u!1 &4739307534592267844
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,7 +229,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4739307534592267844}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 0.035346147, g: 1, b: 0, a: 1}

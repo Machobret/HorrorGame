@@ -24,7 +24,7 @@ namespace HouseToolkit.Editor
             root.GetComponentInParent<ExcludeFromRoomAssignment>(true) ||
             root.GetComponentInChildren<ExcludeFromRoomAssignment>(true) ||
             root.GetComponentInChildren<FixtureAttachment>(true) || root.GetComponentInChildren<ProceduralSurface>(true) ||
-            root.GetComponentInChildren<ScatterCell>(true) || root.GetComponentInChildren<MeshDecal>(true) || root.GetComponentInChildren<House>(true) ||
+            root.GetComponentInChildren<ScatterCell>(true) || root.GetComponentInChildren<ProceduralWire>(true) || root.GetComponentInChildren<MeshDecal>(true) || root.GetComponentInChildren<House>(true) ||
             root.GetComponentInChildren<HouseWall>(true) || root.GetComponentInChildren<HouseSlab>(true) ||
             root.GetComponentInChildren<CornerJoint>(true) || root.GetComponentInChildren<InsertAttachment>(true) ||
             root.GetComponentInChildren<HouseFloor>(true) || root.GetComponentInChildren<HouseRoom>(true) ||

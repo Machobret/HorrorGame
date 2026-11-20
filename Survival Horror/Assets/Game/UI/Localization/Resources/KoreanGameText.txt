@@ -108,6 +108,16 @@ Flare gun|신호총
 Generator Room Key|발전기실 열쇠
 Hunting rifle|사냥용 소총
 Inventory Text Size|소지품 글자 크기
+Corridor Puzzle|복도 퍼즐
+Puzzle A|퍼즐 A
+Puzzle B|퍼즐 B
+Tenant Register|임차인 명부
+Need an electrician to check these storage units out:|전기 기사에게 다음 창고를 점검해 달라고 하세요.
+Need an electrician to check the storage units rented by:|전기 기사에게 다음 사람들이 빌린 창고를 점검해 달라고 하세요.
+E  View page|E  원본 보기
+E  Read transcript|E  내용 읽기
+A / D  Page|A / D  페이지
+Esc  Close|Esc  닫기
 Light cigarette signal|담배에 불을 붙여 신호 보내기
 Lighter|라이터
 Magnum revolver|매그넘 리볼버
@@ -127,7 +137,22 @@ Release warehouse shutter|창고 셔터 잠금 해제
 Restore facility supply|시설 전력 복구
 Select an item|아이템 선택
 Shutter locked|셔터 잠김
+Gate locked|출입문 잠김
+RESTORE POWER|전원 복구
+Turn on the alley breaker|골목의 차단기를 켜자
+Enable the electricity box on the tablet|태블릿에서 배전함을 활성화하자
+Electricity box|배전함
+Storage depot|창고
+Power the storage depot|창고에 전원을 공급하자
+Enable the electricity box on the map, then close the tablet and pull the lever to unlock the gate.|지도에서 배전함을 활성화한 다음 태블릿을 닫고 레버를 당겨 출입문을 여세요.
+Close the tablet and turn on the alley breaker.|태블릿을 닫고 골목의 차단기를 켜세요.
+Alley breaker|골목 차단기
+Close the tablet and turn on the alley breaker to power the intercom.|태블릿을 닫고 골목의 차단기를 켜 인터폰에 전원을 공급하세요.
+Aim at a lightning bolt and press E, or click it. Restore power before using a circuit marked NO POWER. CONNECTION LOST means the circuit is out of reach.|번개 아이콘에 조준하고 E 키를 누르거나 클릭하세요. 전원 없음이 표시된 회로는 전원을 복구한 뒤 사용하세요. 연결 끊김은 회로가 조작 범위 밖에 있다는 뜻입니다.
+A gun, maybe i should take it|총이다. 챙겨 가는 게 좋겠어.
 Shutter Notice|셔터 안내문
+Switch off the power in the bays marked with an X.|X 표시가 된 보관실의 전원을 끄세요.
+some of our storage units are consuming so much electricity that the corridor shutter door stopped working. Once the electrician comes, have him turn off the power in these units so the shutter door starts working again.|일부 보관실에서 전기를 너무 많이 써서 복도 셔터가 작동을 멈췄습니다. 전기 기사가 오면 셔터가 다시 작동하도록 이 보관실들의 전원을 꺼 달라고 하세요.
 SMG rounds|기관단총 탄약
 Storage Unit|보관 구역
 Storage Unit Entrance Circuit Diagram|보관 구역 입구 회로도
@@ -186,6 +211,29 @@ WASD  Move and turn|WASD  이동 및 회전
 E  Interact with the intercom|E  인터폰 사용
 I  Inventory   /   M  Tablet|I  소지품   /   M  태블릿
 Use the tablet to power the alley intercom|태블릿으로 골목 인터폰에 전력을 공급하세요
+Use the tablet to unlock the courtyard gate|태블릿으로 안뜰 출입문의 잠금을 해제하세요
+Unlock courtyard gate|안뜰 출입문 잠금 해제
+Courtyard gate unlocked|안뜰 출입문 잠금 해제됨
+No power|전원이 들어오지 않는다
+NO POWER|전원 없음
+QUEUED ON|켜짐 예약
+QUEUED OFF|꺼짐 예약
+Shutter changes apply when you close the tablet.|태블릿을 닫으면 셔터 설정이 적용됩니다.
+Main shutter|정문 셔터
+Press shutter button|셔터 버튼 누르기
+Open the main shutter with the tablet|태블릿으로 정문 셔터를 열자
+Power the main shutter with the tablet|태블릿으로 정문 셔터에 전원을 공급하자
+Open the main shutter with the office button|사무실 버튼을 눌러 정문 셔터를 열자
+Main shutter power|정문 셔터 전원
+Use the office button to power the main shutter|사무실 버튼을 눌러 정문 셔터에 전원을 공급하자
+The shutter controls have power|셔터 조작 버튼에 전원이 들어왔다
+Pick up the pistol and its ammunition in the storage office first|먼저 창고 사무실에서 권총과 탄약을 챙기자
+Open the inventory ({INVENTORY}), select the gun and choose Equip. Close the inventory.|인벤토리({INVENTORY})를 열고 총을 선택한 뒤 장착을 누르세요. 그런 다음 인벤토리를 닫으세요.
+Hold Aim ({AIM}), then press Attack ({ATTACK}) to fire. Press Reload ({RELOAD}) to load more ammunition.|조준({AIM})을 누른 채 공격({ATTACK})을 눌러 발사하세요. 재장전({RELOAD})을 누르면 탄약을 다시 장전합니다.
+Toggle breaker|차단기 조작
+Read note|쪽지 읽기
+Electrician's note|전기 기사의 쪽지
+I left the electrician's tablet with the store owner, you can use it to get inside|전기 기사의 태블릿은 가게 주인에게 맡겨 뒀어. 그걸 쓰면 안으로 들어갈 수 있어
 No power. Look for the tablet in the alley.|전원이 들어오지 않는다. 골목에서 태블릿을 찾아보자.
 Shutter locked. Use the tablet to unlock the depot.|셔터가 잠겨 있다. 태블릿으로 창고 잠금을 해제하자.
 Shutter pattern rejected.|셔터 순서가 틀렸습니다.
@@ -203,6 +251,7 @@ OPEN|열림
 ON|켜짐
 OFF|꺼짐
 NO SERVICE|전력 공급 없음
+CONNECTION LOST|연결 끊김
 DISTRICT POWER|구역 전력
 DISTRICT POWER GRID DATA    —    GRID SHUT DOWN|구역 전력망 데이터    —    전력망 차단
 WASD: SELECT     CONFIRM: TOGGLE CIRCUIT     CANCEL: CLOSE|WASD: 선택     확인: 회로 전환     취소: 닫기
@@ -364,6 +413,10 @@ A and D to turn sideways|A / D 키로 좌우 회전
 S to move backwards|S 키로 뒤로 이동
 Q to 180 turn|Q 키로 180도 회전
 I to open inventory|I 키로 소지품 열기
+Tab to open inventory|Tab 키로 소지품 열기
+RECEIVED DOCUMENT|문서 획득
+Tab · Inventory → Documents|Tab · 인벤토리 → 문서
+Use WASD or click and drag to pan. Scroll to zoom. Press I to browse discovered maps.|WASD 또는 클릭 후 드래그로 지도를 이동하세요. 스크롤로 확대하거나 축소하세요. I 키로 발견한 지도를 둘러보세요.
 I need to move forward|앞으로 가야겠어.
 E to interact|E 키로 상호 작용
 M to open map|M 키로 지도 열기

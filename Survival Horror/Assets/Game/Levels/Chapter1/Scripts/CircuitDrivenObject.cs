@@ -9,13 +9,21 @@ namespace HorrorGame.Chapter1
 
         protected virtual void Start()
         {
-            if (Grid != null) Grid.CircuitChanged += OnCircuitChanged;
+            if (Grid != null)
+            {
+                Grid.CircuitChanged += OnCircuitChanged;
+                Grid.SupplyChanged += Refresh;
+            }
             Refresh();
         }
 
         protected virtual void OnDestroy()
         {
-            if (Grid != null) Grid.CircuitChanged -= OnCircuitChanged;
+            if (Grid != null)
+            {
+                Grid.CircuitChanged -= OnCircuitChanged;
+                Grid.SupplyChanged -= Refresh;
+            }
         }
 
         private void OnCircuitChanged(string id, bool powered)

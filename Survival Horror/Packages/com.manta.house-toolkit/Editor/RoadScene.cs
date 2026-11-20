@@ -107,6 +107,7 @@ namespace HouseToolkit.Editor
 
         internal static void Enter(ProceduralSurface road)
         {
+            WireTool.Leave();
             if(!road)return;
             if(Active)Leave();
             if(HouseScene.Floor)HouseScene.Leave();

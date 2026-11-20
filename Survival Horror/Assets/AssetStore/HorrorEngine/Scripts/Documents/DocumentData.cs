@@ -16,6 +16,7 @@ namespace HorrorEngine
         public LocalizableText Text;
         public LocalizableSprite Image;
         public LocalizableText Caption;
+        public Sprite Artwork;
 
         // TODO Remove eventually
         [TextArea(10,30)]

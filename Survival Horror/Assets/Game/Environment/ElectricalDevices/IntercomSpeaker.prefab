@@ -40,7 +40,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2804394108967498428}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 0.035346147, g: 1, b: 0, a: 1}
@@ -155,7 +155,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5725807094998666650}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 0.035346147, g: 1, b: 0, a: 1}
@@ -241,6 +241,7 @@ GameObject:
   - component: {fileID: 6594217824987336283}
   - component: {fileID: 8930156951949399288}
   - component: {fileID: 92357019904362993}
+  - component: {fileID: 7601786389388872942}
   m_Layer: 0
   m_Name: IntercomSpeaker
   m_TagString: Untagged
@@ -302,7 +303,22 @@ MonoBehaviour:
   antenna: {fileID: 1534288979737917192}
   bodyIndicator: {fileID: 581099374200481338}
   antennaIndicator: {fileID: 8651864043878075828}
+  emitRealLights: 0
   postMount: {fileID: 4281981502127193295}
+--- !u!114 &7601786389388872942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7782322913160533134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 277f7e9349374cf4ab37f98389008b63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Environment.IntercomStatus
+  requiresUnlock: 0
+  unlocked: 0
 --- !u!1001 &1840717031861520985
 PrefabInstance:
   m_ObjectHideFlags: 0

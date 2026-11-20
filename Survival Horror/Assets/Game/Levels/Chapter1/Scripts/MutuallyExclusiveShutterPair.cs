@@ -1,3 +1,4 @@
+using HorrorGame.Environment;
 using UnityEngine;
 
 namespace HorrorGame.Chapter1
@@ -11,11 +12,22 @@ namespace HorrorGame.Chapter1
         public CircuitDrivenObject LeftShutter;
         public CircuitDrivenObject RightShutter;
         public bool LeftStartsOpen = true;
+        public bool Independent;
         private DistrictPowerGrid grid;
+
+        private void Awake()
+        {
+            if (!Independent && LeftShutter is GarageDoorCircuitLink left && RightShutter is GarageDoorCircuitLink right)
+            {
+                left.SetOpeningInterlock(right);
+                right.SetOpeningInterlock(left);
+            }
+        }
 
         private void Start()
         {
             grid = LeftShutter ? LeftShutter.Grid : RightShutter ? RightShutter.Grid : null;
+            if (Independent) return;
             if (grid != null)
             {
                 grid.CircuitChanged += OnCircuitChanged;
@@ -33,22 +45,35 @@ namespace HorrorGame.Chapter1
         private void OnDestroy()
         {
             if (grid != null) grid.CircuitChanged -= OnCircuitChanged;
+            if (!Independent && LeftShutter is GarageDoorCircuitLink left && RightShutter is GarageDoorCircuitLink right)
+            {
+                if (left) left.SetOpeningInterlock(null);
+                if (right) right.SetOpeningInterlock(null);
+            }
         }
 
         private void OnCircuitChanged(string circuitId, bool powered)
         {
             if (!powered || grid == null) return;
             if (LeftShutter && circuitId == LeftShutter.CircuitId && RightShutter)
-                grid.SetCircuit(RightShutter.CircuitId, false);
+                Displace(RightShutter);
             else if (RightShutter && circuitId == RightShutter.CircuitId && LeftShutter)
-                grid.SetCircuit(LeftShutter.CircuitId, false);
+                Displace(LeftShutter);
+        }
+
+        private void Displace(CircuitDrivenObject shutter)
+        {
+            if (!shutter || !grid.IsCircuitRequested(shutter.CircuitId)) return;
+            bool powered = grid.IsCircuitPowered(shutter.CircuitId);
+            grid.SetCircuit(shutter.CircuitId, false);
+            if (powered) grid.ReportCircuitDisplacement(shutter.CircuitId);
         }
 
         public void OpenLeft()
         {
             if (grid != null)
             {
-                if (RightShutter) grid.SetCircuit(RightShutter.CircuitId, false);
+                if (!Independent) Displace(RightShutter);
                 if (LeftShutter) grid.SetCircuit(LeftShutter.CircuitId, true);
                 return;
             }
@@ -60,7 +85,7 @@ namespace HorrorGame.Chapter1
         {
             if (grid != null)
             {
-                if (LeftShutter) grid.SetCircuit(LeftShutter.CircuitId, false);
+                if (!Independent) Displace(LeftShutter);
                 if (RightShutter) grid.SetCircuit(RightShutter.CircuitId, true);
                 return;
             }

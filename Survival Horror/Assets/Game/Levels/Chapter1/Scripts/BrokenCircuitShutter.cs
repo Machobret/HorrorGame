@@ -119,6 +119,7 @@ namespace HorrorGame.Chapter1
                 PinCrate(jammedCratePosition);
                 SetLift(jammedLift, false);
             }
+            else if (Grid && !Grid.HasSupply) return;
             else if (Powered && isActiveAndEnabled)
                 cycle = StartCoroutine(SlamLoop());
             else
@@ -127,7 +128,7 @@ namespace HorrorGame.Chapter1
 
         private void Update()
         {
-            if (!leafCollider || Jammed) return;
+            if (!leafCollider || Jammed || (Grid && !Grid.HasSupply)) return;
             if (cycle != null && Powered)
                 CatchCrateInTrack();
             else if (!Powered && lift > 0f)

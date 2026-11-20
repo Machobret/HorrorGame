@@ -68,7 +68,8 @@ namespace HorrorGame.Chapter1
             foreach (PowerPanelCircuitShape shape in Layout.Circuits)
             {
                 Vector2 mapPosition = shape.MapPosition == Vector2.zero ? new Vector2(shape.Bounds.center.x / Layout.CanvasSize.x * width, shape.Bounds.center.y / Layout.CanvasSize.y * height) : shape.MapPosition;
-                PowerCircuitMapMarker point = PowerCircuitMapMarker.Create(markerRoot, layer, shape.CircuitId, new Vector3(mapPosition.x, 6f, -mapPosition.y));
+                PowerCircuitMapMarker point = PowerCircuitMapMarker.Create(markerRoot, layer, shape.CircuitId,
+                    new Vector3(mapPosition.x, 6f, -mapPosition.y), shape.RoomUniqueId);
                 points.Add(point.gameObject);
             }
         }

@@ -33,6 +33,7 @@ namespace HouseToolkit.Editor
         [MenuItem("GameObject/Environment/Scatter", false, 18)]
         internal static void Open()
         {
+            WireTool.Leave();
             if (HouseScene.Floor) HouseScene.Leave();
             if (RoadScene.Active) RoadScene.Leave();
             if (EnvironmentPlacementTool.Pending) EnvironmentPlacementTool.Cancel();

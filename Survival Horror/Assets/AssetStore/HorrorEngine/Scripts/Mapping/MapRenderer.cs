@@ -51,6 +51,12 @@ namespace HorrorEngine
         private Material m_RuntimeContourMaterial;
         private Bounds m_ContentBounds;
         private float m_DefaultZoom;
+        private readonly Dictionary<string, List<Renderer>> m_CircuitRoomRenderers = new();
+        private readonly Dictionary<string, Renderer> m_CircuitDoorRenderers = new();
+        private MaterialPropertyBlock m_CircuitRoomTint;
+        private string m_CircuitRoomFocus;
+        private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
+        private static readonly int ColorId = Shader.PropertyToID("_Color");
 
         [Header("Contour readability")]
         [Tooltip("Renders room borders as high-contrast white lines in the player map.")]
@@ -250,6 +256,9 @@ namespace HorrorEngine
             EnsureRenderTexture();
             m_Map = map;
             m_ContentBounds = CalculateContentBounds(map);
+            m_CircuitRoomFocus = null;
+            m_CircuitRoomRenderers.Clear();
+            m_CircuitDoorRenderers.Clear();
 
             // Clear map
             for (int i = 0; i < m_MapContent.childCount; ++i)
@@ -328,6 +337,52 @@ namespace HorrorEngine
         }
         // --------------------------------------------------------------------
 
+        internal void FocusCircuitRoom(string roomId)
+        {
+            if (!m_Map) return;
+            // Focus can only tint rooms already drawn by the current map view.
+            if (string.IsNullOrEmpty(roomId) || !m_CircuitRoomRenderers.ContainsKey(roomId)) roomId = null;
+            if (m_CircuitRoomFocus == roomId) return;
+            var focused = roomId == null ? null : m_Map.Rooms.Find(room => room != null && room.UniqueId == roomId);
+            m_CircuitRoomFocus = roomId;
+
+            foreach (var room in m_CircuitRoomRenderers)
+            {
+                bool selected = focused != null && room.Key == roomId;
+                foreach (var renderer in room.Value)
+                    DimCircuitRoomRenderer(renderer, focused != null && !selected);
+            }
+            foreach (var door in m_CircuitDoorRenderers)
+                DimCircuitRoomRenderer(door.Value, focused != null && !focused.LinkedElements.Contains(door.Key));
+        }
+
+        private void DimCircuitRoomRenderer(Renderer renderer, bool dimmed)
+        {
+            if (!renderer || !renderer.sharedMaterial) return;
+            var material = renderer.sharedMaterial;
+            m_CircuitRoomTint ??= new MaterialPropertyBlock();
+            renderer.GetPropertyBlock(m_CircuitRoomTint);
+            SetTint(BaseColorId);
+            SetTint(ColorId);
+            renderer.SetPropertyBlock(m_CircuitRoomTint);
+
+            void SetTint(int id)
+            {
+                if (!material.HasProperty(id)) return;
+                Color color = material.GetColor(id);
+                float dim = dimmed ? .25f : 1f;
+                m_CircuitRoomTint.SetColor(id, new Color(color.r * dim, color.g * dim, color.b * dim, color.a));
+            }
+        }
+
+        private void RegisterCircuitRoomVisual(MapRoomSerializedData room, GameObject visual)
+        {
+            if (string.IsNullOrEmpty(room.UniqueId)) return;
+            if (!m_CircuitRoomRenderers.TryGetValue(room.UniqueId, out var renderers))
+                m_CircuitRoomRenderers.Add(room.UniqueId, renderers = new List<Renderer>());
+            renderers.AddRange(visual.GetComponentsInChildren<Renderer>(true));
+        }
+
         private bool GenerateRoom(MapRoomSerializedData room, bool revealUnknownRooms)
         {
             MapRoomState state = room.GetState();
@@ -354,9 +409,13 @@ namespace HorrorEngine
 
             GameObject roomGO = roomSP.Create(room.Name, m_MapContent, layer, room.Shapes, roomTRS);
 
-            var walls = WallsSP.Create(room.Name, m_MapContent, layer, room.Shapes, roomTRS);
+            bool closeWallPaths = WallsSP is ShapeCreationProcessLine lines && lines.Loop;
+            var wallShapes = m_Map.GetWallShapes(room.Shapes, roomTRS, closeWallPaths);
+            var walls = WallsSP.Create(room.Name, m_MapContent, layer, wallShapes, roomTRS);
             walls.transform.localPosition = new Vector3(walls.transform.localPosition.x, m_WallsHeight, walls.transform.localPosition.z);
             ApplyContourStyle(walls);
+            RegisterCircuitRoomVisual(room, roomGO);
+            RegisterCircuitRoomVisual(room, walls);
 
             // Draw Details
             int index = 0;
@@ -368,6 +427,7 @@ namespace HorrorEngine
 
                 bool isActive = details.GetState();
                 newDetails.gameObject.SetActive(isActive);
+                RegisterCircuitRoomVisual(room, newDetails);
 
                 ++index;
             }
@@ -391,6 +451,7 @@ namespace HorrorEngine
 
                 bool isActive = image.GetState();
                 newImage.gameObject.SetActive(isActive);
+                RegisterCircuitRoomVisual(room, newImage);
 
                 ++index;
             }
@@ -421,6 +482,7 @@ namespace HorrorEngine
 
             MeshFilter meshFilter = go.AddComponent<MeshFilter>();
             MeshRenderer meshRenderer = go.AddComponent<MeshRenderer>();
+            if (!string.IsNullOrEmpty(door.UniqueId)) m_CircuitDoorRenderers[door.UniqueId] = meshRenderer;
             meshRenderer.receiveShadows = false;
 
             MapDoorState state = door.GetState();

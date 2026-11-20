@@ -1,11 +1,16 @@
 {
-  "source": "User-supplied cabinet and antenna FBXs with their base-color atlas.",
+  "source": "User-supplied cabinet, lever, and antenna FBXs with the project atlas.",
   "currentModels": {
-    "source": "../Props.blend",
-    "cabinetObject": "Cube.003",
+    "cabinet": "Revised/SM_ElectricityBox_01.fbx",
+    "lever": "Revised/SM_ElectricityBox_Lever_01.fbx",
+    "antennaSource": "../Props.blend",
     "antennaObject": "Cube.004",
-    "exportRecipe": "../ElectricalDevices/export_props.py",
-    "indicators": ["Light_Red", "Light_Green", "Light_Universal"]
+    "exportRecipe": "Tools/Environment/BuildIntegratedBreaker.cs",
+    "indicators": [
+      "Light_Red",
+      "Light_Green",
+      "Light_Universal"
+    ]
   },
   "sourceAssets": [
     {
@@ -22,6 +27,16 @@
       "source": "Original/ElectricityBox_base_color.png",
       "unityAsset": "Assets/Game/Environment/ElectricalBox/ElectricityBox_BaseColor.png",
       "sha256": "87f36d38847250f39ad33a092ed11e08a95b270b461843e27a4217083a8e64be"
+    },
+    {
+      "source": "Revised/SM_ElectricityBox_01.fbx",
+      "unityAsset": "Assets/Game/Environment/ElectricalBox/ElectricityBox_Model.fbx",
+      "sha256": "8e966a082720ebefdb172e3a5c299469638370212201781bcd07af14e5786046"
+    },
+    {
+      "source": "Revised/SM_ElectricityBox_Lever_01.fbx",
+      "unityAsset": "Assets/Game/Environment/ElectricalBox/ElectricityBox_Lever_Model.fbx",
+      "sha256": "e93715562e1340ba25b763600f25b21a7eaa59c782b5d026ccb1e748b80f1476"
     }
   ],
   "prefab": "Assets/Game/Environment/ElectricalBox/ElectricityBox.prefab",
@@ -39,7 +54,7 @@
   "placement": "Ground-centred at unit scale, with the front facing local +Z.",
   "antenna": {
     "child": "Antenna",
-    "activeByDefault": true,
+    "activeByDefault": false,
     "offsetFromCabinetTopM": {
       "x": 0.28136247396469116,
       "y": -0.006456613540649414,

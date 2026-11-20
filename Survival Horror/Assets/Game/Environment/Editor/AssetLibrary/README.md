@@ -15,6 +15,7 @@ The catalogue is a shelf for reusable, placeable scene props. Each entry uses it
 - Use **+** to include a tag or **−** to exclude it. **Match all / Match any** controls included tags; exclusions always win. Collection and category filters are additional requirements.
 - Search resolves synonyms centrally: shop/store/retail/supermarket find Grocery Store, fridge/freezer find Refrigeration, pans find Cookware. Aliases are not attached to every asset. Positive search terms are combined with AND, quotes keep a phrase together, and `-word` or `-"quoted phrase"` excludes text. Multiword aliases work without quotes, too.
 - Drag a thumbnail into the Scene or Hierarchy using Unity's standard prefab placement. Placement retains prefab links and the prefab's collision/materials, and uses the normal Unity Undo workflow.
+- Search **neon** under **Decor & signage** for animated storefront signs. Open a design's family card to choose a colour or state. A Scene drop on a wall aligns the sign to the surface. A Hierarchy drop leaves it available for manual placement.
 - Select an entry for its thumbnail, tags, recorded dimensions, review notes and provenance. Choose **Interactive 3D preview** to rotate the asset. Double-click reveals the prefab. **Open prefab** opens Prefab Mode.
 - Stars and saved filters are personal, stored in EditorPrefs per project. Filters and thumbnail size survive reopening the window.
 

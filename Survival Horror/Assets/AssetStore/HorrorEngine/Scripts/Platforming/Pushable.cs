@@ -62,6 +62,18 @@ namespace HorrorEngine
                 player.GetComponentInParent<Actor>()?.GetComponentInChildren<PlayerStatePushing>()?.StartInteractionPush(this);
         }
 
+        internal bool TryGetPushAxis(Transform player, out Vector3 axis)
+        {
+            axis = Vector3.zero;
+            if (!CanBePushed || !m_Rigidbody || m_Rigidbody.isKinematic) return false;
+            Vector3 toward = transform.position - player.position;
+            if (Mathf.Abs(toward.y) > .45f) return false;
+            toward.y = 0;
+            if (Vector3.Dot(toward.normalized, player.forward) < .45f) return false;
+            axis = GetPushingAxis(toward, out bool found);
+            return found;
+        }
+
         // --------------------------------------------------------------------
 
         private void OnValidate()

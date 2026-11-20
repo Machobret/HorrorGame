@@ -43,8 +43,8 @@ MonoBehaviour:
   Pages:
   - Text:
       IsLocalized: 0
-      Unlocalized: The following <color=#FFD84A>storage bays</color> need to be cleaned
-        out by Monday. I <color=#FFD84A>marked</color> them on the next page
+      Unlocalized: 'Need an electrician to <color=#FFD84A>check</color> these storage
+        units out:'
       Localized:
         m_TableReference:
           m_TableCollectionName: 
@@ -84,7 +84,7 @@ MonoBehaviour:
     ImageColor: {r: 1, g: 1, b: 1, a: 1}
   - Text:
       IsLocalized: 0
-      Unlocalized: 
+      Unlocalized: 21, <color=#FFD84A>22</color>, <color=#FFD84A>23</color>
       Localized:
         m_TableReference:
           m_TableCollectionName: 

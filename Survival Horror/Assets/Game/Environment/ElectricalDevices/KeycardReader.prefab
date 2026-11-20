@@ -72,6 +72,7 @@ MonoBehaviour:
   antenna: {fileID: 3146024311563498545}
   bodyIndicator: {fileID: 7742410962224293490}
   antennaIndicator: {fileID: 9065144374421685055}
+  emitRealLights: 0
   postMount: {fileID: 8524692997565045077}
 --- !u!1 &7510556766456797968
 GameObject:
@@ -113,7 +114,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7510556766456797968}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 0.035346147, g: 1, b: 0, a: 1}
@@ -228,7 +229,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8092526518948539612}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 0.035346147, g: 1, b: 0, a: 1}

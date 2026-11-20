@@ -110,6 +110,7 @@ namespace HouseToolkit.Editor
             }
             var floor=HouseScene.Floor;
             var selected = Selection.activeGameObject;
+            if (WireTool.Properties(selected)) return;
             var fixture = selected && selected.scene.IsValid() ? selected.GetComponent<FixtureAttachment>() : null;
             var road = RoadScene.Active;
             if (!road && selected && selected.scene.IsValid()) road = selected.GetComponent<ProceduralSurface>();

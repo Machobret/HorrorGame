@@ -22,7 +22,9 @@ namespace HorrorGame.Chapter1
         private TwoSidedDoor passage;
         private Interactive interaction;
         private bool puzzleUnlocked;
-        protected virtual bool PassageAvailable => puzzleUnlocked || (!RequiresPuzzleUnlock && Powered);
+        private bool heldOpen;
+        protected virtual bool PassageAvailable => puzzleUnlocked || (!RequiresPuzzleUnlock &&
+            (Grid && !Grid.HasSupply ? heldOpen : Powered));
         public bool CanTraverse => isActiveAndEnabled && passage && interaction && interaction.isActiveAndEnabled && PassageAvailable;
 
         public void SetPuzzleUnlocked(bool unlocked)
@@ -71,6 +73,9 @@ namespace HorrorGame.Chapter1
         public override void Refresh()
         {
             if (!interaction) return;
+
+            if (!Grid || Grid.HasSupply) heldOpen = PassageAvailable;
+            if (passage) passage.Animation = Grid && !Grid.HasSupply ? null : Animation;
 
             bool available = PassageAvailable;
             var data = available || !lockedInteraction ? DoorInteraction : lockedInteraction;

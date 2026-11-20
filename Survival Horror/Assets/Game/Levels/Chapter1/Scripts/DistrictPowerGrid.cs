@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Game.Environment;
+using HorrorEngine;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,8 +20,19 @@ namespace HorrorGame.Chapter1
     /// <summary>Single source of truth for the district's deliberately limited electrical supply.</summary>
     public sealed class DistrictPowerGrid : MonoBehaviour
     {
+        [Serializable]
+        private sealed class TabletCircuitAccess
+        {
+            public string CircuitId;
+            public MapRoom[] Rooms = Array.Empty<MapRoom>();
+        }
+
         [Tooltip("Shared authored circuit list. It is cloned on play so overloads never modify the asset.")]
         public DistrictPowerGridData Data;
+        public ElectricalBoxPower Supply;
+        [SerializeField, Tooltip("Additional rooms where each circuit can be controlled from the tablet.")]
+        private TabletCircuitAccess[] additionalTabletAccess = Array.Empty<TabletCircuitAccess>();
+        public bool HasSupply => !Supply || Supply.IsOn;
         public bool EnforceCapacityLimit = true;
         [Min(1)] public int MaximumCapacity = 100;
         public List<PowerCircuit> Circuits = new List<PowerCircuit>();
@@ -31,6 +44,8 @@ namespace HorrorGame.Chapter1
         public int RemainingCapacity => Mathf.Max(0, MaximumCapacity - CurrentConsumption);
 
         public event Action<string, bool> CircuitChanged;
+        internal event Action<string> CircuitDisplaced;
+        public event Action SupplyChanged;
         public event Func<string, bool> CanEnableCircuit;
 
         private void Awake()
@@ -46,6 +61,22 @@ namespace HorrorGame.Chapter1
             }
             foreach (PowerCircuit circuit in Circuits) circuit.Enabled = circuit.StartsEnabled;
             Recalculate();
+        }
+
+        private void OnEnable()
+        {
+            if (Supply) Supply.PowerChanged += OnSupplyChanged;
+        }
+
+        private void OnDisable()
+        {
+            if (Supply) Supply.PowerChanged -= OnSupplyChanged;
+        }
+
+        private void OnSupplyChanged(bool powered)
+        {
+            Recalculate();
+            SupplyChanged?.Invoke();
         }
 
         /// <summary>Imports circuit definitions added by the map authoring tools without resetting live circuit state.</summary>
@@ -72,9 +103,24 @@ namespace HorrorGame.Chapter1
 
         public bool IsCircuitPowered(string id)
         {
-            PowerCircuit circuit = Circuits.Find(value => value.Id == id);
-            return !IsShutdown && circuit != null && circuit.Enabled;
+            return HasSupply && !IsShutdown && IsCircuitRequested(id);
         }
+
+        public bool IsCircuitRequested(string id) => Circuits.Exists(value => value.Id == id && value.Enabled);
+
+        internal bool HasAdditionalTabletAccess(string circuitId, string roomId)
+        {
+            foreach (var access in additionalTabletAccess)
+            {
+                if (access.CircuitId != circuitId) continue;
+                foreach (var room in access.Rooms)
+                    if (room && room.TryGetComponent(out ObjectUniqueId id) && id.Id == roomId)
+                        return true;
+            }
+            return false;
+        }
+
+        internal void ReportCircuitDisplacement(string id) => CircuitDisplaced?.Invoke(id);
 
         public void SetCircuit(string id, bool enabled)
         {
@@ -104,7 +150,7 @@ namespace HorrorGame.Chapter1
         private void Recalculate()
         {
             CurrentConsumption = 0;
-            if (!IsShutdown)
+            if (HasSupply && !IsShutdown)
                 foreach (PowerCircuit circuit in Circuits)
                     if (circuit.Enabled) CurrentConsumption += circuit.Consumption;
 

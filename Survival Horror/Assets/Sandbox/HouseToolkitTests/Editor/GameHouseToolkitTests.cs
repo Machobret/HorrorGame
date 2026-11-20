@@ -190,6 +190,175 @@ public sealed class GameHouseToolkitTests
         Assert.IsFalse(Blocked(),"The frame or a repeating fence panel blocks the opening.");
     }
 
+    [TestCase("Storefront/Segments/Storefront_Panel")]
+    [TestCase("Storefront/Segments/Storefront_Panel_1m")]
+    [TestCase("Storefront/Segments/Storefront_Panel_0_5m")]
+    [TestCase("Storefront/Segments/Storefront_DoorSegment")]
+    [TestCase("Storefront/Segments/Storefront_WindowSegment")]
+    [TestCase("MetalFence/FencePanel")]
+    [TestCase("MetalFence/GateFrame")]
+    [TestCase("MetalFence/LargeGatePanel")]
+    public void AuthoredWallSheetsBlockBothSidesEvenWhenCropped(string segmentPath)
+    {
+        var segment = Asset<GameObject>(Families + segmentPath + ".prefab").GetComponent<WallSegment>();
+        var source = segment.mesh;
+        var bounds = source.bounds;
+        var vertices = source.vertices;
+        var sheet = source.GetTriangles(1);
+        var sample = (vertices[sheet[0]] + vertices[sheet[1]] + vertices[sheet[2]]) / 3;
+        var go = new GameObject("Wall sheet collision test");
+        bool previousBackfaces = Physics.queriesHitBackfaces;
+        try
+        {
+            Physics.queriesHitBackfaces = false;
+            go.transform.position = new Vector3(100, 100, 100);
+            go.transform.rotation = Quaternion.Euler(0, 31, 0);
+            var panel = go.AddComponent<AuthoredPanel>();
+            panel.source = source;
+            panel.limits = new Vector3(bounds.min.x, bounds.max.x, bounds.max.y);
+            panel.glazing = new Vector2(bounds.min.x, bounds.max.x);
+            panel.Refresh();
+            var filter = go.GetComponent<MeshFilter>();
+            var collider = go.GetComponent<MeshCollider>();
+            Assert.AreSame(source, filter.sharedMesh);
+            CheckBothSides();
+
+            // Corner clearance can reassign the sheet to the opaque rendering slot.
+            panel.glazing = Vector2.one * bounds.max.x;
+            panel.limits.z = (sample.y + bounds.max.y) * .5f;
+            panel.Refresh();
+            Assert.That(filter.sharedMesh.GetIndexCount(1), Is.Zero);
+            CheckBothSides();
+
+            void CheckBothSides()
+            {
+                var target = go.transform.TransformPoint(sample);
+                foreach (int sign in new[] { -1, 1 })
+                {
+                    var approach = go.transform.forward * sign;
+                    Physics.SyncTransforms();
+                    Assert.That(collider.Raycast(new Ray(target - approach, approach), out _, 2), Is.True);
+                    Assert.That(StopsCharacter(target, approach), Is.True, $"Approach direction {sign}");
+                }
+            }
+        }
+        finally
+        {
+            Physics.queriesHitBackfaces = previousBackfaces;
+            Object.DestroyImmediate(go);
+        }
+    }
+
+    [TestCase("Storefront/Storefront.asset", false)]
+    [TestCase("MetalFence/Metal Fence.asset", true)]
+    public void WallSheetCutsKeepTheHoleClearAndBlockBothSidesAroundIt(string familyPath, bool standalone)
+    {
+        EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+        var family = Asset<WallFamily>(Families + familyPath);
+        var house = HouseEditing.Create(Vector3.zero, family, standalone);
+        house.transform.rotation = Quaternion.Euler(0, 31, 0);
+        var floor = HouseEditing.Floors(house).Single();
+        var plan = new FloorEdit(floor);
+        plan.Draw(Vector2.zero, Vector2.right * 4);
+        Assert.IsTrue(plan.Commit("Draw wall", out var issue), issue);
+        var wall = floor.GetComponentInChildren<HouseWall>();
+        var hole = new Vector3(1, 1.2f, 0);
+        var cut = new BooleanCut
+        {
+            center = house.transform.InverseTransformPoint(wall.transform.TransformPoint(hole)),
+            rotation = Quaternion.Inverse(house.transform.rotation) * wall.transform.rotation,
+            size = new Vector3(.4f, .4f, .4f)
+        };
+
+        bool previousBackfaces = Physics.queriesHitBackfaces;
+        try
+        {
+            Physics.queriesHitBackfaces = false;
+            Assert.IsTrue(BooleanOutput.Change(house, cut, null, out issue), issue);
+            Assert.IsNotEmpty(wall.GetComponentsInChildren<BooleanCutResult>());
+            Physics.SyncTransforms();
+            foreach (int sign in new[] { -1, 1 })
+            {
+                Assert.IsFalse(Blocked(hole, sign));
+                Assert.IsTrue(Blocked(hole + Vector3.up * .45f, sign));
+            }
+
+            Assert.IsTrue(BooleanOutput.Change(house, null, cut.id, out issue), issue);
+            Physics.SyncTransforms();
+            Assert.IsTrue(Blocked(hole, -1));
+            Assert.IsTrue(Blocked(hole, 1));
+        }
+        finally
+        {
+            Physics.queriesHitBackfaces = previousBackfaces;
+        }
+
+        bool Blocked(Vector3 point, int sign) => Physics.Raycast(
+            wall.transform.TransformPoint(point - Vector3.forward * sign),
+            wall.transform.forward * sign, 2, ~0, QueryTriggerInteraction.Ignore);
+    }
+
+    [TestCase("Urban_Gate", true)]
+    [TestCase("Urban_Gate_Alternate_9a8bd6", true)]
+    [TestCase("Urban_MetalfenceBothSidesNoTopbar", true)]
+    [TestCase("Urban_MetalfenceBothSidesTopbar", true)]
+    [TestCase("Urban_MetalfenceOneSideNoTopbar", true)]
+    [TestCase("Urban_MetalfenceOneSideTopbar", true)]
+    [TestCase("Urban_MetalfenceGateOnlySides", false)]
+    public void UrbanFencePrefabsRespectTheirShapeFromEitherSide(string name, bool fillsCenter)
+    {
+        var prefab = Asset<GameObject>("Assets/Game/Environment/Fences/Urban/Metal/" + name + ".prefab");
+        var go = Object.Instantiate(prefab);
+        go.transform.position = new Vector3(100, 100, 100);
+        bool previousBackfaces = Physics.queriesHitBackfaces;
+        try
+        {
+            Physics.queriesHitBackfaces = false;
+            Physics.SyncTransforms();
+            var collider = go.GetComponentInChildren<MeshCollider>();
+            var bounds = collider.bounds;
+            var target = bounds.center;
+            foreach (int sign in new[] { -1, 1 })
+            {
+                Assert.AreEqual(fillsCenter, Blocked(target, sign));
+                Assert.AreEqual(fillsCenter, StopsCharacter(target, sign * Vector3.forward));
+            }
+            for (int col = 0; col < 9; col++)
+                for (int row = 0; row < 7; row++)
+                {
+                    target.x = Mathf.Lerp(bounds.min.x, bounds.max.x, (col + .5f) / 9);
+                    target.y = Mathf.Lerp(bounds.min.y, bounds.max.y, (row + .5f) / 7);
+                    Assert.AreEqual(Blocked(target, -1), Blocked(target, 1), target.ToString("F3"));
+                }
+
+            bool Blocked(Vector3 point, int sign) => collider.Raycast(
+                new Ray(point - Vector3.forward * sign, Vector3.forward * sign), out _, 2);
+        }
+        finally
+        {
+            Physics.queriesHitBackfaces = previousBackfaces;
+            Object.DestroyImmediate(go);
+        }
+    }
+
+    static bool StopsCharacter(Vector3 target, Vector3 approach)
+    {
+        var player = new GameObject("Collision test mover");
+        try
+        {
+            player.transform.position = target - approach;
+            var mover = player.AddComponent<CharacterController>();
+            mover.stepOffset = 0;
+            mover.height = .25f;
+            mover.radius = .05f;
+            mover.skinWidth = .01f;
+            Physics.SyncTransforms();
+            mover.Move(2 * approach);
+            return Vector3.Dot(player.transform.position - target, approach) < 0;
+        }
+        finally { Object.DestroyImmediate(player); }
+    }
+
     [TestCase(false,OpeningKind.Door)]
     [TestCase(false,OpeningKind.Window)]
     [TestCase(true,OpeningKind.Door)]
@@ -214,6 +383,7 @@ public sealed class GameHouseToolkitTests
         var ray=new Ray(wall.transform.TransformPoint(rect.center-Vector3.forward),wall.transform.forward);
         Physics.SyncTransforms();
         Assert.IsFalse(Physics.Raycast(ray,2,~0,QueryTriggerInteraction.Ignore));
+        Assert.IsFalse(Physics.Raycast(ray.GetPoint(2), -ray.direction, 2, ~0, QueryTriggerInteraction.Ignore));
         Assert.IsEmpty(wall.GetComponentsInChildren<InsertAttachment>());
         float maxDepth=.5f;
         Assert.IsFalse(HouseScenePicker.PickEmptyOpening(wall,ray,ref maxDepth,out _),"A closer surface should win.");

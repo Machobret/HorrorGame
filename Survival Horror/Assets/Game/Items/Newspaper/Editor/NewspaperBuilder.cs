@@ -79,7 +79,13 @@ namespace HorrorGame.Items.Editor
                 "<b>OFFICIALS PRAISE HERO RESPONSE</b>\n\nA spokesman credited the heroes with preventing further destruction. Residents interviewed by the Herald described buildings collapsing before any evacuation warning was given.\n\nFamilies seeking missing relatives are directed to the perimeter checkpoint.",
                 "<b>DISTRICT REMAINS SEALED</b>\n\nPharmacies and local shops have been ordered to retain emergency supplies.\n\n<i>Written in the margin:</i>\n\"Storage lock changed. Use the toll on the front page. Digits only. — M.\""
             };
-            document.Pages=pages.Select(page=>new DocumentPage{Text=Text("<margin-left=16%><margin-right=2%>"+page),Image=Image(null),Caption=Text("")}).ToList();
+            document.Pages=pages.Select((page, index)=>new DocumentPage
+            {
+                Text=Text("<margin-left=16%><margin-right=2%>"+page),
+                Image=Image(null),
+                Caption=Text(""),
+                Artwork=AssetDatabase.LoadAssetAtPath<Sprite>(Folder+$"Newspaper_CityHerald_Page{index + 1}.png")
+            }).ToList();
             // Keep the template's document page/open/close sounds.
             var sample=AssetDatabase.LoadAssetAtPath<DocumentData>("Assets/AssetStore/HorrorEngine/ExampleContent/Documents/DemoDocument.asset");
             document.ShowClip=sample.ShowClip;document.PageClip=sample.PageClip;document.CloseClip=sample.CloseClip;

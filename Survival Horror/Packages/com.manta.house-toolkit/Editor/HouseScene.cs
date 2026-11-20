@@ -287,6 +287,7 @@ namespace HouseToolkit.Editor
         internal static void Repaint(){SceneView.RepaintAll();HouseProperties.RepaintOpen();}
         internal static void Enter(HouseFloor requested)
         {
+            WireTool.Leave();
             if(!requested)return;
             if(RoadScene.Active)RoadScene.Leave();
             if(editing)Leave();

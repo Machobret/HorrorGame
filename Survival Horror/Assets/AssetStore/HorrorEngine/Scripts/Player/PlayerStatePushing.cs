@@ -9,8 +9,6 @@ namespace HorrorEngine
         private static readonly int k_PushingHash = Animator.StringToHash("Pushing");
         private static readonly int k_PushStrengthHash = Animator.StringToHash("PushStrength");
         private static readonly string k_EventStartPush = "StartPush";
-        private static readonly int k_PushingLoopHash = Animator.StringToHash("PushingLoop");
-        private const float InteractionPushTimeout = 2f;
 
         [SerializeField] PushDetector m_PushDetector;
         [SerializeField] ActorState m_ExitState;
@@ -19,17 +17,21 @@ namespace HorrorEngine
         private Vector3 m_DirAxis;
         private float m_RotationAngle;
         private PlayerMovement m_Movement;
+        private IPlayerInput m_Input;
+        private int m_EnteredFrame;
         private float m_Time;
         private Pushable m_Pushable;
         private Pushable m_RequestedPushable;
         private Vector3 m_RequestedAxis;
         private bool m_InteractionPush;
         private bool m_PushEventReceived;
+        private bool m_PushInputHeld;
         private bool m_Entered;
         private Rigidbody m_Rigidbody;
         private Rigidbody m_PushableRB;
         private Vector3 m_ExpectedPosition;
         private Vector3 m_PrevPushablePosition;
+        private float m_PlayerPullStep;
         private UnityAction<AnimationEvent> m_OnAnimatorPushEvent;
 
         // --------------------------------------------------------------------
@@ -40,6 +42,7 @@ namespace HorrorEngine
 
             m_OnAnimatorPushEvent = OnAnimatorPushEvent;
             m_Movement = GetComponentInParent<PlayerMovement>();
+            m_Input = GetComponentInParent<IPlayerInput>();
             m_Rigidbody = GetComponentInParent<Rigidbody>();
         }
 
@@ -47,19 +50,8 @@ namespace HorrorEngine
 
         public void StartInteractionPush(Pushable pushable)
         {
-            if (Actor.StateController.CurrentState is not PlayerStateInteraction || !pushable.CanBePushed
-                || pushable.GetComponent<Rigidbody>().isKinematic)
-                return;
-
-            Vector3 toward = pushable.transform.position - Actor.transform.position;
-            if (Mathf.Abs(toward.y) > .45f)
-                return;
-            toward.y = 0;
-            if (Vector3.Dot(toward.normalized, Actor.transform.forward) < .45f)
-                return;
-
-            Vector3 axis = pushable.GetPushingAxis(toward, out bool found);
-            if (!found)
+            if (Actor.StateController.CurrentState is not PlayerStateInteraction ||
+                !pushable.TryGetPushAxis(Actor.transform, out var axis))
                 return;
 
             m_RequestedPushable = pushable;
@@ -71,6 +63,8 @@ namespace HorrorEngine
         {
             m_InteractionPush = fromState is PlayerStateInteraction;
             m_PushEventReceived = false;
+            m_PushInputHeld = false;
+            m_PlayerPullStep = 0f;
             m_Entered = false;
             m_Pushable = m_InteractionPush ? m_RequestedPushable : m_PushDetector.Pushable;
             m_RequestedPushable = null;
@@ -82,6 +76,7 @@ namespace HorrorEngine
 
             base.StateEnter(fromState);
             m_Entered = true;
+            m_EnteredFrame = Time.frameCount;
             m_PushableRB = m_Pushable.GetComponent<Rigidbody>();
             m_PrevPushablePosition= m_PushableRB.position; 
             m_ExpectedPosition = m_PushableRB.position;
@@ -122,8 +117,7 @@ namespace HorrorEngine
 
             if (m_InteractionPush)
             {
-                var animation = Actor.MainAnimator.GetCurrentAnimatorStateInfo(0);
-                if (m_Time >= InteractionPushTimeout || (animation.shortNameHash == k_PushingLoopHash && animation.normalizedTime >= 1f))
+                if (Time.frameCount != m_EnteredFrame && m_Input.IsInteractingDown())
                     SetState(m_ExitState);
             }
             else if (!m_PushDetector.IsPushing)
@@ -146,25 +140,45 @@ namespace HorrorEngine
 
             if (m_Time > m_InitialDelay)
             {
-                Actor.MainAnimator.SetBool(k_PushingHash, true);
+                float direction = m_InteractionPush ? m_Movement.GetPushDirection() : 1f;
+                bool movingCrate = direction != 0f;
+                Actor.MainAnimator.SetBool(k_PushingHash, movingCrate);
+                if (m_PushInputHeld && !movingCrate && m_AnimationState)
+                    Actor.MainAnimator.CrossFadeInFixedTime(m_AnimationState.Hash, m_AnimationBlendTime, m_AnimationState.Layer);
+                m_PushInputHeld = movingCrate;
 
                 //Rigidbody could move in any direction due to collisions. So the movement is projected on the expected axis and the position forced there
-                Vector3 dirToExpected = (m_ExpectedPosition - m_PrevPushablePosition).normalized;
+                float expectedStep = Vector3.Dot(m_ExpectedPosition - m_PrevPushablePosition, m_DirAxis);
                 Vector3 toActual = m_PushableRB.position - m_PrevPushablePosition;
-                Vector3 projectionOnAxis = dirToExpected * Vector3.Dot(toActual, dirToExpected.normalized);
-                Vector3 position = m_PrevPushablePosition + projectionOnAxis;
+                float crateStep = expectedStep == 0f ? 0f : Vector3.Dot(toActual, m_DirAxis);
+                Vector3 position = m_PrevPushablePosition + m_DirAxis * crateStep;
 
                 if (m_InteractionPush && m_PushEventReceived)
                 {
-                    float moved = Mathf.Max(0, Vector3.Dot(projectionOnAxis, m_DirAxis));
-                    if (moved > 0)
-                        m_Movement.MoveCinematic(m_DirAxis * moved);
+                    // The player steps back before a pull. Correct for any travel the crate lost to a collision.
+                    float completedStep = Mathf.Clamp(crateStep, Mathf.Min(0f, expectedStep), Mathf.Max(0f, expectedStep));
+                    float playerStep = completedStep - m_PlayerPullStep;
+                    if (playerStep != 0f) m_Movement.MoveCinematic(m_DirAxis * playerStep);
                 }
 
+                m_PlayerPullStep = 0f;
                 m_PrevPushablePosition = position;
-                float push = Actor.MainAnimator.GetFloat(k_PushStrengthHash);
+                if (!movingCrate)
+                {
+                    m_ExpectedPosition = position;
+                    m_Movement.StopCinematicMovement();
+                    return;
+                }
+                float step = direction * Time.fixedDeltaTime * Actor.MainAnimator.GetFloat(k_PushStrengthHash);
+                if (m_InteractionPush && m_PushEventReceived && step < 0f)
+                {
+                    Vector3 playerPosition = Actor.transform.position;
+                    m_Movement.MoveCinematic(m_DirAxis * step);
+                    m_PlayerPullStep = Mathf.Clamp(Vector3.Dot(Actor.transform.position - playerPosition, m_DirAxis), step, 0f);
+                    step = m_PlayerPullStep;
+                }
 
-                m_ExpectedPosition = position + (m_DirAxis * Time.deltaTime * push);
+                m_ExpectedPosition = position + m_DirAxis * step;
 
                 m_Pushable.PushTo(m_ExpectedPosition);
                 
@@ -199,7 +213,7 @@ namespace HorrorEngine
 
         void OnAnimatorPushEvent(AnimationEvent e)
         {
-            if (e.stringParameter != k_EventStartPush || !m_Pushable || (m_InteractionPush && m_PushEventReceived))
+            if (e.stringParameter != k_EventStartPush || !m_Pushable)
                 return;
 
             m_PushEventReceived = true;

@@ -11,6 +11,7 @@ namespace HorrorEngine
         private Interactive m_Interactive;
         private float m_Time;
         private bool m_Interacted;
+        private bool m_Completed;
         private float m_InitialDelay;
         private float m_InteractionDuration;
 
@@ -21,6 +22,7 @@ namespace HorrorEngine
 
         public override void StateEnter(IActorState fromState)
         {
+            m_Completed = false;
             m_Interactive = m_Detector.FocusedInteractive;
             if (!m_Interactive)
             {
@@ -69,6 +71,7 @@ namespace HorrorEngine
             // to avoid the activation of the interactor and the immediate re-interaction
             else if (m_Time > m_InteractionDuration) 
             {
+                m_Completed = true;
                 SetState(m_ExitState);
             }
         }
@@ -89,7 +92,7 @@ namespace HorrorEngine
 
             base.StateExit(intoState);
 
-            m_Interactive?.Finish();
+            m_Interactive?.Finish(m_Completed);
         }
     }
 }

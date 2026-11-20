@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using HorrorEngine;
 using HorrorGame.Chapter1;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace HorrorGame.UI
 {
@@ -11,7 +13,7 @@ namespace HorrorGame.UI
         private GameObject surface;
         private CanvasGroup documentPopup, circuitPopup, controlsPopup, activePopup;
         private TMP_Text documentName, circuitText, controlsText;
-        private DocumentData pendingDocument;
+        private readonly Queue<DocumentData> pendingDocuments = new();
         private UIMap map;
         private float started, expires, countChangedAt;
         private int circuitCount;
@@ -19,10 +21,7 @@ namespace HorrorGame.UI
 
         public static void DocumentReceived(DocumentData document)
         {
-            if (!TabletOwned || !document || !UIManager.Exists) return;
-            var notifications = Get();
-            notifications.Clear();
-            notifications.pendingDocument = document;
+            if (document && UIManager.Exists) Get().pendingDocuments.Enqueue(document);
         }
 
         public static void CircuitsDiscovered(int count)
@@ -38,7 +37,7 @@ namespace HorrorGame.UI
             var notifications = Get();
             if (!notifications.controlsPopup)
                 notifications.controlsPopup = notifications.CreatePopup("CONTROLS", string.Empty, false, out notifications.controlsText);
-            notifications.Clear();
+            notifications.ClearPopup();
             notifications.controlsText.text = hint;
             notifications.Activate(notifications.controlsPopup);
         }
@@ -46,7 +45,7 @@ namespace HorrorGame.UI
         public static void DismissAll()
         {
             if (UIManager.Exists && UIManager.Instance.TryGetComponent(out GameplayNotifications notifications))
-                notifications.Clear();
+                notifications.ClearPopup();
         }
 
         private static GameplayNotifications Get()
@@ -62,35 +61,38 @@ namespace HorrorGame.UI
         {
             if (!surface)
             {
-                surface = new GameObject("Gameplay notifications", typeof(RectTransform), typeof(Canvas));
+                surface = new GameObject("Gameplay notifications", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler));
                 var canvas = surface.GetComponent<Canvas>();
                 canvas.renderMode = RenderMode.ScreenSpaceOverlay;
                 canvas.sortingOrder = 10;
+                var scaler = surface.GetComponent<CanvasScaler>();
+                scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                scaler.referenceResolution = new Vector2(1280f, 720f);
+                scaler.matchWidthOrHeight = .5f;
             }
 
             var workspace = map ? map.GetComponent<TabletWorkspace>() : null;
             var font = workspace && workspace.Footer ? workspace.Footer.font : null;
-            return TabletWorkspace.CreatePopup(surface.transform, new Vector2(.025f, .89f),
-                new Vector2(.29f, .965f), font, title, circuit, out body, subtitle, exclamation: !circuit);
+            return TabletWorkspace.CreatePopup(surface.transform, new Vector2(.66f, .04f),
+                new Vector2(.975f, .158f), font, title, circuit, out body, subtitle, exclamation: !circuit, large: true);
         }
 
         private void ShowDocument()
         {
             if (!documentPopup)
-                documentPopup = CreatePopup("RECEIVED DOCUMENT", "Press I to read", false, out documentName);
-            documentName.text = pendingDocument.Name;
-            pendingDocument = null;
+                documentPopup = CreatePopup("RECEIVED DOCUMENT", "Tab · Inventory → Documents", false, out documentName);
+            documentName.text = pendingDocuments.Dequeue().Name;
             Activate(documentPopup);
         }
 
         private void ShowCircuits(int count)
         {
-            if (controlsPopup && activePopup == controlsPopup && Time.unscaledTime < expires) return;
+            if (activePopup && activePopup != circuitPopup && Time.unscaledTime < expires) return;
             if (!circuitPopup)
                 circuitPopup = CreatePopup("TABLET UPDATE", "Press M", true, out circuitText);
             if (activePopup != circuitPopup || Time.unscaledTime >= expires)
             {
-                Clear();
+                ClearPopup();
                 Activate(circuitPopup);
             }
             circuitCount += count;
@@ -104,26 +106,28 @@ namespace HorrorGame.UI
             activePopup = popup;
             started = Time.unscaledTime;
             expires = started + Duration;
-            TabletWorkspace.AnimatePopup(popup, 0f, Duration);
+            TabletWorkspace.AnimatePopup(popup, 0f, Duration, fromBottom: true);
             popup.gameObject.SetActive(true);
         }
 
         private void LateUpdate()
         {
-            if (!TabletOwned || (map && map.isActiveAndEnabled))
+            if (map && map.isActiveAndEnabled)
             {
-                Clear();
+                ClearPopup();
                 return;
             }
 
-            if (pendingDocument && !IsOpen<UIDialog>() && !IsOpen<UIChoices>() && !IsOpen<UIDocument>())
+            if (pendingDocuments.Count > 0 && (!activePopup || activePopup != documentPopup) &&
+                !IsOpen<UIDialog>() && !IsOpen<UIChoices>() && !IsOpen<UIDocument>() && !IsOpen<UIInventory>() &&
+                (!PauseController.Exists || !PauseController.Instance.IsPaused))
                 ShowDocument();
 
             if (!activePopup) return;
             float now = Time.unscaledTime;
             if (now >= expires)
             {
-                Clear();
+                ClearPopup();
                 return;
             }
             if (activePopup == circuitPopup)
@@ -133,7 +137,7 @@ namespace HorrorGame.UI
                 string noun = circuitCount == 1 ? "circuit" : "circuits";
                 circuitText.text = $"<color=#{ColorUtility.ToHtmlStringRGB(color)}>{circuitCount}</color> new {noun} discovered";
             }
-            TabletWorkspace.AnimatePopup(activePopup, now - started, expires - now);
+            TabletWorkspace.AnimatePopup(activePopup, now - started, expires - now, fromBottom: true);
         }
 
         private static bool IsOpen<T>() where T : MonoBehaviour
@@ -142,15 +146,18 @@ namespace HorrorGame.UI
             return screen && screen.isActiveAndEnabled;
         }
 
-        private void Clear()
+        private void ClearPopup()
         {
-            pendingDocument = null;
             circuitCount = 0;
             if (activePopup) activePopup.gameObject.SetActive(false);
             activePopup = null;
         }
 
-        private void OnDisable() => Clear();
+        private void OnDisable()
+        {
+            pendingDocuments.Clear();
+            ClearPopup();
+        }
 
         private void OnDestroy()
         {

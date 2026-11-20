@@ -1,120 +1,160 @@
-using UnityEngine;
+﻿using UnityEngine;
 using HorrorEngine;
 
 namespace HorrorGame.Chapter1
 {
-    /// <summary>Flat, top-down lightning marker for a selectable circuit. It replaces the clipping 3D sphere.</summary>
     public sealed class PowerCircuitMapMarker : MonoBehaviour
     {
+        private static readonly Color IdleColor = new Color(.57f, .57f, .57f);
+        private static readonly Color HoverColor = new Color(.74f, .74f, .74f);
+        private static readonly Color DisplacedColor = new Color(.28f, .28f, .28f);
+        private static readonly Color ActiveColor = new Color(1f, .81f, .22f);
+        private const float IdleScale = .53f;
+        private const float HoverScale = .70f;
+        private const float ScaleDuration = .14f;
+        private const float ToggleDuration = .25f;
+        private const float DisplacementDuration = .46f;
+
         public string CircuitId;
         public string RoomUniqueId { get; private set; }
-        private Vector3 normalScale;
+        public bool IsInformational { get; private set; }
+
+        private Transform visual;
+        private Vector3 fullScale;
+        private Renderer icon;
         private bool isHovered;
         private bool isPowered;
+        private bool isReachable = true;
         private bool hasPowerState;
-        private bool showNoServiceStatic;
+        private bool displaced;
+        private float scaleFrom = IdleScale;
+        private float scaleTarget = IdleScale;
+        private float scaleStarted = float.NegativeInfinity;
         private float toggleTime = float.NegativeInfinity;
-        private float waveStarted = float.NegativeInfinity;
+        private float waveStarted;
+        private float displacementTime = float.NegativeInfinity;
+        private MaterialPropertyBlock properties;
         private static readonly Texture2D[] WaveFrames = new Texture2D[16];
         private static readonly Sprite[] WaveSprites = new Sprite[16];
         private static readonly Texture2D[] StaticFrames = new Texture2D[8];
         private static readonly Sprite[] StaticSprites = new Sprite[8];
+        private static Texture2D iconTexture;
+        private static Sprite iconSprite;
+        private static Texture2D hoverTexture;
+        private static Sprite hoverSprite;
+        private static Material lightningMaterial;
 
-        public void SetHovered(bool hovered)
-        {
-            isHovered = hovered;
-            UpdateScale();
-            Color tint = hovered ? (isPowered ? new Color(1f, .87f, .51f) : Color.white) : new Color(.72f, .94f, 1f);
-            Texture2D texture = hovered ? GetGlowTexture(!isPowered) : GetTexture();
-            if (TryGetComponent(out SpriteRenderer sprite))
-            {
-                sprite.color = tint;
-                if (hovered && !isPowered && !outlinedSprite)
-                    outlinedSprite = Sprite.Create(texture, new Rect(0, 0, 32, 32), Vector2.one * .5f, 1f);
-                sprite.sprite = hovered && !isPowered ? outlinedSprite : GetSprite();
-            }
-            else if (TryGetComponent(out MeshRenderer mesh))
-            {
-                var properties = new MaterialPropertyBlock();
-                mesh.GetPropertyBlock(properties);
-                properties.SetColor("_BaseColor", tint);
-                properties.SetColor("_Color", tint);
-                properties.SetTexture("_BaseMap", texture);
-                mesh.SetPropertyBlock(properties);
-            }
-        }
+        public void SetHovered(bool hovered) => isHovered = hovered;
 
-        public void SetPowerVisual(bool powered, bool selected, bool outOfRange)
+        internal void SetPowerVisual(bool powered, bool reachable)
         {
-            if (isPowered != powered)
+            powered &= reachable;
+            if (powered != isPowered && reachable && isReachable && hasPowerState)
+                toggleTime = Time.unscaledTime;
+            if (powered && !isPowered)
             {
-                if (hasPowerState) toggleTime = Time.unscaledTime;
-                isPowered = powered;
-                SetHovered(isHovered);
+                displaced = false;
+                displacementTime = float.NegativeInfinity;
+                waveStarted = Time.unscaledTime;
             }
+            if (!reachable)
+            {
+                toggleTime = float.NegativeInfinity;
+                displacementTime = float.NegativeInfinity;
+            }
+            isReachable = reachable;
+            isPowered = powered;
             hasPowerState = true;
-            if (showNoServiceStatic != outOfRange)
-            {
-                showNoServiceStatic = outOfRange;
-                if (!outOfRange) SetHovered(isHovered);
-            }
-            bool active = powered && !selected;
-            bool wasActive = !float.IsNegativeInfinity(waveStarted);
-            if (active == wasActive) return;
-            waveStarted = active ? Time.unscaledTime : float.NegativeInfinity;
-            if (!active) SetHovered(isHovered);
         }
 
-        private void Update()
+        internal void AnimateDisplacement()
         {
-            UpdateScale();
-            if (showNoServiceStatic)
-            {
-                int staticFrame = Mathf.FloorToInt(Time.unscaledTime * 18f) % StaticFrames.Length;
-                if (!StaticFrames[staticFrame])
-                    StaticFrames[staticFrame] = CreateStaticFrame(staticFrame);
-                ApplyAnimatedFrame(StaticFrames[staticFrame], StaticSprites, staticFrame);
-                return;
-            }
-            if (float.IsNegativeInfinity(waveStarted)) return;
-            const float waveDuration = .72f;
-            float elapsed = Mathf.Repeat(Time.unscaledTime - waveStarted, waveDuration);
-            int frame = Mathf.Clamp((int)(elapsed / waveDuration * WaveFrames.Length), 0, WaveFrames.Length - 1);
-            if (!WaveFrames[frame])
-            {
-                var pixels = GetTexture().GetPixels();
-                float wave = Mathf.Lerp(38f, -7f, frame / (float)(WaveFrames.Length - 1));
-                for (int i = 0; i < pixels.Length; i++)
-                {
-                    if (pixels[i].a == 0f) continue;
-                    float intensity = Mathf.Clamp01((11f - Mathf.Abs(i / 32 - wave)) / 6f);
-                    pixels[i] = Color.Lerp(new Color(.65f, .88f, .95f), new Color(1f, .9f, .24f), intensity);
-                }
-                var texture = new Texture2D(32, 32, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
-                texture.SetPixels(pixels);
-                texture.Apply();
-                WaveFrames[frame] = texture;
-            }
-            ApplyAnimatedFrame(WaveFrames[frame], WaveSprites, frame);
+            if (!isReachable) return;
+            displacementTime = Time.unscaledTime;
+            displaced = true;
         }
 
-        private void ApplyAnimatedFrame(Texture2D texture, Sprite[] sprites, int frame)
+        private void LateUpdate() => UpdateVisual();
+
+        private void UpdateVisual()
         {
-            if (TryGetComponent(out SpriteRenderer sprite))
+            float now = Time.unscaledTime;
+            float idleScale = isHovered ? HoverScale : IdleScale;
+            float target = isPowered ? 1f : idleScale;
+            if (target != scaleTarget)
             {
-                if (!sprites[frame])
-                    sprites[frame] = Sprite.Create(texture, new Rect(0, 0, 32, 32), Vector2.one * .5f, 1f);
-                sprite.color = Color.white;
-                sprite.sprite = sprites[frame];
+                scaleFrom = CurrentScale(now);
+                scaleTarget = target;
+                scaleStarted = now;
+            }
+            float scale = CurrentScale(now);
+            float toggle = Mathf.Clamp01((now - toggleTime) / ToggleDuration);
+            scale *= 1f + Mathf.Sin(toggle * Mathf.PI) * (1f - toggle) * .38f;
+
+            float progress = Mathf.Clamp01((now - displacementTime) / DisplacementDuration);
+            float shake = 0f;
+            Color color = isPowered ? ActiveColor : displaced ? DisplacedColor : isHovered ? HoverColor : IdleColor;
+            if (progress < 1f)
+            {
+                shake = Mathf.Sin(progress * Mathf.PI * 8f) * (1f - progress) * fullScale.x * .22f;
+                float fade = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(.25f, 1f, progress));
+                scale = Mathf.Lerp(1f, idleScale, fade);
+                color = Color.Lerp(ActiveColor, DisplacedColor, fade);
+            }
+            else if (!isPowered)
+                scale = Mathf.Min(scale, isReachable ? .84f : HoverScale);
+
+            visual.localPosition = Vector3.right * shake;
+            visual.localScale = fullScale * scale;
+
+            if (!isReachable)
+            {
+                int frame = Mathf.FloorToInt(now * 18f) % StaticFrames.Length;
+                if (!StaticFrames[frame]) StaticFrames[frame] = CreateStaticFrame(frame);
+                ApplyFrame(StaticFrames[frame], StaticSprites, frame);
+            }
+            else if (isPowered && !isHovered && progress >= 1f)
+            {
+                const float waveDuration = .72f;
+                int frame = Mathf.Min(WaveFrames.Length - 1,
+                    (int)(Mathf.Repeat(now - waveStarted, waveDuration) / waveDuration * WaveFrames.Length));
+                if (!WaveFrames[frame]) WaveFrames[frame] = CreateWaveFrame(frame);
+                ApplyFrame(WaveFrames[frame], WaveSprites, frame);
+            }
+            else
+            {
+                bool glow = isHovered && progress >= 1f;
+                Texture2D texture = glow ? GetHoverTexture() : GetTexture();
+                if (glow && icon is SpriteRenderer && !hoverSprite) hoverSprite = MakeSprite(texture);
+                ApplyTexture(texture, glow ? hoverSprite : GetSprite(), color);
+            }
+        }
+
+        private float CurrentScale(float now) =>
+            Mathf.SmoothStep(scaleFrom, scaleTarget, Mathf.Clamp01((now - scaleStarted) / ScaleDuration));
+
+        private void ApplyFrame(Texture2D texture, Sprite[] sprites, int frame)
+        {
+            if (icon is SpriteRenderer && !sprites[frame]) sprites[frame] = MakeSprite(texture);
+            ApplyTexture(texture, sprites[frame], Color.white);
+        }
+
+        private void ApplyTexture(Texture2D texture, Sprite sprite, Color color)
+        {
+            if (icon is SpriteRenderer spriteRenderer)
+            {
+                spriteRenderer.sprite = sprite;
+                spriteRenderer.color = color;
                 return;
             }
-            if (!TryGetComponent(out MeshRenderer mesh)) return;
-            waveProperties ??= new MaterialPropertyBlock();
-            mesh.GetPropertyBlock(waveProperties);
-            waveProperties.SetColor("_BaseColor", Color.white);
-            waveProperties.SetColor("_Color", Color.white);
-            waveProperties.SetTexture("_BaseMap", texture);
-            mesh.SetPropertyBlock(waveProperties);
+
+            properties ??= new MaterialPropertyBlock();
+            icon.GetPropertyBlock(properties);
+            properties.SetTexture("_BaseMap", texture);
+            properties.SetTexture("_MainTex", texture);
+            properties.SetColor("_BaseColor", color);
+            properties.SetColor("_Color", color);
+            icon.SetPropertyBlock(properties);
         }
 
         private static Texture2D CreateStaticFrame(int frame)
@@ -131,54 +171,97 @@ namespace HorrorGame.Chapter1
                     pixels[i - 1].a == 0f || pixels[i + 1].a == 0f ||
                     pixels[i - size].a == 0f || pixels[i + size].a == 0f;
                 float gray = rim ? .61f : Mathf.Lerp(.25f, .71f, (float)noise.NextDouble());
-                pixels[i] = new Color(gray, gray, gray + .025f, 1f);
+                pixels[i] = new Color(gray, gray, gray);
             }
-            var texture = new Texture2D(size, size, TextureFormat.RGBA32, false)
-                { filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Clamp };
+            return MakeTexture(pixels, FilterMode.Point);
+        }
+
+        private static Texture2D CreateWaveFrame(int frame)
+        {
+            var pixels = GetTexture().GetPixels();
+            float wave = Mathf.Lerp(38f, -7f, frame / (float)(WaveFrames.Length - 1));
+            for (int i = 0; i < pixels.Length; i++)
+            {
+                if (pixels[i].a == 0f) continue;
+                float intensity = Mathf.Clamp01((11f - Mathf.Abs(i / 32 - wave)) / 6f);
+                pixels[i] = Color.Lerp(ActiveColor, new Color(1f, .98f, .69f), intensity);
+            }
+            return MakeTexture(pixels, FilterMode.Point);
+        }
+
+        private static Texture2D GetHoverTexture()
+        {
+            if (hoverTexture) return hoverTexture;
+            const int size = 32;
+            var source = GetTexture().GetPixels();
+            var pixels = new Color[source.Length];
+            for (int y = 0; y < size; y++)
+            for (int x = 0; x < size; x++)
+            {
+                int index = y * size + x;
+                float alpha = source[index].a;
+                if (alpha == 0f)
+                {
+                    for (int sy = Mathf.Max(0, y - 2); sy <= Mathf.Min(size - 1, y + 2); sy++)
+                    for (int sx = Mathf.Max(0, x - 2); sx <= Mathf.Min(size - 1, x + 2); sx++)
+                    {
+                        if (source[sy * size + sx].a == 0f) continue;
+                        alpha = Mathf.Max(alpha, .45f / Vector2.Distance(new Vector2(x, y), new Vector2(sx, sy)));
+                    }
+                }
+                pixels[index] = new Color(1f, 1f, 1f, alpha);
+            }
+            return hoverTexture = MakeTexture(pixels, FilterMode.Bilinear);
+        }
+
+        private static Texture2D MakeTexture(Color[] pixels, FilterMode filter)
+        {
+            var texture = new Texture2D(32, 32, TextureFormat.RGBA32, false)
+                { filterMode = filter, wrapMode = TextureWrapMode.Clamp };
             texture.SetPixels(pixels);
             texture.Apply();
             return texture;
         }
 
-        private void UpdateScale()
-        {
-            float progress = Mathf.Clamp01((Time.unscaledTime - toggleTime) / .25f);
-            float pop = 1f + Mathf.Sin(progress * Mathf.PI) * (1f - progress) * .38f;
-            transform.localScale = normalScale * (isHovered ? 1.24f : 1f) * (isPowered ? 1.22f : 1f) * pop;
-        }
+        private static Sprite MakeSprite(Texture2D texture) =>
+            Sprite.Create(texture, new Rect(0, 0, 32, 32), Vector2.one * .5f, 1f);
 
-        private MaterialPropertyBlock waveProperties;
-        private static Texture2D iconTexture;
-        private static Texture2D glowTexture;
-        private static Texture2D outlinedTexture;
-        private static Sprite outlinedSprite;
-        private static Sprite iconSprite;
-        private static Material lightningMaterial;
-
-        public static PowerCircuitMapMarker Create(Transform parent, int layer, string circuitId, Vector3 localPosition, string roomId = null)
+        public static PowerCircuitMapMarker Create(Transform parent, int layer, string circuitId, Vector3 localPosition,
+            string roomId, bool informational = false)
         {
-            GameObject marker = new GameObject("Circuit Icon — " + circuitId);
-            marker.name = "Circuit Icon — " + circuitId;
-            marker.layer = layer;
+            var marker = new GameObject("Circuit Icon - " + circuitId) { layer = layer };
             marker.transform.SetParent(parent, false);
             marker.transform.localPosition = localPosition;
-            bool usesMapMarkerMesh = CopyWorkingMapMarkerMesh(marker);
-            if (!usesMapMarkerMesh)
+
+            var graphic = new GameObject("Lightning") { layer = layer };
+            graphic.transform.SetParent(marker.transform, false);
+            bool usesMesh = CopyWorkingMapMarkerMesh(graphic);
+            if (!usesMesh)
             {
-                marker.transform.localRotation = Quaternion.Euler(-90f, 0f, 0f);
-                SpriteRenderer spriteRenderer = marker.AddComponent<SpriteRenderer>();
-                spriteRenderer.sprite = GetSprite();
-                spriteRenderer.color = Color.white;
-                spriteRenderer.sortingOrder = 100;
+                graphic.transform.localRotation = Quaternion.Euler(-90f, 0f, 0f);
+                graphic.AddComponent<SpriteRenderer>().sprite = GetSprite();
             }
-            BoxCollider hitCollider = marker.AddComponent<BoxCollider>();
-            // A small margin around the visual; large hitboxes made the hover readout linger.
-            hitCollider.size = usesMapMarkerMesh ? new Vector3(2.2f, .95f, 1f) : new Vector3(38f, 38f, 1f);
-            PowerCircuitMapMarker result = marker.AddComponent<PowerCircuitMapMarker>();
+
+            var renderer = graphic.GetComponent<Renderer>();
+            renderer.sortingOrder = 100;
+            marker.transform.localRotation = graphic.transform.localRotation;
+            graphic.transform.localRotation = Quaternion.identity;
+            if (!informational)
+            {
+                var collider = marker.AddComponent<BoxCollider>();
+                collider.size = usesMesh
+                    ? Vector3.Scale(new Vector3(2.2f, .95f, 1f), graphic.transform.localScale)
+                    : new Vector3(38f, 38f, 1f);
+            }
+
+            var result = marker.AddComponent<PowerCircuitMapMarker>();
             result.CircuitId = circuitId;
             result.RoomUniqueId = roomId;
-            result.normalScale = marker.transform.localScale * .83f;
-            result.SetHovered(false);
+            result.IsInformational = informational;
+            result.visual = graphic.transform;
+            result.icon = renderer;
+            result.fullScale = graphic.transform.localScale * 1.24f;
+            result.UpdateVisual();
             return result;
         }
 
@@ -216,7 +299,7 @@ namespace HorrorGame.Chapter1
         private static Sprite GetSprite()
         {
             if (iconSprite) return iconSprite;
-            iconSprite = Sprite.Create(GetTexture(), new Rect(0, 0, 32, 32), new Vector2(.5f, .5f), 1f);
+            iconSprite = MakeSprite(GetTexture());
             return iconSprite;
         }
 
@@ -234,42 +317,6 @@ namespace HorrorGame.Chapter1
                 }
             iconTexture.Apply();
             return iconTexture;
-        }
-
-        private static Texture2D GetGlowTexture(bool outlineOnly)
-        {
-            var cached = outlineOnly ? outlinedTexture : glowTexture;
-            if (cached) return cached;
-            const int size = 32;
-            var pixels = GetTexture().GetPixels();
-            var result = new Color[pixels.Length];
-            for (int y = 0; y < size; y++)
-            for (int x = 0; x < size; x++)
-            {
-                int index = y * size + x;
-                float alpha = pixels[index].a;
-                if (alpha == 0f)
-                {
-                    for (int sy = Mathf.Max(0, y - 2); sy <= Mathf.Min(size - 1, y + 2); sy++)
-                    for (int sx = Mathf.Max(0, x - 2); sx <= Mathf.Min(size - 1, x + 2); sx++)
-                    {
-                        if (pixels[sy * size + sx].a == 0f) continue;
-                        float distance = Vector2.Distance(new Vector2(x, y), new Vector2(sx, sy));
-                        alpha = Mathf.Max(alpha, (outlineOnly ? .88f : .35f) / distance);
-                    }
-                }
-                Color color = !outlineOnly ? Color.white : pixels[index].a > 0f
-                    ? new Color(.53f, .83f, 1f) : new Color(1f, .88f, .49f);
-                color.a = alpha;
-                result[index] = color;
-            }
-            cached = new Texture2D(size, size, TextureFormat.RGBA32, false)
-                { filterMode = FilterMode.Bilinear, wrapMode = TextureWrapMode.Clamp };
-            cached.SetPixels(result);
-            cached.Apply();
-            if (outlineOnly) outlinedTexture = cached;
-            else glowTexture = cached;
-            return cached;
         }
 
         private static bool Contains(Vector2 point, Vector2[] polygon)

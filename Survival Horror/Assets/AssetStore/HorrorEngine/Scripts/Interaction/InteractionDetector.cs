@@ -25,7 +25,7 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
-        public Interactive FocusedInteractive
+        public virtual Interactive FocusedInteractive
         {
             get
             {
@@ -48,6 +48,12 @@ namespace HorrorEngine
             MessageBuffer<InteractionChangedMessage>.Dispatch(m_InteractionChangedMsg);
         }
 
+        protected void RefreshFocusIfChanged()
+        {
+            if (m_InteractionChangedMsg.Interactive != FocusedInteractive)
+                RefreshFocusedInteractive();
+        }
+
         // --------------------------------------------------------------------
 
         protected virtual void Awake()
@@ -61,8 +67,7 @@ namespace HorrorEngine
 
         private void OnInteractiveDataChanged()
         {
-            m_InteractionChangedMsg.Interactive = FocusedInteractive;
-            MessageBuffer<InteractionChangedMessage>.Dispatch(m_InteractionChangedMsg);
+            RefreshFocusedInteractive();
         }
 
         // --------------------------------------------------------------------
@@ -74,10 +79,9 @@ namespace HorrorEngine
                 m_Interactives.Add(interactive);
                 OnDisableNotifier disableNotif = interactive.GetComponent<OnDisableNotifier>();
                 disableNotif.AddCallback(m_OnInteractiveDisabled);
-                interactive.OnDataChanged.AddListener(m_OnInteractiveDataChanged);
+                interactive.OnDataChanged?.AddListener(m_OnInteractiveDataChanged);
             }
-            m_InteractionChangedMsg.Interactive = interactive;
-            MessageBuffer<InteractionChangedMessage>.Dispatch(m_InteractionChangedMsg);
+            RefreshFocusIfChanged();
         }
 
         // --------------------------------------------------------------------
@@ -93,27 +97,12 @@ namespace HorrorEngine
 
         protected void RemoveInteractive(Interactive interactive)
         {
-            bool isFocused = interactive == FocusedInteractive;
             if (m_Interactives.Remove(interactive))
             {
                 OnDisableNotifier disableNotif = interactive.GetComponent<OnDisableNotifier>();
                 disableNotif.RemoveCallback(m_OnInteractiveDisabled);
-                interactive.OnDataChanged.RemoveListener(m_OnInteractiveDataChanged);
-
-                if (isFocused)
-                {
-                    if (m_Interactives.Count > 0)
-                    {
-                        interactive = m_Interactives[m_Interactives.Count - 1];
-                        m_InteractionChangedMsg.Interactive = interactive;
-                    }
-                    else
-                    {
-                        m_InteractionChangedMsg.Interactive = null;
-                    }
-
-                    MessageBuffer<InteractionChangedMessage>.Dispatch(m_InteractionChangedMsg);
-                }
+                interactive.OnDataChanged?.RemoveListener(m_OnInteractiveDataChanged);
+                RefreshFocusIfChanged();
             }
         }
 

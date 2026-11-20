@@ -14,7 +14,8 @@ namespace HorrorGame.Chapter1
             base.OnUse(entry, user);
             if (GameManager.Exists && CircuitDiagram)
             {
-                GameManager.Instance.Inventory.Documents.Add(CircuitDiagram);
+                if (GameManager.Instance.Inventory.Documents.Add(CircuitDiagram))
+                    HorrorGame.UI.GameplayNotifications.DocumentReceived(CircuitDiagram);
                 GameManager.Instance.Inventory.Remove(this);
             }
         }

@@ -36,14 +36,22 @@ namespace HouseToolkit.Editor
             Pair(EnvironmentPlacementTool.Kind.Sidewalk,EnvironmentPlacementTool.Kind.GroundArea);
             Pair(EnvironmentPlacementTool.Kind.FillerBuilding,EnvironmentPlacementTool.Kind.Wall);
             Pair(EnvironmentPlacementTool.Kind.Shelf,EnvironmentPlacementTool.Kind.Marking);
+            creation.Add(new Button(WireTool.NewWire) { text = "Wire" });
             creation.Add(new Button(ScatterBrush.Open) { text = "Scatter" });
             var cancel=new Button(EnvironmentPlacementTool.Cancel){text="Cancel placement"};
             creation.Add(cancel);
             var enter=new Button(()=>{
                 var selected=SelectedSurface();
-                if(selected)RoadScene.Enter(selected);else HouseScene.Enter(HouseScene.SelectedFloor());
+                if(WireTool.Selected)WireTool.Begin(WireTool.Selected);else if(selected)RoadScene.Enter(selected);else HouseScene.Enter(HouseScene.SelectedFloor());
             });
             enter.style.height=26;root.Add(enter);
+
+            var wireTools=new VisualElement();
+            root.Add(wireTools);
+            var wireSelect=SceneToolButtons.Add(wireTools,"Select","Edit a wire node or segment.",()=>WireTool.SetDrawing(false));
+            var wireDraw=SceneToolButtons.Add(wireTools,"Draw Wire","Extend or branch from a node.",()=>WireTool.SetDrawing(true));
+            wireTools.Add(new Button(HouseProperties.Open){text=HouseProperties.WindowTitle});
+            wireTools.Add(new Button(WireTool.Leave){text="Done"});
 
             var surfaceTools=new VisualElement();
             root.Add(surfaceTools);
@@ -105,11 +113,14 @@ namespace HouseToolkit.Editor
                 bool placing=pending;
                 foreach(var pair in createButtons)SceneToolButtons.Highlight(pair.Value,placing && pending.choice==pair.Key);
                 displayName="Environment Tools";
-                creation.style.display=!floor && !active ? DisplayStyle.Flex : DisplayStyle.None;
+                wireTools.style.display=WireTool.Active ? DisplayStyle.Flex : DisplayStyle.None;
+                SceneToolButtons.Highlight(wireSelect,!WireTool.Drawing);
+                SceneToolButtons.Highlight(wireDraw,WireTool.Drawing);
+                creation.style.display=!WireTool.Active && !floor && !active ? DisplayStyle.Flex : DisplayStyle.None;
                 cancel.style.display=placing ? DisplayStyle.Flex : DisplayStyle.None;
                 var selectedFloor = !active && !floor && !placing ? HouseScene.SelectedFloor() : null;
-                enter.style.display=!placing && !active && !floor && (selected || selectedFloor) ? DisplayStyle.Flex : DisplayStyle.None;
-                enter.text=selected ? RoadScene.EditLabel(selected) : selectedFloor ? selectedFloor.EditLabel : "Edit House";
+                enter.style.display=!WireTool.Active && !placing && !active && !floor && (WireTool.Selected || selected || selectedFloor) ? DisplayStyle.Flex : DisplayStyle.None;
+                enter.text=WireTool.Selected ? "Edit Wire" : selected ? RoadScene.EditLabel(selected) : selectedFloor ? selectedFloor.EditLabel : "Edit House";
                 editing.style.display=floor ? DisplayStyle.Flex : DisplayStyle.None;
                 footer.style.display=editing.style.display;
                 var cutawayHouse = floor ? floor.House : selectedFloor ? selectedFloor.House : null;

@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using Game.Environment;
 using HouseToolkit;
 using HorrorEngine;
+using HorrorGame.Lighting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -21,9 +24,20 @@ namespace HorrorGame.Chapter1
         public SimplePuzzleShutter MainShutter;
         public DistrictPowerGrid Grid;
         [FormerlySerializedAs("CheckDoor")] public CircuitShutterTeleport PuzzleDoor;
+        public CircuitDrivenObject OutputShutter;
+        public Interactive[] OutputButtons = Array.Empty<Interactive>();
         public PowerCircuitPanelElement[] SegmentDots = Array.Empty<PowerCircuitPanelElement>();
         public DocumentData Note;
+        [SerializeField] private Texture2D unitCluePaper;
+        [SerializeField] private Texture2D tenantCluePaper;
+        [SerializeField] private Texture2D clueGlyphs;
+        [SerializeField] private Renderer clueWorldPaper;
+        [SerializeField] private int[] bayNumbers = { 1, 2, 3, 4, 5, 6 };
+        private List<DocumentPage> authoredPages;
+        private bool useTenantClue;
         public CircuitDiagramData ControlDiagram;
+        private LocalizableText authoredNoteText;
+        private LocalizableText authoredNoteCaption;
         private Sprite noteSprite;
         private Texture2D noteTexture;
         public GameObject WrongAnswerCamera;
@@ -34,6 +48,9 @@ namespace HorrorGame.Chapter1
         public CameraPOV CheckCamera;
         public Transform CheckButton;
         public Transform[] LeverPositions = Array.Empty<Transform>();
+        public Interactive[] PatternButtons = Array.Empty<Interactive>();
+        [SerializeField] private ElectricalFixtureFeed bayFixtureFeed;
+        [SerializeField] private Light[] bayLights = Array.Empty<Light>();
         public CircuitDrivenObject[] SegmentShutters = Array.Empty<CircuitDrivenObject>();
         public ShutterIndicatorLamp[] SegmentLamps = Array.Empty<ShutterIndicatorLamp>();
         public ShutterIndicatorLamp CheckLamp;
@@ -45,21 +62,26 @@ namespace HorrorGame.Chapter1
         private static readonly Color Green = new Color(.18f, 1f, .25f);
         private static readonly Color Yellow = new Color(1f, .67f, .12f);
         [SerializeField] private Transform[] leverHandles = new Transform[SegmentCount];
-        private int leverMask;
+        // In the powered bays a set bit means the switch is off.
+        private int switchedMask;
         private Coroutine feedback;
         private Interactive checkInteraction;
+        private Action<IInteractor>[] patternActions;
         private GameObject letterbox;
         private UIInputListener input;
         private PauseController pause;
         private CinemachineBrain checkBrain;
         private int checkCameraOverride = -1;
-        private bool ManualPuzzle => CheckButton;
+        private bool UsesBayButtons => PatternButtons.Length == SegmentCount;
+        private bool UsesPrintedClue => UsesBayButtons && unitCluePaper && tenantCluePaper && clueGlyphs;
+        private bool ManualPuzzle => CheckButton || UsesBayButtons;
         public bool ShowingWrongAnswer { get; private set; }
 
         public bool[] Solution => solution;
         public bool IsSolved => solved;
         private void Awake()
         {
+            useTenantClue = CorridorPuzzleSetting.UseTenantClue;
             if (solution == null || solution.Length != 6 || CountSolution() == 0) GenerateSolution();
             Apply();
             RefreshNote();
@@ -69,18 +91,33 @@ namespace HorrorGame.Chapter1
         {
             if (ManualPuzzle)
             {
-                for (int i = 0; i < LeverPositions.Length && i < SegmentCount; i++)
+                if (UsesBayButtons)
                 {
-                    int index = i;
-                    if (LeverPositions[i])
-                        InstallControl(LeverPositions[i], LeverInteraction, _ => ToggleLever(index));
+                    if (UsesPrintedClue) AddBayNumbers();
+                    patternActions = new Action<IInteractor>[SegmentCount];
+                    for (int i = 0; i < SegmentCount; i++)
+                    {
+                        int index = i;
+                        if (!PatternButtons[i]) continue;
+                        patternActions[i] = _ => ToggleLever(index);
+                        PatternButtons[i].OnInteract.AddListener(patternActions[i].Invoke);
+                    }
                 }
-                checkInteraction = InstallControl(CheckButton, CheckInteraction, UseCheckButton);
+                else
+                    for (int i = 0; i < LeverPositions.Length && i < SegmentCount; i++)
+                    {
+                        int index = i;
+                        if (LeverPositions[i])
+                            InstallControl(LeverPositions[i], LeverInteraction, _ => ToggleLever(index));
+                    }
+                if (CheckButton) checkInteraction = InstallControl(CheckButton, CheckInteraction, UseCheckButton);
                 if (PuzzleDoor) PuzzleDoor.OnLockedInteraction += CheckAnswer;
                 UpdateCheckPrompt();
                 RefreshIndicators();
             }
-            if (!Grid || !PuzzleDoor) return;
+            foreach (var button in OutputButtons)
+                if (button) button.OnInteract.AddListener(UseOutputButton);
+            if (!Grid || (!PuzzleDoor && !OutputShutter)) return;
             if (SegmentDots == null) return;
             var anchor = Array.Find(SegmentDots, dot => dot && dot.Room && dot.GetMapData());
             if (!anchor) return;
@@ -112,6 +149,11 @@ namespace HorrorGame.Chapter1
         private void OnDestroy()
         {
             if (PuzzleDoor) PuzzleDoor.OnLockedInteraction -= CheckAnswer;
+            foreach (var button in OutputButtons)
+                if (button) button.OnInteract.RemoveListener(UseOutputButton);
+            if (patternActions != null)
+                for (int i = 0; i < patternActions.Length; i++)
+                    if (PatternButtons[i] && patternActions[i] != null) PatternButtons[i].OnInteract.RemoveListener(patternActions[i].Invoke);
             if (noteSprite)
             {
                 if (Note && Note.Pages != null && Note.Pages.Count >= 2 && Note.Pages[1].Image.Unlocalized == noteSprite)
@@ -119,6 +161,11 @@ namespace HorrorGame.Chapter1
                 Destroy(noteSprite);
             }
             if (noteTexture) Destroy(noteTexture);
+            if (authoredPages != null && Note) Note.Pages = authoredPages;
+            if (authoredNoteText != null && Note && Note.Pages?.Count > 0)
+                Note.Pages[0].Text = authoredNoteText;
+            if (authoredNoteCaption != null && Note && Note.Pages?.Count > 1)
+                Note.Pages[1].Caption = authoredNoteCaption;
         }
 
         public bool OwnsControlDiagram => ControlDiagram && GameManager.Exists &&
@@ -134,25 +181,103 @@ namespace HorrorGame.Chapter1
 
         private void RefreshNote()
         {
-            if (!Note || Note.Pages == null || Note.Pages.Count < 2) return;
+            if (!Note || Note.Pages == null) return;
+            if (UsesPrintedClue)
+            {
+                authoredPages ??= Note.Pages;
+                if (noteSprite) Destroy(noteSprite);
+                if (noteTexture) Destroy(noteTexture);
+                Note.Pages = CorridorClueArtwork.Create(solution, bayNumbers, useTenantClue,
+                    useTenantClue ? tenantCluePaper : unitCluePaper, clueGlyphs, out noteTexture, out noteSprite);
+                if (clueWorldPaper)
+                {
+                    var material = new MaterialPropertyBlock();
+                    clueWorldPaper.GetPropertyBlock(material);
+                    material.SetTexture("_BaseMap", noteTexture);
+                    clueWorldPaper.SetPropertyBlock(material);
+                }
+                return;
+            }
+            if (Note.Pages.Count < 2) return;
+            if (!UsesBayButtons && authoredNoteText == null)
+            {
+                authoredNoteText = Note.Pages[0].Text;
+                authoredNoteCaption = Note.Pages[1].Caption;
+                Note.Pages[1].Caption = new LocalizableText();
+                Note.Pages[0].Text = new LocalizableText
+                {
+                    Unlocalized = "The following <color=#FFD84A>storage bays</color> need to be cleaned out by Monday. I <color=#FFD84A>marked</color> them on the next page"
+                };
+            }
             if (noteSprite) Destroy(noteSprite);
             if (noteTexture) Destroy(noteTexture);
             const int cell = 54, pitch = 68, width = pitch * 2, height = pitch * 3;
+            var ink = new Color32(44, 53, 111, 255);
+            var paper = new Color32(245, 235, 214, 255);
+            var crossInk = new Color32(139, 34, 34, 255);
             noteTexture = new Texture2D(width, height, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
             var pixels = new Color32[width * height];
-            for (int i = 0; i < 6; i++)
+
+            void Fill(int x, int y, int w, int h, Color32 color)
             {
-                Color32 color = solution[i] ? new Color32(52, 160, 89, 255) : new Color32(185, 63, 57, 255);
-                int x0 = i % 2 * pitch + 7;
-                int y0 = (2 - i / 2) * pitch + 7;
-                for (int y = y0; y < y0 + cell; y++)
-                    for (int x = x0; x < x0 + cell; x++)
-                        pixels[y * width + x] = color;
+                for (int row = y; row < y + h; row++)
+                    Array.Fill(pixels, color, row * width + x, w);
+            }
+
+            for (int i = 0; i < SegmentCount; i++)
+            {
+                bool left = i % 2 == 0;
+                int x = i % 2 * pitch + 7;
+                int y = (2 - i / 2) * pitch + 7;
+                if (!UsesBayButtons)
+                {
+                    Fill(x, y, cell, cell, solution[i] ? new Color32(52, 160, 89, 255) : new Color32(185, 63, 57, 255));
+                    continue;
+                }
+
+                Fill(x, y, cell, cell, ink);
+                Fill(x + 2, y + 2, cell - 4, cell - 4, paper);
+                int shutterX = left ? x + cell - 12 : x - 2;
+                int shutterY = y + 15;
+                Fill(shutterX, shutterY, 14, 24, ink);
+                Fill(shutterX + 2, shutterY + 2, 10, 20, paper);
+                for (int slat = 4; slat < 22; slat += 4)
+                    Fill(shutterX + 2, shutterY + slat, 10, 1, ink);
+                if (!solution[i]) continue;
+                for (int step = 0; step < 26; step++)
+                {
+                    int dx = step * 17 / 25;
+                    Fill(shutterX - 3 + dx, shutterY - 1 + step, 3, 2, crossInk);
+                    Fill(shutterX + 14 - dx, shutterY - 1 + step, 3, 2, crossInk);
+                }
             }
             noteTexture.SetPixels32(pixels);
             noteTexture.Apply();
             noteSprite = Sprite.Create(noteTexture, new Rect(0, 0, width, height), Vector2.one * .5f);
             Note.Pages[1].Image.Unlocalized = noteSprite;
+        }
+
+        private void AddBayNumbers()
+        {
+            var font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            for (int i = 0; i < SegmentShutters.Length && i < bayNumbers.Length; i++)
+            {
+                if (!SegmentShutters[i]) continue;
+                var shutter = SegmentShutters[i].transform;
+                var towardCorridor = bayNumbers[i] % 2 == 1 ? Vector3.back : Vector3.forward;
+                var label = new GameObject($"Storage Unit {bayNumbers[i]}").AddComponent<TextMesh>();
+                label.transform.SetParent(transform, true);
+                label.transform.SetPositionAndRotation(shutter.position + Vector3.up * 2.29f + towardCorridor * .18f,
+                    Quaternion.LookRotation(-towardCorridor));
+                label.text = bayNumbers[i].ToString();
+                label.anchor = TextAnchor.MiddleCenter;
+                label.font = font;
+                label.fontStyle = FontStyle.Bold;
+                label.fontSize = 64;
+                label.characterSize = .065f;
+                label.color = new Color(.96f, .9f, .73f);
+                label.GetComponent<MeshRenderer>().sharedMaterial = font.material;
+            }
         }
         private static Interactive InstallControl(Transform anchor, InteractionData data, Action<IInteractor> action)
         {
@@ -170,9 +295,21 @@ namespace HorrorGame.Chapter1
 
         private void ToggleLever(int index)
         {
+            if (Grid && (!Grid.HasSupply || Grid.IsShutdown))
+            {
+                HorrorGame.UI.PlayerMonologue.Show("No power");
+                return;
+            }
             if (feedback != null || index >= SegmentShutters.Length || !SegmentShutters[index] ||
                 !SegmentShutters[index].TryGetComponent(out GarageDoor door) || !door.IsOpen) return;
-            leverMask ^= 1 << index;
+            switchedMask ^= 1 << index;
+            if (UsesBayButtons)
+            {
+                bool matched = MatchesSolution();
+                if (matched && !solved) HorrorGame.UI.PlayerMonologue.Show("The shutter controls have power");
+                solved = matched;
+                RefreshOutputButtons();
+            }
             RefreshIndicators();
             GetComponent<SavableObjectState>().SaveState();
         }
@@ -181,11 +318,45 @@ namespace HorrorGame.Chapter1
         {
             for (int i = 0; i < SegmentCount; i++)
             {
-                bool on = (leverMask & (1 << i)) != 0;
-                if (i < SegmentLamps.Length && SegmentLamps[i]) SegmentLamps[i].SetManualColor(on ? Green : Red);
-                if (i < leverHandles.Length && leverHandles[i]) leverHandles[i].localRotation = Quaternion.Euler(on ? -45f : 45f, 0f, 0f);
+                bool switched = (switchedMask & (1 << i)) != 0;
+                if (i < SegmentLamps.Length && SegmentLamps[i]) SegmentLamps[i].SetManualColor(switched ? Green : Red);
+                if (i < leverHandles.Length && leverHandles[i]) leverHandles[i].localRotation = Quaternion.Euler(switched ? -45f : 45f, 0f, 0f);
+                if (i < PatternButtons.Length && PatternButtons[i])
+                    SetButtonIndicator(PatternButtons[i], !switched, IndicatorLamp.Red);
+                if (bayFixtureFeed && i < bayLights.Length)
+                    bayFixtureFeed.SetLocalPower(bayLights[i], !switched);
             }
             if (CheckLamp) CheckLamp.SetManualColor(solved ? Green : Yellow);
+        }
+
+        private void UseOutputButton(IInteractor interactor)
+        {
+            if (!OutputShutter || !Grid || !Grid.HasSupply || Grid.IsShutdown || !solved)
+            {
+                HorrorGame.UI.PlayerMonologue.Show("No power");
+                return;
+            }
+
+            Grid.SetCircuit(OutputShutter.CircuitId, !Grid.IsCircuitRequested(OutputShutter.CircuitId));
+            RefreshOutputButtons();
+            GetComponent<SavableObjectState>().SaveState();
+        }
+
+        private void RefreshOutputButtons()
+        {
+            bool requested = OutputShutter && Grid && Grid.IsCircuitRequested(OutputShutter.CircuitId);
+            foreach (var button in OutputButtons)
+            {
+                if (!button) continue;
+                if (button.GetComponentInParent<ElectricalDeviceFeed>() is ElectricalDeviceFeed feed) feed.SetLocalPower(solved);
+                SetButtonIndicator(button, requested, IndicatorLamp.InactiveYellow);
+            }
+        }
+
+        private static void SetButtonIndicator(Interactive button, bool on, Color inactive)
+        {
+            var device = button.GetComponentInParent<DeviceIndicator>();
+            if (device) device.SetDeviceState(on ? IndicatorLamp.Green : inactive);
         }
 
         private void UseCheckButton(IInteractor interactor)
@@ -204,20 +375,18 @@ namespace HorrorGame.Chapter1
 
         public void CheckAnswer()
         {
+            if (Grid && !Grid.HasSupply)
+            {
+                HorrorGame.UI.PlayerMonologue.Show("No power");
+                return;
+            }
             if (feedback != null) return;
             if (solved)
             {
                 if (ManualPuzzle) feedback = StartCoroutine(ShowCheck(true));
                 return;
             }
-            bool matches = true;
-            for (int i = 0; i < SegmentCount; i++)
-            {
-                bool on = ManualPuzzle ? (leverMask & (1 << i)) != 0 :
-                    Shutters != null && i < Shutters.Length && Shutters[i] && Shutters[i].IsOpen;
-                if (on != solution[i]) matches = false;
-            }
-
+            bool matches = MatchesSolution();
             if (matches)
             {
                 solved = true;
@@ -225,6 +394,17 @@ namespace HorrorGame.Chapter1
                 GetComponent<SavableObjectState>().SaveState();
             }
             if (ManualPuzzle || !matches) feedback = StartCoroutine(ShowCheck(matches));
+        }
+
+        private bool MatchesSolution()
+        {
+            for (int i = 0; i < SegmentCount; i++)
+            {
+                bool isSelected = ManualPuzzle ? (switchedMask & (1 << i)) != 0 :
+                    Shutters != null && i < Shutters.Length && Shutters[i] && Shutters[i].IsOpen;
+                if (isSelected != solution[i]) return false;
+            }
+            return true;
         }
 
         private IEnumerator ShowCheck(bool passed)
@@ -310,6 +490,7 @@ namespace HorrorGame.Chapter1
         {
             if (MainShutter) MainShutter.SetOpen(solved);
             if (PuzzleDoor) PuzzleDoor.SetPuzzleUnlocked(solved);
+            RefreshOutputButtons();
             UpdateCheckPrompt();
         }
         private void GenerateSolution()
@@ -319,17 +500,31 @@ namespace HorrorGame.Chapter1
             while (count > 0) { int index = UnityEngine.Random.Range(0, 6); if (solution[index]) continue; solution[index] = true; --count; }
         }
         private int CountSolution() { int count = 0; foreach (bool value in solution) if (value) ++count; return count; }
-        public string GetSavableData() => JsonUtility.ToJson(new State { Solution = solution, Solved = solved, LeverMask = leverMask });
+        public string GetSavableData() => JsonUtility.ToJson(new State
+        {
+            Solution = solution, Solved = solved, LeverMask = switchedMask,
+            OutputRequested = OutputShutter && Grid && Grid.IsCircuitRequested(OutputShutter.CircuitId),
+            UseTenantClue = useTenantClue
+        });
         public void SetFromSavedData(string data)
         {
             State state = JsonUtility.FromJson<State>(data);
+            useTenantClue = state.UseTenantClue;
             if (state.Solution != null && state.Solution.Length == 6) solution = state.Solution;
-            solved = state.Solved;
-            leverMask = state.LeverMask;
+            switchedMask = state.LeverMask;
+            solved = UsesBayButtons ? MatchesSolution() : state.Solved;
+            if (OutputShutter && Grid) Grid.SetCircuit(OutputShutter.CircuitId, state.OutputRequested);
             RefreshIndicators();
             Apply();
             RefreshNote();
         }
-        [Serializable] private struct State { public bool[] Solution; public bool Solved; public int LeverMask; }
+        [Serializable] private struct State
+        {
+            public bool[] Solution;
+            public bool Solved;
+            public int LeverMask;
+            public bool OutputRequested;
+            public bool UseTenantClue;
+        }
     }
 }

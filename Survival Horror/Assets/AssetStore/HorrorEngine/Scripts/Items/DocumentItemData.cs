@@ -17,6 +17,7 @@ namespace HorrorEngine
                 if (!GameManager.Instance.Inventory.Documents.Contains(m_Document))
                 {
                     GameManager.Instance.Inventory.Documents.Add(m_Document);
+                    HorrorGame.UI.GameplayNotifications.DocumentReceived(m_Document);
                 }
             }
 

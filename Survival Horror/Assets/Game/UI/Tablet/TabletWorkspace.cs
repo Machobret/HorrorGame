@@ -37,8 +37,8 @@ namespace HorrorGame.UI
         private static readonly (string Title, string Copy)[] GuidePages =
         {
             ("OPEN AND CLOSE", "Press M to open your tablet. Press M or ESC to close it and return to the game."),
-            ("READ THE MAP", "Use WASD or click and drag to pan. Scroll to zoom. Use UP and DOWN to change floors. Press I to browse discovered maps."),
-            ("POWER A CIRCUIT", "Aim at a lightning bolt and press E, or click the bolt, to toggle it. NO SERVICE means the circuit is in another room. The POWER tab lists circuits you can use here.")
+            ("READ THE MAP", "Use WASD or click and drag to pan. Scroll to zoom. Press I to browse discovered maps."),
+            ("POWER A CIRCUIT", "Aim at a lightning bolt and press E, or click it. Restore power before using a circuit marked NO POWER. CONNECTION LOST means the circuit is out of reach.")
         };
 
         private TMP_Text objectiveText;
@@ -95,14 +95,14 @@ namespace HorrorGame.UI
                 var shade = overlay.gameObject.AddComponent<Image>();
                 shade.color = new Color(.015f, .022f, .028f, .52f);
 
-                var card = CreateObjectiveRect("Instructions", overlay, new Vector2(.19f, .25f), new Vector2(.81f, .76f));
+                var card = CreateObjectiveRect("Instructions", overlay, new Vector2(.12f, .18f), new Vector2(.88f, .82f));
                 card.gameObject.AddComponent<Image>().color = new Color(.06f, .07f, .08f, .99f);
                 guideStripe = CreateObjectiveRect("Status stripe", card, new Vector2(0f, .96f), Vector2.one)
                     .gameObject.AddComponent<Image>();
                 guideStripe.raycastTarget = false;
 
-                guideHeader = GuideLabel(card, "Heading", new Vector2(.065f, .72f), new Vector2(.945f, .93f), 27f);
-                guideBody = GuideLabel(card, "Instructions", new Vector2(.065f, .28f), new Vector2(.935f, .70f), 23f);
+                guideHeader = GuideLabel(card, "Heading", new Vector2(.065f, .72f), new Vector2(.945f, .93f), 34f);
+                guideBody = GuideLabel(card, "Instructions", new Vector2(.065f, .28f), new Vector2(.935f, .70f), 30f);
                 var buttonRect = CreateObjectiveRect("Next", card, new Vector2(.63f, .07f), new Vector2(.935f, .25f));
                 var buttonImage = buttonRect.gameObject.AddComponent<Image>();
                 buttonImage.color = new Color(.28f, .13f, .09f);
@@ -110,7 +110,7 @@ namespace HorrorGame.UI
                 button.targetGraphic = buttonImage;
                 button.navigation = new Navigation { mode = Navigation.Mode.None };
                 button.onClick.AddListener(AdvanceControlsGuide);
-                guideButtonLabel = GuideLabel(buttonRect, "Key hint", new Vector2(.04f, .08f), new Vector2(.96f, .92f), 21f);
+                guideButtonLabel = GuideLabel(buttonRect, "Key hint", new Vector2(.04f, .08f), new Vector2(.96f, .92f), 26f);
                 guideButtonLabel.alignment = TextAlignmentOptions.Center;
                 guideButtonLabel.color = ObjectiveGold;
             }
@@ -135,6 +135,10 @@ namespace HorrorGame.UI
         private void RedrawControlsGuide()
         {
             var page = GuidePages[guidePage];
+            if (guidePage == GuidePages.Length - 1 && Chapter1MapTutorial.Instance is { WaitingForCircuitPower: true } tutorial)
+                page = ("RESTORE POWER", tutorial.Grid.Supply && tutorial.Grid.Supply.RequiresTabletAuthorization
+                    ? "Enable the electricity box on the map, then close the tablet and pull the lever to unlock the gate."
+                    : "Close the tablet and turn on the alley breaker.");
             Color accent = guidePage == GuidePages.Length - 1 ? new Color(1f, .34f, .27f) : ObjectiveGold;
             guideStripe.color = guideHeader.color = accent;
             GameText.SetLabel(guideHeader, (guidePage + 1) + " / " + GuidePages.Length + "   " + GameText.Translate(page.Title));
@@ -190,11 +194,11 @@ namespace HorrorGame.UI
             if (empty && !string.IsNullOrWhiteSpace(previousObjective))
             {
                 completionStarted = Time.unscaledTime;
-                completedObjectiveText.text = previousObjective;
+                GameText.SetLabel(completedObjectiveText, previousObjective);
                 completionPopup.gameObject.SetActive(true);
             }
             previousObjective = objective;
-            objectiveText.text = empty ? "NO OBJECTIVE" : objective;
+            GameText.SetLabel(objectiveText, empty ? "NO OBJECTIVE" : objective);
             float elapsed = Time.unscaledTime - completionStarted;
             float progress = Mathf.Clamp01(elapsed / .48f);
             float glow = 1f - Mathf.SmoothStep(0f, 1f, progress);
@@ -218,19 +222,20 @@ namespace HorrorGame.UI
                 Footer.font, "OBJECTIVE COMPLETE", false, out completedObjectiveText);
         }
 
-        internal static void AnimatePopup(CanvasGroup group, float elapsed, float remaining)
+        internal static void AnimatePopup(CanvasGroup group, float elapsed, float remaining, bool fromBottom = false)
         {
             var rect = (RectTransform)group.transform;
             float enter = Mathf.Clamp01(elapsed / .28f);
             float leave = 1f - Mathf.Clamp01(remaining / .35f);
             float travel = Mathf.Max(40f, rect.rect.height);
-            rect.anchoredPosition = Vector2.up * (travel * Mathf.Max(Mathf.Pow(1f - enter, 3f), leave * leave * leave));
+            Vector2 direction = fromBottom ? Vector2.down : Vector2.up;
+            rect.anchoredPosition = direction * (travel * Mathf.Max(Mathf.Pow(1f - enter, 3f), leave * leave * leave));
             group.alpha = Mathf.SmoothStep(0f, 1f, enter) * (1f - Mathf.SmoothStep(0f, 1f, leave));
         }
 
         internal static CanvasGroup CreatePopup(Transform surface, Vector2 min, Vector2 max,
             TMP_FontAsset font, string title, bool signal, out TMP_Text body, string subtitle = null,
-            bool exclamation = false)
+            bool exclamation = false, bool large = false)
         {
             var popup = CreateObjectiveRect(title, surface, min, max);
             var background = popup.gameObject.AddComponent<Image>();
@@ -247,15 +252,15 @@ namespace HorrorGame.UI
             star.Exclamation = exclamation;
             star.color = ObjectiveGold;
             star.raycastTarget = false;
-            var heading = CreateObjectiveLabel(popup, "Heading", .62f, .96f, 12f, font, fitToRow: true);
-            heading.text = title;
+            var heading = CreateObjectiveLabel(popup, "Heading", .62f, .96f, large ? 18f : 12f, font, fitToRow: true);
+            heading.text = GameText.Translate(title);
             heading.color = ObjectiveGold;
-            body = CreateObjectiveLabel(popup, "Message", subtitle == null ? .07f : .30f, .62f, 16f, font, fitToRow: true);
+            body = CreateObjectiveLabel(popup, "Message", subtitle == null ? .07f : .30f, .62f, large ? 23f : 16f, font, fitToRow: true);
             body.color = Color.white;
             if (subtitle != null)
             {
-                var hint = CreateObjectiveLabel(popup, "Subtitle", .04f, .30f, 12f, font, fitToRow: true);
-                hint.text = subtitle;
+                var hint = CreateObjectiveLabel(popup, "Subtitle", .04f, .30f, large ? 16f : 12f, font, fitToRow: true);
+                hint.text = GameText.Translate(subtitle);
                 hint.color = ObjectiveGold;
             }
             popup.gameObject.SetActive(false);
@@ -348,7 +353,8 @@ namespace HorrorGame.UI
         public void ToggleCircuit(string id)
         {
             if(!Grid || !Network || !Network.CanAccessCircuit(id) || Grid.IsShutdown)return;
-            if (!Network.HasCircuitService(id)) { PowerHelp.text = "NO SERVICE"; return; }
+            if (!Network.HasCircuitService(id)) { PowerHelp.text = GameText.Translate(PowerMapCircuitPanel.ConnectionLostLabel); return; }
+            if (!Network.HasControlPower(id)) { PowerHelp.text = GameText.Translate("No power"); return; }
             bool changed=Network.TryToggleCircuit(id);RefreshPower();
             if (Network.SequencePuzzle && Network.SequencePuzzle.ShowingWrongAnswer)
             {
@@ -365,14 +371,37 @@ namespace HorrorGame.UI
             PowerHelp.text=rows.Count==0?"No accessible circuits in your current room.":Grid.IsShutdown?"All circuits are off. Restore supply at the physical fuse box.":Grid.EnforceCapacityLimit?"Enabling a circuit above capacity immediately trips the supply.":"";
             for(int i=0;i<rows.Count;i++)
             {
-                var circuit=circuits[i];bool on=Grid.IsCircuitPowered(circuit.Id);bool trips=Grid.EnforceCapacityLimit && !on && Grid.CurrentConsumption+circuit.Consumption>Grid.MaximumCapacity;
+                var circuit=circuits[i];
+                if (!Network.HasCircuitService(circuit.Id))
+                {
+                    rows[i].interactable = false;
+                    rows[i].GetComponent<Image>().color = normal;
+                    rows[i].GetComponentInChildren<TMP_Text>().text = circuit.DisplayName + " [" +
+                        GameText.Translate(PowerMapCircuitPanel.ConnectionLostLabel) + "]";
+                    continue;
+                }
+                bool on=Network.IsCircuitShownPowered(circuit.Id);bool trips=Grid.EnforceCapacityLimit && !on && Grid.CurrentConsumption+circuit.Consumption>Grid.MaximumCapacity;
                 rows[i].GetComponentInChildren<TMP_Text>().text=circuit.DisplayName+(Grid.EnforceCapacityLimit?"   /   "+circuit.Consumption+" UNITS":"")+"   /   "+(on?"[ON]":"[OFF]")+(trips?"\nWARNING: ENABLING WILL TRIP SUPPLY":"");
                 rows[i].interactable=!Grid.IsShutdown;rows[i].GetComponent<Image>().color=trips?new Color(.28f,.13f,.10f):on?selected:normal;
+                if (Network.TryGetQueuedCircuit(circuit.Id, out bool queuedOn))
+                {
+                    rows[i].GetComponentInChildren<TMP_Text>().text = circuit.DisplayName + " [" +
+                        GameText.Translate(queuedOn ? "QUEUED ON" : "QUEUED OFF") + "]";
+                    PowerHelp.text = GameText.Translate("Shutter changes apply when you close the tablet.");
+                }
                 var opening = Chapter1Opening.Instance;
                 if (opening && opening.IsDepotCircuit(Grid, circuit.Id))
                 {
-                    rows[i].GetComponentInChildren<TMP_Text>().text = opening.DepotUnlocked ? "Depot unlocked" : opening.DepotHasPower ? "Entrance shutter power [ON]" : "Entrance shutter power [OFF]";
-                    rows[i].interactable = !Grid.IsShutdown && !opening.DepotUnlocked;
+                    if (opening.DepotMotor)
+                    {
+                        string state = !opening.DepotControlHasPower ? "NO POWER" : opening.DepotHasPower ? "ON" : "OFF";
+                        rows[i].GetComponentInChildren<TMP_Text>().text = GameText.Translate("Main shutter power") + " [" + GameText.Translate(state) + "]";
+                    }
+                    else
+                    {
+                        rows[i].GetComponentInChildren<TMP_Text>().text = opening.DepotUnlocked ? "Depot unlocked" : opening.DepotHasPower ? "Entrance shutter power [ON]" : "Entrance shutter power [OFF]";
+                        rows[i].interactable = !Grid.IsShutdown && !opening.DepotUnlocked;
+                    }
                 }
             }
         }

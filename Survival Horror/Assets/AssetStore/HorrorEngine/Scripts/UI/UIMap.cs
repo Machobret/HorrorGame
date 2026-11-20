@@ -39,6 +39,9 @@ namespace HorrorEngine
         private Image m_CrosshairHorizontal;
         private bool m_PersistentCursorAcquired;
         private bool m_MouseMapMode;
+        private Transform m_CrosshairSnap;
+        internal bool UsesMouseOnMap => m_MouseMapMode;
+        internal bool IsMapPointerDragging => m_MapPointerHeld && m_MapPointerDragged;
         private bool m_MapPointerHeld, m_MapPointerDragged;
         private Vector2 m_MapPressPosition, m_LastDragViewport;
         public bool IsMapPointerHeld => m_MapPointerHeld;
@@ -551,21 +554,33 @@ namespace HorrorEngine
 
         public bool TryGetCrosshairViewport(out Vector2 position)
         {
-            if (m_MouseMapMode) return TryGetMapPointer(out position, true);
-            position = MapRenderer.Exists ? MapRenderer.Instance.TargetViewportPosition : Vector2.one * .5f;
+            if (m_MouseMapMode)
+            {
+                if (TryGetMapPointer(out position) && !IsPointerOverLegend(Mouse.current.position.ReadValue())) return true;
+                return false;
+            }
+            position = MapRenderer.Exists ? ToMapViewport(MapRenderer.Instance.TargetViewportPosition) : Vector2.one * .5f;
             position = new Vector2(Mathf.Clamp01(position.x), Mathf.Clamp01(position.y));
             return !IsTabletLoading;
+        }
+
+        internal void SetCircuitCrosshair(Transform target)
+        {
+            m_CrosshairSnap = target;
+            UpdateCrosshairPosition();
+        }
+
+        private Vector2 ToMapViewport(Vector2 textureViewport)
+        {
+            Rect uv = m_MapImage.uvRect;
+            return new Vector2((textureViewport.x - uv.x) / uv.width, (textureViewport.y - uv.y) / uv.height);
         }
 
         public bool TryProjectMapViewport(Vector2 viewport, bool sampleTexture, out Vector2 screen, bool allowOutside = false)
         {
             screen = default;
             if (!m_MapImage || !m_MapImage.gameObject.activeInHierarchy) return false;
-            if (sampleTexture)
-            {
-                Rect uv = m_MapImage.uvRect;
-                viewport = new Vector2((viewport.x - uv.x) / uv.width, (viewport.y - uv.y) / uv.height);
-            }
+            if (sampleTexture) viewport = ToMapViewport(viewport);
             if (!allowOutside && (viewport.x < 0 || viewport.x > 1 || viewport.y < 0 || viewport.y > 1)) return false;
             RectTransform image = m_MapImage.rectTransform;
             Rect rect = image.rect;
@@ -580,6 +595,8 @@ namespace HorrorEngine
         {
             if (m_CrosshairVertical == null || m_CrosshairHorizontal == null || !MapRenderer.Exists) return;
             bool visible = TryGetCrosshairViewport(out Vector2 position);
+            if (visible && !m_MouseMapMode && m_CrosshairSnap && MapRenderer.Instance.RenderCamera)
+                position = ToMapViewport(MapRenderer.Instance.RenderCamera.WorldToViewportPoint(m_CrosshairSnap.position));
             m_CrosshairVertical.enabled = visible;
             m_CrosshairHorizontal.enabled = visible;
             if (!visible) return;

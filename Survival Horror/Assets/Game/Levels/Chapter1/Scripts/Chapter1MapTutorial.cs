@@ -17,6 +17,8 @@ namespace HorrorGame.Chapter1
         public bool CollectTabletWithoutOpening;
         public DistrictPowerGrid Grid;
         public MapData MapToUnlock;
+        [Tooltip("Assign the breaker room when the tutorial ends by restoring the grid supply.")]
+        public MapRoom BreakerRoom;
         [Tooltip("Drag the circuit-dot GameObject from PowerPanelController here. Its map and ID drive the tutorial automatically.")]
         public PowerCircuitPanelElement TutorialCircuit;
         public string TargetCircuitId = "store_shutters";
@@ -27,7 +29,24 @@ namespace HorrorGame.Chapter1
         public bool TutorialActive { get; private set; }
         public bool ControlsTutorialSeen { get; private set; }
         public bool TutorialCircuitUnlocked { get; private set; }
-        public string CurrentQuest { get; private set; }
+        public bool UsesBreakerObjective => BreakerRoom && Grid && Grid.Supply;
+        public bool WaitingForCircuitPower => TutorialActive && Grid && (!Grid.HasSupply || Grid.IsShutdown);
+        public bool WaitingForBreakerAuthorization => WaitingForCircuitPower && Grid.Supply && !Grid.Supply.IsAuthorized;
+        public string CurrentQuest
+        {
+            get
+            {
+                if (WaitingForBreakerAuthorization) return "Enable the electricity box on the tablet";
+                if (WaitingForCircuitPower) return "Turn on the alley breaker";
+                var opening = Chapter1Opening.Instance;
+                if (opening && opening.DepotMotor &&
+                    (currentQuest == Chapter1Opening.MainShutterObjective || currentQuest == Chapter1Opening.OpenMainShutterObjective))
+                    return opening.DepotQuest;
+                return currentQuest;
+            }
+            private set => currentQuest = value;
+        }
+        private string currentQuest;
 
         public static bool CanOpenMap => Instance == null || Instance.MapUnlocked;
         private float nextCircuitScan;
@@ -64,6 +83,8 @@ namespace HorrorGame.Chapter1
         public static bool IsTargetCircuit(MapData map, string circuitId)
         {
             if (!Instance || (!Instance.TutorialActive && !Instance.TutorialCircuitUnlocked)) return false;
+            if (Instance.UsesBreakerObjective)
+                return Instance.MapToUnlock == map && circuitId == PowerMapCircuitPanel.BreakerCircuitId;
             MapData targetMap = Instance.TutorialCircuit ? Instance.TutorialCircuit.GetMapData() : Instance.MapToUnlock;
             string targetId = Instance.TutorialCircuit ? Instance.TutorialCircuit.CircuitId : Instance.TargetCircuitId;
             return targetMap == map && targetId == circuitId;
@@ -101,7 +122,7 @@ namespace HorrorGame.Chapter1
 
         private void OnDestroy()
         {
-            if (Grid) Grid.CircuitChanged -= OnCircuitChanged;
+            UnsubscribeGrid();
             if (Instance == this) Instance = null;
         }
 
@@ -121,15 +142,14 @@ namespace HorrorGame.Chapter1
 
         private void EnsureTutorialOverlay()
         {
-            if (!TutorialCircuit) return;
-            MapData circuitMap = TutorialCircuit.GetMapData();
+            MapData circuitMap = UsesBreakerObjective ? MapToUnlock : TutorialCircuit ? TutorialCircuit.GetMapData() : null;
             if (!circuitMap) return;
-            var controller = TutorialCircuit.GetComponentInParent<PowerPanelController>();
+            var controller = TutorialCircuit ? TutorialCircuit.GetComponentInParent<PowerPanelController>() : null;
             if (!Grid && controller) Grid = controller.ResolveGrid();
             if (!Grid) return;
 
             Grid.SyncDefinitionsFromData();
-            if (!Grid.Circuits.Exists(c => c.Id == TutorialCircuit.CircuitId) &&
+            if (!UsesBreakerObjective && TutorialCircuit && !Grid.Circuits.Exists(c => c.Id == TutorialCircuit.CircuitId) &&
                 !string.IsNullOrWhiteSpace(TutorialCircuit.CircuitId))
                 Grid.Circuits.Add(new PowerCircuit
                 {
@@ -152,21 +172,41 @@ namespace HorrorGame.Chapter1
         {
             if (!Grid) Grid = FindFirstObjectByType<DistrictPowerGrid>();
             if (!Grid) return;
+            UnsubscribeGrid();
+            if (UsesBreakerObjective)
+            {
+                Grid.SupplyChanged += OnSupplyChanged;
+                OnSupplyChanged();
+            }
+            else Grid.CircuitChanged += OnCircuitChanged;
+        }
+
+        private void UnsubscribeGrid()
+        {
+            if (!Grid) return;
             Grid.CircuitChanged -= OnCircuitChanged;
-            Grid.CircuitChanged += OnCircuitChanged;
+            Grid.SupplyChanged -= OnSupplyChanged;
+        }
+
+        private void OnSupplyChanged()
+        {
+            if (TutorialActive && Grid.HasSupply && !Grid.IsShutdown) FinishTutorial();
         }
 
         private void OnCircuitChanged(string circuitId, bool powered)
         {
-            // The highlighted gate teaches the intended action, while any
-            // successfully powered circuit proves the player understands it.
             if (!TutorialActive || !powered) return;
             string targetId = TutorialCircuit ? TutorialCircuit.CircuitId : TargetCircuitId;
             if (!string.IsNullOrEmpty(targetId) && circuitId != targetId) return;
+            FinishTutorial();
+        }
+
+        private void FinishTutorial()
+        {
             TutorialActive = false;
             TutorialCircuitUnlocked = true;
             CurrentQuest = FollowUpQuestText;
-            if (Grid) Grid.CircuitChanged -= OnCircuitChanged;
+            UnsubscribeGrid();
             GetComponent<SavableObjectState>()?.SaveState();
         }
 
@@ -184,7 +224,7 @@ namespace HorrorGame.Chapter1
                 TutorialActive = TutorialActive,
                 ControlsTutorialSeen = ControlsTutorialSeen,
                 TutorialCircuitUnlocked = TutorialCircuitUnlocked,
-                CurrentQuest = CurrentQuest,
+                CurrentQuest = currentQuest,
                 DiscoveredCircuits = new List<string>(discoveredCircuits)
             });
         }
@@ -196,10 +236,20 @@ namespace HorrorGame.Chapter1
             TutorialActive = state.TutorialActive;
             ControlsTutorialSeen = state.ControlsTutorialSeen;
             TutorialCircuitUnlocked = state.TutorialCircuitUnlocked;
-            CurrentQuest = CollectTabletWithoutOpening && state.CurrentQuest == "Find the depot code in the staff room"
-                ? Chapter1Opening.DepotObjective
-                : state.CurrentQuest;
-            if (TutorialActive && string.IsNullOrWhiteSpace(CurrentQuest)) CurrentQuest = QuestText;
+            CurrentQuest = state.CurrentQuest;
+            if (Chapter1Opening.Instance && Chapter1Opening.Instance.DepotMotor &&
+                (currentQuest == "Find a way around the storage unit" ||
+                 currentQuest == "Use the office button to power the main shutter" ||
+                 currentQuest == "Open the main shutter with the tablet"))
+                CurrentQuest = Chapter1Opening.MainShutterObjective;
+            if (CollectTabletWithoutOpening && (currentQuest == "Find the depot code in the staff room" ||
+                currentQuest == Chapter1Opening.DepotObjective))
+            {
+                var opening = Chapter1Opening.Instance;
+                CurrentQuest = opening && opening.DepotMotor ? Chapter1Opening.MainShutterObjective : Chapter1Opening.DepotObjective;
+            }
+            if (TutorialActive && (UsesBreakerObjective || string.IsNullOrWhiteSpace(currentQuest)))
+                CurrentQuest = QuestText;
             discoveredCircuits.Clear();
             if (state.DiscoveredCircuits != null) discoveredCircuits.UnionWith(state.DiscoveredCircuits);
             if (TutorialActive) SubscribeGrid();

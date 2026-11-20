@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f34326ddbd044cba51a661a31ac6d35, type: 3}
+  m_Name: CorridorPuzzleSetting
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorGame.Chapter1.CorridorPuzzleSetting
+  Name:
+    IsLocalized: 0
+    Unlocalized: Corridor Puzzle
+  SettingsKey: Game.CorridorPuzzle
+  UIPrefab: {fileID: 4429369258010472885, guid: 1ef127d0b0ef3fa45822fa144eda693c, type: 3}
+  Initialization: 0
+  ApplyImmediate: 0
