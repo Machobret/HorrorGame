@@ -36,7 +36,6 @@ namespace HorrorGame.Chapter1
         protected virtual Transform PassageLeaf => FindLeaf(transform);
         protected virtual bool KeepPromptAtThreshold => false;
         protected virtual bool ShowsInteraction => true;
-        protected virtual bool TryHandleInteraction(IInteractor interactor) => false;
 
         protected override void Start()
         {
@@ -88,7 +87,6 @@ namespace HorrorGame.Chapter1
 
         private void Traverse(IInteractor interactor)
         {
-            if (TryHandleInteraction(interactor)) return;
             if (TryTraverse(interactor)) return;
             if (OnLockedInteraction != null)
                 OnLockedInteraction.Invoke();

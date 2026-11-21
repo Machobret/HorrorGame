@@ -20,18 +20,20 @@ namespace HorrorGame.Chapter1
 
         private void Start()
         {
+            if (Flashlight) Flashlight.OnPickup.AddListener(OnFlashlightTaken);
             MessageBuffer<ItemPickedUpMessage>.Subscribe(OnWeaponTaken);
             QueueLesson();
         }
 
         private void OnDestroy()
         {
+            if (Flashlight) Flashlight.OnPickup.RemoveListener(OnFlashlightTaken);
             MessageBuffer<ItemPickedUpMessage>.Unsubscribe(OnWeaponTaken);
         }
 
         private void Update()
         {
-            var officePickup = Flashlight ? Flashlight : Pistol;
+            var officePickup = Flashlight ? null : Pistol;
             if (officeHintSeen || !officePickup || !officePickup.gameObject.activeInHierarchy ||
                 !GameManager.Exists || !GameManager.Instance.IsPlaying ||
                 (PauseController.Exists && PauseController.Instance.IsPaused)) return;
@@ -39,9 +41,19 @@ namespace HorrorGame.Chapter1
             var player = GameManager.Instance.Player;
             if (!opening || !opening.DepotOfficeRoom || !player ||
                 !opening.DepotOfficeRoom.ContainsWorldPosition(player.transform.position)) return;
-            if (!PlayerMonologue.Show(Flashlight ? "This has a limited battery" : "A gun, maybe i should take it", fadeIn: .25f)) return;
+            if (!PlayerMonologue.Show("A gun, maybe i should take it", fadeIn: .25f)) return;
             officeHintSeen = true;
             SaveProgress();
+        }
+
+        private void OnFlashlightTaken() => StartCoroutine(ShowFlashlightHint());
+
+        private IEnumerator ShowFlashlightHint()
+        {
+            yield return null;
+            yield return new WaitUntil(() => UIManager.Exists && GameManager.Exists && GameManager.Instance.IsPlaying &&
+                (!PauseController.Exists || !PauseController.Instance.IsPaused));
+            PlayerMonologue.Show("this has limited battery");
         }
 
         internal void ConfigureRunner(GameObject runner)

@@ -333,6 +333,14 @@ PrefabInstance:
       value: 1.36
       objectReference: {fileID: 0}
     - target: {fileID: 15899562054687981, guid: 0baa3c6e001d56d47aeb407f7459a425, type: 3}
+      propertyPath: Max
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 15899562054687981, guid: 0baa3c6e001d56d47aeb407f7459a425, type: 3}
+      propertyPath: Value
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 15899562054687981, guid: 0baa3c6e001d56d47aeb407f7459a425, type: 3}
       propertyPath: OnHealthDecreased.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}

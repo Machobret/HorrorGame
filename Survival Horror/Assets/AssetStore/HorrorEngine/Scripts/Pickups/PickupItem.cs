@@ -19,6 +19,7 @@ namespace HorrorEngine
     {
         public InventoryEntry Entry;
         public bool ShowItemSplash = true;
+        [SerializeField] private bool m_FillChargeIfEmpty;
         
         [FormerlySerializedAs("Data")]
         [HideInInspector] public ItemData Data_OBSOLETE;
@@ -66,6 +67,8 @@ namespace HorrorEngine
             var tablet = Entry.Item as HorrorGame.Chapter1.MapTabletItemData;
             bool isMapTablet = tablet != null;
             bool useOnPickup = m_UseOnPickup || isMapTablet;
+            if (m_FillChargeIfEmpty && Entry.Status <= 0f)
+                Entry.Status = 1f;
             InventoryEntry entry = isMapTablet ? null : GameManager.Instance.Inventory.TryAddAndShowFullMessage(Entry);
             
             bool isInventoryExpansion = Entry.Item is InventoryExpansionItemData;

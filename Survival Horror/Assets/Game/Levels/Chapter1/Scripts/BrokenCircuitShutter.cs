@@ -22,11 +22,20 @@ namespace HorrorGame.Chapter1
         [SerializeField] private GameObject crushedCrateModel;
         [SerializeField] private Material crushedCrateMaterial;
         [SerializeField] private GameObject crateBreakEffect;
+        [Tooltip("Scene trigger that starts the collapse after the mutant is triggered.")]
+        [SerializeField] private BoxCollider breakZone;
 
         public bool Jammed => jammedLift >= 0f;
-        private bool MutantTriggered => mutantEncounter && mutantEncounter.MutantEncounterTriggered;
+        private bool MutantTriggered
+        {
+            get
+            {
+                var encounter = mutantEncounter ? mutantEncounter : RandomShutterKeyPuzzle.TabletBayPuzzle;
+                return encounter && encounter.gameObject.scene == gameObject.scene && encounter.MutantEncounterTriggered;
+            }
+        }
         protected override bool PassageAvailable => Jammed && !failed && !MutantTriggered;
-        protected override bool ShowsInteraction => !failed;
+        protected override bool ShowsInteraction => !failed && !MutantTriggered;
         protected override float PromptDepth => 2.6f;
         protected override bool KeepPromptAtThreshold => true;
 
@@ -44,6 +53,8 @@ namespace HorrorGame.Chapter1
         private Coroutine collapse;
         private bool failed;
         private GameObject debris;
+        private bool playerWasInBreakZone;
+        private bool breakZoneArmed;
 
         // Tablet input controls the shutter even while the map freezes physics and actors.
         private static float CycleDeltaTime => PauseController.Exists && PauseController.Instance.Context is UIMap
@@ -71,6 +82,7 @@ namespace HorrorGame.Chapter1
             passageWall = wall.GetComponent<BoxCollider>();
             passageWall.center = leafCollider.center;
             passageWall.size = leafCollider.size;
+            if (breakZone) breakZone.isTrigger = true;
 
             crateColliders = RequiredCrate ? RequiredCrate.GetComponentsInChildren<Collider>() : System.Array.Empty<Collider>();
             // The threshold always blocks walking. Only the crate can enter as the leaf clears it.
@@ -111,6 +123,7 @@ namespace HorrorGame.Chapter1
 
         private void Update()
         {
+            UpdateBreakZone();
             if (!leafCollider || failed || Jammed || (Grid && !Grid.HasSupply)) return;
             if (cycle != null && Powered)
                 CatchCrateInTrack();
@@ -137,18 +150,40 @@ namespace HorrorGame.Chapter1
             collapse = null;
         }
 
-        protected override bool TryHandleInteraction(IInteractor interactor)
+        private void UpdateBreakZone()
         {
-            if (failed) return true;
-            if (!MutantTriggered || !leafCollider) return false;
+            if (failed || !breakZone || !breakZone.enabled || !breakZone.gameObject.activeInHierarchy) return;
+            bool armed = MutantTriggered;
+            if (armed != breakZoneArmed)
+            {
+                breakZoneArmed = armed;
+                base.Refresh();
+            }
+            if (PauseController.Exists && PauseController.Instance.IsPaused) return;
+            var player = GameManager.Exists ? GameManager.Instance.Player : null;
+            bool inside = player && player.TryGetComponent<CharacterController>(out var body) &&
+                Physics.ComputePenetration(breakZone, breakZone.transform.position, breakZone.transform.rotation,
+                    body, body.transform.position, body.transform.rotation, out _, out _);
+            bool entered = inside && !playerWasInBreakZone;
+            playerWasInBreakZone = inside;
+            if (armed && entered) BeginCollapse();
+        }
+
+        private void BeginCollapse()
+        {
             if (cycle != null) StopCoroutine(cycle);
             cycle = null;
             failed = true;
-            if (RequiredCrate) jammedCratePosition ??= RequiredCrate.transform.localPosition;
+            if (RequiredCrate)
+            {
+                jammedCratePosition ??= RequiredCrate.transform.localPosition;
+                PinCrate(jammedCratePosition);
+                foreach (var interaction in RequiredCrate.GetComponentsInChildren<Interactive>(true))
+                    interaction.enabled = false;
+            }
             base.Refresh();
             GetComponent<SavableObjectState>()?.SaveState();
             collapse = StartCoroutine(Collapse());
-            return true;
         }
 
         private IEnumerator Collapse()

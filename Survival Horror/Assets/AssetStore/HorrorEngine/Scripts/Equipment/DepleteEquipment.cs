@@ -11,6 +11,8 @@ namespace HorrorEngine
 
         public UnityEvent<float> OnDepleted;
 
+        private float? m_LastReportedStatus;
+
         private void Awake()
         {
             Debug.Assert(m_Depletion > 0, "Equipment m_Depletion amount can't be less than 0", gameObject);
@@ -19,6 +21,8 @@ namespace HorrorEngine
 
         private void OnEnable()
         {
+            m_LastReportedStatus = null;
+            UpdateCharge(false);
             InvokeRepeating(nameof(Deplete), m_DepletionFrequency, m_DepletionFrequency);
         }
 
@@ -29,20 +33,27 @@ namespace HorrorEngine
 
         private void Deplete()
         {
-            if (GameManager.Instance.CharacterState == null)
+            UpdateCharge(true);
+        }
+
+        private void UpdateCharge(bool drain)
+        {
+            var game = GameManager.Instance;
+            if (!game || game.CharacterState == null)
                 return;
 
-            var equipped = GameManager.Instance.Inventory.GetEquipped(m_Item.Slot);
-            if (equipped == null)
+            var equipped = game.Inventory.GetEquipped(m_Item.Slot);
+            if (equipped == null || equipped.Item != m_Item)
                 return;
 
-            Debug.Assert(equipped.Item == m_Item, "Item to deplete do not match equipped item");
+            if (drain)
+                equipped.Status = Mathf.Clamp01(equipped.Status - m_Depletion);
 
-            float prevStatus = equipped.Status;
-            equipped.Status = Mathf.Clamp01(equipped.Status - m_Depletion);
-            
-            if (equipped.Status != prevStatus)
-                OnDepleted.Invoke(equipped.Status);
+            if (m_LastReportedStatus == equipped.Status)
+                return;
+
+            m_LastReportedStatus = equipped.Status;
+            OnDepleted?.Invoke(equipped.Status);
         }
     }
 }

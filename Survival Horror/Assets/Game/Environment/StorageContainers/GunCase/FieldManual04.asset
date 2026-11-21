@@ -43,7 +43,19 @@ MonoBehaviour:
   Pages:
   - Text:
       IsLocalized: 0
-      Unlocalized: 
+      Unlocalized: 'Follow these steps to operate a firearm:
+
+
+        (1) <color=#FFD84A>Equip</color>
+        your firearm in the inventory.
+
+        (2) Hold <color=#FFD84A>right mouse
+        button</color>.
+
+        (3) Aim by turning with <color=#FFD84A>A and D</color>.
+
+        (4)
+        <color=#FFD84A>Left mouse button</color> to fire.'
       Localized:
         m_TableReference:
           m_TableCollectionName: 
@@ -66,8 +78,7 @@ MonoBehaviour:
         m_WaitForCompletion: 0
     Caption:
       IsLocalized: 0
-      Unlocalized: Equip the 1911 in Inventory. Hold Aim, then press Fire. Press
-        Reload when empty.
+      Unlocalized: 
       Localized:
         m_TableReference:
           m_TableCollectionName: 
@@ -77,6 +88,7 @@ MonoBehaviour:
         m_FallbackState: 0
         m_WaitForCompletion: 0
         m_LocalVariables: []
+    Artwork: {fileID: 0}
     Text_DEPRECATED: 
     Image_DEPRECATED: {fileID: 0}
     Caption_DEPRECATED: 
