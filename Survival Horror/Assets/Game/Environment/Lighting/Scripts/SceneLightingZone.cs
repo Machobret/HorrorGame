@@ -1,6 +1,5 @@
 using HorrorEngine;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace HorrorGame.Lighting
 {
@@ -12,34 +11,35 @@ namespace HorrorGame.Lighting
         public enum ZoneAction { Darken, Restore }
 
         public ZoneAction Action = ZoneAction.Darken;
-        [Range(0.1f, 1f)] public float AmbientColorMultiplier = .72f;
-        [Range(0.1f, 1f)] public float AmbientIntensityMultiplier = .58f;
-        [Range(0.1f, 1f)] public float KeyLightIntensityMultiplier = .55f;
+        [Range(0f, 1f)] public float AmbientColorMultiplier = .72f;
+        [Range(0f, 1f)] public float AmbientIntensityMultiplier = .58f;
+        [Range(0f, 1f)] public float KeyLightIntensityMultiplier = .55f;
         [Range(1f, 2f)] public float FogDensityMultiplier = 1.18f;
         [Range(0f, 1f)] public float FogDarkenAmount = .18f;
         public bool OneShot = true;
+        [Min(0f)] public float FadeSeconds = 1.5f;
+        private static SceneLightingZone transitionOwner;
+        private static Coroutine transition;
 
         private bool used;
+        private bool playerInside;
+        private BoxCollider volume;
         private static LightingState savedState;
         private static bool hasSavedState;
         private static int savedSceneHandle;
 
         private struct LightingState
         {
-            public AmbientMode ambientMode;
             public Color ambientSky;
             public Color ambientEquator;
             public Color ambientGround;
             public float ambientIntensity;
             public float reflectionIntensity;
             public Light sun;
-            public Color sunColor;
             public float sunIntensity;
-            public Quaternion sunRotation;
             public AtmosphericFog fog;
             public Color fogColor;
             public float fogDensity;
-            public bool fogEnabled;
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -47,6 +47,8 @@ namespace HorrorGame.Lighting
         {
             hasSavedState = false;
             savedSceneHandle = 0;
+            transitionOwner = null;
+            transition = null;
         }
 
         private void Reset()
@@ -57,9 +59,29 @@ namespace HorrorGame.Lighting
             volume.center = new Vector3(0f, 2.5f, 0f);
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void Awake() => volume = GetComponent<BoxCollider>();
+
+        private void OnDisable() => playerInside = false;
+
+        private void Update()
         {
-            if (!isActiveAndEnabled || used || !other.GetComponentInParent<PlayerActor>()) return;
+            if (used) return;
+            var player = GameManager.Exists ? GameManager.Instance.Player : null;
+            bool inside = false;
+            if (player && volume.enabled)
+            {
+                // Sample slightly above the actor's feet so a floor-level
+                // trigger also covers players whose pivot rests on its base.
+                Vector3 offset = transform.InverseTransformPoint(player.transform.position + Vector3.up * .15f)
+                                 - volume.center;
+                Vector3 halfSize = volume.size * .5f;
+                inside = Mathf.Abs(offset.x) <= halfSize.x &&
+                         Mathf.Abs(offset.y) <= halfSize.y &&
+                         Mathf.Abs(offset.z) <= halfSize.z;
+            }
+            bool entered = inside && !playerInside;
+            playerInside = inside;
+            if (!entered) return;
             if (Action == ZoneAction.Restore && !HasSnapshot) return;
 
             if (Action == ZoneAction.Darken) ApplyDarkness();
@@ -72,94 +94,106 @@ namespace HorrorGame.Lighting
         public void ApplyDarkness()
         {
             CaptureLighting();
-            RenderSettings.ambientMode = AmbientMode.Trilight;
-            RenderSettings.ambientSkyColor = savedState.ambientSky * AmbientColorMultiplier;
-            RenderSettings.ambientEquatorColor = savedState.ambientEquator * AmbientColorMultiplier;
-            RenderSettings.ambientGroundColor = savedState.ambientGround * AmbientColorMultiplier;
-            RenderSettings.ambientIntensity = savedState.ambientIntensity * AmbientIntensityMultiplier;
-            RenderSettings.reflectionIntensity = savedState.reflectionIntensity * AmbientIntensityMultiplier;
-
-            if (savedState.sun)
-                savedState.sun.intensity = savedState.sunIntensity * KeyLightIntensityMultiplier;
-
-            if (savedState.fog)
-            {
-                savedState.fog.fogEnabled = savedState.fogEnabled;
-                savedState.fog.fogColor = Color.Lerp(savedState.fogColor, Color.black, FogDarkenAmount);
-                savedState.fog.density = savedState.fogDensity * FogDensityMultiplier;
-                savedState.fog.ApplySettings();
-            }
-            else if (RenderSettings.fog)
-            {
-                RenderSettings.fogColor = Color.Lerp(savedState.fogColor, Color.black, FogDarkenAmount);
-                RenderSettings.fogDensity = savedState.fogDensity * FogDensityMultiplier;
-            }
+            var target = savedState;
+            target.ambientSky *= AmbientColorMultiplier;
+            target.ambientEquator *= AmbientColorMultiplier;
+            target.ambientGround *= AmbientColorMultiplier;
+            target.ambientIntensity *= AmbientIntensityMultiplier;
+            target.reflectionIntensity *= AmbientIntensityMultiplier;
+            target.sunIntensity *= KeyLightIntensityMultiplier;
+            target.fogColor = Color.Lerp(target.fogColor, Color.black, FogDarkenAmount);
+            target.fogDensity *= FogDensityMultiplier;
+            BeginFade(target, false);
         }
 
         [ContextMenu("Restore Scene Lighting")]
         public void RestoreLighting()
         {
-            if (!HasSnapshot) return;
+            if (HasSnapshot) BeginFade(savedState, true);
+        }
 
-            RenderSettings.ambientMode = savedState.ambientMode;
-            RenderSettings.ambientSkyColor = savedState.ambientSky;
-            RenderSettings.ambientEquatorColor = savedState.ambientEquator;
-            RenderSettings.ambientGroundColor = savedState.ambientGround;
-            RenderSettings.ambientIntensity = savedState.ambientIntensity;
-            RenderSettings.reflectionIntensity = savedState.reflectionIntensity;
-
-            if (savedState.sun)
+        private void BeginFade(LightingState target, bool restoring)
+        {
+            if (transitionOwner && transition != null) transitionOwner.StopCoroutine(transition);
+            transitionOwner = null;
+            transition = null;
+            if (!Application.isPlaying || FadeSeconds <= 0f)
             {
-                savedState.sun.color = savedState.sunColor;
-                savedState.sun.intensity = savedState.sunIntensity;
-                savedState.sun.transform.rotation = savedState.sunRotation;
+                ApplyBlend(target, target, 1f);
+                if (restoring) hasSavedState = false;
+                return;
             }
 
-            if (savedState.fog)
+            transitionOwner = this;
+            transition = StartCoroutine(Fade(ReadLighting(), target, restoring, FadeSeconds));
+        }
+
+        private System.Collections.IEnumerator Fade(LightingState from, LightingState target, bool restoring, float duration)
+        {
+            float elapsed = 0f;
+            while (elapsed < duration)
             {
-                savedState.fog.fogEnabled = savedState.fogEnabled;
-                savedState.fog.fogColor = savedState.fogColor;
-                savedState.fog.density = savedState.fogDensity;
-                savedState.fog.ApplySettings();
+                yield return null;
+                elapsed += Time.deltaTime;
+                ApplyBlend(from, target, Mathf.SmoothStep(0f, 1f, elapsed / duration));
             }
 
+            if (restoring) hasSavedState = false;
+            transition = null;
+            transitionOwner = null;
+        }
+
+        private static void ApplyBlend(LightingState from, LightingState target, float amount)
+        {
+            RenderSettings.ambientSkyColor = Color.Lerp(from.ambientSky, target.ambientSky, amount);
+            RenderSettings.ambientEquatorColor = Color.Lerp(from.ambientEquator, target.ambientEquator, amount);
+            RenderSettings.ambientGroundColor = Color.Lerp(from.ambientGround, target.ambientGround, amount);
+            RenderSettings.ambientIntensity = Mathf.Lerp(from.ambientIntensity, target.ambientIntensity, amount);
+            RenderSettings.reflectionIntensity = Mathf.Lerp(from.reflectionIntensity, target.reflectionIntensity, amount);
+            if (target.sun) target.sun.intensity = Mathf.Lerp(from.sunIntensity, target.sunIntensity, amount);
+
+            Color fogColor = Color.Lerp(from.fogColor, target.fogColor, amount);
+            float fogDensity = Mathf.Lerp(from.fogDensity, target.fogDensity, amount);
+            if (target.fog)
+            {
+                target.fog.fogColor = fogColor;
+                target.fog.density = fogDensity;
+                target.fog.ApplySettings();
+            }
             else
             {
-                RenderSettings.fogColor = savedState.fogColor;
-                RenderSettings.fogDensity = savedState.fogDensity;
-                RenderSettings.fog = savedState.fogEnabled;
+                RenderSettings.fogColor = fogColor;
+                RenderSettings.fogDensity = fogDensity;
             }
-
-            hasSavedState = false;
         }
 
         private bool HasSnapshot => hasSavedState && savedSceneHandle == gameObject.scene.handle;
 
         private void CaptureLighting()
         {
-            if (hasSavedState && savedSceneHandle == gameObject.scene.handle) return;
+            if (HasSnapshot) return;
+            savedState = ReadLighting();
+            hasSavedState = true;
+            savedSceneHandle = gameObject.scene.handle;
+        }
 
+        private static LightingState ReadLighting()
+        {
             Light sun = RenderSettings.sun;
             AtmosphericFog fog = FindFirstObjectByType<AtmosphericFog>();
-            savedState = new LightingState
+            return new LightingState
             {
-                ambientMode = RenderSettings.ambientMode,
                 ambientSky = RenderSettings.ambientSkyColor,
                 ambientEquator = RenderSettings.ambientEquatorColor,
                 ambientGround = RenderSettings.ambientGroundColor,
                 ambientIntensity = RenderSettings.ambientIntensity,
                 reflectionIntensity = RenderSettings.reflectionIntensity,
                 sun = sun,
-                sunColor = sun ? sun.color : Color.white,
                 sunIntensity = sun ? sun.intensity : 0f,
-                sunRotation = sun ? sun.transform.rotation : Quaternion.identity,
                 fog = fog,
                 fogColor = fog ? fog.fogColor : RenderSettings.fogColor,
-                fogDensity = fog ? fog.density : RenderSettings.fogDensity,
-                fogEnabled = fog ? fog.fogEnabled : RenderSettings.fog
+                fogDensity = fog ? fog.density : RenderSettings.fogDensity
             };
-            hasSavedState = true;
-            savedSceneHandle = gameObject.scene.handle;
         }
 
         private void OnDrawGizmosSelected()

@@ -53,6 +53,7 @@ namespace HorrorEngine
         private float m_DefaultZoom;
         private readonly Dictionary<string, List<Renderer>> m_CircuitRoomRenderers = new();
         private readonly Dictionary<string, Renderer> m_CircuitDoorRenderers = new();
+        private readonly Dictionary<Renderer, float> m_CircuitRoomOriginalHeights = new();
         private MaterialPropertyBlock m_CircuitRoomTint;
         private string m_CircuitRoomFocus;
         private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
@@ -259,6 +260,7 @@ namespace HorrorEngine
             m_CircuitRoomFocus = null;
             m_CircuitRoomRenderers.Clear();
             m_CircuitDoorRenderers.Clear();
+            m_CircuitRoomOriginalHeights.Clear();
 
             // Clear map
             for (int i = 0; i < m_MapContent.childCount; ++i)
@@ -350,10 +352,30 @@ namespace HorrorEngine
             {
                 bool selected = focused != null && room.Key == roomId;
                 foreach (var renderer in room.Value)
+                {
                     DimCircuitRoomRenderer(renderer, focused != null && !selected);
+                    SetCircuitRoomForeground(renderer, selected);
+                }
             }
             foreach (var door in m_CircuitDoorRenderers)
                 DimCircuitRoomRenderer(door.Value, focused != null && !focused.LinkedElements.Contains(door.Key));
+        }
+
+        private void SetCircuitRoomForeground(Renderer renderer, bool foreground)
+        {
+            if (!renderer) return;
+            if (!m_CircuitRoomOriginalHeights.TryGetValue(renderer, out float originalHeight))
+            {
+                originalHeight = renderer.transform.localPosition.y;
+                m_CircuitRoomOriginalHeights.Add(renderer, originalHeight);
+            }
+
+            // All room outlines are generated on the same map plane. Raise the
+            // active room just enough to win that depth test, so dimmed neighbours
+            // cannot draw over its fill or border.
+            var localPosition = renderer.transform.localPosition;
+            localPosition.y = originalHeight + (foreground ? .25f : 0f);
+            renderer.transform.localPosition = localPosition;
         }
 
         private void DimCircuitRoomRenderer(Renderer renderer, bool dimmed)

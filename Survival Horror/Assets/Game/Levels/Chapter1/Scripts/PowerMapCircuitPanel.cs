@@ -11,6 +11,7 @@ namespace HorrorGame.Chapter1
     {
         internal const string BreakerCircuitId = "alley_breaker";
         internal const string ConnectionLostLabel = "CONNECTION LOST";
+        internal const string OutOfServiceLabel = "OLD / NO SERVICE";
         private const string BreakerLabel = "Electricity box";
         public MapData MapData;
         public PowerPanelLayout Layout;
@@ -131,8 +132,10 @@ namespace HorrorGame.Chapter1
             var nextPoint = mapUi.IsMapDirectoryOpen || mapUi.IsMapPointerDragging ? null : GetCrosshairPoint();
             snappedPoint = mapUi.UsesMouseOnMap ? null : nextPoint;
             mapUi.SetCircuitCrosshair(snappedPoint ? snappedPoint.transform : null);
-            if (MapRenderer.Exists) MapRenderer.Instance.FocusCircuitRoom(nextPoint ? nextPoint.RoomUniqueId : null);
             string currentRoomId = GetCurrentRoomId();
+            // The player room stays readable above the dimmed context even if a
+            // circuit marker is visible in a neighbouring room.
+            if (MapRenderer.Exists) MapRenderer.Instance.FocusCircuitRoom(nextPoint ? currentRoomId : null);
             bool nextInRange = nextPoint && (nextPoint.IsInformational || IsMarkerReachable(nextPoint, currentRoomId));
             if (hoveredPoint != nextPoint || HoveredInRange != nextInRange)
             {
@@ -145,9 +148,15 @@ namespace HorrorGame.Chapter1
             }
             IUIInput input = UIManager.Instance.GetComponent<IUIInput>();
             bool click = mapUi.MapClickedThisFrame;
-            if (hoveredPoint && !hoveredPoint.IsInformational && HoveredInRange &&
-                (click || input != null && input.IsConfirmDown()))
-                TryToggleCircuit(hoveredPoint.CircuitId);
+            bool activateCircuit = click || input != null && input.IsConfirmDown();
+            if (hoveredPoint && !hoveredPoint.IsInformational && activateCircuit)
+            {
+                if (HoveredInRange)
+                    TryToggleCircuit(hoveredPoint.CircuitId);
+                else
+                    HorrorGame.UI.GameplayNotifications.ShowCircuitMessage(
+                        "You have to be in the same room to activate this circuit");
+            }
             foreach (var point in points)
                 if (point && point.TryGetComponent(out PowerCircuitMapMarker marker))
                 {
@@ -274,12 +283,16 @@ namespace HorrorGame.Chapter1
 
         public bool HasControlPower(string circuitId)
         {
+            if (IsCircuitOutOfService(circuitId)) return false;
             if (IsBreakerCircuit(circuitId)) return true;
             var source = SourceGrid;
             if (!source || !source.HasSupply || source.IsShutdown) return false;
             var opening = Chapter1Opening.Instance;
             return !opening || !opening.IsDepotCircuit(source, circuitId) || opening.DepotControlHasPower;
         }
+
+        public bool IsCircuitOutOfService(string circuitId) =>
+            SourceGrid && SourceGrid.IsCircuitOutOfService(circuitId);
 
         public bool TryGetQueuedCircuit(string circuitId, out bool requested)
         {
@@ -302,6 +315,7 @@ namespace HorrorGame.Chapter1
         {
             DistrictPowerGrid source = SourceGrid;
             if (!source || !HasCircuitService(circuitId)) return false;
+            if (IsCircuitOutOfService(circuitId)) return false;
             if (IsBreakerCircuit(circuitId)) return source.Supply.SetTabletAuthorization(!source.Supply.IsAuthorized);
             if (source.IsShutdown) return false;
             if (!HasControlPower(circuitId))
@@ -415,21 +429,30 @@ namespace HorrorGame.Chapter1
                 style.normal.textColor = GetStatusColor(idlePowered, idleAvailable);
                 style.hover.textColor = style.normal.textColor;
                 style.active.textColor = style.normal.textColor;
+                if (IsCircuitOutOfService(marker.CircuitId))
+                {
+                    float width = style.CalcSize(new GUIContent(GameText.Translate(OutOfServiceLabel))).x + 12f * textScale;
+                    DrawClippedLabel(StatusRect(idleScreen, mapBounds, 8f * textScale, 13f * textScale, width),
+                        clip, legendBounds, OutOfServiceLabel, style);
+                    continue;
+                }
                 DrawStatusLabel(idleScreen, clip, legendBounds, 8f * textScale, 11f * textScale, 42f * textScale,
                     idlePowered, idleAvailable, TryGetQueuedCircuit(marker.CircuitId, out _), style);
             }
 
             if (!hoveredPoint || !TryProjectMarker(camera, hoveredPoint.transform, out Vector2 screen)) return;
             if (filter && filter.isActiveAndEnabled) screen = filter.ProjectToGlass(screen);
-            if (!HoveredInRange)
+            bool outOfService = IsCircuitOutOfService(hoveredPoint.CircuitId);
+            if (!HoveredInRange || outOfService)
             {
                 style.fontSize = Mathf.Max(1, Mathf.RoundToInt(13f * textScale));
                 style.normal.textColor = new Color(1f, .35f, .32f);
                 style.hover.textColor = style.normal.textColor;
                 style.active.textColor = style.normal.textColor;
-                float alertWidth = style.CalcSize(new GUIContent(GameText.Translate(ConnectionLostLabel))).x + 12f * textScale;
+                string label = outOfService ? OutOfServiceLabel : ConnectionLostLabel;
+                float alertWidth = style.CalcSize(new GUIContent(GameText.Translate(label))).x + 12f * textScale;
                 var alert = StatusRect(screen, mapBounds, 17f * textScale, 19f * textScale, alertWidth);
-                DrawClippedLabel(alert, clip, legendBounds, ConnectionLostLabel, style);
+                DrawClippedLabel(alert, clip, legendBounds, label, style);
                 return;
             }
 

@@ -47,6 +47,8 @@ namespace HorrorGame.Chapter1
         private bool openingBrainIgnoredTimeScale;
         private int openingCameraOverride = -1;
         private Coroutine openingShot;
+        private GameObject openingLetterbox;
+        private bool depotClosedAfterUnlock;
         private PauseController openingPause;
         private UIInputListener openingInput;
 
@@ -157,7 +159,7 @@ namespace HorrorGame.Chapter1
 
         private void UseDepotOfficeButton(IInteractor interactor)
         {
-            if (DepotUnlocked) return;
+            if (openingShot != null) return;
             if (DepotMotor)
             {
                 if (!DepotHasPower)
@@ -166,11 +168,15 @@ namespace HorrorGame.Chapter1
                     return;
                 }
                 bool showingCamera = BeginOpeningShot();
-                DepotMotor.SetManualOpen(true, animateWhilePaused: showingCamera);
-                UnlockDepot();
-                if (showingCamera) openingShot = StartCoroutine(ShowOpeningShot());
+                bool open = !DepotUnlocked || depotClosedAfterUnlock;
+                depotClosedAfterUnlock = !open;
+                DepotMotor.SetManualOpen(open, animateWhilePaused: showingCamera);
+                if (!DepotUnlocked) UnlockDepot();
+                else GetComponent<SavableObjectState>().SaveState();
+                if (showingCamera) openingShot = StartCoroutine(ShowOpeningShot(open));
                 return;
             }
+            if (DepotUnlocked) return;
             if (!DepotHasPower)
             {
                 PlayerMonologue.Show("Use the tablet to power the shutter from the outside");
@@ -194,19 +200,22 @@ namespace HorrorGame.Chapter1
             openingBrain.IgnoreTimeScale = true;
             depotOpeningCamera.Activate();
             openingCameraOverride = openingBrain.SetCameraOverride(-1, 0, null, view, 1f, -1f);
+            openingLetterbox = CameraPreview.CreateLetterbox(depotOpeningCamera);
             return true;
         }
 
-        private IEnumerator ShowOpeningShot()
+        private IEnumerator ShowOpeningShot(bool open)
         {
             float timeout = Time.unscaledTime + 5f;
-            yield return new WaitUntil(() => !DepotMotor || DepotMotor.IsOpen || !DepotHasPower || Time.unscaledTime >= timeout);
+            yield return new WaitUntil(() => !DepotMotor || (open ? DepotMotor.IsOpen : DepotMotor.IsClosed) || !DepotHasPower || Time.unscaledTime >= timeout);
             yield return new WaitForSecondsRealtime(.4f);
             EndOpeningShot();
         }
 
         private void EndOpeningShot()
         {
+            if (openingLetterbox) Destroy(openingLetterbox);
+            openingLetterbox = null;
             if (openingCameraOverride >= 0)
             {
                 if (openingBrain)
@@ -257,7 +266,8 @@ namespace HorrorGame.Chapter1
         {
             Depot = DepotUnlocked,
             DepotPowered = DepotCircuit && DepotCircuit.Grid && DepotCircuit.Grid.IsCircuitRequested(DepotCircuit.CircuitId),
-            ManualOpening = DepotMotor
+            ManualOpening = DepotMotor,
+            ClosedAfterUnlock = depotClosedAfterUnlock
         });
 
         public void SetFromSavedData(string data)
@@ -269,7 +279,8 @@ namespace HorrorGame.Chapter1
                 // In the previous sequence Depot recorded pressing the button to authorize power.
                 bool powerRequested = state.ManualOpening ? state.DepotPowered : state.Depot || state.DepotPowered;
                 DepotUnlocked = state.Depot && (state.ManualOpening || state.DepotPowered);
-                DepotMotor.RestoreManualOpen(DepotUnlocked);
+                depotClosedAfterUnlock = state.ClosedAfterUnlock;
+                DepotMotor.RestoreManualOpen(DepotUnlocked && !depotClosedAfterUnlock);
                 if (DepotMotor.Grid) DepotMotor.Grid.SetCircuit(DepotMotor.CircuitId, powerRequested);
             }
             else if (DepotGate && DepotGate.Grid)
@@ -284,6 +295,7 @@ namespace HorrorGame.Chapter1
             public bool Depot;
             public bool DepotPowered;
             public bool ManualOpening;
+            public bool ClosedAfterUnlock;
         }
     }
 }

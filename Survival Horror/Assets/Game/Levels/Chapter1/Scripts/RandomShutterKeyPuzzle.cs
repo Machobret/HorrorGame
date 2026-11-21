@@ -1,10 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using HorrorEngine;
 using HouseToolkit;
 using UnityEngine;
 using UnityEngine.AI;
+using HorrorGame.Enemies;
 
 namespace HorrorGame.Chapter1
 {
@@ -23,6 +23,10 @@ namespace HorrorGame.Chapter1
         public GameObject MonsterPrefab;
         [Tooltip("One monster spawn point per shutter, in the same order as the key pickups.")]
         public Transform[] MonsterSpawns = Array.Empty<Transform>();
+        [SerializeField] private Light[] BaySpotlights = Array.Empty<Light>();
+        [SerializeField] private Material CeilingDustMaterial;
+        [SerializeField] private Material FloorBloodMaterial;
+        [SerializeField] private GameObject DropBloodSplash;
         private readonly GarageDoor[] shutters = new GarageDoor[2];
         private readonly NavMeshLinkInstance[] shutterLinks = new NavMeshLinkInstance[2];
         private readonly NavMeshObstacle[] shutterObstacles = new NavMeshObstacle[2];
@@ -32,7 +36,8 @@ namespace HorrorGame.Chapter1
         private UIMap tablet;
         private int firstOpened = -1;
         private bool keyTaken, noteTaken, monsterRevealed, monsterDefeated;
-        private Health monster;
+        internal bool MutantEncounterTriggered => monsterRevealed || monsterDefeated;
+        private MutantCeilingEscape stagedMutant;
         private bool HasMonsterEncounter => MonsterPrefab && MonsterSpawns.Length == 2 && MonsterSpawns[0] && MonsterSpawns[1];
         private bool UsesOpeningOrder => shutters[0] && shutters[1];
 
@@ -63,6 +68,9 @@ namespace HorrorGame.Chapter1
                     if (slot) (slot.OnPickup ??= new UnityEngine.Events.UnityEvent()).AddListener(() => RecordPickup(true));
             }
             Apply();
+            for (int i = 0; i < shutters.Length; i++)
+                if (shutters[i] && shutters[i].leaf)
+                    previousHeights[i] = shutters[i].leaf.transform.localPosition.y;
         }
 
         private void OnDestroy()
@@ -73,6 +81,8 @@ namespace HorrorGame.Chapter1
 
         private void OnDisable()
         {
+            if (stagedMutant) Destroy(stagedMutant.gameObject);
+            stagedMutant = null;
             for (int i = 0; i < shutterLinks.Length; i++)
             {
                 if (shutterLinks[i].valid) shutterLinks[i].Remove();
@@ -137,25 +147,19 @@ namespace HorrorGame.Chapter1
             if (pendingCircuits.Count == 0) return;
             var changes = pendingCircuits.ToArray();
             pendingCircuits.Clear();
-            StartCoroutine(ApplyTabletChanges(changes));
+            ApplyTabletChanges(changes);
         }
 
-        private IEnumerator ApplyTabletChanges((string Id, bool Requested)[] changes)
+        private void ApplyTabletChanges((string Id, bool Requested)[] changes)
         {
             var grid = pair.LeftShutter.Grid;
             foreach (var change in changes)
             {
-                if (!grid || !grid.HasSupply || grid.IsShutdown) yield break;
+                if (!grid || !grid.HasSupply || grid.IsShutdown) return;
                 int index = GetBayIndex(grid, change.Id);
                 if (index < 0) continue;
                 if (change.Requested && firstOpened < 0) RecordFirstOpened(index);
-                if (change.Requested && index == firstOpened && !monster && !monsterDefeated)
-                {
-                    RevealMonster();
-                    // Let the spawned actor finish its first frame before energizing the motor.
-                    yield return null;
-                    if (!grid.HasSupply || grid.IsShutdown) yield break;
-                }
+                if (change.Requested && index == firstOpened) StageMonsterEscape();
                 grid.SetCircuit(change.Id, change.Requested);
             }
         }
@@ -163,25 +167,29 @@ namespace HorrorGame.Chapter1
         private void LateUpdate()
         {
             if (HasMonsterEncounter) UpdateShutterLinks();
-            if (!UsesOpeningOrder || Time.deltaTime <= 0f || (tablet && tablet.isActiveAndEnabled)) return;
-            if (firstOpened < 0)
+            if (!UsesOpeningOrder || Time.deltaTime <= 0f) return;
+            for (int i = 0; i < shutters.Length; i++)
             {
-                for (int i = 0; i < shutters.Length; i++)
+                var shutter = shutters[i];
+                if (!shutter || !shutter.leaf) continue;
+                float height = shutter.leaf.transform.localPosition.y;
+                bool rising = height > previousHeights[i] + .0001f;
+                previousHeights[i] = height;
+                if (!rising) continue;
+                if (firstOpened < 0) RecordFirstOpened(i);
+                if (i == firstOpened)
                 {
-                    var shutter = shutters[i];
-                    if (!shutter || !shutter.leaf) continue;
-                    float height = shutter.leaf.transform.localPosition.y;
-                    if (height > previousHeights[i] + .0001f)
-                    {
-                        RecordFirstOpened(i);
-                        break;
-                    }
-                    previousHeights[i] = height;
+                    StageMonsterEscape();
+                    if (stagedMutant) PlayMonsterEscape();
                 }
             }
-            if (!HasMonsterEncounter || monster || monsterDefeated || firstOpened < 0) return;
-            if (!monsterRevealed && !shutters[firstOpened].IsOpen) return;
-            RevealMonster();
+
+            // A save can restore the shutter already open before the escape was consumed.
+            if (firstOpened >= 0 && shutters[firstOpened].IsOpen)
+            {
+                StageMonsterEscape();
+                if (stagedMutant) PlayMonsterEscape();
+            }
         }
 
         private void UpdateShutterLinks()
@@ -219,23 +227,24 @@ namespace HorrorGame.Chapter1
             GetComponent<SavableObjectState>().SaveState();
         }
 
-        private void RevealMonster()
+        private void StageMonsterEscape()
         {
-            Transform spawn = MonsterSpawns[firstOpened];
-            var encounter = Instantiate(MonsterPrefab, spawn.position, spawn.rotation, spawn);
-            if (TryGetComponent(out StorageCombatTutorial tutorial))
-                tutorial.ConfigureRunner(encounter);
-            if (encounter.TryGetComponent(out monster))
-                monster.OnDeath.AddListener(OnMonsterDefeated);
+            if (!HasMonsterEncounter || firstOpened < 0 || monsterRevealed || monsterDefeated || stagedMutant)
+                return;
+            stagedMutant = MutantCeilingEscape.Stage(MonsterPrefab, MonsterSpawns[firstOpened],
+                GetBaySpotlight(firstOpened), CeilingDustMaterial, FloorBloodMaterial, DropBloodSplash);
+        }
+
+        private void PlayMonsterEscape()
+        {
             monsterRevealed = true;
+            stagedMutant.BeginClimb();
+            stagedMutant = null;
             GetComponent<SavableObjectState>().SaveState();
         }
 
-        private void OnMonsterDefeated(Health health)
-        {
-            monsterDefeated = true;
-            GetComponent<SavableObjectState>().SaveState();
-        }
+        private Light GetBaySpotlight(int index) =>
+            index >= 0 && index < BaySpotlights.Length ? BaySpotlights[index] : null;
 
         private void RecordPickup(bool document)
         {
@@ -275,6 +284,8 @@ namespace HorrorGame.Chapter1
         });
         public void SetFromSavedData(string data)
         {
+            if (stagedMutant) Destroy(stagedMutant.gameObject);
+            stagedMutant = null;
             State state = JsonUtility.FromJson<State>(data);
             selectedSlot = state.Slot; selectedKey = state.Key;
             firstOpened = state.FirstOpened - 1;
@@ -284,6 +295,8 @@ namespace HorrorGame.Chapter1
             monsterRevealed = state.MonsterRevealed;
             monsterDefeated = state.MonsterDefeated;
             Apply();
+            var escapedBay = GetBaySpotlight(firstOpened);
+            if (monsterRevealed && escapedBay) escapedBay.enabled = false;
         }
         [Serializable] private struct State
         {

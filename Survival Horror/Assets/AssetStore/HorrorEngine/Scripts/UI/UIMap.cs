@@ -196,6 +196,11 @@ namespace HorrorEngine
             }
             if (AllowMapNavigation && m_Input.IsToggleMapListDown())
             {
+                if (HasTabletWorkspace)
+                {
+                    OpenInventory();
+                    return;
+                }
                 ShowMapList();
             }
 
@@ -263,6 +268,13 @@ namespace HorrorEngine
         }
 
         public void ToggleMapDirectory() => ShowMapList();
+        public void OpenInventory()
+        {
+            var inventory = UIManager.Get<UIInventory>(true);
+            if (!inventory) return;
+            Hide();
+            inventory.Show();
+        }
         public void CloseDirectory(){m_MapList.gameObject.SetActive(false);UpdateMapViewport();}
 
         private void UpdateMapViewport()

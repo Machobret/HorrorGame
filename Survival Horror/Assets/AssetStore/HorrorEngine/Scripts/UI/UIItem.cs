@@ -22,6 +22,7 @@ namespace HorrorEngine
         private IUIInput m_Input;
         private System.Action m_OnDismissed;
         private int m_ShownFrame;
+        private bool m_ShowingExamination;
         
 
         // --------------------------------------------------------------------
@@ -73,18 +74,11 @@ namespace HorrorEngine
             Show(item, null);
         }
 
-        private void Show(ItemData item, System.Action onDismissed, bool playShowSound = true)
+        internal void Show(ItemData item, System.Action onDismissed, bool playShowSound = true)
         {
-            m_OnDismissed = onDismissed;
-            m_ShownFrame = Time.frameCount;
-            PauseController.Instance.Pause(this);
+            BeginSplash(onDismissed, OpenExamination && item.ExamineModel);
 
-            m_Image.gameObject.SetActive(!OpenExamination);
-            m_InfoPanel.SetActive(!OpenExamination);
-
-            gameObject.SetActive(true);
-
-            if (OpenExamination)
+            if (m_ShowingExamination)
             {
                 this.InvokeActionNextFrame(() => // This is needed in case we come from UIExamineItem itself
                 {
@@ -103,9 +97,28 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
+        internal void ShowDocumentPickup(DocumentData document, System.Action onDismissed)
+        {
+            m_Image.sprite = document.Image;
+            m_Text.text = document.Name;
+            BeginSplash(onDismissed, false);
+            if (m_ShowClip) UIManager.Get<UIAudio>().Play(m_ShowClip);
+        }
+
+        private void BeginSplash(System.Action onDismissed, bool examine)
+        {
+            m_OnDismissed = onDismissed;
+            m_ShownFrame = Time.frameCount;
+            m_ShowingExamination = examine;
+            PauseController.Instance.Pause(this);
+            m_Image.gameObject.SetActive(!examine);
+            m_InfoPanel.SetActive(!examine);
+            gameObject.SetActive(true);
+        }
+
         private void Update()
         {
-            if (m_OnDismissed != null && m_ShownFrame == Time.frameCount) return;
+            if (m_ShownFrame == Time.frameCount) return;
             bool isDismissed = m_Input.IsConfirmDown() || m_Input.IsCancelDown();
             if (isDismissed)
             {
@@ -119,7 +132,7 @@ namespace HorrorEngine
         {
             var onDismissed = m_OnDismissed;
             m_OnDismissed = null;
-            if (OpenExamination)
+            if (m_ShowingExamination)
             {
                 UIManager.Get<UIExamineItem>().Hide();
             }

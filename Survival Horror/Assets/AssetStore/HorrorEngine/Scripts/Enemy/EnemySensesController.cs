@@ -26,6 +26,16 @@ namespace HorrorEngine
         public bool IsPlayerAlive { get; private set; }
         public bool IsEnemyDamaged { get; private set; }
         public bool IsPlayerGrabbed { get; private set; }
+        private Transform scriptedTarget;
+
+        public void TrackScriptedTarget(Transform target)
+        {
+            if (!target) return;
+            scriptedTarget = target;
+            PlayerTransform = target;
+            LastKnownPosition = target.position;
+            IsPlayerDetected = true;
+        }
 
         // --------------------------------------------------------------------
 
@@ -63,6 +73,23 @@ namespace HorrorEngine
 
         private void Update()
         {
+            if (!ReferenceEquals(scriptedTarget, null))
+            {
+                if (!scriptedTarget || (scriptedTarget.TryGetComponent<Health>(out var health) && health.IsDead))
+                {
+                    scriptedTarget = null;
+                    PlayerTransform = null;
+                    IsPlayerDetected = false;
+                    OnPlayerLost?.Invoke();
+                }
+                else
+                {
+                    PlayerTransform = scriptedTarget;
+                    LastKnownPosition = scriptedTarget.position;
+                    IsPlayerDetected = true;
+                }
+            }
+
             if (IsPlayerDetected)
             {
                 if (PlayerTransform)
@@ -109,7 +136,9 @@ namespace HorrorEngine
             }
 
             bool wasDetected = IsPlayerDetected;
-            IsPlayerDetected = IsPlayerAlive && (IsPlayerInProximity || IsPlayerInSight || IsEnemyDamaged);
+            bool scriptedDetection = scriptedTarget;
+            IsPlayerDetected = scriptedDetection ||
+                (IsPlayerAlive && (IsPlayerInProximity || IsPlayerInSight || IsEnemyDamaged));
             if (IsPlayerDetected)
             {
                 LastKnownPosition = PlayerTransform.position;
@@ -126,7 +155,7 @@ namespace HorrorEngine
                 OnPlayerLost?.Invoke();
             }
 
-            if (wasInReach && !IsPlayerInReach)
+            if (!scriptedDetection && wasInReach && !IsPlayerInReach)
             {
                 OnPlayerUnreachable?.Invoke();
             }

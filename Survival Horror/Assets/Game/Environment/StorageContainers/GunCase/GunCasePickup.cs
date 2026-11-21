@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using HorrorEngine;
 using UnityEngine;
@@ -41,27 +42,28 @@ namespace HorrorGame.Items
                 return;
 
             bool firstRead = inventory.Documents.Add(manual);
-            string summary = firstCollection
-                ? (tookAmmo ? $"Collected a loaded 1911 and {spareRounds} spare rounds."
-                    : "Collected a loaded 1911. Spare rounds remain in the case.")
-                : $"Collected {spareRounds} spare rounds.";
-
             if (collected == EmptyCase)
                 gameObject.SetActive(false);
             GetComponent<SavableObjectState>().SaveState();
             base.Take();
 
+            var splash = UIManager.Get<UIItem>(true);
+            Action next = null;
             if (firstRead)
-                UIManager.Get<UIDocument>().Show(manual, playShowSound: false, openingCaption: summary);
-            else
-                ShowSummary(summary);
-        }
+            {
+                DocumentData pickedUpManual = manual;
+                next = () => splash.ShowDocumentPickup(pickedUpManual,
+                    () => UIManager.Get<UIDocument>().Show(pickedUpManual, playShowSound: false));
+            }
+            if (tookAmmo)
+            {
+                Action afterAmmo = next;
+                ItemData pickedUpAmmo = ammo.Item;
+                next = () => splash.Show(pickedUpAmmo, afterAmmo);
+            }
 
-        private static void ShowSummary(string summary)
-        {
-            var dialog = new DialogData();
-            dialog.SetLines(new[] { new DialogLine { LineText = new LocalizableText { Unlocalized = summary } } });
-            UIManager.Get<UIDialog>().Show(dialog);
+            if (firstCollection) splash.Show(pistol, next);
+            else next?.Invoke();
         }
 
         public string GetSavableData() => collected.ToString(CultureInfo.InvariantCulture);

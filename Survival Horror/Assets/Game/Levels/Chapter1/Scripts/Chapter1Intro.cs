@@ -15,10 +15,20 @@ namespace HorrorGame.Chapter1
         private UIInputListener input;
         private PauseController pause;
 
-        private IEnumerator Start()
+        private void Awake()
+        {
+            if (isActiveAndEnabled) FreezeGameplay();
+        }
+
+        private void FreezeGameplay()
         {
             pause = PauseController.Instance;
             pause.Pause(this);
+        }
+
+        private IEnumerator Start()
+        {
+            if (!pause) FreezeGameplay();
             input = UIManager.Get<UIInputListener>(true);
             if (input) input.AddBlockingContext(this);
             BuildScreen();
@@ -90,6 +100,8 @@ namespace HorrorGame.Chapter1
                 screen.alpha = 1f - Mathf.SmoothStep(0f, 1f, time / duration);
                 yield return null;
             }
+            screen.alpha = 0f;
+            yield return null;
         }
 
         private void OnDisable()

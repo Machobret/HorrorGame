@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Globalization;
+using Game.Environment;
 using HorrorEngine;
 using HorrorGame.Environment;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace HorrorGame.Chapter1
 {
@@ -16,49 +16,19 @@ namespace HorrorGame.Chapter1
         [Tooltip("Minimum and maximum lift as fractions of full travel.")]
         [SerializeField] private Vector2 raisedHeightRange = new Vector2(.75f, .75f);
         public AudioSource SlamSound;
-        [Tooltip("Show the demo ending when the jammed final gate is used.")]
-        public bool EndsDemo;
+        [SerializeField] private DeviceIndicator shutterTrigger;
+        [SerializeField] private Light warningBar;
+        [SerializeField] private RandomShutterKeyPuzzle mutantEncounter;
+        [SerializeField] private GameObject crushedCrateModel;
+        [SerializeField] private Material crushedCrateMaterial;
+        [SerializeField] private GameObject crateBreakEffect;
 
         public bool Jammed => jammedLift >= 0f;
-        protected override bool PassageAvailable => Jammed;
+        private bool MutantTriggered => mutantEncounter && mutantEncounter.MutantEncounterTriggered;
+        protected override bool PassageAvailable => Jammed && !failed && !MutantTriggered;
+        protected override bool ShowsInteraction => !failed;
         protected override float PromptDepth => 2.6f;
         protected override bool KeepPromptAtThreshold => true;
-
-        protected override void UsePassage(IInteractor interactor, TwoSidedDoor door)
-        {
-            if (!EndsDemo)
-            {
-                base.UsePassage(interactor, door);
-                return;
-            }
-
-            var choices = UIManager.Get<UIChoices>();
-            if (choices.isActiveAndEnabled) return;
-
-            var note = new DialogData { PauseGame = false };
-            note.SetLines(new[]
-            {
-                new DialogLine
-                {
-                    LineText = new LocalizableText { Unlocalized = "Thank you for playing the Exaltfall demo!\n\nReturn to the main menu?" }
-                }
-            });
-            var returnToMenu = new UnityEvent();
-            returnToMenu.AddListener(() => GameManager.Instance.QuitGame());
-            choices.Show(new ChoiceData
-            {
-                ChoiceDialog = note,
-                Choices = new[]
-                {
-                    new ChoiceEntry { ChoiceText = new LocalizableText { Unlocalized = "Keep Exploring" } },
-                    new ChoiceEntry
-                    {
-                        ChoiceText = new LocalizableText { Unlocalized = "Return to Main Menu" },
-                        OnSelected = returnToMenu
-                    }
-                }
-            });
-        }
 
         private BoxCollider leafCollider;
         private BoxCollider passageWall;
@@ -71,6 +41,9 @@ namespace HorrorGame.Chapter1
         private float jammedLift = -1f;
         private Vector3? jammedCratePosition;
         private Coroutine cycle;
+        private Coroutine collapse;
+        private bool failed;
+        private GameObject debris;
 
         // Tablet input controls the shutter even while the map freezes physics and actors.
         private static float CycleDeltaTime => PauseController.Exists && PauseController.Instance.Context is UIMap
@@ -110,6 +83,16 @@ namespace HorrorGame.Chapter1
         public override void Refresh()
         {
             base.Refresh();
+            if (failed)
+            {
+                if (shutterTrigger) shutterTrigger.SetDeviceState(IndicatorLamp.InactiveYellow);
+                if (warningBar) warningBar.enabled = false;
+                if (leafCollider && collapse == null) FinishCollapse(false);
+                return;
+            }
+            if (shutterTrigger)
+                shutterTrigger.SetDeviceState(Powered ? IndicatorLamp.Green : IndicatorLamp.InactiveYellow);
+            if (warningBar) warningBar.enabled = Powered;
             if (!leafCollider) return;
             if (cycle != null) StopCoroutine(cycle);
             cycle = null;
@@ -128,7 +111,7 @@ namespace HorrorGame.Chapter1
 
         private void Update()
         {
-            if (!leafCollider || Jammed || (Grid && !Grid.HasSupply)) return;
+            if (!leafCollider || failed || Jammed || (Grid && !Grid.HasSupply)) return;
             if (cycle != null && Powered)
                 CatchCrateInTrack();
             else if (!Powered && lift > 0f)
@@ -150,6 +133,88 @@ namespace HorrorGame.Chapter1
         {
             if (cycle != null) StopCoroutine(cycle);
             cycle = null;
+            if (collapse != null) StopCoroutine(collapse);
+            collapse = null;
+        }
+
+        protected override bool TryHandleInteraction(IInteractor interactor)
+        {
+            if (failed) return true;
+            if (!MutantTriggered || !leafCollider) return false;
+            if (cycle != null) StopCoroutine(cycle);
+            cycle = null;
+            failed = true;
+            if (RequiredCrate) jammedCratePosition ??= RequiredCrate.transform.localPosition;
+            base.Refresh();
+            GetComponent<SavableObjectState>()?.SaveState();
+            collapse = StartCoroutine(Collapse());
+            return true;
+        }
+
+        private IEnumerator Collapse()
+        {
+            const float duration = .33f;
+            float startLift = Mathf.Max(lift, fullLift * .12f);
+            for (float elapsed = 0f; elapsed < duration; elapsed += CycleDeltaTime)
+            {
+                float t = elapsed / duration;
+                SetLift(Mathf.Lerp(startLift, 0f, t * t), false);
+                yield return null;
+            }
+            collapse = null;
+            FinishCollapse(true);
+        }
+
+        private void FinishCollapse(bool playEffects)
+        {
+            SetLift(0f, true);
+            if (RequiredCrate && (RequiredCrate.gameObject.activeSelf || !debris))
+                ReplaceCrate(playEffects);
+            if (playEffects && SlamSound) SlamSound.Play();
+            if (Grid) Grid.SetCircuitOutOfService(CircuitId, true);
+            if (shutterTrigger) shutterTrigger.SetDeviceState(IndicatorLamp.InactiveYellow);
+            if (warningBar) warningBar.enabled = false;
+        }
+
+        private void ReplaceCrate(bool playEffects)
+        {
+            Transform crate = RequiredCrate.transform;
+            if (jammedCratePosition.HasValue) crate.localPosition = jammedCratePosition.Value;
+            var source = crate.GetComponentInChildren<Renderer>(true);
+            Bounds bounds = source ? source.bounds : new Bounds(crate.position, Vector3.one);
+            Vector3 floor = new Vector3(bounds.center.x, bounds.min.y, bounds.center.z);
+            if (!debris && crushedCrateModel)
+            {
+                debris = Instantiate(crushedCrateModel, floor, crate.rotation, transform);
+                debris.name = "Crushed shutter crate";
+                var renderers = debris.GetComponentsInChildren<Renderer>();
+                if (renderers.Length > 0)
+                {
+                    Bounds debrisBounds = renderers[0].bounds;
+                    foreach (var renderer in renderers)
+                    {
+                        debrisBounds.Encapsulate(renderer.bounds);
+                        if (crushedCrateMaterial) renderer.sharedMaterial = crushedCrateMaterial;
+                    }
+                    float width = Mathf.Max(debrisBounds.size.x, debrisBounds.size.z);
+                    float scale = Mathf.Max(bounds.size.x, bounds.size.z) / Mathf.Max(.01f, width);
+                    debris.transform.localScale = Vector3.Scale(debris.transform.localScale,
+                        new Vector3(scale * 1.14f, scale * .48f, scale * 1.14f));
+                    debrisBounds = renderers[0].bounds;
+                    foreach (var renderer in renderers) debrisBounds.Encapsulate(renderer.bounds);
+                    debris.transform.position += floor -
+                        new Vector3(debrisBounds.center.x, debrisBounds.min.y, debrisBounds.center.z);
+                }
+                foreach (var collider in debris.GetComponentsInChildren<Collider>())
+                    collider.enabled = false;
+            }
+            RequiredCrate.gameObject.SetActive(false);
+            if (playEffects && crateBreakEffect)
+            {
+                var effect = Instantiate(crateBreakEffect, floor + Vector3.up * .28f, crate.rotation);
+                effect.transform.localScale *= 1.25f;
+                Destroy(effect, 5f);
+            }
         }
 
         private void OnEnable()
@@ -279,12 +344,16 @@ namespace HorrorGame.Chapter1
         [System.Serializable]
         private struct JamState
         {
+            public bool Failed;
             public float Lift;
             public Vector3 CratePosition;
         }
 
         public string GetSavableData()
         {
+            if (failed)
+                return JsonUtility.ToJson(new JamState
+                    { Failed = true, Lift = -1f, CratePosition = jammedCratePosition.GetValueOrDefault() });
             if (jammedCratePosition.HasValue)
                 return JsonUtility.ToJson(new JamState { Lift = jammedLift, CratePosition = jammedCratePosition.Value });
             if (caughtCrateLift > 0f && RequiredCrate)
@@ -294,16 +363,28 @@ namespace HorrorGame.Chapter1
 
         public void SetFromSavedData(string savedData)
         {
+            if (collapse != null) StopCoroutine(collapse);
+            collapse = null;
+            bool wasFailed = failed;
+            failed = false;
             caughtCrateLift = 0f;
             jammedCratePosition = null;
             if (!string.IsNullOrEmpty(savedData) && savedData.StartsWith("{"))
             {
                 var state = JsonUtility.FromJson<JamState>(savedData);
+                failed = state.Failed;
                 jammedLift = state.Lift;
                 jammedCratePosition = state.CratePosition;
             }
             else if (!float.TryParse(savedData, NumberStyles.Float, CultureInfo.InvariantCulture, out jammedLift))
                 jammedLift = -1f;
+            if (Grid) Grid.SetCircuitOutOfService(CircuitId, failed);
+            if (wasFailed && !failed)
+            {
+                if (debris) Destroy(debris);
+                debris = null;
+                if (RequiredCrate) RequiredCrate.gameObject.SetActive(true);
+            }
             if (leafCollider) Refresh();
         }
     }

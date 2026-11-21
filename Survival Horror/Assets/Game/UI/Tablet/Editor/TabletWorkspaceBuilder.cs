@@ -34,8 +34,8 @@ namespace HorrorGame.UI.Editor
             var background=surface.Find("Bg");if(background){Rect((RectTransform)background,new Vector2(.045f,.035f),new Vector2(.96f,.987f));background.GetComponent<Image>().color=new Color(.012f,.026f,.035f);}
             Casing(owner.transform);
             workspace.MapTools=Container("Map tools",owner.transform,Vector2.zero,Vector2.one);
-            Button("Map directory","DIRECTORY [I]",workspace.MapTools.transform,new Vector2(.54f,.835f),new Vector2(.72f,.88f),workspace.Map.ToggleMapDirectory);
-            Button("Legend toggle","LEGEND",workspace.MapTools.transform,new Vector2(.73f,.835f),new Vector2(.93f,.88f),workspace.ToggleLegend);
+            Button("Map directory","INVENTORY [I]",workspace.MapTools.transform,new Vector2(.005f,.835f),new Vector2(.20f,.88f),workspace.Map.OpenInventory);
+            Button("Legend toggle","LEGEND [K]",workspace.MapTools.transform,new Vector2(.73f,.835f),new Vector2(.93f,.88f),workspace.ToggleLegend);
             var annotation=Container("Map symbols",owner.transform,new Vector2(.075f,.095f),new Vector2(.93f,.77f));workspace.Annotations=annotation.AddComponent<TabletMapAnnotations>();workspace.Annotations.Workspace=workspace;workspace.Annotations.color=Ink;
             workspace.Legend=Container("Map legend",owner.transform,new Vector2(.655f,.20f),new Vector2(.925f,.745f));Panel("Legend backing",workspace.Legend.transform,Vector2.zero,Vector2.one,new Color(.018f,.05f,.065f,.98f)).raycastTarget=true;
             Label("Legend heading","MAP LEGEND",workspace.Legend.transform,new Vector2(.07f,.88f),new Vector2(.80f,.98f),21);
@@ -79,10 +79,8 @@ namespace HorrorGame.UI.Editor
         internal static void BuildMapActions(TabletWorkspace workspace, Transform owner, Transform surface)
         {
             font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(TabletMapBuilder.Root + "Tablet_3270Font.asset");
-            Button("Open power controls", "POWER CONTROLS", workspace.MapTools.transform,
-                new Vector2(.075f, .835f), new Vector2(.275f, .88f), workspace.ShowPower);
-            Button("Open service log", "SERVICE LOG", workspace.MapTools.transform,
-                new Vector2(.285f, .835f), new Vector2(.485f, .88f), workspace.ShowLog);
+            // Power controls and the service log remain built as pages for later
+            // use, but their navigation buttons are intentionally unavailable.
             workspace.BackToMap = Button("Back to map", "BACK TO MAP", owner,
                 new Vector2(.075f, .835f), new Vector2(.275f, .88f), workspace.ShowMap);
             workspace.BackToMap.gameObject.SetActive(false);

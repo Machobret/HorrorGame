@@ -27,7 +27,7 @@ MonoBehaviour:
       m_LocalVariables: []
   Image:
     IsLocalized: 0
-    Unlocalized: {fileID: 21300000, guid: 7387e3bfe233451c8a9f026537a044db, type: 3}
+    Unlocalized: {fileID: 21300000, guid: e1a326f98d44471ebdc6a9cc551425af, type: 3}
     Localized:
       m_TableReference:
         m_TableCollectionName: 
@@ -43,8 +43,8 @@ MonoBehaviour:
   Pages:
   - Text:
       IsLocalized: 0
-      Unlocalized: 'Need an electrician to <color=#FFD84A>check</color> these storage
-        units out:'
+      Unlocalized: The following <color=#FFD84A>storage bays</color> need to be cleaned
+        out by Monday. I <color=#FFD84A>marked</color> them on the next page
       Localized:
         m_TableReference:
           m_TableCollectionName: 
@@ -77,6 +77,7 @@ MonoBehaviour:
         m_FallbackState: 0
         m_WaitForCompletion: 0
         m_LocalVariables: []
+    Artwork: {fileID: 0}
     Text_DEPRECATED: 
     Image_DEPRECATED: {fileID: 0}
     Caption_DEPRECATED: 
@@ -84,7 +85,7 @@ MonoBehaviour:
     ImageColor: {r: 1, g: 1, b: 1, a: 1}
   - Text:
       IsLocalized: 0
-      Unlocalized: 21, <color=#FFD84A>22</color>, <color=#FFD84A>23</color>
+      Unlocalized: 
       Localized:
         m_TableReference:
           m_TableCollectionName: 
@@ -117,6 +118,92 @@ MonoBehaviour:
         m_FallbackState: 0
         m_WaitForCompletion: 0
         m_LocalVariables: []
+    Artwork: {fileID: 0}
+    Text_DEPRECATED: 
+    Image_DEPRECATED: {fileID: 0}
+    Caption_DEPRECATED: 
+    ChangeImageColor: 0
+    ImageColor: {r: 1, g: 1, b: 1, a: 1}
+  - Text:
+      IsLocalized: 0
+      Unlocalized: "Need an electrician to <color=#FFD84A>check these storage units</color> out."
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+        m_LocalVariables: []
+    Image:
+      IsLocalized: 0
+      Unlocalized: {fileID: 0}
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+    Caption:
+      IsLocalized: 0
+      Unlocalized: -Mr. Johnson
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+        m_LocalVariables: []
+    Artwork: {fileID: 0}
+    Text_DEPRECATED: 
+    Image_DEPRECATED: {fileID: 0}
+    Caption_DEPRECATED: 
+    ChangeImageColor: 0
+    ImageColor: {r: 1, g: 1, b: 1, a: 1}
+  - Text:
+      IsLocalized: 0
+      Unlocalized: 'Need an electrician to check the storage units rented by:
+
+
+        {ENTRIES}'
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+        m_LocalVariables: []
+    Image:
+      IsLocalized: 0
+      Unlocalized: {fileID: 0}
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+    Caption:
+      IsLocalized: 0
+      Unlocalized: -Mr. Johnson
+      Localized:
+        m_TableReference:
+          m_TableCollectionName: 
+        m_TableEntryReference:
+          m_KeyId: 0
+          m_Key: 
+        m_FallbackState: 0
+        m_WaitForCompletion: 0
+        m_LocalVariables: []
+    Artwork: {fileID: 0}
     Text_DEPRECATED: 
     Image_DEPRECATED: {fileID: 0}
     Caption_DEPRECATED: 

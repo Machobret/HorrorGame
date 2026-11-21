@@ -103,7 +103,19 @@ namespace HorrorGame.Chapter1
 
         public bool IsCircuitPowered(string id)
         {
-            return HasSupply && !IsShutdown && IsCircuitRequested(id);
+            return HasSupply && !IsShutdown && !IsCircuitOutOfService(id) && IsCircuitRequested(id);
+        }
+
+        private readonly HashSet<string> outOfService = new HashSet<string>();
+        public bool IsCircuitOutOfService(string id) => outOfService.Contains(id);
+
+        internal void SetCircuitOutOfService(string id, bool unavailable)
+        {
+            if (unavailable)
+            {
+                if (outOfService.Add(id)) SetCircuit(id, false);
+            }
+            else outOfService.Remove(id);
         }
 
         public bool IsCircuitRequested(string id) => Circuits.Exists(value => value.Id == id && value.Enabled);
@@ -124,7 +136,7 @@ namespace HorrorGame.Chapter1
 
         public void SetCircuit(string id, bool enabled)
         {
-            if (IsShutdown) return;
+            if (IsShutdown || (enabled && IsCircuitOutOfService(id))) return;
             PowerCircuit circuit = Circuits.Find(value => value.Id == id);
             if (circuit == null || circuit.Enabled == enabled) return;
             if (enabled && CanEnableCircuit != null)
@@ -152,7 +164,7 @@ namespace HorrorGame.Chapter1
             CurrentConsumption = 0;
             if (HasSupply && !IsShutdown)
                 foreach (PowerCircuit circuit in Circuits)
-                    if (circuit.Enabled) CurrentConsumption += circuit.Consumption;
+                    if (circuit.Enabled && !IsCircuitOutOfService(circuit.Id)) CurrentConsumption += circuit.Consumption;
 
             if (EnforceCapacityLimit && CurrentConsumption > MaximumCapacity)
             {

@@ -17,6 +17,8 @@ namespace HorrorGame.UI
         private UIMap map;
         private float started, expires, countChangedAt;
         private int circuitCount;
+        private string circuitMessage;
+        private bool keepCircuitMessageOnMap;
         private static bool TabletOwned => Chapter1MapTutorial.Instance && Chapter1MapTutorial.Instance.MapUnlocked;
 
         public static void DocumentReceived(DocumentData document)
@@ -29,6 +31,13 @@ namespace HorrorGame.UI
             if (!TabletOwned || count <= 0 || !UIManager.Exists) return;
             var notifications = Get();
             notifications.ShowCircuits(count);
+        }
+
+        /// <summary>Shows a short tablet-status message using the circuit-discovery toast styling.</summary>
+        public static void ShowCircuitMessage(string message)
+        {
+            if (!UIManager.Exists || string.IsNullOrWhiteSpace(message)) return;
+            Get().ShowCircuitMessageInternal(message);
         }
 
         public static void ShowControls(string hint)
@@ -96,8 +105,20 @@ namespace HorrorGame.UI
                 Activate(circuitPopup);
             }
             circuitCount += count;
+            circuitMessage = null;
+            keepCircuitMessageOnMap = false;
             countChangedAt = Time.unscaledTime;
             expires = countChangedAt + Duration;
+        }
+
+        private void ShowCircuitMessageInternal(string message)
+        {
+            if (!circuitPopup)
+                circuitPopup = CreatePopup("TABLET UPDATE", "Press M", true, out circuitText);
+            ClearPopup();
+            circuitMessage = message;
+            keepCircuitMessageOnMap = true;
+            Activate(circuitPopup);
         }
 
         private void Activate(CanvasGroup popup)
@@ -112,7 +133,7 @@ namespace HorrorGame.UI
 
         private void LateUpdate()
         {
-            if (map && map.isActiveAndEnabled)
+            if (map && map.isActiveAndEnabled && !(activePopup == circuitPopup && keepCircuitMessageOnMap))
             {
                 ClearPopup();
                 return;
@@ -132,10 +153,15 @@ namespace HorrorGame.UI
             }
             if (activePopup == circuitPopup)
             {
-                float fade = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((now - countChangedAt - .28f) / .42f));
-                var color = Color.Lerp(new Color(1f, .30f, .26f), Color.white, fade);
-                string noun = circuitCount == 1 ? "circuit" : "circuits";
-                circuitText.text = $"<color=#{ColorUtility.ToHtmlStringRGB(color)}>{circuitCount}</color> new {noun} discovered";
+                if (!string.IsNullOrEmpty(circuitMessage))
+                    circuitText.text = GameText.Translate(circuitMessage);
+                else
+                {
+                    float fade = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((now - countChangedAt - .28f) / .42f));
+                    var color = Color.Lerp(new Color(1f, .30f, .26f), Color.white, fade);
+                    string noun = circuitCount == 1 ? "circuit" : "circuits";
+                    circuitText.text = $"<color=#{ColorUtility.ToHtmlStringRGB(color)}>{circuitCount}</color> new {noun} discovered";
+                }
             }
             TabletWorkspace.AnimatePopup(activePopup, now - started, expires - now, fromBottom: true);
         }
@@ -149,6 +175,8 @@ namespace HorrorGame.UI
         private void ClearPopup()
         {
             circuitCount = 0;
+            circuitMessage = null;
+            keepCircuitMessageOnMap = false;
             if (activePopup) activePopup.gameObject.SetActive(false);
             activePopup = null;
         }

@@ -22,7 +22,16 @@ namespace HorrorGame.Environment
         private bool? manualOpenCommand;
         private GarageDoorCircuitLink openingInterlock;
         private bool waitingForInterlock;
+        private bool animateCircuitChangeWhilePaused;
         public bool IsOpen => door && door.IsOpen;
+        public bool IsClosed => door && door.IsClosed;
+
+        internal void SetCircuitRequested(bool open, bool animateWhilePaused)
+        {
+            animateCircuitChangeWhilePaused = animateWhilePaused;
+            try { Grid.SetCircuit(CircuitId, open); }
+            finally { animateCircuitChangeWhilePaused = false; }
+        }
 
         void OnEnable()
         {
@@ -71,7 +80,7 @@ namespace HorrorGame.Environment
             Refresh();
         }
 
-        public override void Refresh() => Refresh(false);
+        public override void Refresh() => Refresh(animateCircuitChangeWhilePaused);
 
         private void Refresh(bool animateWhilePaused)
         {
@@ -85,7 +94,7 @@ namespace HorrorGame.Environment
             }
             door.SetMotorPowered(Grid.HasSupply);
             waitingForInterlock = Powered && openingInterlock && !IsInterlockClosed;
-            if (Grid.HasSupply) door.SetOpen(Powered && !waitingForInterlock);
+            if (Grid.HasSupply) door.SetOpen(Powered && !waitingForInterlock, animateWhilePaused);
         }
         internal bool TryMarker(DistrictPowerGrid grid,MapData map,out string roomId,out Vector3 position)
         {

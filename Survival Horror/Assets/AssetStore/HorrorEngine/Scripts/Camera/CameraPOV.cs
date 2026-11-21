@@ -79,6 +79,8 @@ namespace HorrorEngine
         }
 
         public int Priority;
+        [SerializeField, Tooltip("Snap directly to the centered follow position, bypassing the movement raycast.")]
+        private bool m_SnapCenteredPositionFollow;
 
         [Header("Player Follow")]
         public PlayerFollowSettings PositionFollow = new PlayerFollowSettings { Enabled = true };
@@ -356,6 +358,9 @@ namespace HorrorEngine
                     desiredPosition.z = currentPosition.z;
                     break;
             }
+
+            if (m_SnapCenteredPositionFollow && PositionFollow.FollowMode == PlayerFollowMode.KeepPlayerCentered)
+                return desiredPosition;
 
             return GetUnobstructedCameraPosition(currentPosition, desiredPosition, m_PlayerTransform);
         }

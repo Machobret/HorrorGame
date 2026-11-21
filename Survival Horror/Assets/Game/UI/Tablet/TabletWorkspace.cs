@@ -4,6 +4,7 @@ using HorrorEngine;
 using HorrorGame.Chapter1;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace HorrorGame.UI
@@ -37,7 +38,7 @@ namespace HorrorGame.UI
         private static readonly (string Title, string Copy)[] GuidePages =
         {
             ("OPEN AND CLOSE", "Press M to open your tablet. Press M or ESC to close it and return to the game."),
-            ("READ THE MAP", "Use WASD or click and drag to pan. Scroll to zoom. Press I to browse discovered maps."),
+            ("READ THE MAP", "Use WASD or click and drag to pan. Scroll to zoom. Press I to reopen your inventory."),
             ("POWER A CIRCUIT", "Aim at a lightning bolt and press E, or click it. Restore power before using a circuit marked NO POWER. CONNECTION LOST means the circuit is out of reach.")
         };
 
@@ -54,6 +55,7 @@ namespace HorrorGame.UI
         void OnEnable()
         {
             Map.HasTabletWorkspace = true;
+            ConfigureMapTools();
             selectedMap = null;
             nextSearch = 0;
             previousObjective = null;
@@ -72,6 +74,8 @@ namespace HorrorGame.UI
         void LateUpdate()
         {
             if (Map.IsTabletLoading) return;
+            if (Page == 0 && !IsControlsGuideOpen && Keyboard.current != null && Keyboard.current.kKey.wasPressedThisFrame)
+                ToggleLegend();
             RefreshObjectiveBoard();
             if(selectedMap!=Map.CurrentMap || (!Network && Time.unscaledTime>=nextSearch))
             {
@@ -80,6 +84,43 @@ namespace HorrorGame.UI
             if(Directory && Directory.activeSelf)Legend.SetActive(false);
             Map.AllowMapNavigation=Page==0 && !IsControlsGuideOpen && guideInputFrame != Time.frameCount;
             if(Page==2)RefreshLog();
+        }
+
+        private void ConfigureMapTools()
+        {
+            if (!MapTools) return;
+            SetMapToolVisible("Open power controls", false);
+            SetMapToolVisible("Open service log", false);
+            ConfigureMapTool("Map directory", "INVENTORY [I]",
+                new Vector2(.005f, .835f), new Vector2(.20f, .88f));
+            ConfigureMapTool("Legend toggle", "LEGEND [K]",
+                new Vector2(.73f, .835f), new Vector2(.93f, .88f));
+        }
+
+        private void SetMapToolVisible(string name, bool visible)
+        {
+            var tool = MapTools.transform.Find(name);
+            if (tool) tool.gameObject.SetActive(visible);
+        }
+
+        private void ConfigureMapTool(string name, string label, Vector2 min, Vector2 max)
+        {
+            var tool = MapTools.transform.Find(name) as RectTransform;
+            if (!tool) return;
+            tool.anchorMin = min;
+            tool.anchorMax = max;
+            tool.offsetMin = tool.offsetMax = Vector2.zero;
+            var text = tool.GetComponentInChildren<TMP_Text>(true);
+            if (text) text.text = label;
+            if (name == "Map directory")
+            {
+                var button = tool.GetComponent<Button>();
+                if (button)
+                {
+                    button.onClick = new Button.ButtonClickedEvent();
+                    button.onClick.AddListener(Map.OpenInventory);
+                }
+            }
         }
         private void ShowControlsGuide()
         {
@@ -191,7 +232,11 @@ namespace HorrorGame.UI
             var tutorial = Chapter1MapTutorial.Instance;
             string objective = tutorial ? tutorial.CurrentQuest : null;
             bool empty = string.IsNullOrWhiteSpace(objective);
-            if (empty && !string.IsNullOrWhiteSpace(previousObjective))
+            // A completed objective normally advances straight to the next one.  The
+            // old empty-only test meant that path never played the tablet completion
+            // pop; treat any actual objective transition as completing the previous
+            // objective instead.
+            if (!string.IsNullOrWhiteSpace(previousObjective) && previousObjective != objective)
             {
                 completionStarted = Time.unscaledTime;
                 GameText.SetLabel(completedObjectiveText, previousObjective);
@@ -354,6 +399,7 @@ namespace HorrorGame.UI
         {
             if(!Grid || !Network || !Network.CanAccessCircuit(id) || Grid.IsShutdown)return;
             if (!Network.HasCircuitService(id)) { PowerHelp.text = GameText.Translate(PowerMapCircuitPanel.ConnectionLostLabel); return; }
+            if (Network.IsCircuitOutOfService(id)) { PowerHelp.text = GameText.Translate(PowerMapCircuitPanel.OutOfServiceLabel); return; }
             if (!Network.HasControlPower(id)) { PowerHelp.text = GameText.Translate("No power"); return; }
             bool changed=Network.TryToggleCircuit(id);RefreshPower();
             if (Network.SequencePuzzle && Network.SequencePuzzle.ShowingWrongAnswer)
@@ -372,6 +418,14 @@ namespace HorrorGame.UI
             for(int i=0;i<rows.Count;i++)
             {
                 var circuit=circuits[i];
+                if (Network.IsCircuitOutOfService(circuit.Id))
+                {
+                    rows[i].interactable = false;
+                    rows[i].GetComponent<Image>().color = normal;
+                    rows[i].GetComponentInChildren<TMP_Text>().text = circuit.DisplayName + " [" +
+                        GameText.Translate(PowerMapCircuitPanel.OutOfServiceLabel) + "]";
+                    continue;
+                }
                 if (!Network.HasCircuitService(circuit.Id))
                 {
                     rows[i].interactable = false;

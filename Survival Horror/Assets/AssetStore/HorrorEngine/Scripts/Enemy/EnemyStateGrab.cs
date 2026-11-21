@@ -28,7 +28,9 @@ namespace HorrorEngine
     public class EnemyStateGrab : ActorState
     {
         [SerializeField] private float m_GrabDistance = 1f;
-        [Tooltip("Helps finding which player state will be selected. This is the ìgrabbedî player state")]
+        [Tooltip("Start turning before requiring overlap with the grab hit shape.")]
+        [SerializeField] private bool m_AimBeforeOverlap;
+        [Tooltip("Helps finding which player state will be selected. This is the ‚Äúgrabbed‚Äù player state")]
         [SerializeField] private string m_GrabTag;
         [SerializeField] private ActorState m_ExitState;
         [SerializeField] private float m_FacingSpeed = 1f;
@@ -208,10 +210,14 @@ namespace HorrorEngine
         {
             if (m_RotateTowardsTarget)
             {
-                Vector3 lookPos = m_EnemySenses.LastKnownPosition - Actor.transform.position;
+                var target = GrabTarget;
+                Vector3 targetPosition = m_AimBeforeOverlap && target ? target.position : m_EnemySenses.LastKnownPosition;
+                Vector3 lookPos = targetPosition - Actor.transform.position;
                 lookPos.y = 0;
+                if (lookPos.sqrMagnitude < .0001f) return;
                 Quaternion rotation = Quaternion.LookRotation(lookPos);
-                Actor.transform.rotation = Quaternion.Slerp(Actor.transform.rotation, rotation, Time.deltaTime * m_FacingSpeed);
+                float blend = m_AimBeforeOverlap ? 1f - Mathf.Exp(-m_FacingSpeed * Time.deltaTime) : Time.deltaTime * m_FacingSpeed;
+                Actor.transform.rotation = Quaternion.Slerp(Actor.transform.rotation, rotation, blend);
             }
         }
 
@@ -289,20 +295,30 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
+        private Transform GrabTarget => m_AimBeforeOverlap && GameManager.Exists && GameManager.Instance.Player
+            ? GameManager.Instance.Player.transform : m_EnemySenses.PlayerTransform;
+
         public bool CanEnter()
         {
-            var playerTransform = m_EnemySenses.PlayerTransform;
+            var playerTransform = GrabTarget;
             if (!playerTransform)
                 return false;
 
-            float angle = Vector3.Angle(-Actor.transform.forward, playerTransform.forward);
+            Vector3 facing = m_AimBeforeOverlap
+                ? Vector3.ProjectOnPlane(Actor.transform.position - playerTransform.position, Vector3.up)
+                : -Actor.transform.forward;
+            float angle = Vector3.Angle(facing, playerTransform.forward);
+            Vector3 targetPosition = m_AimBeforeOverlap ? playerTransform.position : m_EnemySenses.LastKnownPosition;
             
             bool closeEnough = angle >= m_MinAngleOfEntry && angle <= m_MaxAngleOfEntry &&
                 (Time.time - m_LastAttackTime) > m_Cooldown && 
-                Vector3.Distance(m_EnemySenses.LastKnownPosition, Actor.transform.position) < m_GrabDistance;
+                Vector3.Distance(targetPosition, Actor.transform.position) < m_GrabDistance;
 
             if (closeEnough) 
             {
+                if (m_AimBeforeOverlap)
+                    return playerTransform.GetComponentInParent<PlayerGrabHandler>() is { CanBeGrabbed: true };
+
                 m_HitShape.GetOverlappingDamageables(m_Damageables, m_ShowDebug);
                 foreach (var damageable in m_Damageables)
                 {

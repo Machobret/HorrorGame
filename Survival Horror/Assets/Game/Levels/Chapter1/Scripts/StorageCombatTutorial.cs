@@ -14,6 +14,7 @@ namespace HorrorGame.Chapter1
     public sealed class StorageCombatTutorial : MonoBehaviour, ISavableObjectStateExtra
     {
         public PickupItem Pistol;
+        public PickupItem Flashlight;
         private bool pistolTaken, tutorialSeen, officeHintSeen;
         private Coroutine lesson;
 
@@ -30,14 +31,15 @@ namespace HorrorGame.Chapter1
 
         private void Update()
         {
-            if (officeHintSeen || !Pistol || !Pistol.gameObject.activeInHierarchy ||
+            var officePickup = Flashlight ? Flashlight : Pistol;
+            if (officeHintSeen || !officePickup || !officePickup.gameObject.activeInHierarchy ||
                 !GameManager.Exists || !GameManager.Instance.IsPlaying ||
                 (PauseController.Exists && PauseController.Instance.IsPaused)) return;
             var opening = Chapter1Opening.Instance;
             var player = GameManager.Instance.Player;
             if (!opening || !opening.DepotOfficeRoom || !player ||
                 !opening.DepotOfficeRoom.ContainsWorldPosition(player.transform.position)) return;
-            if (!PlayerMonologue.Show("A gun, maybe i should take it", fadeIn: .25f)) return;
+            if (!PlayerMonologue.Show(Flashlight ? "This has a limited battery" : "A gun, maybe i should take it", fadeIn: .25f)) return;
             officeHintSeen = true;
             SaveProgress();
         }
@@ -65,7 +67,7 @@ namespace HorrorGame.Chapter1
 
         private void QueueLesson()
         {
-            if (pistolTaken && !tutorialSeen && lesson == null)
+            if (Pistol && pistolTaken && !tutorialSeen && lesson == null)
                 lesson = StartCoroutine(ShowLesson());
         }
 

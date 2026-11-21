@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Game.Environment;
 using HouseToolkit;
+using HorrorGame.Environment;
 using HorrorEngine;
 using HorrorGame.Lighting;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 #if UNITY_6000_0_OR_NEWER
 using Unity.Cinemachine;
 #else
@@ -34,10 +34,9 @@ namespace HorrorGame.Chapter1
         [SerializeField] private Renderer clueWorldPaper;
         [SerializeField] private int[] bayNumbers = { 1, 2, 3, 4, 5, 6 };
         private List<DocumentPage> authoredPages;
+        private LocalizableSprite authoredCover;
         private bool useTenantClue;
         public CircuitDiagramData ControlDiagram;
-        private LocalizableText authoredNoteText;
-        private LocalizableText authoredNoteCaption;
         private Sprite noteSprite;
         private Texture2D noteTexture;
         public GameObject WrongAnswerCamera;
@@ -60,7 +59,6 @@ namespace HorrorGame.Chapter1
         private const int SegmentCount = 6;
         private static readonly Color Red = new Color(1f, .12f, .06f);
         private static readonly Color Green = new Color(.18f, 1f, .25f);
-        private static readonly Color Yellow = new Color(1f, .67f, .12f);
         [SerializeField] private Transform[] leverHandles = new Transform[SegmentCount];
         // In the powered bays a set bit means the switch is off.
         private int switchedMask;
@@ -71,9 +69,10 @@ namespace HorrorGame.Chapter1
         private UIInputListener input;
         private PauseController pause;
         private CinemachineBrain checkBrain;
+        private bool checkBrainIgnoredTimeScale;
         private int checkCameraOverride = -1;
         private bool UsesBayButtons => PatternButtons.Length == SegmentCount;
-        private bool UsesPrintedClue => UsesBayButtons && unitCluePaper && tenantCluePaper && clueGlyphs;
+        private bool UsesPrintedClue => unitCluePaper && tenantCluePaper && clueGlyphs;
         private bool ManualPuzzle => CheckButton || UsesBayButtons;
         public bool ShowingWrongAnswer { get; private set; }
 
@@ -89,11 +88,11 @@ namespace HorrorGame.Chapter1
 
         private void Start()
         {
+            ConfigureBayNumberMaterials();
             if (ManualPuzzle)
             {
                 if (UsesBayButtons)
                 {
-                    if (UsesPrintedClue) AddBayNumbers();
                     patternActions = new Action<IInteractor>[SegmentCount];
                     for (int i = 0; i < SegmentCount; i++)
                     {
@@ -148,6 +147,8 @@ namespace HorrorGame.Chapter1
 
         private void OnDestroy()
         {
+            Font.textureRebuilt -= UpdateBayNumberAtlas;
+            if (bayNumberMaterial) Destroy(bayNumberMaterial);
             if (PuzzleDoor) PuzzleDoor.OnLockedInteraction -= CheckAnswer;
             foreach (var button in OutputButtons)
                 if (button) button.OnInteract.RemoveListener(UseOutputButton);
@@ -156,16 +157,16 @@ namespace HorrorGame.Chapter1
                     if (PatternButtons[i] && patternActions[i] != null) PatternButtons[i].OnInteract.RemoveListener(patternActions[i].Invoke);
             if (noteSprite)
             {
-                if (Note && Note.Pages != null && Note.Pages.Count >= 2 && Note.Pages[1].Image.Unlocalized == noteSprite)
+                if (Note && Note.Pages != null && Note.Pages.Count >= 2 && Note.Pages[1].Image?.Unlocalized == noteSprite)
                     Note.Pages[1].Image.Unlocalized = null;
                 Destroy(noteSprite);
             }
             if (noteTexture) Destroy(noteTexture);
-            if (authoredPages != null && Note) Note.Pages = authoredPages;
-            if (authoredNoteText != null && Note && Note.Pages?.Count > 0)
-                Note.Pages[0].Text = authoredNoteText;
-            if (authoredNoteCaption != null && Note && Note.Pages?.Count > 1)
-                Note.Pages[1].Caption = authoredNoteCaption;
+            if (Note)
+            {
+                if (authoredPages != null) Note.Pages = authoredPages;
+                if (authoredCover != null) Note.Image = authoredCover;
+            }
         }
 
         public bool OwnsControlDiagram => ControlDiagram && GameManager.Exists &&
@@ -182,33 +183,29 @@ namespace HorrorGame.Chapter1
         private void RefreshNote()
         {
             if (!Note || Note.Pages == null) return;
-            if (UsesPrintedClue)
+            authoredPages ??= Note.Pages;
+            if (UsesPrintedClue && authoredPages.Count >= 4)
             {
-                authoredPages ??= Note.Pages;
                 if (noteSprite) Destroy(noteSprite);
                 if (noteTexture) Destroy(noteTexture);
                 Note.Pages = CorridorClueArtwork.Create(solution, bayNumbers, useTenantClue,
-                    useTenantClue ? tenantCluePaper : unitCluePaper, clueGlyphs, out noteTexture, out noteSprite);
+                    useTenantClue ? tenantCluePaper : unitCluePaper, clueGlyphs, authoredPages[useTenantClue ? 3 : 2],
+                    out noteTexture, out noteSprite);
+                authoredCover ??= Note.Image;
+                Note.Image = new LocalizableSprite { Unlocalized = noteSprite };
                 if (clueWorldPaper)
                 {
                     var material = new MaterialPropertyBlock();
-                    clueWorldPaper.GetPropertyBlock(material);
+                    clueWorldPaper.GetPropertyBlock(material, 0);
                     material.SetTexture("_BaseMap", noteTexture);
-                    clueWorldPaper.SetPropertyBlock(material);
+                    material.SetTexture("_MainTex", noteTexture);
+                    clueWorldPaper.SetPropertyBlock(material, 0);
                 }
                 return;
             }
-            if (Note.Pages.Count < 2) return;
-            if (!UsesBayButtons && authoredNoteText == null)
-            {
-                authoredNoteText = Note.Pages[0].Text;
-                authoredNoteCaption = Note.Pages[1].Caption;
-                Note.Pages[1].Caption = new LocalizableText();
-                Note.Pages[0].Text = new LocalizableText
-                {
-                    Unlocalized = "The following <color=#FFD84A>storage bays</color> need to be cleaned out by Monday. I <color=#FFD84A>marked</color> them on the next page"
-                };
-            }
+            if (authoredPages.Count < 2) return;
+            if (Note.Pages == authoredPages && authoredPages.Count > 2)
+                Note.Pages = authoredPages.GetRange(0, 2);
             if (noteSprite) Destroy(noteSprite);
             if (noteTexture) Destroy(noteTexture);
             const int cell = 54, pitch = 68, width = pitch * 2, height = pitch * 3;
@@ -257,28 +254,33 @@ namespace HorrorGame.Chapter1
             Note.Pages[1].Image.Unlocalized = noteSprite;
         }
 
-        private void AddBayNumbers()
+        [SerializeField] private TextMesh[] bayNumberLabels = Array.Empty<TextMesh>();
+        private Font bayNumberFont;
+        private Material bayNumberMaterial;
+
+        private void ConfigureBayNumberMaterials()
         {
-            var font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            for (int i = 0; i < SegmentShutters.Length && i < bayNumbers.Length; i++)
-            {
-                if (!SegmentShutters[i]) continue;
-                var shutter = SegmentShutters[i].transform;
-                var towardCorridor = bayNumbers[i] % 2 == 1 ? Vector3.back : Vector3.forward;
-                var label = new GameObject($"Storage Unit {bayNumbers[i]}").AddComponent<TextMesh>();
-                label.transform.SetParent(transform, true);
-                label.transform.SetPositionAndRotation(shutter.position + Vector3.up * 2.29f + towardCorridor * .18f,
-                    Quaternion.LookRotation(-towardCorridor));
-                label.text = bayNumbers[i].ToString();
-                label.anchor = TextAnchor.MiddleCenter;
-                label.font = font;
-                label.fontStyle = FontStyle.Bold;
-                label.fontSize = 64;
-                label.characterSize = .065f;
-                label.color = new Color(.96f, .9f, .73f);
-                label.GetComponent<MeshRenderer>().sharedMaterial = font.material;
-            }
+            if (bayNumberLabels.Length == 0 || !bayNumberLabels[0]) return;
+            var font = bayNumberLabels[0].font;
+            var template = Resources.Load<Material>("MapTransparentIcon");
+            if (!font || !template) return;
+            bayNumberFont = font;
+            font.RequestCharactersInTexture("123456", 64, FontStyle.Bold);
+            // The built-in TextMesh material always draws on top. This shader tests world depth.
+            bayNumberMaterial = new Material(template) { name = "Storage bay number text" };
+            bayNumberMaterial.SetColor("_BaseColor", new Color(.96f, .9f, .73f));
+            UpdateBayNumberAtlas(font);
+            Font.textureRebuilt += UpdateBayNumberAtlas;
+            foreach (var label in bayNumberLabels)
+                if (label) label.GetComponent<MeshRenderer>().sharedMaterial = bayNumberMaterial;
         }
+
+        private void UpdateBayNumberAtlas(Font font)
+        {
+            if (font == bayNumberFont && bayNumberMaterial)
+                bayNumberMaterial.SetTexture("_BaseMap", font.material.mainTexture);
+        }
+
         private static Interactive InstallControl(Transform anchor, InteractionData data, Action<IInteractor> action)
         {
             var hitbox = anchor.gameObject.AddComponent<BoxCollider>();
@@ -306,7 +308,6 @@ namespace HorrorGame.Chapter1
             if (UsesBayButtons)
             {
                 bool matched = MatchesSolution();
-                if (matched && !solved) HorrorGame.UI.PlayerMonologue.Show("The shutter controls have power");
                 solved = matched;
                 RefreshOutputButtons();
             }
@@ -326,18 +327,28 @@ namespace HorrorGame.Chapter1
                 if (bayFixtureFeed && i < bayLights.Length)
                     bayFixtureFeed.SetLocalPower(bayLights[i], !switched);
             }
-            if (CheckLamp) CheckLamp.SetManualColor(solved ? Green : Yellow);
         }
 
         private void UseOutputButton(IInteractor interactor)
         {
+            if (feedback != null) return;
             if (!OutputShutter || !Grid || !Grid.HasSupply || Grid.IsShutdown || !solved)
             {
-                HorrorGame.UI.PlayerMonologue.Show("No power");
+                feedback = StartCoroutine(ShowCheck(false));
                 return;
             }
 
-            Grid.SetCircuit(OutputShutter.CircuitId, !Grid.IsCircuitRequested(OutputShutter.CircuitId));
+            bool open = !Grid.IsCircuitRequested(OutputShutter.CircuitId);
+            if (OutputShutter is GarageDoorCircuitLink motor && BeginCheckShot())
+            {
+                motor.SetCircuitRequested(open, true);
+                feedback = StartCoroutine(ShowOutputTravel(motor, open));
+            }
+            else
+            {
+                Grid.SetCircuit(OutputShutter.CircuitId, open);
+                ShowPowerResult(Grid.IsCircuitRequested(OutputShutter.CircuitId) == open);
+            }
             RefreshOutputButtons();
             GetComponent<SavableObjectState>().SaveState();
         }
@@ -375,12 +386,12 @@ namespace HorrorGame.Chapter1
 
         public void CheckAnswer()
         {
+            if (feedback != null) return;
             if (Grid && !Grid.HasSupply)
             {
-                HorrorGame.UI.PlayerMonologue.Show("No power");
+                feedback = StartCoroutine(ShowCheck(false));
                 return;
             }
-            if (feedback != null) return;
             if (solved)
             {
                 if (ManualPuzzle) feedback = StartCoroutine(ShowCheck(true));
@@ -410,54 +421,47 @@ namespace HorrorGame.Chapter1
         private IEnumerator ShowCheck(bool passed)
         {
             ShowingWrongAnswer = !passed;
-            if (CheckLamp) CheckLamp.SetManualColor(passed ? Green : Red);
             if (!passed && WrongAnswerBuzzer) WrongAnswerBuzzer.Play();
-            if (ManualPuzzle)
-            {
-                pause = PauseController.Instance;
-                if (pause) pause.Pause(this);
-                input = UIManager.Get<UIInputListener>(true);
-                if (input) input.AddBlockingContext(this);
-                var outputCamera = CameraSystem.Exists ? CameraSystem.Instance.MainCamera : Camera.main;
-                if (CheckCamera && outputCamera && outputCamera.TryGetComponent(out checkBrain))
-                {
-                    var view = CheckCamera.GetComponentInChildren<CinemachineVirtualCameraBase>(true);
-                    if (view)
-                    {
-                        CheckCamera.Activate();
-                        checkCameraOverride = checkBrain.SetCameraOverride(-1, 0, null, view, 1f, -1f);
-                    }
-                }
-                MakeLetterbox();
-            }
+            if (ManualPuzzle) BeginCheckShot();
             else if (WrongAnswerCamera) WrongAnswerCamera.SetActive(true);
 
             yield return new WaitForSecondsRealtime(WrongCameraSeconds);
             EndCheck();
+            ShowPowerResult(passed);
         }
 
-        private void MakeLetterbox()
+        private bool BeginCheckShot()
         {
-            letterbox = new GameObject("Shutter sequence letterbox", typeof(Canvas));
-            var canvas = letterbox.GetComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvas.sortingOrder = 1000;
-            var preview = CheckCamera ? CheckCamera.GetComponentInChildren<CameraPreview>(true) : null;
-            float height = preview ? preview.LetterboxHeight : .2f;
-            AddBar("Top", 1f - height, 1f);
-            AddBar("Bottom", 0f, height);
+            var outputCamera = CameraSystem.Exists ? CameraSystem.Instance.MainCamera : Camera.main;
+            var view = CheckCamera ? CheckCamera.GetComponentInChildren<CinemachineVirtualCameraBase>(true) : null;
+            if (!view || !outputCamera || !outputCamera.TryGetComponent(out checkBrain)) return false;
+
+            pause = PauseController.Instance;
+            pause.Pause(this);
+            input = UIManager.Get<UIInputListener>(true);
+            if (input) input.AddBlockingContext(this);
+            checkBrainIgnoredTimeScale = checkBrain.IgnoreTimeScale;
+            checkBrain.IgnoreTimeScale = true;
+            CheckCamera.Activate();
+            checkCameraOverride = checkBrain.SetCameraOverride(-1, 0, null, view, 1f, -1f);
+            letterbox = CameraPreview.CreateLetterbox(CheckCamera);
+            return true;
         }
 
-        private void AddBar(string barName, float bottom, float top)
+        private IEnumerator ShowOutputTravel(GarageDoorCircuitLink motor, bool open)
         {
-            var bar = new GameObject(barName, typeof(RectTransform), typeof(Image)).GetComponent<Image>();
-            bar.transform.SetParent(letterbox.transform, false);
-            bar.rectTransform.anchorMin = new Vector2(0f, bottom);
-            bar.rectTransform.anchorMax = new Vector2(1f, top);
-            bar.rectTransform.offsetMin = bar.rectTransform.offsetMax = Vector2.zero;
-            bar.color = Color.black;
-            bar.raycastTarget = false;
+            float timeout = Time.unscaledTime + 5f;
+            yield return new WaitUntil(() => !motor || (open ? motor.IsOpen : motor.IsClosed) ||
+                !Grid || !Grid.HasSupply || Time.unscaledTime >= timeout);
+            yield return new WaitForSecondsRealtime(.4f);
+            bool hasPower = Grid && Grid.HasSupply && !Grid.IsShutdown &&
+                Grid.IsCircuitRequested(motor.CircuitId) == open;
+            EndCheck();
+            ShowPowerResult(hasPower);
         }
+
+        private static void ShowPowerResult(bool hasPower) =>
+            HorrorGame.UI.PlayerMonologue.Show(hasPower ? "The power is restored" : "There is no power");
 
         private void OnDisable()
         {
@@ -471,7 +475,11 @@ namespace HorrorGame.Chapter1
             if (letterbox) Destroy(letterbox);
             if (checkCameraOverride >= 0)
             {
-                if (checkBrain) checkBrain.ReleaseCameraOverride(checkCameraOverride);
+                if (checkBrain)
+                {
+                    checkBrain.ReleaseCameraOverride(checkCameraOverride);
+                    checkBrain.IgnoreTimeScale = checkBrainIgnoredTimeScale;
+                }
                 if (CheckCamera) CheckCamera.Deactivate();
                 checkCameraOverride = -1;
             }

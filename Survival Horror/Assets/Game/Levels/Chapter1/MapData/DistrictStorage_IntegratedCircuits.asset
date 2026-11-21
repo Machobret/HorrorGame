@@ -71,8 +71,8 @@ MonoBehaviour:
     RoomUniqueId: e7339175-cbd0-4afb-845a-bbb4809733ff
     WorldPosition: {x: 18, y: 0, z: -28}
     ActivationRange: 8
-  - CircuitId: shutter_seg_1
-    Label: Shutter Segment 1
+  - CircuitId: shutter_seg_5
+    Label: Shutter Segment 5
     Bounds:
       serializedVersion: 2
       x: -86.56
@@ -90,8 +90,8 @@ MonoBehaviour:
     RoomUniqueId: 1d418312-97c1-45ff-a495-046fe472b522
     WorldPosition: {x: 35, y: 0, z: -28.75}
     ActivationRange: 10
-  - CircuitId: shutter_seg_2
-    Label: Shutter Segment 2
+  - CircuitId: shutter_seg_6
+    Label: Shutter Segment 6
     Bounds:
       serializedVersion: 2
       x: -86.44978
@@ -147,8 +147,8 @@ MonoBehaviour:
     RoomUniqueId: 1d418312-97c1-45ff-a495-046fe472b522
     WorldPosition: {x: 30.620014, y: 0, z: -32}
     ActivationRange: 10
-  - CircuitId: shutter_seg_5
-    Label: Shutter Segment 5
+  - CircuitId: shutter_seg_1
+    Label: Shutter Segment 1
     Bounds:
       serializedVersion: 2
       x: -95.06
@@ -166,8 +166,8 @@ MonoBehaviour:
     RoomUniqueId: 1d418312-97c1-45ff-a495-046fe472b522
     WorldPosition: {x: 26.5, y: 0, z: -28.75}
     ActivationRange: 10
-  - CircuitId: shutter_seg_6
-    Label: Shutter Segment 6
+  - CircuitId: shutter_seg_2
+    Label: Shutter Segment 2
     Bounds:
       serializedVersion: 2
       x: -94.93019

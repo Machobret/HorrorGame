@@ -12,16 +12,13 @@ namespace HorrorGame.Chapter1
             "Vincent Hale", "Miriam Bell", "Daniel Mercer", "Elena Ortiz", "Caleb Asher", "Nora Price",
             "Simon Reed", "Leah Sutton", "Helen Cho", "Arthur Boone", "Rosa Delgado", "Edwin Park"
         };
-        private const string UnitIntro = "Need an electrician to check these storage units out:";
-        private const string TenantIntro = "Need an electrician to check the storage units rented by:";
-        private const string Signature = "-Mr. Johnson";
         private const string Alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ";
         private const int GlyphWidth = 24;
         private const int GlyphHeight = 48;
         private const int GlyphsPerRow = 16;
 
         public static List<DocumentPage> Create(bool[] solution, int[] bayNumbers, bool useTenants,
-            Texture2D paper, Texture2D glyphs, out Texture2D texture, out Sprite sprite)
+            Texture2D paper, Texture2D glyphs, DocumentPage template, out Texture2D texture, out Sprite sprite)
         {
             var entries = new List<string>();
             for (int number = 1; number <= solution.Length; number++)
@@ -44,8 +41,29 @@ namespace HorrorGame.Chapter1
             texture = new Texture2D(paper.width, paper.height, TextureFormat.RGBA32, false);
             texture.name = "Corridor clue page";
             texture.SetPixels32(pixels);
-            texture.Apply(false, true);
-            sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * .5f);
+            texture.Apply(false, false);
+            sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * .5f, 100f, 0, SpriteMeshType.FullRect);
+
+            string intro = GameText.Translate((string)template.Text);
+            if (!useTenants)
+            {
+                return new List<DocumentPage>
+                {
+                    new DocumentPage
+                    {
+                        Text = new LocalizableText { Unlocalized = intro.Trim() },
+                        Artwork = sprite
+                    },
+                    new DocumentPage
+                    {
+                        Text = new LocalizableText
+                        {
+                            Unlocalized = string.Join(", ", entries.ConvertAll(number => $"<color=#FFD84A>{number}</color>")) + "."
+                        },
+                        Caption = template.Caption
+                    }
+                };
+            }
 
             return new List<DocumentPage>
             {
@@ -53,10 +71,9 @@ namespace HorrorGame.Chapter1
                 {
                     Text = new LocalizableText
                     {
-                        Unlocalized = GameText.Translate(useTenants ? TenantIntro : UnitIntro)
-                            + "\n\n" + string.Join("\n", entries)
+                        Unlocalized = intro.Replace("{ENTRIES}", string.Join("\n", entries))
                     },
-                    Caption = new LocalizableText { Unlocalized = Signature },
+                    Caption = template.Caption,
                     Artwork = sprite
                 }
             };
