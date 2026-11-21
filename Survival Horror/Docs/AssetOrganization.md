@@ -49,11 +49,15 @@ Use Unity's Project window or AssetDatabase to move Assets, preserving metadata.
 
 Horror Engine example scenes are in Build Settings. Game systems, item databases, core prefabs and source tools also reference vendor content. Do not delete ExampleContent or treat AssetStore as pristine without auditing existing project changes. New customization should prefer owned assets and prefab variants where practical.
 
+The active Horror Engine URP asset sets the additional-light shadow atlas limit to 4096 for the game. In the integrated Chapter 1 scene, select Cameras > Chapter 1 Lamp Shadow Distance to tune indoor lamps. Entries inherit the 15 m cutoff and 3 m fade band. Set a positive Distance Override for an individual lamp, or zero to inherit the default. Assign new indoor emitters to the list.
+
 The Horror Engine map renderer always draws the project?s navigation grid, and its map list shows discovered maps only. The unused runtime grid toggle and unknown-map label were removed from the vendor scripts.
 
 Horror Engine room discovery uses all outline components on each room, matching the map renderer. Adjacent outlines can share edges without being treated as holes, and additional contours have their own line renderers. Circuit hover only highlights rooms the map has already drawn. The shared map and document databases register Chapter 1's integrated tablet assets for save and load.
 
-Horror Engine camera selection recognizes both the legacy fixed-camera prefabs and current Cinemachine cameras. Camera-relative movement uses the live output camera until a virtual camera is selected. Maintain Distance cameras anchor their travel limit to the authored virtual camera position so the camera can follow again when the player backtracks into the Chapter 1 shutter corridor.
+Horror Engine interactions can filter prompts and activation by player position. The ControlButton prefab checks the front face and an unobstructed path for all child interactions. The guard-office button also uses its room outline. The pistol and flashlight item assets opt into direct inventory equip on Enter or double-click. The equipped flashlight prefab uses the project-owned switch to toggle its beam and battery drain together.
+
+Horror Engine camera selection recognizes both the legacy fixed-camera prefabs and current Cinemachine cameras. The shared output camera defaults to the perspective projection used by the fixed-camera preview. Standard controls use the live camera orientation until a cut, then keep the previous movement orientation until all movement input is released. Maintain Distance cameras anchor their travel limit to the authored virtual camera position so the camera can follow again when the player backtracks into the Chapter 1 shutter corridor.
 
 The integrated Chapter 1 tablet pickup unlocks its map after the item splash is dismissed. Inventory ignores the opening key on the frame the screen appears so the same press cannot close it immediately.
 

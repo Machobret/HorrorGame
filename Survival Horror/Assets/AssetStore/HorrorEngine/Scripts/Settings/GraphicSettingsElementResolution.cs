@@ -23,7 +23,32 @@ namespace HorrorEngine
 
         public override string GetDefaultValue()
         {
-            return Screen.width + "x" + Screen.height;
+            int index = FindClosestOption(Screen.width, Screen.height);
+            return index >= 0 ? GetItemName(index) : string.Empty;
+        }
+
+        public override int GetItemIndex(string name)
+        {
+            var parts = name?.Split('x');
+            if (parts?.Length == 2 && int.TryParse(parts[0], out int width) &&
+                int.TryParse(parts[1], out int height) && width > 0 && height > 0)
+                return FindClosestOption(width, height);
+            return FindClosestOption(Screen.width, Screen.height);
+        }
+
+        private int FindClosestOption(int width, int height)
+        {
+            int closest = -1;
+            float distance = float.PositiveInfinity;
+            for (int i = 0; i < Options.Length; i++)
+            {
+                var size = Options[i];
+                float candidate = new Vector2(size.x - width, size.y - height).sqrMagnitude;
+                if (candidate >= distance) continue;
+                distance = candidate;
+                closest = i;
+            }
+            return closest;
         }
 
         public override int GetItemCount()

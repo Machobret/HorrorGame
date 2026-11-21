@@ -450,6 +450,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4142025086116987180}
   - component: {fileID: 6076370209456634115}
+  - component: {fileID: 3167475395137728613}
   - component: {fileID: -295257074301443836}
   m_Layer: 0
   m_Name: Flashlight
@@ -505,6 +506,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3167475395137728613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3669545791232698584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55ee82146f454645a0a9fa122822e570, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorGame.Environment.EquippedFlashlightSwitch
+  beam: {fileID: 3393876861123102001}
+  battery: {fileID: 6076370209456634115}
 --- !u!114 &-295257074301443836
 MonoBehaviour:
   m_ObjectHideFlags: 0

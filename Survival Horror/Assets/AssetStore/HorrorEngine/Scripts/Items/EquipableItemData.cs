@@ -24,6 +24,8 @@ namespace HorrorEngine
         public bool AttachOnEquipped = true;
         [Tooltip("If true, this item will be removed from the current inventory slot when equipped")]
         public bool MoveOutOfInventoryOnEquip;
+        [Tooltip("Equip directly when the player presses Enter or double-clicks this item in the inventory.")]
+        public bool QuickEquipInInventory;
         [Header("Animation")]
         public RuntimeOverridableReference<AnimatorOverrideController> AnimatorOverride;
         public List<AnimatorLayerOverride> AnimatorLayerOverrides;

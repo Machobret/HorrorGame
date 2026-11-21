@@ -18,6 +18,7 @@ namespace HorrorEngine
                 foreach (var interaction in m_Interactives)
                 {
                     if (!interaction || !interaction.isActiveAndEnabled) continue;
+                    if (!interaction.IsReachableFrom(m_Player.position)) continue;
                     var crate = interaction.GetComponentInParent<Pushable>();
                     bool isPush = crate && crate.PushInteraction == interaction;
                     if (isPush && !crate.TryGetPushAxis(m_Player, out _)) continue;

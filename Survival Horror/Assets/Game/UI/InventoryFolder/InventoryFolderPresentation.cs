@@ -8,11 +8,13 @@ namespace HorrorGame.UI
     /// <summary>Inventory-only visual motion; item selection and actions stay in native UIInventory.</summary>
     public sealed class InventoryFolderPresentation : MonoBehaviour
     {
+        public const string ActionControls = "CLICK SELECT   /   DOUBLE-CLICK OR E ACTIONS   /   ESC BACK";
+        private const string EquipControls = "ENTER OR DOUBLE-CLICK EQUIP   /   E ACTIONS   /   ESC BACK";
         public RawImage Fog;
         public Material FogMaterial;
         public CanvasGroup Content;
         public RectTransform Notebook;
-        public TMP_Text CapacityText,FeedbackText;
+        public TMP_Text CapacityText,FeedbackText,ControlsText;
         public UIInventory InventoryUI;
         public UnityEngine.UI.ScrollRect DescriptionScroll;
         float feedbackUntil;
@@ -29,6 +31,12 @@ namespace HorrorGame.UI
         public void SelectPage(){pageSelected=Time.realtimeSinceStartupAsDouble;if(DescriptionScroll){DescriptionScroll.StopMovement();DescriptionScroll.verticalNormalizedPosition=1;}}
         void LateUpdate()
         {
+            if (ControlsText && InventoryUI)
+            {
+                bool quickEquip = InventoryUI.CombiningEntry == null &&
+                    InventoryUI.SelectedEntry?.Item is EquipableItemData { QuickEquipInInventory: true };
+                GameText.SetLabel(ControlsText, quickEquip ? EquipControls : ActionControls);
+            }
             if(FeedbackText && InventoryUI && InventoryUI.CombiningEntry!=null){GameText.SetLabel(FeedbackText, "COMBINE: choose a second item");FeedbackText.color=new Color(.16f,.155f,.145f);}
             else if(FeedbackText && Time.unscaledTime>feedbackUntil)FeedbackText.text="";
             if(CapacityText && GameManager.Exists)

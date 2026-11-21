@@ -56,6 +56,7 @@ MonoBehaviour:
     ApplyScale: 1
   AttachOnEquipped: 1
   MoveOutOfInventoryOnEquip: 0
+  QuickEquipInInventory: 1
   AnimatorOverride:
     m_Value: {fileID: 22100000, guid: fe2085776d3d9ce4d8a079b951254363, type: 2}
   AnimatorLayerOverrides: []

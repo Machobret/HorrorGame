@@ -138,6 +138,8 @@ namespace HorrorEngine
                 {
                     if (moveSettings.GetMovementType() == movementType)
                     {
+                        if (m_Settings != null && m_Settings != moveSettings)
+                            moveSettings.ResetMovement();
                         m_Settings = moveSettings;
                         break;
                     }
@@ -160,6 +162,8 @@ namespace HorrorEngine
                 m_Running = m_Input.IsRunHeld();
 
             m_InputAxis = m_Input.GetPrimaryAxis();
+            if (m_Settings is PlayerMovementAlternate alternate)
+                alternate.UpdateCameraInput(m_InputAxis, m_Input.IsPrimaryAxisHeld());
         }
 
         // --------------------------------------------------------------------

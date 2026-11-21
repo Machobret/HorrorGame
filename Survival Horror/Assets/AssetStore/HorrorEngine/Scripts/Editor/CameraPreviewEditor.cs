@@ -17,7 +17,7 @@ namespace HorrorEngine
         private Transform m_TargetTransform;
 #if UNITY_6000_0_OR_NEWER
         private CinemachineCamera m_VirtualCam;
-        private CinemachineVirtualCamera m_LegacyVirtualCam;
+        private CinemachineVirtualCameraBase m_LegacyVirtualCam;
 #else
         private CinemachineVirtualCamera m_VirtualCam;
 #endif
@@ -39,7 +39,8 @@ namespace HorrorEngine
 
 #if UNITY_6000_0_OR_NEWER
                 m_VirtualCam = preview.GetComponent<CinemachineCamera>();
-                m_LegacyVirtualCam = preview.GetComponent<CinemachineVirtualCamera>();
+                if (!m_VirtualCam)
+                    m_LegacyVirtualCam = preview.GetComponent<CinemachineVirtualCameraBase>();
 #else
                 m_VirtualCam = preview.GetComponent<CinemachineVirtualCamera>();
 #endif
@@ -89,7 +90,8 @@ namespace HorrorEngine
 #if UNITY_6000_0_OR_NEWER
             else if (m_LegacyVirtualCam)
             {
-                var lens = m_LegacyVirtualCam.m_Lens;
+                m_LegacyVirtualCam.InternalUpdateCameraState(Vector3.up, -1f);
+                var lens = m_LegacyVirtualCam.State.Lens;
                 m_Camera.fieldOfView = lens.FieldOfView;
                 m_Camera.farClipPlane = lens.FarClipPlane;
                 m_Camera.nearClipPlane = lens.NearClipPlane;

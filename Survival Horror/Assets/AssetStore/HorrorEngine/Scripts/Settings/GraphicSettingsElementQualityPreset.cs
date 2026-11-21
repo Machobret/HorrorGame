@@ -8,7 +8,15 @@ namespace HorrorEngine
     {
         public override string GetDefaultValue()
         {
-            return QualitySettings.GetQualityLevel().ToString();
+            return GetItemName(QualitySettings.GetQualityLevel());
+        }
+
+        public override int GetItemIndex(string name)
+        {
+            // Older builds saved the index when settings were reset to defaults.
+            if (int.TryParse(name, out int index) && index >= 0 && index < GetItemCount())
+                return index;
+            return base.GetItemIndex(name);
         }
 
         public override void Apply()

@@ -329,7 +329,7 @@ namespace HorrorGame.UI
                 label.fontSizeMin = 7f;
                 label.fontSizeMax = size;
             }
-            label.enableWordWrapping = false;
+            label.textWrappingMode = TextWrappingModes.NoWrap;
             label.alignment = TextAlignmentOptions.MidlineLeft;
             label.overflowMode = TextOverflowModes.Ellipsis;
             label.raycastTarget = false;

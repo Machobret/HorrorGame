@@ -14,6 +14,11 @@ namespace HorrorEngine
     [Serializable]
     public class OnInteractionEvent : UnityEvent<IInteractor> {}
 
+    public interface IInteractionReach
+    {
+        bool IsReachableFrom(Vector3 position);
+    }
+
     [RequireComponent(typeof(OnDisableNotifier))]
     public class Interactive : MonoBehaviour
     {
@@ -24,8 +29,15 @@ namespace HorrorEngine
         public UnityEvent OnDataChanged;
         public Sprite PromptIconOverride { get; private set; }
         public Func<bool> PowerAvailable { get; set; }
+        public Func<Vector3, bool> CanReachFrom { get; set; }
         public bool LastInteractionCompleted { get; private set; }
         public string PromptTextOverride { get; private set; }
+        private IInteractionReach m_ParentReach;
+
+        private void Awake() => m_ParentReach = GetComponentInParent<IInteractionReach>();
+
+        public bool IsReachableFrom(Vector3 position) =>
+            (CanReachFrom?.Invoke(position) ?? true) && (m_ParentReach?.IsReachableFrom(position) ?? true);
 
         public void SetPromptText(string text)
         {
@@ -53,6 +65,10 @@ namespace HorrorEngine
         public void Interact(IInteractor interactor)
         {
             if (!isActiveAndEnabled)
+                return;
+
+            if ((CanReachFrom != null || m_ParentReach != null) &&
+                (interactor is not Component source || !IsReachableFrom(source.transform.position)))
                 return;
 
             if (interactor is PlayerInteractor)

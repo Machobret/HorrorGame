@@ -5,6 +5,7 @@ namespace HorrorEngine
     public interface IPlayerInput
     {
         Vector2 GetPrimaryAxis();
+        bool IsPrimaryAxisHeld();
         Vector2 GetSecondaryAxis();
         bool IsRunHeld();
         bool IsAimingHeld();

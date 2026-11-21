@@ -53,7 +53,7 @@ namespace HorrorGame.Chapter1
             yield return null;
             yield return new WaitUntil(() => UIManager.Exists && GameManager.Exists && GameManager.Instance.IsPlaying &&
                 (!PauseController.Exists || !PauseController.Instance.IsPaused));
-            PlayerMonologue.Show("this has limited battery");
+            PlayerMonologue.Show("Select the flashlight in the inventory. Press Enter or double-click to equip it. Press F to turn it on or off. The battery only drains while it is on.", hold: 9f);
         }
 
         internal void ConfigureRunner(GameObject runner)
@@ -93,7 +93,7 @@ namespace HorrorGame.Chapter1
             var instructions = new DialogData();
             instructions.SetLines(new[]
             {
-                Line("Open the inventory ({INVENTORY}), select the gun and choose Equip. Close the inventory."),
+                Line("Open the inventory ({INVENTORY}). Select the pistol and press Enter or double-click to equip it."),
                 Line("Hold Aim ({AIM}), then press Attack ({ATTACK}) to fire. Press Reload ({RELOAD}) to load more ammunition.")
             });
 #if ENABLE_INPUT_SYSTEM

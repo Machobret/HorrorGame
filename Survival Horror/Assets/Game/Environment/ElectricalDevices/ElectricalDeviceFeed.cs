@@ -9,6 +9,7 @@ namespace Game.Environment
         [SerializeField] private ElectricalBoxPower supply;
         [SerializeField] private DeviceIndicator indicator;
         [SerializeField] private Interactive[] controls = System.Array.Empty<Interactive>();
+        [SerializeField] private bool showOutageIndicator = true;
 
         private bool localPower = true;
         private bool statusVisibleWithoutPower;
@@ -51,9 +52,9 @@ namespace Game.Environment
             if (!indicator) return;
             powered |= statusVisibleWithoutPower;
             var body = indicator.BodyIndicator;
-            if (body) body.SetPowerAvailable(powered, true);
+            if (body) body.SetPowerAvailable(powered, showOutageIndicator);
             var antenna = indicator.AntennaIndicator;
-            if (antenna && antenna != body) antenna.SetPowerAvailable(powered, true);
+            if (antenna && antenna != body) antenna.SetPowerAvailable(powered, showOutageIndicator);
         }
     }
 }

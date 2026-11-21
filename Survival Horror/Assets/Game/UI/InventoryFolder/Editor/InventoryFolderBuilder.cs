@@ -80,7 +80,13 @@ namespace HorrorGame.UI.Editor
                 UnityEventTools.AddPersistentListener(info.OnFilled,presentation.SelectPage);
                 Panel("Notes divider",notebook.transform,new Vector2(.16f,.845f),new Vector2(.93f,.848f),new Color(.18f,.17f,.15f,.25f));
                 var menu=(UIInventoryContextMenu)ui.FindProperty("m_ContextMenu").objectReferenceValue;menu.transform.SetParent(notebook.transform,false);Rect((RectTransform)menu.transform,new Vector2(.16f,.055f),new Vector2(.93f,.30f));
-                foreach(var image in menu.GetComponentsInChildren<Image>(true)){image.sprite=null;image.color=image.name=="Selected"?new Color(.92f,.91f,.86f,.3f):new Color(.18f,.17f,.15f,.08f);}
+                foreach(var image in menu.GetComponentsInChildren<Image>(true))
+                {
+                    image.sprite=null;
+                    bool selected=image.name=="Selected";
+                    image.color=selected?new Color(.92f,.91f,.86f,.3f):new Color(.18f,.17f,.15f,.08f);
+                    if(selected)image.transform.SetAsFirstSibling();
+                }
                 var menuLayout=menu.GetComponent<VerticalLayoutGroup>();if(menuLayout){menuLayout.childControlHeight=true;menuLayout.childForceExpandHeight=false;menuLayout.spacing=2;}
                 foreach(var button in menu.GetComponentsInChildren<Button>(true)){ButtonStyle(button);var layout=button.GetComponent<LayoutElement>();if(!layout)layout=button.gameObject.AddComponent<LayoutElement>();layout.preferredHeight=26;foreach(var text in button.GetComponentsInChildren<TMP_Text>(true))Style(text,paperFont,Ink,19);}
                 var fit=menu.GetComponent<ContentSizeFitter>();if(fit)fit.enabled=false;
@@ -106,7 +112,7 @@ namespace HorrorGame.UI.Editor
                 var fluid=fluidWindow.gameObject.AddComponent<InventoryConditionFluid>();fluid.Window=fluidWindow;fluid.FluidMaterial=fluidMaterial;fluid.Label=condition;fluid.ShowFluid=false;
                 Label("Condition heading","CONDITION",folder.transform,new Vector2(.54f,.24f),new Vector2(.94f,.29f),14,Ink,terminalFont).alignment=TextAlignmentOptions.Center;
                 var legend=content.transform.Find("ButtonLegend");if(legend)legend.gameObject.SetActive(false);
-                Label("Inventory controls","CLICK SELECT   /   DOUBLE-CLICK OR E ACTIONS   /   ESC BACK",content.transform,new Vector2(.08f,.035f),new Vector2(.76f,.075f),15,Cream,terminalFont);
+                presentation.ControlsText=Label("Inventory controls",InventoryFolderPresentation.ActionControls,content.transform,new Vector2(.08f,.035f),new Vector2(.76f,.075f),15,Cream,terminalFont);
                 foreach(var itemFiller in root.GetComponentsInChildren<UIItemFiller>(true)){var data=new SerializedObject(itemFiller);data.FindProperty("m_NormalAmountColor").colorValue=Ink;data.FindProperty("m_EmptyAmountColor").colorValue=new Color(.6f,.12f,.08f);data.FindProperty("m_MaxStackAmountColor").colorValue=Ink;data.ApplyModifiedPropertiesWithoutUndo();}
                 foreach(var t in root.GetComponentsInChildren<Transform>(true))t.gameObject.layer=5;
                 foreach(var button in root.GetComponentsInChildren<Button>(true))if(button.targetGraphic)button.targetGraphic.raycastTarget=true;

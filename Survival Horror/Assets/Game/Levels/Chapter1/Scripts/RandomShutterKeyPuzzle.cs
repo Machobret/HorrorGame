@@ -84,7 +84,7 @@ namespace HorrorGame.Chapter1
             stagedMutant = null;
             for (int i = 0; i < shutterLinks.Length; i++)
             {
-                if (shutterLinks[i].valid) shutterLinks[i].Remove();
+                if (NavMesh.IsLinkValid(shutterLinks[i])) NavMesh.RemoveLink(shutterLinks[i]);
                 if (shutterObstacles[i]) shutterObstacles[i].enabled = true;
             }
         }
@@ -201,10 +201,10 @@ namespace HorrorGame.Chapter1
                 if (shutterObstacles[i]) shutterObstacles[i].enabled = !open;
                 if (!open)
                 {
-                    if (shutterLinks[i].valid) shutterLinks[i].Remove();
+                    if (NavMesh.IsLinkValid(shutterLinks[i])) NavMesh.RemoveLink(shutterLinks[i]);
                     continue;
                 }
-                if (shutterLinks[i].valid) continue;
+                if (NavMesh.IsLinkValid(shutterLinks[i])) continue;
 
                 Vector3 inside = MonsterSpawns[i].position;
                 Vector3 offset = Vector3.ProjectOnPlane(inside - shutter.transform.position, Vector3.up).normalized;

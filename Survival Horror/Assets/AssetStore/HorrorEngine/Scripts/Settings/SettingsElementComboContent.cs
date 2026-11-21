@@ -10,7 +10,7 @@ namespace HorrorEngine
         public abstract string GetItemName(int index);
         public abstract int GetItemCount();
 
-        public int GetItemIndex(string name)
+        public virtual int GetItemIndex(string name)
         {
             int count = GetItemCount();
             for (int i = 0; i < count; ++i)

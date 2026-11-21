@@ -1,6 +1,7 @@
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 #endif
 
 namespace HorrorEngine
@@ -128,6 +129,27 @@ namespace HorrorEngine
         public Vector2 GetPrimaryAxis()
         {
             return m_InputAxis;
+        }
+
+        public bool IsPrimaryAxisHeld()
+        {
+            if (m_InputAxis != Vector2.zero)
+                return true;
+
+            // Opposing directions can cancel the axis while movement buttons are still held.
+            if (m_Actions == null)
+                return false;
+
+            foreach (var control in m_Actions.Gameplay.PrimaryAxis.controls)
+            {
+                if (control is ButtonControl button && button.isPressed)
+                    return true;
+                if (control is DpadControl dpad &&
+                    (dpad.up.isPressed || dpad.down.isPressed || dpad.left.isPressed || dpad.right.isPressed))
+                    return true;
+            }
+
+            return false;
         }
 
         public Vector2 GetSecondaryAxis()

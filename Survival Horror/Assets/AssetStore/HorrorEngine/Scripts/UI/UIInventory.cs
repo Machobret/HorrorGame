@@ -4,6 +4,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
 namespace HorrorEngine
 {
@@ -81,7 +84,7 @@ namespace HorrorEngine
 
             UIPointerClickEvents pointerEvents = slot.GetComponent<UIPointerClickEvents>();
             if (!m_SelectWithOneClick)
-                pointerEvents.OnDoubleClick.AddListener(OnSubmit);
+                pointerEvents.OnDoubleClick.AddListener(OnDoubleClick);
         }
 
         // --------------------------------------------------------------------
@@ -93,7 +96,7 @@ namespace HorrorEngine
 
             UIPointerClickEvents pointerEvents = slot.GetComponent<UIPointerClickEvents>();
             if (!m_SelectWithOneClick)
-                pointerEvents.OnDoubleClick.RemoveListener(OnSubmit);
+                pointerEvents.OnDoubleClick.RemoveListener(OnDoubleClick);
         }
 
         private static void SetEquipmentSlotDisplayOnly(UIInventoryItem slot)
@@ -148,7 +151,7 @@ namespace HorrorEngine
         IEnumerator SubmitNextFrame()
         {
             yield return null;
-            OnSubmit();
+            OnSubmit(quickEquip: false);
         }
 
         // --------------------------------------------------------------------
@@ -168,14 +171,14 @@ namespace HorrorEngine
             if (m_Input.IsCancelDown() || m_Input.IsToggleInventoryDown())
             {
                 OnCancel();
+                return;
             }
 
             if (m_SelectedSlot && m_SelectedSlot.InventoryEntry != null && (!EventSystem.current || EventSystem.current.currentSelectedGameObject==m_SelectedSlot.gameObject))
             {
-                if (m_Input.IsConfirmDown())
-                {
-                    OnSubmit();
-                }
+                bool quickEquip = EnterPressed();
+                if (quickEquip || m_Input.IsConfirmDown())
+                    OnSubmit(quickEquip);
             }
 
             if (!m_SelectWithOneClick)
@@ -282,12 +285,25 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
-        private void OnSubmit()
+        private static bool EnterPressed()
+        {
+#if ENABLE_INPUT_SYSTEM
+            var keyboard = Keyboard.current;
+            return keyboard != null && (keyboard.enterKey.wasPressedThisFrame || keyboard.numpadEnterKey.wasPressedThisFrame);
+#else
+            return Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter);
+#endif
+        }
+
+        private void OnDoubleClick() => OnSubmit(quickEquip: true);
+
+        private void OnSubmit(bool quickEquip)
         {
             if (m_SelectedSlot)
                 m_SelectedSlot.SetSelectionLocked(false);
 
-            m_SelectedSlot = EventSystem.current.currentSelectedGameObject.GetComponent<UIInventoryItem>();
+            var selection = EventSystem.current ? EventSystem.current.currentSelectedGameObject : null;
+            m_SelectedSlot = selection ? selection.GetComponent<UIInventoryItem>() : null;
             if (!IsInventorySlot(m_SelectedSlot)) // Selected obj is not an inventory item (this can rarely happen if a quick slot gets selected)
             {
                 m_SelectedSlot = null;
@@ -297,16 +313,18 @@ namespace HorrorEngine
                 return;
             }
 
-            if (!m_SelectedSlot)
-                return;
-
-            ItemData item = m_SelectedSlot.InventoryEntry.Item;
+            ItemData item = m_SelectedSlot.InventoryEntry?.Item;
             if (item == null)
                 return;
 
             if (m_CombiningSlot && m_SelectedSlot != m_CombiningSlot)
             {
                 Combine();
+            }
+            else if (!m_CombiningSlot && quickEquip && item is EquipableItemData { QuickEquipInInventory: true } equipable &&
+                     equipable.Slot != EquipmentSlot.None && item.InventoryAction.HasFlag(InventoryMainAction.Equip))
+            {
+                ChangeEquipment(toggle: false);
             }
             else
             {
@@ -358,16 +376,24 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
-        private void OnEquip()
+        private void OnEquip() => ChangeEquipment(toggle: true);
+
+        private void ChangeEquipment(bool toggle)
         {
-            EquipableItemData equipableItem = m_SelectedSlot.Data as EquipableItemData;
-            bool wasSomethingEquipped = GameManager.Instance.Inventory.GetEquipped(equipableItem.Slot) != null;
-            var selectedEntry=m_SelectedSlot.InventoryEntry;
-            GameManager.Instance.Inventory.ToggleEquip(selectedEntry);
-            OnFeedback.Invoke(GameManager.Instance.Inventory.GetEquipped(equipableItem.Slot)==selectedEntry ? "Equipped" : "Unequipped");
+            var selectedEntry = m_SelectedSlot ? m_SelectedSlot.InventoryEntry : null;
+            if (selectedEntry?.Item is not EquipableItemData equipableItem || equipableItem.Slot == EquipmentSlot.None)
+                return;
+
+            var inventory = GameManager.Instance.Inventory;
+            var previous = inventory.GetEquipped(equipableItem.Slot);
+            bool alreadyEquipped = previous == selectedEntry;
+            if (!toggle && alreadyEquipped) return;
+
+            inventory.ToggleEquip(selectedEntry);
+            OnFeedback.Invoke(alreadyEquipped ? "Unequipped" : "Equipped");
             UIManager.Get<UIAudio>().Play(m_UseClip,m_MenuVolume);
 
-            if (equipableItem.MoveOutOfInventoryOnEquip || wasSomethingEquipped)
+            if (equipableItem.MoveOutOfInventoryOnEquip || previous != null)
                 Fill();
 
             FillEquipped();

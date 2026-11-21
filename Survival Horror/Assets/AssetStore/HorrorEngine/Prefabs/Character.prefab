@@ -1190,9 +1190,6 @@ MonoBehaviour:
     IsLockingEnabled: 1
     MinInputMovementThreshold: 0.5
     MinInputRotationThreshold: 0.15
-    InputUnlockAngleThreshold: 15
-    AutoBlendToNewCamera: 0
-    LerpTimeAfterCameraChange: 3
 --- !u!114 &-7764547518216820444
 MonoBehaviour:
   m_ObjectHideFlags: 0

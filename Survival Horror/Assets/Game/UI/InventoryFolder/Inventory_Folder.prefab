@@ -12364,8 +12364,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1662856796120404288}
   - {fileID: 4655621126216367615}
+  - {fileID: 1662856796120404288}
   m_Father: {fileID: 6423394210989537462}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -13759,6 +13759,7 @@ MonoBehaviour:
   Notebook: {fileID: 1418440308431822223}
   CapacityText: {fileID: 7451437204947627315}
   FeedbackText: {fileID: 5403929678445942138}
+  ControlsText: {fileID: 3486860706511420107}
   InventoryUI: {fileID: 655756089315653463}
   DescriptionScroll: {fileID: 8914208072491469819}
   OpeningDuration: 0.2
@@ -22541,8 +22542,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1384697987319436488}
   - {fileID: 893535986248036596}
+  - {fileID: 1384697987319436488}
   m_Father: {fileID: 6423394210989537462}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -22833,8 +22834,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7973148170123064039}
   - {fileID: 2132220634690343857}
+  - {fileID: 7973148170123064039}
   m_Father: {fileID: 6423394210989537462}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -23019,8 +23020,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7413572462479916820}
   - {fileID: 2614989404204339211}
+  - {fileID: 7413572462479916820}
   m_Father: {fileID: 6423394210989537462}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -25682,8 +25683,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8448291285107854389}
   - {fileID: 8090416799402554262}
+  - {fileID: 8448291285107854389}
   m_Father: {fileID: 6423394210989537462}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

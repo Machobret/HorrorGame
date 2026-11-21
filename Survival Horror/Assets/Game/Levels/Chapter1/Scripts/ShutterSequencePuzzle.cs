@@ -50,6 +50,9 @@ namespace HorrorGame.Chapter1
         public Interactive[] PatternButtons = Array.Empty<Interactive>();
         [SerializeField] private ElectricalFixtureFeed bayFixtureFeed;
         [SerializeField] private Light[] bayLights = Array.Empty<Light>();
+        [SerializeField] private Light[] corridorLights = Array.Empty<Light>();
+        [SerializeField] private Light noteLight;
+        [SerializeField, Min(.1f)] private float blackoutSeconds = 1f;
         public CircuitDrivenObject[] SegmentShutters = Array.Empty<CircuitDrivenObject>();
         public ShutterIndicatorLamp[] SegmentLamps = Array.Empty<ShutterIndicatorLamp>();
         public ShutterIndicatorLamp CheckLamp;
@@ -60,7 +63,6 @@ namespace HorrorGame.Chapter1
         private static readonly Color Red = new Color(1f, .12f, .06f);
         private static readonly Color Green = new Color(.18f, 1f, .25f);
         [SerializeField] private Transform[] leverHandles = new Transform[SegmentCount];
-        // In the powered bays a set bit means the switch is off.
         private int switchedMask;
         private Coroutine feedback;
         private Interactive checkInteraction;
@@ -81,10 +83,18 @@ namespace HorrorGame.Chapter1
         private void Awake()
         {
             useTenantClue = CorridorPuzzleSetting.UseTenantClue;
-            if (solution == null || solution.Length != 6 || CountSolution() == 0) GenerateSolution();
+            if (solution == null || solution.Length != SegmentCount || CountSolution() == 0) GenerateSolution();
+            RefreshIndicators();
             Apply();
             RefreshNote();
         }
+
+        private void OnEnable()
+        {
+            if (UsesBayButtons && OutputShutter && Grid) Grid.CanEnableCircuit += CanEnableOutput;
+        }
+
+        private bool CanEnableOutput(string circuitId) => circuitId != OutputShutter.CircuitId || solved;
 
         private void Start()
         {
@@ -304,12 +314,17 @@ namespace HorrorGame.Chapter1
             }
             if (feedback != null || index >= SegmentShutters.Length || !SegmentShutters[index] ||
                 !SegmentShutters[index].TryGetComponent(out GarageDoor door) || !door.IsOpen) return;
+            if (UsesBayButtons && !solution[index])
+            {
+                feedback = StartCoroutine(ResetBayButtons());
+                return;
+            }
+
             switchedMask ^= 1 << index;
             if (UsesBayButtons)
             {
-                bool matched = MatchesSolution();
-                solved = matched;
-                RefreshOutputButtons();
+                solved = MatchesSolution();
+                Apply();
             }
             RefreshIndicators();
             GetComponent<SavableObjectState>().SaveState();
@@ -323,10 +338,33 @@ namespace HorrorGame.Chapter1
                 if (i < SegmentLamps.Length && SegmentLamps[i]) SegmentLamps[i].SetManualColor(switched ? Green : Red);
                 if (i < leverHandles.Length && leverHandles[i]) leverHandles[i].localRotation = Quaternion.Euler(switched ? -45f : 45f, 0f, 0f);
                 if (i < PatternButtons.Length && PatternButtons[i])
-                    SetButtonIndicator(PatternButtons[i], !switched, IndicatorLamp.Red);
+                    SetButtonIndicator(PatternButtons[i], switched, IndicatorLamp.Red, switched ? .9f : 0f);
                 if (bayFixtureFeed && i < bayLights.Length)
-                    bayFixtureFeed.SetLocalPower(bayLights[i], !switched);
+                    bayFixtureFeed.SetLocalPower(bayLights[i], switched);
             }
+        }
+
+        private IEnumerator ResetBayButtons()
+        {
+            ShowingWrongAnswer = true;
+            SetCorridorPower(false);
+            switchedMask = 0;
+            solved = false;
+            Apply();
+            RefreshIndicators();
+            GetComponent<SavableObjectState>().SaveState();
+            if (WrongAnswerBuzzer) WrongAnswerBuzzer.Play();
+
+            yield return new WaitForSecondsRealtime(blackoutSeconds);
+            EndCheck();
+        }
+
+        private void SetCorridorPower(bool powered)
+        {
+            if (noteLight) noteLight.enabled = powered;
+            if (!bayFixtureFeed) return;
+            foreach (var light in corridorLights)
+                bayFixtureFeed.SetLocalPower(light, powered);
         }
 
         private void UseOutputButton(IInteractor interactor)
@@ -364,10 +402,10 @@ namespace HorrorGame.Chapter1
             }
         }
 
-        private static void SetButtonIndicator(Interactive button, bool on, Color inactive)
+        private static void SetButtonIndicator(Interactive button, bool on, Color inactive, float strength = .9f)
         {
             var device = button.GetComponentInParent<DeviceIndicator>();
-            if (device) device.SetDeviceState(on ? IndicatorLamp.Green : inactive);
+            if (device) device.SetDeviceState(on ? IndicatorLamp.Green : inactive, strength);
         }
 
         private void UseCheckButton(IInteractor interactor)
@@ -465,6 +503,7 @@ namespace HorrorGame.Chapter1
 
         private void OnDisable()
         {
+            if (UsesBayButtons && Grid) Grid.CanEnableCircuit -= CanEnableOutput;
             if (feedback == null) return;
             StopCoroutine(feedback);
             EndCheck();
@@ -491,6 +530,7 @@ namespace HorrorGame.Chapter1
             pause = null;
             feedback = null;
             ShowingWrongAnswer = false;
+            SetCorridorPower(true);
             RefreshIndicators();
         }
 
@@ -498,6 +538,8 @@ namespace HorrorGame.Chapter1
         {
             if (MainShutter) MainShutter.SetOpen(solved);
             if (PuzzleDoor) PuzzleDoor.SetPuzzleUnlocked(solved);
+            if (UsesBayButtons && !solved && OutputShutter && Grid)
+                Grid.SetCircuit(OutputShutter.CircuitId, false);
             RefreshOutputButtons();
             UpdateCheckPrompt();
         }
@@ -516,11 +558,28 @@ namespace HorrorGame.Chapter1
         });
         public void SetFromSavedData(string data)
         {
+            if (feedback != null)
+            {
+                StopCoroutine(feedback);
+                EndCheck();
+            }
             State state = JsonUtility.FromJson<State>(data);
             useTenantClue = state.UseTenantClue;
-            if (state.Solution != null && state.Solution.Length == 6) solution = state.Solution;
+            if (state.Solution?.Length == SegmentCount && Array.Exists(state.Solution, selected => selected))
+                solution = state.Solution;
             switchedMask = state.LeverMask;
-            solved = UsesBayButtons ? MatchesSolution() : state.Solved;
+            solved = state.Solved;
+            if (UsesBayButtons)
+            {
+                int solutionMask = 0;
+                for (int i = 0; i < SegmentCount; i++)
+                    if (solution[i]) solutionMask |= 1 << i;
+
+                // Preserve passage in older saves that left the output open after changing the pattern.
+                if (state.OutputRequested) switchedMask = solutionMask;
+                else if ((switchedMask & ~solutionMask) != 0) switchedMask = 0;
+                solved = switchedMask == solutionMask;
+            }
             if (OutputShutter && Grid) Grid.SetCircuit(OutputShutter.CircuitId, state.OutputRequested);
             RefreshIndicators();
             Apply();

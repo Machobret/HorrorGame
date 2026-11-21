@@ -54,12 +54,16 @@ namespace HorrorGame.Environment.Editor
             {
                 var model = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(ModelPath));
                 model.transform.SetParent(root.transform, false); model.name = "FridgeModel";
-                foreach (var filter in model.GetComponentsInChildren<MeshFilter>())
+                var modelRenderers = model.GetComponentsInChildren<MeshRenderer>();
+                var modelBounds = modelRenderers[0].bounds;
+                foreach (var renderer in modelRenderers)
                 {
-                    filter.gameObject.AddComponent<MeshCollider>().sharedMesh = filter.sharedMesh;
-                    var renderer = filter.GetComponent<MeshRenderer>();
+                    modelBounds.Encapsulate(renderer.bounds);
                     if (renderer.sharedMaterial.name == "Fridge_Glass") renderer.shadowCastingMode = ShadowCastingMode.Off;
                 }
+                var collision = root.AddComponent<BoxCollider>();
+                collision.center = modelBounds.center;
+                collision.size = modelBounds.size;
                 foreach (var t in root.GetComponentsInChildren<Transform>()) t.gameObject.isStatic = true;
                 PrefabUtility.SaveAsPrefabAsset(root, PrefabPath);
             }
@@ -69,7 +73,10 @@ namespace HorrorGame.Environment.Editor
             var bounds = renderers[0].bounds; foreach (var renderer in renderers.Skip(1)) bounds.Encapsulate(renderer.bounds);
             var record = JsonUtility.FromJson<Manifest>(File.ReadAllText(Root + "DrinksFridge_Manifest.json"));
             var expected = new Vector3(record.size[0], record.size[1], record.size[2]);
-            if ((bounds.size - expected).magnitude > .005f || renderers.Length != 2 || prefab.GetComponentsInChildren<MeshCollider>().Length != 2)
+            var collider = prefab.GetComponent<BoxCollider>();
+            if ((bounds.size - expected).magnitude > .005f || renderers.Length != 2 ||
+                !collider || !collider.enabled || collider.isTrigger ||
+                (collider.size - bounds.size).magnitude > .005f || (collider.center - bounds.center).magnitude > .005f)
                 throw new Exception("Fridge model/collision/scale validation failed.");
             foreach (var renderer in renderers)
             {

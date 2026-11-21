@@ -34,6 +34,10 @@ namespace HorrorEngine
         {
             return new Vector2(Input.GetAxis(m_XPrimaryAxis), Input.GetAxis(m_YPrimaryAxis));
         }
+        public bool IsPrimaryAxisHeld()
+        {
+            return Input.GetAxisRaw(m_XPrimaryAxis) != 0f || Input.GetAxisRaw(m_YPrimaryAxis) != 0f;
+        }
         public Vector2 GetSecondaryAxis()
         {
             return new Vector2(Input.GetAxis(m_XSecondaryAxis), Input.GetAxis(m_YSecondaryAxis));

@@ -88,10 +88,16 @@ namespace HorrorEngine
 
         private void Update()
         {
-            if (settingsScroll != null && Mathf.Abs(Input.mouseScrollDelta.y) > .01f)
+            if (!settingsScroll) return;
+#if ENABLE_INPUT_SYSTEM
+            float scrollY = Mouse.current?.scroll.ReadValue().y ?? 0f;
+#else
+            float scrollY = Input.mouseScrollDelta.y;
+#endif
+            if (Mathf.Abs(scrollY) > .01f)
             {
                 float wheelMaxY = Mathf.Max(0, settingsScroll.content.rect.height - settingsScroll.viewport.rect.height);
-                float nextY = settingsScroll.content.anchoredPosition.y - Input.mouseScrollDelta.y * settingsScroll.scrollSensitivity;
+                float nextY = settingsScroll.content.anchoredPosition.y - scrollY * settingsScroll.scrollSensitivity;
                 settingsScroll.content.anchoredPosition = new Vector2(0, Mathf.Clamp(nextY, 0, wheelMaxY));
             }
         }

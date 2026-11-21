@@ -10,85 +10,49 @@ namespace HorrorEngine
         public bool IsLockingEnabled = true;
         public float MinInputMovementThreshold = 0.5f;
         public float MinInputRotationThreshold = 0.15f;
-        public float InputUnlockAngleThreshold = 15f;
-        public bool AutoBlendToNewCamera;
-        public float LerpTimeAfterCameraChange = 3f;
 
-        private Behaviour m_LockedCam;
-        private Behaviour m_LastRefreshedCam;
-        private Vector2 m_LockedInput;
-        private float m_LastCameraChange;
+        private bool m_GestureInProgress;
+        private Behaviour m_GestureCamera;
+        private Vector3 m_GestureForward;
 
-        public Vector3 CalculateDirFromCamera(Vector3 playerPos, Vector2 input)
+        public Vector3 CalculateDirFromCamera(Vector2 input, bool inputHeld)
         {
-            // Ensure locked input is some direction for angle calculation
-            if (m_LockedInput == Vector2.zero)
-                m_LockedInput = Vector2.up;
-
-            var cam = CameraSystem.Instance.ActiveCamera;
-
-            if (IsLockingEnabled)
+            if (!inputHeld)
             {
-                // Refresh locked input when entering a different camera to prevent an early change
-                if (cam && cam != m_LastRefreshedCam && !m_LockedCam)
-                {
-                    m_LockedInput = input;
-                    m_LockedCam = m_LastRefreshedCam;
-                    m_LastRefreshedCam = cam;
-                    m_LastCameraChange = Time.time;
-                }
-
-                // Clear cam if the stick when the input stops or changes too much
-                float angle = Vector2.Angle(input, m_LockedInput);
-                if (input.sqrMagnitude < MinInputMovementThreshold || angle > InputUnlockAngleThreshold)
-                {
-                    m_LockedCam = null;
-                }
+                Clear();
+                return Vector3.zero;
             }
 
-            // No movement if input is not enough
+            var cameraSystem = CameraSystem.Instance;
+            var output = cameraSystem.MainCamera;
+            Behaviour activeCamera = cameraSystem.ActiveCamera;
+            if (!activeCamera)
+                activeCamera = output;
+
+            if (!m_GestureInProgress || !IsLockingEnabled)
+            {
+                m_GestureInProgress = true;
+                m_GestureCamera = activeCamera;
+            }
+
+            // Follow a moving camera until it cuts away. Keep the last basis through further cuts.
+            if (m_GestureCamera && m_GestureCamera == activeCamera)
+                m_GestureForward = Vector3.ProjectOnPlane(output.transform.forward, Vector3.up).normalized;
+            else
+                m_GestureCamera = null;
+
             if (input.magnitude < MinInputMovementThreshold)
                 return Vector3.zero;
 
-            Transform inputCam = CameraSystem.Instance.MainCamera.transform;
-
-            if (IsLockingEnabled && (m_LockedCam || m_LastRefreshedCam))
-            {
-                inputCam = m_LockedCam ? m_LockedCam.transform : m_LastRefreshedCam.transform;
-            }
-
-            if (inputCam)
-            {
-                Vector3 fwd = inputCam.forward; 
-                
-                if (IsLockingEnabled && AutoBlendToNewCamera && m_LockedCam)
-                {
-                    float t = Mathf.InverseLerp(0, LerpTimeAfterCameraChange, Time.time - m_LastCameraChange);
-                    fwd = Vector3.Lerp(m_LockedCam.transform.forward, m_LastRefreshedCam.transform.forward, t);
-                }
-
-                fwd.y = 0;
-                fwd.Normalize();
-                Vector3 right = -Vector3.Cross(fwd, Vector3.up);
-                right.Normalize();
-
-                // Use locked input when in different cam to avoid incorrect small rotation
-                Vector3 movementDir = right * input.x + fwd * input.y;
-
-                return movementDir;
-            }
-            else
-            {
-                return Vector3.zero;
-            }
+            Vector3 right = Vector3.Cross(Vector3.up, m_GestureForward);
+            return right * input.x + m_GestureForward * input.y;
         }
 
         public void Clear()
         {
-            m_LockedCam = null;
-            m_LastRefreshedCam = null;
-            m_LockedInput = Vector2.zero;
-            m_LastCameraChange = 0f;
+            m_GestureInProgress = false;
+            m_GestureCamera = null;
+            m_GestureForward = Vector3.zero;
         }
     }
 
@@ -100,6 +64,7 @@ namespace HorrorEngine
         [SerializeField] CamLockedInput m_CameraLockedInput;
 
         private ActorStateController m_StateController;
+        private Vector3 m_MovementDirection;
 
         private void Awake()
         {
@@ -113,13 +78,8 @@ namespace HorrorEngine
 
         public float GetFwdRate(PlayerMovement movement)
         {
-            Vector3 moveAxis = movement.InputAxis;
-            if (moveAxis.magnitude > 1f)
-                moveAxis.Normalize();
-
-            Vector3 movementDir = m_CameraLockedInput.CalculateDirFromCamera(movement.transform.position, moveAxis);
-            Debug.DrawLine(movement.transform.position, movement.transform.position + movementDir, Color.magenta);
-            return Vector3.Dot(movement.transform.forward, movementDir);
+            Debug.DrawLine(movement.transform.position, movement.transform.position + m_MovementDirection, Color.magenta);
+            return Vector3.Dot(movement.transform.forward, m_MovementDirection);
         }
 
         public float GetRightRate(PlayerMovement movement)
@@ -150,8 +110,7 @@ namespace HorrorEngine
                 if (movement.InputAxis.magnitude < m_CameraLockedInput.MinInputRotationThreshold)
                     return;
 
-                Vector3 movementDir = m_CameraLockedInput.CalculateDirFromCamera(movement.transform.position, movement.InputAxis);
-                float signedAngle = Vector3.SignedAngle(movement.transform.forward, movementDir, Vector3.up);
+                float signedAngle = Vector3.SignedAngle(movement.transform.forward, m_MovementDirection, Vector3.up);
                 //if (Mathf.Abs(signedAngle) > m_MinAngleRotationThreshold)
                 {
                     sign = Mathf.Sign(signedAngle);
@@ -160,9 +119,15 @@ namespace HorrorEngine
             }
         }
 
+        internal void UpdateCameraInput(Vector2 input, bool inputHeld)
+        {
+            m_MovementDirection = m_CameraLockedInput.CalculateDirFromCamera(Vector2.ClampMagnitude(input, 1f), inputHeld);
+        }
+
         public void ResetMovement()
         {
             m_CameraLockedInput.Clear();
+            m_MovementDirection = Vector3.zero;
         }
     }
 }

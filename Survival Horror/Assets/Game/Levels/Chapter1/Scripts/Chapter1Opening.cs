@@ -64,7 +64,11 @@ namespace HorrorGame.Chapter1
         private void Start()
         {
             if (CourtyardGate) CourtyardGate.TryGetComponent(out courtyardInteraction);
-            if (DepotOfficeButton) DepotOfficeButton.OnInteract.AddListener(UseDepotOfficeButton);
+            if (DepotOfficeButton)
+            {
+                if (DepotOfficeRoom) DepotOfficeButton.CanReachFrom = CanReachDepotOfficeButton;
+                DepotOfficeButton.OnInteract.AddListener(UseDepotOfficeButton);
+            }
             if (DepotCircuit && DepotCircuit.Grid)
             {
                 DepotCircuit.Grid.CircuitChanged += OnDepotCircuitChanged;
@@ -82,7 +86,11 @@ namespace HorrorGame.Chapter1
 
         private void OnDestroy()
         {
-            if (DepotOfficeButton) DepotOfficeButton.OnInteract.RemoveListener(UseDepotOfficeButton);
+            if (DepotOfficeButton)
+            {
+                if (DepotOfficeButton.CanReachFrom == CanReachDepotOfficeButton) DepotOfficeButton.CanReachFrom = null;
+                DepotOfficeButton.OnInteract.RemoveListener(UseDepotOfficeButton);
+            }
             if (DepotCircuit && DepotCircuit.Grid)
             {
                 DepotCircuit.Grid.CircuitChanged -= OnDepotCircuitChanged;
@@ -156,6 +164,9 @@ namespace HorrorGame.Chapter1
             else GetComponent<SavableObjectState>().SaveState();
             return true;
         }
+
+        private bool CanReachDepotOfficeButton(Vector3 position) =>
+            DepotOfficeRoom && DepotOfficeRoom.ContainsWorldPosition(position);
 
         private void UseDepotOfficeButton(IInteractor interactor)
         {
