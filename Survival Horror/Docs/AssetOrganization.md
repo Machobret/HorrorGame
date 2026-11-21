@@ -57,6 +57,8 @@ Horror Engine room discovery uses all outline components on each room, matching 
 
 Horror Engine interactions can filter prompts and activation by player position. The ControlButton prefab checks the front face and an unobstructed path for all child interactions. The guard-office button also uses its room outline. The pistol and flashlight item assets opt into direct inventory equip on Enter or double-click. The equipped flashlight prefab uses the project-owned switch to toggle its beam and battery drain together.
 
+The player interaction detector gives reachable interactions with higher **Focus Priority** first choice of the prompt and Interact input. The Maintenance Schedule uses a scene override of 1 so it takes precedence beside the alley breaker.
+
 Horror Engine camera selection recognizes both the legacy fixed-camera prefabs and current Cinemachine cameras. The shared output camera defaults to the perspective projection used by the fixed-camera preview. Standard controls use the live camera orientation until a cut, then keep the previous movement orientation until all movement input is released. Maintain Distance cameras anchor their travel limit to the authored virtual camera position so the camera can follow again when the player backtracks into the Chapter 1 shutter corridor.
 
 The integrated Chapter 1 tablet pickup unlocks its map after the item splash is dismissed. Inventory ignores the opening key on the frame the screen appears so the same press cannot close it immediately.

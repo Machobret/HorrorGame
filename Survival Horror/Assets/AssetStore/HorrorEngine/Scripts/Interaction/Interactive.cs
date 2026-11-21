@@ -24,6 +24,8 @@ namespace HorrorEngine
     {
         public InteractionData Data;
         public bool ShowPrompt = true;
+        [SerializeField, Tooltip("Higher values take focus when multiple interactions are within reach.")]
+        private int m_FocusPriority;
         public OnInteractionEvent OnInteract;
         public UnityEvent OnFinishInteract;
         public UnityEvent OnDataChanged;
@@ -32,6 +34,7 @@ namespace HorrorEngine
         public Func<Vector3, bool> CanReachFrom { get; set; }
         public bool LastInteractionCompleted { get; private set; }
         public string PromptTextOverride { get; private set; }
+        public int FocusPriority => m_FocusPriority;
         private IInteractionReach m_ParentReach;
 
         private void Awake() => m_ParentReach = GetComponentInParent<IInteractionReach>();

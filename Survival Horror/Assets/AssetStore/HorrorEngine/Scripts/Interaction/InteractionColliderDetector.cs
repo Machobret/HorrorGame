@@ -13,11 +13,14 @@ namespace HorrorEngine
             {
                 if (!m_Player) return base.FocusedInteractive;
                 Interactive best = null;
+                int bestPriority = int.MinValue;
                 float bestDistance = float.PositiveInfinity;
                 bool preferPush = false;
                 foreach (var interaction in m_Interactives)
                 {
                     if (!interaction || !interaction.isActiveAndEnabled) continue;
+                    int priority = interaction.FocusPriority;
+                    if (priority < bestPriority) continue;
                     if (!interaction.IsReachableFrom(m_Player.position)) continue;
                     var crate = interaction.GetComponentInParent<Pushable>();
                     bool isPush = crate && crate.PushInteraction == interaction;
@@ -26,8 +29,10 @@ namespace HorrorEngine
                     offset.y = 0;
                     float facing = Vector3.Dot(m_Player.forward, offset.normalized);
                     float distance = offset.sqrMagnitude + (1f - facing);
-                    if ((!isPush && preferPush) || (isPush == preferPush && distance >= bestDistance)) continue;
+                    if (priority == bestPriority &&
+                        ((!isPush && preferPush) || (isPush == preferPush && distance >= bestDistance))) continue;
                     best = interaction;
+                    bestPriority = priority;
                     bestDistance = distance;
                     preferPush = isPush;
                 }

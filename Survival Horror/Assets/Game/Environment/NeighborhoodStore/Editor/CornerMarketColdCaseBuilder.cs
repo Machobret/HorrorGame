@@ -64,17 +64,13 @@ namespace HorrorGame.Environment.Editor
                         !renderers.SelectMany(r => r.sharedMaterials).Contains(header) ||
                         renderers.SelectMany(r => r.sharedMaterials).Any(m => m != enamel && m != glass && m != header))
                         throw new InvalidOperationException("Cold case requires separate textured body and glass: " + name);
-                    var bounds = renderers[0].bounds;
                     foreach (var renderer in renderers)
                     {
-                        bounds.Encapsulate(renderer.bounds);
                         if (renderer.sharedMaterial != glass) continue;
                         renderer.shadowCastingMode = ShadowCastingMode.Off;
                         PrefabUtility.RecordPrefabInstancePropertyModifications(renderer);
                     }
-                    var collider = root.AddComponent<BoxCollider>();
-                    collider.center = bounds.center;
-                    collider.size = bounds.size;
+                    AddModelCollision(model, renderers);
                     PrefabUtility.SaveAsPrefabAsset(root, prefabPath);
                 }
                 finally
@@ -83,6 +79,40 @@ namespace HorrorGame.Environment.Editor
                 }
             }
             AssetDatabase.SaveAssets();
+        }
+
+        internal static void AddModelCollision(GameObject model, MeshRenderer[] renderers)
+        {
+            Bounds bounds = GetModelBounds(model.transform, renderers);
+            var collider = model.AddComponent<BoxCollider>();
+            collider.center = bounds.center;
+            collider.size = bounds.size;
+        }
+
+        internal static Bounds GetModelBounds(Transform model, MeshRenderer[] renderers)
+        {
+            Bounds bounds = default;
+            bool hasBounds = false;
+            foreach (var renderer in renderers)
+            {
+                Matrix4x4 rendererToModel = model.worldToLocalMatrix * renderer.localToWorldMatrix;
+                Bounds localBounds = renderer.localBounds;
+                Vector3 center = rendererToModel.MultiplyPoint3x4(localBounds.center);
+                Vector3 x = rendererToModel.MultiplyVector(Vector3.right * localBounds.extents.x);
+                Vector3 y = rendererToModel.MultiplyVector(Vector3.up * localBounds.extents.y);
+                Vector3 z = rendererToModel.MultiplyVector(Vector3.forward * localBounds.extents.z);
+                Vector3 extents = new Vector3(
+                    Mathf.Abs(x.x) + Mathf.Abs(y.x) + Mathf.Abs(z.x),
+                    Mathf.Abs(x.y) + Mathf.Abs(y.y) + Mathf.Abs(z.y),
+                    Mathf.Abs(x.z) + Mathf.Abs(y.z) + Mathf.Abs(z.z));
+                var rendererBounds = new Bounds(center, extents * 2f);
+                if (hasBounds)
+                    bounds.Encapsulate(rendererBounds);
+                else
+                    bounds = rendererBounds;
+                hasBounds = true;
+            }
+            return bounds;
         }
 
         static Material GetMaterial(string name, string sourceName, Texture2D atlas)
