@@ -17,6 +17,7 @@ namespace HorrorGame.Enemies
         [SerializeField, Min(.1f)] private float recoveryTime = .26f;
 
         private bool triggered;
+        public bool HasTriggered => triggered;
 
         private void Reset() => GetComponent<BoxCollider>().isTrigger = true;
 

@@ -36,7 +36,6 @@ namespace HorrorGame.Chapter1
         private UIMap tablet;
         private int firstOpened = -1;
         private bool keyTaken, noteTaken, monsterRevealed, monsterDefeated;
-        internal bool MutantEncounterTriggered => monsterRevealed || monsterDefeated;
         private MutantCeilingEscape stagedMutant;
         private bool HasMonsterEncounter => MonsterPrefab && MonsterSpawns.Length == 2 && MonsterSpawns[0] && MonsterSpawns[1];
         private bool UsesOpeningOrder => shutters[0] && shutters[1];

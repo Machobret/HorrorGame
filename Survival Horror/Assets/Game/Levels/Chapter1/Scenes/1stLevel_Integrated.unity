@@ -35308,7 +35308,7 @@ MonoBehaviour:
   SlamSound: {fileID: 0}
   shutterTrigger: {fileID: 710030103}
   warningBar: {fileID: 0}
-  mutantEncounter: {fileID: 1460637261}
+  mutantJumpZone: {fileID: 1848003936}
   crushedCrateModel: {fileID: 919132149155446097, guid: 166060ee6ba51554d9888a8a7fc62a9f, type: 3}
   crushedCrateMaterial: {fileID: 2100000, guid: 5cf282e0e7e87bb4bb1dae6d88a39197, type: 2}
   crateBreakEffect: {fileID: 2944496999592498191, guid: 099dc568afc9ce4419dd446dc898bdef, type: 3}
@@ -92350,6 +92350,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16f14751741f42c0b72c63aafa82d750, type: 3}
+--- !u!114 &1848003936 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1003, guid: 16f14751741f42c0b72c63aafa82d750, type: 3}
+  m_PrefabInstance: {fileID: 1848003934}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50f035ceaca7445fb2e5396e4f3c7825, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
 --- !u!1 &1849505287
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Globalization;
 using Game.Environment;
 using HorrorEngine;
+using HorrorGame.Enemies;
 using HorrorGame.Environment;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ namespace HorrorGame.Chapter1
         public AudioSource SlamSound;
         [SerializeField] private DeviceIndicator shutterTrigger;
         [SerializeField] private Light warningBar;
-        [SerializeField] private RandomShutterKeyPuzzle mutantEncounter;
+        [SerializeField] private MutantJumpOutZone mutantJumpZone;
         [SerializeField] private GameObject crushedCrateModel;
         [SerializeField] private Material crushedCrateMaterial;
         [SerializeField] private GameObject crateBreakEffect;
@@ -26,14 +27,7 @@ namespace HorrorGame.Chapter1
         [SerializeField] private BoxCollider breakZone;
 
         public bool Jammed => jammedLift >= 0f;
-        private bool MutantTriggered
-        {
-            get
-            {
-                var encounter = mutantEncounter ? mutantEncounter : RandomShutterKeyPuzzle.TabletBayPuzzle;
-                return encounter && encounter.gameObject.scene == gameObject.scene && encounter.MutantEncounterTriggered;
-            }
-        }
+        private bool MutantTriggered => jumpZoneArmed || (mutantJumpZone && mutantJumpZone.HasTriggered);
         protected override bool PassageAvailable => Jammed && !failed && !MutantTriggered;
         protected override bool ShowsInteraction => !failed && !MutantTriggered;
         protected override float PromptDepth => 2.6f;
@@ -55,6 +49,7 @@ namespace HorrorGame.Chapter1
         private GameObject debris;
         private bool playerWasInBreakZone;
         private bool breakZoneArmed;
+        private bool jumpZoneArmed;
 
         // Tablet input controls the shutter even while the map freezes physics and actors.
         private static float CycleDeltaTime => PauseController.Exists && PauseController.Instance.Context is UIMap
@@ -157,7 +152,9 @@ namespace HorrorGame.Chapter1
             if (armed != breakZoneArmed)
             {
                 breakZoneArmed = armed;
+                jumpZoneArmed = armed;
                 base.Refresh();
+                if (armed) GetComponent<SavableObjectState>()?.SaveState();
             }
             if (PauseController.Exists && PauseController.Instance.IsPaused) return;
             var player = GameManager.Exists ? GameManager.Instance.Player : null;
@@ -380,6 +377,8 @@ namespace HorrorGame.Chapter1
         private struct JamState
         {
             public bool Failed;
+            public bool JumpZoneArmed;
+            public bool HasCratePosition;
             public float Lift;
             public Vector3 CratePosition;
         }
@@ -388,11 +387,16 @@ namespace HorrorGame.Chapter1
         {
             if (failed)
                 return JsonUtility.ToJson(new JamState
-                    { Failed = true, Lift = -1f, CratePosition = jammedCratePosition.GetValueOrDefault() });
+                    { Failed = true, JumpZoneArmed = true, HasCratePosition = jammedCratePosition.HasValue,
+                        Lift = -1f, CratePosition = jammedCratePosition.GetValueOrDefault() });
             if (jammedCratePosition.HasValue)
-                return JsonUtility.ToJson(new JamState { Lift = jammedLift, CratePosition = jammedCratePosition.Value });
+                return JsonUtility.ToJson(new JamState { Lift = jammedLift, JumpZoneArmed = jumpZoneArmed,
+                    HasCratePosition = true, CratePosition = jammedCratePosition.Value });
             if (caughtCrateLift > 0f && RequiredCrate)
-                return JsonUtility.ToJson(new JamState { Lift = caughtCrateLift, CratePosition = RequiredCrate.transform.localPosition });
+                return JsonUtility.ToJson(new JamState { Lift = caughtCrateLift, JumpZoneArmed = jumpZoneArmed,
+                    HasCratePosition = true, CratePosition = RequiredCrate.transform.localPosition });
+            if (jumpZoneArmed)
+                return JsonUtility.ToJson(new JamState { Lift = jammedLift, JumpZoneArmed = true });
             return jammedLift.ToString(CultureInfo.InvariantCulture);
         }
 
@@ -402,14 +406,23 @@ namespace HorrorGame.Chapter1
             collapse = null;
             bool wasFailed = failed;
             failed = false;
+            jumpZoneArmed = false;
+            breakZoneArmed = false;
             caughtCrateLift = 0f;
             jammedCratePosition = null;
             if (!string.IsNullOrEmpty(savedData) && savedData.StartsWith("{"))
             {
                 var state = JsonUtility.FromJson<JamState>(savedData);
-                failed = state.Failed;
+                jumpZoneArmed = state.JumpZoneArmed;
+                failed = state.Failed && jumpZoneArmed;
                 jammedLift = state.Lift;
-                jammedCratePosition = state.CratePosition;
+                if (state.HasCratePosition || state.Lift >= 0f)
+                    jammedCratePosition = state.CratePosition;
+                if (state.Failed && !failed && RequiredCrate)
+                {
+                    RequiredCrate.transform.localPosition = state.CratePosition;
+                    RequiredCrate.gameObject.SetActive(true);
+                }
             }
             else if (!float.TryParse(savedData, NumberStyles.Float, CultureInfo.InvariantCulture, out jammedLift))
                 jammedLift = -1f;
