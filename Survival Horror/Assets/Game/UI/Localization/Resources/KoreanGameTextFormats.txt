@@ -21,3 +21,17 @@
 ^FIELD RECORD\n\nFILES COLLECTED: (\d+)    READ: (\d+)\n\nSERVICE HISTORY\n(?<log>[\s\S]*)$|현장 기록\n\n획득한 문서: $1    읽은 문서: $2\n\n정비 이력\n{log}
 ^★ (?<label>.+)$|★ {label}
 ^(\d+) \.No Data$|$1. 데이터 없음
+^WASD: PAN  \x7C  CLICK \+ DRAG: PAN  \x7C  WHEEL: ZOOM  \x7C  UP or DOWN: FLOOR  \x7C  ESC: CLOSE$|WASD 또는 클릭 후 드래그: 이동 / 휠: 확대·축소 / ↑↓: 층 변경 / ESC: 닫기
+^SELECT A CIRCUIT  \x7C  CHECK LOAD  \x7C  ESC: CLOSE$|회로 선택 / 부하 확인 / ESC: 닫기
+^WHEEL: SCROLL  \x7C  ESC: CLOSE$|휠: 스크롤 / ESC: 닫기
+^(\d+ / \d+   )(?<label>.+)$|$1{label}
+^(?<label>.*\S) \[ON\]$|{label} [켜짐]
+^(?<label>.*\S) \[OFF\]$|{label} [꺼짐]
+^(?<label>.*\S) \[NO POWER\]$|{label} [전원 없음]
+^(?<label>.*\S) \[OLD / NO SERVICE\]$|{label} [노후 / 사용 불가]
+^(?<label>.*\S) \[CONNECTION LOST\]$|{label} [연결 끊김]
+^(?<label>.*\S) \[QUEUED ON\]$|{label} [켜기 예약]
+^(?<label>.*\S) \[QUEUED OFF\]$|{label} [끄기 예약]
+^(?<label>.+)   /   \[ON\]$|{label}   /   [켜짐]
+^(?<label>.+)   /   \[OFF\]$|{label}   /   [꺼짐]
+^Need an electrician to check the storage units rented by:\n\n([\s\S]+)$|다음 임차인의 보관함을 점검할 전기 기사가 필요합니다.\n\n$1

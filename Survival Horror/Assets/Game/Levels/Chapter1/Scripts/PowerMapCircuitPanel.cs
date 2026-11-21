@@ -431,8 +431,8 @@ namespace HorrorGame.Chapter1
                 style.active.textColor = style.normal.textColor;
                 if (IsCircuitOutOfService(marker.CircuitId))
                 {
-                    float width = style.CalcSize(new GUIContent(GameText.Translate(OutOfServiceLabel))).x + 12f * textScale;
-                    DrawClippedLabel(StatusRect(idleScreen, mapBounds, 8f * textScale, 13f * textScale, width),
+                    float statusWidth = style.CalcSize(new GUIContent(GameText.Translate(OutOfServiceLabel))).x + 12f * textScale;
+                    DrawClippedLabel(StatusRect(idleScreen, mapBounds, 8f * textScale, 13f * textScale, statusWidth),
                         clip, legendBounds, OutOfServiceLabel, style);
                     continue;
                 }
@@ -449,10 +449,10 @@ namespace HorrorGame.Chapter1
                 style.normal.textColor = new Color(1f, .35f, .32f);
                 style.hover.textColor = style.normal.textColor;
                 style.active.textColor = style.normal.textColor;
-                string label = outOfService ? OutOfServiceLabel : ConnectionLostLabel;
-                float alertWidth = style.CalcSize(new GUIContent(GameText.Translate(label))).x + 12f * textScale;
+                string alertLabel = outOfService ? OutOfServiceLabel : ConnectionLostLabel;
+                float alertWidth = style.CalcSize(new GUIContent(GameText.Translate(alertLabel))).x + 12f * textScale;
                 var alert = StatusRect(screen, mapBounds, 17f * textScale, 19f * textScale, alertWidth);
-                DrawClippedLabel(alert, clip, legendBounds, label, style);
+                DrawClippedLabel(alert, clip, legendBounds, alertLabel, style);
                 return;
             }
 

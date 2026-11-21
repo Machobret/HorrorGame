@@ -44,7 +44,7 @@ namespace HorrorGame.Chapter1
             texture.Apply(false, false);
             sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * .5f, 100f, 0, SpriteMeshType.FullRect);
 
-            string intro = GameText.Translate((string)template.Text);
+            string intro = template.Text.IsLocalized ? (string)template.Text : template.Text.Unlocalized;
             if (!useTenants)
             {
                 return new List<DocumentPage>

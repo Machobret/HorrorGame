@@ -182,7 +182,7 @@ namespace HorrorGame.UI
                     : "Close the tablet and turn on the alley breaker.");
             Color accent = guidePage == GuidePages.Length - 1 ? new Color(1f, .34f, .27f) : ObjectiveGold;
             guideStripe.color = guideHeader.color = accent;
-            GameText.SetLabel(guideHeader, (guidePage + 1) + " / " + GuidePages.Length + "   " + GameText.Translate(page.Title));
+            GameText.SetLabel(guideHeader, (guidePage + 1) + " / " + GuidePages.Length + "   " + page.Title);
             GameText.SetLabel(guideBody, page.Copy);
             GameText.SetLabel(guideButtonLabel, guidePage == GuidePages.Length - 1 ? "E: DONE" : "E: NEXT");
         }
@@ -398,8 +398,8 @@ namespace HorrorGame.UI
         public void ToggleCircuit(string id)
         {
             if(!Grid || !Network || !Network.CanAccessCircuit(id) || Grid.IsShutdown)return;
-            if (!Network.HasCircuitService(id)) { PowerHelp.text = GameText.Translate(PowerMapCircuitPanel.ConnectionLostLabel); return; }
-            if (Network.IsCircuitOutOfService(id)) { PowerHelp.text = GameText.Translate(PowerMapCircuitPanel.OutOfServiceLabel); return; }
+            if (!Network.HasCircuitService(id)) { PowerHelp.text = PowerMapCircuitPanel.ConnectionLostLabel; return; }
+            if (Network.IsCircuitOutOfService(id)) { PowerHelp.text = PowerMapCircuitPanel.OutOfServiceLabel; return; }
             if (!Network.HasControlPower(id)) { PowerHelp.text = GameText.Translate("No power"); return; }
             bool changed=Network.TryToggleCircuit(id);RefreshPower();
             if (Network.SequencePuzzle && Network.SequencePuzzle.ShowingWrongAnswer)
@@ -423,7 +423,7 @@ namespace HorrorGame.UI
                     rows[i].interactable = false;
                     rows[i].GetComponent<Image>().color = normal;
                     rows[i].GetComponentInChildren<TMP_Text>().text = circuit.DisplayName + " [" +
-                        GameText.Translate(PowerMapCircuitPanel.OutOfServiceLabel) + "]";
+                        PowerMapCircuitPanel.OutOfServiceLabel + "]";
                     continue;
                 }
                 if (!Network.HasCircuitService(circuit.Id))
@@ -431,7 +431,7 @@ namespace HorrorGame.UI
                     rows[i].interactable = false;
                     rows[i].GetComponent<Image>().color = normal;
                     rows[i].GetComponentInChildren<TMP_Text>().text = circuit.DisplayName + " [" +
-                        GameText.Translate(PowerMapCircuitPanel.ConnectionLostLabel) + "]";
+                        PowerMapCircuitPanel.ConnectionLostLabel + "]";
                     continue;
                 }
                 bool on=Network.IsCircuitShownPowered(circuit.Id);bool trips=Grid.EnforceCapacityLimit && !on && Grid.CurrentConsumption+circuit.Consumption>Grid.MaximumCapacity;
@@ -440,7 +440,7 @@ namespace HorrorGame.UI
                 if (Network.TryGetQueuedCircuit(circuit.Id, out bool queuedOn))
                 {
                     rows[i].GetComponentInChildren<TMP_Text>().text = circuit.DisplayName + " [" +
-                        GameText.Translate(queuedOn ? "QUEUED ON" : "QUEUED OFF") + "]";
+                        (queuedOn ? "QUEUED ON" : "QUEUED OFF") + "]";
                     PowerHelp.text = GameText.Translate("Shutter changes apply when you close the tablet.");
                 }
                 var opening = Chapter1Opening.Instance;
@@ -449,7 +449,7 @@ namespace HorrorGame.UI
                     if (opening.DepotMotor)
                     {
                         string state = !opening.DepotControlHasPower ? "NO POWER" : opening.DepotHasPower ? "ON" : "OFF";
-                        rows[i].GetComponentInChildren<TMP_Text>().text = GameText.Translate("Main shutter power") + " [" + GameText.Translate(state) + "]";
+                        rows[i].GetComponentInChildren<TMP_Text>().text = "Main shutter power [" + state + "]";
                     }
                     else
                     {

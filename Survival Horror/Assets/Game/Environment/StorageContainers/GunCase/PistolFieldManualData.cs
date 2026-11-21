@@ -23,8 +23,8 @@ namespace HorrorGame.Items
 
 #if ENABLE_INPUT_SYSTEM
         private static string BindingRow(PlayerActions.GameplayActions controls, string group, string label) =>
-            $"<b>{label}</b>   Aim {Binding(controls.Aiming, group)}   Fire {Binding(controls.Attack, group)}   " +
-            $"Reload {Binding(controls.Reload, group)}";
+            $"<b>{GameText.Translate(label)}</b>   {GameText.Translate("Aim")} {Binding(controls.Aiming, group)}   " +
+            $"{GameText.Translate("Fire")} {Binding(controls.Attack, group)}   {GameText.Translate("Reload")} {Binding(controls.Reload, group)}";
 
         private static string Binding(InputAction action, string group)
         {
