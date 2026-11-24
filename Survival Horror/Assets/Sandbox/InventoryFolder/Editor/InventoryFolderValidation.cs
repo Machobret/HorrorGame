@@ -41,7 +41,7 @@ namespace HorrorGame.Tests
         public static void BuildAndRun()
         {
             if(!Application.isBatchMode)throw new Exception("Use isolated validation editor");
-            InventoryFolderBuilder.Build();EditorSceneManager.OpenScene("Assets/Game/Levels/StorageFacility/Scenes/StorageFacility_Blockout.unity");SessionState.SetBool(Pending,true);EditorApplication.EnterPlaymode();
+            InventoryFolderBuilder.Build(useReporterMenu:false);EditorSceneManager.OpenScene("Assets/Game/Levels/StorageFacility/Scenes/StorageFacility_Blockout.unity");SessionState.SetBool(Pending,true);EditorApplication.EnterPlaymode();
         }
         static void Check(bool value,string message){if(!value)throw new Exception(message);Debug.Log("INVENTORY PASS: "+message);}
         static void Tick()

@@ -88,6 +88,7 @@ namespace HorrorEngine
             else
             {
                 m_Image.sprite = item.Image;
+                m_Image.preserveAspect = true;
                 m_Text.text = item.Name;
             }
 
@@ -100,6 +101,7 @@ namespace HorrorEngine
         internal void ShowDocumentPickup(DocumentData document, System.Action onDismissed)
         {
             m_Image.sprite = document.Image;
+            m_Image.preserveAspect = true;
             m_Text.text = document.Name;
             BeginSplash(onDismissed, false);
             if (m_ShowClip) UIManager.Get<UIAudio>().Play(m_ShowClip);

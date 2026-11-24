@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28ff978f58ad4d3499409819c3a83208, type: 3}
+  m_Name: ReporterMenuPreview
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorGame.UI.ReporterMenuArt
+  PressCard: {fileID: 21300000, guid: 84424f318b00b8f4d84906e90fc58dec, type: 3}
+  Satchel: {fileID: 21300000, guid: 45ff4d2947324348eeb0ec39359652f0, type: 3}
+  LedgerPage: {fileID: 21300000, guid: cbf614aee82e82642fdb38099e891eef, type: 3}
+  Category: {fileID: 21300000, guid: be381c3da1909ccf078cda5002e2b28a, type: 3}
+  Selection: {fileID: 21300000, guid: 7229be345b594eeff3da7547efd5970a, type: 3}
+  ActionPaper: {fileID: 21300000, guid: 98ca27ba7892a16538f8e9f9d6e5894c, type: 3}
+  ConditionBadge: {fileID: 21300000, guid: 0f5c24ffa5691e5a83c0651e4751f684, type: 3}
+  EquippedShadow: {fileID: 21300000, guid: d92d81e8f38237cf0c6d0f44b9762fbd, type: 3}
+  ItemOutline: {fileID: 2100000, guid: 3bf4a1c7cbcf45a18426a693c30520e1, type: 2}
+  Pin: {fileID: 21300000, guid: 6a679cb6435fad6c1f9891e10bd3896f, type: 3}
+  InterfaceFont: {fileID: 11400000, guid: b58f9d93e7b4cf448bd41d2b73b66dd1, type: 2}
+  previewSprites:
+  - Original: {fileID: 21300000, guid: 2cce0d26882f4cf43b6864d1ae58c642, type: 3}
+    Preview: {fileID: 21300000, guid: d8f46c34bf1c7f1e1de857c43d3c489c, type: 3}
+  - Original: {fileID: 21300000, guid: c6133451564f747ff8a029aca19e116a, type: 3}
+    Preview: {fileID: 21300000, guid: c5ebd0d602cc97894b52f91981c88306, type: 3}
+  - Original: {fileID: 21300000, guid: 17a1c4fae77b0e7488f9803dfd9de664, type: 3}
+    Preview: {fileID: 21300000, guid: 4efb8af4a6fb124a6a4bf3baffd1ce1b, type: 3}
+  - Original: {fileID: 21300000, guid: c7cd98953a6d57e40976ebebc8044b71, type: 3}
+    Preview: {fileID: 21300000, guid: c0996006972deb49a151d8ed68fd090f, type: 3}
+  - Original: {fileID: 21300000, guid: 2e8f8b0d35b5aad4ea7eae3c41de229d, type: 3}
+    Preview: {fileID: 21300000, guid: 103b12ce5739f7fd192a9c3b355e09eb, type: 3}
+  - Original: {fileID: 21300000, guid: ed3f1dca25b9f1d468d379660ef33d79, type: 3}
+    Preview: {fileID: 21300000, guid: 140e9ab5b705dfba69a29382fb6af109, type: 3}
+  conditionPortraits:
+  - Original: {fileID: 21300000, guid: 8b6ea782b292404d98639b5ccf5e57d5, type: 3}
+    Healthy: {fileID: 21300000, guid: e813cd7285eb41b8b2156c091cb7f853, type: 3}
+    Critical: {fileID: 21300000, guid: aba008b869fc4427b5f7588bb9aa9e8f, type: 3}

@@ -2,7 +2,7 @@
   "source": "User-supplied cabinet, lever, and antenna FBXs with the project atlas.",
   "currentModels": {
     "cabinet": "Revised/SM_ElectricityBox_01.fbx",
-    "lever": "Revised/SM_ElectricityBox_Lever_01.fbx",
+    "lever": "Revised/SM_ElectricityBox_PrefabLever_01.fbx",
     "antennaSource": "../Props.blend",
     "antennaObject": "Cube.004",
     "exportRecipe": "Tools/Environment/BuildIntegratedBreaker.cs",
@@ -37,6 +37,12 @@
       "source": "Revised/SM_ElectricityBox_Lever_01.fbx",
       "unityAsset": "Assets/Game/Environment/ElectricalBox/ElectricityBox_Lever_Model.fbx",
       "sha256": "e93715562e1340ba25b763600f25b21a7eaa59c782b5d026ccb1e748b80f1476"
+    },
+    {
+      "source": "Revised/SM_ElectricityBox_PrefabLever_01.fbx",
+      "unityAsset": "Assets/Game/Environment/ElectricalBox/ElectricityBox_PrefabLever.fbx",
+      "sha256": "b7329b05356ab5ee2f0d4637c630438d155fc6b4ee19ac0680c5b9f8f81552c0",
+      "derivation": "Reversed the face winding and imported normals on the 24-face grip island of SM_ElectricityBox_Lever_01.fbx. The original lever model is referenced by the main-menu backdrop."
     }
   ],
   "prefab": "Assets/Game/Environment/ElectricalBox/ElectricityBox.prefab",

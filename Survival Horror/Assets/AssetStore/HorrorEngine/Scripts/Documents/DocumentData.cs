@@ -79,6 +79,9 @@ namespace HorrorEngine
         public bool ShowImageOnRead = true;
         public bool ShowPageCount = true;
 
+        [Tooltip("Optional category for this document in the reporter's ledger.")]
+        public string LedgerSection;
+
         [HideInInspector]
         public List<DocumentPage> Pages;
 

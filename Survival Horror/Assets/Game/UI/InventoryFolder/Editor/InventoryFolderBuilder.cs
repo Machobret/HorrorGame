@@ -26,7 +26,9 @@ namespace HorrorGame.UI.Editor
             material.SetFloat("_Saturation",saturation);material.SetColor("_Tint",tint);EditorUtility.SetDirty(material);return material;
         }
         [MenuItem("Horror Game/UI/Build Folder Inventory")]
-        public static void Build()
+        public static void Build() => Build(useReporterMenu: true);
+
+        internal static void Build(bool useReporterMenu)
         {
             Directory.CreateDirectory(Root);AssetDatabase.Refresh();
             paperFont=FontAsset();terminalFont=AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/Game/UI/Tablet/Tablet_3270Font.asset");
@@ -41,6 +43,9 @@ namespace HorrorGame.UI.Editor
             {
                 root.GetComponent<CanvasScaler>().referenceResolution=new Vector2(1280,720);
                 var ui=new SerializedObject(root.GetComponent<UIInventory>());
+                ui.FindProperty("m_UseReporterMenu").boolValue=useReporterMenu;
+                ui.FindProperty("m_ReporterTabletIcon").objectReferenceValue =
+                    AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Game/Levels/Chapter1/Assets/MapTablet_Pickup.png");
                 SetMenuAudio(ui);
                 var content=(GameObject)ui.FindProperty("m_Content").objectReferenceValue;
                 foreach(var text in root.GetComponentsInChildren<TMP_Text>(true))Style(text,paperFont,Ink,20);

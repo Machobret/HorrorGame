@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a543205dd590b764295581a5ae2883d4, type: 3}
+  m_Name: InterviewLog
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorEngine.DocumentData
+  UniqueId: 5a543b00-b3e1-4b8d-92e2-3a5e89c75046
+  Name:
+    IsLocalized: 0
+    Unlocalized: Interview Log
+  Image:
+    IsLocalized: 0
+    Unlocalized: {fileID: 21300000, guid: c6efa380b12e124375bdb406f26c2ff8, type: 3}
+  ShowImageOnRead: 1
+  ShowPageCount: 1
+  LedgerSection: Field Notes
+  Pages:
+  - Text:
+      IsLocalized: 0
+      Unlocalized: The caretaker remembers a delivery arriving just before the lamps came on.
+    Image:
+      IsLocalized: 0
+      Unlocalized: {fileID: 0}
+    Caption:
+      IsLocalized: 0
+      Unlocalized:
+    Artwork: {fileID: 0}
+    ChangeImageColor: 0
+    ImageColor: {r: 1, g: 1, b: 1, a: 1}
+  - Text:
+      IsLocalized: 0
+      Unlocalized: Follow up with the evening crew. Ask whether anybody kept a copy of the delivery schedule.
+    Image:
+      IsLocalized: 0
+      Unlocalized: {fileID: 0}
+    Caption:
+      IsLocalized: 0
+      Unlocalized:
+    Artwork: {fileID: 0}
+    ChangeImageColor: 0
+    ImageColor: {r: 1, g: 1, b: 1, a: 1}

@@ -66,7 +66,7 @@ namespace HorrorEngine
         private HorrorGame.UI.TabletWorkspace m_Workspace;
         private HorrorGame.UI.TabletDisplayFilter m_DisplayFilter;
         public bool IsTabletLoading => m_Startup && m_Startup.Screen && m_Startup.Screen.gameObject.activeInHierarchy;
-        public bool AllowMapNavigation { get; set; }=true;
+        public bool AllowMapNavigation { get; set; } = true;
         public bool HasTabletWorkspace { get; set; }
         public MapData CurrentMap => m_CurrentMap;
 
@@ -179,9 +179,6 @@ namespace HorrorEngine
             MapClickedThisFrame = false;
             if (IsTabletLoading || IsMapDirectoryOpen || !AllowMapNavigation)
                 m_MapPointerHeld = false;
-            if (MapRenderer.Exists && MapRenderer.Instance.RenderTexture != null && m_MapImage.texture != MapRenderer.Instance.RenderTexture)
-                SetMapTexture(MapRenderer.Instance.RenderTexture);
-
             if (IsTabletLoading)
             {
                 m_Input.ConsumeScrollDelta();
@@ -190,19 +187,12 @@ namespace HorrorEngine
             if (m_Workspace && m_Workspace.IsControlsGuideOpen)
             {
                 m_Input.ConsumeScrollDelta();
-                if (m_Input.IsCancelDown() || m_Input.IsToggleMapDown()) Hide();
+                if (m_Input.IsCancelDown()) Hide();
                 else if (m_Input.IsConfirmDown()) m_Workspace.AdvanceControlsGuide();
                 return;
             }
-            if (AllowMapNavigation && m_Input.IsToggleMapListDown())
-            {
-                if (HasTabletWorkspace)
-                {
-                    OpenInventory();
-                    return;
-                }
+            if (!HasTabletWorkspace && AllowMapNavigation && m_Input.IsToggleMapListDown())
                 ShowMapList();
-            }
 
             if (m_MapList.gameObject.activeSelf)
             {
@@ -220,7 +210,7 @@ namespace HorrorEngine
                     UpdateFloorChange();
             }
 
-            if (m_Input.IsCancelDown() || m_Input.IsToggleMapDown())
+            if (m_Input.IsCancelDown())
             {
                 Hide();
                 return;
@@ -254,6 +244,11 @@ namespace HorrorEngine
             UpdateCrosshairPosition();
         }
 
+        private void LateUpdate()
+        {
+            if (MapRenderer.Exists) RefreshMapTexture(MapRenderer.Instance);
+        }
+
         // --------------------------------------------------------------------
 
         private void ShowMapList()
@@ -270,10 +265,11 @@ namespace HorrorEngine
         public void ToggleMapDirectory() => ShowMapList();
         public void OpenInventory()
         {
-            var inventory = UIManager.Get<UIInventory>(true);
-            if (!inventory) return;
-            Hide();
-            inventory.Show();
+            GetComponentInParent<UIInputListener>().OpenInventory();
+        }
+        internal void OpenMapPage()
+        {
+            if (m_Workspace && m_Workspace.Page != 0) m_Workspace.ShowMap();
         }
         public void CloseDirectory(){m_MapList.gameObject.SetActive(false);UpdateMapViewport();}
 
@@ -401,8 +397,9 @@ namespace HorrorEngine
 
             if (MapRenderer.Exists && mapIsKnown)
             {
-                SetMapTexture(MapRenderer.Instance.RenderTexture);
                 m_MapImage.gameObject.SetActive(true);
+                UpdateMapViewport();
+                RefreshMapTexture(MapRenderer.Instance);
                 CreateCrosshair();
                 UpdateCrosshairPosition();
 
@@ -436,9 +433,29 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
+        private void RefreshMapTexture(MapRenderer renderer)
+        {
+            if (HasTabletWorkspace && m_MapImage.isActiveAndEnabled && m_MapImage.canvas &&
+                TryProjectMapViewport(Vector2.zero, false, out var bottomLeft) &&
+                TryProjectMapViewport(Vector2.one, false, out var topRight))
+            {
+                Vector2 size = topRight - bottomLeft;
+                if (size.x >= 1f && size.y >= 1f) renderer.SetViewportSize(size);
+            }
+
+            if (renderer.RenderTexture && m_MapImage.texture != renderer.RenderTexture)
+                SetMapTexture(renderer.RenderTexture);
+        }
+
         private void SetMapTexture(RenderTexture renderTexture)
         {
             m_MapImage.texture = renderTexture;
+            if (HasTabletWorkspace)
+            {
+                // The tablet samples a target that already fits its viewport.
+                m_MapImage.uvRect = new Rect(0, 0, 1, 1);
+                return;
+            }
             // Avoid bilinear sampling of the render texture's transient outer
             // clear pixels when its size changes with the display resolution.
             float insetX = 1.5f / renderTexture.width;
@@ -448,7 +465,7 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
-        private void Hide()
+        internal void Hide()
         {
             PauseController.Instance.Resume(this);
             gameObject.SetActive(false);
@@ -467,6 +484,7 @@ namespace HorrorEngine
 
         private void OnDisable()
         {
+            if (HasTabletWorkspace && MapRenderer.Exists) MapRenderer.Instance.ClearViewportSize();
             m_MapPointerHeld = false;
             MapClickedThisFrame = false;
             if (!m_PersistentCursorAcquired) return;
@@ -635,11 +653,7 @@ namespace HorrorEngine
             return !m_UIContext.IsBlocked();
         }
 
-        public void OnItemsCategory()
-        {
-            Hide();
-            UIManager.Get<UIInventory>().Show();
-        }
+        public void OnItemsCategory() => OpenInventory();
 
         public void OnFilesCategory()
         {

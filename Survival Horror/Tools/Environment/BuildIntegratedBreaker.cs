@@ -18,16 +18,16 @@ public static class BuildIntegratedBreaker
     private const string Chapter = "Assets/Game/Levels/Chapter1/";
     private const string BoxPrefab = Box + "ElectricityBox.prefab";
     private const string CabinetModel = Box + "ElectricityBox_Model.fbx";
-    private const string LeverModel = Box + "ElectricityBox_Lever_Model.fbx";
+    private const string LeverModel = Box + "ElectricityBox_PrefabLever.fbx";
     private const string IntegratedScene = Chapter + "Scenes/1stLevel_Integrated.unity";
 
     public static void Run()
     {
         string source = System.Environment.GetEnvironmentVariable("BREAKER_ASSET_SOURCE");
         string cabinet = Path.Combine(source, "SM_ElectricityBox_01.fbx");
-        string lever = Path.Combine(source, "SM_ElectricityBox_Lever_01.fbx");
+        string lever = Path.Combine(source, "SM_ElectricityBox_PrefabLever_01.fbx");
         if (!File.Exists(cabinet) || !File.Exists(lever))
-            throw new FileNotFoundException("Supply the revised cabinet and lever before building.");
+            throw new FileNotFoundException("Supply the revised cabinet and SM_ElectricityBox_PrefabLever_01.fbx before building.");
 
         BuildPrefab(cabinet, lever, ConfigureLeverPrompt());
         WireScene();

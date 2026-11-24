@@ -131,6 +131,30 @@ namespace HorrorEngine
             return m_InputAxis;
         }
 
+        // Null leaves stick gesture detection to the movement code.
+        internal bool? GetPrimaryAxisButtonPress()
+        {
+            if (m_Actions == null)
+                return null;
+
+            var action = m_Actions.Gameplay.PrimaryAxis;
+            var activeControl = action.activeControl;
+            bool digital = activeControl is ButtonControl or DpadControl;
+            if (!action.enabled || (activeControl != null && !digital))
+                return null;
+
+            // Check bound buttons directly so releasing one key or cancelling two directions is unambiguous.
+            foreach (var control in action.controls)
+            {
+                if (control is ButtonControl { wasPressedThisFrame: true } ||
+                    control is DpadControl dpad && (dpad.up.wasPressedThisFrame || dpad.down.wasPressedThisFrame ||
+                    dpad.left.wasPressedThisFrame || dpad.right.wasPressedThisFrame))
+                    return true;
+            }
+
+            return digital ? false : (bool?)null;
+        }
+
         public bool IsPrimaryAxisHeld()
         {
             if (m_InputAxis != Vector2.zero)

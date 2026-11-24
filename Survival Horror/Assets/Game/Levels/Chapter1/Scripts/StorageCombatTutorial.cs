@@ -53,7 +53,7 @@ namespace HorrorGame.Chapter1
             yield return null;
             yield return new WaitUntil(() => UIManager.Exists && GameManager.Exists && GameManager.Instance.IsPlaying &&
                 (!PauseController.Exists || !PauseController.Instance.IsPaused));
-            PlayerMonologue.Show("Select the flashlight in the inventory. Press Enter or double-click to equip it. Press F to turn it on or off. The battery only drains while it is on.", hold: 9f);
+            PlayerMonologue.Show("Select the flashlight in Inventory. Press E or Enter to open its actions, then choose Equip. Press F to toggle the light. The battery drains only while it's on.", hold: 9f);
         }
 
         internal void ConfigureRunner(GameObject runner)

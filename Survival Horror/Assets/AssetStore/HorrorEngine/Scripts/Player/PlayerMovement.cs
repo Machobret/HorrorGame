@@ -163,7 +163,14 @@ namespace HorrorEngine
 
             m_InputAxis = m_Input.GetPrimaryAxis();
             if (m_Settings is PlayerMovementAlternate alternate)
-                alternate.UpdateCameraInput(m_InputAxis, m_Input.IsPrimaryAxisHeld());
+            {
+                bool? buttonPress = null;
+#if ENABLE_INPUT_SYSTEM
+                if (m_Input is PlayerInputListener inputListener)
+                    buttonPress = inputListener.GetPrimaryAxisButtonPress();
+#endif
+                alternate.UpdateCameraInput(m_InputAxis, m_Input.IsPrimaryAxisHeld(), buttonPress);
+            }
         }
 
         // --------------------------------------------------------------------
@@ -203,11 +210,22 @@ namespace HorrorEngine
 
         private void UpdateMovement()
         {
-            Vector3 fwdMove = GetForwardMovement(out float fwdSpeed, out bool running);
+            Vector3 forward = transform.forward;
+            float forwardRate;
+            if (m_Settings is PlayerMovementAlternate alternate &&
+                !Constrain.HasFlag(MovementConstrain.MovementToAxis) &&
+                alternate.TryGetCameraRelativeMovement(out Vector3 cameraMovement))
+            {
+                forward = cameraMovement.normalized;
+                forwardRate = cameraMovement.magnitude;
+            }
+            else
+            {
+                forwardRate = m_Settings.GetFwdRate(this);
+            }
+
+            Vector3 fwdMove = GetForwardMovement(forward, forwardRate, out float fwdSpeed, out bool running);
             Vector3 rightMove = GetRightMovement(out float rightSpeed);
-             
-            float fwdContribution = Mathf.Abs(Vector3.Dot(transform.forward, fwdMove.normalized));
-            float rightContribution = Mathf.Abs(Vector3.Dot(transform.right, rightMove.normalized));
 
             Vector3 movement = fwdMove + rightMove;
             IntendedMovement = movement;
@@ -257,9 +275,8 @@ namespace HorrorEngine
 
         // --------------------------------------------------------------------
 
-        Vector3 GetForwardMovement(out float speed, out bool running)
+        Vector3 GetForwardMovement(Vector3 direction, float fwd, out float speed, out bool running)
         {
-            float fwd = m_Settings.GetFwdRate(this);
             float absFwd = Mathf.Abs(fwd);
             
             speed = 0f;
@@ -297,7 +314,7 @@ namespace HorrorEngine
             else if (m_ChangeRunSpeedBasedOnHealth)
                 speed *= m_NormalizedHealthSpeedScalar.Evaluate(m_Health.Normalized);
 
-            return transform.forward * Time.deltaTime * speed * Mathf.Sign(fwd);
+            return direction * Time.deltaTime * speed * Mathf.Sign(fwd);
         }
 
         bool DepleteStamina(float rate)

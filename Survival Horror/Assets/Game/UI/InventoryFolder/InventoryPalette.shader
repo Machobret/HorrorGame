@@ -5,6 +5,7 @@ Shader "HorrorGame/UI/Inventory Palette"
         [PerRendererData] _MainTex("Sprite",2D)="white" {}
         _Saturation("Saturation",Range(0,1))=.45
         _Contrast("Texture contrast",Range(0,1))=1
+        _SolidTint("Solid tint",Range(0,1))=0
         _Tint("Palette tint",Color)=(1,1,1,1)
         _StencilComp("Stencil comparison",Float)=8
         _Stencil("Stencil ID",Float)=0
@@ -34,7 +35,7 @@ Shader "HorrorGame/UI/Inventory Palette"
             struct Varying {float4 vertex:SV_POSITION;float4 color:COLOR;float2 uv:TEXCOORD0;float4 local:TEXCOORD1;};
             sampler2D _MainTex;
             float4 _TextureSampleAdd,_ClipRect,_Tint;
-            float _Saturation,_Contrast;
+            float _Saturation,_Contrast,_SolidTint;
             Varying vert(Input v){Varying o;o.local=v.vertex;o.vertex=UnityObjectToClipPos(v.vertex);o.uv=v.uv;o.color=v.color;return o;}
             float4 frag(Varying i):SV_Target
             {
@@ -42,6 +43,7 @@ Shader "HorrorGame/UI/Inventory Palette"
                 float gray=dot(c.rgb,float3(.299,.587,.114));
                 c.rgb=lerp(gray.xxx,c.rgb,_Saturation);
                 c.rgb=(c.rgb-.5)*_Contrast+.5;
+                c.rgb=lerp(c.rgb,float3(1,1,1),_SolidTint);
                 c*=i.color*_Tint;
                 #ifdef UNITY_UI_CLIP_RECT
                 c.a*=UnityGet2DClipping(i.local.xy,_ClipRect);

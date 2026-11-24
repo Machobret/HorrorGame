@@ -98,6 +98,8 @@ namespace HorrorEngine
         public int EquipedWeaponEntry;
         public List<string> Documents;
         public List<string> ReadDocuments;
+        public List<string> ArchivedDocuments;
+        public List<string> PinnedDocuments;
         // Legacy save field: ignored since map-note placement was removed.
         public List<TabletMapNote> MapNotes;
         public List<string> TabletLog;
@@ -122,6 +124,8 @@ namespace HorrorEngine
         [HideInInspector] public List<InventoryEntry> Items;
         [HideInInspector] public HashSet<DocumentData> Documents = new HashSet<DocumentData>();
         [HideInInspector] public HashSet<DocumentData> ReadDocuments = new HashSet<DocumentData>();
+        public HorrorGame.Documents.DocumentLedgerState DocumentLedger { get; } = new();
+        public int MenuSessionVersion { get; private set; }
         [HideInInspector] public HashSet<MapData> Maps = new HashSet<MapData>();
 
         [SerializeField] private int m_MaxItems = 8;
@@ -200,6 +204,8 @@ namespace HorrorEngine
             m_Equipped.Clear();
             Documents.Clear();
             ReadDocuments.Clear();
+            DocumentLedger.Clear();
+            MenuSessionVersion++;
             TabletLog.Clear();
             Maps.Clear();
         }
@@ -935,6 +941,8 @@ namespace HorrorEngine
             saveData.TabletLog=new List<string>(TabletLog);
             saveData.ReadDocuments = new List<string>();
             foreach(var doc in ReadDocuments)if(doc)saveData.ReadDocuments.Add(doc.UniqueId);
+            saveData.ArchivedDocuments = DocumentLedger.CopyArchive();
+            saveData.PinnedDocuments = DocumentLedger.CopyPins();
 
             // Save maps
             saveData.Maps = new List<string>();
@@ -1026,7 +1034,7 @@ namespace HorrorEngine
 
             // Load Documents
             var docsDB = gameMgr.GetDatabase<DocumentDatabase>();
-            if (docsDB)
+            if (docsDB && savedData.Documents != null)
             {
                 foreach (var docId in savedData.Documents)
                 {
@@ -1036,6 +1044,10 @@ namespace HorrorEngine
 
             if(docsDB && savedData.ReadDocuments!=null)
                 foreach(var id in savedData.ReadDocuments){var doc=docsDB.GetRegister(id);if(doc)ReadDocuments.Add(doc);}
+            var collectedIds = new HashSet<string>();
+            foreach (var document in Documents)
+                if (document) collectedIds.Add(document.UniqueId);
+            DocumentLedger.Restore(savedData.ArchivedDocuments, savedData.PinnedDocuments, collectedIds);
 
             if(savedData.TabletLog!=null)TabletLog.AddRange(savedData.TabletLog);
 

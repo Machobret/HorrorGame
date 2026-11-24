@@ -46,6 +46,7 @@ namespace HorrorEngine
         private Camera m_Cam;
         private MapData m_Map;
         private RenderTexture m_RenderTexture;
+        private Vector2 m_ViewportSize;
         private Material m_RuntimeGridMaterial;
         private Material m_RuntimeMarkerMaterial;
         private Material m_RuntimeContourMaterial;
@@ -63,6 +64,8 @@ namespace HorrorEngine
         [Tooltip("Renders room borders as high-contrast white lines in the player map.")]
         [SerializeField] private bool m_UseBoldWhiteContours = true;
         [SerializeField, Min(1f)] private float m_ContourThicknessMultiplier = 1.6875f;
+        [SerializeField, Min(0)] private int m_ContourCornerVertices = 4;
+        [SerializeField, Min(0)] private int m_ContourCapVertices = 4;
         
         public RenderTexture RenderTexture => m_RenderTexture;
         public MapData CurrentMap => m_Map;
@@ -218,10 +221,20 @@ namespace HorrorEngine
             m_Cam.transform.position = Vector3.Lerp(m_Cam.transform.position, targetPos, Time.unscaledDeltaTime * m_CameraInterpolationSpeed);
         }
 
+        internal void SetViewportSize(Vector2 pixels)
+        {
+            m_ViewportSize = pixels;
+            EnsureRenderTexture();
+        }
+
+        internal void ClearViewportSize() => m_ViewportSize = Vector2.zero;
+
         private void EnsureRenderTexture()
         {
-            int width = Mathf.Max(1, Mathf.RoundToInt(Screen.width * m_RenderTextureScale));
-            int height = Mathf.Max(1, Mathf.RoundToInt(Screen.height * m_RenderTextureScale));
+            var size = m_ViewportSize.x > 0 && m_ViewportSize.y > 0
+                ? m_ViewportSize : new Vector2(Screen.width, Screen.height);
+            int width = Mathf.Max(1, Mathf.RoundToInt(size.x * m_RenderTextureScale));
+            int height = Mathf.Max(1, Mathf.RoundToInt(size.y * m_RenderTextureScale));
             if (m_RenderTexture != null && m_RenderTexture.width == width && m_RenderTexture.height == height) return;
 
             if (m_RenderTexture != null)
@@ -241,6 +254,7 @@ namespace HorrorEngine
             };
             m_RenderTexture.Create();
             m_Cam.targetTexture = m_RenderTexture;
+            m_Cam.aspect = (float)width / height;
         }
 
         // --------------------------------------------------------------------
@@ -488,8 +502,8 @@ namespace HorrorEngine
             {
                 line.sharedMaterial = m_RuntimeContourMaterial;
                 line.widthMultiplier *= m_ContourThicknessMultiplier;
-                line.numCapVertices = Mathf.Max(line.numCapVertices, 4);
-                line.numCornerVertices = Mathf.Max(line.numCornerVertices, 4);
+                line.numCapVertices = Mathf.Max(line.numCapVertices, m_ContourCapVertices);
+                line.numCornerVertices = Mathf.Max(line.numCornerVertices, m_ContourCornerVertices);
             }
         }
 

@@ -14,11 +14,12 @@ namespace HorrorGame.UI
     {
         public UIMap Map;
         public RawImage MapImage;
-        public GameObject MapFrame,Floors,MapTools,Legend,PowerPage,LogPage,Directory;
+        public RectTransform WindowContent;
+        public GameObject MapFrame,Floors,Legend,PowerPage,LogPage,Directory;
         public TMP_Text NetworkStatus,PowerHelp,LogText,Footer;
         public Transform PowerRows;
         public Button PowerRowTemplate;
-        public Button BackToMap;
+        public Button InventoryButton, BackToMap;
         public TabletMapAnnotations Annotations;
         public int Page { get; private set; }
         public PowerMapCircuitPanel Network { get; private set; }
@@ -37,8 +38,8 @@ namespace HorrorGame.UI
 
         private static readonly (string Title, string Copy)[] GuidePages =
         {
-            ("OPEN AND CLOSE", "Press M to open your tablet. Press M or ESC to close it and return to the game."),
-            ("READ THE MAP", "Use WASD or click and drag to pan. Scroll to zoom. Press I to reopen your inventory."),
+            ("OPEN AND CLOSE", "Press M to open the map. Press Tab or Escape to close it and return to the game."),
+            ("READ THE MAP", "Use WASD or click and drag to pan. Scroll to zoom. Press Q to return to inventory."),
             ("POWER A CIRCUIT", "Aim at a lightning bolt and press E, or click it. Restore power before using a circuit marked NO POWER. CONNECTION LOST means the circuit is out of reach.")
         };
 
@@ -49,13 +50,20 @@ namespace HorrorGame.UI
         private string previousObjective;
         private float completionStarted = float.NegativeInfinity;
         private static readonly Color ObjectiveGold = new Color(1f, .73f, .37f);
-        private static readonly Color ObjectiveBackground = new Color(.15f, .17f, .18f, .96f);
+        public static readonly Color CommandSurface = new Color32(32, 41, 46, 255);
         Color normal=new Color(.045f,.10f,.13f),selected=new Color(.15f,.28f,.32f);
+
+        void Awake()
+        {
+            if (InventoryButton) InventoryButton.targetGraphic.color = CommandSurface;
+            if (WindowContent)
+                TabletWindow.Create(WindowContent, Footer.font, GetComponent<TabletStartupScreen>(),
+                    GetComponent<TabletDisplayFilter>(), Map.OpenInventory, Map.Hide);
+        }
 
         void OnEnable()
         {
             Map.HasTabletWorkspace = true;
-            ConfigureMapTools();
             selectedMap = null;
             nextSearch = 0;
             previousObjective = null;
@@ -86,42 +94,6 @@ namespace HorrorGame.UI
             if(Page==2)RefreshLog();
         }
 
-        private void ConfigureMapTools()
-        {
-            if (!MapTools) return;
-            SetMapToolVisible("Open power controls", false);
-            SetMapToolVisible("Open service log", false);
-            ConfigureMapTool("Map directory", "INVENTORY [I]",
-                new Vector2(.005f, .835f), new Vector2(.20f, .88f));
-            ConfigureMapTool("Legend toggle", "LEGEND [K]",
-                new Vector2(.73f, .835f), new Vector2(.93f, .88f));
-        }
-
-        private void SetMapToolVisible(string name, bool visible)
-        {
-            var tool = MapTools.transform.Find(name);
-            if (tool) tool.gameObject.SetActive(visible);
-        }
-
-        private void ConfigureMapTool(string name, string label, Vector2 min, Vector2 max)
-        {
-            var tool = MapTools.transform.Find(name) as RectTransform;
-            if (!tool) return;
-            tool.anchorMin = min;
-            tool.anchorMax = max;
-            tool.offsetMin = tool.offsetMax = Vector2.zero;
-            var text = tool.GetComponentInChildren<TMP_Text>(true);
-            if (text) text.text = label;
-            if (name == "Map directory")
-            {
-                var button = tool.GetComponent<Button>();
-                if (button)
-                {
-                    button.onClick = new Button.ButtonClickedEvent();
-                    button.onClick.AddListener(Map.OpenInventory);
-                }
-            }
-        }
         private void ShowControlsGuide()
         {
             if (!controlsGuide)
@@ -129,8 +101,7 @@ namespace HorrorGame.UI
                 var startup = GetComponent<TabletStartupScreen>();
                 var cover = startup && startup.Screen ? startup.Screen.transform : null;
                 var parent = cover ? cover.parent : Footer.transform.parent;
-                var overlay = CreateObjectiveRect("Tablet controls tutorial", parent,
-                    new Vector2(.055f, .12f), new Vector2(.945f, .89f));
+                var overlay = CreateObjectiveRect("Tablet controls tutorial", parent, Vector2.zero, Vector2.one);
                 controlsGuide = overlay.gameObject;
                 if (cover) overlay.SetSiblingIndex(cover.GetSiblingIndex());
                 var shade = overlay.gameObject.AddComponent<Image>();
@@ -205,28 +176,30 @@ namespace HorrorGame.UI
         {
             if (!objectiveText)
             {
-                if (!MapImage || !Footer) return;
-                var board = CreateObjectiveRect("Objective board", MapImage.transform.parent,
-                    new Vector2(.66f, .89f), new Vector2(.925f, .965f));
+                if (!InventoryButton || !Footer) return;
+                var board = CreateObjectiveRect("Objective board", InventoryButton.transform.parent,
+                    new Vector2(.232f, 0), Vector2.one);
                 objectiveBackground = board.gameObject.AddComponent<Image>();
-                objectiveBackground.color = ObjectiveBackground;
+                objectiveBackground.color = CommandSurface;
                 objectiveBackground.raycastTarget = false;
 
-                var star = CreateObjectiveRect("Objective star", board, new Vector2(.025f, .15f),
-                    new Vector2(.13f, .85f)).gameObject.AddComponent<TabletHeroBadge>();
+                var star = CreateObjectiveRect("Objective star", board, new Vector2(.018f, .15f),
+                    new Vector2(.073f, .85f)).gameObject.AddComponent<TabletHeroBadge>();
                 star.StarOnly = true;
                 star.color = ObjectiveGold;
                 star.raycastTarget = false;
 
-                var heading = CreateObjectiveLabel(board, "Objective heading", .58f, .95f, 12f);
-                heading.text = "OBJECTIVE";
+                var heading = CreateObjectiveLabel(board, "Objective heading", .68f, .96f, 12f, Footer.font);
+                GameText.SetLabel(heading, "OBJECTIVE");
                 heading.color = ObjectiveGold;
-                objectiveText = CreateObjectiveLabel(board, "Current objective", .07f, .61f, 18f);
-                // Scale from the text's left edge to keep the star's column clear.
-                var textRect = objectiveText.rectTransform;
-                textRect.pivot = new Vector2(0f, .5f);
-                textRect.offsetMin = textRect.offsetMax = Vector2.zero;
-                CreateCompletionPopup(board.parent);
+                objectiveText = CreateObjectiveLabel(board, "Current objective", .05f, .68f, 18f, Footer.font, fitToRow: true);
+                objectiveText.textWrappingMode = TextWrappingModes.Normal;
+                foreach (var label in new[] { heading, objectiveText })
+                {
+                    var rect = label.rectTransform;
+                    rect.anchorMin = new Vector2(.085f, rect.anchorMin.y);
+                }
+                CreateCompletionPopup(MapImage.transform.parent);
             }
 
             var tutorial = Chapter1MapTutorial.Instance;
@@ -247,10 +220,8 @@ namespace HorrorGame.UI
             float elapsed = Time.unscaledTime - completionStarted;
             float progress = Mathf.Clamp01(elapsed / .48f);
             float glow = 1f - Mathf.SmoothStep(0f, 1f, progress);
-            float pop = Mathf.Sin(progress * Mathf.PI) * (1f - progress) * .16f;
-            objectiveText.rectTransform.localScale = new Vector3(1f + pop * .5f, 1f + pop, 1f);
             objectiveText.color = empty ? Color.Lerp(Color.white, ObjectiveGold, glow) : ObjectiveGold;
-            objectiveBackground.color = Color.Lerp(ObjectiveBackground, new Color(.37f, .29f, .15f, .98f), glow);
+            objectiveBackground.color = Color.Lerp(CommandSurface, new Color(.37f, .29f, .15f, .98f), glow);
 
             if (completionPopup.gameObject.activeSelf)
             {
@@ -263,7 +234,7 @@ namespace HorrorGame.UI
 
         private void CreateCompletionPopup(Transform surface)
         {
-            completionPopup = CreatePopup(surface, new Vector2(.66f, .807f), new Vector2(.925f, .882f),
+            completionPopup = CreatePopup(surface, new Vector2(.66f, .781f), new Vector2(.975f, .855f),
                 Footer.font, "OBJECTIVE COMPLETE", false, out completedObjectiveText);
         }
 
@@ -312,9 +283,6 @@ namespace HorrorGame.UI
             return group;
         }
 
-        private TMP_Text CreateObjectiveLabel(Transform parent, string name, float bottom, float top, float size) =>
-            CreateObjectiveLabel(parent, name, bottom, top, size, Footer.font);
-
         private static TMP_Text CreateObjectiveLabel(Transform parent, string name, float bottom, float top,
             float size, TMP_FontAsset font, bool fitToRow = false)
         {
@@ -354,9 +322,17 @@ namespace HorrorGame.UI
         public void SetPage(int page)
         {
             if (IsControlsGuideOpen) return;
-            Page=Mathf.Clamp(page,0,2);if(Footer)Footer.text=Page==0?"WASD: PAN  |  CLICK + DRAG: PAN  |  WHEEL: ZOOM  |  UP or DOWN: FLOOR  |  ESC: CLOSE":Page==1?"SELECT A CIRCUIT  |  CHECK LOAD  |  ESC: CLOSE":"WHEEL: SCROLL  |  ESC: CLOSE";Map.CloseDirectory();Map.AllowMapNavigation=Page==0;
+            Page = Mathf.Clamp(page, 0, 2);
+            if (Footer) Footer.text = Page switch
+            {
+                0 => "WASD: PAN  |  CLICK + DRAG: PAN  |  WHEEL: ZOOM  |  UP or DOWN: FLOOR  |  TAB: CLOSE",
+                1 => "SELECT A CIRCUIT  |  CHECK LOAD  |  TAB: CLOSE",
+                _ => "WHEEL: SCROLL  |  TAB: CLOSE"
+            };
+            Map.CloseDirectory();
+            Map.AllowMapNavigation = Page == 0;
             bool hasMap=Map.CurrentMap && GameManager.Exists && GameManager.Instance.Inventory.Maps.Contains(Map.CurrentMap);
-            MapImage.gameObject.SetActive(Page==0 && hasMap);MapFrame.SetActive(Page==0);Floors.SetActive(Page==0);MapTools.SetActive(Page==0);
+            MapImage.gameObject.SetActive(Page==0 && hasMap);MapFrame.SetActive(Page==0);Floors.SetActive(Page==0);
             Annotations.gameObject.SetActive(Page==0 && hasMap);PowerPage.SetActive(Page==1);LogPage.SetActive(Page==2);Legend.SetActive(false);
             if(BackToMap)BackToMap.gameObject.SetActive(Page!=0);
             if(Page==1)BindNetwork();

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using System.Collections.Generic;
 using System;
 
@@ -7,52 +8,68 @@ namespace HorrorEngine
     [Serializable]
     public class CamLockedInput
     {
-        public bool IsLockingEnabled = true;
+        private const float k_CutInputOverrideDelay = 0.1f;
+        private const float k_StickDirectionAlignment = 0.8660254f; // Cosine of 30 degrees.
+
+        [FormerlySerializedAs("IsLockingEnabled")]
+        [FormerlySerializedAs("IsCutBlendEnabled")]
+        public bool IsCameraLockEnabled = true;
         public float MinInputMovementThreshold = 0.5f;
         public float MinInputRotationThreshold = 0.15f;
 
-        private bool m_GestureInProgress;
-        private Behaviour m_GestureCamera;
-        private Vector3 m_GestureForward;
+        private Behaviour m_ActiveCamera;
+        private Vector3 m_MovementForward;
+        private float m_CutTime = float.NegativeInfinity;
+        private Vector2 m_InputReferenceDirection;
 
-        public Vector3 CalculateDirFromCamera(Vector2 input, bool inputHeld)
+        public Vector3 CalculateDirFromCamera(Vector2 input, bool inputHeld, bool? buttonPress = null)
         {
-            if (!inputHeld)
-            {
-                Clear();
-                return Vector3.zero;
-            }
-
             var cameraSystem = CameraSystem.Instance;
             var output = cameraSystem.MainCamera;
             Behaviour activeCamera = cameraSystem.ActiveCamera;
             if (!activeCamera)
                 activeCamera = output;
 
-            if (!m_GestureInProgress || !IsLockingEnabled)
+            float now = Time.time;
+            bool hadCamera = m_ActiveCamera is not null;
+            if (hadCamera && m_ActiveCamera != activeCamera)
+                m_CutTime = now;
+            m_ActiveCamera = activeCamera;
+
+            bool inCutGrace = now - m_CutTime < k_CutInputOverrideDelay;
+            float inputMagnitude = input.magnitude;
+            bool moving = inputHeld && inputMagnitude >= MinInputMovementThreshold;
+            Vector2 direction = moving ? input.normalized : Vector2.zero;
+            bool newDirection = direction != Vector2.zero &&
+                Vector2.Dot(m_InputReferenceDirection, direction) < k_StickDirectionAlignment;
+
+            // During the grace period, accept steering on the outgoing axes and track it as held input.
+            if (moving && (inCutGrace || newDirection))
+                m_InputReferenceDirection = direction;
+            else if (!inputHeld || (inputMagnitude > 0f && inputMagnitude < MinInputRotationThreshold))
+                m_InputReferenceDirection = Vector2.zero;
+
+            // Only new intent adopts the live camera while moving, even if the shot tracks the player.
+            bool newInput = buttonPress ?? newDirection;
+            if (!IsCameraLockEnabled || !hadCamera || (!inCutGrace && (!inputHeld || newInput)))
             {
-                m_GestureInProgress = true;
-                m_GestureCamera = activeCamera;
+                m_MovementForward = Vector3.ProjectOnPlane(output.transform.forward, Vector3.up).normalized;
+                if (m_MovementForward == Vector3.zero)
+                    m_MovementForward = Vector3.ProjectOnPlane(output.transform.up, Vector3.up).normalized;
             }
 
-            // Follow a moving camera until it cuts away. Keep the last basis through further cuts.
-            if (m_GestureCamera && m_GestureCamera == activeCamera)
-                m_GestureForward = Vector3.ProjectOnPlane(output.transform.forward, Vector3.up).normalized;
-            else
-                m_GestureCamera = null;
-
-            if (input.magnitude < MinInputMovementThreshold)
+            if (!moving)
                 return Vector3.zero;
 
-            Vector3 right = Vector3.Cross(Vector3.up, m_GestureForward);
-            return right * input.x + m_GestureForward * input.y;
+            Vector3 right = Vector3.Cross(Vector3.up, m_MovementForward);
+            return right * input.x + m_MovementForward * input.y;
         }
 
         public void Clear()
         {
-            m_GestureInProgress = false;
-            m_GestureCamera = null;
-            m_GestureForward = Vector3.zero;
+            m_ActiveCamera = null;
+            m_CutTime = float.NegativeInfinity;
+            m_InputReferenceDirection = Vector2.zero;
         }
     }
 
@@ -65,6 +82,8 @@ namespace HorrorEngine
 
         private ActorStateController m_StateController;
         private Vector3 m_MovementDirection;
+
+        private bool UsesTankRotation => m_TankRotationStates.Contains((ActorState)m_StateController.CurrentState);
 
         private void Awake()
         {
@@ -87,9 +106,15 @@ namespace HorrorEngine
             return 0f;
         }
 
+        internal bool TryGetCameraRelativeMovement(out Vector3 movementDirection)
+        {
+            movementDirection = m_MovementDirection;
+            return !UsesTankRotation;
+        }
+
         public void GetRotation(PlayerMovement movement, out float sign, out float rate)
         {
-            if (m_TankRotationStates.Contains((ActorState)m_StateController.CurrentState))
+            if (UsesTankRotation)
             {
                 if (Mathf.Abs(movement.InputAxis.x) < m_CameraLockedInput.MinInputRotationThreshold)
                 {
@@ -119,9 +144,9 @@ namespace HorrorEngine
             }
         }
 
-        internal void UpdateCameraInput(Vector2 input, bool inputHeld)
+        internal void UpdateCameraInput(Vector2 input, bool inputHeld, bool? buttonPress)
         {
-            m_MovementDirection = m_CameraLockedInput.CalculateDirFromCamera(Vector2.ClampMagnitude(input, 1f), inputHeld);
+            m_MovementDirection = m_CameraLockedInput.CalculateDirFromCamera(Vector2.ClampMagnitude(input, 1f), inputHeld, buttonPress);
         }
 
         public void ResetMovement()

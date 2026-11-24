@@ -3,11 +3,14 @@
 The default HECorePrefabs profile uses the owned Tablet_Map prefab and Tablet_MapRenderer variant. Native map discovery, room/door states, map pickups, floors, panning, zoom and save data remain authoritative.
 
 - Open the map normally. The first opening each play session displays a 2.6-second Hero Response Authority boot screen. Later openings go directly to the map. Startup timing uses real time while native UIMap pauses gameplay. Set Duration / OncePerSession on TabletStartupScreen to adjust it.
-- I or the MAP DIRECTORY button toggles the left directory as an overlay above the map. The map and pan-arrow frame retain the same size and position when it opens or closes. Escape closes an open directory first; M closes the map.
+- M or the acquired tablet in Inventory opens the map. Q and the header's Inventory button return to Inventory. Tab, M, and Escape close the map. Tab opens Inventory from gameplay.
+- The title bar shows the HRA Field Service System name and boot badge on the left. Minimize returns to Inventory. Restore Down switches to the smaller window, which can be dragged by the title bar. Maximize goes back to the larger view. X closes the tablet and resumes gameplay.
+- Inventory and the objective sit together inside the window. Switching pages changes the map or service content below them. K toggles the map legend.
 - The compass is hidden. Yellow arrows sit near viewport edges at 42% opacity.
 - The terminal font is 3270 Condensed; source and license information are in Fonts/README.md. It is used throughout the tablet, including the splash and map directory.
-- TabletDisplayFilter sends the complete tablet display through Tablet_Screen.mat: a 960x540 visible pixel grid, 32 colour steps, ordered dithering, faint scanlines and edge shading. Material settings are editable. The map, font, menus and splash all share this filter; the rest of the game's UI is unaffected.
+- TabletDisplayFilter renders the tablet with Tablet_Screen.mat using 1280 × 720 sampling, ordered dithering, faint scanlines, edge shading, and 0.017 curvature. The same curvature value drives pointer projection.
 - The filter uses its own display camera with the template's map renderer configuration. Its input render target stays at the real screen size so standard UI raycasts and scrollbar dragging keep matching the pointer. The visible pixel reduction happens in the output shader. Targets/material instances are released when closed and resized with the screen.
+- The map camera uses a separate render target sized to the map viewport in either window mode. The tablet renderer uses a 1.15× wall stroke multiplier with unrounded joins and caps.
 
 Horror Game > UI > Build Utilitarian Tablet Map regenerates these presentation assets and registers the two prefabs. Rebuilding overwrites manual edits to generated prefabs. Review captures and tests belong in Exports/Reviews/Tablet and Assets/Sandbox/Tablet respectively. Tablet_Map is an owned copy of the native UI prefab because the filtered display needs to reorganize its Canvas hierarchy; it retains the native UIMap/UIMapList components and serialized references.
 
@@ -17,7 +20,7 @@ The hero-agency wording is provisional branding. The splash is visual only and d
 
 ## Field terminal workspace
 
-The owned Tablet_Map prefab opens to the map inside a worn dark casing. Use Power Controls or Service Log for tablet services and Back to Map to return. UIMap owns pause and map navigation. The directory overlays the map and closes on selection. The legend can be hidden. Symbol shapes distinguish known locked/unlocked doors, unvisited rooms and diagram-revealed circuit terminals. Unknown rooms and doors stay hidden.
+The owned Tablet_Map prefab groups the boot screen, map, and service pages under one content root. TabletWindow owns the frame and window state. UIMap owns pause and map navigation. Symbol shapes distinguish known locked/unlocked doors, unvisited rooms and diagram-revealed circuit terminals. Unknown rooms and doors stay hidden.
 
 Map-note placement has been removed. Existing save files containing legacy notes still load; those notes are ignored and no longer written. Log shows collected/read file counts and actual service changes made while the tablet is open. Service history is limited to 50 entries and saved with inventory data.
 
@@ -32,3 +35,5 @@ The utilitarian tablet builder applies TabletWorkspaceBuilder to regenerate the 
 Validation captures: Exports/Reviews/TabletWorkspace. Tests: Assets/Sandbox/InventoryFolder/Editor/TabletWorkspaceChecks.cs, invoked by InventoryFolderValidation.BuildAndRun in an isolated editor.
 
 The Map page is the default when opening the tablet normally. An authored district power terminal opens Power directly. The tablet has its own interface, with map controls and service actions. The legend blocks clicks through its panel.
+
+The pickup splash and the inventory tile share the Chapter 1 tablet sprite. The original 1536 × 1024 image is under ArtSource/Tablet. To regenerate the sharpened 768 × 512 sprite from the project root in Windows PowerShell, load `Tools/Art/BuildReporterMenuPreview.cs` with `Add-Type -Path Tools/Art/BuildReporterMenuPreview.cs -ReferencedAssemblies System.Drawing` and run `[BuildReporterMenuPreview]::UpdateTabletPickup((Get-Location).ProviderPath)`.

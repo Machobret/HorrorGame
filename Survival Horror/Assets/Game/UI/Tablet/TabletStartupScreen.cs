@@ -9,6 +9,8 @@ namespace HorrorGame.UI
     /// <summary>Unscaled, presentation-only boot sequence. Native UIMap still owns input, map data and pause.</summary>
     public sealed class TabletStartupScreen : MonoBehaviour
     {
+        public const string OperatingSystemName = "HRA FIELD SERVICE SYSTEM";
+
         public CanvasGroup Screen;
         public Image Progress;
         public TMP_Text Status;
@@ -26,8 +28,8 @@ namespace HorrorGame.UI
             Screen.transform.SetAsLastSibling();
             if (Screen.transform is RectTransform cover)
             {
-                cover.anchorMin = new Vector2(.05f, .05f);
-                cover.anchorMax = new Vector2(.95f, .989f);
+                cover.anchorMin = Vector2.zero;
+                cover.anchorMax = Vector2.one;
                 cover.offsetMin = cover.offsetMax = Vector2.zero;
             }
             StartCoroutine(Boot());

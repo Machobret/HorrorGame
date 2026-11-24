@@ -112,6 +112,12 @@ namespace HorrorEngine
 
         public void Show()
         {
+            var inventory = UIManager.Get<UIInventory>(true);
+            if (inventory && inventory.UsesReporterMenu)
+            {
+                inventory.OnFilesCategory();
+                return;
+            }
             UIInventory.RefreshMapTabVisibility(transform);
             if(m_ShowClip)UIManager.Get<UIAudio>().Play(m_ShowClip,m_MenuVolume);
             PauseController.Instance.Pause(this);

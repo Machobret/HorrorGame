@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using HorrorEngine;
 using HorrorGame.Chapter1;
+using HorrorGame.Items;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,10 +12,12 @@ namespace HorrorGame.UI
     public sealed class GameplayNotifications : MonoBehaviour
     {
         private const float Duration = 4f;
+        private const string PinTutorial = "You can pin documents while viewing them in inventory. Press C to view pinned documents.";
         private GameObject surface;
         private CanvasGroup documentPopup, circuitPopup, controlsPopup, activePopup;
         private TMP_Text documentName, circuitText, controlsText;
-        private readonly Queue<DocumentData> pendingDocuments = new();
+        private readonly Queue<(DocumentData Document, bool TeachPinning)> pendingDocuments = new();
+        private bool pendingPinTutorial;
         private UIMap map;
         private float started, expires, countChangedAt;
         private int circuitCount;
@@ -23,8 +27,17 @@ namespace HorrorGame.UI
 
         public static void DocumentReceived(DocumentData document)
         {
-            if (document && UIManager.Exists) Get().pendingDocuments.Enqueue(document);
+            if (!document || !UIManager.Exists) return;
+
+            var inventory = GameManager.Exists && GameManager.Instance.CharacterState != null
+                ? GameManager.Instance.Inventory : null;
+            bool teachPinning = IsNote(document) && inventory != null && inventory.Documents.Count(IsNote) == 2 &&
+                UIManager.Get<UIInventory>(true) is { UsesReporterMenu: true };
+            Get().pendingDocuments.Enqueue((document, teachPinning));
         }
+
+        private static bool IsNote(DocumentData document) => document && !string.IsNullOrEmpty(document.UniqueId) &&
+            document is not CircuitDiagramData && document is not PistolFieldManualData;
 
         public static void CircuitsDiscovered(int count)
         {
@@ -90,7 +103,9 @@ namespace HorrorGame.UI
         {
             if (!documentPopup)
                 documentPopup = CreatePopup("RECEIVED DOCUMENT", "Tab · Inventory → Documents", false, out documentName);
-            documentName.text = pendingDocuments.Dequeue().Name;
+            var notice = pendingDocuments.Dequeue();
+            documentName.text = notice.Document.Name;
+            pendingPinTutorial = notice.TeachPinning;
             Activate(documentPopup);
         }
 
@@ -139,10 +154,18 @@ namespace HorrorGame.UI
                 return;
             }
 
-            if (pendingDocuments.Count > 0 && (!activePopup || activePopup != documentPopup) &&
+            if ((pendingPinTutorial || pendingDocuments.Count > 0) &&
                 !IsOpen<UIDialog>() && !IsOpen<UIChoices>() && !IsOpen<UIDocument>() && !IsOpen<UIInventory>() &&
                 (!PauseController.Exists || !PauseController.Instance.IsPaused))
-                ShowDocument();
+            {
+                if (pendingPinTutorial)
+                {
+                    if (!activePopup || Time.unscaledTime >= expires)
+                        pendingPinTutorial = !PlayerMonologue.Show(PinTutorial, hold: 8f);
+                }
+                else if (!activePopup || activePopup != documentPopup)
+                    ShowDocument();
+            }
 
             if (!activePopup) return;
             float now = Time.unscaledTime;
@@ -184,6 +207,7 @@ namespace HorrorGame.UI
         private void OnDisable()
         {
             pendingDocuments.Clear();
+            pendingPinTutorial = false;
             ClearPopup();
         }
 

@@ -36,6 +36,7 @@ namespace HorrorEngine
         private Image m_Artwork;
         private TextMeshProUGUI m_PreviousKey;
         private TextMeshProUGUI m_NextKey;
+        private int LastPage => (m_CurrentData.Pages?.Count ?? 0) - 1;
 
         private void Awake()
         {
@@ -47,16 +48,19 @@ namespace HorrorEngine
 
         internal void Show(DocumentData data, bool playShowSound, string openingCaption = null)
         {
-            if (!data || data.Pages == null || data.Pages.Count == 0) return;
+            if (!data) return;
+            var firstPage = data.Pages?.Count > 0 ? data.Pages[0] : null;
+            Sprite cover = firstPage?.Artwork;
+            if (!cover) cover = data.Image;
+            if (!cover) cover = firstPage?.Image;
+            if (!cover && firstPage == null) return;
+
             m_CurrentData = data;
             m_OpeningCaption = openingCaption;
+            m_Cover = cover;
             if (GameManager.Exists) GameManager.Instance.Inventory.ReadDocuments.Add(data);
             PauseController.Instance.Pause(this);
 
-            var firstPage = data.Pages[0];
-            m_Cover = firstPage.Artwork;
-            if (!m_Cover) m_Cover = data.Image;
-            if (!m_Cover) m_Cover = firstPage.Image;
             m_OpenedFrame = Time.frameCount;
 
             gameObject.SetActive(true);
@@ -77,7 +81,7 @@ namespace HorrorEngine
             m_Text.gameObject.SetActive(false);
             m_PageImageCaption.gameObject.SetActive(false);
 
-            int lastPage = m_CurrentData.Pages.Count - 1;
+            int lastPage = LastPage;
             if (!cover)
             {
                 var page = m_CurrentData.Pages[index];
@@ -178,7 +182,7 @@ namespace HorrorEngine
             }
             else if (m_Input.IsConfirmDown())
             {
-                if (m_CurrentPage < m_CurrentData.Pages.Count - 1) TurnPage(m_CurrentPage + 1);
+                if (m_CurrentPage < LastPage) TurnPage(m_CurrentPage + 1);
                 else Hide();
             }
         }

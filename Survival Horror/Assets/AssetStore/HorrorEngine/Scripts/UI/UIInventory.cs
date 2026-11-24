@@ -30,6 +30,9 @@ namespace HorrorEngine
         [SerializeField] private AudioClip m_ExpandClip;
 
         [Header("Advanced Customization")]
+        [SerializeField] private bool m_UseReporterMenu;
+        [SerializeField] private Sprite m_ReporterTabletIcon;
+        [SerializeField] private HorrorGame.UI.ReporterMenuArt m_ReporterArt;
         [SerializeField] private bool m_SelectWithOneClick;
         [SerializeField] private bool m_AlwaysRebuild;
         [SerializeField] private bool m_RebuildOnlyOnCapacityChange;
@@ -48,6 +51,12 @@ namespace HorrorEngine
         private bool m_Expanding;
         private int m_OpenedFrame = -1;
         private UIContext m_UIContext;
+        private HorrorGame.UI.ReporterMenu m_ReporterMenu;
+        private bool m_ReporterOpen;
+
+        public bool UsesReporterMenu => m_UseReporterMenu;
+        internal HorrorGame.UI.ReporterMenuArt ReporterArt => m_ReporterArt;
+        internal void SetPinnedDocumentsCover(bool covered) => m_ReporterMenu?.SetCovered(covered);
 
         // --------------------------------------------------------------------
 
@@ -55,6 +64,16 @@ namespace HorrorEngine
         {
             m_UIContext = GetComponent<UIContext>();
             m_Input = GetComponentInParent<IUIInput>();
+
+            if (m_UseReporterMenu)
+            {
+                var folder = GetComponent<HorrorGame.UI.InventoryFolderPresentation>();
+                if (folder) folder.enabled = false;
+                if (TryGetComponent<HorrorGame.UI.MenuReadability>(out var readability))
+                    readability.enabled = false;
+                foreach (Transform child in transform) child.gameObject.SetActive(false);
+                return;
+            }
 
             foreach (var slot in m_ItemSlots)
             {
@@ -158,17 +177,23 @@ namespace HorrorEngine
 
         void Start()
         {
-            gameObject.SetActive(false);
+            if (!m_ReporterOpen) gameObject.SetActive(false);
         }
 
         // --------------------------------------------------------------------
 
         void Update()
         {
+            if (m_UseReporterMenu)
+            {
+                if (m_ReporterOpen) m_ReporterMenu.Tick();
+                return;
+            }
+
             if (m_Expanding || Time.frameCount == m_OpenedFrame)
                 return;
 
-            if (m_Input.IsCancelDown() || m_Input.IsToggleInventoryDown())
+            if (m_Input.IsCancelDown())
             {
                 OnCancel();
                 return;
@@ -193,6 +218,11 @@ namespace HorrorEngine
 
         public void Show()
         {
+            if (m_UseReporterMenu)
+            {
+                ShowReporterMenu(false);
+                return;
+            }
             m_OpenedFrame = Time.frameCount;
             HorrorGame.UI.GameplayNotifications.DismissAll();
             RefreshMapTabVisibility(transform);
@@ -234,6 +264,14 @@ namespace HorrorEngine
 
         public void Hide()
         {
+            if (m_UseReporterMenu)
+            {
+                if (!m_ReporterOpen) return;
+                ReleaseReporterMenu();
+                gameObject.SetActive(false);
+                UIManager.PopAction();
+                return;
+            }
             if (m_PauseGame)
                 PauseController.Instance.Resume(this);
 
@@ -250,6 +288,11 @@ namespace HorrorEngine
 
         public void OnCancel()
         {
+            if (m_UseReporterMenu)
+            {
+                Hide();
+                return;
+            }
             UIManager.Get<UIAudio>().Play(m_CloseClip,m_MenuVolume);
             if (m_CombiningSlot)
             {
@@ -463,6 +506,11 @@ namespace HorrorEngine
 
         public void OnFilesCategory()
         {
+            if (m_UseReporterMenu)
+            {
+                ShowReporterMenu(true);
+                return;
+            }
             Hide();
             UIManager.Get<UIDocs>().Show();
         }
@@ -471,9 +519,7 @@ namespace HorrorEngine
 
         public void OnMapCategory()
         {
-            if (!HorrorGame.Chapter1.Chapter1MapTutorial.CanOpenMap) return;
-            Hide();
-            UIManager.Get<UIMap>().Show();
+            GetComponentInParent<UIInputListener>().OpenMap();
         }
 
 
@@ -632,6 +678,50 @@ namespace HorrorEngine
         public bool CanBeShown()
         {
             return !m_UIContext.IsBlocked();
+        }
+
+        private void ShowReporterMenu(bool showLedger)
+        {
+            if (!GameManager.Exists || GameManager.Instance.CharacterState == null) return;
+            if (m_ReporterOpen)
+            {
+                if (showLedger)
+                {
+                    m_ReporterMenu.Close();
+                    m_ReporterMenu.Open(true);
+                }
+                return;
+            }
+
+            gameObject.SetActive(true);
+            if (m_UIContext.IsBlocked())
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+            HorrorGame.UI.GameplayNotifications.DismissAll();
+            if (m_PauseGame) PauseController.Instance.Pause(this);
+            CursorController.Instance.SetInUI(true);
+            m_ReporterOpen = true;
+            m_UIContext.Activate();
+            m_ReporterMenu ??= new HorrorGame.UI.ReporterMenu(this, m_UIContext, m_Input, m_ReporterTabletIcon, m_ReporterArt);
+            m_ReporterMenu.Open(showLedger);
+            UIManager.Get<UIAudio>().Play(m_ShowClip, m_MenuVolume);
+        }
+
+        private void ReleaseReporterMenu()
+        {
+            m_ReporterOpen = false;
+            m_ReporterMenu?.Close();
+            if (m_UIContext) m_UIContext.Deactivate();
+            if (m_PauseGame && PauseController.Exists) PauseController.Instance.Resume(this);
+            if (CursorController.Exists) CursorController.Instance.SetInUI(false);
+        }
+
+        private void OnDisable()
+        {
+            // Context blocking toggles this component, while closing deactivates the whole root.
+            if (m_ReporterOpen && !gameObject.activeInHierarchy) ReleaseReporterMenu();
         }
     }
 }

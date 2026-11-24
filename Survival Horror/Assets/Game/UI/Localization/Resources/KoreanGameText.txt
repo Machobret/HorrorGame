@@ -23,6 +23,7 @@ FILES|문서
 FINE|양호
 HERO HQ / FIELD TERMINAL|히어로 본부 / 현장 단말기
 HERO RESPONSE AUTHORITY|히어로 대응국
+HRA FIELD SERVICE SYSTEM|히어로 대응국 현장 지원 시스템
 HRA / SERVICE ROM 1.04     OFFLINE ARCHIVE|히어로 대응국 / 정비 ROM 1.04     오프라인 기록
 INVENTORY|소지품
 Item description text|아이템 설명
@@ -151,6 +152,9 @@ Close the tablet and turn on the alley breaker to power the intercom.|태블릿�
 Aim at a lightning bolt and press E, or click it. Restore power before using a circuit marked NO POWER. CONNECTION LOST means the circuit is out of reach.|번개 아이콘에 조준하고 E 키를 누르거나 클릭하세요. 전원 없음이 표시된 회로는 전원을 복구한 뒤 사용하세요. 연결 끊김은 회로가 조작 범위 밖에 있다는 뜻입니다.
 A gun, maybe i should take it|총이다. 챙겨 가는 게 좋겠어.
 Shutter Notice|셔터 안내문
+Maybe I should check my documents.|가지고 있는 문서들을 다시 확인해 봐야겠어.
+Maybe I missed something in the guard's office.|경비실에서 뭔가 놓친 것 같아.
+Maybe I missed something in the storage room.|창고에서 뭔가 놓친 것 같아.
 Switch off the power in the bays marked with an X.|X 표시가 된 보관실의 전원을 끄세요.
 some of our storage units are consuming so much electricity that the corridor shutter door stopped working. Once the electrician comes, have him turn off the power in these units so the shutter door starts working again.|일부 보관실에서 전기를 너무 많이 써서 복도 셔터가 작동을 멈췄습니다. 전기 기사가 오면 셔터가 다시 작동하도록 이 보관실들의 전원을 꺼 달라고 하세요.
 SMG rounds|기관단총 탄약
@@ -190,6 +194,10 @@ LOADING LOCAL MAP ARCHIVE...|현지 지도 기록 불러오는 중…
 LOCAL MODE READY|로컬 모드 준비 완료
 CRITICAL|위독
 INJURED|부상
+Healthy|건강
+Wounded|부상
+Critical|위독
+Severely Wounded|중상
 COMBINE: choose a second item|조합: 두 번째 아이템을 선택하세요
 UNLIMITED|무제한
 Defaults|기본값
@@ -416,6 +424,7 @@ I to open inventory|I 키로 소지품 열기
 Tab to open inventory|Tab 키로 소지품 열기
 RECEIVED DOCUMENT|문서 획득
 Tab · Inventory → Documents|Tab · 인벤토리 → 문서
+You can pin documents while viewing them in inventory. Press C to view pinned documents.|인벤토리에서 문서를 볼 때 고정할 수 있습니다. C 키를 누르면 고정한 문서를 볼 수 있습니다.
 Use WASD or click and drag to pan. Scroll to zoom. Press I to browse discovered maps.|WASD 또는 클릭 후 드래그로 지도를 이동하세요. 스크롤로 확대하거나 축소하세요. I 키로 발견한 지도를 둘러보세요.
 I need to move forward|앞으로 가야겠어.
 E to interact|E 키로 상호 작용
@@ -453,13 +462,14 @@ Storage Unit Key|보관함 열쇠
 TABLET UPDATE|태블릿 업데이트
 Press M|M 키를 누르세요
 OPEN AND CLOSE|열기와 닫기
-Press M to open your tablet. Press M or ESC to close it and return to the game.|M 키로 태블릿을 여세요. M 또는 ESC 키를 누르면 태블릿을 닫고 게임으로 돌아갑니다.
+Press M to open the map. Press Tab or Escape to close it and return to the game.|M 키로 지도를 여세요. Tab 또는 Esc 키를 누르면 지도를 닫고 게임으로 돌아갑니다.
+E Read|E 읽기
 READ THE MAP|지도 보기
-Use WASD or click and drag to pan. Scroll to zoom. Press I to reopen your inventory.|WASD 또는 클릭 후 드래그로 지도를 이동하세요. 휠로 확대하거나 축소하세요. I 키로 소지품을 다시 열 수 있습니다.
+Use WASD or click and drag to pan. Scroll to zoom. Press Q to return to inventory.|WASD 또는 클릭 후 드래그로 지도를 이동하세요. 휠로 확대하거나 축소하세요. Q 키로 소지품으로 돌아갑니다.
 POWER A CIRCUIT|회로에 전력 공급
 E: DONE|E: 완료
 E: NEXT|E: 다음
-INVENTORY [I]|소지품 [I]
+INVENTORY [Q]|소지품 [Q]
 LEGEND [K]|범례 [K]
 Circuit state did not change.|회로 상태가 바뀌지 않았습니다.
 No circuit network in your current room.|현재 방에 연결된 회로망이 없습니다.
@@ -469,4 +479,4 @@ Entrance shutter power|입구 셔터 전원
 OLD / NO SERVICE|노후 / 사용 불가
 ENTER OR DOUBLE-CLICK EQUIP   /   E ACTIONS   /   ESC BACK|Enter 또는 더블 클릭으로 장착   /   E 동작   /   ESC 뒤로
 Open the inventory ({INVENTORY}). Select the pistol and press Enter or double-click to equip it.|인벤토리({INVENTORY})를 열고 권총을 선택하세요. Enter를 누르거나 더블 클릭하여 장착하세요.
-Select the flashlight in the inventory. Press Enter or double-click to equip it. Press F to turn it on or off. The battery only drains while it is on.|인벤토리에서 손전등을 선택한 뒤 Enter를 누르거나 더블 클릭하여 장착하세요. F를 눌러 켜거나 끌 수 있습니다. 배터리는 켜져 있을 때만 소모됩니다.
+Select the flashlight in Inventory. Press E or Enter to open its actions, then choose Equip. Press F to toggle the light. The battery drains only while it's on.|인벤토리에서 손전등을 선택하세요. E 또는 Enter를 눌러 동작 목록을 열고 장착을 선택하세요. F를 눌러 손전등을 켜거나 끌 수 있습니다. 배터리는 켜져 있을 때만 소모됩니다.

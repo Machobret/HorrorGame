@@ -44,8 +44,10 @@ namespace HorrorGame.Tests
             if(stage==0)
             {
                 Check(workspace.Page==0 && workspace.Map.AllowMapNavigation,"map starts with native navigation");
+                Check(workspace.InventoryButton && workspace.InventoryButton.transform.parent.GetComponentsInChildren<Button>(true)
+                    .SequenceEqual(new[] { workspace.InventoryButton }), "tablet header contains only the Inventory button, including inactive controls");
                 workspace.Map.ToggleMapDirectory();var list=workspace.Map.GetComponentInChildren<UIMapList>(true);Check(list.gameObject.activeSelf,"directory opens as overlay");
-                Check(Mathf.Abs(workspace.MapImage.rectTransform.anchorMin.x-.075f)<.001f,"directory does not move map viewport");workspace.Map.CloseDirectory();
+                Check(Mathf.Abs(workspace.MapImage.rectTransform.anchorMin.x-.025f)<.001f,"directory does not move map viewport");workspace.Map.CloseDirectory();
                 Check(!workspace.GetComponentsInChildren<TMP_InputField>(true).Any(),"map note input removed");Check(!workspace.GetComponentsInChildren<Button>(true).Any(b=>b.name=="Place note" || b.name=="Clear notes"),"note actions removed");
                 workspace.ToggleLegend();stage++;return false;
             }
@@ -74,7 +76,7 @@ namespace HorrorGame.Tests
                 textSize.SaveInPlayerPrefs();
                 readability.Refresh();
                 Check(MenuReadability.LargeText, "the tablet reads the saved text size from Settings");
-                var header=workspace.GetComponentsInChildren<TMP_Text>(true).First(t=>t.name=="Device identification");Check(header.fontSize>header.GetComponent<MenuTextScale>().BaseSize,"larger-text option scales labels");
+                var header=workspace.GetComponentsInChildren<TMP_Text>(true).First(t=>t.name=="Return to inventory label");Check(header.fontSize>header.GetComponent<MenuTextScale>().BaseSize,"larger-text option scales labels");
                 RestorePreferences();readability.Refresh();
                 var snapshot=GameManager.Instance.Inventory.GetSavableData();snapshot.Items=new List<InventoryEntrySaveData>();snapshot.EquippedItems=new List<InventoryEquippedEntrySaveData>();snapshot.Documents=new List<string>();snapshot.ReadDocuments=new List<string>();snapshot.Maps=new List<string>();var restored=new Inventory();restored.SetFromSavedData(JsonUtility.FromJson<InventorySaveData>(JsonUtility.ToJson(snapshot)));Check(restored.TabletLog.Any(s=>s.Contains("TRIPPED")),"service history survives save/load");
                 var shotgun=AssetDatabase.LoadAssetAtPath<ItemData>("Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Shotgun/Shotgun.asset");var pistol=AssetDatabase.LoadAssetAtPath<ItemData>("Assets/AssetStore/HorrorEngine/ExampleContent/Weapons/Gun/Gun.asset");snapshot.MaxItems=8;snapshot.Items=new List<InventoryEntrySaveData>();for(int i=0;i<8;i++)snapshot.Items.Add(new InventoryEntrySaveData{ItemId=(i<3?shotgun:pistol).UniqueId,Count=1});restored.SetFromSavedData(snapshot);Check(restored.UsedSlots==11 && restored.Capacity==11 && restored.Items.Count(e=>e.Item)==8,"legacy saves preserve all items when footprints grow");

@@ -65,6 +65,18 @@ PrefabInstance:
       value: 0.42
       objectReference: {fileID: 0}
     - target: {fileID: 4835019795218550409, guid: 366317b6310378c4faabe64dd502e47c, type: 3}
+      propertyPath: m_ContourThicknessMultiplier
+      value: 1.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4835019795218550409, guid: 366317b6310378c4faabe64dd502e47c, type: 3}
+      propertyPath: m_ContourCornerVertices
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4835019795218550409, guid: 366317b6310378c4faabe64dd502e47c, type: 3}
+      propertyPath: m_ContourCapVertices
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4835019795218550409, guid: 366317b6310378c4faabe64dd502e47c, type: 3}
       propertyPath: RoomIncompletedSP
       value: 
       objectReference: {fileID: 11400000, guid: 19742bd1b4ee0e94a96488da02cc5759, type: 2}

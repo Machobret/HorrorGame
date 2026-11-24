@@ -53,17 +53,21 @@ The active Horror Engine URP asset sets the additional-light shadow atlas limit 
 
 The Horror Engine map renderer always draws the project?s navigation grid, and its map list shows discovered maps only. The unused runtime grid toggle and unknown-map label were removed from the vendor scripts.
 
+The Horror Engine UI input listener opens pinned documents from gameplay or the Reporter inventory. The inventory stays paused underneath so closing the overlay restores the same view.
+
 Horror Engine room discovery uses all outline components on each room, matching the map renderer. Adjacent outlines can share edges without being treated as holes, and additional contours have their own line renderers. Circuit hover only highlights rooms the map has already drawn. The shared map and document databases register Chapter 1's integrated tablet assets for save and load.
 
 Horror Engine interactions can filter prompts and activation by player position. The ControlButton prefab checks the front face and an unobstructed path for all child interactions. The guard-office button also uses its room outline. The pistol and flashlight item assets opt into direct inventory equip on Enter or double-click. The equipped flashlight prefab uses the project-owned switch to toggle its beam and battery drain together.
 
 The player interaction detector gives reachable interactions with higher **Focus Priority** first choice of the prompt and Interact input. The Maintenance Schedule uses a scene override of 1 so it takes precedence beside the alley breaker.
 
-Horror Engine camera selection recognizes both the legacy fixed-camera prefabs and current Cinemachine cameras. The shared output camera defaults to the perspective projection used by the fixed-camera preview. Standard controls use the live camera orientation until a cut, then keep the previous movement orientation until all movement input is released. Maintain Distance cameras anchor their travel limit to the authored virtual camera position so the camera can follow again when the player backtracks into the Chapter 1 shutter corridor.
+Horror Engine camera selection recognizes both the legacy fixed-camera prefabs and current Cinemachine cameras. The shared output camera defaults to the perspective projection used by the fixed-camera preview. Camera Relative movement uses the input direction for travel while the character turns toward it. Held input keeps its movement axes through camera cuts and tracking rotation. A fresh movement button press, stick re-engagement from neutral, or deliberate stick turn adopts the live camera orientation. Fresh input in the first 100 ms after a cut uses the previous movement axes. Maintain Distance cameras anchor their travel limit to the authored virtual camera position so the camera can follow again when the player backtracks into the Chapter 1 shutter corridor.
 
-The integrated Chapter 1 tablet pickup unlocks its map after the item splash is dismissed. Inventory ignores the opening key on the frame the screen appears so the same press cannot close it immediately.
+The integrated Chapter 1 tablet pickup unlocks its map after the item splash is dismissed. Horror Engine's UIItem fits the splash sprite without stretching, and UIInputListener routes the Inventory and Map shortcuts through their shared open and close paths. The original tablet art and regeneration instructions are documented in the Tablet README.
 
-Horror Engine documents use the shared UI actions for page navigation, confirmation, and dismissal on keyboard and controller.
+The live inventory prefab opts into the reporter menu under `Assets/Game/UI/ReporterMenu`. Horror Engine's `UIInventory` and `UIDocs` keep existing entry points and forward into that menu when opted in. The separate pickup document reader retains its shared UI actions. Existing document IDs remain the save keys and the inventory save carries ordered pin and archive state.
+
+The inventory prefab passes the optional ReporterMenuArt asset through Horror Engine's UIInventory entry point. Point-filtered preview copies live with ReporterMenu and leave the shared item textures available to their other consumers.
 
 The main menu renders its Chapter 1 backdrop from the **Main Menu Exterior** hierarchy in `Assets/Game/UI/MainMenu/Scenes/MainMenu.unity`. The backdrop shares source assets with Chapter 1 and stores generated meshes and material overrides in the adjacent `MainMenuExteriorVisuals.asset`. The Horror Engine menu prefab draws its controls over the camera and uses its scene transition for the fade.
 

@@ -80,19 +80,10 @@ namespace HorrorGame.UI.Editor
                 listData.ApplyModifiedPropertiesWithoutUndo();
                 var mapName=(TMP_Text)ui.FindProperty("m_MapName").objectReferenceValue;
                 Rect(mapName.rectTransform,new Vector2(.275f,.83f),new Vector2(.93f,.875f));mapName.alignment=TextAlignmentOptions.MidlineLeft;mapName.fontSize=26;
-                var trim=Panel("Tablet housing",map.transform,new Vector2(.05f,.05f),new Vector2(.95f,.989f),new Color(.07f,.085f,.095f));trim.transform.SetSiblingIndex(1);
-                var screen=Panel("Blue display",map.transform,new Vector2(.055f,.12f),new Vector2(.945f,.89f),new Color(.018f,.055f,.08f));screen.transform.SetSiblingIndex(2);
-                Border(map.transform,.055f,.12f,.945f,.89f);
-                Label("Device identification","HERO HQ  /  FIELD SERVICE TERMINAL",map.transform,new Vector2(.065f,.9f),new Vector2(.85f,.94f),22);
-                Label("Map controls","WASD: PAN  |  CLICK + DRAG: PAN  |  WHEEL: ZOOM  |  UP or DOWN: FLOOR  |  ESC: CLOSE",map.transform,new Vector2(.28f,.065f),new Vector2(.935f,.105f),14);
-                var directoryButton=Panel("Directory toggle",map.transform,new Vector2(.065f,.065f),new Vector2(.25f,.105f),new Color(.12f,.22f,.27f));directoryButton.raycastTarget=true;
-                var toggle=directoryButton.gameObject.AddComponent<Button>();toggle.targetGraphic=directoryButton;UnityEditor.Events.UnityEventTools.AddPersistentListener(toggle.onClick,map.GetComponent<UIMap>().ToggleMapDirectory);
-                Label("Directory toggle label","[ I ]  MAP DIRECTORY",directoryButton.transform,Vector2.zero,Vector2.one,15);
-                Label("Map scale label","LOCAL PLAN  /  NOT TO SCALE",map.transform,new Vector2(.28f,.13f),new Vector2(.8f,.16f),14);
-                foreach(var pos in new[]{new Vector2(.045f,.06f),new Vector2(.955f,.06f),new Vector2(.045f,.94f),new Vector2(.955f,.94f)})
-                {
-                    var screw=Panel("Housing fastener",map.transform,pos,pos,new Color(.22f,.25f,.26f));((RectTransform)screw.transform).sizeDelta=new Vector2(7,7);
-                }
+                var backing = Panel("Map backdrop", map.transform, Vector2.zero, Vector2.one, new Color(.018f,.055f,.08f));
+                backing.transform.SetSiblingIndex(1);
+                Label("Map controls","WASD: PAN  |  CLICK + DRAG: PAN  |  WHEEL: ZOOM  |  UP or DOWN: FLOOR  |  TAB: CLOSE",
+                    map.transform, Vector2.zero, Vector2.one, 14);
                 list.transform.SetAsLastSibling();
                 Startup(map);
                 foreach(var text in map.GetComponentsInChildren<TMP_Text>(true))text.fontSize*=1.25f;
@@ -109,6 +100,9 @@ namespace HorrorGame.UI.Editor
                 var data=renderer.GetComponent<MapRenderer>();var serialized=new SerializedObject(data);
                 serialized.FindProperty("m_GridColor").colorValue=new Color(.18f,.36f,.44f,.27f);
                 serialized.FindProperty("m_ContourColor").colorValue=new Color(.42f,.7f,.79f);
+                serialized.FindProperty("m_ContourThicknessMultiplier").floatValue=1.15f;
+                serialized.FindProperty("m_ContourCornerVertices").intValue=0;
+                serialized.FindProperty("m_ContourCapVertices").intValue=0;
                 serialized.FindProperty("m_PlayerColor").colorValue=new Color(.85f,.96f,1);
                 serialized.ApplyModifiedPropertiesWithoutUndo();
                 data.RoomNotVisitedSP=Process(data.RoomNotVisitedSP,"RoomsUnvisited",new Color(.04f,.10f,.14f));
@@ -134,7 +128,7 @@ namespace HorrorGame.UI.Editor
             Object.DestroyImmediate(map.GetComponent<Canvas>());
             // The source overlay Canvas stores a zero scale; it is no longer a Canvas root.
             map.transform.localScale=Vector3.one;map.transform.localPosition=Vector3.zero;
-            var display=new GameObject("Tablet display",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler),typeof(GraphicRaycaster));display.layer=map.layer;display.transform.SetParent(map.transform,false);
+            var display=new GameObject("Tablet display",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler),typeof(TabletGraphicRaycaster));display.layer=map.layer;display.transform.SetParent(map.transform,false);
             Rect((RectTransform)display.transform,Vector2.zero,Vector2.one);
             foreach(var child in children)child.SetParent(display.transform,false);
             var cameraObject=new GameObject("Tablet screen camera",typeof(Camera));cameraObject.transform.SetParent(map.transform,false);
@@ -163,7 +157,7 @@ namespace HorrorGame.UI.Editor
             var graphic=badge.AddComponent<TabletHeroBadge>();graphic.color=Ink;graphic.raycastTarget=false;
             Rect(graphic.rectTransform,new Vector2(.43f,.49f),new Vector2(.57f,.82f));
             Label("Agency","HERO RESPONSE AUTHORITY",cover.transform,new Vector2(.2f,.37f),new Vector2(.8f,.46f),27);
-            Label("Unit","CIVIL DEFENCE  /  FIELD SERVICE SYSTEM",cover.transform,new Vector2(.2f,.30f),new Vector2(.8f,.36f),16);
+            Label("Unit",TabletStartupScreen.OperatingSystemName,cover.transform,new Vector2(.2f,.30f),new Vector2(.8f,.36f),16);
             var progressBack=Panel("Startup progress track",cover.transform,new Vector2(.2f,.21f),new Vector2(.8f,.225f),Edge);
             var progress=Panel("Startup progress",progressBack.transform,Vector2.zero,Vector2.one,Ink);
             Label("Startup status","CHECKING FIELD HARDWARE...",cover.transform,new Vector2(.2f,.14f),new Vector2(.8f,.20f),15);
@@ -190,11 +184,6 @@ namespace HorrorGame.UI.Editor
         {var go=new GameObject(name,typeof(RectTransform),typeof(CanvasRenderer),typeof(Image));go.layer=parent.gameObject.layer;go.transform.SetParent(parent,false);var image=go.GetComponent<Image>();Rect(image.rectTransform,min,max);image.color=color;image.raycastTarget=false;return image;}
         static void Label(string name,string value,Transform parent,Vector2 min,Vector2 max,float size)
         {var go=new GameObject(name,typeof(RectTransform));go.layer=parent.gameObject.layer;go.transform.SetParent(parent,false);var text=go.AddComponent<TextMeshProUGUI>();Rect(text.rectTransform,min,max);Style(text);text.text=value;text.fontSize=size;text.alignment=TextAlignmentOptions.MidlineLeft;text.raycastTarget=false;}
-        static void Border(Transform parent,float left,float bottom,float right,float top)
-        {
-            foreach(float x in new[]{left,right}){var line=Panel("Display frame",parent,new Vector2(x,bottom),new Vector2(x,top),Edge);line.rectTransform.sizeDelta=new Vector2(2,0);}
-            foreach(float y in new[]{bottom,top}){var line=Panel("Display frame",parent,new Vector2(left,y),new Vector2(right,y),Edge);line.rectTransform.sizeDelta=new Vector2(0,2);}
-        }
         static GameObject ListEntry(GameObject original,string name="Tablet_MapListEntry")
         {
             var entry=(GameObject)PrefabUtility.InstantiatePrefab(original);
