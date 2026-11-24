@@ -1389,6 +1389,7 @@ MonoBehaviour:
   m_UnloadScene: {fileID: 0}
   m_SpawnCharacter: {fileID: 11400000, guid: d75291cfb943ce64fa59970ae20e859b, type: 2}
   m_SpawnPointId: 
+  m_TutorialLeverMesh: {fileID: 4493585093827132993, guid: 835b959f29ddf4240af9352f95b6b80e, type: 3}
 --- !u!1 &2874535826610539195
 GameObject:
   m_ObjectHideFlags: 0
@@ -1774,6 +1775,7 @@ MonoBehaviour:
   m_DefaultButton: {fileID: 8029408757168064838}
   m_LoadButton: {fileID: 819678481123795064}
   m_StartTransition: {fileID: 2001492723978979408}
+  m_SelectorArrowIcon: {fileID: 21300000, guid: 09d33681f49b1764a859ec08e09488ca, type: 3}
   OnNewGame:
     m_PersistentCalls:
       m_Calls:
@@ -2814,7 +2816,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3987277254245264173
 RectTransform:
   m_ObjectHideFlags: 0

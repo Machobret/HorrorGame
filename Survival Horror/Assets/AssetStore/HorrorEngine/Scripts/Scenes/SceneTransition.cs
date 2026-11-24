@@ -29,8 +29,10 @@ namespace HorrorEngine
         [SerializeField] private SceneReference m_UnloadScene;
         [SerializeField] private CharacterData m_SpawnCharacter;
         [SerializeField] string m_SpawnPointId;
+        [SerializeField] private Mesh m_TutorialLeverMesh;
 
         private CharacterData m_CharacterOverride;
+        internal bool RunNewGameTutorial { get; set; }
 
         // --------------------------------------------------------------------
 
@@ -63,6 +65,8 @@ namespace HorrorEngine
 
         public IEnumerator StartSceneTransition()
         {
+            bool runTutorial = RunNewGameTutorial;
+            RunNewGameTutorial = false;
             MessageBuffer<SceneTransitionPreMessage>.Dispatch();
 
             AsyncOperation asyncUnLoad = null;
@@ -71,10 +75,16 @@ namespace HorrorEngine
             // Load new scene async
             if (m_LoadScene && !m_LoadScene.IsLoaded())
             {
-                asyncLoad = SceneManager.LoadSceneAsync(m_LoadScene.Name, m_LoadMode);
-                while (!asyncLoad.isDone)
+                HorrorGame.Chapter1.FogMovementTutorial.LoadingNewGame = runTutorial && m_LoadScene.Name == "1stLevel_Integrated";
+                try
                 {
-                    yield return null;
+                    asyncLoad = SceneManager.LoadSceneAsync(m_LoadScene.Name, m_LoadMode);
+                    while (!asyncLoad.isDone)
+                        yield return null;
+                }
+                finally
+                {
+                    HorrorGame.Chapter1.FogMovementTutorial.LoadingNewGame = false;
                 }
             }
 
@@ -113,7 +123,12 @@ namespace HorrorEngine
                     Debug.Assert(spawnPoint, $"Player spawn point with id {m_SpawnPointId} not found");
                 }
                 
-                GameManager.Instance.SwitchCharacter(m_CharacterOverride ? m_CharacterOverride : m_SpawnCharacter, spawnPoint.transform);
+                if (spawnPoint)
+                {
+                    GameManager.Instance.SwitchCharacter(m_CharacterOverride ? m_CharacterOverride : m_SpawnCharacter, spawnPoint.transform);
+                    if (runTutorial && spawnPoint.gameObject.scene.name == "1stLevel_Integrated")
+                        HorrorGame.Chapter1.FogMovementTutorial.Begin(GameManager.Instance.Player, spawnPoint, m_TutorialLeverMesh);
+                }
                 m_CharacterOverride = null;
             }
 

@@ -15,6 +15,8 @@ namespace HorrorGame.General
 
         private Image m_LogoImage;
         private bool m_ExitFadeStarted;
+        private float m_LogoHomeAlpha;
+        private Coroutine m_LogoSetupFade;
 
         private void Awake()
         {
@@ -24,6 +26,7 @@ namespace HorrorGame.General
                 {
                     m_LogoImage = image;
                     image.sprite = FirstLogoSprite();
+                    m_LogoHomeAlpha = image.color.a;
                 }
                 else if (image.name == "Background Border" && m_Border)
                 {
@@ -38,7 +41,37 @@ namespace HorrorGame.General
         {
             if (m_ExitFadeStarted || !m_LogoImage) return;
             m_ExitFadeStarted = true;
+            if (m_LogoSetupFade != null) StopCoroutine(m_LogoSetupFade);
             StartCoroutine(FadeLogo());
+        }
+
+        public void FadeLogoForNewGameSetup(bool showSetup, System.Action onComplete = null)
+        {
+            if (!m_LogoImage || m_ExitFadeStarted)
+            {
+                onComplete?.Invoke();
+                return;
+            }
+            if (m_LogoSetupFade != null) StopCoroutine(m_LogoSetupFade);
+            m_LogoSetupFade = StartCoroutine(FadeSetupLogo(showSetup ? 0f : m_LogoHomeAlpha, onComplete));
+        }
+
+        private IEnumerator FadeSetupLogo(float targetAlpha, System.Action onComplete)
+        {
+            Color color = m_LogoImage.color;
+            float initialAlpha = color.a;
+            const float duration = .28f;
+            for (float elapsed = 0f; elapsed < duration; elapsed += Time.unscaledDeltaTime)
+            {
+                float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+                color.a = Mathf.Lerp(initialAlpha, targetAlpha, t);
+                m_LogoImage.color = color;
+                yield return null;
+            }
+            color.a = targetAlpha;
+            m_LogoImage.color = color;
+            m_LogoSetupFade = null;
+            onComplete?.Invoke();
         }
 
         private IEnumerator FadeLogo()

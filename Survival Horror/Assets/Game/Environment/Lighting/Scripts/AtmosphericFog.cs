@@ -19,6 +19,22 @@ namespace HorrorGame.Lighting
         public bool fogOpenSky = true;
 
         private static AtmosphericFog owner;
+        internal static Camera PlayerEnvelopeCamera { get; set; }
+        private static Camera dispersalCamera;
+        private static Color dispersalColor;
+        internal static float TutorialDispersal { private get; set; }
+
+        internal static void BeginTutorialDispersal(Camera camera, Color color)
+        {
+            dispersalCamera = camera;
+            dispersalColor = color;
+            TutorialDispersal = 0f;
+        }
+
+        internal static void EndTutorialDispersal(Camera camera)
+        {
+            if (dispersalCamera == camera) dispersalCamera = null;
+        }
         [SerializeField, HideInInspector] private FogState baseline;
         [SerializeField, HideInInspector] private bool hasBaseline;
         private bool ownsFog;
@@ -99,7 +115,7 @@ namespace HorrorGame.Lighting
         private void BeginCameraFog(Camera camera)
         {
             if (!ownsFog || camera == null) return;
-            if (IsInterfaceCamera(camera))
+            if (camera == PlayerEnvelopeCamera || IsInterfaceCamera(camera))
             {
                 if (!cameraFogStates.ContainsKey(camera))
                     cameraFogStates.Add(camera, FogState.Capture());
@@ -107,6 +123,15 @@ namespace HorrorGame.Lighting
                 // well as the sky override, then restore before the world camera.
                 RenderSettings.fog = false;
                 return;
+            }
+            if (camera == dispersalCamera && TutorialDispersal < 1f)
+            {
+                cameraFogStates[camera] = FogState.Capture();
+                var normal = cameraFogStates[camera];
+                RenderSettings.fog = true;
+                RenderSettings.fogMode = FogMode.ExponentialSquared;
+                RenderSettings.fogDensity = Mathf.Lerp(.155f, normal.enabled ? normal.density : 0f, TutorialDispersal);
+                RenderSettings.fogColor = Color.Lerp(dispersalColor, normal.color, TutorialDispersal);
             }
             ApplySkyFog(camera);
         }

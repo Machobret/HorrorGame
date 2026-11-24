@@ -29,6 +29,13 @@ namespace HorrorEngine
 
         public static SettingsManager Instance { get; private set; }
 
+        internal T FindSetting<T>() where T : SettingsElementContent
+        {
+            foreach (var setting in m_Settings.Keys)
+                if (setting is T match) return match;
+            return null;
+        }
+
         // ---------------------------------------------------------
 
         public void Set(SettingsElementContent Key, string Value)

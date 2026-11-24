@@ -67,6 +67,8 @@ namespace HorrorEngine
         public Vector3 LockedAxis { get; set; }
         public Vector3 IntendedMovement { get; private set; }
         public Vector2 InputAxis => m_InputAxis;
+        internal bool IsRunning { get; private set; }
+        internal SettingsElementContent MovementTypeSetting => m_MovementTypeSetting;
 
         // Local traversal helpers can resist an edge before CharacterController.Move.
         public delegate void MovementFilter(ref Vector3 displacement);
@@ -225,6 +227,7 @@ namespace HorrorEngine
             }
 
             Vector3 fwdMove = GetForwardMovement(forward, forwardRate, out float fwdSpeed, out bool running);
+            IsRunning = running;
             Vector3 rightMove = GetRightMovement(out float rightSpeed);
 
             Vector3 movement = fwdMove + rightMove;

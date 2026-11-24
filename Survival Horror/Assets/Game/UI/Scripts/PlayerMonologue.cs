@@ -11,6 +11,26 @@ namespace HorrorGame.UI
         private TextMeshProUGUI label;
         private float elapsed, fadeIn, hold, fadeOut;
         private PlayerMonologueTrigger zone;
+        private Object persistentOwner;
+        private bool waitForClear;
+
+        internal static void ShowUntilCleared(Object owner, string text, float? holdSeconds = null)
+        {
+            if (!Show(text, .2f, holdSeconds ?? 3f)) return;
+            var monologue = UIManager.Instance.GetComponent<PlayerMonologue>();
+            monologue.persistentOwner = owner;
+            monologue.waitForClear = !holdSeconds.HasValue;
+            monologue.label.outlineColor = new Color32(24, 24, 24, 255);
+            monologue.label.outlineWidth = .22f;
+        }
+
+        internal static void Clear(Object owner)
+        {
+            if (!UIManager.Exists || !UIManager.Instance.TryGetComponent(out PlayerMonologue monologue) ||
+                monologue.persistentOwner != owner) return;
+            monologue.persistentOwner = null;
+            monologue.surface.SetActive(false);
+        }
 
         public static bool Show(string text, float fadeIn = .8f, float hold = 3f, float fadeOut = 1f)
             => ShowOwned(text, fadeIn, hold, fadeOut, null);
@@ -23,6 +43,9 @@ namespace HorrorGame.UI
                 monologue = manager.gameObject.AddComponent<PlayerMonologue>();
             monologue.ShowLine(text, fadeIn, hold, fadeOut);
             monologue.zone = owner;
+            monologue.persistentOwner = null;
+            monologue.waitForClear = false;
+            monologue.label.outlineWidth = 0f;
             return true;
         }
 
@@ -80,7 +103,7 @@ namespace HorrorGame.UI
             }
 
             elapsed += Time.deltaTime;
-            if (zone) elapsed = Mathf.Min(elapsed, fadeIn);
+            if (zone || (persistentOwner && waitForClear)) elapsed = Mathf.Min(elapsed, fadeIn);
             float total = fadeIn + hold + fadeOut;
             if (elapsed >= total)
             {

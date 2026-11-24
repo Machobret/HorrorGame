@@ -23,6 +23,10 @@ namespace HorrorEngine
         public static void MarkRebindCanceled() => cancelRebindFrame = Time.frameCount;
 #if ENABLE_INPUT_SYSTEM
         private static InputActionAsset activeActions;
+        public static void Release(InputActionAsset actions)
+        {
+            if (activeActions == actions) activeActions = null;
+        }
         public static void Apply(InputActionAsset actions)
         {
             activeActions = actions;
@@ -61,6 +65,14 @@ namespace HorrorEngine
         private ScrollRect settingsScroll;
 #if ENABLE_INPUT_SYSTEM
         private readonly List<BindingEntry> bindingEntries = new List<BindingEntry>();
+        private PlayerActions menuActions;
+
+        private void OnDestroy()
+        {
+            if (menuActions == null) return;
+            InputBindingSettings.Release(menuActions.asset);
+            menuActions.Dispose();
+        }
 
         private sealed class BindingEntry
         {
@@ -165,32 +177,45 @@ namespace HorrorEngine
 #if ENABLE_INPUT_SYSTEM
             var tab = Find("Game");
             var listener = FindFirstObjectByType<PlayerInputListener>();
-            if (tab == null || listener == null || listener.Actions == null) return;
+            if (tab == null) return;
             var list = Find("Content")?.Find("ScrollContent") as RectTransform;
-            if (list == null || list.Find("KeyboardBindings") != null) return;
+            if (list == null || list.Find("Hotkeys") != null) return;
+            var actions = listener?.Actions?.asset;
+            if (actions == null)
+            {
+                menuActions = new PlayerActions();
+                actions = menuActions.asset;
+                InputBindingSettings.Apply(actions);
+            }
             // This is a sibling of the stock sections, not a child of Game. That
             // keeps every configuration in one continuous, correctly-sized list.
-            var section = Rect("KeyboardBindings", list);
+            var section = Rect("Hotkeys", list);
             section.SetAsLastSibling();
-            var image = section.gameObject.AddComponent<Image>();
-            var stockPanel = tab.GetComponent<Image>();
-            if (stockPanel != null) CopyImageAppearance(stockPanel, image);
-            else image.color = new Color(.07f, .07f, .07f, .9f);
+            var stockHeader = tab.childCount > 0 ? tab.GetChild(0).GetComponent<Image>() : null;
+            var stockSetting = tab.GetComponentInChildren<UISettingsElement>(true);
+            var rowBacking = stockSetting ? stockSetting.GetComponent<Image>() : null;
             var layout = section.gameObject.AddComponent<VerticalLayoutGroup>();
-            layout.padding = new RectOffset(10, 10, 10, 10); layout.spacing = 6; layout.childControlWidth = true; layout.childControlHeight = false; layout.childForceExpandWidth = true; layout.childForceExpandHeight = false;
+            layout.spacing = 2; layout.childControlWidth = true; layout.childControlHeight = false; layout.childForceExpandWidth = true; layout.childForceExpandHeight = false;
             section.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-            Label(section, "KEYBOARD CONTROLS — Default: P Pause · E Interact", 19);
-            AddRow(section, listener.Actions.asset, "PrimaryAxis", "Move Forward", "up");
-            AddRow(section, listener.Actions.asset, "PrimaryAxis", "Move Back", "down");
-            AddRow(section, listener.Actions.asset, "PrimaryAxis", "Move Left", "left");
-            AddRow(section, listener.Actions.asset, "PrimaryAxis", "Move Right", "right");
-            AddRow(section, listener.Actions.asset, "Aiming", "Aim", null);
-            AddRow(section, listener.Actions.asset, "Attack", "Attack", null);
-            AddRow(section, listener.Actions.asset, "Interact", "Interact", null);
-            AddRow(section, listener.Actions.asset, "Run", "Run", null);
-            AddRow(section, listener.Actions.asset, "Reload", "Reload", null);
-            AddRow(section, listener.Actions.asset, "Turn180", "Turn 180", null);
-            AddRow(section, listener.Actions.asset, "ChangeAimTarget", "Change Aim Target", null);
+            var header = Rect("Header", section);
+            header.sizeDelta = new Vector2(0, 24);
+            ApplyHotkeyBacking(header, stockHeader);
+            var heading = Label(header, "HOTKEYS", 16);
+            heading.rectTransform.anchorMin = Vector2.zero;
+            heading.rectTransform.anchorMax = Vector2.one;
+            heading.rectTransform.offsetMin = new Vector2(10f, 0f);
+            heading.rectTransform.offsetMax = new Vector2(-10f, 0f);
+            AddRow(section, actions, "PrimaryAxis", "Move Forward", "up", rowBacking);
+            AddRow(section, actions, "PrimaryAxis", "Move Back", "down", rowBacking);
+            AddRow(section, actions, "PrimaryAxis", "Move Left", "left", rowBacking);
+            AddRow(section, actions, "PrimaryAxis", "Move Right", "right", rowBacking);
+            AddRow(section, actions, "Aiming", "Aim", null, rowBacking);
+            AddRow(section, actions, "Attack", "Attack", null, rowBacking);
+            AddRow(section, actions, "Interact", "Interact", null, rowBacking);
+            AddRow(section, actions, "Run", "Run", null, rowBacking);
+            AddRow(section, actions, "Reload", "Reload", null, rowBacking);
+            AddRow(section, actions, "Turn180", "Turn 180", null, rowBacking);
+            AddRow(section, actions, "ChangeAimTarget", "Change Aim Target", null, rowBacking);
 #endif
         }
 
@@ -324,7 +349,7 @@ namespace HorrorEngine
         }
 
 #if ENABLE_INPUT_SYSTEM
-        private void AddRow(RectTransform parent, InputActionAsset actions, string actionName, string title, string part)
+        private void AddRow(RectTransform parent, InputActionAsset actions, string actionName, string title, string part, Image rowBacking)
         {
             var action = actions.FindAction("Gameplay/" + actionName);
             if (action == null) return;
@@ -332,13 +357,21 @@ namespace HorrorEngine
             for (int i = 0; i < action.bindings.Count; i++)
                 if (action.bindings[i].groups != null && action.bindings[i].groups.Contains("KeyboardAndMouse") && (part == null || action.bindings[i].name == part)) { index = i; break; }
             if (index < 0) return;
-            var row = Rect(title, parent); row.sizeDelta = new Vector2(0, 34);
-            var layout = row.gameObject.AddComponent<HorizontalLayoutGroup>(); layout.spacing = 10; layout.childControlWidth = false; layout.childControlHeight = true; layout.childForceExpandWidth = false;
-            var text = Label(row, title, 17); text.gameObject.AddComponent<LayoutElement>().preferredWidth = 225;
+            var row = Rect(title, parent); row.sizeDelta = new Vector2(0, 30);
+            ApplyHotkeyBacking(row, rowBacking);
+            var layout = row.gameObject.AddComponent<HorizontalLayoutGroup>(); layout.padding = new RectOffset(10, 0, 0, 0); layout.spacing = 10; layout.childControlWidth = true; layout.childControlHeight = true; layout.childForceExpandWidth = false;
+            var text = Label(row, title, 14); text.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
             var buttonRect = Rect("Rebind", row); var buttonImage = buttonRect.gameObject.AddComponent<Image>();
-            var button = buttonRect.gameObject.AddComponent<Button>(); button.targetGraphic = buttonImage; buttonRect.gameObject.AddComponent<LayoutElement>().preferredWidth = 150;
+            var button = buttonRect.gameObject.AddComponent<Button>(); button.targetGraphic = buttonImage;
+            var buttonLayout = buttonRect.gameObject.AddComponent<LayoutElement>();
+            buttonLayout.preferredWidth = 150;
+            buttonLayout.preferredHeight = 30;
             StyleLikeStockSettingsButton(button, buttonImage);
-            var value = Label(buttonRect, action.GetBindingDisplayString(index), 17); value.alignment = TextAlignmentOptions.Center;
+            var value = Label(buttonRect, action.GetBindingDisplayString(index), 14); value.alignment = TextAlignmentOptions.Center;
+            value.rectTransform.anchorMin = Vector2.zero;
+            value.rectTransform.anchorMax = Vector2.one;
+            value.rectTransform.offsetMin = Vector2.zero;
+            value.rectTransform.offsetMax = Vector2.zero;
             bindingEntries.Add(new BindingEntry { Action = action, Index = index, Label = value });
             button.onClick.AddListener(() => Rebind(action, index, button, value));
         }
@@ -358,14 +391,17 @@ namespace HorrorEngine
             // Keep the selected button interactable. Disabling it makes the
             // EventSystem fall back to the first legacy setting and scroll there.
             if (InputBindingSettings.IsRebinding) return;
+            bool wasEnabled = action.enabled;
             label.text = "Press a key..."; action.Disable();
             InputBindingSettings.BeginRebind();
             action.PerformInteractiveRebinding(index).WithControlsHavingToMatchPath("<Keyboard>").WithCancelingThrough("<Keyboard>/escape")
-                .OnCancel(o => Finish(o, action, index, button, label, true)).OnComplete(o => Finish(o, action, index, button, label, false)).Start();
+                .OnCancel(o => Finish(o, action, index, button, label, true, wasEnabled)).OnComplete(o => Finish(o, action, index, button, label, false, wasEnabled)).Start();
         }
-        private void Finish(InputActionRebindingExtensions.RebindingOperation operation, InputAction action, int index, Button button, TextMeshProUGUI label, bool canceled)
+        private void Finish(InputActionRebindingExtensions.RebindingOperation operation, InputAction action, int index, Button button, TextMeshProUGUI label, bool canceled, bool wasEnabled)
         {
-            operation.Dispose(); action.Enable(); label.text = action.GetBindingDisplayString(index);
+            operation.Dispose();
+            if (wasEnabled) action.Enable();
+            label.text = action.GetBindingDisplayString(index);
             InputBindingSettings.EndRebind();
             if (canceled) InputBindingSettings.MarkRebindCanceled();
             if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(button.gameObject);
@@ -374,9 +410,7 @@ namespace HorrorEngine
 
         private void ApplySettingsTheme()
         {
-            // The original settings panel is the visual source of truth. Its
-            // normal labels, the footer, and runtime-added key controls all use
-            // the same game font instead of mixing TMP's default face in.
+            // Share the menu font and focus treatment across every settings section.
             if (gameFont != null)
                 foreach (var legacyText in GetComponentsInChildren<Text>(true)) legacyText.font = gameFont;
             if (font != null)
@@ -389,6 +423,14 @@ namespace HorrorEngine
                 var resetImage = reset.targetGraphic as Image;
                 if (resetImage != null) StyleLikeStockSettingsButton(reset, resetImage, apply);
                 SetButtonLabel(reset, "Defaults");
+            }
+
+            foreach (var control in GetComponentsInChildren<Selectable>(true))
+            {
+                if (control is Scrollbar) continue;
+                UIMainMenu.ApplyMenuSelectionStyle(control);
+                if (control is Button && control.TryGetComponent<Image>(out var backing) && backing != control.targetGraphic)
+                    backing.color = new Color(.035f, .03f, .025f, .88f);
             }
         }
 
@@ -413,6 +455,14 @@ namespace HorrorEngine
             target.fillCenter = source.fillCenter;
             target.material = source.material;
             target.color = source.color;
+        }
+
+        private static void ApplyHotkeyBacking(RectTransform rect, Image template)
+        {
+            var backing = rect.gameObject.AddComponent<Image>();
+            if (template) CopyImageAppearance(template, backing);
+            else backing.color = new Color(0f, 0f, 0f, .68f);
+            backing.raycastTarget = false;
         }
 
         private static void SetButtonLabel(Button button, string value)

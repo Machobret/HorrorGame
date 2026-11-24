@@ -237,7 +237,11 @@ namespace HorrorEngine
             
             if (spawnPoint)
             {
-                player.PlaceAt(spawnPoint);
+                if (initialState && HorrorGame.Chapter1.FogMovementTutorial.LoadingNewGame &&
+                    spawnPoint.gameObject.scene.name == "1stLevel_Integrated")
+                    player.PlaceAt(HorrorGame.Chapter1.FogMovementTutorial.StagingPosition, spawnPoint.rotation);
+                else
+                    player.PlaceAt(spawnPoint);
                 //player.GetComponent<GameObjectReset>().ResetComponents(); // This is to reset the animSpeedSetter, but might be overkill
             }
 
